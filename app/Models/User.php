@@ -20,6 +20,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'full_display_name',
+        'display_picture',
+        'rewards',
     ];
 
     /**
@@ -40,4 +43,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function characters(){
+        return $this->hasMany('App\Models\Character');
+    }
+
+    public function taskLists(){
+        return $this->hasMany('App\Models\TaskList');
+    }
+
+    public function tasks(){
+        return $this->hasMany('App\Models\Task');
+    }
+
+    public function achievements(){
+        return $this->belongsToMany('App\Models\Achievement', 'achievements_earned');
+    }
 }
