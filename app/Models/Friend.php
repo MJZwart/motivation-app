@@ -10,17 +10,17 @@ class Friend extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id_1',
-        'user_id_2',
+        'user_id',
+        'friend_id',
     ];
 
     //TODO Untested foreign key
-    public function user1(){
-        return $this->belongsTo('App\Models\User', 'user_id_1');
+    public function user(){
+        return $this->belongsTo('App\Models\User');
     }
 
     //TODO Untested foreign key
-    public function user2(){
-        return $this->belongsTo('App\Models\User', 'user_id_2');
+    public function friend(){
+        return $this->belongsTo('App\Models\User', 'friend_id');
     }
 }

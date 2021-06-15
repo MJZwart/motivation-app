@@ -59,4 +59,8 @@ class User extends Authenticatable
     public function achievements(){
         return $this->belongsToMany('App\Models\Achievement', 'achievements_earned');
     }
+
+    public function friends(){
+        return $this->belongsToMany('App\Models\Friend');
+    }
 }
