@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
-class TaskListSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +14,9 @@ class TaskListSeeder extends Seeder
      */
     public function run()
     {
-        //
+        User::factory(20)
+            ->hasCharacters(1)
+            ->hasTaskLists(3)
+            ->create();
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TaskList;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskListFactory extends Factory
@@ -22,7 +23,9 @@ class TaskListFactory extends Factory
     public function definition()
     {
         return [
-            //
+            //'user_id' => rand(1, User::count()),
+            'name' => $this->faker->word,
+            'color' => $this->faker->hexColor,
         ];
     }
 }
