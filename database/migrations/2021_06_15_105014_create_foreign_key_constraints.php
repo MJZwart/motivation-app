@@ -27,12 +27,31 @@ class CreateForeignKeyConstraints extends Migration
             $table->foreignId('user_id')->constrained();
         });
         Schema::table('friends', function (Blueprint $table){
-            $table->foreign('user_id_1')
+            $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
-            $table->foreign('user_id_2')
+            $table->foreign('friend_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
+        });
+        Schema::table('characters', function (Blueprint $table){
+            $table->foreignId('user_id')->constrained();
+        });
+        Schema::table('repeatable_tasks_completed', function (Blueprint $table){
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('task_id')->constrained();
+        });
+        Schema::table('friend_requests', function (Blueprint $table){
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('friend_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+        });
+        Schema::table('achievements_earned', function (Blueprint $table){
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('achievement_id')->constrained();
         });
     }
 
@@ -55,8 +74,23 @@ class CreateForeignKeyConstraints extends Migration
             $table->dropForeign('user_id');
         });
         Schema::table('friends', function (Blueprint $table){
-            $table->dropForeign('user_id_1');
-            $table->dropForeign('user_id_2');
+            $table->dropForeign('user_id');
+            $table->dropForeign('friend_id');
+        });
+        Schema::table('characters', function (Blueprint $table){
+            $table->dropForeign('user_id');
+        });
+        Schema::table('repeatable_tasks_completed', function (Blueprint $table){
+            $table->dropForeign('user_id');
+            $table->dropForeign('task_id');
+        });
+        Schema::table('friend_requests', function (Blueprint $table){
+            $table->dropForeign('user_id');
+            $table->dropForeign('friend_id');
+        });
+        Schema::table('achievements_earned', function (Blueprint $table){
+            $table->dropForeign('user_id');
+            $table->dropForeign('achievement_id');
         });
     }
 }
