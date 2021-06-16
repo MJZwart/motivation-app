@@ -34,6 +34,7 @@ export default new VueRouter({
             component: require('../pages/Achievements.vue').default,
         },
         {
+            name: "profile",
             path: "/profile/:id",
             component: require('../pages/Profile.vue').default,
         }
