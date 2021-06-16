@@ -23,6 +23,7 @@ class AchievementFactory extends Factory
     {
         return [
             'name' => $this->faker->jobTitle,
+            'description' => $this->faker->sentence,
         ];
     }
 }
