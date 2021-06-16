@@ -17,7 +17,7 @@ export default new Vuex.Store({
     getters: {
         getUser: (state) => {
             return state.user;
-        }
+        },
     },
     actions: {
 
@@ -26,8 +26,6 @@ export default new Vuex.Store({
                 console.log(response);
                 commit('setUser', response.data);
                 router.push('/');
-            }).catch(function (error) {
-                console.log(error);
             });
         },
 
@@ -36,8 +34,6 @@ export default new Vuex.Store({
             axios.post('/register', user).then(function (response) {
                 console.log(response);
                 router.push('/login');
-            }).catch(function (error) {
-                console.log(error);
             });
         },
 

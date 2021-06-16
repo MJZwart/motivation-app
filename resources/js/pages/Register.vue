@@ -50,7 +50,9 @@
 
 
 <script>
+//import ResponseView from '../components/ResponseView.vue';
 export default {
+    //components: {ResponseView},
     data() {
         return {
             register: {
