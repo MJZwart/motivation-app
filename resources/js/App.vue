@@ -1,17 +1,16 @@
 <template>
     <div>
-        {{ message }}
+        <navigation></navigation>
+        <router-view></router-view>
+        <footer-comp></footer-comp>
     </div>
 </template>
 <script>
-const default_layout = "default";
+import Navigation from './components/Navigation.vue';
+import FooterComp from './components/FooterComp.vue';
 
 export default {
-    computed: {},
-    data() {
-        return {
-            message: "Hello World",
-        };
-    },
+    components: { Navigation, FooterComp },
+    
 };
 </script>
