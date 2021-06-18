@@ -7,8 +7,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        user: JSON.parse(localStorage.getItem('user')),
-        authenticated: JSON.parse(localStorage.getItem('authenticated')),
+        user: JSON.parse(localStorage.getItem('user')) || {},
+        authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -33,7 +33,7 @@ export default new Vuex.Store({
         login: ({ commit }, user) => {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', user).then(function (response) {
-                    commit('setUser', response.data.data);
+                    commit('setUser', response.data);
                     commit('setAuthenticated', true);
                     router.push('/').catch(()=>{});
                 });

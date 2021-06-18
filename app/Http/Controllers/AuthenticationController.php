@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class AuthenticationController extends Controller
 {
-    public function authenticate(Request $request){
+    public function authenticate(Request $request): JsonResponse
+    {
         $credentials = $request->validate([
             'username' => ['required'],
             'password' => ['required'],
@@ -16,12 +19,10 @@ class AuthenticationController extends Controller
 
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return new UserResource(Auth::user());
+            return new JsonResponse(new UserResource(Auth::user()));
         }
 
-        return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
-        ]);
+        return new JsonResponse(['message' => 'Username or password is incorrect.'], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function logout(Request $request){
