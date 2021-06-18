@@ -7,33 +7,50 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        user: null,
+        user: JSON.parse(localStorage.getItem('user')) || {},
+        authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
     },
     mutations: {
-        setUser(state, user) {
-            state.user = user;
+        setAuthenticated(state, value) {
+            state.authenticated = value;
+            localStorage.setItem('authenticated', value);
+        },
+        setUser(state, value) {
+            state.user = value;
+            localStorage.setItem('user', JSON.stringify(value));
         },
     },
     getters: {
+        authenticated(state) {
+            return state.authenticated;
+        },
         getUser: (state) => {
             return state.user;
         },
     },
     actions: {
-
+        //User authentication
         login: ({ commit }, user) => {
-            axios.post('/login', user).then(function (response) {
-                console.log(response);
-                commit('setUser', response.data);
-                router.push('/');
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post('/login', user).then(function (response) {
+                    commit('setUser', response.data.data);
+                    commit('setAuthenticated', true);
+                    router.push('/').catch(()=>{});
+                });
+            });
+
+        },
+        logout({ commit }) {
+            commit('setUser', {});
+            commit('setAuthenticated', false);
+            router.push('/').catch(() => {
+                router.go();
             });
         },
 
         register: (_, user) => {
-            console.log(user);
             axios.post('/register', user).then(function (response) {
-                console.log(response);
-                router.push('/login');
+                router.push('/login').catch(()=>{});
             });
         },
 

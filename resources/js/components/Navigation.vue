@@ -8,11 +8,15 @@
                 <router-link to="/character">Character</router-link>
             </li>
             <div class="flex-end">
-                <li>
+                <span v-if="authenticated">{{user.username}}</span>
+                <li v-if="!authenticated">
                     <router-link to="/login">Login</router-link>
                 </li>
-                <li>
+                <li v-if="!authenticated">
                     <router-link to="/register">Register</router-link>
+                </li>
+                <li v-if="authenticated">
+                    <button @click="logout" type="submit" class="logout-button">Logout</button>
                 </li>
             </div>
         </ul>
@@ -22,7 +26,20 @@
 
 <script>
 export default {
-    
+    computed: {
+        authenticated() {
+            return this.$store.getters.authenticated;
+        },
+        user() {
+            return this.$store.getters.getUser;
+        },
+    },
+
+    methods: {
+        logout(){
+            this.$store.dispatch('logout');
+        },
+    },
 }
 </script>
 
