@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\LoginRequest;
 
 class AuthenticationController extends Controller
 {
-    public function authenticate(Request $request){
-        $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required'],
-        ]);
+    public function authenticate(LoginRequest $request){
+        $credentials = $request->validated();
 
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
