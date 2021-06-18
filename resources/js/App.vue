@@ -1,7 +1,9 @@
 <template>
     <div>
         <navigation></navigation>
-        <router-view></router-view>
+        <div class="content">
+            <router-view></router-view>
+        </div>
         <footer-comp></footer-comp>
     </div>
 </template>
