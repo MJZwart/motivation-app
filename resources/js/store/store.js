@@ -7,8 +7,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        user: JSON.parse(localStorage.getItem('user')),
-        authenticated: JSON.parse(localStorage.getItem('authenticated')),
+        user: JSON.parse(localStorage.getItem('user')) || {},
+        authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
     },
     mutations: {
         setAuthenticated(state, value) {
