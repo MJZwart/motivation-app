@@ -21,8 +21,9 @@ class AuthenticationController extends Controller
             $request->session()->regenerate();
             return new JsonResponse(new UserResource(Auth::user()));
         }
-
-        return new JsonResponse(['message' => 'Username or password is incorrect.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        
+        $errorMessage = "Username or password is incorrect.";
+        return new JsonResponse(['message' => $errorMessage, 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function logout(Request $request){
