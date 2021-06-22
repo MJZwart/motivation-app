@@ -54,5 +54,11 @@ export default new Vuex.Store({
             });
         },
 
+        //Tasks
+        getTaskLists: ({ }) => {
+            axios.get('/tasklists').then(function (response) {
+                return response;
+            });
+        }
     }
 });

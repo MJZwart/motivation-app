@@ -44,6 +44,19 @@
 
 <script>
 export default {
+    mounted() {
+        this.getTasks();
+    },
+    methods: {
+        getTasks(){
+            this.data = this.$store.dispatch('getTaskLists');
+        },
+    },
+    data() {
+        return {
+            data: null,
+        }
+    },
     
 }
 </script>
