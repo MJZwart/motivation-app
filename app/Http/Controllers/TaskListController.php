@@ -21,9 +21,7 @@ class TaskListController extends Controller
     }
 
     public function showTaskLists(){
-        if(Auth::user()){
-            return TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
-        }
+        return TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
     }
 
     //TODO UpdateTaskListRequest
