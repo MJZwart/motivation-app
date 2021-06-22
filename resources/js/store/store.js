@@ -6,6 +6,7 @@ import router from '../router/router.js';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+
     state: {
         user: JSON.parse(localStorage.getItem('user')) || {},
         authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
@@ -13,6 +14,9 @@ export default new Vuex.Store({
         //Errors
         errors: {},
         status: "",
+
+        //TaskLists
+        taskLists: {},
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -31,6 +35,11 @@ export default new Vuex.Store({
         setStatus(state, status) {
             state.status = status;
         },
+
+        //TaskLists
+        setTaskLists(state, taskLists) {
+            state.taskLists = taskLists;
+        },
     },
     getters: {
         authenticated(state) {
@@ -47,6 +56,11 @@ export default new Vuex.Store({
         getStatus: (state) => {
             return state.status;
         },
+
+        //TaskLists
+        getTaskLists: (state) => {
+            return state.taskLists;
+        }
     },
     actions: {
         //User authentication
@@ -60,24 +74,25 @@ export default new Vuex.Store({
             });
         },
         logout({ commit }) {
-            commit('setUser', {});
-            commit('setAuthenticated', false);
-            router.push('/').catch(() => {
-                router.go();
+            axios.post('/logout').then(function (response) {
+                commit('setUser', {});
+                commit('setAuthenticated', false);
+                router.push('/').catch(() => {
+                    router.go();
+                });
             });
         },
-
         register: (_, user) => {
             axios.post('/register', user).then(function (response) {
                 router.push('/login').catch(()=>{});
             });
         },
 
-        //Tasks
-        getTaskLists: ({ }) => {
+        //TaskLists
+        getTaskLists: ({ commit }) => {
             axios.get('/tasklists').then(function (response) {
-                return response;
+                commit('setTaskLists', response.data.data);
             });
-        }
+        },
     }
 });

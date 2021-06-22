@@ -2,6 +2,11 @@
     <div>
         <div class="home-grid">
             <div class="task-lists">
+                <template v-for="(list, index) in taskLists">
+                    <task-list :key="index" :taskList="list"></task-list>
+                </template>
+            </div>
+            <!-- <div class="task-lists">
                 <div class="task-list">
                     <h3>Task list 1</h3>
                     <p>Dummy text</p>
@@ -17,7 +22,7 @@
                 <div class="task-list">
                     <h3>New Task list </h3>
                 </div>
-            </div>
+            </div> -->
 
             <div class="character-tab">
                 <div class="character">
@@ -43,19 +48,22 @@
 
 
 <script>
+import {mapGetters} from 'vuex';
+import TaskList from '../components/TaskList.vue';
 export default {
+  components: { TaskList },
     mounted() {
         this.getTasks();
     },
     methods: {
         getTasks(){
-            this.data = this.$store.dispatch('getTaskLists');
+            this.$store.dispatch('getTaskLists');
         },
     },
-    data() {
-        return {
-            data: null,
-        }
+    computed: {
+        ...mapGetters({
+            taskLists: 'getTaskLists',
+        }),
     },
     
 }
