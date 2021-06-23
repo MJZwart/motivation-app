@@ -97,5 +97,12 @@ export default new Vuex.Store({
                 commit('setTaskLists', response.data.data);
             });
         },
+
+        //Tasks
+        storeTask: ({ commit }, task) => {
+            axios.post('/tasks', task).then(function (response) {
+                
+            });
+        },
     }
 });
