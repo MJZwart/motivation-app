@@ -10,8 +10,8 @@ export default new Vuex.Store({
         user: JSON.parse(localStorage.getItem('user')) || {},
         authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
 
-        //Errors
-        errors: {},
+        //Errors and response
+        responseMessage: {},
         status: "",
     },
     mutations: {
@@ -24,9 +24,9 @@ export default new Vuex.Store({
             localStorage.setItem('user', JSON.stringify(value));
         },
 
-        //Errors
-        setErrors(state, errors){
-            state.errors = errors;
+        //Errors and response
+        setResponseMessage(state, responseMessage){
+            state.responseMessage = responseMessage;
         },
         setStatus(state, status) {
             state.status = status;
@@ -40,9 +40,9 @@ export default new Vuex.Store({
             return state.user;
         },
 
-        //Errors
-        getErrors: (state) => {
-            return state.errors;
+        //Errors and response
+        getResponseMessage: (state) => {
+            return state.responseMessage;
         },
         getStatus: (state) => {
             return state.status;
@@ -67,9 +67,11 @@ export default new Vuex.Store({
             });
         },
 
-        register: (_, user) => {
+        register: ({ commit }, user) => {
             axios.post('/register', user).then(function (response) {
-                router.push('/login').catch(()=>{});
+                router.push('/login').catch(() => { });
+                commit('setResponseMessage', response.data.message);
+                commit('setStatus', 'success')
             });
         },
 
