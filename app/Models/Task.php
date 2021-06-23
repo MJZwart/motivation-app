@@ -14,6 +14,7 @@ class Task extends Model
         'task_list_id',
         'difficulty',
         'type',
+        'description',
         'name',
         'super_task_id',
     ];

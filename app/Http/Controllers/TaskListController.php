@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskList;
 use Illuminate\Http\Request;
+use App\Http\Resources\TaskListResource;
+use Illuminate\Support\Facades\Auth;
 
 class TaskListController extends Controller
 {
@@ -19,7 +21,7 @@ class TaskListController extends Controller
     }
 
     public function showTaskLists(){
-        // #30
+        return TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
     }
 
     //TODO UpdateTaskListRequest
