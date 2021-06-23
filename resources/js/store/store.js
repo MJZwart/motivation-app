@@ -33,7 +33,7 @@ export default new Vuex.Store({
         login: ({ commit }, user) => {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', user).then(function (response) {
-                    commit('setUser', response.data.data);
+                    commit('setUser', response.data);
                     commit('setAuthenticated', true);
                     router.push('/').catch(()=>{});
                 });
