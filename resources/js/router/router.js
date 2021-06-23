@@ -51,7 +51,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    store.commit('setErrors', []);
+    store.commit('setResponseMessage', []);
     store.commit('setStatus', 'hidden');
 
     if (to.meta.requiresAuth && !store.getters['authenticated']) {

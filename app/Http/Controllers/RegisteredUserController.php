@@ -8,10 +8,12 @@ use App\Models\User;
 use App\Models\Character;
 use App\Models\Task;
 use App\Models\TaskList;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class RegisteredUserController extends Controller
 {
-    public function store(RegisterUserRequest $request){
+    public function store(RegisterUserRequest $request): JsonResponse{
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         $user = User::create($validated);
@@ -31,5 +33,7 @@ class RegisteredUserController extends Controller
             'user_id' => $user->id,
             'super_task_id' => $task1->id,
             'task_list_id' => $taskList->id]);
+        $successMessage = "You have successfully registered. You can now login with your chosen username.";
+        return new JsonResponse(['message' => ['success' => [$successMessage]]], Response::HTTP_OK);
     }
 }

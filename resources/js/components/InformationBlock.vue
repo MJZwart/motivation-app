@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul :class="'response ' + status">
-            <li v-for="value in errors" :key="value[0]">{{value[0]}}</li>
+            <li v-for="value in responseMessage" :key="value[0]">{{value[0]}}</li>
         </ul>
     </div>
 </template>
@@ -12,7 +12,7 @@ import { mapGetters } from "vuex";
 export default {
     computed: {
         ...mapGetters({
-            errors: "getErrors",
+            responseMessage: "getResponseMessage",
             status: "getStatus",
         }),
     },
@@ -39,11 +39,12 @@ export default {
     background-color:#f8d7da;
     border: 2px solid #f5c6cb;
 }
-/* .response.success{
+.response.success{
     color: #155724;
     background-color: #d4edda;
     border: 2px solid #c3e6cb;
 } 
+/*
 .response.warning{
     color: #856404;
     background-color: #fff3cd;
