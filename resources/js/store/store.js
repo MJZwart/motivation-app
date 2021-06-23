@@ -9,6 +9,10 @@ export default new Vuex.Store({
     state: {
         user: JSON.parse(localStorage.getItem('user')) || {},
         authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
+
+        //Errors
+        errors: {},
+        status: "",
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -19,6 +23,14 @@ export default new Vuex.Store({
             state.user = value;
             localStorage.setItem('user', JSON.stringify(value));
         },
+
+        //Errors
+        setErrors(state, errors){
+            state.errors = errors;
+        },
+        setStatus(state, status) {
+            state.status = status;
+        },
     },
     getters: {
         authenticated(state) {
@@ -26,6 +38,14 @@ export default new Vuex.Store({
         },
         getUser: (state) => {
             return state.user;
+        },
+
+        //Errors
+        getErrors: (state) => {
+            return state.errors;
+        },
+        getStatus: (state) => {
+            return state.status;
         },
     },
     actions: {
@@ -38,7 +58,6 @@ export default new Vuex.Store({
                     router.push('/').catch(()=>{});
                 });
             });
-
         },
         logout({ commit }) {
             commit('setUser', {});

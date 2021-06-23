@@ -1,5 +1,6 @@
 require("./bootstrap");
 import Vue from "vue";
+import './interceptors';
 
 //Main pages
 import App from "./App.vue";
