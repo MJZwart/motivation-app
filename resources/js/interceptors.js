@@ -5,7 +5,7 @@ import store from './store/store.js';
 window.axios = axios;
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.baseURL = '/';
+axios.defaults.baseURL = '/api/';
 
 axios.interceptors.response.use(
     

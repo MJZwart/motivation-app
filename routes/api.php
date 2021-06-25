@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\TaskListController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,8 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/tasklists', [TaskListController::class, 'showTaskLists']);
+
+    Route::resource('/tasks', TaskController::class)->only([
+        'store', 'show', 'update', 'destroy'
+    ]);
 });

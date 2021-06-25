@@ -17,4 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-require __DIR__.'/api.php';
+//require __DIR__.'/api.php';
