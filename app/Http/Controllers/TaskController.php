@@ -22,8 +22,7 @@ class TaskController extends Controller
 
         Task::create($validated);
 
-        $responseMessage = "Task successfully created.";
-        return new JsonResponse(['message' => ['message' => [$responseMessage]]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['message' => ["Task successfully created."]]], Response::HTTP_OK);
     }
 
     /*
