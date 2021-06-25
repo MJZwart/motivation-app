@@ -2,7 +2,12 @@
     <div>
         <h3>{{taskList.name}}</h3>
         <template v-for="task in taskList.tasks">
-            <task :task="task" :key="task.id" class="task border" v-on:newTask="openNewTask"></task>
+            <task 
+                :task="task" 
+                :key="task.id" 
+                class="task border" 
+                v-on:newTask="openNewTask"
+                v-on:editTask="editTask"></task>
         </template>
         <div>
             <button class="long-button" @click="openNewTask(null)">Add new task</button>
@@ -21,7 +26,10 @@ export default {
     methods: {
         openNewTask(task){
             this.$emit('newTask', task, this.taskList);
-        }
+        },
+        editTask(task){
+            this.$emit('editTask', task);
+        },
     }
 }
 </script>
