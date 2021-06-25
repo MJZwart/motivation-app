@@ -19,8 +19,9 @@ class TaskResource extends JsonResource
             'difficulty' => $this->difficulty,
             'type' => $this->type,
             'name' => $this->name,
+            'description' => $this->description,
             'super_task' => $this->super_task_id,
-            // 'tasks' => TaskResource::collection($this->subTasks),
+            'tasks' => TaskResource::collection($this->subTasks),
         ];
     }
 }

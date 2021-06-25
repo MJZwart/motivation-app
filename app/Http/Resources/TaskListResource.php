@@ -18,7 +18,9 @@ class TaskListResource extends JsonResource
         return [
             'name' => $this->name,
             'color' => $this->color,
-            'tasks' => TaskResource::collection($this->tasks),
+            'tasks' => TaskResource::collection($this->tasks->filter(function ($value, $key) {
+                return $value->super_task_id == null;
+            })),
         ];
     }
 }
