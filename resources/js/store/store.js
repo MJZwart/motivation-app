@@ -65,7 +65,7 @@ export default new Vuex.Store({
     actions: {
         //User authentication
         login: ({ commit }, user) => {
-            axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', user).then(function (response) {
                     commit('setUser', response.data);
                     commit('setAuthenticated', true);
@@ -95,6 +95,15 @@ export default new Vuex.Store({
         getTaskLists: ({ commit }) => {
             axios.get('/tasklists').then(function (response) {
                 commit('setTaskLists', response.data.data);
+            });
+        },
+
+        //Tasks
+        storeTask: ({ commit }, task) => {
+            axios.post('/tasks', task).then(function (response) {
+                router.push('/').catch(() => { });
+                commit('setResponseMessage', response.data.message);
+                commit('setStatus', 'success');
             });
         },
     }

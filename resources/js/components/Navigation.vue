@@ -65,8 +65,8 @@ export default {
     .navbar li a:hover{
         color: rgba(0, 128, 128, 0.658);
     }
-    .navbar .flex-end{
+    .flex-end{
         display: flex;
-        margin-left: auto;
+        margin-left: auto !important;
     }
 </style>

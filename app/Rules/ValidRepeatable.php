@@ -4,16 +4,16 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class OwnerOf implements Rule
+class ValidRepeatable implements Rule
 {
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct()
     {
-        $this->i = $id;
+        //
     }
 
     /**
@@ -25,7 +25,7 @@ class OwnerOf implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $value->user_id === $this->id;
+        return in_array($value, ['NONE', 'DAILY', 'WEEKLY', 'MONTHLY']);
     }
 
     /**
@@ -35,6 +35,6 @@ class OwnerOf implements Rule
      */
     public function message()
     {
-        return 'This is not your :attribute.';
+        return 'This is not a valid repeatable type.';
     }
 }
