@@ -11,7 +11,7 @@
                         v-on:editTask="showEditTask"></task-list>
                 </template>
                 <div class="task-list border">
-                    <h3>Create new task list</h3>
+                    <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
                 </div>
             </div>
 
@@ -38,6 +38,7 @@
 
         <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList" v-on:reload="getTasks"></new-task>
         <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit" v-on:reload="getTasks"></edit-task>
+        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList" v-on:reload="getTasks"></new-task-list>
         
     </div>
 </template>
@@ -48,10 +49,12 @@ import {mapGetters} from 'vuex';
 import NewTask from '../components/NewTask.vue';
 import TaskList from '../components/TaskList.vue';
 import EditTask from '../components/EditTask.vue';
+import NewTaskList from '../components/NewTaskList.vue';
 export default {
-    components: { TaskList, NewTask, EditTask},
+    components: { TaskList, NewTask, EditTask, NewTaskList},
     data(){
         return {
+            isNewTaskListVisible: false,
             isNewTaskVisible: false,
             isEditTaskVisible: false,
             superTask: null,
@@ -82,6 +85,12 @@ export default {
         },
         closeEditTask(){
             this.isEditTaskVisible = false;
+        },
+        showNewTaskList() {
+            this.isNewTaskListVisible = true;
+        },
+        closeNewTaskList() {
+            this.isNewTaskListVisible = false;
         },
     },
     computed: {
