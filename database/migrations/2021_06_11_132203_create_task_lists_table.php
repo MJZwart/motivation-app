@@ -17,7 +17,6 @@ class CreateTaskListsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('color');
         });
     }
 
