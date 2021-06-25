@@ -2,10 +2,10 @@
     <div>
         <h3>{{taskList.name}}</h3>
         <template v-for="task in taskList.tasks">
-            <task :task="task" :key="task.id" class="task border"></task>
+            <task :task="task" :key="task.id" class="task border" v-on:newTask="openNewTask"></task>
         </template>
         <div>
-            <p>Add new task</p>
+            <button class="long-button" @click="openNewTask(null)">Add new task</button>
         </div>
     </div>
 </template>
@@ -18,22 +18,10 @@ export default {
     props: {
         taskList: Object,
     },
+    methods: {
+        openNewTask(task){
+            this.$emit('newTask', task, this.taskList);
+        }
+    }
 }
 </script>
-
-
-<style>
-.task, .sub-task{
-    margin:1px;
-}
-.sub-task{
-    margin-left: 5px !important;
-}
-.task-description{
-    font-size:12px;
-}
-.task-title{
-    font-size:14px;
-    font-weight:700;
-}
-</style>

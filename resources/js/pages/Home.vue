@@ -3,7 +3,7 @@
         <div class="home-grid">
             <div class="task-lists">
                 <template v-for="(list, index) in taskLists">
-                    <task-list :key="index" :taskList="list" class="task-list border"></task-list>
+                    <task-list :key="index" :taskList="list" class="task-list border" v-on:newTask="showNewTask"></task-list>
                 </template>
                 <div class="task-list border">
                     <h3>Create new task list</h3>
@@ -29,8 +29,9 @@
                     </div>
                 </div>
             </div>
-            
         </div>
+
+        <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList" v-on:reload="getTasks"></new-task>
         
     </div>
 </template>
@@ -38,15 +39,31 @@
 
 <script>
 import {mapGetters} from 'vuex';
+import NewTask from '../components/NewTask.vue';
 import TaskList from '../components/TaskList.vue';
 export default {
-  components: { TaskList },
-    mounted() {
+    components: { TaskList, NewTask},
+    data(){
+        return {
+            isNewTaskVisible: false,
+            superTask: null,
+            taskList: null,
+        }
+    },
+    mounted(){
         this.getTasks();
     },
     methods: {
         getTasks(){
             this.$store.dispatch('getTaskLists');
+        },
+        showNewTask(superTask, taskList) {
+            this.superTask = superTask;
+            this.taskList = taskList;
+            this.isNewTaskVisible = true;
+        },
+        closeNewTask() {
+            this.isNewTaskVisible = false;
         },
     },
     computed: {
