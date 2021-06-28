@@ -3,15 +3,15 @@
         <div class="home-grid">
             <div class="task-lists">
                 <template v-for="(list, index) in taskLists">
-                    <task-list :key="index" :taskList="list" class="task-list border" v-on:newTask="showNewTask"></task-list>
+                    <task-list :key="index" :taskList="list" class="task-list" v-on:newTask="showNewTask"></task-list>
                 </template>
-                <div class="task-list border">
+                <div class="task-list">
                     <h3>Create new task list</h3>
                 </div>
             </div>
 
             <div class="right-align">
-                <div class="character-tab border">
+                <div class="character-tab">
                     <div class="character">
                         <h3>Character</h3>
                         <p>Dummy text</p>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <div class="friends-list border">
+                <div class="friends-list">
                     <div class="friends">
                         <h3>Friends</h3>
                         <p>Dummy text</p>
@@ -90,8 +90,8 @@ export default {
         gap:10px;
     }
     .border{
-        border: 2px solid teal;
-        border-radius: 20px;
+        border: 1px solid teal;
+        border-radius: 6px;
     }
     .task-lists{
         flex:74%;
@@ -102,10 +102,17 @@ export default {
     .task-list{
         flex: 49%;
         height: fit-content;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
     }
     .character-tab, .friends-list{
         width:100%;
         height:fit-content;
+    }
+
+    .side-border {
+        border-left: 1px solid teal;
+        border-right: 1px solid teal;
     }
 
     @media (max-width:1000px){

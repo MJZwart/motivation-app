@@ -107,3 +107,12 @@ button.button-small {
     flex-direction: column;
     width:50%;
 }
+.no-margin {
+    margin:0;
+}
+.bottom-radius{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
