@@ -51,8 +51,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    store.commit('setResponseMessage', []);
-    store.commit('setStatus', 'hidden');
+    store.dispatch('clearInformationBlock');
 
     if (to.meta.requiresAuth && !store.getters['authenticated']) {
         return next({ path: '/login' });

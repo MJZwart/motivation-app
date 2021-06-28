@@ -3,10 +3,15 @@
         <div class="home-grid">
             <div class="task-lists">
                 <template v-for="(list, index) in taskLists">
-                    <task-list :key="index" :taskList="list" class="task-list" v-on:newTask="showNewTask"></task-list>
+                    <task-list 
+                        :key="index" 
+                        :taskList="list" 
+                        class="task-list border"
+                        v-on:newTask="showNewTask"
+                        v-on:editTask="showEditTask"></task-list>
                 </template>
-                <div class="task-list">
-                    <h3>Create new task list</h3>
+                <div class="task-list border">
+                    <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
                 </div>
             </div>
 
@@ -32,6 +37,8 @@
         </div>
 
         <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList" v-on:reload="getTasks"></new-task>
+        <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit" v-on:reload="getTasks"></edit-task>
+        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList" v-on:reload="getTasks"></new-task-list>
         
     </div>
 </template>
@@ -41,13 +48,18 @@
 import {mapGetters} from 'vuex';
 import NewTask from '../components/NewTask.vue';
 import TaskList from '../components/TaskList.vue';
+import EditTask from '../components/EditTask.vue';
+import NewTaskList from '../components/NewTaskList.vue';
 export default {
-    components: { TaskList, NewTask},
+    components: { TaskList, NewTask, EditTask, NewTaskList},
     data(){
         return {
+            isNewTaskListVisible: false,
             isNewTaskVisible: false,
+            isEditTaskVisible: false,
             superTask: null,
             taskList: null,
+            taskToEdit: null,
         }
     },
     mounted(){
@@ -58,12 +70,27 @@ export default {
             this.$store.dispatch('getTaskLists');
         },
         showNewTask(superTask, taskList) {
+            this.$store.dispatch('clearInformationBlock');
             this.superTask = superTask;
             this.taskList = taskList;
             this.isNewTaskVisible = true;
         },
         closeNewTask() {
             this.isNewTaskVisible = false;
+        },
+        showEditTask(task){
+            this.$store.dispatch('clearInformationBlock');
+            this.taskToEdit = task;
+            this.isEditTaskVisible = true;
+        },
+        closeEditTask(){
+            this.isEditTaskVisible = false;
+        },
+        showNewTaskList() {
+            this.isNewTaskListVisible = true;
+        },
+        closeNewTaskList() {
+            this.isNewTaskListVisible = false;
         },
     },
     computed: {

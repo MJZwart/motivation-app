@@ -25,7 +25,6 @@ class TaskListFactory extends Factory
         return [
             //'user_id' => rand(1, User::count()),
             'name' => $this->faker->word,
-            'color' => $this->faker->hexColor,
         ];
     }
 }

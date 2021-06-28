@@ -22,7 +22,6 @@ class RegisteredUserController extends Controller
             'user_id' => $user->id]);
         $taskList = TaskList::create(
             ['name' => 'Tasks',
-            'color' => 'blue',
             'user_id' => $user->id]);
         $task1 = Task::create(
             ['name' => 'Create your first task',
