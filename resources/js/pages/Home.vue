@@ -6,7 +6,7 @@
                     <task-list :key="index" :taskList="list" class="task-list border" v-on:newTask="showNewTask"></task-list>
                 </template>
                 <div class="task-list border">
-                    <h3>Create new task list</h3>
+                    <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
                 </div>
             </div>
 
@@ -32,6 +32,7 @@
         </div>
 
         <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList" v-on:reload="getTasks"></new-task>
+        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList" v-on:reload="getTasks"></new-task-list>
         
     </div>
 </template>
@@ -41,10 +42,12 @@
 import {mapGetters} from 'vuex';
 import NewTask from '../components/NewTask.vue';
 import TaskList from '../components/TaskList.vue';
+import NewTaskList from '../components/NewTaskList.vue';
 export default {
-    components: { TaskList, NewTask},
+    components: { TaskList, NewTask, NewTaskList},
     data(){
         return {
+            isNewTaskListVisible: false,
             isNewTaskVisible: false,
             superTask: null,
             taskList: null,
@@ -64,6 +67,12 @@ export default {
         },
         closeNewTask() {
             this.isNewTaskVisible = false;
+        },
+        showNewTaskList() {
+            this.isNewTaskListVisible = true;
+        },
+        closeNewTaskList() {
+            this.isNewTaskListVisible = false;
         },
     },
     computed: {

@@ -27,9 +27,12 @@ Route::post('/logout', [AuthenticationController::class, 'logout']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/tasklists', [TaskListController::class, 'showTaskLists']);
-
     Route::resource('/tasks', TaskController::class)->only([
         'store', 'show', 'update', 'destroy'
     ]);
+
+    Route::resource('/tasklists', TaskListController::class)->only([
+        'store', 'show', 'update', 'destroy'
+    ]);
+    Route::get('/tasklists', [TaskListController::class, 'showTaskLists']);
 });
