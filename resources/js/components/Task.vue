@@ -1,15 +1,28 @@
 <template>
     <div>
-        <p class="task-title flex">{{task.name}}            
-            <button 
-                type="button"
-                class="button-small flex-end"
-                @click="openNewTask(task)">+</button>
+        <p class="task-title flex">{{task.name}}     
+                          
+            <span class="flex-end">
+                <button 
+                    type="button"
+                    class="button-small"
+                    @click="openNewTask(task)">+</button>
+                <button 
+                    type="button"
+                    class="button-small"
+                    @click="editTask(task)">Edit</button>
+            </span>
+            
         </p>
         
         <p class="task-description">{{task.description}}</p>
         <div class="sub-task border" v-for="subTask in task.tasks" :key="subTask.id">
-            <p class="task-title">{{subTask.name}}</p>
+            <p class="task-title">{{subTask.name}}
+                <button 
+                    type="button"
+                    class="button-small flex-end"
+                    @click="editTask(subTask)">Edit</button>
+            </p>
             <p class="task-description">{{subTask.description}}</p>
         </div>
     </div>
@@ -24,7 +37,10 @@ export default {
     methods: {
         openNewTask(task){
             this.$emit('newTask', task);
-        }
+        },
+        editTask(task){
+            this.$emit('editTask', task);
+        },
     }
 }
 </script>

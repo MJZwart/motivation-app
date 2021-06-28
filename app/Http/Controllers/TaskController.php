@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -40,8 +41,11 @@ class TaskController extends Controller
     */
 
     //TODO UpdateTaskRequest
-    public function update(Task $task){
-        // #31
+    public function update(Task $task, UpdateTaskRequest $request){
+        $validated = $request->validated();
+        $task->update($validated);
+        
+        return new JsonResponse(['message' => ['message' => ["Task successfully updated."]]], Response::HTTP_OK);
     }
 
     public function destroy(Task $task)

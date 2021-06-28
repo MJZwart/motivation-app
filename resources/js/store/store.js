@@ -63,6 +63,10 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        clearInformationBlock({ commit }) {
+                commit('setResponseMessage', []);
+                commit('setStatus', 'hidden')
+        },
         //User authentication
         login: ({ commit }, user) => {
             axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
@@ -98,17 +102,26 @@ export default new Vuex.Store({
             });
         },
         storeTaskList: ({ commit }, taskList) => {
-            axios.post('/tasklists', taskList).then(function (response) {
+            return axios.post('/tasklists', taskList).then(function (response) {
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success');
+                return Promise.resolve();
             });
         },
 
         //Tasks
         storeTask: ({ commit }, task) => {
-            axios.post('/tasks', task).then(function (response) {
+            return axios.post('/tasks', task).then(function (response) {
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success');
+                return Promise.resolve();
+            });
+        },
+        updateTask: ({ commit }, task) => {
+            return axios.put('/tasks/' + task.id, task).then(function (response) {
+                commit('setResponseMessage', response.data.message);
+                commit('setStatus', 'success');
+                return Promise.resolve();
             });
         },
     }

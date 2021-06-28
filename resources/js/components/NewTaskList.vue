@@ -38,9 +38,12 @@ export default {
     },
     methods: {
         submitTaskList(){
-            this.$store.dispatch('storeTaskList', this.taskList);
-            this.$emit('reload');
-            this.close();
+            var self = $this;
+            this.$store.dispatch('storeTaskList', this.taskList).then(function(response){
+                self.$emit('reload');
+                self.close();
+            });
+
         },
         close(){
             this.taskList = {},
