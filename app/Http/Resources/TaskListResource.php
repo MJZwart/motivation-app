@@ -16,6 +16,7 @@ class TaskListResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'color' => $this->color,
             'tasks' => TaskResource::collection($this->tasks->filter(function ($value, $key) {
