@@ -9,6 +9,7 @@ let routes = [
     {
         path: "/",
         component: require('../pages/Home.vue').default,
+        meta: { requiresAuth: true },
     },
     {
         path: "/login",
@@ -21,18 +22,22 @@ let routes = [
     {
         path: "/character",
         component: require('../pages/Character.vue').default,
+        meta: { requiresAuth: true },
     },
     {
         path: "/notifications",
         component: require('../pages/Notifications.vue').default,
+        meta: { requiresAuth: true },
     },
     {
         path: "/settings",
         component: require('../pages/Settings.vue').default,
+        meta: { requiresAuth: true },
     },
     {
         path: "/achievements",
         component: require('../pages/Achievements.vue').default,
+        meta: { requiresAuth: true },
     },
     {
         name: "profile",
@@ -48,6 +53,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     store.commit('setResponseMessage', []);
     store.commit('setStatus', 'hidden');
+
+    if (to.meta.requiresAuth && !store.getters['authenticated']) {
+        return next({ path: '/login' });
+    }
 
     next();
 });
