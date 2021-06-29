@@ -40,9 +40,9 @@
             </div>
         </div>
 
-        <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList" v-on:reload="getTasks"></new-task>
-        <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit" v-on:reload="getTasks"></edit-task>
-        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList" v-on:reload="getTasks"></new-task-list>
+        <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList"></new-task>
+        <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit"></edit-task>
+        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList"></new-task-list>
         
     </div>
 </template>
@@ -67,12 +67,9 @@ export default {
         }
     },
     mounted(){
-        this.getTasks();
+        this.$store.dispatch('getTaskLists');
     },
     methods: {
-        getTasks(){
-            this.$store.dispatch('getTaskLists');
-        },
         showNewTask(superTask, taskList) {
             this.$store.dispatch('clearInformationBlock');
             this.superTask = superTask;

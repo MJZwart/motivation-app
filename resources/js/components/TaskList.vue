@@ -3,7 +3,12 @@
         <span class="frame-title">{{taskList.name}}</span>
         <template v-for="task in taskList.tasks">
 
-            <task :task="task" :key="task.id" class="task side-border no-margin" v-on:newTask="openNewTask"></task>
+            <task 
+                :task="task" 
+                :key="task.id" 
+                class="task side-border no-margin" 
+                v-on:newTask="openNewTask"
+                v-on:editTask="editTask"></task>
 
         </template>
         <div>

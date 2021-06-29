@@ -97,8 +97,7 @@ export default {
             this.task.super_task_id = this.superTask ? this.superTask.id : null;
             this.task.task_list_id = this.taskList.id || null;
             var self = this;
-            this.$store.dispatch('storeTask', this.task).then(function(respone){
-                self.$emit('reload');
+            this.$store.dispatch('storeTask', this.task).then(function(){
                 self.close();
             });
         },

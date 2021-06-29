@@ -3,6 +3,7 @@
         <transition name="modal-fade">
             <div class="modal-backdrop">
                 <div class="modal">
+                    <information-block></information-block>
                     <div class="form-title">
                     <h3>New task list</h3>
                     </div>
@@ -30,7 +31,11 @@
 
 
 <script>
+import InformationBlock from './InformationBlock.vue';
 export default {
+    components: {
+        InformationBlock,
+    },
     data() {
         return {
             taskList: {},
@@ -38,9 +43,8 @@ export default {
     },
     methods: {
         submitTaskList(){
-            var self = $this;
-            this.$store.dispatch('storeTaskList', this.taskList).then(function(response){
-                self.$emit('reload');
+            var self = this;
+            this.$store.dispatch('storeTaskList', this.taskList).then(function(){
                 self.close();
             });
 
