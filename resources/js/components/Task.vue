@@ -17,8 +17,8 @@
         
         <p class="task-description">{{task.description}}</p>
 
-        <div class="sub-task border" v-for="subTask in task.tasks" :key="subTask.id">
-            <p class="task-title">{{subTask.name}}
+        <div class="sub-task" v-for="subTask in task.tasks" :key="subTask.id">
+            <p class="task-title">- {{subTask.name}}
                 <button 
                     type="button"
                     class="button-small flex-end"

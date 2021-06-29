@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span class="task-list-title">{{taskList.name}}</span>
+        <span class="frame-title">{{taskList.name}}</span>
         <template v-for="task in taskList.tasks">
 
             <task :task="task" :key="task.id" class="task side-border no-margin" v-on:newTask="openNewTask"></task>
@@ -33,13 +33,12 @@ export default {
 
 
 <style>
-.task-list-title{
-    font-size:14px;
-    font-weight: 700;
+.frame-title{
+    font-size:18px;
+    font-weight: 600;
     border: 1px solid teal;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    background-color: #f6f8fa;
     display: block;
     padding:5px;
 }

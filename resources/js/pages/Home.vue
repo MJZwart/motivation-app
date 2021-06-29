@@ -6,11 +6,11 @@
                     <task-list 
                         :key="index" 
                         :taskList="list" 
-                        class="task-list border"
+                        class="task-list"
                         v-on:newTask="showNewTask"
                         v-on:editTask="showEditTask"></task-list>
                 </template>
-                <div class="task-list border">
+                <div class="task-list">
                     <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
                 </div>
             </div>
@@ -18,19 +18,23 @@
             <div class="right-align">
                 <div class="character-tab">
                     <div class="character">
-                        <h3>Character</h3>
-                        <p>Dummy text</p>
-                        <p>Dummy text</p>
-                        <p>Dummy text</p>
+                        <span class="frame-title">Character</span>
+                        <div class="side-border bottom-border">
+                            <span>Dummy text</span>
+                            <p>Dummy text</p>
+                            <p>Dummy text</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="friends-list">
                     <div class="friends">
-                        <h3>Friends</h3>
-                        <p>Dummy text</p>
-                        <p>Dummy text</p>
-                        <p>Dummy text</p>
+                        <span class="frame-title">Friends</span>
+                        <div class="side-border bottom-border">
+                            <span>Dummy text</span>
+                            <p>Dummy text</p>
+                            <p>Dummy text</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -141,7 +145,11 @@ export default {
         border-left: 1px solid teal;
         border-right: 1px solid teal;
     }
-
+    .bottom-border {
+        border-bottom: 1px solid teal;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
     @media (max-width:1000px){
         .task-list{
             flex: 100%;
