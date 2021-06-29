@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TaskList;
 use App\Http\Resources\TaskListResource;
 use App\Http\Requests\StoreTaskListRequest;
+use App\Http\Requests\UpdateTaskListRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -33,10 +34,14 @@ class TaskListController extends Controller
         return TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
     }
 
-    //TODO UpdateTaskListRequest
-    public function update(TaskList $taskList)
+    public function update(TaskList $tasklist, UpdateTaskListRequest $request): JsonResponse
     {
-        // #70
+        $validated = $request->validated();
+        $tasklist->update($validated);
+
+        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+        
+        return new JsonResponse(['message' => ['message' => ["Task list successfully updated."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
     public function destroy(TaskList $taskList)
