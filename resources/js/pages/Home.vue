@@ -6,39 +6,43 @@
                     <task-list 
                         :key="index" 
                         :taskList="list" 
-                        class="task-list border"
+                        class="task-list"
                         v-on:newTask="showNewTask"
                         v-on:editTask="showEditTask"></task-list>
                 </template>
-                <div class="task-list border">
+                <div class="task-list">
                     <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
                 </div>
             </div>
 
             <div class="right-align">
-                <div class="character-tab border">
+                <div class="character-tab">
                     <div class="character">
-                        <h3>Character</h3>
-                        <p>Dummy text</p>
-                        <p>Dummy text</p>
-                        <p>Dummy text</p>
+                        <span class="frame-title">Character</span>
+                        <div class="side-border bottom-border">
+                            <span>Dummy text</span>
+                            <p>Dummy text</p>
+                            <p>Dummy text</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="friends-list border">
+                <div class="friends-list">
                     <div class="friends">
-                        <h3>Friends</h3>
-                        <p>Dummy text</p>
-                        <p>Dummy text</p>
-                        <p>Dummy text</p>
+                        <span class="frame-title">Friends</span>
+                        <div class="side-border bottom-border">
+                            <span>Dummy text</span>
+                            <p>Dummy text</p>
+                            <p>Dummy text</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList" v-on:reload="getTasks"></new-task>
-        <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit" v-on:reload="getTasks"></edit-task>
-        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList" v-on:reload="getTasks"></new-task-list>
+        <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList"></new-task>
+        <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit"></edit-task>
+        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList"></new-task-list>
         
     </div>
 </template>
@@ -63,12 +67,9 @@ export default {
         }
     },
     mounted(){
-        this.getTasks();
+        this.$store.dispatch('getTaskLists');
     },
     methods: {
-        getTasks(){
-            this.$store.dispatch('getTaskLists');
-        },
         showNewTask(superTask, taskList) {
             this.$store.dispatch('clearInformationBlock');
             this.superTask = superTask;
@@ -117,8 +118,8 @@ export default {
         gap:10px;
     }
     .border{
-        border: 2px solid teal;
-        border-radius: 20px;
+        border: 1px solid teal;
+        border-radius: 6px;
     }
     .task-lists{
         flex:74%;
@@ -129,12 +130,23 @@ export default {
     .task-list{
         flex: 49%;
         height: fit-content;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
     }
     .character-tab, .friends-list{
         width:100%;
         height:fit-content;
     }
 
+    .side-border {
+        border-left: 1px solid teal;
+        border-right: 1px solid teal;
+    }
+    .bottom-border {
+        border-bottom: 1px solid teal;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
     @media (max-width:1000px){
         .task-list{
             flex: 100%;

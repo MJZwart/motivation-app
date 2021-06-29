@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use Illuminate\Http\Request;
+use App\Models\TaskList;
+use App\Http\Resources\TaskListResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -23,7 +25,9 @@ class TaskController extends Controller
 
         Task::create($validated);
 
-        return new JsonResponse(['message' => ['message' => ["Task successfully created."]]], Response::HTTP_OK);
+        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+
+        return new JsonResponse(['message' => ['message' => ["Task successfully created."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
     /*
@@ -44,8 +48,10 @@ class TaskController extends Controller
     public function update(Task $task, UpdateTaskRequest $request){
         $validated = $request->validated();
         $task->update($validated);
+
+        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
         
-        return new JsonResponse(['message' => ['message' => ["Task successfully updated."]]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['message' => ["Task successfully updated."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
     public function destroy(Task $task)

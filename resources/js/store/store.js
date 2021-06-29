@@ -105,6 +105,7 @@ export default new Vuex.Store({
             return axios.post('/tasklists', taskList).then(function (response) {
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success');
+                commit('setTaskLists', response.data.data);
                 return Promise.resolve();
             });
         },
@@ -114,6 +115,7 @@ export default new Vuex.Store({
             return axios.post('/tasks', task).then(function (response) {
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success');
+                commit('setTaskLists', response.data.data);
                 return Promise.resolve();
             });
         },
@@ -121,6 +123,7 @@ export default new Vuex.Store({
             return axios.put('/tasks/' + task.id, task).then(function (response) {
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success');
+                commit('setTaskLists', response.data.data);
                 return Promise.resolve();
             });
         },

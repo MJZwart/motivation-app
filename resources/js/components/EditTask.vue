@@ -3,7 +3,7 @@
         <transition name="modal-fade">
             <div class="modal-backdrop">
                 <div class="modal">
-                                <information-block></information-block>
+                    <information-block></information-block>
 
                     <div class="form-title">
                     <h3>New task</h3>
@@ -97,8 +97,7 @@ export default {
     methods: {
         updateTask(){
             var self = this;
-            this.$store.dispatch('updateTask', this.editedTask).then(function(response){
-                self.$emit('reload');
+            this.$store.dispatch('updateTask', this.editedTask).then(function(){
                 self.close();
             });
         },

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskList;
-use Illuminate\Http\Request;
 use App\Http\Resources\TaskListResource;
 use App\Http\Requests\StoreTaskListRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -19,7 +19,9 @@ class TaskListController extends Controller
 
         TaskList::create($validated);
 
-        return new JsonResponse(['message' => ['message' => ['Task list successfully created.']]], Response::HTTP_OK);
+        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+
+        return new JsonResponse(['message' => ['message' => ['Task list successfully created.']], 'data' => $taskLists], Response::HTTP_OK);
     }
 
     public function show(TaskList $taskList)
