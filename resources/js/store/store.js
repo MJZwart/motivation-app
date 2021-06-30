@@ -117,6 +117,13 @@ export default new Vuex.Store({
                 return Promise.resolve();
             });
         },
+        deleteTaskList: ({ commit }, taskList) => {
+            axios.delete('/tasklists/' + taskList.id).then(function(response){
+                commit('setResponseMessage', response.data.message);
+                commit('setStatus', 'success');
+                commit('setTaskLists', response.data.data);
+            });
+        },
 
         //Tasks
         storeTask: ({ commit }, task) => {
