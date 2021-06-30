@@ -37,7 +37,7 @@ class CreateForeignKeyConstraints extends Migration
         Schema::table('characters', function (Blueprint $table){
             $table->foreignId('user_id')->constrained();
         });
-        Schema::table('repeatable_tasks_completed', function (Blueprint $table){
+        Schema::table('tasks_completed', function (Blueprint $table){
             $table->foreignId('user_id')->constrained();
             $table->foreignId('task_id')->constrained();
         });
@@ -80,7 +80,7 @@ class CreateForeignKeyConstraints extends Migration
         Schema::table('characters', function (Blueprint $table){
             $table->dropForeign('user_id');
         });
-        Schema::table('repeatable_tasks_completed', function (Blueprint $table){
+        Schema::table('tasks_completed', function (Blueprint $table){
             $table->dropForeign('user_id');
             $table->dropForeign('task_id');
         });

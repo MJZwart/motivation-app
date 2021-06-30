@@ -70,8 +70,17 @@ class TaskController extends Controller
     public function complete(Task $task){
         if(Auth::user()->id === $task->user_id){
             if($task->repeatable != 'NONE'){
-                completeRepeatable($task);
+                $this->completeRepeatable($task);
+            } else {
+                $task->completed = true;
+                $task->update();
             }
+            $task->complete();
+            
+            $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+            return new JsonResponse(['message' => ['message' => ["Task completed."]], 'data' => $taskLists], Response::HTTP_OK);
+        } else {
+            return new JsonResponse(['errors' => ['error' => ["You are not authorized to complete this task"]]], Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -85,10 +94,10 @@ class TaskController extends Controller
                 $date = new Carbon('next monday');
                 break;
             case 'MONTHLY':
-                $date = new Carbon('first day of next month');
+                $date = new Carbon('first day of next month midnight');
                 break;
         }
-        $task->repeatableActive = $date;
+        $task->repeatable_active = $date;
         $task->update();
     }
 }

@@ -37,7 +37,7 @@ class TaskSeeder extends Seeder
                     'task_list_id' => TaskList::where('user_id', $user->id)->first()->id
                 ]);
             
-            DB::table('repeatable_tasks_completed')->insertOrIgnore([
+            DB::table('tasks_completed')->insertOrIgnore([
                 'user_id' => $user->id,
                 'task_id' => Task::where('user_id', $user->id)->where('repeatable', 'DAILY')->first()->id,
             ]);
