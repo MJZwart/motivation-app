@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="long-button">Create new task list</button>
+                                <button type="submit" class="long-button">Delete task list</button>
                                 <button type="button" class="long-button" @click="close">Cancel</button>
                             </div>
                         </form>
@@ -71,15 +71,14 @@ export default {
     },
     methods: {
         deleteTaskList(){
-            if(deleteOption != "delete"){
+            if(this.deleteOption != "delete"){
                 const data = { taskListId : this.deleteOption, tasks: this.taskListTasks};
-                console.log(data);
                 this.$store.dispatch('mergeTasks', data);
             }
-            // var self = this;
-            // this.$store.dispatch('deleteTaskList', this.taskListToDelete, this.deleteOption).then(function(){
-            //     self.close();
-            // });
+            var self = this;
+            this.$store.dispatch('deleteTaskList', this.taskListToDelete).then(function(){
+                self.close();
+            });
         },
         close(){
             this.taskListToDelete = {},
