@@ -35,4 +35,5 @@ Route::group(['middleware' => ['auth']], function () {
         'store', 'show', 'update', 'destroy'
     ]);
     Route::get('/tasklists', [TaskListController::class, 'showTaskLists']);
+    Route::post('/tasks/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
 });

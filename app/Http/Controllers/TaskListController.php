@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskList;
+use App\Models\Task;
 use App\Http\Resources\TaskListResource;
 use App\Http\Requests\StoreTaskListRequest;
 use App\Http\Requests\UpdateTaskListRequest;
@@ -52,6 +53,20 @@ class TaskListController extends Controller
             return new JsonResponse(['message' => ['message' => ["Task list successfully deleted."]], 'data' => $taskLists], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to delete this task list"]]], Response::HTTP_FORBIDDEN);
+        }
+    }
+
+    public function mergeTasks(TaskList $tasklist, Request $request){
+        foreach($request->tasks as $task){
+            $taskModel = Task::find($task['id']);
+            if(!empty($taskModel->tasks)){
+                foreach($task->tasks as $subTask){
+                    $subTask->task_list_id = $tasklist->id;
+                    $subTask->update();
+                }
+            }
+            $taskModel->task_list_id = $tasklist->id;
+            $taskModel->update();
         }
     }
 }
