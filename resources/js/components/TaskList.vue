@@ -48,9 +48,10 @@ export default {
             this.$emit('editTaskList', this.taskList);
         },
         deleteTaskList(){
-            if(confirm('Are you sure you want to delete ' + this.taskList.name + '?')){
-                this.$store.dispatch('deleteTaskList', this.taskList);
-            }
+            this.$emit('deleteTaskList', this.taskList);
+            // if(confirm('Are you sure you want to delete ' + this.taskList.name + '?')){
+            //     this.$store.dispatch('deleteTaskList', this.taskList);
+            // }
         },
     }
 }
