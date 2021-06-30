@@ -68,6 +68,27 @@ class TaskController extends Controller
     }
 
     public function complete(Task $task){
-        // #29
+        if(Auth::user()->id === $task->user_id){
+            if($task->repeatable != 'NONE'){
+                completeRepeatable($task);
+            }
+        }
+    }
+
+    private function completeRepeatable($task){
+        $date = null;
+        switch($task->repeatable){
+            case 'DAILY':
+                $date = Carbon::tomorrow();
+                break;
+            case 'WEEKLY':
+                $date = new Carbon('next monday');
+                break;
+            case 'MONTHLY':
+                $date = new Carbon('first day of next month');
+                break;
+        }
+        $task->repeatableActive = $date;
+        $task->update();
     }
 }

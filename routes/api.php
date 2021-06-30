@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/tasks', TaskController::class)->only([
         'store', 'show', 'update', 'destroy'
     ]);
+    Route::put('/tasks/complete/{task}', [TaskController::class, 'complete']);
 
     Route::resource('/tasklists', TaskListController::class)->only([
         'store', 'show', 'update', 'destroy'
