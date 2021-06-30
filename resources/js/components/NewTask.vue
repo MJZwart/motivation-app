@@ -3,6 +3,7 @@
         <transition name="modal-fade">
             <div class="modal-backdrop">
                 <div class="modal">
+                    <information-block></information-block>
                     <div class="form-title">
                     <h3>New task</h3>
                     </div>
@@ -78,7 +79,11 @@
 
 
 <script>
+import InformationBlock from './InformationBlock.vue';
 export default {
+    components: {
+        InformationBlock,
+    },
     props: {
         taskList: Object,
         superTask: Object,
