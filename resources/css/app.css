@@ -79,7 +79,7 @@ button {
     margin: 2px;
     cursor: pointer;
 }
-button.button-small {
+.button-small {
     padding: 0.3rem;
     border: 1px solid teal;
     border-radius: 5px;
@@ -87,6 +87,13 @@ button.button-small {
 }
 .long-button {
     width: 100%;
+}
+.icon-small{
+    color:teal;
+    margin:2px;
+    cursor:pointer;
+    width:1.3em;
+    height:1.3em;
 }
 .modal-backdrop {
     position: fixed;

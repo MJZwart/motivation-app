@@ -153,5 +153,12 @@ export default new Vuex.Store({
                 commit('setTaskLists', response.data.data);
             });
         },
+        completeTask: ({commit}, task) => {
+            axios.put('/tasks/complete/' + task.id).then(function(response){
+                commit('setResponseMessage', response.data.message);
+                commit('setStatus', 'success');
+                //commit('setTaskLists', response.data.data);
+            });
+        },
     }
 });
