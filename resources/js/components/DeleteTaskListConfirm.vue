@@ -68,10 +68,12 @@ export default {
     methods: {
         deleteTaskList(){
             var self = this;
+            if(deleteOption != "delete"){
+                this.$store.dispatch('mergeTasks', this.deleteOption, this.taskListTasks);
+            }
             this.$store.dispatch('deleteTaskList', this.taskListToDelete, this.deleteOption).then(function(){
                 self.close();
             });
-
         },
         close(){
             this.taskListToDelete = {},

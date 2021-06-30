@@ -124,6 +124,10 @@ export default new Vuex.Store({
                 commit('setTaskLists', response.data.data);
             });
         },
+        mergeTasks: ({}, taskListId, tasks) => {
+            axios.post('/tasks/merge/' + taskListId, tasks).then(function(){
+            });
+        },
 
         //Tasks
         storeTask: ({ commit }, task) => {
