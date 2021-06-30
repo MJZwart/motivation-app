@@ -77,7 +77,6 @@ export default {
     margin:-6px;
     padding:5px;
     padding-left:15px;
-    border-bottom: 1px solid teal;
 }
 .task-description{
     font-size:12px;

@@ -11,6 +11,10 @@
                     type="button"
                     class="button-small"
                     @click="editTask(task)">Edit</button>
+                <button 
+                    type="button"
+                    class="button-small"
+                    @click="deleteTask(task)">Delete</button>
             </span>
             
         </p>
@@ -23,6 +27,10 @@
                     type="button"
                     class="button-small flex-end"
                     @click="editTask(subTask)">Edit</button>
+                <button 
+                    type="button"
+                    class="button-small"
+                    @click="deleteTask(subTask)">Delete</button>
             </p>
             <p class="task-description">{{subTask.description}}</p>
         </div>
@@ -41,6 +49,11 @@ export default {
         },
         editTask(task){
             this.$emit('editTask', task);
+        },
+        deleteTask(task){
+            if(confirm('Are you sure you wish to delete the task \'' + task.name + '\' without completing it? You will not receive any rewards for it.')){
+                this.$store.dispatch('deleteTask', task);
+            }
         },
     }
 }
