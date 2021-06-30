@@ -117,15 +117,15 @@ export default new Vuex.Store({
                 return Promise.resolve();
             });
         },
-        deleteTaskList: ({ commit }, taskList, deleteOption) => {
-            axios.delete('/tasklists/' + taskList.id, {data: deleteOption}).then(function(response){
+        deleteTaskList: ({ commit }, taskList) => {
+            axios.delete('/tasklists/' + taskList.id).then(function(response){
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success');
                 commit('setTaskLists', response.data.data);
             });
         },
-        mergeTasks: ({}, taskListId, tasks) => {
-            axios.post('/tasks/merge/' + taskListId, tasks).then(function(){
+        mergeTasks: ({}, data) => {
+            axios.post('/tasks/merge/' + data.taskListId, data).then(function(){
             });
         },
 

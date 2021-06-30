@@ -20,7 +20,7 @@
                                         id="deleteOption" 
                                         v-model="deleteOption">
                                         <option value="delete" selected>Delete</option>
-                                        <option v-for="option in taskListTasks" :value="option.id" :key="option.key">Merge with: {{option.name}}</option>
+                                        <option v-for="option in taskLists" :value="option.id" :key="option.key">Merge with: {{option.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -64,16 +64,22 @@ export default {
         taskListTasks(){
             return this.taskListToDelete.tasks;
         },
+        taskLists(){
+            var taskLists = this.$store.getters.getTaskLists;
+            return taskLists.filter(item => item != this.taskListToDelete);
+        },
     },
     methods: {
         deleteTaskList(){
-            var self = this;
             if(deleteOption != "delete"){
-                this.$store.dispatch('mergeTasks', this.deleteOption, this.taskListTasks);
+                const data = { taskListId : this.deleteOption, tasks: this.taskListTasks};
+                console.log(data);
+                this.$store.dispatch('mergeTasks', data);
             }
-            this.$store.dispatch('deleteTaskList', this.taskListToDelete, this.deleteOption).then(function(){
-                self.close();
-            });
+            // var self = this;
+            // this.$store.dispatch('deleteTaskList', this.taskListToDelete, this.deleteOption).then(function(){
+            //     self.close();
+            // });
         },
         close(){
             this.taskListToDelete = {},
