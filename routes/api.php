@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\TaskListController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\CharacterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,8 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
     Route::get('/tasklists', [TaskListController::class, 'showTaskLists']);
     Route::post('/tasks/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
+
+    Route::resource('/character', CharacterController::class)->only([
+        'store', 'show', 'update', 'destroy',
+    ]);
 });
