@@ -19,10 +19,6 @@ class TaskController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
-        if($validated['repeatable'] != 'NONE'){
-            $validated['repeatable_active'] = Carbon::now();
-        }
-
         Task::create($validated);
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
@@ -49,7 +45,7 @@ class TaskController extends Controller
         $validated = $request->validated();
         $task->update($validated);
 
-        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         
         return new JsonResponse(['message' => ['message' => ["Task successfully updated."]], 'data' => $taskLists], Response::HTTP_OK);
     }
@@ -60,7 +56,7 @@ class TaskController extends Controller
             $task->subTasks()->delete();
             $task->delete();
 
-            $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+            $taskLists = TaskListResource::collection(Auth::user()->taskLists);
             return new JsonResponse(['message' => ['message' => ["Task successfully deleted."]], 'data' => $taskLists], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to delete this task"]]], Response::HTTP_FORBIDDEN);
@@ -68,6 +64,36 @@ class TaskController extends Controller
     }
 
     public function complete(Task $task){
-        // #29
+        if(Auth::user()->id === $task->user_id){
+            if($task->repeatable != 'NONE'){
+                $this->completeRepeatable($task);
+                $task->complete();
+            } else {
+                $task->completed = Carbon::now();
+                $task->update();
+            }
+            
+            $taskLists = TaskListResource::collection(Auth::user()->taskLists);
+            return new JsonResponse(['message' => ['message' => ["Task completed."]], 'data' => $taskLists], Response::HTTP_OK);
+        } else {
+            return new JsonResponse(['errors' => ['error' => ["You are not authorized to complete this task"]]], Response::HTTP_FORBIDDEN);
+        }
+    }
+
+    private function completeRepeatable($task){
+        $date = null;
+        switch($task->repeatable){
+            case 'DAILY':
+                $date = Carbon::tomorrow();
+                break;
+            case 'WEEKLY':
+                $date = new Carbon('next monday');
+                break;
+            case 'MONTHLY':
+                $date = new Carbon('first day of next month midnight');
+                break;
+        }
+        $task->repeatable_active = $date;
+        $task->update();
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Task;
+use Carbon\Carbon;
 
 class TaskList extends Model
 {
@@ -17,6 +19,14 @@ class TaskList extends Model
 
     public function tasks(){
         return $this->hasMany('App\Models\Task');
+    }
+
+    public function activeTasks(){
+        return $this->tasks->filter(function ($value, $key) {
+                return $value->super_task_id == null 
+                    && $value->completed == null
+                    && $value->repeatable_active <= Carbon::now()->toDateTimeString()
+                    ;});
     }
 
     public function user(){

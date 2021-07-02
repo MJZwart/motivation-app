@@ -2,14 +2,12 @@
     <div>
         <span class="frame-title flex">{{taskList.name}}
             <span class="flex-end">
-                <button 
-                    type="button"
-                    class="button-small"
-                    @click="editTaskList()">Edit</button>
-                <button 
-                    type="button"
-                    class="button-small"
-                    @click="deleteTaskList()">Delete</button>
+                <b-icon-pencil-square 
+                    class="icon-small"
+                    @click="editTaskList()"></b-icon-pencil-square>
+                <b-icon-trash 
+                    class="icon-small"
+                    @click="deleteTaskList()"></b-icon-trash>
             </span>
 
         </span>
@@ -49,9 +47,6 @@ export default {
         },
         deleteTaskList(){
             this.$emit('deleteTaskList', this.taskList);
-            // if(confirm('Are you sure you want to delete ' + this.taskList.name + '?')){
-            //     this.$store.dispatch('deleteTaskList', this.taskList);
-            // }
         },
     }
 }
@@ -76,7 +71,6 @@ export default {
 .sub-task{
     margin:-6px;
     padding:5px;
-    padding-left:15px;
 }
 .task-description{
     font-size:12px;
