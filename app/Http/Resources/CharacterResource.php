@@ -16,6 +16,7 @@ class CharacterResource extends JsonResource
     {
         return [
             'name' => $this->name,
+            'level' => $this->level,
             'strength' => $this->strength,
             'agility' => $this->agility,
             'endurance' => $this->endurance,

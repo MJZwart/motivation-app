@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tasks/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
 
     Route::resource('/character', CharacterController::class)->only([
-        'store', 'show', 'update', 'destroy',
+        'store', 'update', 'destroy',
     ]);
+    Route::get('/character', [CharacterController::class, 'show']);
 });
