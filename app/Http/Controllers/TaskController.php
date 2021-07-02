@@ -54,9 +54,17 @@ class TaskController extends Controller
         return new JsonResponse(['message' => ['message' => ["Task successfully updated."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
-    public function destroy(Task $task)
+    public function destroy(Task $task): JsonResponse
     {
-        // #32
+        if(Auth::user()->id === $task->user_id){
+            $task->subTasks()->delete();
+            $task->delete();
+
+            $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+            return new JsonResponse(['message' => ['message' => ["Task successfully deleted."]], 'data' => $taskLists], Response::HTTP_OK);
+        } else {
+            return new JsonResponse(['errors' => ['error' => ["You are not authorized to delete this task"]]], Response::HTTP_FORBIDDEN);
+        }
     }
 
     public function complete(Task $task){
