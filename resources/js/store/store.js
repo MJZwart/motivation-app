@@ -17,6 +17,9 @@ export default new Vuex.Store({
 
         //TaskLists
         taskLists: {},
+
+        //Character
+        character: {},
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -40,6 +43,11 @@ export default new Vuex.Store({
         setTaskLists(state, taskLists) {
             state.taskLists = taskLists;
         },
+
+        //Character
+        setCharacter: (state, character) => {
+            state.character = character;
+        },
     },
     getters: {
         authenticated(state) {
@@ -60,7 +68,12 @@ export default new Vuex.Store({
         //TaskLists
         getTaskLists: (state) => {
             return state.taskLists;
-        }
+        },
+
+        //Character
+        getCharacter: (state) => {
+            return state.character;
+        },
     },
     actions: {
         clearInformationBlock({ commit }) {
@@ -158,6 +171,13 @@ export default new Vuex.Store({
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success');
                 commit('setTaskLists', response.data.data);
+            });
+        },
+
+        //Character
+        getCharacter: ({commit}) => {
+            axios.get('/character').then(function(response){
+                commit('setCharacter', response.data.data);
             });
         },
     }
