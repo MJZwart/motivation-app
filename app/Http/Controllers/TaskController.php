@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskList;
+use App\Models\Character;
 use App\Http\Resources\TaskListResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -72,6 +73,9 @@ class TaskController extends Controller
                 $task->completed = Carbon::now();
                 $task->update();
             }
+
+            $character = Character::where('user_id', Auth::user()->id)->get()->first();
+            $character->applyReward($task);
             
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
             return new JsonResponse(['message' => ['message' => ["Task completed."]], 'data' => $taskLists], Response::HTTP_OK);
