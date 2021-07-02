@@ -1,6 +1,14 @@
 <template>
     <div>
-        <span class="frame-title">{{taskList.name}}</span>
+        <span class="frame-title flex">{{taskList.name}}
+            <span class="flex-end">
+                <button 
+                    type="button"
+                    class="button-small"
+                    @click="editTaskList()">Edit</button>
+            </span>
+
+        </span>
         <template v-for="task in taskList.tasks">
 
             <task 
@@ -31,6 +39,9 @@ export default {
         },
         editTask(task){
             this.$emit('editTask', task);
+        },
+        editTaskList(){
+            this.$emit('editTaskList', this.taskList);
         },
     }
 }

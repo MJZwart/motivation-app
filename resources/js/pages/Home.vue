@@ -8,7 +8,8 @@
                         :taskList="list" 
                         class="task-list"
                         v-on:newTask="showNewTask"
-                        v-on:editTask="showEditTask"></task-list>
+                        v-on:editTask="showEditTask"
+                        v-on:editTaskList="showEditTaskList"></task-list>
                 </template>
                 <div class="task-list">
                     <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
@@ -43,6 +44,7 @@
         <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList"></new-task>
         <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit"></edit-task>
         <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList"></new-task-list>
+        <edit-task-list v-if="isEditTaskListVisible" @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list>
         
     </div>
 </template>
@@ -54,16 +56,19 @@ import NewTask from '../components/NewTask.vue';
 import TaskList from '../components/TaskList.vue';
 import EditTask from '../components/EditTask.vue';
 import NewTaskList from '../components/NewTaskList.vue';
+import EditTaskList from '../components/EditTaskList.vue';
 export default {
-    components: { TaskList, NewTask, EditTask, NewTaskList},
+    components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList},
     data(){
         return {
             isNewTaskListVisible: false,
             isNewTaskVisible: false,
             isEditTaskVisible: false,
+            isEditTaskListVisible: false,
             superTask: null,
             taskList: null,
             taskToEdit: null,
+            taskListToEdit: null,
         }
     },
     mounted(){
@@ -77,6 +82,8 @@ export default {
             this.isNewTaskVisible = true;
         },
         closeNewTask() {
+            this.taskList = null;
+            this.superTask = null;
             this.isNewTaskVisible = false;
         },
         showEditTask(task){
@@ -85,14 +92,25 @@ export default {
             this.isEditTaskVisible = true;
         },
         closeEditTask(){
+            this.taskToEdit = null;
             this.isEditTaskVisible = false;
         },
         showNewTaskList() {
+            this.$store.dispatch('clearInformationBlock');
             this.isNewTaskListVisible = true;
         },
         closeNewTaskList() {
             this.isNewTaskListVisible = false;
         },
+        showEditTaskList(taskList) {
+            this.$store.dispatch('clearInformationBlock');
+            this.taskListToEdit = taskList;
+            this.isEditTaskListVisible = true;
+        },
+        closeEditTaskList() {
+            this.taskListToEdit = null;
+            this.isEditTaskListVisible = false;
+        }
     },
     computed: {
         ...mapGetters({
