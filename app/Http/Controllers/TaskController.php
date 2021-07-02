@@ -21,7 +21,7 @@ class TaskController extends Controller
 
         Task::create($validated);
 
-        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
+        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
         return new JsonResponse(['message' => ['message' => ["Task successfully created."]], 'data' => $taskLists], Response::HTTP_OK);
     }

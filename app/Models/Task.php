@@ -40,7 +40,7 @@ class Task extends Model
     public function activeSubTasks(){
         return $this->subTasks->filter(function ($value, $key) {
             return $value->completed == null
-                && $value->repeatable_active < Carbon::now()->toDateTimeString()
+                && $value->repeatable_active <= Carbon::now()->toDateTimeString()
                 ;});
     }
 
