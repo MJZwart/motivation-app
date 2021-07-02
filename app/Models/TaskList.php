@@ -21,19 +21,12 @@ class TaskList extends Model
         return $this->hasMany('App\Models\Task');
     }
 
-    //This doesn't work. The repeatable active cannot yet be compared to today's date.
     public function activeTasks(){
         return $this->tasks->filter(function ($value, $key) {
-            dd($value);
                 return $value->super_task_id == null 
-                    && $value->completed == false
-                    //&& $value->repeatable_active < Carbon::now()->toDateTimeString()
+                    && $value->completed == null
+                    && $value->repeatable_active < Carbon::now('Europe/Amsterdam')->toDateTimeString()
                     ;});
-        // return Task::where('super_task_id', null)
-        //     ->where('completed', false)
-        //     ->where('task_list_id', $this->id)
-        //     ->where('repeatable_active', '<', Carbon::now())
-        //     ->get();
     }
 
     public function user(){
