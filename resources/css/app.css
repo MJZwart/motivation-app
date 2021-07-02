@@ -107,6 +107,9 @@ button.button-small {
     flex-direction: column;
     width: 50%;
 }
+.modal-text{
+    padding-left: 1rem;
+}
 .no-margin {
     margin: 0;
 }

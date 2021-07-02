@@ -6,6 +6,10 @@
                     type="button"
                     class="button-small"
                     @click="editTaskList()">Edit</button>
+                <button 
+                    type="button"
+                    class="button-small"
+                    @click="deleteTaskList()">Delete</button>
             </span>
 
         </span>
@@ -42,6 +46,12 @@ export default {
         },
         editTaskList(){
             this.$emit('editTaskList', this.taskList);
+        },
+        deleteTaskList(){
+            this.$emit('deleteTaskList', this.taskList);
+            // if(confirm('Are you sure you want to delete ' + this.taskList.name + '?')){
+            //     this.$store.dispatch('deleteTaskList', this.taskList);
+            // }
         },
     }
 }

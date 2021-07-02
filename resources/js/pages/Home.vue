@@ -9,7 +9,8 @@
                         class="task-list"
                         v-on:newTask="showNewTask"
                         v-on:editTask="showEditTask"
-                        v-on:editTaskList="showEditTaskList"></task-list>
+                        v-on:editTaskList="showEditTaskList"
+                        v-on:deleteTaskList="showDeleteTaskList"></task-list>
                 </template>
                 <div class="task-list">
                     <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
@@ -45,6 +46,8 @@
         <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit"></edit-task>
         <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList"></new-task-list>
         <edit-task-list v-if="isEditTaskListVisible" @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list>
+
+        <delete-task-list-confirm v-if="isDeleteTaskListVisible" @close="closeDeleteTaskList" :taskList="taskListToDelete"></delete-task-list-confirm>
         
     </div>
 </template>
@@ -57,18 +60,21 @@ import TaskList from '../components/TaskList.vue';
 import EditTask from '../components/EditTask.vue';
 import NewTaskList from '../components/NewTaskList.vue';
 import EditTaskList from '../components/EditTaskList.vue';
+import DeleteTaskListConfirm from '../components/DeleteTaskListConfirm.vue';
 export default {
-    components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList},
+    components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm},
     data(){
         return {
             isNewTaskListVisible: false,
             isNewTaskVisible: false,
             isEditTaskVisible: false,
             isEditTaskListVisible: false,
+            isDeleteTaskListVisible: false,
             superTask: null,
             taskList: null,
             taskToEdit: null,
             taskListToEdit: null,
+            taskListToDelete: null,
         }
     },
     mounted(){
@@ -110,7 +116,16 @@ export default {
         closeEditTaskList() {
             this.taskListToEdit = null;
             this.isEditTaskListVisible = false;
-        }
+        },
+        showDeleteTaskList(taskList) {
+            this.$store.dispatch('clearInformationBlock');
+            this.taskListToDelete = taskList;
+            this.isDeleteTaskListVisible = true;
+        },
+        closeDeleteTaskList() {
+            this.taskListToDelete = null;
+            this.isDeleteTaskListVisible = false;
+        },
     },
     computed: {
         ...mapGetters({

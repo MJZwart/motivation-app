@@ -44,7 +44,7 @@ axios.interceptors.response.use(
                 return Promise.reject(error, false);
             // user tried to access unauthorized resource
             case 403:
-                store.dispatch('logout', false);
+                //store.dispatch('logout', false);
 
                 return Promise.reject(error);
             default:
