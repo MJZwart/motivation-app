@@ -18,16 +18,7 @@
             </div>
 
             <div class="right-align">
-                <div class="character-tab">
-                    <div class="character">
-                        <span class="frame-title">Character</span>
-                        <div class="side-border bottom-border">
-                            <span>Dummy text</span>
-                            <p>Dummy text</p>
-                            <p>Dummy text</p>
-                        </div>
-                    </div>
-                </div>
+                <character-summary class="character-tab" :character="character"></character-summary>
 
                 <div class="friends-list">
                     <div class="friends">
@@ -61,8 +52,9 @@ import EditTask from '../components/EditTask.vue';
 import NewTaskList from '../components/NewTaskList.vue';
 import EditTaskList from '../components/EditTaskList.vue';
 import DeleteTaskListConfirm from '../components/DeleteTaskListConfirm.vue';
+import CharacterSummary from '../components/CharacterSummary.vue';
 export default {
-    components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm},
+    components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm, CharacterSummary},
     data(){
         return {
             isNewTaskListVisible: false,
@@ -79,6 +71,7 @@ export default {
     },
     mounted(){
         this.$store.dispatch('getTaskLists');
+        this.$store.dispatch('getCharacter');
     },
     methods: {
         showNewTask(superTask, taskList) {
@@ -130,6 +123,7 @@ export default {
     computed: {
         ...mapGetters({
             taskLists: 'getTaskLists',
+            character: 'getCharacter',
         }),
     },
     
