@@ -21,7 +21,7 @@ class TaskListController extends Controller
 
         TaskList::create($validated);
 
-        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         return new JsonResponse(['message' => ['message' => ['Task list successfully created.']], 'data' => $taskLists], Response::HTTP_OK);
     }
 
@@ -31,7 +31,7 @@ class TaskListController extends Controller
     }
 
     public function showTaskLists(){
-        return TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+        return TaskListResource::collection(Auth::user()->taskLists);
     }
 
     public function update(TaskList $tasklist, UpdateTaskListRequest $request): JsonResponse
@@ -39,7 +39,7 @@ class TaskListController extends Controller
         $validated = $request->validated();
         $tasklist->update($validated);
 
-        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         return new JsonResponse(['message' => ['message' => ["Task list successfully updated."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
@@ -49,7 +49,7 @@ class TaskListController extends Controller
             $tasklist->tasks()->delete();
             $tasklist->delete();
 
-            $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
+            $taskLists = TaskListResource::collection(Auth::user()->taskLists);
             return new JsonResponse(['message' => ['message' => ["Task list successfully deleted."]], 'data' => $taskLists], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to delete this task list"]]], Response::HTTP_FORBIDDEN);

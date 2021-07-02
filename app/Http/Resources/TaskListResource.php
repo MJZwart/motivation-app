@@ -21,11 +21,6 @@ class TaskListResource extends JsonResource
             'name' => $this->name,
             'color' => $this->color,
             'tasks' => TaskResource::collection($this->activeTasks()),
-                // $this->tasks->filter(function ($value, $key) {
-                // return $value->super_task_id == null 
-                //     && $value->completed == false
-                //     && Carbon::parse($value->repeatable_active) < Carbon::now();
-            //})),
         ];
     }
 }
