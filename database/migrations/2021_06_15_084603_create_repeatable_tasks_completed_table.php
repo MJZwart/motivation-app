@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTasksCompletedTable extends Migration
+class CreateRepeatableTasksCompletedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTasksCompletedTable extends Migration
      */
     public function up()
     {
-        Schema::create('tasks_completed', function (Blueprint $table) {
+        Schema::create('repeatable_tasks_completed', function (Blueprint $table) {
             $table->id();
             $table->timestamp('completed')->useCurrent();
         });
@@ -26,6 +26,6 @@ class CreateTasksCompletedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks_completed');
+        Schema::dropIfExists('repeatable_tasks_completed');
     }
 }
