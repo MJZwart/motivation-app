@@ -19,10 +19,6 @@ class TaskController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
-        if($validated['repeatable'] != 'NONE'){
-            $validated['repeatable_active'] = Carbon::now('Europe/Amsterdam');
-        }
-
         Task::create($validated);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
@@ -73,11 +69,10 @@ class TaskController extends Controller
                 $this->completeRepeatable($task);
                 $task->complete();
             } else {
-                $task->completed = Carbon::now('Europe/Amsterdam');
+                $task->completed = Carbon::now();
                 $task->update();
             }
             
-            //$taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
             return new JsonResponse(['message' => ['message' => ["Task completed."]], 'data' => $taskLists], Response::HTTP_OK);
         } else {

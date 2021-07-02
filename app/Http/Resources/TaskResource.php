@@ -21,7 +21,7 @@ class TaskResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'super_task' => $this->super_task_id,
-            'tasks' => TaskResource::collection($this->subTasks),
+            'tasks' => TaskResource::collection($this->activeSubTasks()),
             'task_list_id' => $this->task_list_id,
             'repeatable' => $this->repeatable,
         ];

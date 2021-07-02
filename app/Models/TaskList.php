@@ -25,7 +25,7 @@ class TaskList extends Model
         return $this->tasks->filter(function ($value, $key) {
                 return $value->super_task_id == null 
                     && $value->completed == null
-                    && $value->repeatable_active < Carbon::now('Europe/Amsterdam')->toDateTimeString()
+                    && $value->repeatable_active < Carbon::now()->toDateTimeString()
                     ;});
     }
 

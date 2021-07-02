@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class Task extends Model
 {
@@ -34,6 +35,13 @@ class Task extends Model
     //TODO Untested: First key should be the foreign key, second one the local. Test if this is correct with seeder data.
     public function subTasks(){
         return $this->hasMany('App\Models\Task', 'super_task_id', 'id');
+    }
+
+    public function activeSubTasks(){
+        return $this->subTasks->filter(function ($value, $key) {
+            return $value->completed == null
+                && $value->repeatable_active < Carbon::now()->toDateTimeString()
+                ;});
     }
 
     public function complete(){
