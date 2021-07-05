@@ -15,9 +15,19 @@ class RewardHandler {
     public const CHARISMA = "charisma_exp";
     public const EXPERIENCE = "experience";
 
+    //Input is the type and difficulty of the task. After determining the balance, it calculates the experience points earned per stat by difficulty.
     public static function calculateReward($type, $difficulty){
-        $balance = [3, 3, 3, 3, 3, 20]; //Strength, agility, endurance, intelligence, charisma. 18 points total.
+        $balance = RewardHandler::calculateBalance($type);
         $experiencePoints = [];
+        for($i = 0 ; $i < sizeof($balance) ; $i++){
+            $experiencePoints[$i]= ($balance[$i] * $difficulty) * rand(10,50);
+        }
+        return RewardHandler::parseTypeRewards($experiencePoints);
+    }
+
+    //First determines the balance of the reward based on the type.
+    public static function calculateBalance($type){
+        $balance = [3, 3, 3, 3, 3, 20]; //Strength, agility, endurance, intelligence, charisma. 18 points total.
         switch($type){
             case RewardHandler::TYPEGENERIC:
                 break;
@@ -31,12 +41,10 @@ class RewardHandler {
                 $balance = [2, 3, 2, 3, 8, 20];
                 break;
         }
-        for($i = 0 ; $i < sizeof($balance) ; $i++){
-            $experiencePoints[$i]= ($balance[$i] * $type) * rand(10,50);
-        }
-        return RewardHandler::parseTypeRewards($experiencePoints);
+        return $balance;
     }
 
+    //Parses the earned experience points into an associative array that can be handled by the controller.
     private static function parseTypeRewards($experiencePoints){
         return [RewardHandler::STRENGTH => $experiencePoints[0], 
             RewardHandler::AGILITY => $experiencePoints[1],

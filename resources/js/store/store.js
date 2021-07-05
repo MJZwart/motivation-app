@@ -178,6 +178,7 @@ export default new Vuex.Store({
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success');
                 commit('setTaskLists', response.data.data);
+                commit('setCharacter', response.data.character);
             });
         },
 

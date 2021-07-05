@@ -78,7 +78,7 @@ class TaskController extends Controller
             $character->applyReward($task);
             
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => ['message' => ["Task completed."]], 'data' => $taskLists], Response::HTTP_OK);
+            return new JsonResponse(['message' => ['message' => ["Task completed."]], 'data' => $taskLists, 'character' => $character], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to complete this task"]]], Response::HTTP_FORBIDDEN);
         }

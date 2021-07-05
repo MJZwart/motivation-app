@@ -42,10 +42,13 @@ export default {
     },
     methods: {
         experienceToLevel(level){
-            if(this.experienceTable[0]){
+            //if(this.experienceTable[0]){
                 var index = this.experienceTable.findIndex(item => item.level == level);
-                return this.experienceTable[index].experience_points;
-            }
+                if(index >= 0){
+                    return this.experienceTable[index].experience_points;
+                }
+                
+            //}
 
         },
     },
