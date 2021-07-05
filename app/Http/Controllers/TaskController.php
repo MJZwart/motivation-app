@@ -75,10 +75,10 @@ class TaskController extends Controller
             }
 
             $character = Character::where('user_id', Auth::user()->id)->get()->first();
-            $character->applyReward($task);
+            $reward = $character->applyReward($task);
             
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => ['message' => ["Task completed."]], 'data' => $taskLists, 'character' => $character], Response::HTTP_OK);
+            return new JsonResponse(['message' => ['message' => ["Task completed. You earned ".$reward['experience']." experience points."]], 'data' => $taskLists, 'character' => $character], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to complete this task"]]], Response::HTTP_FORBIDDEN);
         }

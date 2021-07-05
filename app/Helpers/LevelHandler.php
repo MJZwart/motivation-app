@@ -12,59 +12,26 @@ class LevelHandler {
     public const CHARISMA = "charisma_exp";
     public const EXPERIENCE = "experience";
 
+    public const STAT_EXP_ARRAY = [RewardHandler::STRENGTH_EXP, RewardHandler::AGILITY_EXP, RewardHandler::ENDURANCE_EXP, RewardHandler::INTELLIGENCE_EXP, RewardHandler::CHARISMA_EXP, RewardHandler::EXPERIENCE];
+    public const STAT_ARRAY = [RewardHandler::STRENGTH, RewardHandler::AGILITY, RewardHandler::ENDURANCE, RewardHandler::INTELLIGENCE, RewardHandler::CHARISMA, RewardHandler::LEVEL];
+
     public static function addExperience($character, $parsedRewards){
-        $character->strength_exp += $parsedRewards[RewardHandler::STRENGTH];
-        $character->agility_exp += $parsedRewards[RewardHandler::AGILITY];
-        $character->endurance_exp += $parsedRewards[RewardHandler::ENDURANCE];
-        $character->intelligence_exp += $parsedRewards[RewardHandler::INTELLIGENCE];
-        $character->charisma_exp += $parsedRewards[RewardHandler::CHARISMA];
-        $character->experience += $parsedRewards[RewardHandler::EXPERIENCE];
-        LevelHandler::checkLevelUp($character);
+        forEach(LevelHandler::STAT_EXP_ARRAY as $value){
+            $character[$value] += $parsedRewards[$value];
+        }
+        return LevelHandler::checkLevelUp($character);
     }
 
     public static function checkLevelUp($character){
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $experienceTable =  DB::table('experience_points')->get();
-        $experienceNeeded = $experienceTable->firstWhere('level', $character->level)->experience_points;
-        LevelHandler::checkLevel($character, $experienceTable);
-        $experienceNeeded = $experienceTable->firstWhere('level', $character->strength)->experience_points;
-        if($character->strength_exp > $experienceNeeded){
-            $character->strength++;
-            $character->strength_exp -= $experienceNeeded;
+        for($i = 0 ; $i < count(LevelHandler::STAT_ARRAY) ; $i++){
+            $expNeeded = $experienceTable->firstWhere('level', $character[LevelHandler::STAT_ARRAY[$i]])->experience_points;
+            while($character[LevelHandler::STAT_EXP_ARRAY[$i]] > $expNeeded){
+                $character[LevelHandler::STAT_ARRAY[$i]]++;
+                $character[LevelHandler::STAT_EXP_ARRAY[$i]] -= $expNeeded;
+                $expNeeded = $experienceTable->firstWhere('level', $character[LevelHandler::STAT_ARRAY[$i]])->experience_points;
+            }
         }
-        $experienceNeeded = $experienceTable->firstWhere('level', $character->agility)->experience_points;
-        if($character->agility_exp > $experienceNeeded){
-            $character->agility++;
-            $character->agility_exp -= $experienceNeeded;
-        }
-        $experienceNeeded = $experienceTable->firstWhere('level', $character->endurance)->experience_points;
-        if($character->endurance_exp > $experienceNeeded){
-            $character->endurance++;
-            $character->endurance_exp -= $experienceNeeded;
-        }
-        $experienceNeeded = $experienceTable->firstWhere('level', $character->intelligence)->experience_points;
-        if($character->intelligence_exp > $experienceNeeded){
-            $character->intelligence++;
-            $character->intelligence_exp -= $experienceNeeded;
-        }
-        $experienceNeeded = $experienceTable->firstWhere('level', $character->charisma)->experience_points;
-        if($character->charisma_exp > $experienceNeeded){
-            $character->charisma++;
-            $character->charisma_exp -= $experienceNeeded;
-        }
-        $character->update();
+        return $character;
     }
-
-    //Check level more than just once, in case of massive exp increase.
-    private static function checkLevel($character, $experienceTable){
-        if($character->experience > $experienceNeeded){
-            $output->writeln("<info>Experience needed: ".$experienceNeeded." . Experience having: ".$character->experience.".</info>");
-            $character->level++;
-            $character->experience -= $experienceNeeded;
-            $output->writeln("<info>New level: ".$character->level." . Experience having: ".$character->experience.".</info>");
-            $character->update();
-        }
-        
-    }
-
 }

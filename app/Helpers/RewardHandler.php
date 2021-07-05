@@ -8,12 +8,19 @@ class RewardHandler {
     public const TYPEMENTAL = 3;
     public const TYPESOCIAL = 4;
 
-    public const STRENGTH = "strength_exp";
-    public const AGILITY = "agility_exp";
-    public const ENDURANCE = "endurance_exp";
-    public const INTELLIGENCE = "intelligence_exp";
-    public const CHARISMA = "charisma_exp";
+    public const STRENGTH_EXP = "strength_exp";
+    public const AGILITY_EXP = "agility_exp";
+    public const ENDURANCE_EXP = "endurance_exp";
+    public const INTELLIGENCE_EXP = "intelligence_exp";
+    public const CHARISMA_EXP = "charisma_exp";
     public const EXPERIENCE = "experience";
+
+    public const STRENGTH = "strength";
+    public const AGILITY = "agility";
+    public const ENDURANCE = "endurance";
+    public const INTELLIGENCE = "intelligence";
+    public const CHARISMA = "charisma";
+    public const LEVEL = "level";
 
     //Input is the type and difficulty of the task. After determining the balance, it calculates the experience points earned per stat by difficulty.
     public static function calculateReward($type, $difficulty){
@@ -46,11 +53,11 @@ class RewardHandler {
 
     //Parses the earned experience points into an associative array that can be handled by the controller.
     private static function parseTypeRewards($experiencePoints){
-        return [RewardHandler::STRENGTH => $experiencePoints[0], 
-            RewardHandler::AGILITY => $experiencePoints[1],
-            RewardHandler::ENDURANCE => $experiencePoints[2],
-            RewardHandler::INTELLIGENCE => $experiencePoints[3],
-            RewardHandler::CHARISMA => $experiencePoints[4],
+        return [RewardHandler::STRENGTH_EXP => $experiencePoints[0], 
+            RewardHandler::AGILITY_EXP => $experiencePoints[1],
+            RewardHandler::ENDURANCE_EXP => $experiencePoints[2],
+            RewardHandler::INTELLIGENCE_EXP => $experiencePoints[3],
+            RewardHandler::CHARISMA_EXP => $experiencePoints[4],
             RewardHandler::EXPERIENCE => $experiencePoints[5]];
     }
 

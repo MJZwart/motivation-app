@@ -20,6 +20,12 @@ class Character extends Model
         'intelligence_exp',
         'charisma_exp',
         'experience',
+        'strength',
+        'agility',
+        'endurance',
+        'intelligence',
+        'charisma',
+        'level',
     ];
 
     public function user(){
@@ -30,8 +36,9 @@ class Character extends Model
         $difficultyModifier = $task->difficulty;
         $typeModifier = $task->type;
         $parsedReward = RewardHandler::calculateReward($typeModifier, $difficultyModifier);
-        $updatedCharacter = LevelHandler::addExperience($this, $parsedReward);
-        //This currently doesn't add the experience, rather overrides it. Change it.
+        $updatedCharacter = LevelHandler::addExperience($this->toArray(), $parsedReward);
+        $this->update($updatedCharacter);
+        return $parsedReward;
     }
 
     public function checkLevelUp($skill){
