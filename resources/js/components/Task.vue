@@ -54,7 +54,7 @@ export default {
             this.$emit('editTask', task);
         },
         deleteTask(task){
-            if(confirm('Are you sure you wish to delete the task \'' + task.name + '\' without completing it? You will not receive any rewards for it.')){
+            if(confirm('Are you sure you wish to delete the task \'' + task.name + '\' without completing it? Any subtasks will automatically be deleted. You will not receive any rewards for it.')){
                 this.$store.dispatch('deleteTask', task);
             }
         },
