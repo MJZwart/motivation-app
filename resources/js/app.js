@@ -12,9 +12,10 @@ import store from "./store/store";
 import router from "./router/router";
 
 //Import BootstrapVue
-import { BootstrapVueIcons } from 'bootstrap-vue';
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css';
 Vue.use(BootstrapVueIcons);
+Vue.use(BootstrapVue);
 
 new Vue({
     el: "#app",
