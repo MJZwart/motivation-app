@@ -33,19 +33,9 @@ class Character extends Model
     }
 
     public function applyReward(Task $task){
-        $difficultyModifier = $task->difficulty;
-        $typeModifier = $task->type;
-        $parsedReward = RewardHandler::calculateReward($typeModifier, $difficultyModifier);
-        $updatedCharacter = LevelHandler::addExperience($this->toArray(), $parsedReward);
-        $this->update($updatedCharacter);
-        return $parsedReward;
-    }
-
-    public function checkLevelUp($skill){
-        //TODO
-    }
-
-    private function levelUp($skill){
-        //TODO
+        $parsedReward = RewardHandler::calculateReward($task->type, $task->difficulty);
+        $returnValue = LevelHandler::addExperience($this->toArray(), $parsedReward);
+        $this->update($returnValue->character);
+        return $returnValue;
     }
 }
