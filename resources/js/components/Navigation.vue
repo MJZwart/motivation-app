@@ -8,13 +8,11 @@
                 <router-link to="/character">Character</router-link>
             </li>
             <div class="flex-end">
-                
-                    <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="m-2">
-                        <b-dropdown-item to="/profile">Profile</b-dropdown-item>
-                        <b-dropdown-item to="/settings">Settings</b-dropdown-item>
-                        <b-dropdown-item @click="logout">Logout</b-dropdown-item>
-                    </b-dropdown>
-                
+                <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="m-2">
+                    <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
+                    <b-dropdown-item to="/settings">Settings</b-dropdown-item>
+                    <b-dropdown-item @click="logout">Logout</b-dropdown-item>
+                </b-dropdown>
                 <li v-if="!authenticated">
                     <router-link to="/login">Login</router-link>
                 </li>
