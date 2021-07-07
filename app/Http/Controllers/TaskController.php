@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\TaskList;
 use App\Models\Character;
 use App\Http\Resources\TaskListResource;
+use App\Http\Resources\CharacterResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
@@ -78,7 +79,7 @@ class TaskController extends Controller
             $returnValue = $character->applyReward($task);
             
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => $returnValue->character], Response::HTTP_OK);
+            return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => new CharacterResource($character->fresh())], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to complete this task"]]], Response::HTTP_FORBIDDEN);
         }
