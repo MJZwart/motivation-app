@@ -3,8 +3,12 @@
         <div class="friends">
             <span class="frame-title">Friends</span>
             <div class="side-border bottom-border">
-                <ul>
-                    <li v-for="(value, index) in user.friends" :key="index">{{value.friend}}</li>
+                <ul class="friends-list">
+                    <li v-for="(value, index) in user.friends" :key="index">
+                        <b-icon-person-x-fill class="icon-small"></b-icon-person-x-fill> 
+                        <b-icon-envelope class="icon-small"></b-icon-envelope> 
+                        {{value.friend}}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -29,5 +33,10 @@ export default {
 
 
 <style>
-
+.friends-list{
+    margin-top:0;
+    list-style: none;
+    padding-inline-start:0;
+    font-size:14px;
+}
 </style>

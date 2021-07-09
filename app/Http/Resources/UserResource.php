@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'full_display_name' => $this->full_display_name,
             'rewards' => $this->rewards,
             'character' => new CharacterResource(Character::where('user_id', $this->id)->get()->first()),
-            'friends' => FriendResource::collection($this->friends),
+            'friends' => FriendResource::collection($this->friends->sortBy('full_display_name')),
         ];
     }
 }
