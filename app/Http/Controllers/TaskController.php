@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskList;
+use App\Models\Character;
 use App\Http\Resources\TaskListResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -72,9 +73,12 @@ class TaskController extends Controller
                 $task->completed = Carbon::now();
                 $task->update();
             }
+
+            $character = Character::where('user_id', Auth::user()->id)->get()->first();
+            $returnValue = $character->applyReward($task);
             
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => ['message' => ["Task completed."]], 'data' => $taskLists], Response::HTTP_OK);
+            return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => $returnValue->character], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to complete this task"]]], Response::HTTP_FORBIDDEN);
         }

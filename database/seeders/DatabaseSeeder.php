@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             NotificationSeeder::class,
             FriendSeeder::class,
             AchievementSeeder::class,
+            ExperiencePointsSeeder::class,
         ]);
     }
 }

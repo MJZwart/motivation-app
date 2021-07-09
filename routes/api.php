@@ -44,3 +44,5 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
     Route::get('/character', [CharacterController::class, 'show']);
 });
+
+Route::get('/experience', [CharacterController::class, 'getExperienceTable']);

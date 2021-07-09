@@ -6,6 +6,7 @@ use App\Models\Character;
 use Illuminate\Http\Request;
 use App\Http\Resources\CharacterResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CharacterController extends Controller
 {
@@ -25,5 +26,9 @@ class CharacterController extends Controller
 
     public function destroy(Character $character){
         //
+    }
+
+    public function getExperienceTable(){
+        return DB::table('experience_points')->get();
     }
 }
