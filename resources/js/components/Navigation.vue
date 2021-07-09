@@ -8,15 +8,16 @@
                 <router-link to="/character">Character</router-link>
             </li>
             <div class="flex-end">
-                <span v-if="authenticated">{{user.username}}</span>
+                <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="m-2">
+                    <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
+                    <b-dropdown-item to="/settings">Settings</b-dropdown-item>
+                    <b-dropdown-item @click="logout">Logout</b-dropdown-item>
+                </b-dropdown>
                 <li v-if="!authenticated">
                     <router-link to="/login">Login</router-link>
                 </li>
                 <li v-if="!authenticated">
                     <router-link to="/register">Register</router-link>
-                </li>
-                <li v-if="authenticated">
-                    <button @click="logout" type="submit" class="logout-button">Logout</button>
                 </li>
             </div>
         </ul>
@@ -68,5 +69,28 @@ export default {
     .flex-end{
         display: flex;
         margin-left: auto !important;
+    }
+
+    .dropdown-menu{
+        display:none;
+        float:left;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        min-width: 8rem;
+        padding: .5rem 0;
+        margin: .125rem 0 0;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: .25rem;
+    }
+    .dropdown-menu.show{
+        display:block;
+    }
+    .dropdown-menu li{
+        font-size:1rem;
     }
 </style>
