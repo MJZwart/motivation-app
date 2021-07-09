@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="character">
+        <div class="character" v-if="character">
             <span class="frame-title">{{character.name}}</span>
-            <div class="side-border bottom-border grid-2 small-text" v-if="experienceTable">
+            <div class="side-border bottom-border grid-2 small-text">
                 <p>Level: {{character.level}}</p>
                 <p>Experience: {{character.experience}}
                 <b-progress :value="character.experience" :max="experienceToLevel(character.level)"></b-progress>
@@ -34,25 +34,24 @@
 
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from 'vuex';
 export default {
-    props: {
-        character: Object,
-        experienceTable: Array,
+    mounted(){
+        this.$store.dispatch('getCharacter');
     },
     methods: {
         experienceToLevel(level){
-            //if(this.experienceTable[0]){
-                var index = this.experienceTable.findIndex(item => item.level == level);
-                if(index >= 0){
-                    return this.experienceTable[index].experience_points;
-                }
-                
-            //}
-
+            var index = this.character.experienceTable.findIndex(item => item.level == level);
+            if(index >= 0){
+                return this.character.experienceTable[index].experience_points;
+            }
         },
     },
-    
+    computed: {
+        ...mapGetters({
+            character: 'getCharacter',
+        }),
+    },
 }
 </script>
 

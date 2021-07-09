@@ -18,7 +18,7 @@
             </div>
 
             <div class="right-align">
-                <character-summary class="character-tab" :character="character" :experienceTable="experienceTable"></character-summary>
+                <character-summary class="character-tab"></character-summary>
 
                 <div class="friends-list">
                     <div class="friends">
@@ -72,7 +72,6 @@ export default {
     mounted(){
         this.$store.dispatch('getTaskLists');
         this.$store.dispatch('getCharacter');
-        this.$store.dispatch('getExperienceTable');
     },
     methods: {
         showNewTask(superTask, taskList) {
@@ -125,7 +124,6 @@ export default {
         ...mapGetters({
             taskLists: 'getTaskLists',
             character: 'getCharacter',
-            experienceTable: 'getExperienceTable',
         }),
     },
     

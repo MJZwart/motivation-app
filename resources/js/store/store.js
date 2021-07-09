@@ -19,8 +19,7 @@ export default new Vuex.Store({
         taskLists: {},
 
         //Character
-        experienceTable: null,
-        character: {},
+        character: null,
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -46,9 +45,6 @@ export default new Vuex.Store({
         },
 
         //Character
-        setExperienceTable: (state, experience) => {
-            state.experienceTable = experience;
-        },
         setCharacter: (state, character) => {
             state.character = character;
         },
@@ -75,9 +71,6 @@ export default new Vuex.Store({
         },
 
         //Character
-        getExperienceTable: (state) => {
-            return state.experienceTable;
-        },
         getCharacter: (state) => {
             return state.character;
         },
@@ -183,12 +176,6 @@ export default new Vuex.Store({
         },
 
         //Character
-        getExperienceTable: ({commit}) => {
-            axios.get('/experience').then(function(response){
-                commit('setExperienceTable', response.data);
-            });
-        },
-
         getCharacter: ({commit}) => {
             axios.get('/character').then(function(response){
                 commit('setCharacter', response.data.data);

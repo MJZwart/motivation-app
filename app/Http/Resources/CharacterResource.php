@@ -28,6 +28,7 @@ class CharacterResource extends JsonResource
             'endurance_exp' => $this->endurance_exp,
             'intelligence_exp' => $this->intelligence_exp,
             'charisma_exp' => $this->charisma_exp,
+            'experienceTable' => $this->experienceTable(),
         ];
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\RewardHandler;
 use App\Helpers\LevelHandler;
+use Illuminate\Support\Facades\DB;
 
 class Character extends Model
 {
@@ -37,5 +38,9 @@ class Character extends Model
         $returnValue = LevelHandler::addExperience($this->toArray(), $parsedReward);
         $this->update($returnValue->character);
         return $returnValue;
+    }
+
+    public function experienceTable(){
+        return DB::table('experience_points')->get();
     }
 }
