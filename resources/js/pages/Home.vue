@@ -20,16 +20,7 @@
             <div class="right-align">
                 <character-summary class="character-tab"></character-summary>
 
-                <div class="friends-list">
-                    <div class="friends">
-                        <span class="frame-title">Friends</span>
-                        <div class="side-border bottom-border">
-                            <span>Dummy text</span>
-                            <p>Dummy text</p>
-                            <p>Dummy text</p>
-                        </div>
-                    </div>
-                </div>
+                <friends-summary class="friends-list"></friends-summary>
             </div>
         </div>
 
@@ -53,8 +44,9 @@ import NewTaskList from '../components/NewTaskList.vue';
 import EditTaskList from '../components/EditTaskList.vue';
 import DeleteTaskListConfirm from '../components/DeleteTaskListConfirm.vue';
 import CharacterSummary from '../components/CharacterSummary.vue';
+import FriendsSummary from '../components/FriendsSummary.vue';
 export default {
-    components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm, CharacterSummary},
+    components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm, CharacterSummary, FriendsSummary},
     data(){
         return {
             isNewTaskListVisible: false,
