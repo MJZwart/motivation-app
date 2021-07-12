@@ -18,7 +18,7 @@
             </div>
 
             <div class="right-align">
-                <character-summary class="character-tab"></character-summary>
+                <character-summary class="character-tab" :character="character"></character-summary>
 
                 <friends-summary class="friends-list"></friends-summary>
             </div>

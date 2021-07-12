@@ -36,8 +36,8 @@
 <script>
 import {mapGetters} from 'vuex';
 export default {
-    mounted(){
-        this.$store.dispatch('getCharacter');
+    props: {
+        character: Object,
     },
     methods: {
         experienceToLevel(level){
@@ -46,11 +46,6 @@ export default {
                 return this.character.experienceTable[index].experience_points;
             }
         },
-    },
-    computed: {
-        ...mapGetters({
-            character: 'getCharacter',
-        }),
     },
 }
 </script>
