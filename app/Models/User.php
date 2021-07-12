@@ -45,6 +45,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['characters'];
+
     public function characters(){
         return $this->hasMany('App\Models\Character');
     }
