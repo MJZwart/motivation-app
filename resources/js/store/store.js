@@ -10,6 +10,7 @@ export default new Vuex.Store({
     state: {
         user: JSON.parse(localStorage.getItem('user')) || {},
         authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
+        userProfile: {},
 
         //Errors and response
         responseMessage: {},
@@ -29,6 +30,9 @@ export default new Vuex.Store({
         setUser(state, value) {
             state.user = value;
             localStorage.setItem('user', JSON.stringify(value));
+        },
+        setUserProfile(state, value) {
+            state.userProfile = value;
         },
 
         //Errors and response
@@ -55,6 +59,9 @@ export default new Vuex.Store({
         },
         getUser: (state) => {
             return state.user;
+        },
+        getUserProfile: (state) => {
+            return state.userProfile;
         },
 
         //Errors and response
@@ -105,6 +112,12 @@ export default new Vuex.Store({
                 router.push('/login').catch(() => { });
                 commit('setResponseMessage', response.data.message);
                 commit('setStatus', 'success')
+            });
+        },
+
+        getUserProfile: ({ commit }, userId) => {
+            axios.get('/profile/' + userId).then(function(response){
+                commit('setUserProfile', response.data.data);
             });
         },
 
