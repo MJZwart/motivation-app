@@ -22,7 +22,6 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'full_display_name' => $this->full_display_name,
             'rewards' => $this->rewards,
-            'character' => new CharacterResource($this->characters->first()),
             'friends' => FriendResource::collection($this->friends->sortBy('full_display_name')),
         ];
     }
