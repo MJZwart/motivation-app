@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         experienceToLevel(level){
-            var index = this.character.experienceTable.findIndex(item => item.level == level);
+            const index = this.character.experienceTable.findIndex(item => item.level == level);
             if(index >= 0){
                 return this.character.experienceTable[index].experience_points;
             }
