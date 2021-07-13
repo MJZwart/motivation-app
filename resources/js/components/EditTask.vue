@@ -97,7 +97,7 @@ export default {
     methods: {
         updateTask(){
             var self = this;
-            this.$store.dispatch('updateTask', this.editedTask).then(function(){
+            this.$store.dispatch('task/updateTask', this.editedTask).then(function(){
                 self.close();
             });
         },

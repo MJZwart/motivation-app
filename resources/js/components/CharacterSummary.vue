@@ -37,7 +37,7 @@
 import {mapGetters} from 'vuex';
 export default {
     mounted(){
-        this.$store.dispatch('getCharacter');
+        this.$store.dispatch('character/getCharacter');
     },
     methods: {
         experienceToLevel(level){
@@ -49,7 +49,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            character: 'getCharacter',
+            character: 'character/getCharacter',
         }),
     },
 }

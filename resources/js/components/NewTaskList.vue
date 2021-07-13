@@ -44,7 +44,7 @@ export default {
     methods: {
         submitTaskList(){
             var self = this;
-            this.$store.dispatch('storeTaskList', this.taskList).then(function(){
+            this.$store.dispatch('taskList/storeTaskList', this.taskList).then(function(){
                 self.close();
             });
 

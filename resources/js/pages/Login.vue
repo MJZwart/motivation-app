@@ -43,7 +43,7 @@ export default {
     },
     methods: {
         submitLogin(){
-            this.$store.dispatch('login', this.login);
+            this.$store.dispatch('user/login', this.login);
         }
     }
 }
