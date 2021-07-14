@@ -62,7 +62,7 @@ class User extends Authenticatable
     }
 
     public function achievements(){
-        return $this->belongsToMany('App\Models\Achievement', 'achievements_earned');
+        return $this->belongsToMany('App\Models\Achievement', 'achievements_earned')->withPivot('earned');
     }
 
     public function friends(){
@@ -76,9 +76,12 @@ class User extends Authenticatable
     }
 
     public function getRepeatableTaskMostCompleted(){
-        //return DB::table('repeatable_tasks_completed')->where('user_id', $this->id)->groupBy('task_id')->get();
-        //return DB::table('repeatable_tasks_completed')->where('user_id', $this->id)->get();
-        $repeatable = DB::table('repeatable_tasks_completed')->where('user_id', $this->id)->select('task_id', DB::raw('count(*) as total'))->groupBy('task_id')->orderByDesc('total')->first();
+        $repeatable = DB::table('repeatable_tasks_completed')
+            ->where('user_id', $this->id)
+            ->select('task_id', DB::raw('count(*) as total'))
+            ->groupBy('task_id')
+            ->orderByDesc('total')
+            ->first();
         $repeatable->task_name = Task::find($repeatable->task_id)->name;
         return $repeatable;
     }

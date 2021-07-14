@@ -3,15 +3,15 @@
         <div>
             <character-summary :character="character"></character-summary>
         </div>
-        <div>
-            <achievements-summary :achievements="achievements"></achievements-summary>
-        </div>
         <div v-if="userStats">
             <span class="frame-title">Stats</span>
             <div class="side-border bottom-border">
                 <span>Tasks completed: {{userStats.tasks_completed}}</span>
                 <p>Most completed repeatable: {{userStats.repeatable_most_completed.task_name}}. Completed {{userStats.repeatable_most_completed.total}} times.</p>
             </div>
+        </div>
+        <div>
+            <achievements-summary :achievements="achievements"></achievements-summary>
         </div>
     </div>
 </template>
