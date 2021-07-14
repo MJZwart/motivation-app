@@ -5,7 +5,7 @@
                 <router-link to="/" exact>Home</router-link>
             </li>
             <li>
-                <router-link to="/character">Character</router-link>
+                <router-link to="/overview">Overview</router-link>
             </li>
             <div class="flex-end">
                 <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="m-2">
