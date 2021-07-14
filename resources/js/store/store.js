@@ -1,7 +1,5 @@
-import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
-import router from '../router/router.js';
 
 import taskListStore from './modules/taskListStore.js';
 import taskStore from './modules/taskStore.js';

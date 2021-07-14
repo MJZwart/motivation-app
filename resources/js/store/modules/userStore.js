@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from '../../router/router.js';
 
 export default {
 
@@ -26,7 +27,7 @@ export default {
             return state.user;
         },
     },
-    action: {
+    actions: {
         
         //User authentication
         login: ({ commit }, user) => {
@@ -51,8 +52,8 @@ export default {
         register: ({ commit }, user) => {
             axios.post('/register', user).then(function (response) {
                 router.push('/login').catch(() => { });
-                commit('setResponseMessage', response.data.message);
-                commit('setStatus', 'success')
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
             });
         },
 

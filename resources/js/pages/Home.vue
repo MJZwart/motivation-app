@@ -62,8 +62,9 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('taskList/getTaskLists');
-        this.$store.dispatch('character/getCharacter');
+        this.$store.dispatch('taskList/getTaskLists', { root:true });
+        this.$store.dispatch('character/getCharacter', { root:true });
+        
     },
     methods: {
         showNewTask(superTask, taskList) {
