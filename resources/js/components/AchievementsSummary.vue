@@ -2,7 +2,7 @@
     <div>
         <span class="frame-title">Achievements</span>
         <div class="side-border bottom-border">
-            <ul class="friends-list">
+            <ul class="summary-list">
                 <li v-for="(value, index) in achievements" :key="index">
                     {{value.name}}
                 </li>

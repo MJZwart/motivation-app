@@ -2,11 +2,11 @@
     <div>
         <div class="profile-grid" v-if="userProfile">
             <div class="left-column">
-                <character-summary class="character-tab" :character="userProfile.character"></character-summary>
-                <div class="friends">
+                <character-summary class="summary-tab" :character="userProfile.character"></character-summary>
+                <div class="summary-tab">
                     <span class="frame-title">Friends <b-icon-person-plus-fill class="icon-small"></b-icon-person-plus-fill> </span>
                     <div class="side-border bottom-border">
-                        <ul class="friends-list">
+                        <ul class="summary-list">
                             <li v-for="(value, index) in userProfile.friends" :key="index">
                                 {{value.friend}}
                             </li>
@@ -31,11 +31,11 @@ import CharacterSummary from '../components/CharacterSummary.vue';
 export default {
     components: { CharacterSummary, AchievementsSummary },
     mounted() {
-        this.$store.dispatch('getUserProfile', this.$route.params.id);
+        this.$store.dispatch('user/getUserProfile', this.$route.params.id);
     },
     computed: {
         ...mapGetters({
-            userProfile: 'getUserProfile',
+            userProfile: 'user/getUserProfile',
         }),
     },
 }
@@ -49,9 +49,15 @@ export default {
 }
 .left-column{
     grid-column-start: 1;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
 }
 .right-column{
     grid-column-start: 2;
     grid-column-end: 4;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
 }
 </style>

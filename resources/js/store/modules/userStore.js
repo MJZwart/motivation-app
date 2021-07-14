@@ -8,6 +8,7 @@ export default {
     state: {
         user: JSON.parse(localStorage.getItem('user')) || {},
         authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
+        userProfile: {},
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -18,6 +19,9 @@ export default {
             state.user = value;
             localStorage.setItem('user', JSON.stringify(value));
         },
+        setUserProfile(state, value) {
+            state.userProfile = value;
+        },
     },
     getters: {
         authenticated(state) {
@@ -26,9 +30,11 @@ export default {
         getUser: (state) => {
             return state.user;
         },
+        getUserProfile: (state) => {
+            return state.userProfile;
+        },
     },
     actions: {
-        
         //User authentication
         login: ({ commit }, user) => {
             axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
@@ -49,11 +55,19 @@ export default {
             });
         },
 
+        //New user
         register: ({ commit }, user) => {
             axios.post('/register', user).then(function (response) {
                 router.push('/login').catch(() => { });
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
+            });
+        },
+
+        //Public user profile
+        getUserProfile: ({ commit }, userId) => {
+            axios.get('/profile/' + userId).then(function(response){
+                commit('setUserProfile', response.data.data);
             });
         },
 
