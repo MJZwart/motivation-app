@@ -49,7 +49,7 @@ export default {
     methods: {
         updateTaskList(){
             var self = this;
-            this.$store.dispatch('updateTaskList', this.editedTaskList).then(function(){
+            this.$store.dispatch('taskList/updateTaskList', this.editedTaskList).then(function(){
                 self.close();
             });
 

@@ -62,8 +62,9 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('getTaskLists');
-        this.$store.dispatch('getCharacter');
+        this.$store.dispatch('taskList/getTaskLists', { root:true });
+        this.$store.dispatch('character/getCharacter', { root:true });
+        
     },
     methods: {
         showNewTask(superTask, taskList) {
@@ -114,8 +115,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            taskLists: 'getTaskLists',
-            character: 'getCharacter',
+            taskLists: 'taskList/getTaskLists',
+            character: 'character/getCharacter',
         }),
     },
     
