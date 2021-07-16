@@ -5,6 +5,7 @@ import taskListStore from './modules/taskListStore.js';
 import taskStore from './modules/taskStore.js';
 import userStore from './modules/userStore.js';
 import characterStore from './modules/characterStore.js';
+import notificationStore from './modules/notificationStore.js';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
         task: taskStore,
         user: userStore,
         character: characterStore,
+        notification: notificationStore,
     },
 
     state: {

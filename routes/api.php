@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\TaskListController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
         'store', 'update', 'destroy',
     ]);
     Route::get('/character', [CharacterController::class, 'show']);
+    Route::get('/notifications', [NotificationController::class, 'show']);
 });
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);

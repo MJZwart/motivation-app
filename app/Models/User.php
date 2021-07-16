@@ -66,4 +66,8 @@ class User extends Authenticatable
     public function friends(){
         return $this->belongsToMany('App\Models\User', 'friends', 'user_id', 'friend_id')->withTimestamps();
     }
+
+    public function notifications(){
+        return $this->hasMany('App\Models\Notification');
+    }
 }
