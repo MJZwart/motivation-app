@@ -2,7 +2,7 @@
     <div>
         <div class="character" v-if="character">
             <span class="frame-title">{{character.name}}                 
-                <b-icon-pencil-square 
+                <b-icon-pencil-square v-if="userCharacter"
                     class="icon-small flex-end"
                     @click="showEditCharacter()"></b-icon-pencil-square>
             </span>
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <edit-character-name v-if="isEditCharacterVisible" :character="characterToEdit"></edit-character-name>
+        <edit-character-name v-if="isEditCharacterVisible" :character="characterToEdit" @close="closeEditCharacter" ></edit-character-name>
     </div>
 </template>
 
@@ -42,6 +42,10 @@
 import {mapGetters} from 'vuex';
 import EditCharacterName from './EditCharacterName.vue';
 export default {
+    props: {
+        character: Object,
+        userCharacter: Boolean,
+    },
     components: {
         EditCharacterName,
     },
@@ -52,7 +56,6 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('character/getCharacter');
     },
     methods: {
         experienceToLevel(level){
@@ -70,11 +73,6 @@ export default {
             this.characterToEdit = null;
             this.isEditCharacterVisible = false;
         },
-    },
-    computed: {
-        ...mapGetters({
-            character: 'character/getCharacter',
-        }),
     },
 }
 </script>

@@ -10,7 +10,7 @@
                     </div>
                     <form @submit.prevent="updateCharacter">
                         <div class="form-group">
-                            <label for="name">Task list name</label>
+                            <label for="name">Character name</label>
                             <input 
                                 type="text" 
                                 id="name" 
@@ -47,7 +47,7 @@ export default {
         this.character ? this.editedCharacter = this.character : this.editedCharacter = {};
     },
     methods: {
-        updateTaskList(){
+        updateCharacter(){
             var self = this;
             this.$store.dispatch('character/updateCharacter', this.editedCharacter).then(function(){
                 self.close();
