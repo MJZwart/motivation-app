@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
     Route::get('/character', [CharacterController::class, 'show']);
     Route::get('/notifications', [NotificationController::class, 'show']);
+    Route::get('/notifications/unread', [NotificationController::class, 'hasUnreadNotifications']);
 });
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);

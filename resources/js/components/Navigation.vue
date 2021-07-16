@@ -38,11 +38,8 @@ export default {
         ...mapGetters({
             authenticated: 'user/authenticated',
             user: 'user/getUser',
+            hasNotifications: 'notification/getHasNotifications',
         }),
-        hasNotifications() {
-            return true;
-            //TODO
-        },
     },
 
     methods: {

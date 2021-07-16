@@ -30,5 +30,10 @@ export default {
                 commit('setNotifications', response.data.data);
             });
         },
+        hasUnreadNotifications: ({commit}) => {
+            axios.get('/notifications/unread').then(function(response){
+                commit('setHasNotifications', response.data);
+            });
+        },
     }
 }
