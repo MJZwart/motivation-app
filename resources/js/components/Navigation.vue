@@ -8,6 +8,12 @@
                 <router-link to="/character">Character</router-link>
             </li>
             <div class="flex-end">
+                <router-link to="/notifications">
+                    <b-iconstack class="icon-nav-stack">
+                        <b-icon-bell class="icon-nav" v-if="authenticated"></b-icon-bell>
+                        <b-icon-dot v-if="hasNotifications" font-scale="4" class="icon-dot-red"></b-icon-dot>
+                    </b-iconstack>
+                </router-link>
                 <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="m-2">
                     <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
                     <b-dropdown-item to="/settings">Settings</b-dropdown-item>
@@ -33,6 +39,10 @@ export default {
             authenticated: 'user/authenticated',
             user: 'user/getUser',
         }),
+        hasNotifications() {
+            return true;
+            //TODO
+        },
     },
 
     methods: {
@@ -69,7 +79,18 @@ export default {
         display: flex;
         margin-left: auto !important;
     }
-
+    .icon-nav{
+        font-size:35px;
+        margin:5px;
+        color:teal;
+    }
+    .icon-nav-stack{
+        margin-top:5px;
+        margin-right:25px;
+    }
+    .icon-dot-red{
+        color:darkred;
+    }
     .dropdown-menu{
         display:none;
         float:left;
