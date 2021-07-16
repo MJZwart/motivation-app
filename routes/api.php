@@ -8,6 +8,7 @@ use App\Http\Controllers\TaskListController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FriendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,8 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
     Route::get('/character', [CharacterController::class, 'show']);
     Route::get('/profile/{user}', [UserController::class, 'show']);
+
+    Route::post('/friend/request/{user}', [FriendController::class, 'sendFriendRequest']);
 });
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);

@@ -4,7 +4,12 @@
             <div class="left-column">
                 <character-summary class="summary-tab" :character="userProfile.character"></character-summary>
                 <div class="summary-tab">
-                    <span class="frame-title">Friends <b-icon-person-plus-fill class="icon-small"></b-icon-person-plus-fill> </span>
+                    <span class="frame-title">Friends 
+                        <b-icon-person-plus-fill 
+                            v-if="notLoggedUser" 
+                            class="icon-small" 
+                            @click="sendFriendRequest"></b-icon-person-plus-fill> 
+                    </span>
                     <div class="side-border bottom-border">
                         <ul class="summary-list">
                             <li v-for="(value, index) in userProfile.friends" :key="index">
@@ -36,7 +41,16 @@ export default {
     computed: {
         ...mapGetters({
             userProfile: 'user/getUserProfile',
+            user: 'user/getUser',
         }),
+        notLoggedUser(){
+            return this.$route.params.id != this.user.id;
+        },
+    },
+    methods: {
+        sendFriendRequest(){
+            this.$store.dispatch('friend/sendRequest', this.$route.params.id);
+        },
     },
 }
 </script>
