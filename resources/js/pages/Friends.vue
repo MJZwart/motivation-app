@@ -5,24 +5,30 @@
                 <span class="frame-title">Incoming friend requests</span>
                 <div class="side-border bottom-border">
                     <ul class="summary-list">
-                        <li v-for="request in requests.incoming" :key="request.id">{{request.friend}}</li>
+                        <li v-for="request in requests.incoming" :key="request.id">
+                            <b-icon-check-square class="icon-small" @click="acceptFriendRequest(request.id)"></b-icon-check-square>
+                            <b-icon-x-square class="icon-small icon-red" @click="denyFriendRequest(request.id)"></b-icon-x-square>
+                            {{request.friend}}
+                        </li>
                     </ul>
                 </div>
+                <br />
             </div>
-
-            <br />
 
             <div v-if="requests.outgoing[0]">
                 <span class="frame-title">Outgoing friend requests</span>
                 <div class="side-border bottom-border">
                     <ul class="summary-list">
-                        <li v-for="request in requests.outgoing" :key="request.id">{{request.friend}}</li>
+                        <li v-for="request in requests.outgoing" :key="request.id">
+                            <b-icon-x-square class="icon-small icon-red" @click="removeFriendRequest(request.id)"></b-icon-x-square>
+                            {{request.friend}}
+                        </li>
                     </ul>
                 </div>
             </div>
+            <br />
         </div>
 
-        <br />
 
         <friends-summary></friends-summary>
 
@@ -51,6 +57,17 @@ export default {
         ...mapGetters({
             requests: 'friend/getRequests',
         }),
+    },
+    methods: {
+        removeFriendRequest(requestId){
+
+        },
+        denyFriendRequest(requestId){
+
+        },
+        acceptFriendRequest(requestId){
+
+        },
     }
 
     //If anything changes in the friends, you need to update the User in the store, as well as localStorage.
@@ -59,5 +76,7 @@ export default {
 
 
 <style>
-
+.icon-red{
+    color: darkred;
+}
 </style>
