@@ -48,6 +48,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile/{user}', [UserController::class, 'show']);
 
     Route::post('/friend/request/{user}', [FriendController::class, 'sendFriendRequest']);
+
+    Route::get('/friend/requests/all', [FriendController::class, 'getAllRequests']);
 });
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);
