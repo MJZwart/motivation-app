@@ -7,6 +7,9 @@
             <li>
                 <router-link to="/character">Character</router-link>
             </li>
+            <li>
+                <router-link to="/friends">Friends</router-link>
+            </li>
             <div class="flex-end">
                 <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="m-2">
                     <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>

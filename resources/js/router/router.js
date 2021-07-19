@@ -43,6 +43,11 @@ let routes = [
         name: "profile",
         path: "/profile/:id",
         component: require('../pages/Profile.vue').default,
+    },
+    {
+        path: "/friends",
+        component: require('../pages/Friends.vue').default,
+        meta: { requiresAuth: true },
     }
 ];
 
