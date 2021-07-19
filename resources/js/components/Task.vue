@@ -55,16 +55,16 @@ export default {
         },
         deleteTask(task){
             if(confirm('Are you sure you wish to delete the task \'' + task.name + '\' without completing it? Any subtasks will automatically be deleted. You will not receive any rewards for it.')){
-                this.$store.dispatch('deleteTask', task);
+                this.$store.dispatch('task/deleteTask', task);
             }
         },
         completeTask(task){
             if(task.tasks.length > 0){
                 if(confirm('Completing this task also completes all sub tasks. Are you sure?')){
-                    this.$store.dispatch('completeTask', task);
+                    this.$store.dispatch('task/completeTask', task);
                 }
             } else {
-                this.$store.dispatch('completeTask', task);
+                this.$store.dispatch('task/completeTask', task);
             }
         },
     }

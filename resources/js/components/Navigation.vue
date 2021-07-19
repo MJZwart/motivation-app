@@ -26,19 +26,18 @@
 
 
 <script>
+import {mapGetters} from 'vuex';
 export default {
     computed: {
-        authenticated() {
-            return this.$store.getters.authenticated;
-        },
-        user() {
-            return this.$store.getters.getUser;
-        },
+        ...mapGetters({
+            authenticated: 'user/authenticated',
+            user: 'user/getUser',
+        }),
     },
 
     methods: {
         logout(){
-            this.$store.dispatch('logout');
+            this.$store.dispatch('user/logout');
         },
     },
 }

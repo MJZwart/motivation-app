@@ -37,7 +37,7 @@ axios.interceptors.response.use(
              */
             case 401:
                 if (router.currentRoute.name !== 'login') {
-                    store.dispatch('logout', false);
+                    store.dispatch('user/logout', false);
                 }
 
                 // break promise and return error
