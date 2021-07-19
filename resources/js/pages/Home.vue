@@ -18,9 +18,9 @@
             </div>
 
             <div class="right-align">
-                <character-summary class="character-tab"></character-summary>
+                <character-summary class="summary-tab" :character="character"></character-summary>
 
-                <friends-summary class="friends-list"></friends-summary>
+                <friends-summary class="summary-tab"></friends-summary>
             </div>
         </div>
 
@@ -153,7 +153,7 @@ export default {
         border-bottom-left-radius: 6px;
         border-bottom-right-radius: 6px;
     }
-    .character-tab, .friends-list{
+    .summary-tab, .summary-list{
         width:100%;
         height:fit-content;
     }

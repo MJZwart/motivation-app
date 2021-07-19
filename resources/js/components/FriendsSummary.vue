@@ -3,7 +3,7 @@
         <div class="friends">
             <span class="frame-title">Friends</span>
             <div class="side-border bottom-border">
-                <ul class="friends-list">
+                <ul class="summary-list">
                     <li v-for="(value, index) in user.friends" :key="index">
                         <b-icon-person-x-fill class="icon-small"></b-icon-person-x-fill> 
                         <b-icon-envelope class="icon-small"></b-icon-envelope> 
@@ -33,7 +33,7 @@ export default {
 
 
 <style>
-.friends-list{
+.summary-list{
     margin-top:0;
     list-style: none;
     padding-inline-start:0;

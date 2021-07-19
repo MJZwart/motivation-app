@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\TaskListController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
         'store', 'update', 'destroy',
     ]);
     Route::get('/character', [CharacterController::class, 'show']);
+    Route::get('/profile/{user}', [UserController::class, 'show']);
 });
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);
