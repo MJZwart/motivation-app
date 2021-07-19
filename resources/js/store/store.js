@@ -5,6 +5,7 @@ import taskListStore from './modules/taskListStore.js';
 import taskStore from './modules/taskStore.js';
 import userStore from './modules/userStore.js';
 import characterStore from './modules/characterStore.js';
+import achievementStore from './modules/achievementStore.js';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
         task: taskStore,
         user: userStore,
         character: characterStore,
+        achievement: achievementStore,
     },
 
     state: {
