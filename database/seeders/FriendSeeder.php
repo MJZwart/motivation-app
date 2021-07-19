@@ -21,12 +21,14 @@ class FriendSeeder extends Seeder
             Friend::factory()
                 ->create([
                     'user_id' => $userId,
-                    'friend_id' => $friendId
+                    'friend_id' => $friendId,
+                    'accepted' => true,
                 ]);
             Friend::factory()
                 ->create([
                     'user_id' => $friendId,
-                    'friend_id' => $userId
+                    'friend_id' => $userId,
+                    'accepted' => true,
                 ]);
         }
 
