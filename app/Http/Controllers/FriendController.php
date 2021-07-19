@@ -25,15 +25,10 @@ class FriendController extends Controller
     }
 
     public function sendFriendRequest(User $user):JsonResponse{
-        if(DB::table('friend_requests')->where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()){
+        if(Friend::where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()){
             return new JsonResponse(['errors' => ['error' => ['You\'ve already sent a friend request to this user']]], Response::HTTP_UNPROCESSABLE_ENTITY);
-        } elseif(Friend::where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()){
-            return new JsonResponse(['errors' => ['error' => ['You\'re already friends with this user.']]], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        DB::table('friend_requests')->insertOrIgnore([
-            'created_at' => Carbon::now(),
-            'user_id' => Auth::user()->id,
-            'friend_id' => $user->id]);
+        Friend::create(['user_id' => Auth::user()->id, 'friend_id' => $user->id]);
         Notification::create([
             'user_id' => $user->id,
             'title' => 'New friend request!',
@@ -50,8 +45,8 @@ class FriendController extends Controller
     }
 
     public function getAllRequests(){
-        $incomingRequests = IncomingFriendRequestResource::collection(DB::table('friend_requests')->where('friend_id', Auth::user()->id)->get());
-        $outgoingRequests = OutgoingFriendRequestResource::collection(DB::table('friend_requests')->where('user_id', Auth::user()->id)->get());
+        $incomingRequests = IncomingFriendRequestResource::collection(Friend::where('friend_id', Auth::user()->id)->where('accepted', false)->get());
+        $outgoingRequests = OutgoingFriendRequestResource::collection(Friend::where('user_id', Auth::user()->id)->where('accepted', false)->get());
         return new JsonResponse(['incoming' => $incomingRequests, 'outgoing' => $outgoingRequests], Response::HTTP_OK);
     }
 }
