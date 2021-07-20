@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Notification;
 use App\Http\Resources\IncomingFriendRequestResource;
 use App\Http\Resources\OutgoingFriendRequestResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,8 +37,17 @@ class FriendController extends Controller
         return new JsonResponse(['message' => ['message' => ['Friend request successfully sent.']]], Response::HTTP_OK);
     }
 
-    public function acceptFriendRequest(User $user){
-        // #52
+    public function acceptFriendRequest(Friend $friend){
+        $friend->accepted = true;
+        $friend->update();
+        Friend::create(['user_id' => $friend->friend_id, 'friend_id' => $friend->user_id, 'accepted' => true]);
+
+        $incomingRequests = IncomingFriendRequestResource::collection(Friend::where('friend_id', Auth::user()->id)->where('accepted', false)->get());
+        $outgoingRequests = OutgoingFriendRequestResource::collection(Friend::where('user_id', Auth::user()->id)->where('accepted', false)->get());
+        return new JsonResponse(['message' => ['message' => ['Friend request accepted. You are now friends,']], 
+            'user' => new UserResource(Auth::user()),
+            'requests' => ['incoming' => $incomingRequests, 'outgoing' => $outgoingRequests]], 
+            Response::HTTP_OK);
     }
 
     public function denyFriendRequest(User $user){

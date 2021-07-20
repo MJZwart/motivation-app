@@ -29,5 +29,13 @@ export default {
                 commit('setRequests', response.data);
             });
         },
+        acceptRequest: ({commit}, requestId) => {
+            axios.post('/friend/request/' + requestId + '/accept').then(function(response){
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+                commit('user/setUser', response.data.user, {root:true});
+                commit('setRequests', response.data.requests);
+            });
+        },
     }
 }

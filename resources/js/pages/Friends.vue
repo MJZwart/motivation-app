@@ -66,7 +66,7 @@ export default {
 
         },
         acceptFriendRequest(requestId){
-
+            this.$store.dispatch('friend/acceptRequest', requestId);
         },
     }
 
