@@ -23,7 +23,6 @@ export default {
     },
     methods: {
         removeFriend(friend){
-            console.log(friend);
             if(confirm("Areyou sure you wish to remove " + friend.friend + " as friend?")){
                 this.$store.dispatch('friend/removeFriend', friend.id);
             }
