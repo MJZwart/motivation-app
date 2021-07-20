@@ -37,5 +37,12 @@ export default {
                 commit('setRequests', response.data.requests);
             });
         },
+        denyRequest: ({commit}, requestId) => {
+            axios.post('/friend/request/' + requestId + '/deny').then(response => {
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+                commit('setRequests', response.data.requests);
+            });
+        },
     }
 }

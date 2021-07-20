@@ -63,7 +63,7 @@ export default {
 
         },
         denyFriendRequest(requestId){
-
+            this.$store.dispatch('friend/denyRequest', requestId);
         },
         acceptFriendRequest(requestId){
             this.$store.dispatch('friend/acceptRequest', requestId);

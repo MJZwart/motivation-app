@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/friend/requests/all', [FriendController::class, 'getAllRequests']);
     Route::post('/friend/request/{friend}/accept', [FriendController::class, 'acceptFriendRequest']);
+    Route::post('/friend/request/{friend}/deny', [FriendController::class, 'denyFriendRequest']);
 });
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);

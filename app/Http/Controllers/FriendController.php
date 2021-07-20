@@ -42,21 +42,29 @@ class FriendController extends Controller
         $friend->update();
         Friend::create(['user_id' => $friend->friend_id, 'friend_id' => $friend->user_id, 'accepted' => true]);
 
-        $incomingRequests = IncomingFriendRequestResource::collection(Friend::where('friend_id', Auth::user()->id)->where('accepted', false)->get());
-        $outgoingRequests = OutgoingFriendRequestResource::collection(Friend::where('user_id', Auth::user()->id)->where('accepted', false)->get());
-        return new JsonResponse(['message' => ['message' => ['Friend request accepted. You are now friends,']], 
+        $requests = $this->fetchRequests();
+        return new JsonResponse(['message' => ['message' => ['Friend request accepted. You are now friends.']], 
             'user' => new UserResource(Auth::user()),
-            'requests' => ['incoming' => $incomingRequests, 'outgoing' => $outgoingRequests]], 
+            'requests' => $requests], 
             Response::HTTP_OK);
     }
 
-    public function denyFriendRequest(User $user){
-        // #52
+    public function denyFriendRequest(Friend $friend){
+        $friend->delete();
+        $requests = $this->fetchRequests();
+        return new JsonResponse(['message' => ['message' => ['Friend request denied.']], 
+            'requests' => $requests], 
+            Response::HTTP_OK);
     }
 
     public function getAllRequests(){
+        $requests = $this->fetchRequests();
+        return new JsonResponse($requests, Response::HTTP_OK);
+    }
+
+    private function fetchRequests(){
         $incomingRequests = IncomingFriendRequestResource::collection(Friend::where('friend_id', Auth::user()->id)->where('accepted', false)->get());
         $outgoingRequests = OutgoingFriendRequestResource::collection(Friend::where('user_id', Auth::user()->id)->where('accepted', false)->get());
-        return new JsonResponse(['incoming' => $incomingRequests, 'outgoing' => $outgoingRequests], Response::HTTP_OK);
+        return ['incoming' => $incomingRequests, 'outgoing' => $outgoingRequests];
     }
 }
