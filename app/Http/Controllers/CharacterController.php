@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Character;
 use Illuminate\Http\Request;
 use App\Http\Resources\CharacterResource;
+use App\Http\Requests\UpdateCharacterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class CharacterController extends Controller
 {
@@ -20,8 +23,13 @@ class CharacterController extends Controller
         return new CharacterResource(Character::where('user_id', Auth::user()->id)->get()->first());
     }
 
-    public function update(Request $request, Character $character){
-        // #33
+    public function update(UpdateCharacterRequest $request, Character $character): JsonResponse{
+        $validated = $request->validated();
+        $character->update($validated);
+
+        $character = new CharacterResource($character);
+        
+        return new JsonResponse(['message' => ['message' => ["Character successfully updated."]], 'data' => $character], Response::HTTP_OK);
     }
 
     public function destroy(Character $character){

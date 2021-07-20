@@ -9,6 +9,7 @@ export default {
         user: JSON.parse(localStorage.getItem('user')) || {},
         authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
         userProfile: {},
+        userStats: null,
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -22,6 +23,9 @@ export default {
         setUserProfile(state, value) {
             state.userProfile = value;
         },
+        setUserStats(state, value) {
+            state.userStats = value;
+        },
     },
     getters: {
         authenticated(state) {
@@ -32,6 +36,9 @@ export default {
         },
         getUserProfile: (state) => {
             return state.userProfile;
+        },
+        getUserStats: (state) => {
+            return state.userStats;
         },
     },
     actions: {
@@ -68,6 +75,12 @@ export default {
         getUserProfile: ({ commit }, userId) => {
             axios.get('/profile/' + userId).then(response => {
                 commit('setUserProfile', response.data.data);
+            });
+        },
+
+        getUserStats: ({ commit }) => {
+            axios.get('/user/stats').then(function(response){
+                commit('setUserStats', response.data.data);
             });
         },
 
