@@ -5,7 +5,7 @@
             <div class="side-border bottom-border">
                 <ul class="summary-list">
                     <li v-for="(value, index) in user.friends" :key="index">
-                        <b-icon-person-x-fill class="icon-small" @click="removeFriend(value.id)"></b-icon-person-x-fill> 
+                        <b-icon-person-x-fill class="icon-small" @click="removeFriend(value)"></b-icon-person-x-fill> 
                         <!-- <b-icon-envelope class="icon-small"></b-icon-envelope>  -->
                         {{value.friend}}
                     </li>
@@ -22,8 +22,11 @@ export default {
     mounted(){
     },
     methods: {
-        removeFriend(id){
-            
+        removeFriend(friend){
+            console.log(friend);
+            if(confirm("Areyou sure you wish to remove " + friend.friend + " as friend?")){
+                this.$store.dispatch('friend/removeFriend', friend.id);
+            }
         }
     },
     computed: {
