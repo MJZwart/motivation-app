@@ -69,6 +69,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\User', 'friends', 'user_id', 'friend_id')->withTimestamps();
     }
 
+    public function notifications(){
+        return $this->hasMany('App\Models\Notification');
+    }
+
     public function getTotalTasksCompleted(){
         $regularTasks = Task::where('user_id', $this->id)->where('completed', '!=', null)->count();
         $repeatableTasks = DB::table('repeatable_tasks_completed')->where('user_id', $this->id)->count();
