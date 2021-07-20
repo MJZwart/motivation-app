@@ -20,8 +20,8 @@ let routes = [
         component: require('../pages/Register.vue').default,
     },
     {
-        path: "/character",
-        component: require('../pages/Character.vue').default,
+        path: "/overview",
+        component: require('../pages/Overview.vue').default,
         meta: { requiresAuth: true },
     },
     {

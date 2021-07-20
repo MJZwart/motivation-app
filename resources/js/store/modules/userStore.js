@@ -8,6 +8,8 @@ export default {
     state: {
         user: JSON.parse(localStorage.getItem('user')) || {},
         authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
+        userProfile: {},
+        userStats: null,
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -18,6 +20,12 @@ export default {
             state.user = value;
             localStorage.setItem('user', JSON.stringify(value));
         },
+        setUserProfile(state, value) {
+            state.userProfile = value;
+        },
+        setUserStats(state, value) {
+            state.userStats = value;
+        },
     },
     getters: {
         authenticated(state) {
@@ -26,9 +34,14 @@ export default {
         getUser: (state) => {
             return state.user;
         },
+        getUserProfile: (state) => {
+            return state.userProfile;
+        },
+        getUserStats: (state) => {
+            return state.userStats;
+        },
     },
     actions: {
-        
         //User authentication
         login: ({ commit }, user) => {
             axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
@@ -49,11 +62,25 @@ export default {
             });
         },
 
+        //New user
         register: ({ commit }, user) => {
             axios.post('/register', user).then(function (response) {
                 router.push('/login').catch(() => { });
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
+            });
+        },
+
+        //Public user profile
+        getUserProfile: ({ commit }, userId) => {
+            axios.get('/profile/' + userId).then(function(response){
+                commit('setUserProfile', response.data.data);
+            });
+        },
+
+        getUserStats: ({ commit }) => {
+            axios.get('/user/stats').then(function(response){
+                commit('setUserStats', response.data.data);
             });
         },
 

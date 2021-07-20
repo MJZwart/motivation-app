@@ -1,7 +1,11 @@
 <template>
     <div>
         <div class="character" v-if="character">
-            <span class="frame-title">{{character.name}}</span>
+            <span class="frame-title">{{character.name}}                 
+                <b-icon-pencil-square v-if="userCharacter"
+                    class="icon-small flex-end"
+                    @click="showEditCharacter()"></b-icon-pencil-square>
+            </span>
             <div class="side-border bottom-border grid-2 small-text">
                 <p>Level: {{character.level}}</p>
                 <p>Experience: {{character.experience}}
@@ -29,15 +33,29 @@
                 </div>
             </div>
         </div>
+        <edit-character-name v-if="isEditCharacterVisible" :character="characterToEdit" @close="closeEditCharacter" ></edit-character-name>
     </div>
 </template>
 
 
 <script>
 import {mapGetters} from 'vuex';
+import EditCharacterName from './EditCharacterName.vue';
 export default {
+    props: {
+        character: Object,
+        userCharacter: Boolean,
+    },
+    components: {
+        EditCharacterName,
+    },
+    data() {
+        return {
+            isEditCharacterVisible: false,
+            characterToEdit: null,
+        }
+    },
     mounted(){
-        this.$store.dispatch('character/getCharacter');
     },
     methods: {
         experienceToLevel(level){
@@ -46,11 +64,15 @@ export default {
                 return this.character.experienceTable[index].experience_points;
             }
         },
-    },
-    computed: {
-        ...mapGetters({
-            character: 'character/getCharacter',
-        }),
+        showEditCharacter() {
+            this.$store.dispatch('clearInformationBlock');
+            this.characterToEdit = this.character;
+            this.isEditCharacterVisible = true;
+        },
+        closeEditCharacter(){
+            this.characterToEdit = null;
+            this.isEditCharacterVisible = false;
+        },
     },
 }
 </script>

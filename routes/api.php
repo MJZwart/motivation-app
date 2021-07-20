@@ -6,8 +6,10 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\TaskListController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +48,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/character', [CharacterController::class, 'show']);
     Route::get('/notifications', [NotificationController::class, 'show']);
     Route::get('/notifications/unread', [NotificationController::class, 'hasUnreadNotifications']);
+    Route::get('/profile/{user}', [UserController::class, 'show']);
+    Route::get('/achievements/{user}', [AchievementController::class, 'show']);
+    Route::get('/user/stats', [UserController::class, 'showStats']);
 });
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);
