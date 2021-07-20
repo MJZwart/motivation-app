@@ -57,6 +57,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     store.dispatch('clearInformationBlock');
+    store.dispatch('notification/hasUnreadNotifications');
 
     if (to.meta.requiresAuth && !store.getters['user/authenticated']) {
         return next({ path: '/login' });
