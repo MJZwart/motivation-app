@@ -8,6 +8,7 @@ import characterStore from './modules/characterStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import friendStore from './modules/friendStore.js';
+import adminStore from './modules/adminStore.js';
 
 Vue.use(Vuex);
 
@@ -20,7 +21,9 @@ export default new Vuex.Store({
         notification: notificationStore,
         achievement: achievementStore,
         friend: friendStore,
-
+        admin: adminStore,
+    },
+    state: {
         //Errors and response
         responseMessage: {},
         status: "",

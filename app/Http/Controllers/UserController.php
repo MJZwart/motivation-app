@@ -17,4 +17,8 @@ class UserController extends Controller
     public function showStats(){
         return new StatsResource(Auth::user());
     }
+
+    public function isAdmin() {
+        return Auth::user()->admin;
+    }
 }
