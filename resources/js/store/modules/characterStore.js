@@ -19,7 +19,7 @@ export default {
     },
     actions: {
         getCharacter: ({commit}) => {
-            axios.get('/character').then(function(response){
+            axios.get('/character').then(response => {
                 commit('setCharacter', response.data.data);
             });
         },

@@ -44,8 +44,8 @@ export default {
     actions: {
         //User authentication
         login: ({ commit }, user) => {
-            axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
-                axios.post('/login', user).then(function (response) {
+            axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
+                axios.post('/login', user).then(response => {
                     commit('setUser', response.data);
                     commit('setAuthenticated', true);
                     router.push('/').catch(()=>{});
@@ -53,7 +53,7 @@ export default {
             });
         },
         logout({ commit }) {
-            axios.post('/logout').then(function (response) {
+            axios.post('/logout').then(response => {
                 commit('setUser', {});
                 commit('setAuthenticated', false);
                 router.push('/').catch(() => {
@@ -64,7 +64,7 @@ export default {
 
         //New user
         register: ({ commit }, user) => {
-            axios.post('/register', user).then(function (response) {
+            axios.post('/register', user).then(response => {
                 router.push('/login').catch(() => { });
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
@@ -73,7 +73,7 @@ export default {
 
         //Public user profile
         getUserProfile: ({ commit }, userId) => {
-            axios.get('/profile/' + userId).then(function(response){
+            axios.get('/profile/' + userId).then(response => {
                 commit('setUserProfile', response.data.data);
             });
         },

@@ -5,7 +5,7 @@ export default {
     namespaced: true,
     actions: {
         storeTask: ({ commit }, task) => {
-            return axios.post('/tasks', task).then(function (response) {
+            return axios.post('/tasks', task).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
@@ -13,7 +13,7 @@ export default {
             });
         },
         updateTask: ({ commit }, task) => {
-            return axios.put('/tasks/' + task.id, task).then(function (response) {
+            return axios.put('/tasks/' + task.id, task).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
@@ -21,14 +21,14 @@ export default {
             });
         },
         deleteTask: ({ commit }, task) =>{
-            axios.delete('/tasks/' + task.id, task).then(function(response) {
+            axios.delete('/tasks/' + task.id, task).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
             });
         },
         completeTask: ({commit}, task) => {
-            axios.put('/tasks/complete/' + task.id).then(function(response){
+            axios.put('/tasks/complete/' + task.id).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});

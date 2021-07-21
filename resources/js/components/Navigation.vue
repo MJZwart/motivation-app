@@ -7,6 +7,9 @@
             <li>
                 <router-link to="/overview">Overview</router-link>
             </li>
+            <li>
+                <router-link to="/friends">Friends</router-link>
+            </li>
             <div class="flex-end">
                 <router-link to="/notifications">
                     <b-iconstack class="icon-nav-stack">
