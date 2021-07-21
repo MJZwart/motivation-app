@@ -7,6 +7,7 @@ export default {
     state: {
         achievementsByUser: null,
         achievements: null,
+        achievementTriggers: null,
     },
     mutations: {
         setAchievements: (state, achievements) => {
@@ -14,6 +15,9 @@ export default {
         },
         setAchievementsByUser: (state, achievements) => {
             state.achievements = achievements;
+        },
+        setAchievementTriggers: (state, triggers) => {
+            state.achievementTriggers = triggers;
         },
     },
     getters: {
@@ -23,16 +27,24 @@ export default {
         getAchievementsByUser: (state) => {
             return state.achievements;
         },
+        getAchievementTriggers: (state) => {
+            return state.achievementTriggers;
+        },
     },
     actions: {
         getAchievementByUser: ({commit}, userId) => {
-            axios.get('/achievements/' + userId).then(function(response){
+            axios.get('/user/achievements/' + userId).then(function(response){
                 commit('setAchievements', response.data);
             });
         },
         getAllAchievements: ({commit}) => {
             axios.get('/achievements').then(response => {
                 commit('setAchievements', response.data.data);
+            });
+        },
+        getAchievementTriggers: ({commit}) => {
+            axios.get('/achievements/triggers').then(response => {
+                commit('setAchievementTriggers', response.data);
             });
         },
     }
