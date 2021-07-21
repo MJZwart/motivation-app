@@ -44,5 +44,12 @@ export default {
                 commit('setRequests', response.data.requests);
             });
         },
+        removeFriend: ({commit}, friendId) => {
+            axios.delete('/friend/remove/' + friendId).then(response => {
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+                commit('user/setUser', response.data.user, {root:true});
+            });
+        },
     }
 }
