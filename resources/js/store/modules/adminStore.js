@@ -14,15 +14,13 @@ export default {
         // },
     },
     getters: {
-        isAdmin: (rootState) => {
-            return rootState.user.admin;
+        isAdmin: (state, getters, rootState, rootGetters) => {
+            return rootGetters['user/getUser'].admin;
         },
     },
     actions: {
-        // checkAdmin: ({commit}) => {
-        //     axios.get('/isadmin').then(response => {
-        //         commit('setAdmin', response.data);
-        //     });
-        // },
-    }
+        checkAdmin: () => {
+            axios.get('/isadmin');
+        },
+    },
 }

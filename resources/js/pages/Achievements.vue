@@ -5,6 +5,9 @@
 
 <script>
 export default {
+    mounted() {
+        this.$store.dispatch('admin/checkAdmin');
+    },
     
 }
 </script>

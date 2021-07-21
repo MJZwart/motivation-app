@@ -7,6 +7,8 @@ use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StatsResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -19,6 +21,8 @@ class UserController extends Controller
     }
 
     public function isAdmin() {
-        return Auth::user()->admin;
+        if(!Auth::user()->admin){
+            return new JsonResponse(['errors' => ['error' => ["You are not admin."]]], Response::HTTP_UNAUTHORIZED);
+        }
     }
 }

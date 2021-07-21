@@ -37,7 +37,7 @@ let routes = [
     {
         path: "/achievements",
         component: require('../pages/Achievements.vue').default,
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
         name: "profile",
@@ -59,6 +59,11 @@ router.beforeEach((to, from, next) => {
     store.dispatch('clearInformationBlock');
 
     if (to.meta.requiresAuth && !store.getters['user/authenticated']) {
+        return next({ path: '/login' });
+    }
+
+    if(to.meta.requiresAdmin && !store.getters['admin/isAdmin']) {
+        store.dispatch('user/logout');
         return next({ path: '/login' });
     }
     

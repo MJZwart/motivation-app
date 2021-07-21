@@ -10,6 +10,9 @@
             <li>
                 <router-link to="/friends">Friends</router-link>
             </li>
+            <li v-if="admin">
+                <router-link to="/achievements">Achievements</router-link>
+            </li>
             <div class="flex-end">
                 <router-link to="/notifications">
                     <b-iconstack class="icon-nav-stack">
@@ -42,6 +45,7 @@ export default {
             authenticated: 'user/authenticated',
             user: 'user/getUser',
             hasNotifications: 'notification/getHasNotifications',
+            admin: 'admin/isAdmin',
         }),
     },
 
