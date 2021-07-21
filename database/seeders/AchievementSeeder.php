@@ -17,9 +17,14 @@ class AchievementSeeder extends Seeder
     public function run()
     {
         $trigger_types = ['TASKS_MADE', 'TASKS_COMPLETED', 'REPEATABLE_COMPLETED', 'FRIENDS'];
+        $trigger_descriptions = ['Created %d task%s.', 'Completed %d task%s.', 'Complete a repeatable task %d time%s.', 'Add %d friend%s.'];
         $trigger_amounts = [1, 5, 10, 25, 50];
         
         for($i = 0 ; $i < sizeOf($trigger_types) ; $i++){
+            DB::table('achievement_triggers')->insert([
+                'trigger_type' => $trigger_types[$i],
+                'trigger_description' => $trigger_descriptions[$i],
+            ]);
             for($j = 0 ; $j < sizeOf($trigger_amounts) ; $j++){
                 Achievement::factory()->create([
                     'trigger_type' => $trigger_types[$i],
@@ -34,6 +39,7 @@ class AchievementSeeder extends Seeder
                 'achievement_id' => rand(1, Achievement::count()),
             ]);
         }
+
 
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\AchievementTrigger;
 
 class Achievement extends Model
 {
@@ -23,13 +24,8 @@ class Achievement extends Model
     }
 
     public function parseTrigger($amount, $type){
-        $typeParser = [
-            'TASKS_MADE' => 'Create a task ',
-            'TASKS_COMPLETED' => 'Complete a task ',
-            'REPEATABLE_COMPLETED' => 'Completing a repeatable task ',
-            'FRIENDS' => 'Adding a friend ',
-        ];
-        $amountParser = $amount == 1 ? 'once.' : $amount.' times.';
-        return $typeParser[$type].$amountParser;
+        $trigger = AchievementTrigger::where('trigger_type', $type)->first();
+        $plural = $amount > 1 ? 's': '';
+        return sprintf($trigger->trigger_description, $amount, $plural);
     }
 }
