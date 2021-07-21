@@ -7,6 +7,7 @@ import userStore from './modules/userStore.js';
 import characterStore from './modules/characterStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
+import friendStore from './modules/friendStore.js';
 
 Vue.use(Vuex);
 
@@ -18,9 +19,8 @@ export default new Vuex.Store({
         character: characterStore,
         notification: notificationStore,
         achievement: achievementStore,
-    },
+        friend: friendStore,
 
-    state: {
         //Errors and response
         responseMessage: {},
         status: "",
