@@ -4,7 +4,8 @@
         <div class="side-border bottom-border">
             <ul class="summary-list">
                 <li v-for="(value, index) in achievements" :key="index">
-                    {{value.name}}
+                    <span>{{value.name}}</span>
+                    <p class="silent">{{value.description}} Earned on: {{value.pivot.earned}}</p>
                 </li>
             </ul>
         </div>
@@ -17,7 +18,6 @@ export default {
     props: {
         achievements: Array,
     },
-    
 }
 </script>
 

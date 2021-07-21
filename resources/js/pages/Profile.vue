@@ -2,7 +2,7 @@
     <div>
         <div class="profile-grid" v-if="userProfile">
             <div class="left-column">
-                <character-summary class="summary-tab" :character="userProfile.character"></character-summary>
+                <character-summary class="summary-tab" :character="userProfile.character" :userCharacter="false"></character-summary>
                 <div class="summary-tab">
                     <span class="frame-title">Friends 
                         <b-icon-person-plus-fill 
