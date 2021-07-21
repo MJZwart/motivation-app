@@ -20,8 +20,8 @@ let routes = [
         component: require('../pages/Register.vue').default,
     },
     {
-        path: "/character",
-        component: require('../pages/Character.vue').default,
+        path: "/overview",
+        component: require('../pages/Overview.vue').default,
         meta: { requiresAuth: true },
     },
     {
@@ -52,6 +52,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     store.dispatch('clearInformationBlock');
+    store.dispatch('notification/hasUnreadNotifications');
 
     if (to.meta.requiresAuth && !store.getters['user/authenticated']) {
         return next({ path: '/login' });

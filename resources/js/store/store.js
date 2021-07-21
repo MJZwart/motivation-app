@@ -6,6 +6,8 @@ import taskStore from './modules/taskStore.js';
 import userStore from './modules/userStore.js';
 import characterStore from './modules/characterStore.js';
 import friendStore from './modules/friendStore.js';
+import notificationStore from './modules/notificationStore.js';
+import achievementStore from './modules/achievementStore.js';
 
 Vue.use(Vuex);
 
@@ -16,6 +18,8 @@ export default new Vuex.Store({
         user: userStore,
         character: characterStore,
         friend: friendStore,
+        notification: notificationStore,
+        achievement: achievementStore,
     },
 
     state: {
