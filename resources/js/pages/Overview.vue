@@ -25,7 +25,7 @@ export default {
     components: {CharacterSummary, AchievementsSummary},
     mounted() {
         this.$store.dispatch('character/getCharacter', { root:true });
-        this.$store.dispatch('achievement/getAchievements', this.user.id);
+        this.$store.dispatch('achievement/getAchievementsByUser', this.user.id);
         this.$store.dispatch('user/getUserStats', { root:true });
     },
     data() {
@@ -37,7 +37,7 @@ export default {
         ...mapGetters({
             character: 'character/getCharacter',
             user: 'user/getUser',
-            achievements: 'achievement/getAchievements',
+            achievements: 'achievement/getAchievementsByUser',
             userStats: 'user/getUserStats',
         }),
     },

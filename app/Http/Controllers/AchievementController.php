@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Achievement;
 use App\Models\User;
+use App\Http\Resources\AchievementResource;
 
 class AchievementController extends Controller
 {
@@ -16,8 +17,8 @@ class AchievementController extends Controller
         return $user->achievements;
     }
 
-    public function showAchievementsByUser(){
-        //
+    public function showAll(){
+        return AchievementResource::collection(Achievement::get());
     }
 
     //TODO UpdateAchievementRequest #44

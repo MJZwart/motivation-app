@@ -27,6 +27,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Middleware for admin
+
 Route::post('/login', [AuthenticationController::class, 'authenticate']);
 Route::post('/logout', [AuthenticationController::class, 'logout']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -62,5 +64,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
 });
+
+    Route::get('/achievements', [AchievementController::class, 'showAll']);
+//Route::group(['middleware' => ['admin']], function () {
+
+//});
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);
