@@ -31,7 +31,7 @@
                             <select 
                                     id="type" 
                                     v-model="achievement.trigger_type">
-                                    <option v-for="option in achievementTriggers" :value="option" :key="option.key">{{option.trigger_type}}</option>
+                                    <option v-for="option in achievementTriggers" :value="option.trigger_type" :key="option.key">{{option.trigger_type}}</option>
                                 </select>
                         </div>
                         <div class="form-group">
@@ -76,7 +76,6 @@ export default {
     },
     methods: {
         submitAchievement(){
-            this.achievement.trigger_type = this.achievement.trigger_type.trigger_type;
             this.$store.dispatch('admin/newAchievement', this.achievement).then(response => {
                 this.close();
             });
@@ -92,9 +91,10 @@ export default {
             achievementTriggers: 'achievement/getAchievementTriggers',
         }),
         triggerDescription() {
-            if(this.achievement.trigger_type.trigger_description){
+            if(this.achievement.trigger_type){
                 const plural = this.achievement.trigger_amount > 1 ? 's' : '';
-                let desc = this.achievement.trigger_type.trigger_description.replace('%d', this.achievement.trigger_amount);
+                let desc = this.achievementTriggers.find(item => item.trigger_type === this.achievement.trigger_type);
+                desc = desc.trigger_description.replace('%d', this.achievement.trigger_amount);
                 return desc.replace('%s', plural);
             }
             
