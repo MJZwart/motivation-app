@@ -30,5 +30,13 @@ export default {
                 return Promise.resolve();
             });
         },
+        editAchievement: ({commit}, achievement) => {
+            return axios.put('/achievements/' + achievement.id, achievement).then(response => {
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+                commit('achievement/setAchievements', response.data.achievements, {root:true});
+                return Promise.resolve();
+            });
+        },
     },
 }
