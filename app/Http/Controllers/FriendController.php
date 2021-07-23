@@ -67,4 +67,10 @@ class FriendController extends Controller
         $outgoingRequests = OutgoingFriendRequestResource::collection(Friend::where('user_id', Auth::user()->id)->where('accepted', false)->get());
         return ['incoming' => $incomingRequests, 'outgoing' => $outgoingRequests];
     }
+
+    public function getAllRequests(){
+        $incomingRequests = IncomingFriendRequestResource::collection(DB::table('friend_requests')->where('friend_id', Auth::user()->id)->get());
+        $outgoingRequests = OutgoingFriendRequestResource::collection(DB::table('friend_requests')->where('user_id', Auth::user()->id)->get());
+        return new JsonResponse(['incoming' => $incomingRequests, 'outgoing' => $outgoingRequests], Response::HTTP_OK);
+    }
 }
