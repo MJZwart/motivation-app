@@ -19,7 +19,9 @@ class AchievementResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'image' => $this->image,
-            'trigger' => $this->parseTrigger($this->trigger_amount, $this->trigger_type),
+            'trigger' => $this->trigger_description,
+            'trigger_amount' => $this->trigger_amount,
+            'trigger_type' => $this->trigger_type,
         ];
     }
 }
