@@ -54,6 +54,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/friend/request/{user}', [FriendController::class, 'sendFriendRequest']);
 
     Route::get('/friend/requests/all', [FriendController::class, 'getAllRequests']);
+    Route::post('/friend/request/{friend}/accept', [FriendController::class, 'acceptFriendRequest']);
+    Route::post('/friend/request/{friend}/deny', [FriendController::class, 'denyFriendRequest']);
     Route::get('/achievements/{user}', [AchievementController::class, 'show']);
     Route::get('/user/stats', [UserController::class, 'showStats']);
 });

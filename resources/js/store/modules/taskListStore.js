@@ -19,12 +19,12 @@ export default {
     },
     actions: {
         getTaskLists: ({ commit }) => {
-            axios.get('/tasklists').then(function (response) {
+            axios.get('/tasklists').then(response => {
                 commit('setTaskLists', response.data.data);
             });
         },
         storeTaskList: ({ commit }, taskList) => {
-            return axios.post('/tasklists', taskList).then(function (response) {
+            return axios.post('/tasklists', taskList).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('setTaskLists', response.data.data);
@@ -32,7 +32,7 @@ export default {
             });
         },
         updateTaskList: ({ commit }, taskList) => {
-            return axios.put('/tasklists/' + taskList.id, taskList).then(function (response) {
+            return axios.put('/tasklists/' + taskList.id, taskList).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('setTaskLists', response.data.data);
@@ -40,15 +40,14 @@ export default {
             });
         },
         deleteTaskList: ({ commit }, taskList) => {
-            axios.delete('/tasklists/' + taskList.id).then(function(response){
+            axios.delete('/tasklists/' + taskList.id).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('setTaskLists', response.data.data);
             });
         },
         mergeTasks: ({}, data) => {
-            axios.post('/tasks/merge/' + data.taskListId, data).then(function(){
-            });
+            axios.post('/tasks/merge/' + data.taskListId, data);
         },
     }
 };

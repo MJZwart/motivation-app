@@ -65,7 +65,7 @@ export default {
             return this.taskListToDelete.tasks;
         },
         taskLists(){
-            var taskLists = this.$store.getters['taskList/getTaskLists'];
+            let taskLists = this.$store.getters['taskList/getTaskLists'];
             return taskLists.filter(item => item != this.taskListToDelete);
         },
     },
@@ -75,9 +75,8 @@ export default {
                 const data = { taskListId : this.deleteOption, tasks: this.taskListTasks};
                 this.$store.dispatch('taskList/mergeTasks', data);
             }
-            var self = this;
-            this.$store.dispatch('taskList/deleteTaskList', this.taskListToDelete).then(function(){
-                self.close();
+            this.$store.dispatch('taskList/deleteTaskList', this.taskListToDelete).then(response =>{
+                this.close();
             });
         },
         close(){
