@@ -15,6 +15,7 @@ class Achievement extends Model
         'description',
         'trigger_type',
         'trigger_amount',
+        'trigger_description',
         'image',
     ];
 

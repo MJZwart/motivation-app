@@ -19,6 +19,7 @@ class CreateAchievementsTable extends Migration
             $table->string('name');
             $table->string('trigger_type');
             $table->integer('trigger_amount');
+            $table->string('trigger_description');
             $table->string('image')->nullable();
             $table->string('description')->nullable();
         });
