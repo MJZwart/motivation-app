@@ -10,6 +10,7 @@ use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FriendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/notifications', [NotificationController::class, 'show']);
     Route::get('/notifications/unread', [NotificationController::class, 'hasUnreadNotifications']);
     Route::get('/profile/{user}', [UserController::class, 'show']);
+
+    Route::post('/friend/request/{user}', [FriendController::class, 'sendFriendRequest']);
     Route::get('/achievements/{user}', [AchievementController::class, 'show']);
     Route::get('/user/stats', [UserController::class, 'showStats']);
 });
