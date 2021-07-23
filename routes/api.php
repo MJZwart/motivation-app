@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/notifications', [NotificationController::class, 'show']);
     Route::get('/notifications/unread', [NotificationController::class, 'hasUnreadNotifications']);
     Route::get('/profile/{user}', [UserController::class, 'show']);
-
+  
     Route::post('/friend/request/{user}', [FriendController::class, 'sendFriendRequest']);
 
     Route::get('/friend/requests/all', [FriendController::class, 'getAllRequests']);
