@@ -15,6 +15,7 @@ class FriendResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->pivot->id,
             'friend' => $this->full_display_name,
             'friends_since' => $this->pivot->created_at->toDateString(),
         ];

@@ -22,7 +22,12 @@ class FriendController extends Controller
     }
 
     public function destroy(Friend $friend){
-        // #57
+        $inverseFriendship = Friend::where('user_id', $friend->friend_id)->where('friend_id', Auth::user()->id)->first();
+        $friend->delete();
+        $inverseFriendship->delete();
+        return new JsonResponse(['message' => ['message' => ['Friend removed.']], 
+            'user' => new UserResource(Auth::user())], 
+            Response::HTTP_OK);
     }
 
     public function sendFriendRequest(User $user):JsonResponse{
