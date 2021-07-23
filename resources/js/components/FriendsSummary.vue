@@ -5,8 +5,8 @@
             <div class="side-border bottom-border">
                 <ul class="summary-list">
                     <li v-for="(value, index) in user.friends" :key="index">
-                        <b-icon-person-x-fill class="icon-small"></b-icon-person-x-fill> 
-                        <b-icon-envelope class="icon-small"></b-icon-envelope> 
+                        <b-icon-person-x-fill class="icon-small" @click="removeFriend(value.id)"></b-icon-person-x-fill> 
+                        <!-- <b-icon-envelope class="icon-small"></b-icon-envelope>  -->
                         {{value.friend}}
                     </li>
                 </ul>
@@ -22,6 +22,9 @@ export default {
     mounted(){
     },
     methods: {
+        removeFriend(id){
+            
+        }
     },
     computed: {
         ...mapGetters({
