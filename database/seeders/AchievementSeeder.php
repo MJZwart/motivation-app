@@ -26,7 +26,9 @@ class AchievementSeeder extends Seeder
                 'trigger_description' => $trigger_descriptions[$i],
             ]);
             for($j = 0 ; $j < sizeOf($trigger_amounts) ; $j++){
+                $plural = $trigger_amounts[$j] > 1 ? 's': '';
                 Achievement::factory()->create([
+                    'trigger_description' => sprintf($trigger_descriptions[$i], $trigger_amounts[$j], $plural),
                     'trigger_type' => $trigger_types[$i],
                     'trigger_amount' => $trigger_amounts[$j],
                 ]);
