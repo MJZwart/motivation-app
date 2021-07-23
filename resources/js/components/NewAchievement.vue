@@ -31,7 +31,7 @@
                             <select 
                                     id="type" 
                                     v-model="achievement.trigger_type">
-                                    <option v-for="option in achievementTriggers" :value="option.trigger_type" :key="option.key">{{option.trigger_type}}</option>
+                                    <option v-for="option in achievementTriggers" :value="option" :key="option.key">{{option.trigger_type}}</option>
                                 </select>
                         </div>
                         <div class="form-group">
@@ -42,6 +42,10 @@
                                 name="amount" 
                                 placeholder="Amount" 
                                 v-model="achievement.trigger_amount" />
+                        </div>
+                        <div class="form-group">
+                            <label for="trigger-description">Trigger description</label>
+                            <p v-if="achievement.trigger_type" id="trigger-description">{{triggerDescription}}</p>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="long-button">Create new achievement</button>
@@ -65,19 +69,21 @@ export default {
     },
     data() {
         return {
-            achievement: {},
+            achievement: {
+                trigger_amount: 0,
+            },
         }
     },
     methods: {
         submitAchievement(){
-            var self = this;
-            this.$store.dispatch('admin/newAchievement', this.achievement).then(function(){
-                self.close();
+            this.achievement.trigger_type = this.achievement.trigger_type.trigger_type;
+            this.$store.dispatch('admin/newAchievement', this.achievement).then(response => {
+                this.close();
             });
 
         },
         close(){
-            this.achievement = {},
+            this.achievement = {trigger_amount: 0,},
             this.$emit('close');
         }
     },
@@ -85,6 +91,14 @@ export default {
         ...mapGetters({
             achievementTriggers: 'achievement/getAchievementTriggers',
         }),
+        triggerDescription() {
+            if(this.achievement.trigger_type.trigger_description){
+                const plural = this.achievement.trigger_amount > 1 ? 's' : '';
+                let desc = this.achievement.trigger_type.trigger_description.replace('%d', this.achievement.trigger_amount);
+                return desc.replace('%s', plural);
+            }
+            
+        },
     },
     
 }

@@ -14,6 +14,7 @@ class AchievementController extends Controller
 {
     public function store(NewAchievementRequest $request){
         $validated = $request->validated();
+        $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
         Achievement::create($validated);
 
         return new JsonResponse(['message' => ['message' => ["Achievement added."]], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
@@ -38,5 +39,11 @@ class AchievementController extends Controller
 
     public function destroy(Achievement $achievement){
         //
+    }
+
+    private function parseTrigger($amount, $type){
+        $trigger = AchievementTrigger::where('trigger_type', $type)->first();
+        $plural = $amount > 1 ? 's': '';
+        return sprintf($trigger->trigger_description, $amount, $plural);
     }
 }
