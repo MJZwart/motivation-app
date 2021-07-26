@@ -52,16 +52,16 @@ export default new Vuex.Store({
                 commit('setResponseMessage', []);
                 commit('setStatus', 'hidden')
         },
-        //TEMP
-        testGet: ({}, data) => {
-            axios.get('/test').then(response => {
-                console.log(response.data);
-            });
-        },
-        testPost: ({}, data) => {
-            axios.post('/test', data).then(response => {
-                console.log(response.data);
-            });
-        },
+        // //TEMP
+        // testGet: ({}, data) => {
+        //     axios.get('/test').then(response => {
+        //         console.log(response.data);
+        //     });
+        // },
+        // testPost: ({}, data) => {
+        //     axios.post('/test', data).then(response => {
+        //         console.log(response.data);
+        //     });
+        // },
     }
 });

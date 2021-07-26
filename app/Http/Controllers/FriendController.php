@@ -49,7 +49,7 @@ class FriendController extends Controller
         Friend::create(['user_id' => $friend->friend_id, 'friend_id' => $friend->user_id, 'accepted' => true]);
 
         AchievementHandler::checkForAchievement('FRIENDS', Auth::user());
-        AchievementHandler::checkForAchievement('FRIENDS', $friend);
+        AchievementHandler::checkForAchievement('FRIENDS', $friend->friend);
 
         $requests = $this->fetchRequests();
         return new JsonResponse(['message' => ['message' => ['Friend request accepted. You are now friends.']], 

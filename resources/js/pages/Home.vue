@@ -2,8 +2,8 @@
     <div>
         <div class="home-grid">
             <!-- TEMP -->
-            <button @click="testGet">TestGet</button>
-            <button @click="testPost">TestPost</button>
+            <!-- <button @click="testGet">TestGet</button>
+            <button @click="testPost">TestPost</button> -->
             <div class="task-lists">
                 <template v-for="(list, index) in taskLists">
                     <task-list 
@@ -117,13 +117,13 @@ export default {
         },
 
         //TEMP
-        testGet(){
-            this.$store.dispatch('testGet');
-        },
-        testPost(){
-            const data = {};
-            this.$store.dispatch('testPost', data);
-        },
+        // testGet(){
+        //     this.$store.dispatch('testGet');
+        // },
+        // testPost(){
+        //     const data = {};
+        //     this.$store.dispatch('testPost', data);
+        // },
     },
     computed: {
         ...mapGetters({

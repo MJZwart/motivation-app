@@ -53,11 +53,4 @@ class AchievementController extends Controller
         $plural = $amount > 1 ? 's': '';
         return sprintf($trigger->trigger_description, $amount, $plural);
     }
-
-    public function testGet(){
-        return AchievementHandler::checkForAchievement('FRIENDS', Auth::user());
-    }
-    public function testPost(Request $request){
-
-    }
 }
