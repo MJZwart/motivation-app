@@ -5,10 +5,14 @@ export default {
     namespaced: true,
 
     state: {
+        achievementsByUser: null,
         achievements: null,
     },
     mutations: {
         setAchievements: (state, achievements) => {
+            state.achievements = achievements;
+        },
+        setAchievementsByUser: (state, achievements) => {
             state.achievements = achievements;
         },
     },
@@ -16,11 +20,19 @@ export default {
         getAchievements: (state) => {
             return state.achievements;
         },
+        getAchievementsByUser: (state) => {
+            return state.achievements;
+        },
     },
     actions: {
-        getAchievements: ({commit}, userId) => {
+        getAchievementByUser: ({commit}, userId) => {
             axios.get('/achievements/' + userId).then(function(response){
                 commit('setAchievements', response.data);
+            });
+        },
+        getAllAchievements: ({commit}) => {
+            axios.get('/achievements').then(response => {
+                commit('setAchievements', response.data.data);
             });
         },
     }

@@ -7,7 +7,7 @@
             <span class="frame-title">Stats</span>
             <div class="side-border bottom-border">
                 <span>Tasks completed: {{userStats.tasks_completed}}</span>
-                <p>Most completed repeatable: {{userStats.repeatable_most_completed.task_name}}. Completed {{userStats.repeatable_most_completed.total}} times.</p>
+                <p v-if="userStats.repeatable_most_completed">Most completed repeatable: {{userStats.repeatable_most_completed.task_name}}. Completed {{userStats.repeatable_most_completed.total}} times.</p>
             </div>
         </div>
         <div>
@@ -25,7 +25,7 @@ export default {
     components: {CharacterSummary, AchievementsSummary},
     mounted() {
         this.$store.dispatch('character/getCharacter', { root:true });
-        this.$store.dispatch('achievement/getAchievements', this.user.id);
+        this.$store.dispatch('achievement/getAchievementsByUser', this.user.id);
         this.$store.dispatch('user/getUserStats', { root:true });
     },
     data() {
@@ -37,7 +37,7 @@ export default {
         ...mapGetters({
             character: 'character/getCharacter',
             user: 'user/getUser',
-            achievements: 'achievement/getAchievements',
+            achievements: 'achievement/getAchievementsByUser',
             userStats: 'user/getUserStats',
         }),
     },

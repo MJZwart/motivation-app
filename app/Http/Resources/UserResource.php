@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'full_display_name' => $this->full_display_name,
             'rewards' => $this->rewards,
             'friends' => FriendResource::collection($this->friends->sortBy('full_display_name')),
+            'admin' => $this->admin,
         ];
     }
 }

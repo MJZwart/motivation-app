@@ -86,7 +86,9 @@ class User extends Authenticatable
             ->groupBy('task_id')
             ->orderByDesc('total')
             ->first();
-        $repeatable->task_name = Task::find($repeatable->task_id)->name;
+        if(!!$repeatable) {
+            $repeatable->task_name = Task::find($repeatable->task_id)->name;
+        }
         return $repeatable;
     }
 }
