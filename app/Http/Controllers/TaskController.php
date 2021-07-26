@@ -9,6 +9,7 @@ use App\Http\Resources\TaskListResource;
 use App\Http\Resources\CharacterResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Helpers\AchievementHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +23,7 @@ class TaskController extends Controller
         $validated['user_id'] = Auth::user()->id;
 
         Task::create($validated);
+        AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 

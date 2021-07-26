@@ -9,6 +9,7 @@ import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -50,6 +51,17 @@ export default new Vuex.Store({
         clearInformationBlock({ commit }) {
                 commit('setResponseMessage', []);
                 commit('setStatus', 'hidden')
+        },
+        //TEMP
+        testGet: ({}, data) => {
+            axios.get('/test').then(response => {
+                console.log(response.data);
+            });
+        },
+        testPost: ({}, data) => {
+            axios.post('/test', data).then(response => {
+                console.log(response.data);
+            });
         },
     }
 });

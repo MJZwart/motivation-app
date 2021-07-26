@@ -75,3 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
 //});
 
 Route::get('/experience', [CharacterController::class, 'getExperienceTable']);
+
+//TEMP for testing
+Route::get('/test', [AchievementController::class, 'testGet']);
+Route::post('/test', [AchievementController::class, 'testPost']);

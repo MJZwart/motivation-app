@@ -10,6 +10,7 @@ class AchievementEarned extends Model
     protected $table = 'achievements_earned';
 
     protected $fillable = ['user_id', 'achievement_id'];
+    public $timestamps = false;
 
     //TODO Untested
 
