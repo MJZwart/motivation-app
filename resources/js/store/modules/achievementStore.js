@@ -32,7 +32,7 @@ export default {
         },
     },
     actions: {
-        getAchievementByUser: ({commit}, userId) => {
+        getAchievementsByUser: ({commit}, userId) => {
             axios.get('/user/achievements/' + userId).then(function(response){
                 commit('setAchievements', response.data);
             });
