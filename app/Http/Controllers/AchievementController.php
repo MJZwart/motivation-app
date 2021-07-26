@@ -32,9 +32,12 @@ class AchievementController extends Controller
         return AchievementTrigger::get();
     }
 
-    //TODO UpdateAchievementRequest #44
-    public function update(Request $request, Achievement $achievement){
-        //
+    public function update(NewAchievementRequest $request, Achievement $achievement){
+        $validated = $request->validated();
+        $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
+        $achievement->update($validated);
+
+        return new JsonResponse(['message' => ['message' => ["Achievement updated."]], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
     }
 
     public function destroy(Achievement $achievement){

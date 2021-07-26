@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/achievements', [AchievementController::class, 'showAll']);
     Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
     Route::post('/achievements/new', [AchievementController::class, 'store']);
+    Route::put('/achievements/{achievement}', [AchievementController::class, 'update']);
 //Route::group(['middleware' => ['admin']], function () {
 
 //});
