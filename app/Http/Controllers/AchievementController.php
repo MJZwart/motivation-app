@@ -55,7 +55,7 @@ class AchievementController extends Controller
     }
 
     public function testGet(){
-        return AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
+        return AchievementHandler::checkForAchievement('FRIENDS', Auth::user());
     }
     public function testPost(Request $request){
 

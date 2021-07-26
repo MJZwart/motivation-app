@@ -8,6 +8,7 @@ use App\Models\Notification;
 use App\Http\Resources\IncomingFriendRequestResource;
 use App\Http\Resources\OutgoingFriendRequestResource;
 use App\Http\Resources\UserResource;
+use App\Helpers\AchievementHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +47,9 @@ class FriendController extends Controller
         $friend->accepted = true;
         $friend->update();
         Friend::create(['user_id' => $friend->friend_id, 'friend_id' => $friend->user_id, 'accepted' => true]);
+
+        AchievementHandler::checkForAchievement('FRIENDS', Auth::user());
+        AchievementHandler::checkForAchievement('FRIENDS', $friend);
 
         $requests = $this->fetchRequests();
         return new JsonResponse(['message' => ['message' => ['Friend request accepted. You are now friends.']], 

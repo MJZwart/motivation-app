@@ -9,40 +9,29 @@ use App\Models\AchievementEarned;
 class AchievementHandler {
 
     public static function checkForAchievement($type, $user){
+        $amount = null;
         switch($type){
             case 'TASKS_MADE':
-                AchievementHandler::checkTasksMadeAchi($user);
+                $amount = $user->getTotalTasksMade();
                 break;
             case 'TASKS_COMPLETED':
-                return AchievementHandler::checkTasksCompletedAchi($user);
+                $amount = $user->getTotalTasksCompleted();
                 break;
             case 'REPEATABLE_COMPLETED':
-                return AchievementHandler::checkRepeatableCompletedAchi($user);
+                $amount = $user->getRepeatableTaskMostCompleted()->total;
                 break;
             case 'FRIENDS':
-                return AchievementHandler::checkFriendsAchi($user);
+                $amount = $user->friends()->count();
                 break;
         }
+        AchievementHandler::checkAchievementEligible($user, $type, $amount);
     }
 
-    public static function checkTasksMadeAchi($user){
-        $amount = $user->getTotalTasksMade();
-        $achievement = Achievement::where('trigger_type', 'TASKS_MADE')->where('trigger_amount', $amount)->first();
-        if(!AchievementHandler::checkIfAchievementEarned($user, $achievement)){
+    public static function checkAchievementEligible($user, $type, $amount){
+        $achievement = Achievement::where('trigger_type', $type)->where('trigger_amount', $amount)->first();
+        if($achievement && !AchievementHandler::checkIfAchievementEarned($user, $achievement)){
             AchievementHandler::awardAchievement($user, $achievement);
         }
-    }
-
-    public static function checkTasksCompletedAchi($user){
-        
-    }
-
-    public static function checkRepeatableCompletedAchi($user){
-        
-    }
-
-    public static function checkFriendsAchi($user){
-        
     }
 
     public static function checkIfAchievementEarned($user, $achievement){

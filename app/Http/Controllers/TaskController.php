@@ -79,6 +79,8 @@ class TaskController extends Controller
 
             $character = Character::where('user_id', Auth::user()->id)->get()->first();
             $returnValue = $character->applyReward($task);
+
+            AchievementHandler::checkForAchievement('TASKS_COMPLETED', Auth::user());
             
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
             return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => new CharacterResource($character->fresh())], Response::HTTP_OK);
@@ -102,5 +104,6 @@ class TaskController extends Controller
         }
         $task->repeatable_active = $date;
         $task->update();
+        AchievementHandler::checkForAchievement('REPEATABLE_COMPLETED', Auth::user());
     }
 }
