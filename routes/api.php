@@ -58,13 +58,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/friend/request/{friend}/accept', [FriendController::class, 'acceptFriendRequest']);
     Route::post('/friend/request/{friend}/deny', [FriendController::class, 'denyFriendRequest']);
     Route::delete('/friend/remove/{friend}', [FriendController::class, 'destroy']);
-    Route::get('/achievements/{user}', [AchievementController::class, 'show']);
+
+    Route::get('/user/achievements/{user}', [AchievementController::class, 'show']);
+
     Route::get('/user/stats', [UserController::class, 'showStats']);
 
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
 });
 
     Route::get('/achievements', [AchievementController::class, 'showAll']);
+    Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
+    Route::post('/achievements/new', [AchievementController::class, 'store']);
 //Route::group(['middleware' => ['admin']], function () {
 
 //});
