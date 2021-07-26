@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/friend/remove/{friend}', [FriendController::class, 'destroy']);
 
     Route::get('/user/achievements/{user}', [AchievementController::class, 'show']);
+
     Route::get('/user/stats', [UserController::class, 'showStats']);
 
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
