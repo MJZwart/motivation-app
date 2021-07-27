@@ -69,6 +69,29 @@
                     <option value="CHARACTER">Character</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="show_character">Profile settings</label>
+                <b-form-checkbox
+                    name="show_character"
+                    id="show_character"
+                    v-model="settings.show_character"
+                    switch>Show character on profile
+                </b-form-checkbox>
+                <b-form-checkbox
+                    name="show_achievements"
+                    id="show_achievements"
+                    v-model="settings.show_achievements"
+                    switch>
+                    Show achievements on profile
+                </b-form-checkbox>
+                <b-form-checkbox
+                    name="show_friends"
+                    id="show_friends"
+                    v-model="settings.show_friends"
+                    switch>
+                    Show friends on profile
+                </b-form-checkbox>
+            </div>
 
             <div class="form-group">
                 <button type="submit" class="long-button">Save settings</button>
