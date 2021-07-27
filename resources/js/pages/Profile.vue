@@ -2,8 +2,8 @@
     <div>
         <div class="profile-grid" v-if="userProfile">
             <div class="left-column">
-                <character-summary class="summary-tab" :character="userProfile.character" :userCharacter="false"></character-summary>
-                <div class="summary-tab">
+                <character-summary  v-if="userProfile.character" class="summary-tab" :character="userProfile.character" :userCharacter="false"></character-summary>
+                <div class="summary-tab" v-if="userProfile.friends">
                     <span class="frame-title">Friends 
                         <b-icon-person-plus-fill 
                             v-if="notLoggedUser" 
@@ -22,7 +22,7 @@
             <div class="right-column">
                 <h2>{{userProfile.full_display_name}}</h2>
                 <p class="silent">Member since: {{userProfile.created_at}}</p>
-                <achievements-summary :achievements="userProfile.achievements"></achievements-summary>
+                <achievements-summary v-if="userProfile.achievements" :achievements="userProfile.achievements"></achievements-summary>
             </div>
         </div>
     </div>

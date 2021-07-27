@@ -21,9 +21,9 @@ class UserProfileResource extends JsonResource
             'created_at' => $this->created_at->toDateString(),
             'full_display_name' => $this->full_display_name,
             'display_picture' => $this->display_picture,
-            'character' => new CharacterResource(Character::where('user_id', $this->id)->get()->first()), //Will need to be fixed once multiple characters are an option
-            'achievements' => $this->achievements,
-            'friends' => FriendResource::collection($this->friends),
+            'character' => $this->show_character ? new CharacterResource(Character::where('user_id', $this->id)->get()->first()) : false, //Will need to be fixed once multiple characters are an option
+            'achievements' => $this->show_achievements ? $this->achievements : false,
+            'friends' => $this->show_friends ? FriendResource::collection($this->friends) : false,
         ];
     }
 }
