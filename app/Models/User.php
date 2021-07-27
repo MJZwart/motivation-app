@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
-use App\Models\Achievement;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
@@ -74,6 +73,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
+    //TODO Remove DB raw and replace with Repeatable model?
     public function getTotalTasksCompleted(){
         $regularTasks = Task::where('user_id', $this->id)->where('completed', '!=', null)->count();
         $repeatableTasks = DB::table('repeatable_tasks_completed')->where('user_id', $this->id)->count();
@@ -98,8 +98,4 @@ class User extends Authenticatable
         $activeTasks = Task::where('user_id', $this->id)->where('completed', null)->count();
         return $completedTasks + $activeTasks;
     }
-
-    // public function getAchievementsByType($type){
-    //     return Achievement::where('user_id', $this->id)->where('trigger_type', $type)->orderBy('trigger_amount', 'asc')->get();
-    // }
 }

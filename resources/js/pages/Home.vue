@@ -1,9 +1,6 @@
 <template>
     <div>
         <div class="home-grid">
-            <!-- TEMP -->
-            <!-- <button @click="testGet">TestGet</button>
-            <button @click="testPost">TestPost</button> -->
             <div class="task-lists">
                 <template v-for="(list, index) in taskLists">
                     <task-list 
@@ -115,15 +112,6 @@ export default {
             this.taskListToDelete = null;
             this.isDeleteTaskListVisible = false;
         },
-
-        //TEMP
-        // testGet(){
-        //     this.$store.dispatch('testGet');
-        // },
-        // testPost(){
-        //     const data = {};
-        //     this.$store.dispatch('testPost', data);
-        // },
     },
     computed: {
         ...mapGetters({

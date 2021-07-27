@@ -7,12 +7,8 @@ use App\Models\AchievementTrigger;
 use App\Models\User;
 use App\Http\Resources\AchievementResource;
 use App\Http\Requests\NewAchievementRequest;
-use App\Helpers\AchievementHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-
-
-use Illuminate\Support\Facades\Auth;
 
 class AchievementController extends Controller
 {
