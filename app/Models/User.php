@@ -73,6 +73,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
+    //TODO Remove DB raw and replace with Repeatable model?
     public function getTotalTasksCompleted(){
         $regularTasks = Task::where('user_id', $this->id)->where('completed', '!=', null)->count();
         $repeatableTasks = DB::table('repeatable_tasks_completed')->where('user_id', $this->id)->count();
@@ -90,5 +91,11 @@ class User extends Authenticatable
             $repeatable->task_name = Task::find($repeatable->task_id)->name;
         }
         return $repeatable;
+    }
+
+    public function getTotalTasksMade(){
+        $completedTasks = Task::where('user_id', $this->id)->where('completed', '!=', null)->count();
+        $activeTasks = Task::where('user_id', $this->id)->where('completed', null)->count();
+        return $completedTasks + $activeTasks;
     }
 }
