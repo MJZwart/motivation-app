@@ -144,7 +144,7 @@ export default {
             this.$store.dispatch('user/updatePassword', this.passwordSettings);
         },
         submitSettings() {
-            console.log(this.settings);
+            this.$store.dispatch('user/updateSettings', this.settings);
         },
         submitEmailSettings() {
             console.log(this.emailSettings);

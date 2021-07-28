@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StatsResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
@@ -41,11 +42,13 @@ class UserController extends Controller
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         $user->update($validated);
-        return new JsonResponse(['messages' => ['message' => ['Your password has been updated. Please log in using your new password.']]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['message' => ['Your password has been updated. Please log in using your new password.']]], Response::HTTP_OK);
     }
 
     public function updateSettings(UpdateUserSettingsRequest $request){
-        //validate
-        //Update
+        $user = Auth::user();
+        $validated = $request->validated();
+        $user->update($validated);
+        return new JsonResponse(['message' => ['message' => ['Your settings have been changed.']], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
     }
 }

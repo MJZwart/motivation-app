@@ -92,14 +92,14 @@ export default {
         },
         updateEmail: ({commit}, email) => {
             axios.put('/user/settings/email', email).then(response => {
-                commit('setUser', response.data);
+                commit('setUser', response.data.user);
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
             });
         },
         updateSettings: ({commit}, settings) => {
             axios.put('/user/settings', settings).then(response => {
-                commit('setUser', response.data);
+                commit('setUser', response.data.user);
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
             });
