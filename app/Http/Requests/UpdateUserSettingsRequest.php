@@ -24,7 +24,7 @@ class UpdateUserSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_display_name' => 'required|string',
+            'full_display_name' => 'required|string|unique:users',
             'rewards' => 'required', //TODO, exists:rewards_types,type - make rewards type migration table
             'show_character' => 'required|boolean',
             'show_achievements' => 'required|boolean',

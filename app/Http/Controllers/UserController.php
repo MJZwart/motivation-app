@@ -31,24 +31,24 @@ class UserController extends Controller
     }
 
     public function updateEmail(UpdateUserEmailRequest $request){
-        //validate
-        //If e-mail is changed, invalidate old e-mail
+        $validated = $request->validated();
+        Auth::user()->update($validated);
+        //Invalidate old e-mail
         //Send new e-mail confirmation
         //Update new e-mail, unconfirmed
+        return new JsonResponse(['message' => ['message' => ['Your email has been changed.']], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
     }
 
     public function updatePassword(UpdateUserPasswordRequest $request){
-        $user = Auth::user();
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
-        $user->update($validated);
+        Auth::user()->update($validated);
         return new JsonResponse(['message' => ['message' => ['Your password has been updated. Please log in using your new password.']]], Response::HTTP_OK);
     }
 
     public function updateSettings(UpdateUserSettingsRequest $request){
-        $user = Auth::user();
         $validated = $request->validated();
-        $user->update($validated);
+        Auth::user()->update($validated);
         return new JsonResponse(['message' => ['message' => ['Your settings have been changed.']], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
     }
 }

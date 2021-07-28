@@ -147,7 +147,7 @@ export default {
             this.$store.dispatch('user/updateSettings', this.settings);
         },
         submitEmailSettings() {
-            console.log(this.emailSettings);
+            this.$store.dispatch('user/updateEmail', this.emailSettings);
         },
     },
 }
