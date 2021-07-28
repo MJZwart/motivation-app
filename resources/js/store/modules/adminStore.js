@@ -38,5 +38,11 @@ export default {
                 return Promise.resolve();
             });
         },
+        sendNotification: ({commit}, notification) => {
+            axios.post('/notifications/all', notification).then(response => {
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+            });
+        },
     },
 }

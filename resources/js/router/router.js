@@ -35,11 +35,6 @@ let routes = [
         meta: { requiresAuth: true },
     },
     {
-        path: "/achievements",
-        component: require('../pages/Achievements.vue').default,
-        meta: { requiresAuth: true, requiresAdmin: true },
-    },
-    {
         name: "profile",
         path: "/profile/:id",
         component: require('../pages/Profile.vue').default,
@@ -48,7 +43,18 @@ let routes = [
         path: "/friends",
         component: require('../pages/Friends.vue').default,
         meta: { requiresAuth: true },
-    }
+    },
+    {
+        path: "/achievements",
+        component: require('../pages/Achievements.vue').default,
+        meta: { requiresAuth: true, requiresAdmin: true },
+    },
+    {
+        path: "/admin",
+        component: require('../pages/Admin.vue').default,
+        meta: { requiresAuth: true, requiresAdmin: true },
+    },
+
 ];
 
 const router = new VueRouter({
