@@ -83,6 +83,27 @@ export default {
                 commit('setUserStats', response.data.data);
             });
         },
+        updatePassword: ({commit, dispatch}, passwords) => {
+            axios.put('/user/settings/password', passwords).then(response => {
+                dispatch('logout');
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+            });
+        },
+        updateEmail: ({commit}, email) => {
+            axios.put('/user/settings/email', email).then(response => {
+                commit('setUser', response.data);
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+            });
+        },
+        updateSettings: ({commit}, settings) => {
+            axios.put('/user/settings', settings).then(response => {
+                commit('setUser', response.data);
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+            });
+        }
 
     },
 }

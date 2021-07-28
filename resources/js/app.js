@@ -14,6 +14,7 @@ import router from "./router/router";
 //Import BootstrapVue
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css';
+import 'bootstrap/dist/css/bootstrap.css'
 Vue.use(BootstrapVueIcons);
 Vue.use(BootstrapVue);
 

@@ -3,8 +3,58 @@
         <div class="form-title">
             <h3>Settings</h3>
         </div>
-        <form @submit.prevent="submitPasswordSettings" v-if="user">
-            <h3>Change password</h3>
+
+        <form @submit.prevent="submitSettings" v-if="!loading">
+            <h4>Profile settings</h4>
+            <div class="form-group">
+                <label for="full_display_name">Full display name</label>
+                <input 
+                    type="text" 
+                    id="full_display_name" 
+                    name="full_display_name" 
+                    placeholder="full_display_name" 
+                    v-model="settings.full_display_name" />
+            </div>
+            <div class="form-group">
+                <label for="rewards">Rewards type</label>
+                <select
+                    name="rewards"
+                    id="rewards"
+                    v-model="settings.rewards">
+                    <option value="CHARACTER">Character</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <b-form-checkbox
+                    name="show_character"
+                    id="show_character"
+                    v-model="settings.show_character"
+                    switch>Show character on profile
+                </b-form-checkbox>
+                <b-form-checkbox
+                    name="show_achievements"
+                    id="show_achievements"
+                    v-model="settings.show_achievements"
+                    switch>
+                    Show achievements on profile
+                </b-form-checkbox>
+                <b-form-checkbox
+                    name="show_friends"
+                    id="show_friends"
+                    v-model="settings.show_friends"
+                    switch>
+                    Show friends on profile
+                </b-form-checkbox>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="long-button">Save settings</button>
+            </div>
+        </form>
+        <hr />
+        <form @submit.prevent="submitPasswordSettings" v-if="!loading">
+            <h4>Change password</h4>
+            <p class="silent">If successful, you will be logged out. Please log in with your new password.</p>
             <div class="form-group">
                 <label for="old_password">Old password</label>
                 <input 
@@ -34,14 +84,14 @@
             </div>
             
             <div class="form-group">
-                <button type="submit" class="long-button">Save password</button>
+                <button type="submit" class="long-button">Update password</button>
             </div>
         </form>
 
         <hr />
 
-        <form @submit.prevent="submitSettings" v-if="user">
-            <h3>Other settings</h3>
+        <form @submit.prevent="submitEmailSettings" v-if="!loading">
+            <h4>Change e-mail</h4>
             <div class="form-group">
                 <label for="email">Change e-mail</label>
                 <!-- Todo verify e-mail and show e-mail as verified -->
@@ -50,51 +100,10 @@
                     id="email" 
                     name="email" 
                     placeholder="E-mail" 
-                    v-model="settings.email" />
-            </div><div class="form-group">
-                <label for="full_display_name">Full display name</label>
-                <input 
-                    type="text" 
-                    id="full_display_name" 
-                    name="full_display_name" 
-                    placeholder="full_display_name" 
-                    v-model="settings.full_display_name" />
+                    v-model="emailSettings.email" />
             </div>
             <div class="form-group">
-                <label for="rewards">Rewards type</label>
-                <select
-                    name="rewards"
-                    id="rewards"
-                    v-model="settings.rewards">
-                    <option value="CHARACTER">Character</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="show_character">Profile settings</label>
-                <b-form-checkbox
-                    name="show_character"
-                    id="show_character"
-                    v-model="settings.show_character"
-                    switch>Show character on profile
-                </b-form-checkbox>
-                <b-form-checkbox
-                    name="show_achievements"
-                    id="show_achievements"
-                    v-model="settings.show_achievements"
-                    switch>
-                    Show achievements on profile
-                </b-form-checkbox>
-                <b-form-checkbox
-                    name="show_friends"
-                    id="show_friends"
-                    v-model="settings.show_friends"
-                    switch>
-                    Show friends on profile
-                </b-form-checkbox>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="long-button">Save settings</button>
+                <button type="submit" class="long-button">Update e-mail</button>
             </div>
         </form>
     </div>
@@ -105,13 +114,15 @@
 import {mapGetters} from 'vuex';
 export default {
     mounted() {
-        this.settings = this.user;
+        this.setupSettings();
     },
     data() {
         return {
             task: {},
             settings: {},
+            emailSettings: {},
             passwordSettings: {},
+            loading: true,
         }
     },
     computed: {
@@ -120,11 +131,23 @@ export default {
         }),
     },
     methods: {
+        setupSettings() {
+            this.emailSettings.email = this.user.email;
+            this.settings.rewards = this.user.rewards;
+            this.settings.full_display_name = this.user.full_display_name;
+            this.settings.show_achievements = this.user.show_achievements;
+            this.settings.show_character = this.user.show_character;
+            this.settings.show_friends = this.user.show_friends;
+            this.loading = false;
+        },
         submitPasswordSettings() {
-            
+            this.$store.dispatch('user/updatePassword', this.passwordSettings);
         },
         submitSettings() {
-            
+            console.log(this.settings);
+        },
+        submitEmailSettings() {
+            console.log(this.emailSettings);
         },
     },
 }
