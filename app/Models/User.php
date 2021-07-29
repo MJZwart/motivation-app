@@ -26,6 +26,9 @@ class User extends Authenticatable
         'full_display_name',
         'display_picture',
         'rewards',
+        'show_achievements',
+        'show_character',
+        'show_friends',
     ];
 
     /**

@@ -62,6 +62,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/achievements/{user}', [AchievementController::class, 'show']);
 
     Route::get('/user/stats', [UserController::class, 'showStats']);
+    Route::put('/user/settings/email', [UserController::class, 'updateEmail']);
+    Route::put('/user/settings/password', [UserController::class, 'updatePassword']);
+    Route::put('/user/settings', [UserController::class, 'updateSettings']);
 
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
 });
