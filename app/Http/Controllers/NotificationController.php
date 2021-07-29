@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use App\Http\Resources\NotificationResource;
+use App\Http\Requests\SendNotificationRequest;
 
 class NotificationController extends Controller
 {
@@ -38,5 +40,15 @@ class NotificationController extends Controller
                 $notification->update();
             }
         }
+    }
+
+    public function sendNotificationToAll(SendNotificationRequest $request){
+        $validated = $request->validated();
+        foreach(User::lazy() as $user){
+            Notification::create(['user_id' => $user->id,
+            'title' => $validated['title'],
+            'text' => $validated['text']]);
+        }
+        return new JsonResponse(['message' => ['message' => ['Notification sent.']]]);
     }
 }

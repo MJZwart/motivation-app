@@ -1,18 +1,23 @@
 <template>
     <div>
         <ul class="navbar">
-            <li>
+            <li v-if="authenticated">
                 <router-link to="/" exact>Home</router-link>
             </li>
-            <li>
+            <li v-if="authenticated">
                 <router-link to="/overview">Overview</router-link>
             </li>
-            <li>
+            <li v-if="authenticated">
                 <router-link to="/friends">Friends</router-link>
             </li>
+
             <li v-if="admin">
                 <router-link to="/achievements">Achievements</router-link>
             </li>
+            <li v-if="admin">
+                <router-link to="/admin">Admin</router-link>
+            </li>
+
             <div class="flex-end">
                 <router-link to="/notifications">
                     <b-iconstack class="icon-nav-stack">
