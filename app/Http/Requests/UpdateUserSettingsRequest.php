@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateUserSettingsRequest extends FormRequest
 {
@@ -24,7 +26,7 @@ class UpdateUserSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_display_name' => 'required|string|unique:users',
+            'full_display_name' => ['required' , 'string', Rule::unique('users')->ignore(Auth::user())],
             'rewards' => 'required', //TODO, exists:rewards_types,type - make rewards type migration table
             'show_character' => 'required|boolean',
             'show_achievements' => 'required|boolean',

@@ -129,3 +129,9 @@ button {
 .flex {
     display: flex !important;
 }
+.custom-checkbox {
+    display:flex;
+}
+.custom-checkbox .custom-control-input{
+    width: auto;
+}
