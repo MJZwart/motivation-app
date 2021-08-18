@@ -19,6 +19,9 @@
             </li>
 
             <div class="flex-end">
+                <li v-if="authenticated">
+                    <search-bar>Friends</search-bar>
+                </li>
                 <router-link to="/notifications">
                     <b-iconstack class="icon-nav-stack">
                         <b-icon-bell class="icon-nav" v-if="authenticated"></b-icon-bell>
@@ -44,7 +47,11 @@
 
 <script>
 import {mapGetters} from 'vuex';
+import SearchBar from '../components/small/SearchBar.vue';
 export default {
+    components: {
+        SearchBar,
+    },
     computed: {
         ...mapGetters({
             authenticated: 'user/authenticated',
