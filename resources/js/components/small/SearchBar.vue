@@ -21,7 +21,7 @@ export default {
     methods: {
         searchUser() {
             this.$store.dispatch('user/searchUser', this.data);
-            this.$router.push('search').catch(()=>{});
+            this.$router.push({path: '/search'}).catch(()=>{});
             this.data.userSearch = "";
         }
     },
