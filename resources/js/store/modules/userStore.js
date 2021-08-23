@@ -113,7 +113,7 @@ export default {
         },
 
         searchUser: ({commit}, searchValue) => {
-            axios.get('/user/search', searchValue).then(response => {
+            axios.post('/search', searchValue).then(response => {
                 commit('setSearchResults', response.data);
             });
         },

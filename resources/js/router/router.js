@@ -54,6 +54,11 @@ let routes = [
         component: require('../pages/Admin.vue').default,
         meta: { requiresAuth: true, requiresAdmin: true },
     },
+    {
+        path: "/search",
+        component: require('../pages/Search.vue').default,
+        meta: { requiresAuth: true},
+    },
 
 ];
 

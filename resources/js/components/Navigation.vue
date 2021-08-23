@@ -28,7 +28,7 @@
                         <b-icon-dot v-if="hasNotifications" font-scale="4" class="icon-dot-red"></b-icon-dot>
                     </b-iconstack>
                 </router-link>
-                <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="m-2">
+                <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="nav-button">
                     <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
                     <b-dropdown-item to="/settings">Settings</b-dropdown-item>
                     <b-dropdown-item @click="logout">Logout</b-dropdown-item>
@@ -101,7 +101,7 @@ export default {
         color:teal;
     }
     .icon-nav-stack{
-        margin-top:5px;
+        margin-top:12px;
         margin-right:25px;
     }
     .icon-dot-red{
@@ -128,5 +128,8 @@ export default {
     }
     .dropdown-menu li{
         font-size:1rem;
+    }
+    .nav-button {
+        margin:auto;
     }
 </style>
