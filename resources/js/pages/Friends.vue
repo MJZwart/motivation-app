@@ -38,7 +38,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import FriendsSummary from '../components/FriendsSummary.vue';
+import FriendsSummary from '../components/summary/FriendsSummary.vue';
 export default {
     components: {
         FriendsSummary

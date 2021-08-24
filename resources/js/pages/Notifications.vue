@@ -8,7 +8,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import NotificationBlock from "../components/NotificationBlock.vue";
+import NotificationBlock from "../components/small/NotificationBlock.vue";
 
 export default {
     components: { NotificationBlock },

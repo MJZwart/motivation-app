@@ -20,8 +20,8 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import EditAchievement from '../components/EditAchievement.vue';
-import NewAchievement from '../components/NewAchievement.vue';
+import EditAchievement from '../components/modals/EditAchievement.vue';
+import NewAchievement from '../components/modals/NewAchievement.vue';
 export default {
     components: { NewAchievement, EditAchievement },
     mounted() {

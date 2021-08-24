@@ -80,7 +80,7 @@
 
 
 <script>
-import InformationBlock from './InformationBlock.vue';
+import InformationBlock from '../InformationBlock.vue';
 export default {
     components: {InformationBlock},
     props: {

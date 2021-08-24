@@ -19,8 +19,8 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import AchievementsSummary from '../components/AchievementsSummary.vue';
-import CharacterSummary from '../components/CharacterSummary.vue';
+import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
+import CharacterSummary from '../components/summary/CharacterSummary.vue';
 export default {
     components: {CharacterSummary, AchievementsSummary},
     mounted() {

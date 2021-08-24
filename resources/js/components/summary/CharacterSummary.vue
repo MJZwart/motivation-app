@@ -40,7 +40,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import EditCharacterName from './EditCharacterName.vue';
+import EditCharacterName from '../modals/EditCharacterName.vue';
 export default {
     props: {
         character: Object,

@@ -62,7 +62,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import InformationBlock from './InformationBlock.vue';
+import InformationBlock from '../InformationBlock.vue';
 export default {
     props: {
         achievement: Object,
