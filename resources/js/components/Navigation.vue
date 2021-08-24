@@ -20,7 +20,7 @@
 
             <div class="flex-end">
                 <li v-if="authenticated">
-                    <search-bar>Friends</search-bar>
+                    <search-bar></search-bar>
                 </li>
                 <router-link to="/notifications">
                     <b-iconstack class="icon-nav-stack">
