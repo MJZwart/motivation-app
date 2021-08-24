@@ -5,9 +5,9 @@
                 <div class="modal">
                     <information-block></information-block>
                     <div class="form-title">
-                    <h3>New achievement</h3>
+                    <h3>Edit achievement</h3>
                     </div>
-                    <form @submit.prevent="submitAchievement">
+                    <form @submit.prevent="updateAchievement">
                         <div class="form-group">
                             <label for="name">Achievement name</label>
                             <input 
@@ -15,7 +15,7 @@
                                 id="name" 
                                 name="name" 
                                 placeholder="Name" 
-                                v-model="achievement.name" />
+                                v-model="achievementToEdit.name" />
                         </div>
                         <div class="form-group">
                             <label for="description">Achievement description</label>
@@ -24,13 +24,13 @@
                                 id="description" 
                                 name="description" 
                                 placeholder="Description" 
-                                v-model="achievement.description" />
+                                v-model="achievementToEdit.description" />
                         </div>
                         <div class="form-group">
                             <label for="type">Achievement type</label>
                             <select 
                                     id="type" 
-                                    v-model="achievement.trigger_type">
+                                    v-model="achievementToEdit.trigger_type">
                                     <option v-for="option in achievementTriggers" :value="option.trigger_type" :key="option.key">{{option.trigger_type}}</option>
                                 </select>
                         </div>
@@ -41,14 +41,14 @@
                                 id="amount" 
                                 name="amount" 
                                 placeholder="Amount" 
-                                v-model="achievement.trigger_amount" />
+                                v-model="achievementToEdit.trigger_amount" />
                         </div>
                         <div class="form-group">
                             <label for="trigger-description">Trigger description</label>
-                            <p v-if="achievement.trigger_type" id="trigger-description">{{triggerDescription}}</p>
+                            <p v-if="achievementToEdit.trigger_type" id="trigger-description">{{triggerDescription}}</p>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="long-button">Create new achievement</button>
+                            <button type="submit" class="long-button">Edit achievement</button>
                             <button type="button" class="long-button" @click="close">Cancel</button>
                         </div>
                     </form>
@@ -62,27 +62,35 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import InformationBlock from './InformationBlock.vue';
+import InformationBlock from '../InformationBlock.vue';
 export default {
+    props: {
+        achievement: Object,
+    },
+    mounted() {
+        this.achievementToEdit = this.achievement;
+        //console.log(this.achievementTriggers.find(item => item.trigger_type == 'TASKS_MADE'));
+        //this.achievementToEdit.trigger_type = this.triggerDescription;
+    },
     components: {
         InformationBlock,
     },
     data() {
         return {
-            achievement: {
-                trigger_amount: 0,
+            achievementToEdit: {
+                
             },
         }
     },
     methods: {
-        submitAchievement(){
-            this.$store.dispatch('admin/newAchievement', this.achievement).then(response => {
+        updateAchievement(){
+            this.$store.dispatch('admin/editAchievement', this.achievementToEdit).then(response => {
                 this.close();
             });
 
         },
         close(){
-            this.achievement = {trigger_amount: 0,},
+            this.achievementToEdit = {},
             this.$emit('close');
         }
     },
@@ -91,13 +99,12 @@ export default {
             achievementTriggers: 'achievement/getAchievementTriggers',
         }),
         triggerDescription() {
-            if(this.achievement.trigger_type){
+            if(this.achievementToEdit.trigger_type){
                 const plural = this.achievement.trigger_amount > 1 ? 's' : '';
                 let desc = this.achievementTriggers.find(item => item.trigger_type === this.achievement.trigger_type);
                 desc = desc.trigger_description.replace('%d', this.achievement.trigger_amount);
                 return desc.replace('%s', plural);
             }
-            
         },
     },
     

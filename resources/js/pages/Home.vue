@@ -37,14 +37,14 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import NewTask from '../components/NewTask.vue';
-import TaskList from '../components/TaskList.vue';
-import EditTask from '../components/EditTask.vue';
-import NewTaskList from '../components/NewTaskList.vue';
-import EditTaskList from '../components/EditTaskList.vue';
-import DeleteTaskListConfirm from '../components/DeleteTaskListConfirm.vue';
-import CharacterSummary from '../components/CharacterSummary.vue';
-import FriendsSummary from '../components/FriendsSummary.vue';
+import NewTask from '../components/modals/NewTask.vue';
+import TaskList from '../components/small/TaskList.vue';
+import EditTask from '../components/modals/EditTask.vue';
+import NewTaskList from '../components/modals/NewTaskList.vue';
+import EditTaskList from '../components/modals/EditTaskList.vue';
+import DeleteTaskListConfirm from '../components/modals/DeleteTaskListConfirm.vue';
+import CharacterSummary from '../components/summary/CharacterSummary.vue';
+import FriendsSummary from '../components/summary/FriendsSummary.vue';
 export default {
     components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm, CharacterSummary, FriendsSummary},
     data(){

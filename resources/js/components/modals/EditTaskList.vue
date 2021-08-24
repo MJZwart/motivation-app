@@ -4,10 +4,11 @@
             <div class="modal-backdrop">
                 <div class="modal">
                     <information-block></information-block>
+
                     <div class="form-title">
-                    <h3>New task list</h3>
+                    <h3>Edit task list</h3>
                     </div>
-                    <form @submit.prevent="submitTaskList">
+                    <form @submit.prevent="updateTaskList">
                         <div class="form-group">
                             <label for="name">Task list name</label>
                             <input 
@@ -15,10 +16,10 @@
                                 id="name" 
                                 name="name" 
                                 placeholder="Name" 
-                                v-model="taskList.name" />
+                                v-model="editedTaskList.name" />
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="long-button">Create new task list</button>
+                            <button type="submit" class="long-button">Update task list</button>
                             <button type="button" class="long-button" @click="close">Cancel</button>
                         </div>
                     </form>
@@ -31,26 +32,30 @@
 
 
 <script>
-import InformationBlock from './InformationBlock.vue';
+import InformationBlock from '../InformationBlock.vue';
 export default {
-    components: {
-        InformationBlock,
+    components: {InformationBlock},
+    props: {
+        taskList: Object,
     },
     data() {
         return {
-            taskList: {},
+            editedTaskList: {},
         }
     },
+    mounted(){
+        this.taskList ? this.editedTaskList = this.taskList : this.editedTaskList = {};
+    },
     methods: {
-        submitTaskList(){
+        updateTaskList(){
             var self = this;
-            this.$store.dispatch('taskList/storeTaskList', this.taskList).then(function(){
+            this.$store.dispatch('taskList/updateTaskList', this.editedTaskList).then(function(){
                 self.close();
             });
 
         },
         close(){
-            this.taskList = {},
+            this.editedTaskList = {},
             this.$emit('close');
         }
     },
