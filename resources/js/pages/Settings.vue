@@ -29,20 +29,21 @@
                     name="show_character"
                     id="show_character"
                     v-model="settings.show_character"
-                    switch>Show character on profile
+                    >
+                    Show character on profile
                 </b-form-checkbox>
                 <b-form-checkbox
                     name="show_achievements"
                     id="show_achievements"
                     v-model="settings.show_achievements"
-                    switch>
+                    >
                     Show achievements on profile
                 </b-form-checkbox>
                 <b-form-checkbox
                     name="show_friends"
                     id="show_friends"
                     v-model="settings.show_friends"
-                    switch>
+                    >
                     Show friends on profile
                 </b-form-checkbox>
             </div>

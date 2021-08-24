@@ -10,6 +10,7 @@ export default {
         authenticated: JSON.parse(localStorage.getItem('authenticated')) || false,
         userProfile: {},
         userStats: null,
+        searchResults: null,
     },
     mutations: {
         setAuthenticated(state, value) {
@@ -26,6 +27,9 @@ export default {
         setUserStats(state, value) {
             state.userStats = value;
         },
+        setSearchResults(state, value) {
+            state.searchResults = value;
+        },
     },
     getters: {
         authenticated(state) {
@@ -39,6 +43,9 @@ export default {
         },
         getUserStats: (state) => {
             return state.userStats;
+        },
+        getSearchResults: (state) => {
+            return state.searchResults;
         },
     },
     actions: {
@@ -103,7 +110,12 @@ export default {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
             });
-        }
+        },
 
+        searchUser: ({commit}, searchValue) => {
+            axios.post('/search', searchValue).then(response => {
+                commit('setSearchResults', response.data);
+            });
+        },
     },
 }

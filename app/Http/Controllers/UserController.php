@@ -51,4 +51,8 @@ class UserController extends Controller
         Auth::user()->update($validated);
         return new JsonResponse(['message' => ['message' => ['Your settings have been changed.']], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
     }
+
+    public function searchUser(Request $request){
+        return new UserProfileResource(User::where('full_display_name', 'like', '%'.$request['userSearch'].'%')->get());
+    }
 }
