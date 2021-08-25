@@ -101,6 +101,9 @@ class TaskController extends Controller
             case 'MONTHLY':
                 $date = new Carbon('first day of next month midnight');
                 break;
+            case 'INFINITE':
+                $date = new Carbon();
+                break;
         }
         $task->repeatable_active = $date;
         $task->update();
