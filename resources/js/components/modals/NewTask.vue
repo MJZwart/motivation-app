@@ -59,6 +59,7 @@
                                 <option value="DAILY">Daily</option>
                                 <option value="WEEKLY">Weekly</option>
                                 <option value="MONTHLY">Monthly</option>
+                                <option value="INFINITE">Infinite</option>
                             </select>
                         </div>
                         <div class="form-group">
