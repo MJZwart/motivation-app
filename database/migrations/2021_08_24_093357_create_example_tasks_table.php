@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExampleTaskTable extends Migration
+class CreateExampleTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateExampleTaskTable extends Migration
      */
     public function up()
     {
-        Schema::create('example_task', function (Blueprint $table) {
+        Schema::create('example_tasks', function (Blueprint $table) {
             $table->id();
             $table->integer('difficulty')->default(3); //Difficulty between 1 and 5
             $table->integer('type')->default(1); //Type 1 is generic, rewards divided evenly
@@ -31,6 +31,6 @@ class CreateExampleTaskTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('example_task');
+        Schema::dropIfExists('example_tasks');
     }
 }

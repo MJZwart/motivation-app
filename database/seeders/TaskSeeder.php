@@ -42,6 +42,73 @@ class TaskSeeder extends Seeder
                 'task_id' => Task::where('user_id', $user->id)->where('repeatable', 'DAILY')->first()->id,
             ]);
         }
-        
+
+        DB::table('example_tasks')->insert([
+            'difficulty' => 4,
+            'type' => 3,
+            'name' => 'Finish the day\'s homework.',
+            'description' => 'Finish the homework you were assigned for the day.',
+            'repeatable' => 'DAILY',
+        ],[
+            'difficulty' => 1,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ],[
+            'difficulty' => ,
+            'type' => ,
+            'name' => '',
+            'description' => '',
+            'repeatable' => '',
+        ]);
     }
 }
