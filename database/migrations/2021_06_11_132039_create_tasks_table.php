@@ -22,7 +22,7 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->unsignedBigInteger('super_task_id')->nullable();
-            $table->string('repeatable')->default('NONE'); //NONE, DAILY, WEEKLY, MONTHLY
+            $table->string('repeatable')->default('NONE'); //NONE, DAILY, WEEKLY, MONTHLY, INFINITE
             $table->timestamp('repeatable_active')->useCurrent();
         });
     }
