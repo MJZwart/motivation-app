@@ -19,7 +19,6 @@ class CreateExampleTasksTable extends Migration
             $table->integer('type')->default(1); //Type 1 is generic, rewards divided evenly
             $table->string('name');
             $table->string('description')->nullable();
-            $table->unsignedBigInteger('super_task_id')->nullable();
             $table->string('repeatable')->default('NONE'); //NONE, DAILY, WEEKLY, MONTHLY
         });
     }
