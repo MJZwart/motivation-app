@@ -39,14 +39,20 @@
                         <h3>Just a little more</h3>
                         <p class="silent">To get you started, you can pick a few of these example tasks to directly put into your task lists.</p>
                         </div>
-                        <form @submit.prevent="confirmRegister">
+                        <form @submit.prevent="confirmExampleTasks">
                             <div class="form-group">
                                 <label for="name">Example tasks</label>
                                 <div class="examples-slot">
-                                    <div v-for="task in exampleTasks" :key="task.id" @click="addTask(task.id)">
-                                        <div>{{task.name}}</div>
-                                        <p class="silent">{{task.description}}</p>
+                                    <b-form-checkbox-group v-model="user.tasks">
+                                    <div v-for="task in exampleTasks" :key="task.id" @click="toggleTask(task.id)">
+                                        <b-form-checkbox :value="task.id">
+                                            <p class="task-title flex label-override">
+                                                {{task.name}}
+                                            </p>
+                                            <p class="task-description label-override">{{task.description}}</p>
+                                        </b-form-checkbox>
                                     </div>
+                                    </b-form-checkbox-group>
                                 </div>
                                 
                             </div>
@@ -86,11 +92,9 @@ import { mapGetters } from 'vuex';
                 this.secondModal = true;
             },
             confirmExampleTasks() {
-
+                this.$store.dispatch('user/confirmRegister', user);
+                //TODO
             },
-            toggleTask(taskId){
-                
-            }
         },
         computed: {
             ...mapGetters({
@@ -102,7 +106,11 @@ import { mapGetters } from 'vuex';
 
 <style>
 .examples-slot{
-    height:50%;
-    overflow:scroll;
+    height:500px;
+    overflow-y:scroll;
+}
+.label-override{
+    text-transform:none;
+    letter-spacing:0;
 }
 </style>
