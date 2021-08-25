@@ -53,9 +53,13 @@ export default {
         login: ({ commit }, user) => {
             axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
                 axios.post('/login', user).then(response => {
-                    commit('setUser', response.data);
+                    commit('setUser', response.data.user);
                     commit('setAuthenticated', true);
-                    router.push('/').catch(()=>{});
+                    if(response.data.first){
+                        router.push('/welcome').catch(()=>{});
+                    } else {
+                        router.push('/').catch(()=>{});
+                    }
                 });
             });
         },

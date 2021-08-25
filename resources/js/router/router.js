@@ -59,6 +59,11 @@ let routes = [
         component: require('../pages/Search.vue').default,
         meta: { requiresAuth: true},
     },
+    {
+        path: "/welcome",
+        component: require('../pages/Welcome.vue').default,
+        meta: { requiresAuth: true},
+    },
 
 ];
 
