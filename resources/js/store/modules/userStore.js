@@ -81,6 +81,13 @@ export default {
                 commit('setStatus', 'success', {root:true});
             });
         },
+        confirmRegister: ({ commit }, user) => {
+            axios.post('/register/confirm', user).then(response => {
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+                commit('setUser', response.data.user);
+            });
+        },
 
         //Public user profile
         getUserProfile: ({ commit }, userId) => {
