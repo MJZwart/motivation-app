@@ -86,6 +86,7 @@ export default {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('setUser', response.data.user);
+                router.push('/').catch(() => {});
             });
         },
 

@@ -70,8 +70,8 @@ class TaskController extends Controller
     public function complete(Task $task){
         if(Auth::user()->id === $task->user_id){
             if($task->repeatable != 'NONE'){
+                $task->completeRepeatable();
                 $this->completeRepeatable($task);
-                $task->complete();
             } else {
                 $task->completed = Carbon::now();
                 $task->update();

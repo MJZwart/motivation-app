@@ -56,6 +56,5 @@ class RegisteredUserController extends Controller
         $user->first_login = false;
         $user->save();
         return new JsonResponse(['user' => new UserResource(Auth::user())]);
-        //TODO TEST
     }
 }

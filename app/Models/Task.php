@@ -44,7 +44,7 @@ class Task extends Model
                 ;});
     }
 
-    public function complete(){
+    public function completeRepeatable(){
         DB::table('repeatable_tasks_completed')->insert([
             'user_id' => $this->user_id,
             'task_id' => $this->id,
