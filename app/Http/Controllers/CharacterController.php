@@ -20,7 +20,9 @@ class CharacterController extends Controller
 
     public function show(){
         //Currently only one character can be active. Will be edited once we allow users to create a new character.
-        return new CharacterResource(Character::where('user_id', Auth::user()->id)->get()->first());
+        if(Auth::user()->rewards == 'CHARACTER'){
+            return new CharacterResource(Character::where('user_id', Auth::user()->id)->get()->first());
+        }
     }
 
     public function update(UpdateCharacterRequest $request, Character $character): JsonResponse{
