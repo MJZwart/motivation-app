@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\RepeatableTaskCompleted;
 
 class Task extends Model
 {
@@ -45,7 +46,7 @@ class Task extends Model
     }
 
     public function completeRepeatable(){
-        DB::table('repeatable_tasks_completed')->insert([
+        RepeatableTaskCompleted::create([
             'user_id' => $this->user_id,
             'task_id' => $this->id,
         ]);
