@@ -29,9 +29,7 @@ class RegisteredUserController extends Controller
         $request->validated();
         $user = Auth::user();
         $user->rewards = $request['rewardsType'];
-        if($request['rewardsType'] == 'NONE'){
-            //
-        } elseif($request['rewardsType'] == 'CHARACTER'){
+        if($request['rewardsType'] == 'CHARACTER'){ //When adding village option, change this to switch cases
             Character::create(
                 ['name' => $request['character_name'],
                 'user_id' => $user->id]);
@@ -40,21 +38,24 @@ class RegisteredUserController extends Controller
             ['name' => 'Tasks',
             'user_id' => $user->id]);
         if(!!$request['tasks']){
-            $exampleTaskArray = $request['tasks'];
-            for($i = 0 ; $i < count($exampleTaskArray) ; $i ++){
-                $task = ExampleTask::find($exampleTaskArray[$i]);
-                Task::create(
-                    ['name' => $task->name,
-                    'description' => $task->description,
-                    'difficulty' => $task->difficulty,
-                    'type' => $task->type,
-                    'repeatable' => $task->repeatable,
-                    'user_id' => $user->id,
-                    'task_list_id' => $taskList->id]);
-            }
+            $this->addExampleTasks($request['tasks'], $user->id, $taskList->id);
         }
         $user->first_login = false;
         $user->save();
         return new JsonResponse(['user' => new UserResource(Auth::user())]);
+    }
+
+    private function addExampleTasks($tasks, $userId, $taskListId){
+        for($i = 0 ; $i < count($tasks) ; $i ++){
+            $task = ExampleTask::find($tasks[$i]);
+            Task::create(
+                ['name' => $task->name,
+                'description' => $task->description,
+                'difficulty' => $task->difficulty,
+                'type' => $task->type,
+                'repeatable' => $task->repeatable,
+                'user_id' => $userId,
+                'task_list_id' => $taskListId]);
+        }
     }
 }

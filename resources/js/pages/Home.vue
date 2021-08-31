@@ -18,7 +18,7 @@
             </div>
 
             <div class="right-align">
-                <character-summary class="summary-tab" :character="character" :userCharacter="true"></character-summary>
+                <character-summary class="summary-tab" :character="character" :userCharacter="true" v-if="character"></character-summary>
 
                 <friends-summary class="summary-tab"></friends-summary>
             </div>

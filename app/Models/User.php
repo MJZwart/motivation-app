@@ -77,7 +77,6 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
-    //TODO Remove DB raw and replace with Repeatable model?
     public function getTotalTasksCompleted(){
         $regularTasks = Task::where('user_id', $this->id)->where('completed', '!=', null)->count();
         $repeatableTasks = RepeatableTaskCompleted::where('user_id', $this->id)->count();
