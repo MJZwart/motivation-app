@@ -29,10 +29,15 @@ class RegisteredUserController extends Controller
         $request->validated();
         $user = Auth::user();
         $user->rewards = $request['rewardsType'];
-        if($request['rewardsType'] == 'CHARACTER'){ //When adding village option, change this to switch cases
-            Character::create(
-                ['name' => $request['character_name'],
-                'user_id' => $user->id]);
+        switch($request['rewardsType']){
+            case 'NONE':
+                $user->show_character = false;
+                break;
+            case 'CHARACTER':
+                Character::create(
+                    ['name' => $request['character_name'],
+                    'user_id' => $user->id]);
+                break;
         }
         $taskList = TaskList::create(
             ['name' => 'Tasks',
