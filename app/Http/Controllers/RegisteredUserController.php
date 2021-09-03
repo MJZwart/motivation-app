@@ -14,6 +14,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\AchievementHandler;
 
 class RegisteredUserController extends Controller
 {
@@ -44,6 +45,7 @@ class RegisteredUserController extends Controller
             'user_id' => $user->id]);
         if(!!$request['tasks']){
             $this->addExampleTasks($request['tasks'], $user->id, $taskList->id);
+            AchievementHandler::checkForAchievement('TASKS_MADE', $user);
         }
         $user->first_login = false;
         $user->save();
