@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\ValidRewardType;
 
 class UpdateUserSettingsRequest extends FormRequest
 {
@@ -27,8 +28,8 @@ class UpdateUserSettingsRequest extends FormRequest
     {
         return [
             'full_display_name' => ['required' , 'string', Rule::unique('users')->ignore(Auth::user())],
-            'rewards' => 'required', //TODO, exists:rewards_types,type - make rewards type migration table
-            'show_character' => 'required|boolean',
+            'rewards' => ['required', new ValidRewardType()], //TODO, exists:rewards_types,type - make rewards type migration table
+            'show_character' => [Rule::requiredIf($this->rewards == 'CHARACTER'),'boolean'],
             'show_achievements' => 'required|boolean',
             'show_friends' => 'required|boolean',
         ];

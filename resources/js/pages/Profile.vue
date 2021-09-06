@@ -35,6 +35,10 @@ import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
 import CharacterSummary from '../components/summary/CharacterSummary.vue';
 export default {
     components: { CharacterSummary, AchievementsSummary },
+    beforeRouteUpdate(to, from, next) {
+        this.$store.dispatch('user/getUserProfile', to.params.id);
+        next();
+    },
     mounted() {
         this.$store.dispatch('user/getUserProfile', this.$route.params.id);
     },

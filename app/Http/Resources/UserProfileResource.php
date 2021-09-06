@@ -18,6 +18,7 @@ class UserProfileResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'created_at' => $this->created_at->toDateString(),
             'full_display_name' => $this->full_display_name,
             'display_picture' => $this->display_picture,

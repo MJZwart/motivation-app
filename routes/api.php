@@ -11,6 +11,7 @@ use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FriendController;
+use App\Http\Controllers\ExampleTaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
 
     Route::post('/search', [UserController::class, 'searchUser']);
+    Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
 });
 
     Route::get('/achievements', [AchievementController::class, 'showAll']);
@@ -77,6 +79,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/achievements', CharacterController::class)->only([
         'store', 'update',
     ]);
+
+    Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
 //Route::group(['middleware' => ['admin']], function () {
 
 //});

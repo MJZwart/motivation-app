@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <character-summary :character="character"></character-summary>
+            <character-summary :character="character" v-if="character"></character-summary>
         </div>
         <div v-if="userStats">
             <span class="frame-title">Stats</span>

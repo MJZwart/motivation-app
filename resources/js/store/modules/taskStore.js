@@ -3,6 +3,19 @@ import axios from "axios";
 export default {
 
     namespaced: true,
+    state: {
+        exampleTasks: null,
+    },
+    mutations: {
+        setExampleTasks: (state, exampleTasks) => {
+            state.exampleTasks = exampleTasks;
+        },
+    },
+    getters: {
+        getExampleTasks: (state) => {
+            return state.exampleTasks;
+        },
+    },
     actions: {
         storeTask: ({ commit }, task) => {
             return axios.post('/tasks', task).then(response => {
@@ -33,6 +46,11 @@ export default {
                 commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
                 commit('character/setCharacter', response.data.character, {root:true});
+            });
+        },
+        fetchExampleTasks: ({commit}) => {
+            axios.get('/examples/tasks').then(response => {
+                commit('setExampleTasks', response.data.data);
             });
         },
     },

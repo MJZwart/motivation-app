@@ -14,6 +14,16 @@
                         v-model="register.username" />
                 </div>
                 <div class="form-group">
+                    <label for="name">Full display name</label>
+                    <p class="silent">This will be the name other players can find you on and will be displayed on your public profile.</p>
+                    <input 
+                        type="text" 
+                        id="full_display_name" 
+                        name="full_display_name" 
+                        placeholder="Display name" 
+                        v-model="register.full_display_name" />
+                </div>
+                <div class="form-group">
                     <label for="email">E-mail</label>
                     <input 
                         type="text" 
@@ -50,9 +60,7 @@
 
 
 <script>
-//import ResponseView from '../components/ResponseView.vue';
 export default {
-    //components: {ResponseView},
     data() {
         return {
             register: {
@@ -60,6 +68,7 @@ export default {
                 email: '',
                 password: '',
                 password_confirmation: '',
+                full_display_name: '',
             },
         }
     },

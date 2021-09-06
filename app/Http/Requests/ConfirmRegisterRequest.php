@@ -3,9 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rule;
+use App\Rules\ValidRewardType;
 
-class RegisterUserRequest extends FormRequest
+class ConfirmRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +26,8 @@ class RegisterUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string|unique:users',
-            'email' => 'required|string|email|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::min(8)],
-            'full_display_name' => 'required|string',
+            'character_name' => [Rule::requiredIf($this->rewardsType == 'CHARACTER'), 'string'],
+            'rewardsType' => [new ValidRewardType()],
         ];
     }
 }

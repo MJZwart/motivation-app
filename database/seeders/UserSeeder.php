@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         User::factory(20)
             ->hasCharacters(1)
             ->hasTaskLists(3)
-            ->create();
+            ->create(['first_login' => false]);
 
         User::factory()
             ->hasCharacters(1)

@@ -70,20 +70,23 @@ class TaskController extends Controller
     public function complete(Task $task){
         if(Auth::user()->id === $task->user_id){
             if($task->repeatable != 'NONE'){
+                $task->completeRepeatable();
                 $this->completeRepeatable($task);
-                $task->complete();
             } else {
                 $task->completed = Carbon::now();
                 $task->update();
             }
 
-            $character = Character::where('user_id', Auth::user()->id)->get()->first();
-            $returnValue = $character->applyReward($task);
-
             AchievementHandler::checkForAchievement('TASKS_COMPLETED', Auth::user());
             
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => new CharacterResource($character->fresh())], Response::HTTP_OK);
+            if(Auth::user()->rewards == 'CHARACTER'){
+                $character = Character::where('user_id', Auth::user()->id)->get()->first();
+                $returnValue = $character->applyReward($task);
+                return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => new CharacterResource($character->fresh())], Response::HTTP_OK);
+            } else {
+                return new JsonResponse(['message' => ['message' => ['Task completed.']], 'data' => $taskLists], Response::HTTP_OK);
+            }
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to complete this task"]]], Response::HTTP_FORBIDDEN);
         }

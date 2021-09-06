@@ -53,7 +53,7 @@ export default {
         login: ({ commit }, user) => {
             axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
                 axios.post('/login', user).then(response => {
-                    commit('setUser', response.data);
+                    commit('setUser', response.data.user);
                     commit('setAuthenticated', true);
                     router.push('/').catch(()=>{});
                 });
@@ -75,6 +75,14 @@ export default {
                 router.push('/login').catch(() => { });
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
+            });
+        },
+        confirmRegister: ({ commit }, user) => {
+            axios.post('/register/confirm', user).then(response => {
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+                commit('setUser', response.data.user);
+                router.push('/').catch(() => {});
             });
         },
 
@@ -114,7 +122,7 @@ export default {
 
         searchUser: ({commit}, searchValue) => {
             axios.post('/search', searchValue).then(response => {
-                commit('setSearchResults', response.data);
+                commit('setSearchResults', response.data.data);
             });
         },
     },
