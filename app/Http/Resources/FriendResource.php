@@ -16,7 +16,7 @@ class FriendResource extends JsonResource
     {
         return [
             'id' => $this->pivot->id,
-            'friend' => $this->full_display_name,
+            'friend' => $this->username,
             'friends_since' => $this->pivot->created_at->toDateString(),
         ];
     }
