@@ -55,11 +55,7 @@ export default {
                 axios.post('/login', user).then(response => {
                     commit('setUser', response.data.user);
                     commit('setAuthenticated', true);
-                    if(response.data.first){
-                        router.push('/welcome').catch(()=>{});
-                    } else {
-                        router.push('/').catch(()=>{});
-                    }
+                    router.push('/').catch(()=>{});
                 });
             });
         },

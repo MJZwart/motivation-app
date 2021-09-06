@@ -28,6 +28,7 @@ class UserResource extends JsonResource
             'show_achievements' => !!$this->show_achievements,
             'show_character' => !!$this->show_character,
             'show_friends' => !!$this->show_friends,
+            'first' => !!$this->first_login,
         ];
     }
 }

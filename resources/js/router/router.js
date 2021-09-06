@@ -74,6 +74,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     store.dispatch('clearInformationBlock');
 
+    if(to.path != '/welcome' && store.getters['user/getUser'].first){
+        return next({ path: '/welcome' });
+    }
+
     if (to.meta.requiresAuth && !store.getters['user/authenticated']) {
         return next({ path: '/login' });
     }
