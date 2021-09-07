@@ -20,9 +20,8 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'full_display_name' => $this->full_display_name,
             'rewards' => $this->rewards,
-            'friends' => FriendResource::collection($this->friends->sortBy('full_display_name')),
+            'friends' => FriendResource::collection($this->friends->sortBy('username')),
             'email' => $this->email,
             'admin' => $this->admin,
             'show_achievements' => !!$this->show_achievements,

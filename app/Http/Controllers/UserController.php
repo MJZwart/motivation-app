@@ -53,6 +53,6 @@ class UserController extends Controller
     }
 
     public function searchUser(Request $request){
-        return UserProfileResource::collection(User::where('full_display_name', 'like', '%'.$request['userSearch'].'%')->get());
+        return UserProfileResource::collection(User::where('username', 'like', '%'.$request['userSearch'].'%')->get());
     }
 }

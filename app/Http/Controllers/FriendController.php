@@ -39,7 +39,7 @@ class FriendController extends Controller
         Notification::create([
             'user_id' => $user->id,
             'title' => 'New friend request!',
-            'text' => 'You have a new friend request from '.Auth::user()->full_display_name.'. Would you like to accept?']);
+            'text' => 'You have a new friend request from '.Auth::user()->username.'. Would you like to accept?']);
         return new JsonResponse(['message' => ['message' => ['Friend request successfully sent.']]], Response::HTTP_OK);
     }
 

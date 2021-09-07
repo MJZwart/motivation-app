@@ -20,7 +20,7 @@ class UserProfileResource extends JsonResource
         return [
             'id' => $this->id,
             'created_at' => $this->created_at->toDateString(),
-            'full_display_name' => $this->full_display_name,
+            'username' => $this->username,
             'display_picture' => $this->display_picture,
             'character' => $this->show_character ? new CharacterResource(Character::where('user_id', $this->id)->get()->first()) : false, //Will need to be fixed once multiple characters are an option
             'achievements' => $this->show_achievements ? $this->achievements : false,

@@ -17,7 +17,7 @@ class OutgoingFriendRequestResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'friend' => $this->friend->full_display_name,
+            'friend' => $this->friend->username,
             'sent' => $this->created_at->toDateTimeString(),
         ];
     }

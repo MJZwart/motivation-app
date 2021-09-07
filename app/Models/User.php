@@ -24,7 +24,6 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'full_display_name',
         'display_picture',
         'rewards',
         'show_achievements',

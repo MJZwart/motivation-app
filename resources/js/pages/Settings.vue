@@ -7,15 +7,6 @@
         <form @submit.prevent="submitSettings" v-if="!loading">
             <h4>Profile settings</h4>
             <div class="form-group">
-                <label for="full_display_name">Full display name</label>
-                <input 
-                    type="text" 
-                    id="full_display_name" 
-                    name="full_display_name" 
-                    placeholder="full_display_name" 
-                    v-model="settings.full_display_name" />
-            </div>
-            <div class="form-group">
                 <label for="rewards">Rewards type</label>
                 <select
                     name="rewards"
@@ -135,7 +126,6 @@ export default {
         setupSettings() {
             this.emailSettings.email = this.user.email;
             this.settings.rewards = this.user.rewards;
-            this.settings.full_display_name = this.user.full_display_name;
             this.settings.show_achievements = this.user.show_achievements;
             this.settings.show_character = this.user.show_character;
             this.settings.show_friends = this.user.show_friends;

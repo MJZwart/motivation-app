@@ -12,15 +12,17 @@
                     </span>
                     <div class="side-border bottom-border">
                         <ul class="summary-list">
-                            <li v-for="(value, index) in userProfile.friends" :key="index">
-                                {{value.friend}}
+                            <li v-for="(friend, index) in userProfile.friends" :key="index">
+                                <router-link :to="{ name: 'profile', params: { id: friend.friend_id}}">
+                                    {{friend.friend}}
+                                </router-link>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="right-column">
-                <h2>{{userProfile.full_display_name}}</h2>
+                <h2>{{userProfile.username}}</h2>
                 <p class="silent">Member since: {{userProfile.created_at}}</p>
                 <achievements-summary v-if="userProfile.achievements" :achievements="userProfile.achievements"></achievements-summary>
             </div>

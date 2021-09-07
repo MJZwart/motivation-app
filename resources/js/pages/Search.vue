@@ -9,7 +9,7 @@
         <div v-if="searchResults">
             <div v-if="!searchResults.length">No results</div>
             <div v-for="user in searchResults" :key="user.id">
-                <router-link :to="{ name: 'profile', params: { id: user.id}}">{{user.full_display_name}}</router-link>
+                <router-link :to="{ name: 'profile', params: { id: user.id}}">{{user.username}}</router-link>
             </div>
         </div>
     </div>
