@@ -12,8 +12,10 @@
                     </span>
                     <div class="side-border bottom-border">
                         <ul class="summary-list">
-                            <li v-for="(value, index) in userProfile.friends" :key="index">
-                                {{value.friend}}
+                            <li v-for="(friend, index) in userProfile.friends" :key="index">
+                                <router-link :to="{ name: 'profile', params: { id: friend.friend_id}}">
+                                    {{friend.friend}}
+                                </router-link>
                             </li>
                         </ul>
                     </div>

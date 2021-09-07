@@ -4,10 +4,12 @@
             <span class="frame-title">Friends</span>
             <div class="side-border bottom-border">
                 <ul class="summary-list">
-                    <li v-for="(value, index) in user.friends" :key="index">
-                        <b-icon-person-x-fill class="icon-small" @click="removeFriend(value)"></b-icon-person-x-fill> 
+                    <li v-for="(friend, index) in user.friends" :key="index">
+                        <b-icon-person-x-fill class="icon-small" @click="removeFriend(friend)"></b-icon-person-x-fill> 
                         <!-- <b-icon-envelope class="icon-small"></b-icon-envelope>  -->
-                        {{value.friend}}
+                        <router-link :to="{ name: 'profile', params: { id: friend.friend_id}}">
+                            {{friend.friend}}
+                        </router-link>
                     </li>
                 </ul>
             </div>
