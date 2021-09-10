@@ -9,6 +9,7 @@ import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -51,5 +52,10 @@ export default new Vuex.Store({
                 commit('setResponseMessage', []);
                 commit('setStatus', 'hidden')
         },
+        // test({}) {
+        //     axios.get('/character/all').then(response => {
+        //         console.log(response);
+        //     });
+        // }
     }
 });

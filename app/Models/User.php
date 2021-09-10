@@ -99,4 +99,8 @@ class User extends Authenticatable
         $activeTasks = Task::where('user_id', $this->id)->where('completed', null)->count();
         return $completedTasks + $activeTasks;
     }
+
+    public function getActiveCharacter(){
+        return Character::where('user_id', $this->id)->where('active', true)->first();
+    }
 }

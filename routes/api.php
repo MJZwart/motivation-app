@@ -49,7 +49,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/character', CharacterController::class)->only([
         'store', 'update', 'destroy',
     ]);
-    Route::get('/character', [CharacterController::class, 'show']);
+    //Route::get('/character', [CharacterController::class, 'show']);
+    Route::get('/character/find', [CharacterController::class, 'fetchCharacterIfExists']);
+    Route::get('/character/active', [CharacterController::class, 'fetchActiveCharacter']);
+    Route::get('/character/all', [CharacterController::class, 'fetchAllCharactersByUser']);
+
+    
     Route::get('/notifications', [NotificationController::class, 'show']);
     Route::get('/notifications/unread', [NotificationController::class, 'hasUnreadNotifications']);
     Route::post('/notifications/all', [NotificationController::class, 'sendNotificationToAll']);
@@ -67,6 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/user/settings/email', [UserController::class, 'updateEmail']);
     Route::put('/user/settings/password', [UserController::class, 'updatePassword']);
     Route::put('/user/settings', [UserController::class, 'updateSettings']);
+    Route::put('/user/settings/rewards', [UserController::class, 'updateRewardsType']);
 
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
 
