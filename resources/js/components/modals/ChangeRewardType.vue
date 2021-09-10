@@ -55,7 +55,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <button @click="confirmCharacterOptions()" class="long-button">Next</button>
+                            <button @click="confirmCharacterOptions()" class="long-button">Confirm</button>
                             <button @click="cancel()" class="long-button">Cancel</button>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                                 v-model="user.character_name" />
                         </div>
                         <div class="form-group">
-                            <button @click="confirmNewRewardsType()" class="long-button">Next</button>
+                            <button @click="confirmNewRewardsType()" class="long-button">Confirm</button>
                             <button @click="cancel()" class="long-button">Cancel</button>
                         </div>
                     </div>
