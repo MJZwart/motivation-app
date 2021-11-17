@@ -1,6 +1,7 @@
 require("./bootstrap");
 import Vue from "vue";
 import './interceptors';
+import '../assets/scss/app.scss';
 
 //Main pages
 import App from "./App.vue";

@@ -1,46 +1,49 @@
 <template>
     <div>
-        <ul class="navbar">
-            <li v-if="authenticated">
-                <router-link to="/" exact>Home</router-link>
-            </li>
-            <li v-if="authenticated">
-                <router-link to="/overview">Overview</router-link>
-            </li>
-            <li v-if="authenticated">
-                <router-link to="/friends">Friends</router-link>
-            </li>
-
-            <li v-if="admin">
-                <router-link to="/achievements">Achievements</router-link>
-            </li>
-            <li v-if="admin">
-                <router-link to="/admin">Admin</router-link>
-            </li>
-
-            <div class="flex-end">
+        <header role="naviation" class="navbar box-shadow">
+            <ul>
                 <li v-if="authenticated">
-                    <search-bar></search-bar>
+                    <router-link to="/" exact>Home</router-link>
                 </li>
-                <router-link to="/notifications">
-                    <b-iconstack class="icon-nav-stack">
-                        <b-icon-bell class="icon-nav" v-if="authenticated"></b-icon-bell>
-                        <b-icon-dot v-if="hasNotifications" font-scale="4" class="icon-dot-red"></b-icon-dot>
-                    </b-iconstack>
-                </router-link>
-                <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="nav-button">
-                    <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
-                    <b-dropdown-item to="/settings">Settings</b-dropdown-item>
-                    <b-dropdown-item @click="logout">Logout</b-dropdown-item>
-                </b-dropdown>
-                <li v-if="!authenticated">
-                    <router-link to="/login">Login</router-link>
+                <li v-if="authenticated">
+                    <router-link to="/overview">Overview</router-link>
                 </li>
-                <li v-if="!authenticated">
-                    <router-link to="/register">Register</router-link>
+                <li v-if="authenticated">
+                    <router-link to="/friends">Friends</router-link>
                 </li>
-            </div>
-        </ul>
+
+                <li v-if="admin">
+                    <router-link to="/achievements">Achievements</router-link>
+                </li>
+                <li v-if="admin">
+                    <router-link to="/admin">Admin</router-link>
+                </li>
+
+                <div class="flex-end">
+                    <li v-if="authenticated">
+                        <search-bar></search-bar>
+                    </li>
+                    <router-link to="/notifications">
+                        <b-iconstack class="icon-nav-stack">
+                            <b-icon-bell class="icon-nav" v-if="authenticated"></b-icon-bell>
+                            <b-icon-dot v-if="hasNotifications" font-scale="4" class="icon-dot-red"></b-icon-dot>
+                        </b-iconstack>
+                    </router-link>
+                    <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="nav-button">
+                        <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
+                        <b-dropdown-item to="/settings">Settings</b-dropdown-item>
+                        <b-dropdown-item @click="logout">Logout</b-dropdown-item>
+                    </b-dropdown>
+                    <li v-if="!authenticated">
+                        <router-link to="/login">Login</router-link>
+                    </li>
+                    <li v-if="!authenticated">
+                        <router-link to="/register">Register</router-link>
+                    </li>
+                </div>
+            </ul>
+        </header>
+        
     </div>
 </template>
 
@@ -70,26 +73,42 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
+@import '../../assets/scss/variables';
+
+//TODO
+
+//Working on getting SASS to work, and making the top navbar look like 
+// https://bootstrap-vue.org/docs/components/modal
     .navbar{
         display: flex;
-    }
-    .navbar li{
+        position: sticky;
+        top:0;
+        z-index: 1000;
+        background-color: $primary;
+
+        li {
         padding: 10px;
         list-style: none;
         font-size: 1.5rem;
         font-weight: 500;
+
+        a{
+            color: $secondary;
+            text-decoration: none;
+        }
+        a.router-link-active{
+            color: white;
+            text-decoration: none;
+            font-weight:600;
+        }
+        a:hover{
+            color: white;
+        }
     }
-    .navbar li a{
-        color:black;
-        text-decoration: none;
     }
-    .navbar li a.router-link-active{
-        color: teal;
-        text-decoration: none;
-    }
-    .navbar li a:hover{
-        color: rgba(0, 128, 128, 0.658);
+    .box-shadow {
+        box-shadow: 0 0.25rem 0.25rem $lightgrey, inset 0 -1px 5px $lightgrey;
     }
     .flex-end{
         display: flex;

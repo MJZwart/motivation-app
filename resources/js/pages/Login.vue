@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h2>Login</h2>
 
         <div class="login-form">
+        <h2>Login</h2>
             <form @submit.prevent="submitLogin">
                 <div class="form-group">
                     <label for="username">Username</label>
