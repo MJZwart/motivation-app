@@ -1,80 +1,70 @@
 <template>
     <div>
-        <transition name="modal-fade">
-            <div class="modal-backdrop">
-                <div class="modal">
-                    <information-block></information-block>
-                    <div class="form-title">
-                    <h3>New task</h3>
-                    </div>
-                    <form @submit.prevent="submitTask">
-                        <div class="form-group">
-                            <label for="name">Task name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                placeholder="Name" 
-                                v-model="task.name" />
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description (optional)</label>
-                            <input 
-                                type="text" 
-                                id="description" 
-                                name="description" 
-                                placeholder="Description" 
-                                v-model="task.description" />
-                        </div>
-                        <div class="form-group">
-                            <label for="type">Type</label>
-                            <select
-                                name="type"
-                                id="type"
-                                v-model="task.type">
-                                <option value="1">Generic</option>
-                                <option value="2">Physical</option>
-                                <option value="3">Mental</option>
-                                <option value="4">Social</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="difficulty">Difficulty: {{task.difficulty}}/5</label>
-                            <input 
-                                type="range"
-                                name="difficulty"
-                                id="difficulty"
-                                min="1"
-                                max="5"
-                                value="3"
-                                v-model="task.difficulty" />
-                        </div>
-                        <div class="form-group">
-                            <label for="repeatable">Repeatable</label>
-                            <select
-                                name="repeatable"
-                                id="repeatable"
-                                v-model="task.repeatable">
-                                <option value="NONE">Not repeatable</option>
-                                <option value="DAILY">Daily</option>
-                                <option value="WEEKLY">Weekly</option>
-                                <option value="MONTHLY">Monthly</option>
-                                <option value="INFINITE">Infinite</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <p v-if="taskList">Task list: {{taskList.name}}</p>
-                            <p v-if="superTask">Subtask of: {{superTask.name}}</p>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="long-button">Create new task</button>
-                            <button type="button" class="long-button" @click="close">Cancel</button>
-                        </div>
-                    </form>
-                </div>
+        <information-block></information-block>
+        <form @submit.prevent="submitTask">
+            <div class="form-group">
+                <label for="name">Task name</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Name" 
+                    v-model="task.name" />
             </div>
-            
-        </transition>
+            <div class="form-group">
+                <label for="description">Description (optional)</label>
+                <input 
+                    type="text" 
+                    id="description" 
+                    name="description" 
+                    placeholder="Description" 
+                    v-model="task.description" />
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select
+                    name="type"
+                    id="type"
+                    v-model="task.type">
+                    <option value="1">Generic</option>
+                    <option value="2">Physical</option>
+                    <option value="3">Mental</option>
+                    <option value="4">Social</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="difficulty">Difficulty: {{task.difficulty}}/5</label>
+                <input 
+                    type="range"
+                    name="difficulty"
+                    id="difficulty"
+                    min="1"
+                    max="5"
+                    value="3"
+                    v-model="task.difficulty" />
+            </div>
+            <div class="form-group">
+                <label for="repeatable">Repeatable</label>
+                <select
+                    name="repeatable"
+                    id="repeatable"
+                    v-model="task.repeatable">
+                    <option value="NONE">Not repeatable</option>
+                    <option value="DAILY">Daily</option>
+                    <option value="WEEKLY">Weekly</option>
+                    <option value="MONTHLY">Monthly</option>
+                    <option value="INFINITE">Infinite</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <p v-if="taskList">Task list: {{taskList.name}}</p>
+                <p v-if="superTask">Subtask of: {{superTask.name}}</p>
+            </div>
+            <div class="form-group">
+                <b-button type="submit" block>Create new task</b-button>
+                <b-button type="button" block @click="close">Cancel</b-button>
+            </div>
+        </form>
     </div>
 </template>
 

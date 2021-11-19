@@ -2,7 +2,7 @@
     <div>
         <form class="navbar-search">
             <input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch">
-            <button type="submit" @click="searchUser">Search</button>
+            <b-button type="submit" @click="searchUser">Search</b-button>
         </form>
     </div>
 </template>

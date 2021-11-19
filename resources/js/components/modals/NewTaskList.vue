@@ -18,8 +18,8 @@
                                 v-model="taskList.name" />
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="long-button">Create new task list</button>
-                            <button type="button" class="long-button" @click="close">Cancel</button>
+                            <b-button type="submit" block>Create new task list</b-button>
+                            <b-button type="button" block @click="close">Cancel</b-button>
                         </div>
                     </form>
                 </div>

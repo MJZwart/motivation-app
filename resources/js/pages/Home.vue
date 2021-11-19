@@ -13,7 +13,7 @@
                         v-on:deleteTaskList="showDeleteTaskList"></task-list>
                 </template>
                 <div class="task-list">
-                    <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
+                    <b-button type="button" block @click="showNewTaskList">Create new task list</b-button>
                 </div>
             </div>
 
@@ -24,7 +24,8 @@
             </div>
         </div>
 
-        <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList"></new-task>
+        <b-modal id="new-task" hide-footer title="New task"><new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask"></new-task></b-modal>
+        
         <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit"></edit-task>
         <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList"></new-task-list>
         <edit-task-list v-if="isEditTaskListVisible" @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list>
@@ -71,12 +72,12 @@ export default {
             this.$store.dispatch('clearInformationBlock');
             this.superTask = superTask;
             this.taskList = taskList;
-            this.isNewTaskVisible = true;
+            this.$bvModal.show('new-task');
         },
         closeNewTask() {
             this.taskList = null;
             this.superTask = null;
-            this.isNewTaskVisible = false;
+            this.$bvModal.hide('new-task');
         },
         showEditTask(task){
             this.$store.dispatch('clearInformationBlock');

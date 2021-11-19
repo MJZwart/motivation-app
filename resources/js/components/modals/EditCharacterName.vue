@@ -19,8 +19,8 @@
                                 v-model="editedCharacter.name" />
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="long-button">Update character name</button>
-                            <button type="button" class="long-button" @click="close">Cancel</button>
+                            <b-button type="submit" block>Update character name</b-button>
+                            <b-button type="button" block @click="close">Cancel</b-button>
                         </div>
                     </form>
                 </div>

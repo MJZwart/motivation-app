@@ -68,8 +68,8 @@
                             <p v-if="editedTask.superTask">Subtask of: {{editedTask.superTask}}</p>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="long-button">Edit task</button>
-                            <button type="button" class="long-button" @click="close">Cancel</button>
+                            <b-button type="submit" block>Edit task</b-button>
+                            <b-button type="button" block @click="close">Cancel</b-button>
                         </div>
                     </form>
                 </div>

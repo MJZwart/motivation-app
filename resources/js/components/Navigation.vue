@@ -82,10 +82,6 @@ export default {
     .box-shadow {
         box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
     }
-    .flex-end{
-        display: flex;
-        margin-left: auto !important;
-    }
     .icon-nav{
         color:$secondary;
     }
