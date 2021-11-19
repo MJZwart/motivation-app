@@ -80,40 +80,12 @@ export default {
 
 //Working on getting SASS to work, and making the top navbar look like 
 // https://bootstrap-vue.org/docs/components/modal
-    .navbar{
-        display: flex;
-        position: sticky;
-        top:0;
-        z-index: 1000;
-        background-color: $primary;
 
-        li {
-        padding: 10px;
-        list-style: none;
-        font-size: 1.5rem;
-        font-weight: 500;
 
-        a{
-            color: $secondary;
-            text-decoration: none;
-        }
-        a.router-link-active{
-            color: white;
-            text-decoration: none;
-            font-weight:600;
-        }
-        a:hover{
-            color: white;
-        }
-    }
-    }
-    .box-shadow {
-        box-shadow: 0 0.25rem 0.25rem $lightgrey, inset 0 -1px 5px $lightgrey;
-    }
-    .flex-end{
-        display: flex;
-        margin-left: auto !important;
-    }
+    // .flex-end{
+    //     display: flex;
+    //     margin-left: auto !important;
+    // }
     .icon-nav{
         font-size:35px;
         margin:5px;
@@ -126,29 +98,29 @@ export default {
     .icon-dot-red{
         color:darkred;
     }
-    .dropdown-menu{
-        display:none;
-        float:left;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 1000;
-        min-width: 8rem;
-        padding: .5rem 0;
-        margin: .125rem 0 0;
-        color: #212529;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid rgba(0,0,0,.15);
-        border-radius: .25rem;
-    }
-    .dropdown-menu.show{
-        display:block;
-    }
-    .dropdown-menu li{
-        font-size:1rem;
-    }
-    .nav-button {
-        margin:auto;
-    }
+    // .dropdown-menu{
+    //     display:none;
+    //     float:left;
+    //     position: absolute;
+    //     top: 100%;
+    //     left: 0;
+    //     z-index: 1000;
+    //     min-width: 8rem;
+    //     padding: .5rem 0;
+    //     margin: .125rem 0 0;
+    //     color: #212529;
+    //     background-color: #fff;
+    //     background-clip: padding-box;
+    //     border: 1px solid rgba(0,0,0,.15);
+    //     border-radius: .25rem;
+    // }
+    // .dropdown-menu.show{
+    //     display:block;
+    // }
+    // .dropdown-menu li{
+    //     font-size:1rem;
+    // }
+    // .nav-button {
+    //     margin:auto;
+    // }
 </style>

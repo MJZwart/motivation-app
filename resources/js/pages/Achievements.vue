@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Achievements</h2>
-        <button class="long-button" @click="showNewAchievement">Add new achievement</button>
+        <b-button block @click="showNewAchievement">Add new achievement</b-button>
         <div v-for="(value, index) in achievements" :key="index">
             <p>
                 <b-icon-trash-fill class="icon-small"></b-icon-trash-fill>

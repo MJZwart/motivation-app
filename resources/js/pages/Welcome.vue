@@ -36,7 +36,7 @@
                                     v-model="user.character_name" />
                             </div>
                             <div class="form-group">
-                                <button @click="nextModal()" class="long-button">Next</button>
+                                <b-button @click="nextModal()" block>Next</b-button>
                             </div>
                     </div>
                 </div>
@@ -69,8 +69,8 @@
                                 
                             </div>
                             <div class="form-group">
-                                <button @click="backOneModal()" class="long-button half">Go back</button>
-                                <button @click="confirmSettings()" class="long-button half">Submit</button>
+                                <b-button @click="backOneModal()" class="long-button half">Go back</b-button>
+                                <b-button @click="confirmSettings()" class="long-button half">Submit</b-button>
                             </div>
                     </div>
                 </div>

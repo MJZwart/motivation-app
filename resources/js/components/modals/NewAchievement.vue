@@ -48,8 +48,8 @@
                             <p v-if="achievement.trigger_type" id="trigger-description">{{triggerDescription}}</p>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="long-button">Create new achievement</button>
-                            <button type="button" class="long-button" @click="close">Cancel</button>
+                            <b-button type="submit" block>Create new achievement</b-button>
+                            <b-button type="button" block @click="close">Cancel</b-button>
                         </div>
                     </form>
                 </div>

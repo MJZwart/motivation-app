@@ -41,7 +41,7 @@
                         v-model="register.password_confirmation" />
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="long-button">Register new account</button>
+                    <b-button type="submit" block>Register new account</b-button>
                 </div>
             </form> 
         </div>

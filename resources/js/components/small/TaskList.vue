@@ -22,7 +22,7 @@
 
         </template>
         <div>
-            <button class="long-button no-margin bottom-radius" @click="openNewTask(null)">Add new task</button>
+            <b-button block class="bottom-radius" @click="openNewTask(null)">Add new task</b-button>
         </div>
     </div>
 </template>

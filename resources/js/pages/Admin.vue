@@ -24,7 +24,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <button type="submit" class="long-button">Send notification</button>
+                    <b-button type="submit" block>Send notification</b-button>
                 </div>
             </form>
         </div>

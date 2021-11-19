@@ -1,7 +1,7 @@
 <template>
     <div>
-        <transition name="modal-fade">
-            <div class="modal-backdrop">
+        <!-- <transition name="modal-fade"> -->
+            <!-- <div class="modal-backdrop"> -->
                 <div class="modal" v-if="taskListToDelete">
                     <information-block></information-block>
                     <div class="form-title">
@@ -25,14 +25,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="long-button">Delete task list</button>
-                                <button type="button" class="long-button" @click="close">Cancel</button>
+                                <b-button type="submit" block>Delete task list</b-button>
+                                <b-button type="button" block @click="close">Cancel</b-button>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
-        </transition>
+            <!-- </div> -->
+        <!-- </transition> -->
     </div>
 </template>
 

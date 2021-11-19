@@ -23,7 +23,7 @@
                         v-model="login.password" />
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="long-button">Login</button>
+                    <b-button type="submit" block>Login</b-button>
                 </div>
             </form> 
         </div>

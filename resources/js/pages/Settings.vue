@@ -40,7 +40,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="long-button">Save settings</button>
+                <b-button type="submit" block>Save settings</b-button>
             </div>
         </form>
         <hr />
@@ -76,7 +76,7 @@
             </div>
             
             <div class="form-group">
-                <button type="submit" class="long-button">Update password</button>
+                <b-button type="submit" block>Update password</b-button>
             </div>
         </form>
 
@@ -95,7 +95,7 @@
                     v-model="emailSettings.email" />
             </div>
             <div class="form-group">
-                <button type="submit" class="long-button">Update e-mail</button>
+                <b-button type="submit" block>Update e-mail</b-button>
             </div>
         </form>
     </div>
