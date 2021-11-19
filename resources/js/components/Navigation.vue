@@ -59,6 +59,7 @@ export default {
             this.$store.dispatch('user/logout');
         },
     },
+    //Test for pushing
 }
 </script>
 
