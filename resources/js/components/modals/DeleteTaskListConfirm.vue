@@ -1,38 +1,25 @@
 <template>
     <div>
-        <!-- <transition name="modal-fade"> -->
-            <!-- <div class="modal-backdrop"> -->
-                <div class="modal" v-if="taskListToDelete">
-                    <information-block></information-block>
-                    <div class="form-title">
-                    <h3>Delete task list</h3>
-                    </div>
-                    <div>
-                        <form @submit.prevent="deleteTaskList">
-                            <p class="modal-text">Are you sure you want to delete {{taskListToDelete.name}}</p>
-                            <div v-if="taskListHasTasks">
-                                <p class="modal-text">
-                                    This task list has {{taskListTasks.length}} tasks. Do you wish to delete these or merge the tasks into a different task list?
-                                </p>
-                            
-                                <div class="form-group">
-                                    <select 
-                                        id="deleteOption" 
-                                        v-model="deleteOption">
-                                        <option value="delete" selected>Delete</option>
-                                        <option v-for="option in taskLists" :value="option.id" :key="option.key">Merge with: {{option.name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <b-button type="submit" block>Delete task list</b-button>
-                                <b-button type="button" block @click="close">Cancel</b-button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            <!-- </div> -->
-        <!-- </transition> -->
+        <information-block></information-block>
+        <b-form @submit.prevent="deleteTaskList">
+            <p class="modal-text">Are you sure you want to delete {{taskListToDelete.name}}</p>
+            <b-form-group v-if="taskListHasTasks">
+                <p class="modal-text">
+                    This task list has {{taskListTasks.length}} tasks. Do you wish to delete these or merge the tasks into a different task list?
+                </p>
+            
+                <b-form-group>
+                    <select 
+                        id="deleteOption" 
+                        v-model="deleteOption">
+                        <option value="delete" selected>Delete</option>
+                        <option v-for="option in taskLists" :value="option.id" :key="option.key">Merge with: {{option.name}}</option>
+                    </select>
+                </b-form-group>
+            </b-form-group>
+            <b-button type="submit" block>Delete task list</b-button>
+            <b-button type="button" block @click="close">Cancel</b-button>
+        </b-form>
     </div>
 </template>
 

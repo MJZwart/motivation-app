@@ -26,12 +26,11 @@
 
         <b-modal id="new-task" hide-footer title="New task"><new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask"></new-task></b-modal>
         
-        <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit"></edit-task>
-        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList"></new-task-list>
-        <edit-task-list v-if="isEditTaskListVisible" @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list>
-
-        <delete-task-list-confirm v-if="isDeleteTaskListVisible" @close="closeDeleteTaskList" :taskList="taskListToDelete"></delete-task-list-confirm>
-        
+        <b-modal id="edit-task" hide-footer title="Edit task"><edit-task @close="closeEditTask" :task="taskToEdit"></edit-task></b-modal>
+        <b-modal id="new-task-list" hide-footer title="New task list"><new-task-list @close="closeNewTaskList"></new-task-list></b-modal>
+        <b-modal id="edit-task-list" hide-footer title="Edit task list"><edit-task-list @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list></b-modal>
+        <b-modal id="delete-task-list-confirm" hide-footer title="Delete task list"><delete-task-list-confirm @close="closeDeleteTaskList" :taskList="taskListToDelete"></delete-task-list-confirm></b-modal>
+    
     </div>
 </template>
 
@@ -50,11 +49,6 @@ export default {
     components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm, CharacterSummary, FriendsSummary},
     data(){
         return {
-            isNewTaskListVisible: false,
-            isNewTaskVisible: false,
-            isEditTaskVisible: false,
-            isEditTaskListVisible: false,
-            isDeleteTaskListVisible: false,
             superTask: null,
             taskList: null,
             taskToEdit: null,
@@ -82,36 +76,36 @@ export default {
         showEditTask(task){
             this.$store.dispatch('clearInformationBlock');
             this.taskToEdit = task;
-            this.isEditTaskVisible = true;
+            this.$bvModal.show('edit-task');
         },
         closeEditTask(){
             this.taskToEdit = null;
-            this.isEditTaskVisible = false;
+            this.$bvModal.hide('edit-task');
         },
         showNewTaskList() {
             this.$store.dispatch('clearInformationBlock');
-            this.isNewTaskListVisible = true;
+            this.$bvModal.show('new-task-list');
         },
         closeNewTaskList() {
-            this.isNewTaskListVisible = false;
+            this.$bvModal.hide('new-task-list');
         },
         showEditTaskList(taskList) {
             this.$store.dispatch('clearInformationBlock');
             this.taskListToEdit = taskList;
-            this.isEditTaskListVisible = true;
+            this.$bvModal.show('edit-task-list');
         },
         closeEditTaskList() {
             this.taskListToEdit = null;
-            this.isEditTaskListVisible = false;
+            this.$bvModal.hide('edit-task-list');
         },
         showDeleteTaskList(taskList) {
             this.$store.dispatch('clearInformationBlock');
             this.taskListToDelete = taskList;
-            this.isDeleteTaskListVisible = true;
+            this.$bvModal.show('delete-task-list-confirm');
         },
         closeDeleteTaskList() {
             this.taskListToDelete = null;
-            this.isDeleteTaskListVisible = false;
+            this.$bvModal.hide('delete-task-list-confirm');
         },
     },
     computed: {

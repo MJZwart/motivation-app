@@ -24,10 +24,10 @@
 //     font-size: 1.1rem;
 //     font-weight: 600;
 // }
-// .silent {
-//     font-weight: 200;
-//     color: grey;
-// }
+.silent {
+    font-weight: 200;
+    color: grey;
+}
 // .content {
 //     margin-left: 20px;
 // }
@@ -140,5 +140,5 @@
 //     width: auto;
 // }    
 .box-shadow {
-    box-shadow: 0 0.25rem 0.25rem $lightgrey, inset 0 -1px 5px $lightgrey;
+    box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
 }

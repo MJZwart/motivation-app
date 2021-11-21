@@ -1,32 +1,21 @@
 <template>
     <div>
-        <transition name="modal-fade">
-            <div class="modal-backdrop">
-                <div class="modal">
-                    <information-block></information-block>
-
-                    <div class="form-title">
-                    <h3>Edit task list</h3>
-                    </div>
-                    <form @submit.prevent="updateTaskList">
-                        <div class="form-group">
-                            <label for="name">Task list name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                placeholder="Name" 
-                                v-model="editedTaskList.name" />
-                        </div>
-                        <div class="form-group">
-                            <b-button type="submit" block>Update task list</b-button>
-                            <b-button type="button" block @click="close">Cancel</b-button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-        </transition>
+        <information-block></information-block>
+        <b-form @submit.prevent="updateTaskList">
+            <b-form-group
+                label="Task list name" 
+                label-for="name">
+                <b-form-input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Name" 
+                    required
+                    v-model="editedTaskList.name" />
+            </b-form-group>
+            <b-button type="submit" block>Update task list</b-button>
+            <b-button type="button" block @click="close">Cancel</b-button>
+        </b-form>
     </div>
 </template>
 
