@@ -1,31 +1,31 @@
 <template>
     <div>
-
         <div class="login-form">
         <h2>Login</h2>
-            <form @submit.prevent="submitLogin">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input 
+            <b-form @submit.prevent="submitLogin">
+                <b-form-group
+                    label="Username"
+                    label-for="username">
+                    <b-form-input 
                         type="text" 
                         id="username" 
-                        name="username" 
                         placeholder="Username" 
+                        required
                         v-model="login.username" />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input 
+                </b-form-group>
+                <b-form-group 
+                    label="Password"
+                    label-for="password">
+                    <b-form-input  
                         type="password" 
                         id="password" 
                         name="password" 
                         placeholder="Password" 
+                        required
                         v-model="login.password" />
-                </div>
-                <div class="form-group">
-                    <b-button type="submit" block>Login</b-button>
-                </div>
-            </form> 
+                </b-form-group>
+                <b-button type="submit" block>Login</b-button>
+            </b-form> 
         </div>
     </div>
 </template>
