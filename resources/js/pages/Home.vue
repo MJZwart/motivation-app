@@ -13,7 +13,7 @@
                         v-on:deleteTaskList="showDeleteTaskList"></task-list>
                 </template>
                 <div class="task-list">
-                    <b-button type="button" block @click="showNewTaskList">Create new task list</b-button>
+                    <b-button type="button" block @click="showNewTaskList">{{ $t('create-new-task-list') }}</b-button>
                 </div>
             </div>
 

@@ -21,7 +21,14 @@ Vue.use(BootstrapVue, {
     BButton: { variant: 'primary' }
 });
 
+//Import vue-i18n translations
+import VueI18n from 'vue-i18n';
+Vue.use(VueI18n);
+
+import i18n from './i18n';
+
 new Vue({
+    i18n,
     el: "#app",
     store,
     router,
