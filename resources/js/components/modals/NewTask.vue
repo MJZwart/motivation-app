@@ -1,6 +1,5 @@
 <template>
     <div>
-        <information-block></information-block>
         <b-form @submit.prevent="submitTask">
             <b-form-group 
                 label="Task name" 
@@ -9,9 +8,9 @@
                     type="text" 
                     id="name" 
                     name="name" 
-                    placeholder="Name" 
-                    required
+                    placeholder="Name"
                     v-model="task.name" />
+                <base-form-error name="name" /> 
             </b-form-group >
             <b-form-group
                 label="Description (optional)" 
@@ -30,8 +29,8 @@
                     name="type"
                     id="type"
                     v-model="task.type"
-                    :options="taskTypes">
-                </b-form-select>
+                    :options="taskTypes" />
+                <base-form-error name="type" /> 
             </b-form-group>
             <b-form-group
                 :label="'Difficulty: '+task.difficulty+'/5'"
@@ -44,6 +43,7 @@
                     max="5"
                     value="3"
                     v-model="task.difficulty" />
+                <base-form-error name="difficulty" /> 
             </b-form-group>
             <b-form-group
                 label="Repeatable" 
@@ -52,8 +52,8 @@
                     name="repeatable"
                     id="repeatable"
                     v-model="task.repeatable"
-                    :options="repeatables">
-                </b-form-select>
+                    :options="repeatables" />
+                <base-form-error name="repeatable" /> 
             </b-form-group>
             <b-form-group>
                 <p v-if="taskList">Task list: {{taskList.name}}</p>
@@ -67,10 +67,12 @@
 
 
 <script>
-import InformationBlock from '../InformationBlock.vue';
+import BaseFormError from '../BaseFormError.vue';
+import { TASK_TYPES, REPEATABLES } from '../../constants/taskConstants';
+
 export default {
     components: {
-        InformationBlock,
+        BaseFormError,
     },
     props: {
         taskList: Object,
@@ -83,16 +85,8 @@ export default {
                 type: 1,
                 repeatable: 'NONE',
             },
-            //TODO separate this
-            taskTypes: [{text: 'Generic', value: 1}, 
-                {text: 'Physical', value: 2}, 
-                {text: 'Mental', value: 3}, 
-                {text: 'GenSocialeric', value: 4}],
-            repeatables: [{text: 'Not repeatable', value:"NONE"},
-                {text: 'Daily', value:"DAILY"},
-                {text: 'Weekly', value:"WEEKLY"},
-                {text: 'Monthly', value:"MONTHLY"},
-                {text: 'Infinite', value:"INFINITE"}],
+            taskTypes: TASK_TYPES,
+            repeatables: REPEATABLES,
         }
     },
     methods: {

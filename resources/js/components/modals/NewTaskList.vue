@@ -10,7 +10,6 @@
                     id="name" 
                     name="name" 
                     placeholder="Name" 
-                    required
                     v-model="taskList.name" />
             </b-form-group>
             <b-button type="submit" block>Create new task list</b-button>

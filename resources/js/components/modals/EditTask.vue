@@ -1,6 +1,5 @@
 <template>
     <div>
-        <information-block></information-block>
         <b-form @submit.prevent="updateTask">
             <b-form-group
                 label="Task name" 
@@ -10,8 +9,8 @@
                     id="name" 
                     name="name" 
                     placeholder="Name" 
-                    required
                     v-model="editedTask.name" />
+                <base-form-error name="name" /> 
             </b-form-group>
             <b-form-group
                 label="Description (optional)" 
@@ -30,8 +29,8 @@
                     name="type"
                     id="type"
                     :options="taskTypes"
-                    v-model="editedTask.type">
-                </b-form-select>
+                    v-model="editedTask.type" />
+                <base-form-error name="type" /> 
             </b-form-group>
             <b-form-group
                 :label="'Difficulty: '+task.difficulty+'/5'" 
@@ -44,6 +43,7 @@
                     max="5"
                     value="3"
                     v-model="editedTask.difficulty" />
+                <base-form-error name="difficulty" /> 
             </b-form-group>
             <b-form-group
                 label="Repeatable" 
@@ -52,8 +52,8 @@
                     name="repeatable"
                     id="repeatable"
                     :options="repeatables"
-                    v-model="editedTask.repeatable">
-                </b-form-select>
+                    v-model="editedTask.repeatable" />
+                <base-form-error name="repeatable" /> 
             </b-form-group>
             <b-form-group>
                 <p v-if="editedTask.taskList">Task list: {{editedTask.taskList}}</p>
@@ -67,25 +67,19 @@
 
 
 <script>
-import InformationBlock from '../InformationBlock.vue';
+import BaseFormError from '../BaseFormError.vue';
+import { TASK_TYPES, REPEATABLES } from '../../constants/taskConstants';
+
 export default {
-    components: {InformationBlock},
+    components: {BaseFormError},
     props: {
         task: Object,
     },
     data() {
         return {
             editedTask: {},
-                        //TODO separate this
-            taskTypes: [{text: 'Generic', value: 1}, 
-                {text: 'Physical', value: 2}, 
-                {text: 'Mental', value: 3}, 
-                {text: 'GenSocialeric', value: 4}],
-            repeatables: [{text: 'Not repeatable', value:"NONE"},
-                {text: 'Daily', value:"DAILY"},
-                {text: 'Weekly', value:"WEEKLY"},
-                {text: 'Monthly', value:"MONTHLY"},
-                {text: 'Infinite', value:"INFINITE"}],
+            taskTypes: TASK_TYPES,
+            repeatables: REPEATABLES,
         }
     },
     mounted(){

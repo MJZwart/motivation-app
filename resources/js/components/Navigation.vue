@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar type="dark" sticky="true" class="box-shadow">
+        <b-navbar type="dark" sticky class="box-shadow">
             <b-navbar-nav v-if="authenticated">
                 <b-nav-item to="/" exact>Home</b-nav-item>
                 <b-nav-item to="/overview">Overview</b-nav-item>

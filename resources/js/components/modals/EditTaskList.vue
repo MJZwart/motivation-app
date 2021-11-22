@@ -10,7 +10,6 @@
                     id="name" 
                     name="name" 
                     placeholder="Name" 
-                    required
                     v-model="editedTaskList.name" />
             </b-form-group>
             <b-button type="submit" block>Update task list</b-button>

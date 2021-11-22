@@ -10,7 +10,6 @@
                         type="text" 
                         id="username" 
                         placeholder="Username" 
-                        required
                         v-model="login.username" />
                 </b-form-group>
                 <b-form-group 
@@ -21,7 +20,6 @@
                         id="password" 
                         name="password" 
                         placeholder="Password" 
-                        required
                         v-model="login.password" />
                 </b-form-group>
                 <b-button type="submit" block>Login</b-button>
