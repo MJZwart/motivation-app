@@ -49,7 +49,7 @@
                         </div>
                         <div class="form-group">
                             <b-button type="submit" block>Create new achievement</b-button>
-                            <b-button type="button" block @click="close">Cancel</b-button>
+                            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
                         </div>
                     </form>
                 </div>

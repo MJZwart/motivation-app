@@ -13,13 +13,14 @@ import store from "./store/store";
 import router from "./router/router";
 
 //Import BootstrapVue
-import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
+import { BootstrapVue, BootstrapVueIcons, ToastPlugin } from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css';
 //import 'bootstrap/dist/css/bootstrap.css'
 Vue.use(BootstrapVueIcons);
 Vue.use(BootstrapVue, {
     BButton: { variant: 'primary' }
 });
+Vue.use(ToastPlugin);
 
 //Import vue-i18n translations
 import VueI18n from 'vue-i18n';

@@ -24,12 +24,12 @@
             </div>
         </div>
 
-        <b-modal id="new-task" hide-footer title="New task"><new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask"></new-task></b-modal>
+        <b-modal id="new-task" hide-footer :title="$t('new-task')"><new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask"></new-task></b-modal>
         
-        <b-modal id="edit-task" hide-footer title="Edit task"><edit-task @close="closeEditTask" :task="taskToEdit"></edit-task></b-modal>
-        <b-modal id="new-task-list" hide-footer title="New task list"><new-task-list @close="closeNewTaskList"></new-task-list></b-modal>
-        <b-modal id="edit-task-list" hide-footer title="Edit task list"><edit-task-list @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list></b-modal>
-        <b-modal id="delete-task-list-confirm" hide-footer title="Delete task list"><delete-task-list-confirm @close="closeDeleteTaskList" :taskList="taskListToDelete"></delete-task-list-confirm></b-modal>
+        <b-modal id="edit-task" hide-footer :title="$t('edit-task')"><edit-task @close="closeEditTask" :task="taskToEdit"></edit-task></b-modal>
+        <b-modal id="new-task-list" hide-footer :title="$t('new-task-list')"><new-task-list @close="closeNewTaskList"></new-task-list></b-modal>
+        <b-modal id="edit-task-list" hide-footer :title="$t('edit-task-list')"><edit-task-list @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list></b-modal>
+        <b-modal id="delete-task-list-confirm" hide-footer :title="$t('delete-task-list-confirm')"><delete-task-list-confirm @close="closeDeleteTaskList" :taskList="taskListToDelete"></delete-task-list-confirm></b-modal>
     
     </div>
 </template>

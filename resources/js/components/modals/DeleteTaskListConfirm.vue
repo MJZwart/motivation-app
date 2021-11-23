@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <information-block></information-block>
+    <div v-if="taskListToDelete">
         <b-form @submit.prevent="deleteTaskList">
             <p class="modal-text">Are you sure you want to delete {{taskListToDelete.name}}</p>
             <b-form-group v-if="taskListHasTasks">
@@ -12,23 +11,25 @@
                     <select 
                         id="deleteOption" 
                         v-model="deleteOption">
-                        <option value="delete" selected>Delete</option>
+                        <option value="delete" selected>{{ $t('delete') }}</option>
                         <option v-for="option in taskLists" :value="option.id" :key="option.key">Merge with: {{option.name}}</option>
                     </select>
                 </b-form-group>
             </b-form-group>
-            <b-button type="submit" block>Delete task list</b-button>
-            <b-button type="button" block @click="close">Cancel</b-button>
+            <b-button type="submit" block>{{ $t('delete-task-list-confirm') }}</b-button>
+            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <base-form-error name="error" /> 
         </b-form>
     </div>
 </template>
 
 
 <script>
-import InformationBlock from '../InformationBlock.vue';
+import BaseFormError from '../BaseFormError.vue';
+
 export default {
     components: {
-        InformationBlock,
+        BaseFormError,
     },
     props: {
         taskList: Object,
@@ -67,7 +68,7 @@ export default {
             });
         },
         close(){
-            this.taskListToDelete = {},
+            this.taskListToDelete = null;
             this.$emit('close');
         }
     },

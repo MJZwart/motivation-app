@@ -1,4 +1,12 @@
 {
     "create-new-task-list": "Create new task list",
-    "submit": "Submit"
+    "new-task": "New task",
+    "new-task-list": "New task list",
+    "edit-task": "Edit task",
+    "edit-task-list": "Edit task list",
+    "delete-task-list-confirm": "Delete task list",
+
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "delete": "Delete"
 }

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import router from './router/router.js';
 import store from './store/store.js';
+import Vue from 'vue';
 
 window.axios = axios;
 

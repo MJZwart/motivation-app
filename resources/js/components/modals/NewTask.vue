@@ -60,7 +60,7 @@
                 <p v-if="superTask">Subtask of: {{superTask.name}}</p>
             </b-form-group>
             <b-button type="submit" block>Create new task</b-button>
-            <b-button type="button" block @click="close">Cancel</b-button>
+            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
         </b-form>
     </div>
 </template>

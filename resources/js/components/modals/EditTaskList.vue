@@ -13,7 +13,7 @@
                     v-model="editedTaskList.name" />
             </b-form-group>
             <b-button type="submit" block>Update task list</b-button>
-            <b-button type="button" block @click="close">Cancel</b-button>
+            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
         </b-form>
     </div>
 </template>
