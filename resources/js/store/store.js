@@ -9,6 +9,7 @@ import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
+import toastService from '../services/toastService';
 
 Vue.use(Vuex);
 
@@ -25,31 +26,32 @@ export default new Vuex.Store({
     },
     state: {
         //Errors and response
-        responseMessage: {},
-        status: "",
+        // responseMessage: {},
+        // status: "",
     },
     mutations: {
         //Errors and response
         setResponseMessage(state, responseMessage){
-            state.responseMessage = responseMessage;
+            toastService.$emit('message', {message: responseMessage.message[0], variant: 'success'});
+            //state.responseMessage = responseMessage;
         },
         setStatus(state, status) {
-            state.status = status;
+            //state.status = status;
         },
     },
     getters: {
         //Errors and response
         getResponseMessage: (state) => {
-            return state.responseMessage;
+            //return state.responseMessage;
         },
         getStatus: (state) => {
-            return state.status;
+            //return state.status;
         },
     },
     actions: {
         clearInformationBlock({ commit }) {
-                commit('setResponseMessage', []);
-                commit('setStatus', 'hidden')
+                // commit('setResponseMessage', []);
+                // commit('setStatus', 'hidden')
         },
     }
 });

@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'node_modules/bootstrap/scss/bootstrap';
+@import '../../../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 
 * {
     box-sizing: border-box;
@@ -142,3 +143,25 @@
 .box-shadow {
     box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
 }
+// .b-toast .toast{
+//     opacity: 1;
+//     margin-left:auto;
+//     margin-right:auto;
+// }
+// .b-toaster{
+//     z-index: 1100;
+// }
+// .b-toaster-top-center{
+//     position: fixed;
+//     left: 0.5rem;
+//     right: 0.5rem;
+//     top: 0.5rem;
+//     margin:0;
+// }
+// .b-toast-danger .b-toast-solid .toast{
+//     background-color: #fcedee;
+// }
+// .b-toast-danger .toast{
+//     color: #721c24;
+//     border-color:rgba(245,195,203,.85);
+// }

@@ -33,7 +33,7 @@
                 <base-form-error name="type" /> 
             </b-form-group>
             <b-form-group
-                :label="'Difficulty: '+task.difficulty+'/5'" 
+                :label="'Difficulty: '+editedTask.difficulty+'/5'" 
                 label-for="difficulty">
                 <b-form-input 
                     type="range"

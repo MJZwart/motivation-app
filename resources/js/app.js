@@ -28,10 +28,14 @@ Vue.use(VueI18n);
 
 import i18n from './i18n';
 
-new Vue({
+import toastService from './services/toastService';
+
+const app = new Vue({
     i18n,
     el: "#app",
     store,
     router,
     render: (h) => h(App),
 });
+
+toastService.$app = app;
