@@ -1,7 +1,7 @@
 import axios from 'axios';
 import router from './router/router.js';
 import store from './store/store.js';
-import Vue from 'vue';
+import toastService from '../js/services/toastService';
 
 window.axios = axios;
 
@@ -24,6 +24,7 @@ axios.interceptors.response.use(
         const errors = error.response.data.errors || [];
         store.commit('setResponseMessage', errors);
         store.commit('setStatus', 'error');
+        toastService.$emit('message', {message: 'There were errors in the form', variant: 'danger'});
 
         // refresh token reply should stay silent
         if (error.request.responseURL.indexOf('get_user_by_token') > -1) {
