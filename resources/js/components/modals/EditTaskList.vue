@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="editedTaskList">
         <information-block></information-block>
         <b-form @submit.prevent="updateTaskList">
             <b-form-group
