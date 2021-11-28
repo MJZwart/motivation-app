@@ -119,7 +119,7 @@ import { mapGetters } from 'vuex';
                     this.$store.commit('setStatus', 'error');
                     return false;
                 } else {
-                    this.$store.dispatch('clearInformationBlock');
+                    this.$store.dispatch('clearErrors');
                     return true;
                 }
             },

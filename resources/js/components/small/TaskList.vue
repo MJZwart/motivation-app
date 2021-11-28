@@ -53,11 +53,12 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
+@import '../../../assets/scss/variables';
 .frame-title{
     font-size:18px;
     font-weight: 600;
-    border: 1px solid teal;
+    border: 1px solid $primary;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     display: block;
@@ -66,7 +67,7 @@ export default {
 .task{
     margin:0;
     padding:5px;
-    border-bottom: 1px solid teal;
+    border-bottom: 1px solid $primary;
 }
 .sub-task{
     margin:-6px;

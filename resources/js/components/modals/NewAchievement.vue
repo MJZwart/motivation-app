@@ -1,71 +1,65 @@
 <template>
     <div>
-        <transition name="modal-fade">
-            <div class="modal-backdrop">
-                <div class="modal">
-                    <information-block></information-block>
-                    <div class="form-title">
-                    <h3>New achievement</h3>
-                    </div>
-                    <form @submit.prevent="submitAchievement">
-                        <div class="form-group">
-                            <label for="name">Achievement name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                placeholder="Name" 
-                                v-model="achievement.name" />
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Achievement description</label>
-                            <input 
-                                type="text" 
-                                id="description" 
-                                name="description" 
-                                placeholder="Description" 
-                                v-model="achievement.description" />
-                        </div>
-                        <div class="form-group">
-                            <label for="type">Achievement type</label>
-                            <select 
-                                    id="type" 
-                                    v-model="achievement.trigger_type">
-                                    <option v-for="option in achievementTriggers" :value="option.trigger_type" :key="option.key">{{option.trigger_type}}</option>
-                                </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">Trigger amount</label>
-                            <input 
-                                type="number" 
-                                id="amount" 
-                                name="amount" 
-                                placeholder="Amount" 
-                                v-model="achievement.trigger_amount" />
-                        </div>
-                        <div class="form-group">
-                            <label for="trigger-description">Trigger description</label>
-                            <p v-if="achievement.trigger_type" id="trigger-description">{{triggerDescription}}</p>
-                        </div>
-                        <div class="form-group">
-                            <b-button type="submit" block>Create new achievement</b-button>
-                            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-        </transition>
+        <form @submit.prevent="submitAchievement">
+            <b-form-group
+                label="Achievement name" 
+                label-for="name">
+                <b-form-input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Name" 
+                    v-model="achievement.name" />
+            </b-form-group>
+            <b-form-group
+                label="Achievement description" 
+                label-for="description">
+                <b-form-input 
+                    type="text" 
+                    id="description" 
+                    name="description" 
+                    placeholder="Description" 
+                    v-model="achievement.description" />
+            </b-form-group>
+            <b-form-group
+                label="Achievement type" 
+                label-for="type">
+                <b-select 
+                        id="type" 
+                        v-model="achievement.trigger_type"
+                        :options="achievementTriggers"
+                        value-field="trigger_type"
+                        text-field="trigger_type">
+                    </b-select>
+            </b-form-group>
+            <b-form-group
+                label="Trigger amount" 
+                label-for="amount">
+                <b-form-input 
+                    type="number" 
+                    id="amount" 
+                    name="amount" 
+                    placeholder="Amount" 
+                    v-model="achievement.trigger_amount" />
+            </b-form-group>
+            <b-form-group
+                label="Trigger description" 
+                label-for="trigger-description">
+                <p v-if="achievement.trigger_type" id="trigger-description">{{triggerDescription}}</p>
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('create-new-achievement') }}</b-button>
+            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+        </form>
     </div>
 </template>
 
 
 <script>
 import {mapGetters} from 'vuex';
-import InformationBlock from '../InformationBlock.vue';
+import BaseFormError from '../BaseFormError.vue';
 export default {
     components: {
-        InformationBlock,
+        BaseFormError,
     },
     data() {
         return {

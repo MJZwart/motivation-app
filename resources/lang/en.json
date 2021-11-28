@@ -6,6 +6,13 @@
     "edit-task-list": "Edit task list",
     "delete-task-list-confirm": "Delete task list",
 
+    "edit-character-name": "Edit character name",
+
+    "add-new-achievement": "Add new achievement",
+    "new-achievement": "New achievement",
+    "edit-achievement": "Edit achievement",
+    "create-new-achievement": "Create new achievement",
+
     "cancel": "Cancel",
     "submit": "Submit",
     "delete": "Delete"

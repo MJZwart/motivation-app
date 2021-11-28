@@ -76,7 +76,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/achievements', [AchievementController::class, 'showAll']);
     Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
-    Route::resource('/achievements', CharacterController::class)->only([
+    Route::resource('/achievements', AchievementController::class)->only([
         'store', 'update',
     ]);
 

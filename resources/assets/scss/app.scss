@@ -1,5 +1,5 @@
 @import 'variables';
-@import 'node_modules/bootstrap/scss/bootstrap';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
 @import '../../../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 
 * {
@@ -165,3 +165,27 @@
 //     color: #721c24;
 //     border-color:rgba(245,195,203,.85);
 // }
+.summary-card{
+    font-size: 12px;
+    font-weight: 400;
+}
+.card-content{
+    padding: 5px;
+    p{
+        margin-bottom:1px;
+    }
+}
+
+.side-border {
+    border-left: 1px solid $primary;
+    border-right: 1px solid $primary;
+}
+.bottom-border {
+    border-bottom: 1px solid $primary;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.border{
+    border: 1px solid $primary;
+    border-radius: 6px;
+}

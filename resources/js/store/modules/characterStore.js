@@ -24,10 +24,11 @@ export default {
             });
         },
         updateCharacter: ({commit}, character) => {
-            axios.put('/character/' + character.id, character).then(function(response) {
+            return axios.put('/character/' + character.id, character).then(function(response) {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 commit('setCharacter', response.data.data);
+                return Promise.resolve();
             });
         },
     }

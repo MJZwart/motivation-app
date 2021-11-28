@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Achievements</h2>
-        <b-button block @click="showNewAchievement">Add new achievement</b-button>
+        <b-button block @click="showNewAchievement">{{ $t('add-new-achievement') }}</b-button>
         <div v-for="(value, index) in achievements" :key="index">
             <p>
                 <b-icon-trash-fill class="icon-small"></b-icon-trash-fill>
@@ -12,8 +12,12 @@
             <p class="silent">{{value.trigger}}</p>
         </div>
 
-        <new-achievement v-if="isNewAchievementVisible" @close="closeNewAchievement"></new-achievement>
-        <edit-achievement v-if="isEditAchievementVisible" @close="closeEditAchievement" :achievement="achievementToEdit"></edit-achievement>
+        <b-modal id="new-achievement" hide-footer :title="$t('new-achievement')">
+            <new-achievement @close="closeNewAchievement"></new-achievement>
+        </b-modal>
+        <b-modal id="edit-achievement" hide-footer :title="$t('edit-achievement')">
+            <edit-achievement @close="closeEditAchievement" :achievement="achievementToEdit"></edit-achievement>
+        </b-modal>
     </div>
 </template>
 
@@ -31,8 +35,6 @@ export default {
     },
     data() {
         return {
-            isNewAchievementVisible: false,
-            isEditAchievementVisible: false,
             achievementToEdit: null,
         }
     },
@@ -43,20 +45,20 @@ export default {
     },
     methods: {
         showNewAchievement() {
-            this.$store.dispatch('clearInformationBlock');
-            this.isNewAchievementVisible = true;
+            this.$store.dispatch('clearErrors');
+            this.$bvModal.show('new-achievement');
         },
-        closeNewAchievement() {
-            this.isNewAchievementVisible = false;
+        closeNewAchievement() {;
+            this.$bvModal.hide('new-achievement');
         },
         showEditAchievement(achievement) {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.achievementToEdit = achievement;
-            this.isEditAchievementVisible = true;
+            this.$bvModal.show('edit-achievement');
         },
         closeEditAchievement() {
             this.achievementToEdit = null;
-            this.isEditAchievementVisible = false;
+            this.$bvModal.hide('edit-achievement');
         },
     }
     

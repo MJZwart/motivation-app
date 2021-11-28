@@ -63,7 +63,7 @@ export default {
     },
     methods: {
         showNewTask(superTask, taskList) {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.superTask = superTask;
             this.taskList = taskList;
             this.$bvModal.show('new-task');
@@ -74,7 +74,7 @@ export default {
             this.$bvModal.hide('new-task');
         },
         showEditTask(task){
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.taskToEdit = task;
             this.$bvModal.show('edit-task');
         },
@@ -83,14 +83,14 @@ export default {
             this.$bvModal.hide('edit-task');
         },
         showNewTaskList() {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.$bvModal.show('new-task-list');
         },
         closeNewTaskList() {
             this.$bvModal.hide('new-task-list');
         },
         showEditTaskList(taskList) {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.taskListToEdit = taskList;
             this.$bvModal.show('edit-task-list');
         },
@@ -99,7 +99,7 @@ export default {
             this.$bvModal.hide('edit-task-list');
         },
         showDeleteTaskList(taskList) {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.taskListToDelete = taskList;
             this.$bvModal.show('delete-task-list-confirm');
         },
@@ -132,10 +132,6 @@ export default {
         flex-direction: column;
         gap:10px;
     }
-    .border{
-        border: 1px solid teal;
-        border-radius: 6px;
-    }
     .task-lists{
         flex:74%;
         display: flex;
@@ -151,16 +147,6 @@ export default {
     .summary-tab, .summary-list{
         width:100%;
         height:fit-content;
-    }
-
-    .side-border {
-        border-left: 1px solid teal;
-        border-right: 1px solid teal;
-    }
-    .bottom-border {
-        border-bottom: 1px solid teal;
-        border-bottom-left-radius: 6px;
-        border-bottom-right-radius: 6px;
     }
     @media (max-width:1000px){
         .task-list{

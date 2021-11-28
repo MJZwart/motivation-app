@@ -21,15 +21,14 @@ axios.interceptors.response.use(
         }
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
-        const errors = error.response.data.errors || [];
-        store.commit('setResponseMessage', errors);
-        store.commit('setStatus', 'error');
-        toastService.$emit('message', {message: 'There were errors in the form', variant: 'danger'});
+        
 
         // refresh token reply should stay silent
         if (error.request.responseURL.indexOf('get_user_by_token') > -1) {
             return Promise.reject(error);
         }
+
+        let errors;
 
         switch (error.response.status) {
             /**
@@ -41,13 +40,22 @@ axios.interceptors.response.use(
                 if (router.currentRoute.name !== 'login') {
                     store.dispatch('user/logout', false);
                 }
-
+                errors = error.response.data.errors || [];
+                store.commit('setErrorMessages', errors);
+                toastService.$emit('message', {message: 'You are not logged in', variant: 'danger'});
                 // break promise and return error
                 return Promise.reject(error, false);
             // user tried to access unauthorized resource
             case 403:
                 //store.dispatch('logout', false);
-
+                errors = error.response.data.errors || [];
+                store.commit('setErrorMessages', errors);
+                toastService.$emit('message', {message: 'You are not authorized for this action', variant: 'danger'});
+                return Promise.reject(error);
+            case 422:
+                errors = error.response.data.errors || [];
+                store.commit('setErrorMessages', errors);
+                toastService.$emit('message', {message: 'There were errors in the form', variant: 'danger'});
                 return Promise.reject(error);
             default:
                 return Promise.reject(error);

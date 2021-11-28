@@ -1,40 +1,29 @@
 <template>
-    <div>
-        <transition name="modal-fade">
-            <div class="modal-backdrop">
-                <div class="modal">
-                    <information-block></information-block>
-
-                    <div class="form-title">
-                    <h3>Edit character</h3>
-                    </div>
-                    <form @submit.prevent="updateCharacter">
-                        <div class="form-group">
-                            <label for="name">Character name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                placeholder="Name" 
-                                v-model="editedCharacter.name" />
-                        </div>
-                        <div class="form-group">
-                            <b-button type="submit" block>Update character name</b-button>
-                            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-        </transition>
+    <div v-if="character">
+        <form @submit.prevent="updateCharacter">
+            <b-form-group
+                label="Character name" 
+                label-for="name">
+                <b-form-input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Name" 
+                    v-model="editedCharacter.name" />
+                <base-form-error name="name" /> 
+            </b-form-group>
+            <b-button type="submit" block>Update character name</b-button>
+            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <base-form-error name="error" /> 
+        </form>
     </div>
 </template>
 
 
 <script>
-import InformationBlock from '../InformationBlock.vue';
+import BaseFormError from '../BaseFormError.vue';
 export default {
-    components: {InformationBlock},
+    components: {BaseFormError},
     props: {
         character: Object,
     },
@@ -52,7 +41,6 @@ export default {
             this.$store.dispatch('character/updateCharacter', this.editedCharacter).then(function(){
                 self.close();
             });
-
         },
         close(){
             this.editedCharacter = {},

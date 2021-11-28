@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="achievements">
         <span class="frame-title">Achievements</span>
         <div class="side-border bottom-border">
             <ul class="summary-list">
@@ -20,8 +20,3 @@ export default {
     },
 }
 </script>
-
-
-<style>
-
-</style>

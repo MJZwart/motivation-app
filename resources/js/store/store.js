@@ -26,14 +26,17 @@ export default new Vuex.Store({
     },
     state: {
         //Errors and response
-        // responseMessage: {},
+        responseMessage: {},
+        errors: [],
         // status: "",
     },
     mutations: {
         //Errors and response
+        setErrorMessages(state, response){
+            state.errors = response;
+        },
         setResponseMessage(state, responseMessage){
-            toastService.$emit('message', {message: responseMessage.message[0], variant: 'success'});
-            //state.responseMessage = responseMessage;
+            toastService.$emit('message', {message: responseMessage.message[0], variant: "success"});
         },
         setStatus(state, status) {
             //state.status = status;
@@ -42,15 +45,18 @@ export default new Vuex.Store({
     getters: {
         //Errors and response
         getResponseMessage: (state) => {
-            //return state.responseMessage;
+            return state.responseMessage;
+        },
+        getErrorMessages: (state) => {
+            return state.errors;
         },
         getStatus: (state) => {
             //return state.status;
         },
     },
     actions: {
-        clearInformationBlock({ commit }) {
-                // commit('setResponseMessage', []);
+        clearErrors({ commit }) {
+            commit('setErrorMessages', []);
                 // commit('setStatus', 'hidden')
         },
     }

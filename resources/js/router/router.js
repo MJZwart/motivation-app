@@ -72,7 +72,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    store.dispatch('clearInformationBlock');
+    store.dispatch('clearErrors');
 
     if(to.path != '/welcome' && store.getters['user/getUser'].first){
         return next({ path: '/welcome' });

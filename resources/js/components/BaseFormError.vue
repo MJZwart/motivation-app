@@ -12,14 +12,13 @@ export default {
     },
     computed: {
         ...mapGetters({
-            responseMessage: "getResponseMessage",
+            responseMessage: "getErrorMessages",
         }),
         errorMsg() {
             const errors = this.responseMessage;
             if(!this.name || !errors) {
                 return '';
             }
-
             return (errors[this.name] || [])[0] || '';
         },
     },
