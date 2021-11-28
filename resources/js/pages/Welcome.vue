@@ -1,5 +1,6 @@
 <template>
     <div>
+        <b-modal id="first-modal" hide-footer :title="$t('welcome')">
         <div v-show="firstModal">
             <transition name="modal-fade">
                 <div class="modal-backdrop">
@@ -42,6 +43,7 @@
                 </div>
             </transition>
         </div>
+        </b-modal>
         <div v-show="secondModal">
             <transition name="modal-fade">
                 <div class="modal-backdrop">

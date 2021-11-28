@@ -15,5 +15,7 @@
 
     "cancel": "Cancel",
     "submit": "Submit",
-    "delete": "Delete"
+    "delete": "Delete",
+
+    "welcome": "Welcome"
 }
