@@ -5,7 +5,7 @@
         </div>
         <b-form @submit.prevent="submitSettings" v-if="!loading">
             <h4>Profile settings</h4>
-            <b-form-group
+            <!-- <b-form-group
                 label="Rewards type"
                 label-for="rewards">
                 <b-form-select
@@ -15,6 +15,10 @@
                     :options="rewardTypes">
                 </b-form-select>
                 <base-form-error name="rewards" /> 
+            </b-form-group> -->
+            <b-form-group>
+                <p>Current reward type: {{currentRewardType}}</p>
+                <b-button type="button" @click="showChangeRewardType()">Change reward type</b-button>
             </b-form-group>
             <b-form-group>
                 <b-form-checkbox
@@ -110,6 +114,8 @@
                 <b-button type="submit" block>Update e-mail</b-button>
             </div>
         </form>
+
+        <change-reward-type v-if="isChangeRewardTypeVisible" @close="closeChangeRewardType" :rewardsType="user.rewards"></change-reward-type>
     </div>
 </template>
 
@@ -118,11 +124,10 @@
 import {mapGetters} from 'vuex';
 import BaseFormError from '../components/BaseFormError';
 import { REWARD_TYPES } from '../constants/rewardConstants';
+import ChangeRewardType from '../components/modals/ChangeRewardType.vue';
 
 export default {
-    components: {
-        BaseFormError
-    },
+  components: { ChangeRewardType, BaseFormError},
     mounted() {
         this.setupSettings();
     },
@@ -134,17 +139,20 @@ export default {
             passwordSettings: {},
             loading: true,
             rewardTypes: REWARD_TYPES,
+            isChangeRewardTypeVisible: false,
         }
     },
     computed: {
         ...mapGetters({
             user: 'user/getUser',
         }),
+        currentRewardType(){
+            return this.user.rewards.toLowerCase();
+        },
     },
     methods: {
         setupSettings() {
             this.emailSettings.email = this.user.email;
-            this.settings.rewards = this.user.rewards;
             this.settings.show_achievements = this.user.show_achievements;
             this.settings.show_character = this.user.show_character;
             this.settings.show_friends = this.user.show_friends;
@@ -158,6 +166,12 @@ export default {
         },
         submitEmailSettings() {
             this.$store.dispatch('user/updateEmail', this.emailSettings);
+        },
+        showChangeRewardType(){
+            this.isChangeRewardTypeVisible = true;
+        },
+        closeChangeRewardType(){
+            this.isChangeRewardTypeVisible = false;
         },
     },
 }

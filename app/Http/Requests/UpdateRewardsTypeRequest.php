@@ -3,11 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 use App\Rules\ValidRewardType;
+use Illuminate\Validation\Rule;
 
-class UpdateUserSettingsRequest extends FormRequest
+class UpdateRewardsTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,9 +26,9 @@ class UpdateUserSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'show_character' => [Rule::requiredIf($this->rewards == 'CHARACTER'),'boolean'],
-            'show_achievements' => 'required|boolean',
-            'show_friends' => 'required|boolean',
+            'rewards' => ['required', new ValidRewardType()], //TODO, exists:rewards_types,type - make rewards type migration table
+            'keepCharacter' => 'required',
+            'character_name' => [Rule::requiredIf($this->rewardsType == 'CHARACTER' && $this->keepCharacter == 'NEW'), 'string'],
         ];
     }
 }

@@ -123,6 +123,14 @@ export default {
                 commit('setResponseMessage', response.data.message, {root:true});
             });
         },
+        changeRewardType: ({commit}, user) => {
+            return axios.put('/user/settings/rewards', user).then(response => {
+                commit('setUser', response.data.user);
+                commit('setResponseMessage', response.data.message, {root:true});
+                commit('setStatus', 'success', {root:true});
+                return Promise.resolve();
+            });
+        },
 
         searchUser: ({commit}, searchValue) => {
             axios.post('/search', searchValue).then(response => {

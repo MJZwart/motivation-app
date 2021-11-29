@@ -9,7 +9,11 @@ import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
+<<<<<<< HEAD
 import toastService from '../services/toastService';
+=======
+import axios from "axios";
+>>>>>>> character-optional
 
 Vue.use(Vuex);
 
