@@ -73,7 +73,7 @@ export default {
         register: ({ commit }, user) => {
             axios.post('/register', user).then(response => {
                 router.push('/login').catch(() => { });
-                commit('setResponseMessage', response.data.message.success, {root:true});
+                commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
             });
         },

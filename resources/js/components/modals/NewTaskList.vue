@@ -11,6 +11,7 @@
                     name="name" 
                     placeholder="Name" 
                     v-model="taskList.name" />
+                <base-form-error name="name" /> 
             </b-form-group>
             <b-button type="submit" block>Create new task list</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
@@ -20,10 +21,10 @@
 
 
 <script>
-import InformationBlock from '../InformationBlock.vue';
+import BaseFormError from '../BaseFormError';
 export default {
     components: {
-        InformationBlock,
+        BaseFormError,
     },
     data() {
         return {

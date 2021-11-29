@@ -1,5 +1,5 @@
 <template>
-    <div class="login-form">
+    <div class="w-40 center">
         <h2>Login</h2>
         <b-form @submit.prevent="submitLogin">
             <b-form-group
@@ -52,11 +52,3 @@ export default {
     }
 }
 </script>
-
-
-<style>
-    .login-form{
-        width:40%;
-        margin: auto auto;
-    }
-</style>

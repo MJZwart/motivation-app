@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-40 center">
         <h2>Register</h2>
         <b-form @submit.prevent="submitRegister">
             <b-form-group
@@ -11,6 +11,7 @@
                     name="username" 
                     placeholder="Username" 
                     v-model="register.username" />
+                <base-form-error name="username" /> 
             </b-form-group>
             <b-form-group
                 label="E-mail"
@@ -21,6 +22,7 @@
                     name="email" 
                     placeholder="E-mail" 
                     v-model="register.email" />
+                <base-form-error name="email" /> 
             </b-form-group>
             <b-form-group
                 label="Password"
@@ -31,6 +33,7 @@
                     name="password" 
                     placeholder="Password" 
                     v-model="register.password" />
+                <base-form-error name="password" /> 
             </b-form-group>
             <b-form-group
                 label="Repeat password"
@@ -41,6 +44,7 @@
                     name="password_confirmation" 
                     placeholder="Repeat password" 
                     v-model="register.password_confirmation" />
+                <base-form-error name="password_confirmation" /> 
             </b-form-group>
             <b-button type="submit" block>Register new account</b-button>
         </b-form> 
@@ -49,7 +53,12 @@
 
 
 <script>
+import BaseFormError from '../components/BaseFormError.vue';
+
 export default {
+    components: {
+        BaseFormError
+    },
     data() {
         return {
             register: {
@@ -68,11 +77,3 @@ export default {
     
 }
 </script>
-
-
-<style>
-    .register-form{
-        width:40%;
-        margin: auto auto;
-    }
-</style>
