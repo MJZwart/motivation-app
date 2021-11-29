@@ -65,11 +65,6 @@ export default {
 
 <style lang="scss">
 @import '../../assets/scss/variables';
-
-//TODO
-
-//Working on getting SASS to work, and making the top navbar look like 
-// https://bootstrap-vue.org/docs/components/modal
     .navbar{
         background-color: $primary;
 

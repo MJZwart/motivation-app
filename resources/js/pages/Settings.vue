@@ -4,6 +4,7 @@
             <h3>Settings</h3>
         </div>
 
+<!-- //TODO Remake into b-form -->
         <form @submit.prevent="submitSettings" v-if="!loading">
             <h4>Profile settings</h4>
             <div class="form-group">

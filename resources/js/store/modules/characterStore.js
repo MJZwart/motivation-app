@@ -18,6 +18,7 @@ export default {
         },
     },
     actions: {
+        //TODO Redundant?
         // getCharacter: ({commit}) => {
         //     axios.get('/character').then(response => {
         //         commit('setCharacter', response.data.data);

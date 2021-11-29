@@ -70,6 +70,7 @@ export default {
         },
     }
 
+//TODO test if this is already happening
     //If anything changes in the friends, you need to update the User in the store, as well as localStorage.
 }
 </script>

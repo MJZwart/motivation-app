@@ -99,6 +99,7 @@ export default {
             });
         },
 
+        //TODO Redundant?
         // getUserStats: ({ commit }) => {
         //     axios.get('/user/stats').then(function(response){
         //         commit('setUserStats', response.data.data);

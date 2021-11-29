@@ -8,6 +8,7 @@ export default {
         // admin: false,
     },
     mutations: {
+        //TODO Redundant?
         // setAdmin: (state, value) => {
         //     state.admin = value;
         //     localStorage.setItem('admin', JSON.stringify(value));

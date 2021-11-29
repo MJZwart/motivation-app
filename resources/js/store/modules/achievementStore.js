@@ -32,6 +32,7 @@ export default {
         },
     },
     actions: {
+        //TODO Redundant?
         // getAchievementsByUser: ({commit}, userId) => {
         //     axios.get('/user/achievements/' + userId).then(function(response){
         //         commit('setAchievements', response.data);

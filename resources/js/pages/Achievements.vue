@@ -29,6 +29,7 @@ import NewAchievement from '../components/modals/NewAchievement.vue';
 export default {
     components: { NewAchievement, EditAchievement },
     mounted() {
+        //TODO Reduce
         this.$store.dispatch('admin/checkAdmin');
         this.$store.dispatch('achievement/getAllAchievements');
         this.$store.dispatch('achievement/getAchievementTriggers');

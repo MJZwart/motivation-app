@@ -30,21 +30,6 @@ class TaskController extends Controller
         return new JsonResponse(['message' => ['message' => ["Task successfully created."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
-    /*
-    Will likely be changed to account for TaskList
-    */
-    public function show(Task $task) {
-        // #30
-    }
-
-    public function showTasks(){
-        // #30
-    }
-    /*
-
-    */
-
-    //TODO UpdateTaskRequest
     public function update(Task $task, UpdateTaskRequest $request){
         $validated = $request->validated();
         $task->update($validated);

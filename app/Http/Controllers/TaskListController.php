@@ -25,14 +25,10 @@ class TaskListController extends Controller
         return new JsonResponse(['message' => ['message' => ['Task list successfully created.']], 'data' => $taskLists], Response::HTTP_OK);
     }
 
-    public function show(TaskList $taskList)
-    {
-        // #30
-    }
-
-    public function showTaskLists(){
-        return TaskListResource::collection(Auth::user()->taskLists);
-    }
+    //TODO Redundant?
+    // public function showTaskLists(){
+    //     return TaskListResource::collection(Auth::user()->taskLists);
+    // }
 
     public function update(TaskList $tasklist, UpdateTaskListRequest $request): JsonResponse
     {

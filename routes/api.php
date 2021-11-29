@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/tasklists', TaskListController::class)->only([
         'store', 'show', 'update', 'destroy'
     ]);
+    //TODO Redundant?
     // Route::get('/tasklists', [TaskListController::class, 'showTaskLists']);
     Route::post('/tasks/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
 

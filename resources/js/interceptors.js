@@ -36,6 +36,7 @@ axios.interceptors.response.use(
              * access the requested end point.
              * This means that probably our token has expired and we need to get a new one.
              */
+            //TODO Cleanup
             case 401:
                 if (router.currentRoute.name !== 'login') {
                     store.dispatch('user/logout', false);
