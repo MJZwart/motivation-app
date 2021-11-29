@@ -18,11 +18,11 @@ export default {
         },
     },
     actions: {
-        getCharacter: ({commit}) => {
-            axios.get('/character').then(response => {
-                commit('setCharacter', response.data.data);
-            });
-        },
+        // getCharacter: ({commit}) => {
+        //     axios.get('/character').then(response => {
+        //         commit('setCharacter', response.data.data);
+        //     });
+        // },
         updateCharacter: ({commit}, character) => {
             return axios.put('/character/' + character.id, character).then(function(response) {
                 commit('setResponseMessage', response.data.message, {root:true});

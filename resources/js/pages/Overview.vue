@@ -24,9 +24,10 @@ import CharacterSummary from '../components/summary/CharacterSummary.vue';
 export default {
     components: {CharacterSummary, AchievementsSummary},
     mounted() {
-        this.$store.dispatch('character/getCharacter', { root:true });
-        this.$store.dispatch('achievement/getAchievementsByUser', this.user.id);
-        this.$store.dispatch('user/getUserStats', { root:true });
+        this.$store.dispatch('user/getOverview',  {root:true});
+        // this.$store.dispatch('character/getCharacter', { root:true });
+        // this.$store.dispatch('achievement/getAchievementsByUser', this.user.id);
+        // this.$store.dispatch('user/getUserStats', { root:true });
     },
     data() {
         return {

@@ -91,11 +91,19 @@ export default {
             });
         },
 
-        getUserStats: ({ commit }) => {
-            axios.get('/user/stats').then(function(response){
-                commit('setUserStats', response.data.data);
+        getOverview: ({ commit }) => {
+            axios.get('/overview').then(response => {
+                commit('setUserStats', response.data.stats);
+                commit('achievement/setAchievements', response.data.achievements, {root:true});
+                commit('character/setCharacter', response.data.character, {root:true});
             });
         },
+
+        // getUserStats: ({ commit }) => {
+        //     axios.get('/user/stats').then(function(response){
+        //         commit('setUserStats', response.data.data);
+        //     });
+        // },
         updatePassword: ({commit, dispatch}, passwords) => {
             axios.put('/user/settings/password', passwords).then(response => {
                 dispatch('logout');
