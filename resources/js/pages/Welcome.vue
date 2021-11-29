@@ -125,27 +125,4 @@ import { mapGetters } from 'vuex';
     max-height:500px;
     overflow-y:scroll;
 }
-/* .label-override{
-    text-transform:none;
-    letter-spacing:0;
-}
-.input-override input{
-    width:5%;
-}
-.input-override label{
-    display:inline;
-    text-transform:none;
-    letter-spacing:0;
-    font-weight: 400;
-    font-size: 1rem;
-}
-.radio-label{
-    display:inline-block;
-}
-.disabled {
-    text-decoration-line: line-through;
-}
-.long-button.half{
-    width:49%;
-} */
 </style>

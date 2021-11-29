@@ -56,7 +56,7 @@ let routes = [
     },
     {
         path: "/search",
-        component: require('../pages/Search.vue').default,
+        component: require('../pages/SearchResults.vue').default,
         meta: { requiresAuth: true},
     },
     {

@@ -23,6 +23,8 @@ Programs needed to work this:
 
 `npm run dev`
 
+- Make a copy of `env.example` and rename this to `.env`
+
 `php artisan migrate:fresh --seed`
 
 `php artisan key:generate`
