@@ -2,7 +2,6 @@
     <div>
         <navigation></navigation>
         <div class="content">
-            <information-block></information-block>
             <router-view></router-view>
         </div>
         <footer-comp></footer-comp>

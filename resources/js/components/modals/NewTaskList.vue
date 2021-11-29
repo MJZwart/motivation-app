@@ -1,6 +1,5 @@
 <template>
     <div>
-        <information-block></information-block>
         <b-form @submit.prevent="submitTaskList">
             <b-form-group
                 label="Task list name" 

@@ -57,8 +57,9 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('taskList/getTaskLists', { root:true });
-        this.$store.dispatch('character/getCharacter', { root:true });
+        this.$store.dispatch('getDashboard');
+        // this.$store.dispatch('taskList/getTaskLists', { root:true });
+        // this.$store.dispatch('character/getCharacter', { root:true });
         
     },
     methods: {

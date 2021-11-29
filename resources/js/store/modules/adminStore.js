@@ -25,7 +25,6 @@ export default {
         newAchievement: ({commit}, achievement) => {
             return axios.post('/achievements', achievement).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
@@ -33,7 +32,6 @@ export default {
         editAchievement: ({commit}, achievement) => {
             return axios.put('/achievements/' + achievement.id, achievement).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
@@ -41,7 +39,6 @@ export default {
         sendNotification: ({commit}, notification) => {
             axios.post('/notifications/all', notification).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
             });
         },
     },

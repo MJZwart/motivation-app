@@ -28,7 +28,6 @@ export default new Vuex.Store({
         //Errors and response
         responseMessage: {},
         errors: [],
-        // status: "",
     },
     mutations: {
         //Errors and response
@@ -37,9 +36,6 @@ export default new Vuex.Store({
         },
         setResponseMessage(state, responseMessage){
             toastService.$emit('message', {message: responseMessage.message[0], variant: "success"});
-        },
-        setStatus(state, status) {
-            //state.status = status;
         },
     },
     getters: {
@@ -50,14 +46,16 @@ export default new Vuex.Store({
         getErrorMessages: (state) => {
             return state.errors;
         },
-        getStatus: (state) => {
-            //return state.status;
-        },
     },
     actions: {
         clearErrors({ commit }) {
             commit('setErrorMessages', []);
-                // commit('setStatus', 'hidden')
         },
+        getDashboard: ({commit}) => {
+            axios.get('/dashboard').then(response => {
+                commit('taskList/setTaskLists', response.data.taskLists, {root:true});
+                commit('character/setCharacter', response.data.character, {root:true});
+            });
+        }
     }
 });

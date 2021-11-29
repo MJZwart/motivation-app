@@ -20,7 +20,6 @@ export default {
         storeTask: ({ commit }, task) => {
             return axios.post('/tasks', task).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
                 return Promise.resolve();
             });
@@ -28,7 +27,6 @@ export default {
         updateTask: ({ commit }, task) => {
             return axios.put('/tasks/' + task.id, task).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
                 return Promise.resolve();
             });
@@ -36,14 +34,12 @@ export default {
         deleteTask: ({ commit }, task) =>{
             axios.delete('/tasks/' + task.id, task).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
             });
         },
         completeTask: ({commit}, task) => {
             axios.put('/tasks/complete/' + task.id).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
                 commit('character/setCharacter', response.data.character, {root:true});
             });
