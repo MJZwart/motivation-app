@@ -1,6 +1,6 @@
 <template>
     <div v-if="achievements">
-        <span class="frame-title">Achievements</span>
+        <span class="card-title">Achievements</span>
         <div class="side-border bottom-border">
             <ul class="summary-list">
                 <li v-for="(achievement, index) in achievements" :key="index">

@@ -116,45 +116,17 @@ export default {
 }
 </script>
 
-
-<style>
-    .home-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap:10px;
-    }
-    .right-align {
-        flex:24%;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        gap:10px;
-    }
-    .task-lists{
-        flex:74%;
-        display: flex;
-        flex-wrap: wrap;
-        gap:10px;
-    }
-    .task-list{
-        flex: 49%;
-        height: fit-content;
-        border-bottom-left-radius: 6px;
-        border-bottom-right-radius: 6px;
-    }
-    .summary-tab, .summary-list{
-        width:100%;
-        height:fit-content;
-    }
-    @media (max-width:1000px){
-        .task-list{
-            flex: 100%;
-        }
-    }
-    
-    @media (max-width:730px){
-        .task-lists{
-            flex:100%;
-        }
-    }
+<style lang="scss">
+.home-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+}
+.right-align {
+    flex:24%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap:10px;
+}
 </style>

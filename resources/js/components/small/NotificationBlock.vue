@@ -1,8 +1,8 @@
 <template>
     <div>
         <div :class="{unread: !notification.read}">
-            <span class="frame-title">{{notification.title}}</span>
-            <div class="side-border bottom-border grid-2 small-text">
+            <span class="card-title">{{notification.title}}</span>
+            <div class="side-border bottom-border">
                 <p>{{notification.text}}</p>
                 <p>Received on: {{notification.created_at}}</p>
             </div>

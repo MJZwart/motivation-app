@@ -27,12 +27,14 @@
 // }
 .silent {
     font-weight: 200;
-    color: grey;
+    color: $grey;
 }
 .content {
     margin: 20px;
 }
-
+p {
+    margin-left:5px;
+}
 // label {
 //     display: block;
 //     padding: 0.3rem;
@@ -92,13 +94,11 @@
 // .long-button {
 //     width: 100%;
 // }
-// .icon-small{
-//     color:teal;
-//     margin:2px;
-//     cursor:pointer;
-//     width:1.3em;
-//     height:1.3em;
-// }
+.icon-small{
+    color:$primary;
+    margin:2px;
+    cursor:pointer;
+}
 .modal-backdrop {
     opacity: 0.5;
 //     position: fixed;
@@ -169,6 +169,16 @@
     font-size: 12px;
     font-weight: 400;
 }
+.card-title{
+    font-size:18px;
+    font-weight: 600;
+    border: 1px solid $primary;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    display: block;
+    padding:5px;
+    margin-bottom:0;
+}
 .card-content{
     padding: 5px;
     p{
@@ -199,4 +209,63 @@
 
 .center{
     margin: auto auto;
+}
+
+.task{
+    margin:0;
+    padding:5px;
+    border-bottom: 1px solid $primary;
+}
+.sub-task{
+    margin:-6px;
+    padding:5px;
+    .task-description{
+        margin-left:1.5rem;
+    }
+}
+.task-description{
+    font-size:12px;
+    color:$grey;
+    margin: 0 0.5rem;
+}
+.task-title{
+    font-weight:600;
+    margin-bottom:0;
+}
+
+.green{
+    color: $green;
+}
+
+.red{
+    color: $red;
+}
+
+.task-lists{
+    flex:74%;
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+}
+.task-list{
+    flex: 49%;
+    height: fit-content;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.summary-list{
+    list-style: none;
+    padding-inline-start:0;
+    font-size:14px;
+}
+@media (max-width:1000px){
+    .task-list{
+        flex: 100%;
+    }
+}
+
+@media (max-width:730px){
+    .task-lists{
+        flex:100%;
+    }
 }

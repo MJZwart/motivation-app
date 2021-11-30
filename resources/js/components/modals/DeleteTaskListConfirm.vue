@@ -1,19 +1,19 @@
 <template>
     <div v-if="taskListToDelete">
         <b-form @submit.prevent="deleteTaskList">
-            <p class="modal-text">Are you sure you want to delete {{taskListToDelete.name}}</p>
+            <p>Are you sure you want to delete {{taskListToDelete.name}}</p>
             <b-form-group v-if="taskListHasTasks">
-                <p class="modal-text">
+                <p>
                     This task list has {{taskListTasks.length}} tasks. Do you wish to delete these or merge the tasks into a different task list?
                 </p>
             
                 <b-form-group>
-                    <select 
+                    <b-form-select 
                         id="deleteOption" 
                         v-model="deleteOption">
                         <option value="delete" selected>{{ $t('delete') }}</option>
                         <option v-for="option in taskLists" :value="option.id" :key="option.key">Merge with: {{option.name}}</option>
-                    </select>
+                    </b-form-select>
                 </b-form-group>
             </b-form-group>
             <b-button type="submit" block>{{ $t('delete-task-list-confirm') }}</b-button>

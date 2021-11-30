@@ -1,19 +1,19 @@
 <template>
     <div>
-        <p class="task-title flex">
+        <p class="task-title d-flex">
             <b-icon-check-square
-                class="icon-small"
+                class="icon-small green"
                 @click="completeTask(task)"></b-icon-check-square>
             {{task.name}}             
-            <span class="flex-end">
+            <span class="ml-auto">
                 <b-icon-plus-square-fill
-                    class="icon-small"
+                    class="icon-small green"
                     @click="openNewTask(task)"></b-icon-plus-square-fill>
                 <b-icon-pencil-square 
                     class="icon-small"
                     @click="editTask(task)"></b-icon-pencil-square>
                 <b-icon-trash 
-                    class="icon-small"
+                    class="icon-small red"
                     @click="deleteTask(task)"></b-icon-trash>
             </span>
             
@@ -22,17 +22,17 @@
         <p class="task-description">{{task.description}}</p>
 
         <div class="sub-task" v-for="subTask in task.tasks" :key="subTask.id">
-            <p class="task-title">
+            <p class="task-title d-flex">
                 <b-icon-arrow-return-right></b-icon-arrow-return-right>
                 <b-icon-check-square
-                    class="icon-small"
+                    class="icon-small green"
                     @click="completeTask(subTask)"></b-icon-check-square>
                 {{subTask.name}}
                 <b-icon-pencil-square 
-                    class="icon-small flex-end"
+                    class="icon-small ml-auto"
                     @click="editTask(subTask)"></b-icon-pencil-square>
                 <b-icon-trash
-                    class="icon-small"
+                    class="icon-small red"
                     @click="deleteTask(subTask)"></b-icon-trash>
             </p>
             <p class="task-description">{{subTask.description}}</p>

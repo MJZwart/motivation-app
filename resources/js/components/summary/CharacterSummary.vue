@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="summary-card" v-if="character">
-            <span class="frame-title">{{character.name}}                 
+            <span class="card-title">{{character.name}}                 
                 <b-icon-pencil-square v-if="userCharacter"
                     class=""
                     @click="showEditCharacter()"></b-icon-pencil-square>

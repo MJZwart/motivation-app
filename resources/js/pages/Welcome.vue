@@ -49,17 +49,17 @@
                     label="Example tasks"
                     label-for="example-tasks">
                     <div class="examples-slot">
-                            <b-form-checkbox 
-                                v-for="task in exampleTasks"
-                                v-model="user.tasks"
-                                :value="task.id" 
-                                :key="task.id"
-                                name="example-tasks">
-                                <p class="task-title flex label-override">
-                                    {{task.name}}
-                                </p>
-                                <p class="task-description label-override">{{task.description}}</p>
-                            </b-form-checkbox>
+                        <b-form-checkbox 
+                            v-for="task in exampleTasks"
+                            v-model="user.tasks"
+                            :value="task.id" 
+                            :key="task.id"
+                            name="example-tasks">
+                            <p class="task-title d-flex label-override">
+                                {{task.name}}
+                            </p>
+                            <p class="task-description label-override">{{task.description}}</p>
+                        </b-form-checkbox>
                     </div>
                     
                 </b-form-group>

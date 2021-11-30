@@ -1,8 +1,6 @@
 <template>
     <div class="w-60 center">
-        <div class="form-title">
-            <h3>Settings</h3>
-        </div>
+        <h3>Settings</h3>
         <b-form @submit.prevent="submitSettings" v-if="!loading">
             <h4>Profile settings</h4>
             <!-- <b-form-group
@@ -46,12 +44,11 @@
                 </b-form-checkbox>
                 <base-form-error name="show_friends" /> 
             </b-form-group>
-
-            <div class="form-group">
-                <b-button type="submit" block>Save settings</b-button>
-            </div>
+            <b-button type="submit" block>Save settings</b-button>
         </b-form>
+
         <hr />
+        
         <form @submit.prevent="submitPasswordSettings" v-if="!loading">
             <h4>Change password</h4>
             <p class="text-muted">If successful, you will be logged out. Please log in with your new password.</p>
@@ -88,10 +85,7 @@
                     v-model="passwordSettings.password_confirmation" />
                 <base-form-error name="password_confirmation" /> 
             </b-form-group>
-            
-            <div class="form-group">
-                <b-button type="submit" block>Update password</b-button>
-            </div>
+            <b-button type="submit" block>Update password</b-button>
         </form>
 
         <hr />
@@ -110,9 +104,7 @@
                     v-model="emailSettings.email" />
                 <base-form-error name="email" /> 
             </b-form-group>
-            <div class="form-group">
-                <b-button type="submit" block>Update e-mail</b-button>
-            </div>
+            <b-button type="submit" block>Update e-mail</b-button>
         </form>
 
         <change-reward-type v-if="isChangeRewardTypeVisible" @close="closeChangeRewardType" :rewardsType="user.rewards"></change-reward-type>
