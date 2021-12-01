@@ -1,11 +1,11 @@
 <template>
     <div>
         <!-- //TODO Change to bvModal -->
-        <b-modal id="change-reward-type" title="Change reward type">
-            <div class="form-group">
-                <label for="name">Rewards type</label>
-                <p class="silent">How would you like to be rewarded for completing your tasks?</p>
-                <b-form-radio-group checked="NONE">
+        <b-modal id="change-reward-type" title="Change reward type" hide-footer>
+            <b-form-group
+                label="How would you like to be rewarded for completing your tasks?"
+                label-for="rewards">
+                <b-form-radio-group checked="NONE" name="rewards" stacked>
                     <b-form-radio type="radio" class="input-override" v-model="user.rewards" value="NONE">
                         <p class="radio-label">Nothing, just let me complete tasks.</p>
                     </b-form-radio>
@@ -16,21 +16,20 @@
                         <p class="radio-label disabled">Village (coming soon)</p>
                     </b-form-radio>
                 </b-form-radio-group>
-            </div>
-            <div class="form-group">
-                <button @click="nextModal()" class="long-button">Next</button>
-                <button @click="cancel()" class="long-button">Cancel</button>
-            </div>
+            </b-form-group>
+            <b-button @click="confirmRewardsType()" class="long-button">Next</b-button>
+            <b-button @click="cancel()" class="long-button">Cancel</b-button>
         </b-modal>
         
 
                         
         
-        <b-modal id="character-options" title="Character options">
+        <b-modal id="character-options" title="Character options" hide-footer>
 
-            <div class="form-group">
-                <label for="character_name">Activate an old character or make a new one?</label>
-                <b-form-radio-group checked="NONE">
+            <b-form-group
+                label="Activate an old character or make a new one?"
+                label-for="character-option">
+                <b-form-radio-group name="character-option" stacked>
                     <b-form-radio type="radio" class="input-override" v-model="user.keepCharacter" v-for="character in characters" :key="character.id" :value="character.id">
                         <p class="radio-label">Activate: {{character.name}}</p>
                     </b-form-radio>
@@ -38,17 +37,16 @@
                         <p class="radio-label">Make new character</p>
                     </b-form-radio>
                 </b-form-radio-group>
-            </div>
+            </b-form-group>
             
-            <div class="form-group">
-                <button @click="confirmCharacterOptions()" class="long-button">Confirm</button>
-                <button @click="cancel()" class="long-button">Cancel</button>
-            </div>
+            <b-button @click="confirmCharacterOptions()" class="long-button">Confirm</b-button>
+            <b-button @click="cancel()" class="long-button">Cancel</b-button>
         </b-modal>
 
-        <b-modal id="new-character" title="Set up new character">
-            <div class="form-group">
-                <label for="character_name">Character name</label>
+        <b-modal id="new-character" title="Set up new character" hide-footer>
+            <b-form-group
+                    label="Character name"
+                    label-for="character_name">
                 <p class="silent">You can change the name later through your settings.</p>
                 <input 
                     type="text" 
@@ -56,11 +54,9 @@
                     name="character_name" 
                     placeholder="Character name" 
                     v-model="user.character_name" />
-            </div>
-            <div class="form-group">
-                <button @click="confirmNewRewardsType()" class="long-button">Confirm</button>
-                <button @click="cancel()" class="long-button">Cancel</button>
-            </div>
+            </b-form-group>
+            <b-button @click="confirmNewRewardsType()" class="long-button">Confirm</b-button>
+            <b-button @click="cancel()" class="long-button">Cancel</b-button>
         </b-modal>
         
     </div>
@@ -91,7 +87,7 @@ import { mapGetters } from 'vuex';
             }
         },
         methods: {
-            nextModal() {
+            confirmRewardsType() {
                 //TODO For future options such as village, change this to an if-else or switch
                 if(this.user.rewards == 'CHARACTER'){
                     this.$store.dispatch('character/fetchAllCharacters').then(response => {
@@ -117,10 +113,10 @@ import { mapGetters } from 'vuex';
             },
             checkCharacterInput(){
                 if(this.user.rewards == "CHARACTER" && this.user.keepCharacter == 'NEW' && !this.user.character_name){
-                    this.$store.commit('setResponseMessage', {message: ["No character name given."]});
+                    this.$store.commit('setErrorMessages', {message: ["No character name given."]});
                     return false;
                 } else {
-                    this.$store.dispatch('clearInformationBlock');
+                    this.$store.dispatch('clearErrors');
                     return true;
                 }
             },

@@ -127,7 +127,6 @@ export default {
             return axios.put('/user/settings/rewards', user).then(response => {
                 commit('setUser', response.data.user);
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 return Promise.resolve();
             });
         },
