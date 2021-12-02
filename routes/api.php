@@ -45,14 +45,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/tasklists', TaskListController::class)->only([
         'store', 'show', 'update', 'destroy'
     ]);
-    //TODO Redundant?
-    // Route::get('/tasklists', [TaskListController::class, 'showTaskLists']);
     Route::post('/tasks/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
 
     Route::resource('/character', CharacterController::class)->only([
         'store', 'update', 'destroy',
     ]);
-    //Route::get('/character', [CharacterController::class, 'show']);
+
     Route::get('/character/find', [CharacterController::class, 'fetchCharacterIfExists']);
     Route::get('/character/active', [CharacterController::class, 'fetchActiveCharacter']);
     Route::get('/character/all', [CharacterController::class, 'fetchAllCharactersByUser']);
@@ -69,9 +67,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/friend/request/{friend}/deny', [FriendController::class, 'denyFriendRequest']);
     Route::delete('/friend/remove/{friend}', [FriendController::class, 'destroy']);
 
-    // Route::get('/user/achievements/{user}', [AchievementController::class, 'show']);
-
-    // Route::get('/user/stats', [UserController::class, 'showStats']);
     Route::put('/user/settings/email', [UserController::class, 'updateEmail']);
     Route::put('/user/settings/password', [UserController::class, 'updatePassword']);
     Route::put('/user/settings', [UserController::class, 'updateSettings']);

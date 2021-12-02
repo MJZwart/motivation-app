@@ -5,14 +5,10 @@ export default {
     namespaced: true,
 
     state: {
-        // admin: false,
+        //
     },
     mutations: {
-        //TODO Redundant?
-        // setAdmin: (state, value) => {
-        //     state.admin = value;
-        //     localStorage.setItem('admin', JSON.stringify(value));
-        // },
+        //
     },
     getters: {
         isAdmin: (state, getters, rootState, rootGetters) => {

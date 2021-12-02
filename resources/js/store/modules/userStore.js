@@ -99,12 +99,6 @@ export default {
             });
         },
 
-        //TODO Redundant?
-        // getUserStats: ({ commit }) => {
-        //     axios.get('/user/stats').then(function(response){
-        //         commit('setUserStats', response.data.data);
-        //     });
-        // },
         updatePassword: ({commit, dispatch}, passwords) => {
             axios.put('/user/settings/password', passwords).then(response => {
                 dispatch('logout');

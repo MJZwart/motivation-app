@@ -25,11 +25,6 @@ class TaskListController extends Controller
         return new JsonResponse(['message' => ['message' => ['Task list successfully created.']], 'data' => $taskLists], Response::HTTP_OK);
     }
 
-    //TODO Redundant?
-    // public function showTaskLists(){
-    //     return TaskListResource::collection(Auth::user()->taskLists);
-    // }
-
     public function update(TaskList $tasklist, UpdateTaskListRequest $request): JsonResponse
     {
         $validated = $request->validated();

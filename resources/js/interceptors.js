@@ -36,30 +36,26 @@ axios.interceptors.response.use(
              * access the requested end point.
              * This means that probably our token has expired and we need to get a new one.
              */
-            //TODO Cleanup
             case 401:
                 if (router.currentRoute.name !== 'login') {
                     store.dispatch('user/logout', false);
                 }
-                errors = error.response.data.errors || [];
-                store.commit('setErrorMessages', errors);
-                toastService.$emit('message', {message: 'You are not logged in', variant: 'danger'});
-                // break promise and return error
+                sendError('You are not logged in', 'danger', error.response.data.errors || []);
                 return Promise.reject(error, false);
             // user tried to access unauthorized resource
             case 403:
-                //store.dispatch('logout', false);
-                errors = error.response.data.errors || [];
-                store.commit('setErrorMessages', errors);
-                toastService.$emit('message', {message: 'You are not authorized for this action', variant: 'danger'});
+                sendError('You are not authorized for this action', 'danger', error.response.data.errors || []);
                 return Promise.reject(error);
             case 422:
-                errors = error.response.data.errors || [];
-                store.commit('setErrorMessages', errors);
-                toastService.$emit('message', {message: 'There were errors in the form', variant: 'danger'});
+                sendError('There were errors in the form', 'danger', error.response.data.errors || []);
                 return Promise.reject(error);
             default:
                 return Promise.reject(error);
         }
     }
 );
+
+function sendError(toastMessage, toastVariant, errors){
+    store.commit('setErrorMessages', errors);
+    toastService.$emit('message', {message: toastMessage, variant: toastVariant});
+}

@@ -63,9 +63,6 @@ export default {
     },
     mounted() {
         this.achievementToEdit = this.achievement;
-        //TODO check what this was used for and if it's necessary
-        //console.log(this.achievementTriggers.find(item => item.trigger_type == 'TASKS_MADE'));
-        //this.achievementToEdit.trigger_type = this.triggerDescription;
     },
     components: {
         BaseFormError,

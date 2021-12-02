@@ -18,11 +18,6 @@ export default {
         },
     },
     actions: {
-        getTaskLists: ({ commit }) => {
-            axios.get('/tasklists').then(response => {
-                commit('setTaskLists', response.data.data);
-            });
-        },
         storeTaskList: ({ commit }, taskList) => {
             return axios.post('/tasklists', taskList).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});

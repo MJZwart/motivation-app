@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- //TODO Change to bvModal -->
         <b-modal id="change-reward-type" title="Change reward type" hide-footer>
             <b-form-group
                 label="How would you like to be rewarded for completing your tasks?"
@@ -21,11 +20,7 @@
             <b-button @click="cancel()" class="long-button">Cancel</b-button>
         </b-modal>
         
-
-                        
-        
         <b-modal id="character-options" title="Character options" hide-footer>
-
             <b-form-group
                 label="Activate an old character or make a new one?"
                 label-for="character-option">
@@ -38,7 +33,6 @@
                     </b-form-radio>
                 </b-form-radio-group>
             </b-form-group>
-            
             <b-button @click="confirmCharacterOptions()" class="long-button">Confirm</b-button>
             <b-button @click="cancel()" class="long-button">Cancel</b-button>
         </b-modal>

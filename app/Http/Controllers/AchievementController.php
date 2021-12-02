@@ -20,11 +20,6 @@ class AchievementController extends Controller
         return new JsonResponse(['message' => ['message' => ["Achievement added."]], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
     }
 
-    //TODO Redundant?
-    // public function show(User $user){
-    //     return $user->achievements;
-    // }
-
     public function showAll(){
         return AchievementResource::collection(Achievement::get());
     }
