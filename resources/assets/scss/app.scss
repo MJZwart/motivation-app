@@ -5,95 +5,19 @@
 * {
     box-sizing: border-box;
 }
-// body {
-//     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-//         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-// }
-// h1 {
-//     font-size: 2rem;
-//     font-weight: 600;
-// }
-// h2 {
-//     font-size: 1.7rem;
-//     font-weight: 600;
-// }
-// h3 {
-//     font-size: 1.4rem;
-//     font-weight: 600;
-// }
-// h4 {
-//     font-size: 1.1rem;
-//     font-weight: 600;
-// }
-.silent {
-    font-weight: 200;
-    color: $grey;
-}
 .content {
     margin: 20px;
 }
 p {
     margin-left:5px;
 }
-// label {
-//     display: block;
-//     padding: 0.3rem;
-//     letter-spacing: 0.05em;
-//     font-size: 0.75rem;
-//     font-weight: 700;
-//     text-transform: uppercase;
-// }
-// input {
-//     border-radius: 0.25rem;
-//     border: 1px solid #e8e8e8;
-//     background-color: #f3f7f9f1;
-//     padding: 0.8rem;
-//     font-size: 1rem;
-//     font-family: inherit;
-//     width: 100%;
-// }
-// textarea {
-//     border-radius: 0.25rem;
-//     border: 1px solid #e8e8e8;
-//     background-color: #f3f7f9f1;
-//     padding: 0.8rem;
-//     font-size: 1rem;
-//     font-family: inherit;
-//     width: 100%;
-// }
-// select {
-//     border-radius: 0.25rem;
-//     border: 1px solid #e8e8e8;
-//     background-color: #f3f7f9f1;
-//     padding: 0.8rem;
-//     font-size: 1rem;
-//     font-family: inherit;
-//     width: 100%;
-// }
-// .form-group {
-//     padding: 1rem;
-// }
-// .form-title {
-//     padding: 0 1rem;
-// }
-// button {
-//     background: teal;
-//     color: white;
-//     padding: 0.8rem;
-//     border: 1px solid teal;
-//     border-radius: 5px;
-//     margin: 2px;
-//     cursor: pointer;
-// }
-// .button-small {
-//     padding: 0.3rem;
-//     border: 1px solid teal;
-//     border-radius: 5px;
-//     margin: 2px;
-// }
-// .long-button {
-//     width: 100%;
-// }
+
+
+.silent {
+    font-weight: 200;
+    color: $grey;
+}
+
 .icon-small{
     color:$primary;
     margin:2px;
@@ -101,70 +25,16 @@ p {
 }
 .modal-backdrop {
     opacity: 0.5;
-//     position: fixed;
-//     top: 0;
-//     bottom: 0;
-//     left: 0;
-//     right: 0;
-    // background-color: rgba(0, 0, 0, 0.3);
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
 }
-// .modal {
-//     background: #ffffff;
-//     box-shadow: 2px 2px 20px 1px;
-//     overflow-x: auto;
-//     display: flex;
-//     flex-direction: column;
-//     width: 50%;
-// }
-// .modal-text{
-//     padding-left: 1rem;
-// }
-// .no-margin {
-//     margin: 0;
-// }
 .bottom-radius {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
 }
-// .flex {
-//     display: flex !important;
-// }
-// .custom-checkbox {
-//     display:flex;
-// }
-// .custom-checkbox .custom-control-input{
-//     width: auto;
-// }    
 .box-shadow {
     box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
 }
-// .b-toast .toast{
-//     opacity: 1;
-//     margin-left:auto;
-//     margin-right:auto;
-// }
-// .b-toaster{
-//     z-index: 1100;
-// }
-// .b-toaster-top-center{
-//     position: fixed;
-//     left: 0.5rem;
-//     right: 0.5rem;
-//     top: 0.5rem;
-//     margin:0;
-// }
-// .b-toast-danger .b-toast-solid .toast{
-//     background-color: #fcedee;
-// }
-// .b-toast-danger .toast{
-//     color: #721c24;
-//     border-color:rgba(245,195,203,.85);
-// }
 .summary-card{
     font-size: 12px;
     font-weight: 400;
