@@ -13,7 +13,7 @@
                         v-on:deleteTaskList="showDeleteTaskList"></task-list>
                 </template>
                 <div class="task-list">
-                    <button type="button" class="long-button" @click="showNewTaskList">Create new task list</button>
+                    <b-button type="button" block @click="showNewTaskList">{{ $t('create-new-task-list') }}</b-button>
                 </div>
             </div>
 
@@ -24,13 +24,13 @@
             </div>
         </div>
 
-        <new-task v-show="isNewTaskVisible" @close="closeNewTask" :superTask="superTask" :taskList="taskList"></new-task>
-        <edit-task v-if="isEditTaskVisible" @close="closeEditTask" :task="taskToEdit"></edit-task>
-        <new-task-list v-show="isNewTaskListVisible" @close="closeNewTaskList"></new-task-list>
-        <edit-task-list v-if="isEditTaskListVisible" @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list>
-
-        <delete-task-list-confirm v-if="isDeleteTaskListVisible" @close="closeDeleteTaskList" :taskList="taskListToDelete"></delete-task-list-confirm>
+        <b-modal id="new-task" hide-footer :title="$t('new-task')"><new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask"></new-task></b-modal>
         
+        <b-modal id="edit-task" hide-footer :title="$t('edit-task')"><edit-task @close="closeEditTask" :task="taskToEdit"></edit-task></b-modal>
+        <b-modal id="new-task-list" hide-footer :title="$t('new-task-list')"><new-task-list @close="closeNewTaskList"></new-task-list></b-modal>
+        <b-modal id="edit-task-list" hide-footer :title="$t('edit-task-list')"><edit-task-list @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list></b-modal>
+        <b-modal id="delete-task-list-confirm" hide-footer :title="$t('delete-task-list-confirm')"><delete-task-list-confirm @close="closeDeleteTaskList" :taskList="taskListToDelete"></delete-task-list-confirm></b-modal>
+    
     </div>
 </template>
 
@@ -49,11 +49,6 @@ export default {
     components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm, CharacterSummary, FriendsSummary},
     data(){
         return {
-            isNewTaskListVisible: false,
-            isNewTaskVisible: false,
-            isEditTaskVisible: false,
-            isEditTaskListVisible: false,
-            isDeleteTaskListVisible: false,
             superTask: null,
             taskList: null,
             taskToEdit: null,
@@ -62,55 +57,53 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('taskList/getTaskLists', { root:true });
-        this.$store.dispatch('character/getCharacter', { root:true });
-        
+        this.$store.dispatch('getDashboard');
     },
     methods: {
         showNewTask(superTask, taskList) {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.superTask = superTask;
             this.taskList = taskList;
-            this.isNewTaskVisible = true;
+            this.$bvModal.show('new-task');
         },
         closeNewTask() {
             this.taskList = null;
             this.superTask = null;
-            this.isNewTaskVisible = false;
+            this.$bvModal.hide('new-task');
         },
         showEditTask(task){
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.taskToEdit = task;
-            this.isEditTaskVisible = true;
+            this.$bvModal.show('edit-task');
         },
         closeEditTask(){
             this.taskToEdit = null;
-            this.isEditTaskVisible = false;
+            this.$bvModal.hide('edit-task');
         },
         showNewTaskList() {
-            this.$store.dispatch('clearInformationBlock');
-            this.isNewTaskListVisible = true;
+            this.$store.dispatch('clearErrors');
+            this.$bvModal.show('new-task-list');
         },
         closeNewTaskList() {
-            this.isNewTaskListVisible = false;
+            this.$bvModal.hide('new-task-list');
         },
         showEditTaskList(taskList) {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.taskListToEdit = taskList;
-            this.isEditTaskListVisible = true;
+            this.$bvModal.show('edit-task-list');
         },
         closeEditTaskList() {
             this.taskListToEdit = null;
-            this.isEditTaskListVisible = false;
+            this.$bvModal.hide('edit-task-list');
         },
         showDeleteTaskList(taskList) {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.taskListToDelete = taskList;
-            this.isDeleteTaskListVisible = true;
+            this.$bvModal.show('delete-task-list-confirm');
         },
         closeDeleteTaskList() {
             this.taskListToDelete = null;
-            this.isDeleteTaskListVisible = false;
+            this.$bvModal.hide('delete-task-list-confirm');
         },
     },
     computed: {
@@ -123,59 +116,17 @@ export default {
 }
 </script>
 
-
-<style>
-    .home-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap:10px;
-    }
-    .right-align {
-        flex:24%;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        gap:10px;
-    }
-    .border{
-        border: 1px solid teal;
-        border-radius: 6px;
-    }
-    .task-lists{
-        flex:74%;
-        display: flex;
-        flex-wrap: wrap;
-        gap:10px;
-    }
-    .task-list{
-        flex: 49%;
-        height: fit-content;
-        border-bottom-left-radius: 6px;
-        border-bottom-right-radius: 6px;
-    }
-    .summary-tab, .summary-list{
-        width:100%;
-        height:fit-content;
-    }
-
-    .side-border {
-        border-left: 1px solid teal;
-        border-right: 1px solid teal;
-    }
-    .bottom-border {
-        border-bottom: 1px solid teal;
-        border-bottom-left-radius: 6px;
-        border-bottom-right-radius: 6px;
-    }
-    @media (max-width:1000px){
-        .task-list{
-            flex: 100%;
-        }
-    }
-    
-    @media (max-width:730px){
-        .task-lists{
-            flex:100%;
-        }
-    }
+<style lang="scss">
+.home-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+}
+.right-align {
+    flex:24%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap:10px;
+}
 </style>

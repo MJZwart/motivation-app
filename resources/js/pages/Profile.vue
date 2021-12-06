@@ -4,7 +4,7 @@
             <div class="left-column">
                 <character-summary  v-if="userProfile.character" class="summary-tab" :character="userProfile.character" :userCharacter="false"></character-summary>
                 <div class="summary-tab" v-if="userProfile.friends">
-                    <span class="frame-title">Friends 
+                    <span class="card-title">Friends 
                         <b-icon-person-plus-fill 
                             v-if="notLoggedUser" 
                             class="icon-small" 

@@ -21,7 +21,6 @@ export default {
         sendRequest: ({commit}, friendId) => {
             axios.post('/friend/request/' + friendId).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
             });
         },
         getRequests: ({commit}) => {
@@ -32,7 +31,6 @@ export default {
         acceptRequest: ({commit}, requestId) => {
             axios.post('/friend/request/' + requestId + '/accept').then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('user/setUser', response.data.user, {root:true});
                 commit('setRequests', response.data.requests);
             });
@@ -40,14 +38,12 @@ export default {
         denyRequest: ({commit}, requestId) => {
             axios.post('/friend/request/' + requestId + '/deny').then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('setRequests', response.data.requests);
             });
         },
         removeFriend: ({commit}, friendId) => {
             axios.delete('/friend/remove/' + friendId).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('user/setUser', response.data.user, {root:true});
             });
         },

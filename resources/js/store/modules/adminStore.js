@@ -5,13 +5,10 @@ export default {
     namespaced: true,
 
     state: {
-        // admin: false,
+        //
     },
     mutations: {
-        // setAdmin: (state, value) => {
-        //     state.admin = value;
-        //     localStorage.setItem('admin', JSON.stringify(value));
-        // },
+        //
     },
     getters: {
         isAdmin: (state, getters, rootState, rootGetters) => {
@@ -25,7 +22,6 @@ export default {
         newAchievement: ({commit}, achievement) => {
             return axios.post('/achievements', achievement).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
@@ -33,7 +29,6 @@ export default {
         editAchievement: ({commit}, achievement) => {
             return axios.put('/achievements/' + achievement.id, achievement).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
@@ -41,7 +36,6 @@ export default {
         sendNotification: ({commit}, notification) => {
             axios.post('/notifications/all', notification).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
             });
         },
     },

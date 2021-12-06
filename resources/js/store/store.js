@@ -9,6 +9,8 @@ import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
+import toastService from '../services/toastService';
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -26,15 +28,15 @@ export default new Vuex.Store({
     state: {
         //Errors and response
         responseMessage: {},
-        status: "",
+        errors: [],
     },
     mutations: {
         //Errors and response
-        setResponseMessage(state, responseMessage){
-            state.responseMessage = responseMessage;
+        setErrorMessages(state, response){
+            state.errors = response;
         },
-        setStatus(state, status) {
-            state.status = status;
+        setResponseMessage(state, responseMessage){
+            toastService.$emit('message', {message: responseMessage.message[0], variant: "success"});
         },
     },
     getters: {
@@ -42,14 +44,19 @@ export default new Vuex.Store({
         getResponseMessage: (state) => {
             return state.responseMessage;
         },
-        getStatus: (state) => {
-            return state.status;
+        getErrorMessages: (state) => {
+            return state.errors;
         },
     },
     actions: {
-        clearInformationBlock({ commit }) {
-                commit('setResponseMessage', []);
-                commit('setStatus', 'hidden')
+        clearErrors({ commit }) {
+            commit('setErrorMessages', []);
         },
+        getDashboard: ({commit}) => {
+            axios.get('/dashboard').then(response => {
+                commit('taskList/setTaskLists', response.data.taskLists, {root:true});
+                commit('character/setCharacter', response.data.character, {root:true});
+            });
+        }
     }
 });

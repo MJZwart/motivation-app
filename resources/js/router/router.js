@@ -56,7 +56,7 @@ let routes = [
     },
     {
         path: "/search",
-        component: require('../pages/Search.vue').default,
+        component: require('../pages/SearchResults.vue').default,
         meta: { requiresAuth: true},
     },
     {
@@ -64,6 +64,10 @@ let routes = [
         component: require('../pages/Welcome.vue').default,
         meta: { requiresAuth: true},
     },
+    // {
+    //     path: "/test",
+    //     component: require('../pages/Test.vue').default,
+    // },
 
 ];
 
@@ -72,7 +76,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    store.dispatch('clearInformationBlock');
+    store.dispatch('clearErrors');
 
     if(to.path != '/welcome' && store.getters['user/getUser'].first){
         return next({ path: '/welcome' });

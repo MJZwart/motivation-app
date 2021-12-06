@@ -23,6 +23,8 @@ Programs needed to work this:
 
 `npm run dev`
 
+- Make a copy of `env.example` and rename this to `.env`
+
 `php artisan migrate:fresh --seed`
 
 `php artisan key:generate`
@@ -43,6 +45,15 @@ Make sure both PHP and MySQL are running through XAMPP or the like
 ## Contributing
 
 If you wish to contribute to this project, you are free to fork the code and make your own additions, though no guarantees are given of its implementation. You are free to [open a new issue](https://github.com/MJZwart/motivation-app/issues/new) with any and all ideas for the project.
+
+## Bug reports
+
+If you spot any bugs in the code, please [open a new issue](https://github.com/MJZwart/motivation-app/issues/new). Provide the following information to help us reproduce the bug. 
+- How were you running the application?
+- What were you trying to do? Provide details where necessary.
+- What were you expecting to happen?
+- What actually happened?
+Also include screenshots if you stumble across errors in the console etc.
 
 ## Security Vulnerabilities
 

@@ -74,13 +74,11 @@ export default {
             axios.post('/register', user).then(response => {
                 router.push('/login').catch(() => { });
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
             });
         },
         confirmRegister: ({ commit }, user) => {
             axios.post('/register/confirm', user).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
                 commit('setUser', response.data.user);
                 router.push('/').catch(() => {});
             });
@@ -93,30 +91,37 @@ export default {
             });
         },
 
-        getUserStats: ({ commit }) => {
-            axios.get('/user/stats').then(function(response){
-                commit('setUserStats', response.data.data);
+        getOverview: ({ commit }) => {
+            axios.get('/overview').then(response => {
+                commit('setUserStats', response.data.stats);
+                commit('achievement/setAchievements', response.data.achievements, {root:true});
+                commit('character/setCharacter', response.data.character, {root:true});
             });
         },
+
         updatePassword: ({commit, dispatch}, passwords) => {
             axios.put('/user/settings/password', passwords).then(response => {
                 dispatch('logout');
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
             });
         },
         updateEmail: ({commit}, email) => {
             axios.put('/user/settings/email', email).then(response => {
                 commit('setUser', response.data.user);
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
             });
         },
         updateSettings: ({commit}, settings) => {
             axios.put('/user/settings', settings).then(response => {
                 commit('setUser', response.data.user);
                 commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
+            });
+        },
+        changeRewardType: ({commit}, user) => {
+            return axios.put('/user/settings/rewards', user).then(response => {
+                commit('setUser', response.data.user);
+                commit('setResponseMessage', response.data.message, {root:true});
+                return Promise.resolve();
             });
         },
 

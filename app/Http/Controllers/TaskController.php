@@ -30,21 +30,6 @@ class TaskController extends Controller
         return new JsonResponse(['message' => ['message' => ["Task successfully created."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
-    /*
-    Will likely be changed to account for TaskList
-    */
-    public function show(Task $task) {
-        // #30
-    }
-
-    public function showTasks(){
-        // #30
-    }
-    /*
-
-    */
-
-    //TODO UpdateTaskRequest
     public function update(Task $task, UpdateTaskRequest $request){
         $validated = $request->validated();
         $task->update($validated);
@@ -68,7 +53,8 @@ class TaskController extends Controller
     }
 
     public function complete(Task $task){
-        if(Auth::user()->id === $task->user_id){
+        $user = Auth::user();
+        if($user->id === $task->user_id){
             if($task->repeatable != 'NONE'){
                 $task->completeRepeatable();
                 $this->completeRepeatable($task);
@@ -77,11 +63,11 @@ class TaskController extends Controller
                 $task->update();
             }
 
-            AchievementHandler::checkForAchievement('TASKS_COMPLETED', Auth::user());
+            AchievementHandler::checkForAchievement('TASKS_COMPLETED', $user);
             
-            $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            if(Auth::user()->rewards == 'CHARACTER'){
-                $character = Character::where('user_id', Auth::user()->id)->get()->first();
+            $taskLists = TaskListResource::collection($user->taskLists);
+            if($user->rewards == 'CHARACTER'){
+                $character = $user->getActiveCharacter();
                 $returnValue = $character->applyReward($task);
                 return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => new CharacterResource($character->fresh())], Response::HTTP_OK);
             } else {

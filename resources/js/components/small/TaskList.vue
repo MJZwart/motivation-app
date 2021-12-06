@@ -1,7 +1,7 @@
 <template>
     <div>
-        <span class="frame-title flex">{{taskList.name}}
-            <span class="flex-end">
+        <span class="card-title d-flex">{{taskList.name}}
+            <span class="ml-auto">
                 <b-icon-pencil-square 
                     class="icon-small"
                     @click="editTaskList()"></b-icon-pencil-square>
@@ -16,13 +16,13 @@
             <task 
                 :task="task" 
                 :key="task.id" 
-                class="task side-border no-margin" 
+                class="task side-border" 
                 v-on:newTask="openNewTask"
                 v-on:editTask="editTask"></task>
 
         </template>
         <div>
-            <button class="long-button no-margin bottom-radius" @click="openNewTask(null)">Add new task</button>
+            <b-button block class="bottom-radius" @click="openNewTask(null)">Add new task</b-button>
         </div>
     </div>
 </template>
@@ -51,38 +51,3 @@ export default {
     }
 }
 </script>
-
-
-<style>
-.frame-title{
-    font-size:18px;
-    font-weight: 600;
-    border: 1px solid teal;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    display: block;
-    padding:5px;
-}
-.task{
-    margin:0;
-    padding:5px;
-    border-bottom: 1px solid teal;
-}
-.sub-task{
-    margin:-6px;
-    padding:5px;
-}
-.task-description{
-    font-size:12px;
-    font-weight:400;
-    color:#586069;
-    margin:0px;
-}
-.task-title{
-    display:flex;
-    font-size:16px;
-    font-weight:600;
-    margin-top:0;
-    margin-bottom:0;
-}
-</style>

@@ -1,40 +1,32 @@
 <template>
-    <div>
-        <transition name="modal-fade">
-            <div class="modal-backdrop">
-                <div class="modal">
-                    <information-block></information-block>
-
-                    <div class="form-title">
-                    <h3>Edit task list</h3>
-                    </div>
-                    <form @submit.prevent="updateTaskList">
-                        <div class="form-group">
-                            <label for="name">Task list name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                placeholder="Name" 
-                                v-model="editedTaskList.name" />
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="long-button">Update task list</button>
-                            <button type="button" class="long-button" @click="close">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-        </transition>
+    <div v-if="editedTaskList">
+        <b-form @submit.prevent="updateTaskList">
+            <b-form-group
+                label="Task list name" 
+                label-for="name">
+                <b-form-input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Name" 
+                    v-model="editedTaskList.name" />
+                <base-form-error name="name" /> 
+            </b-form-group>
+            <b-button type="submit" block>Update task list</b-button>
+            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <base-form-error name="error" /> 
+        </b-form>
     </div>
 </template>
 
 
 <script>
-import InformationBlock from '../InformationBlock.vue';
+import BaseFormError from '../BaseFormError.vue';
+
 export default {
-    components: {InformationBlock},
+    components: {
+        BaseFormError,
+    },
     props: {
         taskList: Object,
     },

@@ -1,45 +1,42 @@
 <template>
     <div>
-        <div class="character" v-if="character">
-            <span class="frame-title">{{character.name}}                 
+        <div class="summary-card" v-if="character">
+            <span class="card-title">{{character.name}}                 
                 <b-icon-pencil-square v-if="userCharacter"
-                    class="icon-small flex-end"
+                    class=""
                     @click="showEditCharacter()"></b-icon-pencil-square>
             </span>
-            <div class="side-border bottom-border grid-2 small-text">
+            <div class="bottom-border side-border card-content">
                 <p>Level: {{character.level}}</p>
                 <p>Experience: {{character.experience}}
-                <b-progress :value="character.experience" :max="experienceToLevel(character.level)"></b-progress>
+                <b-progress class="main" :value="character.experience" :max="experienceToLevel(character.level)"></b-progress>
                 </p>
-                <div class="left">
-                    <p>Strength: {{character.strength}}
-                        <b-progress :value="character.strength_exp" :max="experienceToLevel(character.strength)"></b-progress>
-                    </p>
-                    <p>Endurance: {{character.endurance}}
-                        <b-progress :value="character.endurance_exp" :max="experienceToLevel(character.endurance)"></b-progress>
-                    </p>
-                    <p>Agility: {{character.agility}}
-                        <b-progress :value="character.agility_exp" :max="experienceToLevel(character.agility)"></b-progress>
-                    </p>
-                </div>
-                
-                <div class="right">
-                    <p>Intelligence: {{character.intelligence}}
-                        <b-progress :value="character.intelligence_exp" :max="experienceToLevel(character.intelligence)"></b-progress>
-                    </p>
-                    <p>Charisma: {{character.charisma}}
-                        <b-progress :value="character.charisma_exp" :max="experienceToLevel(character.agility)"></b-progress>
-                    </p>
-                </div>
+                <p>Strength: {{character.strength}}
+                    <b-progress :value="character.strength_exp" :max="experienceToLevel(character.strength)"></b-progress>
+                </p>
+                <p>Endurance: {{character.endurance}}
+                    <b-progress :value="character.endurance_exp" :max="experienceToLevel(character.endurance)"></b-progress>
+                </p>
+                <p>Agility: {{character.agility}}
+                    <b-progress :value="character.agility_exp" :max="experienceToLevel(character.agility)"></b-progress>
+                </p>
+                <p>Intelligence: {{character.intelligence}}
+                    <b-progress :value="character.intelligence_exp" :max="experienceToLevel(character.intelligence)"></b-progress>
+                </p>
+                <p>Charisma: {{character.charisma}}
+                    <b-progress :value="character.charisma_exp" :max="experienceToLevel(character.agility)"></b-progress>
+                </p>
             </div>
         </div>
-        <edit-character-name v-if="isEditCharacterVisible" :character="characterToEdit" @close="closeEditCharacter" ></edit-character-name>
+        
+        <b-modal id="edit-character-name" hide-footer :title="$t('edit-character-name')">
+            <edit-character-name :character="characterToEdit" @close="closeEditCharacter"></edit-character-name>
+        </b-modal>
     </div>
 </template>
 
 
 <script>
-import {mapGetters} from 'vuex';
 import EditCharacterName from '../modals/EditCharacterName.vue';
 export default {
     props: {
@@ -51,11 +48,8 @@ export default {
     },
     data() {
         return {
-            isEditCharacterVisible: false,
             characterToEdit: null,
         }
-    },
-    mounted(){
     },
     methods: {
         experienceToLevel(level){
@@ -65,40 +59,24 @@ export default {
             }
         },
         showEditCharacter() {
-            this.$store.dispatch('clearInformationBlock');
+            this.$store.dispatch('clearErrors');
             this.characterToEdit = this.character;
-            this.isEditCharacterVisible = true;
+            this.$bvModal.show('edit-character-name');
         },
         closeEditCharacter(){
             this.characterToEdit = null;
-            this.isEditCharacterVisible = false;
+            this.$bvModal.hide('edit-character-name');
         },
     },
 }
 </script>
 
-
-
-<style>
-.grid-2{
-    display:grid;
-}
-.grid-2 .left{
-    grid-column-start: 1;
-}
-.grid-2 .right{
-    grid-column-start: 2;
-}
-.small-text{
-    font-size:12px;
-}
-.progress-bar{
-    height: 4px;
-    background-color: teal;
-}
+<style lang="scss">
 .progress{
-    background-color: #e9ecef;
-    border-radius:2px;
-    width:90%;
+    height:0.5rem;
+}
+.progress.main{
+    height:0.7rem;
+    margin-bottom:3px;
 }
 </style>

@@ -4,28 +4,28 @@
         <div>
             <h4>Send notification to all users</h4>
             <form @submit.prevent="sendNotification">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input 
+                <b-form-group
+                    label="Title" 
+                    label-for="title">
+                    <b-form-input 
                         type="text" 
                         id="title" 
                         name="title" 
                         placeholder="Title" 
                         v-model="notification.title" />
-                </div>
-                <div class="form-group">
-                    <label for="text">Text</label>
-                    <textarea 
+                </b-form-group>
+                <b-form-group
+                    label="Text" 
+                    label-for="text">
+                    <b-form-textarea 
                         rows="5"
                         type="text" 
                         id="text" 
                         name="text"
-                        v-model="notification.text"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <button type="submit" class="long-button">Send notification</button>
-                </div>
+                        v-model="notification.text"></b-form-textarea>
+                </b-form-group>
+
+                <b-button type="submit" block>Send notification</b-button>
             </form>
         </div>
     </div>
@@ -57,8 +57,3 @@ export default {
     
 }
 </script>
-
-
-<style>
-
-</style>

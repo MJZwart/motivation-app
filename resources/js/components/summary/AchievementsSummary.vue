@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <span class="frame-title">Achievements</span>
+    <div v-if="achievements">
+        <span class="card-title">Achievements</span>
         <div class="side-border bottom-border">
             <ul class="summary-list">
                 <li v-for="(achievement, index) in achievements" :key="index">
@@ -20,8 +20,3 @@ export default {
     },
 }
 </script>
-
-
-<style>
-
-</style>

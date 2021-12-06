@@ -27,7 +27,6 @@ class UpdateUserSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'rewards' => ['required', new ValidRewardType()], //TODO, exists:rewards_types,type - make rewards type migration table
             'show_character' => [Rule::requiredIf($this->rewards == 'CHARACTER'),'boolean'],
             'show_achievements' => 'required|boolean',
             'show_friends' => 'required|boolean',

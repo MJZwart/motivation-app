@@ -1,18 +1,16 @@
 <template>
     <div>
-        <div class="friends">
-            <span class="frame-title">Friends</span>
-            <div class="side-border bottom-border">
-                <ul class="summary-list">
-                    <li v-for="(friend, index) in user.friends" :key="index">
-                        <b-icon-person-x-fill class="icon-small" @click="removeFriend(friend)"></b-icon-person-x-fill> 
-                        <!-- <b-icon-envelope class="icon-small"></b-icon-envelope>  -->
-                        <router-link :to="{ name: 'profile', params: { id: friend.friend_id}}">
-                            {{friend.friend}}
-                        </router-link>
-                    </li>
-                </ul>
-            </div>
+        <span class="card-title">Friends</span>
+        <div class="side-border bottom-border">
+            <ul class="summary-list">
+                <li v-for="(friend, index) in user.friends" :key="index">
+                    <b-icon-person-x-fill class="icon-small" @click="removeFriend(friend)"></b-icon-person-x-fill> 
+                    <!-- <b-icon-envelope class="icon-small"></b-icon-envelope>  -->
+                    <router-link :to="{ name: 'profile', params: { id: friend.friend_id}}">
+                        {{friend.friend}}
+                    </router-link>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -37,13 +35,3 @@ export default {
     },
 }
 </script>
-
-
-<style>
-.summary-list{
-    margin-top:0;
-    list-style: none;
-    padding-inline-start:0;
-    font-size:14px;
-}
-</style>

@@ -1,46 +1,39 @@
 <template>
     <div>
-        <ul class="navbar">
-            <li v-if="authenticated">
-                <router-link to="/" exact>Home</router-link>
-            </li>
-            <li v-if="authenticated">
-                <router-link to="/overview">Overview</router-link>
-            </li>
-            <li v-if="authenticated">
-                <router-link to="/friends">Friends</router-link>
-            </li>
+        <b-navbar type="dark" sticky class="box-shadow">
+            <b-navbar-nav v-if="authenticated">
+                <b-nav-item to="/" exact>Home</b-nav-item>
+                <b-nav-item to="/overview">Overview</b-nav-item>
+                <b-nav-item to="/friends">Friends</b-nav-item>
+            </b-navbar-nav>
 
-            <li v-if="admin">
-                <router-link to="/achievements">Achievements</router-link>
-            </li>
-            <li v-if="admin">
-                <router-link to="/admin">Admin</router-link>
-            </li>
+            <b-navbar-nav v-if="admin">
+                <b-nav-item to="/achievements">Achievements</b-nav-item>
+                <b-nav-item to="/admin">Admin</b-nav-item>
+            </b-navbar-nav>
 
-            <div class="flex-end">
-                <li v-if="authenticated">
+            <b-navbar-nav class="ml-auto">
+                <!-- <b-nav-item v-if="authenticated">
                     <search-bar></search-bar>
-                </li>
-                <router-link to="/notifications">
+                </b-nav-item> -->
+                <b-nav-item v-if="authenticated" to="/notifications">
                     <b-iconstack class="icon-nav-stack">
-                        <b-icon-bell class="icon-nav" v-if="authenticated"></b-icon-bell>
-                        <b-icon-dot v-if="hasNotifications" font-scale="4" class="icon-dot-red"></b-icon-dot>
+                        <b-icon-bell class="icon-nav"></b-icon-bell>
+                        <b-icon-dot v-if="hasNotifications" font-scale="3" class="icon-dot-red" shift-h="-2" shift-v="7"></b-icon-dot>
                     </b-iconstack>
-                </router-link>
-                <b-dropdown v-if="authenticated" id="user-dropdown" :text=user.username class="nav-button">
-                    <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
-                    <b-dropdown-item to="/settings">Settings</b-dropdown-item>
-                    <b-dropdown-item @click="logout">Logout</b-dropdown-item>
-                </b-dropdown>
-                <li v-if="!authenticated">
-                    <router-link to="/login">Login</router-link>
-                </li>
-                <li v-if="!authenticated">
-                    <router-link to="/register">Register</router-link>
-                </li>
-            </div>
-        </ul>
+                </b-nav-item>
+                <b-nav-item v-if="authenticated">
+                    <b-dropdown id="user-dropdown" :text=user.username variant="primary">
+                        <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
+                        <b-dropdown-item to="/settings">Settings</b-dropdown-item>
+                        <b-dropdown-item @click="logout">Logout</b-dropdown-item>
+                    </b-dropdown>
+                </b-nav-item>
+                <b-nav-item v-if="!authenticated" to="/login">Login</b-nav-item>
+                <b-nav-item v-if="!authenticated" to="/register">Register</b-nav-item>
+            </b-navbar-nav>
+
+        </b-navbar>
     </div>
 </template>
 
@@ -70,66 +63,28 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
+@import '../../assets/scss/variables';
     .navbar{
-        display: flex;
+        background-color: $primary;
+
+        li {
+            a.router-link-active{
+                font-weight:600;
+            }
+        }
     }
-    .navbar li{
-        padding: 10px;
-        list-style: none;
-        font-size: 1.5rem;
-        font-weight: 500;
-    }
-    .navbar li a{
-        color:black;
-        text-decoration: none;
-    }
-    .navbar li a.router-link-active{
-        color: teal;
-        text-decoration: none;
-    }
-    .navbar li a:hover{
-        color: rgba(0, 128, 128, 0.658);
-    }
-    .flex-end{
-        display: flex;
-        margin-left: auto !important;
+    .box-shadow {
+        box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
     }
     .icon-nav{
-        font-size:35px;
-        margin:5px;
-        color:teal;
+        color:$secondary;
     }
     .icon-nav-stack{
-        margin-top:12px;
+        margin-top:5px;
         margin-right:25px;
     }
     .icon-dot-red{
-        color:darkred;
-    }
-    .dropdown-menu{
-        display:none;
-        float:left;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 1000;
-        min-width: 8rem;
-        padding: .5rem 0;
-        margin: .125rem 0 0;
-        color: #212529;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid rgba(0,0,0,.15);
-        border-radius: .25rem;
-    }
-    .dropdown-menu.show{
-        display:block;
-    }
-    .dropdown-menu li{
-        font-size:1rem;
-    }
-    .nav-button {
-        margin:auto;
+        color:$warning;
     }
 </style>
