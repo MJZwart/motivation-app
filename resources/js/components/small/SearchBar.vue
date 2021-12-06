@@ -1,16 +1,15 @@
 <template>
     <div>
-        <form class="navbar-search">
-            <input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch">
+        <b-form class="navbar-search">
+            <b-form-input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch"></b-form-input>
             <b-button type="submit" @click="searchUser">Search</b-button>
-        </form>
+        </b-form>
     </div>
 </template>
 
 
 <script>
 export default {
-    //TODO Turn this back on
     data() {
         return {
             data: {
@@ -26,7 +25,6 @@ export default {
             this.data.userSearch = "";
         }
     },
-
 }
 </script>
 

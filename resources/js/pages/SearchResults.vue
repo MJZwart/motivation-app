@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <form class="search-bar">
-            <input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch">
+    <div class="w-60 m-auto">
+        <b-form class="search-bar">
+            <b-form-input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch" />
             <b-button type="submit" @click="searchUser">Search</b-button>
-        </form>
+        </b-form>
         <br />
         <h3>Search results:</h3>
         <div v-if="searchResults">
-            <div v-if="!searchResults.length">No results</div>
-            <div v-for="user in searchResults" :key="user.id">
+            <div  v-for="user in searchResults" :key="user.id">
                 <router-link :to="{ name: 'profile', params: { id: user.id}}">{{user.username}}</router-link>
             </div>
         </div>
+        <div v-else>No results</div>
     </div>
 </template>
 
@@ -42,7 +42,6 @@ export default {
 <style>
 .search-bar{
     display:flex;
-    width:70%;
     flex-direction:row;
 }
 </style>
