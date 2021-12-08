@@ -2,17 +2,17 @@
     <div v-if="editedTaskList">
         <b-form @submit.prevent="updateTaskList">
             <b-form-group
-                label="Task list name" 
+                :label="$t('task-list-name')" 
                 label-for="name">
                 <b-form-input 
                     type="text" 
                     id="name" 
                     name="name" 
-                    placeholder="Name" 
+                    :placeholder="$t('name')" 
                     v-model="editedTaskList.name" />
                 <base-form-error name="name" /> 
             </b-form-group>
-            <b-button type="submit" block>Update task list</b-button>
+            <b-button type="submit" block>{{ $t('update-task-list') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
             <base-form-error name="error" /> 
         </b-form>

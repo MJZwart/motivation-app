@@ -5,6 +5,15 @@
     "edit-task": "Edit task",
     "edit-task-list": "Edit task list",
     "delete-task-list-confirm": "Delete task list",
+    "are-you-sure-delete": "Are you sure you want to delete",
+    "task-list-has-tasks": "This task list has {n} task. Do you wish to delete this or merge the task into a different task list? | This task list has {n} tasks. Do you wish to delete these or merge the tasks into a different task list?",
+    "merge-with": "Merge with:",
+
+    
+    "task-list": "Task list",
+    "subtask-of": "Subtask of",
+    "update-task-list": "Update task list",
+    "task-list-name": "Task list name",
 
     "edit-character-name": "Edit character name",
 
@@ -12,12 +21,49 @@
     "new-achievement": "New achievement",
     "edit-achievement": "Edit achievement",
     "create-new-achievement": "Create new achievement",
+    "achievement-name": "Achievement name",
+    "achievement-description": "Achievement description",
+
+    "achievement-type": "Achievement type",
+    "trigger-amount": "Trigger amount",
+    "trigger-description": "Trigger description",
 
     "change-reward-type": "Change reward type",
+    "which-reward-type": "How would you like to be rewarded for completing your tasks?",
+    "no-rewards": "Nothing, just let me complete tasks.",
+    "character-reward": "RPG Character (Gain experience and level up your character)",
+    "village-reward": "Village (coming soon)",
+    "character-options": "Character options",
+    "activate-or-new": "Activate an old character or make a new one?",
+    "activate": "Activate",
+    "make-new-character": "Make new character",
+    "set-up-new-character": "Set up new character",
+    "character-name": "Character name",
+    "change-name-later": "You can change the name later through your settings.",
 
+    "update-character-name": "Update character name",
+
+    "task-name": "Task name",
+    "repeatable": "Repeatable",
+
+    "name": "Name",
+    "description": "Description",
+    "description-optional": "Description (optional)",
+    "type": "Type",
+    "amount": "Amount",
+    "title": "Title",
+    "username": "Username",
+    "email": "E-mail",
+    "password": "Password",
+    "repeat-password": "Repeat password",
+    "old-password": "Old password",
+    "new-password": "New password",
+
+    "next": "Next",
     "cancel": "Cancel",
     "submit": "Submit",
     "delete": "Delete",
+    "confirm": "Confirm",
 
     "welcome": "Welcome",
     "little-more": "Just a little more"

@@ -8,7 +8,7 @@
                     type="text" 
                     id="name" 
                     name="name" 
-                    placeholder="Name" 
+                    :placeholder="$t('name')" 
                     v-model="taskList.name" />
                 <base-form-error name="name" /> 
             </b-form-group>

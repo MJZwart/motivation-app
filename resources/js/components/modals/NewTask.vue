@@ -2,28 +2,28 @@
     <div>
         <b-form @submit.prevent="submitTask">
             <b-form-group 
-                label="Task name" 
+                :label="$t('task-name')" 
                 label-for="name">
                 <b-form-input 
                     type="text" 
                     id="name" 
                     name="name" 
-                    placeholder="Name"
+                    :placeholder="$t('name')"
                     v-model="task.name" />
                 <base-form-error name="name" /> 
             </b-form-group >
             <b-form-group
-                label="Description (optional)" 
+                :label="$t('description-optional')" 
                 label-for="description">
                 <b-form-input  
                     type="text" 
                     id="description" 
                     name="description" 
-                    placeholder="Description" 
+                    :placeholder="$t('description')" 
                     v-model="task.description" />
             </b-form-group>
             <b-form-group
-                label="Type" 
+                :label="$t('type')" 
                 label-for="type">
                 <b-form-select
                     name="type"
@@ -46,7 +46,7 @@
                 <base-form-error name="difficulty" /> 
             </b-form-group>
             <b-form-group
-                label="Repeatable" 
+                :label="$t('repeatable')" 
                 label-for="repeatable">
                 <b-form-select
                     name="repeatable"

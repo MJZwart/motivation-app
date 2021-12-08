@@ -42,13 +42,13 @@
             <h4>Change password</h4>
             <p class="text-muted">If successful, you will be logged out. Please log in with your new password.</p>
             <b-form-group
-                label="Old password"
+                :label="$t('old-password')"
                 label-for="old_password">
                 <b-form-input 
                     type="password" 
                     id="old_password" 
                     name="old_password" 
-                    placeholder="Old password" 
+                    :placeholder="$t('old-password')" 
                     v-model="passwordSettings.old_password" />
                 <base-form-error name="old_password" /> 
             </b-form-group>
@@ -59,7 +59,7 @@
                     type="password" 
                     id="password" 
                     name="password" 
-                    placeholder="New password" 
+                    :placeholder="$t('new-password')" 
                     v-model="passwordSettings.password" />
                 <base-form-error name="password" /> 
             </b-form-group>
@@ -70,7 +70,7 @@
                     type="password" 
                     id="password_confirmation" 
                     name="password_confirmation" 
-                    placeholder="Repeat password" 
+                    :placeholder="$t('repeat-password')" 
                     v-model="passwordSettings.password_confirmation" />
                 <base-form-error name="password_confirmation" /> 
             </b-form-group>
@@ -89,7 +89,7 @@
                     type="text" 
                     id="email" 
                     name="email" 
-                    placeholder="E-mail" 
+                    :placeholder="$t('email')" 
                     v-model="emailSettings.email" />
                 <base-form-error name="email" /> 
             </b-form-group>

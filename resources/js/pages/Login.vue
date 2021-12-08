@@ -8,7 +8,7 @@
                 <b-form-input 
                     type="text" 
                     id="username" 
-                    placeholder="Username" 
+                    :placeholder="$t('username')" 
                     v-model="login.username" />
                 <base-form-error name="username" /> 
             </b-form-group>
@@ -19,7 +19,7 @@
                     type="password" 
                     id="password" 
                     name="password" 
-                    placeholder="Password" 
+                    :placeholder="$t('password')" 
                     v-model="login.password" />
                 <base-form-error name="password" /> 
             </b-form-group>

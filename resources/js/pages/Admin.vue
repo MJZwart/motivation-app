@@ -11,7 +11,7 @@
                         type="text" 
                         id="title" 
                         name="title" 
-                        placeholder="Title" 
+                        :placeholder="$t('title')" 
                         v-model="notification.title" />
                 </b-form-group>
                 <b-form-group

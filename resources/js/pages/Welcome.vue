@@ -25,7 +25,7 @@
                 <base-form-error name="rewards-type" /> 
                 </b-form-group>
                 <b-form-group v-if="user.rewardsType == 'CHARACTER'"
-                    label="Character name"
+                    :label="$t('character-name')"
                     label-for="character_name"
                     description="You can change the name later through your settings.">
                     <b-form-input 

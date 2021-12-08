@@ -1,56 +1,56 @@
 <template>
     <div>
-        <b-modal id="change-reward-type" title="Change reward type" hide-footer>
+        <b-modal id="change-reward-type" :title="$t('change-reward-type')" hide-footer>
             <b-form-group
-                label="How would you like to be rewarded for completing your tasks?"
+                :label="$t('which-reward-type')"
                 label-for="rewards">
                 <b-form-radio-group checked="NONE" name="rewards" stacked>
                     <b-form-radio type="radio" class="input-override" v-model="user.rewards" value="NONE">
-                        <p class="radio-label">Nothing, just let me complete tasks.</p>
+                        <p class="radio-label">{{ $t('no-rewards') }}</p>
                     </b-form-radio>
                     <b-form-radio type="radio" class="input-override" v-model="user.rewards" value="CHARACTER">
-                        <p class="radio-label">RPG Character (Gain experience and level up your character)</p>
+                        <p class="radio-label">{{ $t('character-reward') }}</p>
                     </b-form-radio>
                     <b-form-radio type="radio" class="input-override" v-model="user.rewards" value="VILLAGE" disabled>
-                        <p class="radio-label disabled">Village (coming soon)</p>
+                        <p class="radio-label disabled">{{ $t('village-reward') }}</p>
                     </b-form-radio>
                 </b-form-radio-group>
             </b-form-group>
-            <b-button @click="confirmRewardsType()" class="long-button">Next</b-button>
-            <b-button @click="cancel()" class="long-button">Cancel</b-button>
+            <b-button @click="confirmRewardsType()" class="long-button">{{ $t('next') }}</b-button>
+            <b-button @click="cancel()" class="long-button">{{ $t('cancel') }}</b-button>
         </b-modal>
         
-        <b-modal id="character-options" title="Character options" hide-footer>
+        <b-modal id="character-options" :title="$t('character-options')" hide-footer>
             <b-form-group
-                label="Activate an old character or make a new one?"
+                :label="$t('activate-or-new')"
                 label-for="character-option">
                 <b-form-radio-group name="character-option" stacked>
                     <b-form-radio type="radio" class="input-override" v-model="user.keepCharacter" v-for="character in characters" :key="character.id" :value="character.id">
-                        <p class="radio-label">Activate: {{character.name}}</p>
+                        <p class="radio-label">{{ $t('activate') }}: {{character.name}}</p>
                     </b-form-radio>
                     <b-form-radio type="radio" class="input-override" v-model="user.keepCharacter" value="NEW">
-                        <p class="radio-label">Make new character</p>
+                        <p class="radio-label">{{ $t('make-new-character') }}</p>
                     </b-form-radio>
                 </b-form-radio-group>
             </b-form-group>
-            <b-button @click="confirmCharacterOptions()" class="long-button">Confirm</b-button>
-            <b-button @click="cancel()" class="long-button">Cancel</b-button>
+            <b-button @click="confirmCharacterOptions()" class="long-button">{{ $t('confirm') }}</b-button>
+            <b-button @click="cancel()" class="long-button">{{ $t('cancel') }}</b-button>
         </b-modal>
 
-        <b-modal id="new-character" title="Set up new character" hide-footer>
+        <b-modal id="new-character" :title="$t('set-up-new-character')" hide-footer>
             <b-form-group
-                    label="Character name"
+                    :label="$t('character-name')"
                     label-for="character_name">
-                <p class="silent">You can change the name later through your settings.</p>
+                <p class="silent">{{ $t('change-name-later') }}</p>
                 <input 
                     type="text" 
                     id="character_name" 
                     name="character_name" 
-                    placeholder="Character name" 
+                    :placeholder="$t('character-name')" 
                     v-model="user.character_name" />
             </b-form-group>
-            <b-button @click="confirmNewRewardsType()" class="long-button">Confirm</b-button>
-            <b-button @click="cancel()" class="long-button">Cancel</b-button>
+            <b-button @click="confirmNewRewardsType()" class="long-button">{{ $t('confirm') }}</b-button>
+            <b-button @click="cancel()" class="long-button">{{ $t('cancel') }}</b-button>
         </b-modal>
         
     </div>
@@ -82,23 +82,31 @@ import { mapGetters } from 'vuex';
         },
         methods: {
             confirmRewardsType() {
+                console.log('confirmed rewards type');
                 //TODO For future options such as village, change this to an if-else or switch
                 if(this.user.rewards == 'CHARACTER'){
-                    this.$store.dispatch('character/fetchAllCharacters').then(response => {
+                    console.log('chose character');
+                    this.$store.dispatch('character/fetchAllCharacters').then(() => {
                         this.hasCharacter = !!this.characters.length;//Object.entries(this.character).length;
                         this.$bvModal.hide('change-reward-type');
+                        console.log('checking if has character');
                         if(!this.hasCharacter){
+                            console.log('has no character');
                             this.$bvModal.show('new-character');
                         } else {
+                            console.log('has character');
                             this.$bvModal.show('character-options');
                         }
                     });
                 } else {
+                    console.log('no rewards');
                     this.confirmNewRewardsType();
                 }
             },
             confirmCharacterOptions(){
+                console.log('confirming character options');
                 if(this.user.keepCharacter == 'NEW'){
+                    console.log('wants new character');
                     this.$bvModal.hide('character-options');
                     this.$bvModal.show('new-character');
                 } else {
@@ -106,6 +114,7 @@ import { mapGetters } from 'vuex';
                 }
             },
             checkCharacterInput(){
+                console.log('checking character input');
                 if(this.user.rewards == "CHARACTER" && this.user.keepCharacter == 'NEW' && !this.user.character_name){
                     this.$store.commit('setErrorMessages', {message: ["No character name given."]});
                     return false;
@@ -115,6 +124,7 @@ import { mapGetters } from 'vuex';
                 }
             },
             confirmNewRewardsType() {
+                console.log('confirming new rewards type');
                 if(this.checkCharacterInput()){
                     this.$store.dispatch('user/changeRewardType', this.user).then(response => {
                         this.cancel();
@@ -122,6 +132,7 @@ import { mapGetters } from 'vuex';
                 }
             },
             cancel(){
+                console.log('closing');
                 this.$emit('close');
             }
         },

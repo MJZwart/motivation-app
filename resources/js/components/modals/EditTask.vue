@@ -2,28 +2,28 @@
     <div v-if="editedTask">
         <b-form @submit.prevent="updateTask">
             <b-form-group
-                label="Task name" 
+                :label="$t('task-name')" 
                 label-for="name">
                 <b-form-input 
                     type="text" 
                     id="name" 
                     name="name" 
-                    placeholder="Name" 
+                    :placeholder="$t('name')" 
                     v-model="editedTask.name" />
                 <base-form-error name="name" /> 
             </b-form-group>
             <b-form-group
-                label="Description (optional)" 
+                :label="$t('description-optional')" 
                 label-for="description">
                 <b-form-input 
                     type="text" 
                     id="description" 
                     name="description" 
-                    placeholder="Description" 
+                    :placeholder="$t('description')" 
                     v-model="editedTask.description" />
             </b-form-group>
             <b-form-group
-                label="Type" 
+                :label="$t('type')" 
                 label-for="type">
                 <b-form-select
                     name="type"
@@ -46,7 +46,7 @@
                 <base-form-error name="difficulty" /> 
             </b-form-group>
             <b-form-group
-                label="Repeatable" 
+                :label="$t('repeatable')" 
                 label-for="repeatable">
                 <b-form-select
                     name="repeatable"
@@ -56,10 +56,10 @@
                 <base-form-error name="repeatable" /> 
             </b-form-group>
             <b-form-group>
-                <p v-if="editedTask.taskList">Task list: {{editedTask.taskList}}</p>
-                <p v-if="editedTask.superTask">Subtask of: {{editedTask.superTask}}</p>
+                <p v-if="editedTask.taskList">{{ $t('task-list') }}: {{editedTask.taskList}}</p>
+                <p v-if="editedTask.superTask">{{ $t('subtask-of') }}: {{editedTask.superTask}}</p>
             </b-form-group>
-            <b-button type="submit" block>Edit task</b-button>
+            <b-button type="submit" block>{{ $t('edit-task') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
         </b-form>
     </div>

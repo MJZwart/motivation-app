@@ -9,7 +9,7 @@
                     type="text" 
                     id="username" 
                     name="username" 
-                    placeholder="Username" 
+                    :placeholder="$t('username')" 
                     v-model="register.username" />
                 <base-form-error name="username" /> 
             </b-form-group>
@@ -20,7 +20,7 @@
                     type="text" 
                     id="email" 
                     name="email" 
-                    placeholder="E-mail" 
+                    :placeholder="$t('email')" 
                     v-model="register.email" />
                 <base-form-error name="email" /> 
             </b-form-group>
@@ -31,7 +31,7 @@
                     type="password" 
                     id="password" 
                     name="password" 
-                    placeholder="Password" 
+                    :placeholder="$t('password')" 
                     v-model="register.password" />
                 <base-form-error name="password" /> 
             </b-form-group>
@@ -42,7 +42,7 @@
                     type="password" 
                     id="password_confirmation" 
                     name="password_confirmation" 
-                    placeholder="Repeat password" 
+                    :placeholder="$t('repeat-password')" 
                     v-model="register.password_confirmation" />
                 <base-form-error name="password_confirmation" /> 
             </b-form-group>

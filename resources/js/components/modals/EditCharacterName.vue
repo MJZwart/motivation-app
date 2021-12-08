@@ -2,17 +2,17 @@
     <div v-if="character">
         <b-form @submit.prevent="updateCharacter">
             <b-form-group
-                label="Character name" 
+                :label="$t('character-name')" 
                 label-for="name">
                 <b-form-input 
                     type="text" 
                     id="name" 
                     name="name" 
-                    placeholder="Name" 
+                    :placeholder="$t('name')" 
                     v-model="editedCharacter.name" />
                 <base-form-error name="name" /> 
             </b-form-group>
-            <b-button type="submit" block>Update character name</b-button>
+            <b-button type="submit" block>{{ $t('update-character-name') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
             <base-form-error name="error" /> 
         </b-form>
