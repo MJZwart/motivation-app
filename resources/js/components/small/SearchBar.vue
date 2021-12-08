@@ -1,9 +1,9 @@
 <template>
     <div>
-        <form class="navbar-search">
+        <b-form class="navbar-search">
             <input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch">
             <b-button type="submit" @click="searchUser">Search</b-button>
-        </form>
+        </b-form>
     </div>
 </template>
 

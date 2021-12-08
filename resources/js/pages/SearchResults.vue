@@ -1,9 +1,9 @@
 <template>
     <div>
-        <form class="search-bar">
+        <b-form class="search-bar">
             <input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch">
             <b-button type="submit" @click="searchUser">Search</b-button>
-        </form>
+        </b-form>
         <br />
         <h3>Search results:</h3>
         <div v-if="searchResults">

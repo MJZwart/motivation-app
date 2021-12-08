@@ -28,8 +28,6 @@ axios.interceptors.response.use(
             return Promise.reject(error);
         }
 
-        let errors;
-
         switch (error.response.status) {
             /**
              * If we get a 401 response from the API means that we are Unauthorized to

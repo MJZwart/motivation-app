@@ -1,6 +1,6 @@
 <template>
     <div v-if="character">
-        <form @submit.prevent="updateCharacter">
+        <b-form @submit.prevent="updateCharacter">
             <b-form-group
                 label="Character name" 
                 label-for="name">
@@ -15,7 +15,7 @@
             <b-button type="submit" block>Update character name</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
             <base-form-error name="error" /> 
-        </form>
+        </b-form>
     </div>
 </template>
 

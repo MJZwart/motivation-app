@@ -49,7 +49,7 @@ export default {
             this.$store.dispatch('clearErrors');
             this.$bvModal.show('new-achievement');
         },
-        closeNewAchievement() {;
+        closeNewAchievement() {
             this.$bvModal.hide('new-achievement');
         },
         showEditAchievement(achievement) {
