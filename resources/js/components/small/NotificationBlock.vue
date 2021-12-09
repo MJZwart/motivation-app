@@ -4,7 +4,7 @@
             <span class="card-title">{{notification.title}}</span>
             <div class="side-border bottom-border">
                 <p>{{notification.text}}</p>
-                <p>Received on: {{notification.created_at}}</p>
+                <p>{{ $t('received-on') }}: {{notification.created_at}}</p>
             </div>
         </div>
         <br />

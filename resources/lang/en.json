@@ -9,26 +9,19 @@
     "are-you-sure-delete": "Are you sure you want to delete",
     "task-list-has-tasks": "This task list has {n} task. Do you wish to delete this or merge the task into a different task list? | This task list has {n} tasks. Do you wish to delete these or merge the tasks into a different task list?",
     "merge-with": "Merge with:",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-
+    "add-new-task": "Add new task",
     
     "task-list": "Task list",
     "subtask-of": "Subtask of",
     "update-task-list": "Update task list",
     "task-list-name": "Task list name",
-    "": "",
-    "": "",
-    "": "",
+
+    "tasks-completed": "Tasks completed",
+    "most-completed-repeatable": "Most completed repeatable: {0}.",
+    "completed-count": "Completed {0} times",
 
     "edit-character-name": "Edit character name",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
+    "received-on": "Received on",
 
     "add-new-achievement": "Add new achievement",
     "new-achievement": "New achievement",
@@ -36,17 +29,19 @@
     "create-new-achievement": "Create new achievement",
     "achievement-name": "Achievement name",
     "achievement-description": "Achievement description",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
+    "earned-on": "Earned on",
 
     "achievement-type": "Achievement type",
     "trigger-amount": "Trigger amount",
     "trigger-description": "Trigger description",
-    "": "",
-    "": "",
-    "": "",
+
+    "level": "Level",
+    "experience": "Experience",
+    "strength": "Strength",
+    "endurance": "Endurance",
+    "agility": "Agility",
+    "intelligence": "Intelligence",
+    "charisma": "Charisma",
 
     "rewards-type": "Rewards type",
     "change-reward-type": "Change reward type",
@@ -63,10 +58,6 @@
     "change-name-later": "You can change the name later through your settings.",
     "example-tasks": "Example tasks",
     "pick-example-tasks": "To get you started, you can pick a few of these example tasks to directly put into your task lists.",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
 
     "settings": "Settings",
     "profile-settings": "Profile settings",
@@ -79,11 +70,12 @@
     "automatically-logged-out": "If successful, you will be automatically logged out. Please log in with your new password.",
     "update-password": "Update password",
     "update-email": "Update e-mail",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
+
+    "incoming-friend-requests": "Incoming friend requests",
+    "outgoing-friend-requests": "Outgoing friend requests",
+    "notifications": "Notifications",
+
+    "member-since": "Member since",
 
     "update-character-name": "Update character name",
 
@@ -124,16 +116,17 @@
     "submit": "Submit",
     "delete": "Delete",
     "confirm": "Confirm",
-    "": "",
-    "": "",
-    "": "",
 
     "welcome": "Welcome",
     "little-more": "Just a little more",
     "not-yet-done": "Hold up, you're not quite done yet.",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-    "": ""
+    "home": "Home",
+    "overview": "Overview",
+    "friends": "Friends",
+    "achievements": "Achievements",
+    "admin": "Admin",
+    "profile": "Profile",
+    "logout": "Logout",
+
+    "footer-text": "Version 1.0 - MJ Black © 2021."
 }

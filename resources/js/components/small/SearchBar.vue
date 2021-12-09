@@ -2,7 +2,7 @@
     <div>
         <b-form class="navbar-search">
             <input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch">
-            <b-button type="submit" @click="searchUser">Search</b-button>
+            <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
         </b-form>
     </div>
 </template>

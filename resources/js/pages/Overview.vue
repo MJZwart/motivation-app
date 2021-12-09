@@ -6,8 +6,8 @@
         <div v-if="userStats">
             <span class="card-title">Stats</span>
             <div class="side-border bottom-border">
-                <span>Tasks completed: {{userStats.tasks_completed}}</span>
-                <p v-if="userStats.repeatable_most_completed">Most completed repeatable: {{userStats.repeatable_most_completed.task_name}}. Completed {{userStats.repeatable_most_completed.total}} times.</p>
+                <span>{{ $t('tasks-completed')}}: {{userStats.tasks_completed}}</span>
+                <p v-if="userStats.repeatable_most_completed">{{ $t('most-completed-repeatable', [userStats.repeatable_most_completed.task_name])}} {{ $t('completed-count', [userStats.repeatable_most_completed.total])}}</p>
             </div>
         </div>
         <div>

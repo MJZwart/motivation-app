@@ -2,14 +2,14 @@
     <div>
         <b-navbar type="dark" sticky class="box-shadow">
             <b-navbar-nav v-if="authenticated">
-                <b-nav-item to="/" exact>Home</b-nav-item>
-                <b-nav-item to="/overview">Overview</b-nav-item>
-                <b-nav-item to="/friends">Friends</b-nav-item>
+                <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
+                <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
+                <b-nav-item to="/friends">{{ $t('friends') }}</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-nav v-if="admin">
-                <b-nav-item to="/achievements">Achievements</b-nav-item>
-                <b-nav-item to="/admin">Admin</b-nav-item>
+                <b-nav-item to="/achievements">{{ $t('achievements') }}</b-nav-item>
+                <b-nav-item to="/admin">{{ $t('admin') }}</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">
@@ -24,13 +24,13 @@
                 </b-nav-item>
                 <b-nav-item v-if="authenticated">
                     <b-dropdown id="user-dropdown" :text=user.username variant="primary">
-                        <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">Profile</b-dropdown-item>
-                        <b-dropdown-item to="/settings">Settings</b-dropdown-item>
-                        <b-dropdown-item @click="logout">Logout</b-dropdown-item>
+                        <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">{{ $t('profile') }}</b-dropdown-item>
+                        <b-dropdown-item to="/settings">{{ $t('settings') }}</b-dropdown-item>
+                        <b-dropdown-item @click="logout">{{ $t('logout') }}</b-dropdown-item>
                     </b-dropdown>
                 </b-nav-item>
-                <b-nav-item v-if="!authenticated" to="/login">Login</b-nav-item>
-                <b-nav-item v-if="!authenticated" to="/register">Register</b-nav-item>
+                <b-nav-item v-if="!authenticated" to="/login">{{ $t('login') }}</b-nav-item>
+                <b-nav-item v-if="!authenticated" to="/register">{{ $t('register') }}</b-nav-item>
             </b-navbar-nav>
 
         </b-navbar>

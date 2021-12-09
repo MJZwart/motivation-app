@@ -23,7 +23,7 @@
             </div>
             <div class="right-column">
                 <h2>{{userProfile.username}}</h2>
-                <p class="silent">Member since: {{userProfile.created_at}}</p>
+                <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
                 <achievements-summary v-if="userProfile.achievements" :achievements="userProfile.achievements"></achievements-summary>
             </div>
         </div>

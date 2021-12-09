@@ -6,23 +6,23 @@
                     @click="showEditCharacter()"></b-icon-pencil-square>
             </span>
             <div class="bottom-border side-border card-content">
-                <p>Level: {{character.level}}</p>
-                <p>Experience: {{character.experience}}
+                <p>{{ $t('level') }}: {{character.level}}</p>
+                <p>{{ $t('experience') }}: {{character.experience}}
                 <b-progress class="level-bar" :value="character.experience" :max="experienceToLevel(character.level)"></b-progress>
                 </p>
-                <p>Strength: {{character.strength}}
+                <p>{{ $t('strength') }}: {{character.strength}}
                     <b-progress :value="character.strength_exp" :max="experienceToLevel(character.strength)"></b-progress>
                 </p>
-                <p>Endurance: {{character.endurance}}
+                <p>{{ $t('endurance') }}: {{character.endurance}}
                     <b-progress :value="character.endurance_exp" :max="experienceToLevel(character.endurance)"></b-progress>
                 </p>
-                <p>Agility: {{character.agility}}
+                <p>{{ $t('agility') }}: {{character.agility}}
                     <b-progress :value="character.agility_exp" :max="experienceToLevel(character.agility)"></b-progress>
                 </p>
-                <p>Intelligence: {{character.intelligence}}
+                <p>{{ $t('intelligence') }}: {{character.intelligence}}
                     <b-progress :value="character.intelligence_exp" :max="experienceToLevel(character.intelligence)"></b-progress>
                 </p>
-                <p>Charisma: {{character.charisma}}
+                <p>{{ $t('charisma') }}: {{character.charisma}}
                     <b-progress :value="character.charisma_exp" :max="experienceToLevel(character.agility)"></b-progress>
                 </p>
             </div>
