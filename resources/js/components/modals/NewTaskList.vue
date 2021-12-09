@@ -2,7 +2,7 @@
     <div>
         <b-form @submit.prevent="submitTaskList">
             <b-form-group
-                label="Task list name" 
+                :label="$t('task-list-name')" 
                 label-for="name">
                 <b-form-input 
                     type="text" 

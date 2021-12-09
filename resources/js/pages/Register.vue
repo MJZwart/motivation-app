@@ -1,9 +1,9 @@
 <template>
     <div class="w-40 center">
-        <h2>Register</h2>
+        <h2>{{ $t('register') }}</h2>
         <b-form @submit.prevent="submitRegister">
             <b-form-group
-                label="Username"
+                :label="$t('username')"
                 label-for="username">
                 <b-form-input 
                     type="text" 
@@ -14,7 +14,7 @@
                 <base-form-error name="username" /> 
             </b-form-group>
             <b-form-group
-                label="E-mail"
+                :label="$t('email')"
                 label-for="email">
                 <b-form-input 
                     type="text" 
@@ -25,7 +25,7 @@
                 <base-form-error name="email" /> 
             </b-form-group>
             <b-form-group
-                label="Password"
+                :label="$t('password')"
                 label-for="password">
                 <b-form-input 
                     type="password" 
@@ -36,7 +36,7 @@
                 <base-form-error name="password" /> 
             </b-form-group>
             <b-form-group
-                label="Repeat password"
+                :label="$t('repeat-password')"
                 label-for="password_confirmation">
                 <b-form-input 
                     type="password" 
@@ -46,7 +46,7 @@
                     v-model="register.password_confirmation" />
                 <base-form-error name="password_confirmation" /> 
             </b-form-group>
-            <b-button type="submit" block>Register new account</b-button>
+            <b-button type="submit" block>{{ $t('register-new-account') }}</b-button>
         </b-form> 
     </div>
 </template>

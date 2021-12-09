@@ -1,11 +1,11 @@
 <template>
     <div class="w-60 center">
-        <h3>Settings</h3>
+        <h3>{{ $t('settings') }}</h3>
         <b-form @submit.prevent="submitSettings" v-if="!loading">
-            <h4>Profile settings</h4>
+            <h4>{{ $t('profile-settings') }}</h4>
             <b-form-group>
-                <p>Current reward type: {{currentRewardType}}</p>
-                <b-button type="button" @click="showChangeRewardType()">Change reward type</b-button>
+                <p>{{ $t('current-reward-type') }}: {{currentRewardType}}</p>
+                <b-button type="button" @click="showChangeRewardType()">{{ $t('change-reward-type') }}</b-button>
             </b-form-group>
             <b-form-group>
                 <b-form-checkbox
@@ -13,7 +13,7 @@
                     id="show_character"
                     v-model="settings.show_character"
                     switch>
-                    Show character on profile
+                    {{ $t('show-character-on-profile') }}
                 </b-form-checkbox>
                 <base-form-error name="show_character" /> 
                 <b-form-checkbox
@@ -21,7 +21,7 @@
                     id="show_achievements"
                     v-model="settings.show_achievements"
                     switch>
-                    Show achievements on profile
+                    {{ $t('show-achievements-on-profile') }}
                 </b-form-checkbox>
                 <base-form-error name="show_achievements" /> 
                 <b-form-checkbox
@@ -29,18 +29,18 @@
                     id="show_friends"
                     v-model="settings.show_friends"
                     switch>
-                    Show friends on profile
+                    {{ $t('show-friends-on-profile') }}
                 </b-form-checkbox>
                 <base-form-error name="show_friends" /> 
             </b-form-group>
-            <b-button type="submit" block>Save settings</b-button>
+            <b-button type="submit" block>{{ $t('save-settings') }}</b-button>
         </b-form>
 
         <hr />
         
         <b-form @submit.prevent="submitPasswordSettings" v-if="!loading">
-            <h4>Change password</h4>
-            <p class="text-muted">If successful, you will be logged out. Please log in with your new password.</p>
+            <h4>{{ $t('change-password') }}</h4>
+            <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
             <b-form-group
                 :label="$t('old-password')"
                 label-for="old_password">
@@ -53,7 +53,7 @@
                 <base-form-error name="old_password" /> 
             </b-form-group>
             <b-form-group
-                label="New password"
+                :label="$t('new-password')"
                 label-for="password">
                 <b-form-input 
                     type="password" 
@@ -64,7 +64,7 @@
                 <base-form-error name="password" /> 
             </b-form-group>
             <b-form-group
-                label="Repeat new password"
+                :label="$t('repeat-new-password')"
                 label-for="password_confirmation">
                 <b-form-input 
                     type="password" 
@@ -74,15 +74,15 @@
                     v-model="passwordSettings.password_confirmation" />
                 <base-form-error name="password_confirmation" /> 
             </b-form-group>
-            <b-button type="submit" block>Update password</b-button>
+            <b-button type="submit" block>{{ $t('update-password') }}</b-button>
         </b-form>
 
         <hr />
 
         <b-form @submit.prevent="submitEmailSettings" v-if="!loading">
-            <h4>Change e-mail</h4>
+            <h4>{{ $t('change-email') }}</h4>
             <b-form-group
-                label="Change e-mail"
+                :label="$t('change-email')"
                 label-for="email">
                 <!-- Todo verify e-mail and show e-mail as verified -->
                 <b-form-input 
@@ -93,7 +93,7 @@
                     v-model="emailSettings.email" />
                 <base-form-error name="email" /> 
             </b-form-group>
-            <b-button type="submit" block>Update e-mail</b-button>
+            <b-button type="submit" block>{{ $t('update-email') }}</b-button>
         </b-form>
 
     <b-modal id="change-reward-type" hide-footer :title="$t('change-reward-type')">
