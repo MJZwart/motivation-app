@@ -1,7 +1,7 @@
 <template>
     <div>
         <form class="navbar-search">
-            <input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
+            <b-form-input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
             <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
         </form>
     </div>

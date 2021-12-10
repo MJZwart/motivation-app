@@ -12,7 +12,9 @@
                         id="deleteOption" 
                         v-model="deleteOption">
                         <option value="delete" selected>{{ $t('delete') }}</option>
-                        <option v-for="option in taskLists" :value="option.id" :key="option.key">{{ $t('merge-with') }} {{option.name}}</option>
+                        <option v-for="option in taskLists" :key="option.key" :value="option.id">
+                            {{ $t('merge-with') }} {{option.name}}
+                        </option>
                     </b-form-select>
                 </b-form-group>
             </b-form-group>
@@ -40,37 +42,35 @@ export default {
     data() {
         return {
             taskListToDelete: null,
-            deleteOption: "delete",
+            deleteOption: 'delete',
         }
     },
     computed: {
-        taskListHasTasks(){
-            if(this.taskListToDelete){
-                return !!this.taskListToDelete.tasks[0];
-            }
+        taskListHasTasks() {
+            return !!this.taskListToDelete && !!this.taskListToDelete.tasks[0];
         },
-        taskListTasks(){
+        taskListTasks() {
             return this.taskListToDelete.tasks;
         },
-        taskLists(){
+        taskLists() {
             let taskLists = this.$store.getters['taskList/getTaskLists'];
             return taskLists.filter(item => item != this.taskListToDelete);
         },
     },
     methods: {
-        deleteTaskList(){
-            if(this.deleteOption != "delete"){
-                const data = { taskListId : this.deleteOption, tasks: this.taskListTasks};
+        deleteTaskList() {
+            if (this.deleteOption != 'delete') {
+                const data = {taskListId : this.deleteOption, tasks: this.taskListTasks};
                 this.$store.dispatch('taskList/mergeTasks', data);
             }
-            this.$store.dispatch('taskList/deleteTaskList', this.taskListToDelete).then(response =>{
+            this.$store.dispatch('taskList/deleteTaskList', this.taskListToDelete).then(() => {
                 this.close();
             });
         },
-        close(){
+        close() {
             this.taskListToDelete = null;
             this.$emit('close');
-        }
+        },
     },
 }
 </script>

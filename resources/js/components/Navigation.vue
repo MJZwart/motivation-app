@@ -40,10 +40,10 @@
 
 <script>
 import {mapGetters} from 'vuex';
-//import SearchBar from '../components/small/SearchBar.vue';
+import SearchBar from '../components/small/SearchBar.vue';
 export default {
     components: {
-        //SearchBar,
+        SearchBar,
     },
     computed: {
         ...mapGetters({

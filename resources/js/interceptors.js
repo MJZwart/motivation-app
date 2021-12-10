@@ -53,7 +53,8 @@ axios.interceptors.response.use(
     }
 );
 
-function sendError(toastMessage, toastVariant, errors){
+function sendError(toastMessage, toastVariant, errors) {
+    console.log(errors);
     store.commit('setErrorMessages', errors);
     toastService.$emit('message', {message: toastMessage, variant: toastVariant});
 }
