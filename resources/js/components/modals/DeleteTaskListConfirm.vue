@@ -4,7 +4,7 @@
             <p>{{ $t('are-you-sure-delete') }} {{taskListToDelete.name}}</p>
             <b-form-group v-if="taskListHasTasks">
                 <p>
-                    {{ $tc('task-list-has-tasks', taskListTasks.length) }} 
+                    {{ $t('task-list-has-tasks', [taskListTasks.length]) }} 
                 </p>
             
                 <b-form-group>

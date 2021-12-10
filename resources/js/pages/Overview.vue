@@ -4,10 +4,10 @@
             <character-summary :character="character" v-if="character"></character-summary>
         </div>
         <div v-if="userStats">
-            <span class="card-title">Stats</span>
+            <span class="card-title">{{ $t('stats') }}</span>
             <div class="side-border bottom-border">
                 <span>{{ $t('tasks-completed')}}: {{userStats.tasks_completed}}</span>
-                <p v-if="userStats.repeatable_most_completed">{{ $t('most-completed-repeatable', [userStats.repeatable_most_completed.task_name])}} {{ $t('completed-count', [userStats.repeatable_most_completed.total])}}</p>
+                <p v-if="userStats.repeatable_most_completed">{{ $t('most-completed-repeatable', [userStats.repeatable_most_completed.task_name, userStats.repeatable_most_completed.total])}}</p>
             </div>
         </div>
         <div>
