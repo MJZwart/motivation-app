@@ -67,7 +67,7 @@ import { mapGetters } from 'vuex';
             rewardsType: String,
         },
         mounted () {
-            this.rewards = this.rewardsType;
+            this.rewards = Vue.util.extend({}, this.rewardsType);
             this.$bvModal.show('change-reward-type');
         },
         data() {
