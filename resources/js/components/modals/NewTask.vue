@@ -2,28 +2,28 @@
     <div>
         <b-form @submit.prevent="submitTask">
             <b-form-group 
-                label="Task name" 
+                :label="$t('task-name')" 
                 label-for="name">
                 <b-form-input 
                     type="text" 
                     id="name" 
                     name="name" 
-                    placeholder="Name"
+                    :placeholder="$t('name')"
                     v-model="task.name" />
                 <base-form-error name="name" /> 
             </b-form-group >
             <b-form-group
-                label="Description (optional)" 
+                :label="$t('description-optional')" 
                 label-for="description">
                 <b-form-input  
                     type="text" 
                     id="description" 
                     name="description" 
-                    placeholder="Description" 
+                    :placeholder="$t('description')" 
                     v-model="task.description" />
             </b-form-group>
             <b-form-group
-                label="Type" 
+                :label="$t('type')" 
                 label-for="type">
                 <b-form-select
                     name="type"
@@ -33,7 +33,7 @@
                 <base-form-error name="type" /> 
             </b-form-group>
             <b-form-group
-                :label="'Difficulty: '+task.difficulty+'/5'"
+                :label="$t('difficulty')+': '+task.difficulty+'/5'"
                 label-for="difficulty">
                 <b-form-input 
                     type="range"
@@ -46,7 +46,7 @@
                 <base-form-error name="difficulty" /> 
             </b-form-group>
             <b-form-group
-                label="Repeatable" 
+                :label="$t('repeatable')" 
                 label-for="repeatable">
                 <b-form-select
                     name="repeatable"
@@ -56,10 +56,10 @@
                 <base-form-error name="repeatable" /> 
             </b-form-group>
             <b-form-group>
-                <p v-if="taskList">Task list: {{taskList.name}}</p>
-                <p v-if="superTask">Subtask of: {{superTask.name}}</p>
+                <p v-if="taskList">{{ $t('task-list') }}: {{taskList.name}}</p>
+                <p v-if="superTask">{{ $t('subtask-of') }}: {{superTask.name}}</p>
             </b-form-group>
-            <b-button type="submit" block>Create new task</b-button>
+            <b-button type="submit" block>{{ $t('create-new-task') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
         </b-form>
     </div>

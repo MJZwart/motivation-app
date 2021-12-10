@@ -2,7 +2,7 @@
     <div>
         <div v-if="requests">
             <div v-if="requests.incoming[0]">
-                <span class="card-title">Incoming friend requests</span>
+                <span class="card-title">{{ $t('incoming-friend-requests') }}</span>
                 <div class="side-border bottom-border">
                     <ul class="summary-list">
                         <li v-for="request in requests.incoming" :key="request.id">
@@ -16,7 +16,7 @@
             </div>
 
             <div v-if="requests.outgoing[0]">
-                <span class="card-title">Outgoing friend requests</span>
+                <span class="card-title">{{ $t('outgoing-friend-requests') }}</span>
                 <div class="side-border bottom-border">
                     <ul class="summary-list">
                         <li v-for="request in requests.outgoing" :key="request.id">

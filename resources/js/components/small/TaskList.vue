@@ -21,9 +21,7 @@
                 v-on:editTask="editTask"></task>
 
         </template>
-        <div>
-            <b-button block class="bottom-radius" @click="openNewTask(null)">Add new task</b-button>
-        </div>
+        <b-button block class="bottom-radius" @click="openNewTask(null)">{{ $t('add-new-task') }}</b-button>
     </div>
 </template>
 

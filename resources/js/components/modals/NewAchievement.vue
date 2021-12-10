@@ -2,27 +2,27 @@
     <div>
         <b-form @submit.prevent="submitAchievement">
             <b-form-group
-                label="Achievement name" 
+                :label="$t('achievement-name')" 
                 label-for="name">
                 <b-form-input 
                     type="text" 
                     id="name" 
                     name="name" 
-                    placeholder="Name" 
+                    :placeholder="$t('name')" 
                     v-model="achievement.name" />
             </b-form-group>
             <b-form-group
-                label="Achievement description" 
+                :label="$t('achievement-description')" 
                 label-for="description">
                 <b-form-input 
                     type="text" 
                     id="description" 
                     name="description" 
-                    placeholder="Description" 
+                    :placeholder="$t('description')" 
                     v-model="achievement.description" />
             </b-form-group>
             <b-form-group
-                label="Achievement type" 
+                :label="$t('achievement-type')" 
                 label-for="type">
                 <b-select 
                         id="type" 
@@ -33,17 +33,17 @@
                     </b-select>
             </b-form-group>
             <b-form-group
-                label="Trigger amount" 
+                :label="$t('trigger-amount')" 
                 label-for="amount">
                 <b-form-input 
                     type="number" 
                     id="amount" 
                     name="amount" 
-                    placeholder="Amount" 
+                    :placeholder="$t('amount')" 
                     v-model="achievement.trigger_amount" />
             </b-form-group>
             <b-form-group
-                label="Trigger description" 
+                :label="$t('trigger-description')" 
                 label-for="trigger-description">
                 <p v-if="achievement.trigger_type" id="trigger-description">{{triggerDescription}}</p>
             </b-form-group>

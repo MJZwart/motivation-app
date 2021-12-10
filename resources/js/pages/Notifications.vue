@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Notifications</h2>
+        <h2>{{ $t('notifications') }}</h2>
         <notification-block v-for="notification in notifications" :key="notification.id" :notification="notification"></notification-block>
     </div>
 </template>

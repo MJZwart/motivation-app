@@ -1,21 +1,21 @@
 <template>
     <div>
-        <h3>Admin panel</h3>
+        <h3>{{ $t('admin-panel') }}</h3>
         <div>
-            <h4>Send notification to all users</h4>
+            <h4>{{ $t('send-notification-to-users') }}</h4>
             <b-form @submit.prevent="sendNotification">
                 <b-form-group
-                    label="Title" 
+                    :label="$t('title')" 
                     label-for="title">
                     <b-form-input 
                         type="text" 
                         id="title" 
                         name="title" 
-                        placeholder="Title" 
+                        :placeholder="$t('title')" 
                         v-model="notification.title" />
                 </b-form-group>
                 <b-form-group
-                    label="Text" 
+                    :label="$t('text')" 
                     label-for="text">
                     <b-form-textarea 
                         rows="5"
@@ -25,7 +25,7 @@
                         v-model="notification.text"></b-form-textarea>
                 </b-form-group>
 
-                <b-button type="submit" block>Send notification</b-button>
+                <b-button type="submit" block>{{ $t('send-notification') }}</b-button>
             </b-form>
         </div>
     </div>

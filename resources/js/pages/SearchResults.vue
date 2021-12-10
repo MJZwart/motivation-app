@@ -1,17 +1,17 @@
 <template>
     <div class="w-60 m-auto">
         <b-form class="search-bar">
-            <b-form-input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch" />
-            <b-button type="submit" @click="searchUser">Search</b-button>
+            <b-form-input type="search" :placeholder="$t('search-user')" aria-label="Search user" v-model="data.userSearch" />
+            <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
         </b-form>
         <br />
-        <h3>Search results:</h3>
+        <h3>{{ $t('search-results') }}:</h3>
         <div v-if="searchResults">
             <div  v-for="user in searchResults" :key="user.id">
                 <router-link :to="{ name: 'profile', params: { id: user.id}}">{{user.username}}</router-link>
             </div>
         </div>
-        <div v-else>No results</div>
+        <div v-else>{{ $t('no-results') }}</div>
     </div>
 </template>
 
