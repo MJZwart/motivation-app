@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\CharacterResource;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\UserResource;
@@ -62,14 +63,18 @@ class UserController extends Controller
         $validated = $request->validated();
         $user = Auth::user();
         $user->update($validated);
+        $activeReward = null;
         if($request['rewards'] == 'CHARACTER' && $request['keepCharacter'] == 'NEW'){
-            CharacterHandler::createNewCharacterAndActivate($user->id, $request['character_name']);
+            $character = CharacterHandler::createNewCharacterAndActivate($user->id, $request['character_name']);
+            $activeReward = new CharacterResource($character);
         } else if($request['rewards'] == 'CHARACTER' && is_numeric($request['keepCharacter'])){
-            CharacterHandler::toggleCharacterActive($user->id, $request['keepCharacter']);
+            $character = CharacterHandler::toggleCharacterActive($user->id, $request['keepCharacter']);
+            $activeReward = new CharacterResource($character);
         }
         return new JsonResponse([
             'message' => ['message' => ['Your rewards type has been changed.']], 
-            'user' => new UserResource($user)],
+            'user' => new UserResource($user),
+            'activeReward' => $activeReward],
             Response::HTTP_OK);
     }
 

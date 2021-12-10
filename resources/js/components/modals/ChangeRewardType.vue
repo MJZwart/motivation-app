@@ -42,7 +42,7 @@
                     :label="$t('character-name')"
                     label-for="character_name">
                 <p class="silent">{{ $t('change-name-later') }}</p>
-                <input 
+                <b-form-input 
                     type="text" 
                     id="character_name" 
                     name="character_name" 
@@ -82,31 +82,23 @@ import { mapGetters } from 'vuex';
         },
         methods: {
             confirmRewardsType() {
-                console.log('confirmed rewards type');
                 //TODO For future options such as village, change this to an if-else or switch
                 if(this.user.rewards == 'CHARACTER'){
-                    console.log('chose character');
                     this.$store.dispatch('character/fetchAllCharacters').then(() => {
-                        this.hasCharacter = !!this.characters.length;//Object.entries(this.character).length;
+                        this.hasCharacter = !!this.characters.length;
                         this.$bvModal.hide('change-reward-type');
-                        console.log('checking if has character');
                         if(!this.hasCharacter){
-                            console.log('has no character');
                             this.$bvModal.show('new-character');
                         } else {
-                            console.log('has character');
                             this.$bvModal.show('character-options');
                         }
                     });
                 } else {
-                    console.log('no rewards');
                     this.confirmNewRewardsType();
                 }
             },
             confirmCharacterOptions(){
-                console.log('confirming character options');
                 if(this.user.keepCharacter == 'NEW'){
-                    console.log('wants new character');
                     this.$bvModal.hide('character-options');
                     this.$bvModal.show('new-character');
                 } else {
@@ -114,7 +106,6 @@ import { mapGetters } from 'vuex';
                 }
             },
             checkCharacterInput(){
-                console.log('checking character input');
                 if(this.user.rewards == "CHARACTER" && this.user.keepCharacter == 'NEW' && !this.user.character_name){
                     this.$store.commit('setErrorMessages', {message: ["No character name given."]});
                     return false;
@@ -124,7 +115,6 @@ import { mapGetters } from 'vuex';
                 }
             },
             confirmNewRewardsType() {
-                console.log('confirming new rewards type');
                 if(this.checkCharacterInput()){
                     this.$store.dispatch('user/changeRewardType', this.user).then(response => {
                         this.cancel();
@@ -132,7 +122,6 @@ import { mapGetters } from 'vuex';
                 }
             },
             cancel(){
-                console.log('closing');
                 this.$emit('close');
             }
         },
