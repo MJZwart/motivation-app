@@ -3,13 +3,12 @@
         <div class="summary-card" v-if="character">
             <span class="card-title">{{character.name}}                 
                 <b-icon-pencil-square v-if="userCharacter"
-                    class=""
                     @click="showEditCharacter()"></b-icon-pencil-square>
             </span>
             <div class="bottom-border side-border card-content">
                 <p>Level: {{character.level}}</p>
                 <p>Experience: {{character.experience}}
-                <b-progress class="main" :value="character.experience" :max="experienceToLevel(character.level)"></b-progress>
+                <b-progress class="level-bar" :value="character.experience" :max="experienceToLevel(character.level)"></b-progress>
                 </p>
                 <p>Strength: {{character.strength}}
                     <b-progress :value="character.strength_exp" :max="experienceToLevel(character.strength)"></b-progress>
@@ -75,7 +74,7 @@ export default {
 .progress{
     height:0.5rem;
 }
-.progress.main{
+.progress.level-bar{
     height:0.7rem;
     margin-bottom:3px;
 }

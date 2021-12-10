@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form @submit.prevent="submitAchievement">
+        <b-form @submit.prevent="submitAchievement">
             <b-form-group
                 label="Achievement name" 
                 label-for="name">
@@ -49,7 +49,7 @@
             </b-form-group>
             <b-button type="submit" block>{{ $t('create-new-achievement') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </form>
+        </b-form>
     </div>
 </template>
 

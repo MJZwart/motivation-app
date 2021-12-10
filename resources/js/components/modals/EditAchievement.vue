@@ -1,6 +1,6 @@
 <template>
     <div v-if="achievementToEdit">
-        <form @submit.prevent="updateAchievement">
+        <b-form @submit.prevent="updateAchievement">
             <b-form-group
                 label="Achievement name" 
                 label-for="name">
@@ -49,7 +49,7 @@
             </b-form-group>
             <b-button type="submit" block>{{ $t('edit-achievement') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </form>
+        </b-form>
     </div>
 </template>
 

@@ -3,17 +3,6 @@
         <h3>Settings</h3>
         <b-form @submit.prevent="submitSettings" v-if="!loading">
             <h4>Profile settings</h4>
-            <!-- <b-form-group
-                label="Rewards type"
-                label-for="rewards">
-                <b-form-select
-                    name="rewards"
-                    id="rewards"
-                    v-model="settings.rewards"
-                    :options="rewardTypes">
-                </b-form-select>
-                <base-form-error name="rewards" /> 
-            </b-form-group> -->
             <b-form-group>
                 <p>Current reward type: {{currentRewardType}}</p>
                 <b-button type="button" @click="showChangeRewardType()">Change reward type</b-button>
@@ -49,7 +38,7 @@
 
         <hr />
         
-        <form @submit.prevent="submitPasswordSettings" v-if="!loading">
+        <b-form @submit.prevent="submitPasswordSettings" v-if="!loading">
             <h4>Change password</h4>
             <p class="text-muted">If successful, you will be logged out. Please log in with your new password.</p>
             <b-form-group
@@ -86,11 +75,11 @@
                 <base-form-error name="password_confirmation" /> 
             </b-form-group>
             <b-button type="submit" block>Update password</b-button>
-        </form>
+        </b-form>
 
         <hr />
 
-        <form @submit.prevent="submitEmailSettings" v-if="!loading">
+        <b-form @submit.prevent="submitEmailSettings" v-if="!loading">
             <h4>Change e-mail</h4>
             <b-form-group
                 label="Change e-mail"
@@ -105,9 +94,12 @@
                 <base-form-error name="email" /> 
             </b-form-group>
             <b-button type="submit" block>Update e-mail</b-button>
-        </form>
+        </b-form>
 
-        <change-reward-type v-if="isChangeRewardTypeVisible" @close="closeChangeRewardType" :rewardsType="user.rewards"></change-reward-type>
+    <b-modal id="change-reward-type" hide-footer :title="$t('change-reward-type')">
+        <change-reward-type @close="closeChangeRewardType" :rewardsType="user.rewards"></change-reward-type>
+    </b-modal>
+        
     </div>
 </template>
 
@@ -131,7 +123,6 @@ export default {
             passwordSettings: {},
             loading: true,
             rewardTypes: REWARD_TYPES,
-            isChangeRewardTypeVisible: false,
         }
     },
     computed: {
@@ -160,10 +151,10 @@ export default {
             this.$store.dispatch('user/updateEmail', this.emailSettings);
         },
         showChangeRewardType(){
-            this.isChangeRewardTypeVisible = true;
+            this.$bvModal.show('change-reward-type');
         },
         closeChangeRewardType(){
-            this.isChangeRewardTypeVisible = false;
+            this.$bvModal.hide('change-reward-type');
         },
     },
 }

@@ -3,7 +3,7 @@
         <h3>Admin panel</h3>
         <div>
             <h4>Send notification to all users</h4>
-            <form @submit.prevent="sendNotification">
+            <b-form @submit.prevent="sendNotification">
                 <b-form-group
                     label="Title" 
                     label-for="title">
@@ -26,7 +26,7 @@
                 </b-form-group>
 
                 <b-button type="submit" block>Send notification</b-button>
-            </form>
+            </b-form>
         </div>
     </div>
 </template>
