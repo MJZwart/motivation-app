@@ -40,7 +40,7 @@ export default {
         }
     },
     mounted() {
-        this.taskList ? this.editedTaskList = this.taskList : this.editedTaskList = {};
+        this.taskList ? this.editedTaskList = Vue.util.extend({}, this.taskList) : this.editedTaskList = {};
     },
     methods: {
         updateTaskList() {

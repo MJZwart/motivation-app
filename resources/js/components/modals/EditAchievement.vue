@@ -69,7 +69,7 @@ export default {
         },
     },
     mounted() {
-        this.achievementToEdit = this.achievement;
+        this.achievementToEdit = Vue.util.extend({}, this.achievement);
     },
     components: {
         BaseFormError,

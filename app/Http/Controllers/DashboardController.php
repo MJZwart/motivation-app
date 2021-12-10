@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CharacterHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Models\Character;
@@ -15,7 +16,7 @@ class DashboardController extends Controller
         $taskLists = TaskListResource::collection($user->taskLists);
         $character = null;
         if($user->rewards == 'CHARACTER'){
-            $character = new CharacterResource(Character::where('user_id', $user->id)->get()->first());
+            $character = new CharacterResource(CharacterHandler::findActiveCharacter($user->id));
         }
         return new JsonResponse(['taskLists' => $taskLists, 'character' => $character]);
     }
