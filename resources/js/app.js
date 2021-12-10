@@ -1,5 +1,6 @@
 require("./bootstrap");
 import Vue from "vue";
+window.Vue = Vue;
 import './interceptors';
 import '../assets/scss/app.scss';
 

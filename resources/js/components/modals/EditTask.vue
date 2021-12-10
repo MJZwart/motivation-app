@@ -83,7 +83,7 @@ export default {
         }
     },
     mounted(){
-        this.task ? this.editedTask = this.task : this.editedTask = {};
+        this.task ? this.editedTask = Vue.util.extend({}, this.task) : this.editedTask = {};
     },
     methods: {
         updateTask(){

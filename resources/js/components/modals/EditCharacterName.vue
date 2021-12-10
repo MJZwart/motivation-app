@@ -33,7 +33,7 @@ export default {
         }
     },
     mounted(){
-        this.character ? this.editedCharacter = this.character : this.editedCharacter = {};
+        this.character ? this.editedCharacter = Vue.util.extend({}, this.character) : this.editedCharacter = {};
     },
     methods: {
         updateCharacter(){
