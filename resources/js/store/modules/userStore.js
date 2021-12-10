@@ -121,9 +121,7 @@ export default {
             return axios.put('/user/settings/rewards', user).then(response => {
                 commit('setUser', response.data.user);
                 commit('setResponseMessage', response.data.message, {root:true});
-                console.log(response.data.user.rewards);
                 if(response.data.user.rewards == 'CHARACTER'){
-                    console.log('activating character');
                     commit('character/setCharacter', response.data.activeReward, {root:true});
                 }
                 return Promise.resolve();

@@ -73,7 +73,7 @@ import { mapGetters } from 'vuex';
         data() {
             return {
                 user: {
-                    rewards: "",
+                    rewards: "NONE",
                     existingCharacter: {},
                     keepCharacter: false,
                 },
