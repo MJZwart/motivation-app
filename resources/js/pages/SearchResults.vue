@@ -1,7 +1,7 @@
 <template>
     <div class="w-60 m-auto">
         <b-form class="search-bar">
-            <b-form-input type="search" :placeholder="$t('search-user')" aria-label="Search user" v-model="data.userSearch" />
+            <b-form-input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
             <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
         </b-form>
         <br />
@@ -16,19 +16,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 export default {
     data() {
         return {
             data: {
-                userSearch: "",
+                userSearch: '',
             },
         }
     },
     methods: {
         searchUser() {
             this.$store.dispatch('user/searchUser', this.data);
-            this.data.userSearch = "";
+            this.data.userSearch = '';
         },
     },
     computed: {

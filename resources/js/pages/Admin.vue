@@ -8,21 +8,21 @@
                     :label="$t('title')" 
                     label-for="title">
                     <b-form-input 
-                        type="text" 
                         id="title" 
+                        v-model="notification.title" 
+                        type="text" 
                         name="title" 
-                        :placeholder="$t('title')" 
-                        v-model="notification.title" />
+                        :placeholder="$t('title')" />
                 </b-form-group>
                 <b-form-group
                     :label="$t('text')" 
                     label-for="text">
                     <b-form-textarea 
+                        id="text" 
+                        v-model="notification.text" 
                         rows="5"
                         type="text" 
-                        id="text" 
-                        name="text"
-                        v-model="notification.text"></b-form-textarea>
+                        name="text"/>
                 </b-form-group>
 
                 <b-button type="submit" block>{{ $t('send-notification') }}</b-button>
@@ -50,7 +50,8 @@ export default {
         }),
     },
     methods: {
-        sendNotification(){
+        /** Sends notification to all members */
+        sendNotification() {
             this.$store.dispatch('admin/sendNotification', this.notification);
         },
     },

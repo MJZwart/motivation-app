@@ -4,8 +4,8 @@
         <b-button block @click="showNewAchievement">{{ $t('add-new-achievement') }}</b-button>
         <div v-for="(value, index) in achievements" :key="index">
             <p>
-                <b-icon-trash-fill class="icon-small"></b-icon-trash-fill>
-                <b-icon-pencil-square class="icon-small" @click="showEditAchievement(value)"></b-icon-pencil-square>
+                <b-icon-trash-fill class="icon-small" />
+                <b-icon-pencil-square class="icon-small" @click="showEditAchievement(value)" />
                 {{value.name}}
             </p>
             <p class="silent">{{value.description}}</p>
@@ -13,10 +13,10 @@
         </div>
 
         <b-modal id="new-achievement" hide-footer :title="$t('new-achievement')">
-            <new-achievement @close="closeNewAchievement"></new-achievement>
+            <new-achievement @close="closeNewAchievement"/>
         </b-modal>
         <b-modal id="edit-achievement" hide-footer :title="$t('edit-achievement')">
-            <edit-achievement @close="closeEditAchievement" :achievement="achievementToEdit"></edit-achievement>
+            <edit-achievement :achievement="achievementToEdit" @close="closeEditAchievement"/>
         </b-modal>
     </div>
 </template>
@@ -27,7 +27,7 @@ import {mapGetters} from 'vuex';
 import EditAchievement from '../components/modals/EditAchievement.vue';
 import NewAchievement from '../components/modals/NewAchievement.vue';
 export default {
-    components: { NewAchievement, EditAchievement },
+    components: {NewAchievement, EditAchievement},
     mounted() {
         //TODO Reduce
         this.$store.dispatch('admin/checkAdmin');
@@ -36,6 +36,7 @@ export default {
     },
     data() {
         return {
+            /** @type {import('../../types/achievement').Achievement | null} */
             achievementToEdit: null,
         }
     },
@@ -45,6 +46,7 @@ export default {
         }),
     },
     methods: {
+        /** Shows and hides the modal to create a new achievement */
         showNewAchievement() {
             this.$store.dispatch('clearErrors');
             this.$bvModal.show('new-achievement');
@@ -52,6 +54,9 @@ export default {
         closeNewAchievement() {
             this.$bvModal.hide('new-achievement');
         },
+        /** Shows and hides the modal to edit a given achievement
+         * @param {import('../../types/achievement').Achievement} achievement
+         */
         showEditAchievement(achievement) {
             this.$store.dispatch('clearErrors');
             this.achievementToEdit = achievement;
@@ -61,7 +66,7 @@ export default {
             this.achievementToEdit = null;
             this.$bvModal.hide('edit-achievement');
         },
-    }
+    },
     
 }
 </script>
