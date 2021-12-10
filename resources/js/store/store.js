@@ -57,6 +57,10 @@ export default new Vuex.Store({
                 commit('taskList/setTaskLists', response.data.taskLists, {root:true});
                 commit('character/setCharacter', response.data.character, {root:true});
             });
-        }
+        },
+        sendToasts({}, messages){
+            Object.keys(messages).forEach(msg => toastService.$emit('message', {message: messages[msg], variant: "sucess"}));
+        },
+
     }
 });
