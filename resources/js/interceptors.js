@@ -38,14 +38,15 @@ axios.interceptors.response.use(
                 if (router.currentRoute.name !== 'login') {
                     store.dispatch('user/logout', false);
                 }
-                sendError('You are not logged in', 'danger', error.response.data.errors || []);
+                sendErrorToast('You are not logged in');
                 return Promise.reject(error, false);
             // user tried to access unauthorized resource
             case 403:
-                sendError('You are not authorized for this action', 'danger', error.response.data.errors || []);
+                sendErrorToast('You are not authorized for this action');
                 return Promise.reject(error);
             case 422:
-                sendError('There were errors in the form', 'danger', error.response.data.errors || []);
+                sendErrorToast();
+                store.commit('setErrorMessages', errors);
                 return Promise.reject(error);
             default:
                 return Promise.reject(error);
@@ -53,7 +54,6 @@ axios.interceptors.response.use(
     }
 );
 
-function sendError(toastMessage, toastVariant, errors){
-    store.commit('setErrorMessages', errors);
-    toastService.$emit('message', {message: toastMessage, variant: toastVariant});
+function sendErrorToast(toastMessage){
+    toastService.$emit('message', {message: toastMessage, variant: 'danger'});
 }

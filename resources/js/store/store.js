@@ -35,6 +35,7 @@ export default new Vuex.Store({
         setErrorMessages(state, response){
             state.errors = response;
         },
+        //TODO?
         setResponseMessage(state, responseMessage){
             toastService.$emit('message', {message: responseMessage.message[0], variant: "success"});
         },
@@ -58,8 +59,15 @@ export default new Vuex.Store({
                 commit('character/setCharacter', response.data.character, {root:true});
             });
         },
-        sendToasts({}, messages){
-            Object.keys(messages).forEach(msg => toastService.$emit('message', {message: messages[msg], variant: "sucess"}));
+        //Decide which way to go
+        sendToasts({}, messages, variant){
+            Object.keys(messages).forEach(msg => toastService.$emit('message', {message: messages[msg], variant: variant}));
+        },
+        sendErrorToast({}, message){
+            toastService.$emit('message', {message: message, variant: 'danger'});
+        },
+        sendToast({}, {message, variant}){
+            toastService.$emit('message', {message: message, variant: variant});
         },
 
     }
