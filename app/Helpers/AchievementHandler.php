@@ -28,10 +28,13 @@ class AchievementHandler {
     }
 
     public static function checkAchievementEligible($user, $type, $amount){
-        $achievement = Achievement::where('trigger_type', $type)->where('trigger_amount', $amount)->first();
-        //Rather than the first, get all
-        if($achievement && !AchievementHandler::checkIfAchievementEarned($user, $achievement)){
-            AchievementHandler::awardAchievement($user, $achievement);
+        $achievements = Achievement::where('trigger_type', $type)->where('trigger_amount', '<=', $amount)->get();
+        if($achievements){
+            foreach($achievements as $achievement){
+                if(!AchievementHandler::checkIfAchievementEarned($user, $achievement)){
+                    AchievementHandler::awardAchievement($user, $achievement);
+                }
+            }
         }
     }
 
