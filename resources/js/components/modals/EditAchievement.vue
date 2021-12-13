@@ -62,7 +62,7 @@ export default {
         achievement: Object,
     },
     mounted() {
-        this.achievementToEdit = this.achievement;
+        this.achievementToEdit = Vue.util.extend({}, this.achievement);
     },
     components: {
         BaseFormError,

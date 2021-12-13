@@ -10,19 +10,22 @@ class CharacterHandler {
 
     public static function toggleCharacterActive($userId, $characterIdToActive){
         $allCharacters = CharacterHandler::findAllCharactersByUser($userId);
+        $activeCharacter = null;
         foreach($allCharacters as $char){
             if($char->id == $characterIdToActive){
-                CharacterHandler::activateCharacter($char->id);
+                $activeCharacter = CharacterHandler::activateCharacter($char->id);
             } else {
                 CharacterHandler::deactivateCharacter($char->id);
             }
         }
+        return $activeCharacter;
     }
 
     public static function activateCharacter($characterId){
         $character = Character::find($characterId);
         $character->active = true;
         $character->update();
+        return $character;
     }
 
     public static function deactivateCharacter($characterId){
@@ -36,6 +39,7 @@ class CharacterHandler {
             'name' => $characterName,
             'user_id' => $userId]);
         CharacterHandler::toggleCharacterActive($userId, $newCharacter->id);
+        return $newCharacter;
     }
 
     public static function findActiveCharacter($userId){

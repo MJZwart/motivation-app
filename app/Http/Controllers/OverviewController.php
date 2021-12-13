@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CharacterHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -15,7 +16,7 @@ class OverviewController extends Controller
         $user = Auth::user();
         $character = null;
         if($user->rewards == 'CHARACTER'){
-            $character = new CharacterResource(Character::where('user_id', $user->id)->get()->first());
+            $character = new CharacterResource(CharacterHandler::findActiveCharacter($user->id));
         }
         $achievements = $user->achievements;
         $stats = new StatsResource($user);
