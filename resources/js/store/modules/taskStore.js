@@ -37,9 +37,9 @@ export default {
                 commit('taskList/setTaskLists', response.data.data, {root:true});
             });
         },
-        completeTask: ({commit}, task) => {
+        completeTask: ({commit, dispatch}, task) => {
             axios.put('/tasks/complete/' + task.id).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
                 commit('character/setCharacter', response.data.character, {root:true});
             });
