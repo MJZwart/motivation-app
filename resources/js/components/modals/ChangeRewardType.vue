@@ -70,12 +70,16 @@
 <script>
 import BaseFormError from '../BaseFormError.vue';
 import {mapGetters} from 'vuex';
+import Vue from 'vue';
 export default {
     components: {
         BaseFormError,
     },
     props: {
-        rewardsType: String,
+        rewardsType: {
+            type: String,
+            required: true,
+        },
     },
     mounted () {
         this.rewards = Vue.util.extend({}, this.rewardsType);
@@ -84,6 +88,7 @@ export default {
     data() {
         return {
             rewards: {},
+            /** @type {import('../../types/user').User} */
             user: {
                 rewards: 'NONE',
                 existingCharacter: {},

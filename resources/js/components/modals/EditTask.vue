@@ -69,14 +69,20 @@
 <script>
 import BaseFormError from '../BaseFormError.vue';
 import {TASK_TYPES, REPEATABLES} from '../../constants/taskConstants';
+import Vue from 'vue';
 
 export default {
     components: {BaseFormError},
     props: {
-        task: Object,
+        task: {
+            /** @type {import('../../../types/task').Task} */
+            type: Object,
+            required: true,
+        },
     },
     data() {
         return {
+            /** @type {import('../../../types/task').Task} */
             editedTask: {},
             taskTypes: TASK_TYPES,
             repeatables: REPEATABLES,

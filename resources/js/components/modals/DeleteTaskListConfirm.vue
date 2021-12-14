@@ -34,13 +34,18 @@ export default {
         BaseFormError,
     },
     props: {
-        taskList: Object,
+        taskList: {
+            /** @type {import('resources/types/task').TaskList} */
+            type: Object,
+            required: true,
+        },
     },
     mounted() {
         this.taskListToDelete = this.taskList;
     },
     data() {
         return {
+            /** @type {import('resources/types/task').TaskList} */
             taskListToDelete: null,
             deleteOption: 'delete',
         }
@@ -52,12 +57,14 @@ export default {
         taskListTasks() {
             return this.taskListToDelete.tasks;
         },
+        //Gets all the other existing taskLists, without the one the user is trying to delete
         taskLists() {
             let taskLists = this.$store.getters['taskList/getTaskLists'];
             return taskLists.filter(item => item != this.taskListToDelete);
         },
     },
     methods: {
+        /** If the user chooses to merge existing tasks into another tasklist, merge those first, then delete the list. */
         deleteTaskList() {
             if (this.deleteOption != 'delete') {
                 const data = {taskListId : this.deleteOption, tasks: this.taskListTasks};

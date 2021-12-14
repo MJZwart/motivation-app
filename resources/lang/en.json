@@ -10,6 +10,8 @@
     "task-list-has-tasks": "This task list has {0} task. Do you wish to delete this or merge the task into a different task list? | This task list has {n} tasks. Do you wish to delete these or merge the tasks into a different task list?",
     "merge-with": "Merge with:",
     "add-new-task": "Add new task",
+    "confirmation-delete-task": "Are you sure you wish to delete the task '{0}' without completing it? Any subtasks will automatically be deleted. You will not receive any rewards for it.",
+    "complete-sub-task-confirmation": "Completing this task also completes all sub tasks. Are you sure?'",
     
     "task-list": "Task list",
     "subtask-of": "Subtask of",

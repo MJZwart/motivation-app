@@ -60,10 +60,11 @@
 <script>
 import BaseFormError from '../BaseFormError.vue';
 import {mapGetters} from 'vuex';
+import Vue from 'vue';
 export default {
     props: {
         achievement: {
-            /** @type {import('../../../types/achievement').Achievement} */
+            /** @type {import('resources/types/achievement').Achievement} */
             type: Object,
             required: true,
         },
@@ -76,6 +77,7 @@ export default {
     },
     data() {
         return {
+            /** @type {import('resources/types/achievement').Achievement} */
             achievementToEdit: {
                 
             },
@@ -97,6 +99,7 @@ export default {
         ...mapGetters({
             achievementTriggers: 'achievement/getAchievementTriggers',
         }),
+        /** Parses the achievement description from the type (eg Made {0} friends) and the amount */
         triggerDescription() {
             const plural = this.achievement.trigger_amount > 1 ? 's' : '';
             let desc = this.achievementTriggers.find(item => item.trigger_type === this.achievement.trigger_type);
@@ -104,6 +107,5 @@ export default {
             return desc.replace('%s', plural);
         },
     },
-    
 }
 </script>

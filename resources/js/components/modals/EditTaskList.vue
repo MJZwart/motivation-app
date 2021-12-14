@@ -22,6 +22,7 @@
 
 <script>
 import BaseFormError from '../BaseFormError.vue';
+import Vue from 'vue';
 
 export default {
     components: {
@@ -36,6 +37,7 @@ export default {
     },
     data() {
         return {
+            /** @type {import('../../../types/task').TaskList} */
             editedTaskList: {},
         }
     },

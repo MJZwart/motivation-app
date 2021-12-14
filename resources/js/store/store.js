@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 import taskListStore from './modules/taskListStore.js';
 import taskStore from './modules/taskStore.js';
@@ -10,7 +10,7 @@ import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
 import toastService from '../services/toastService';
-import axios from "axios";
+import axios from 'axios';
 
 Vue.use(Vuex);
 
@@ -32,24 +32,24 @@ export default new Vuex.Store({
     },
     mutations: {
         //Errors and response
-        setErrorMessages(state, response){
+        setErrorMessages(state, response) {
             state.errors = response;
         },
-        setResponseMessage(state, responseMessage){
-            toastService.$emit('message', {message: responseMessage.message[0], variant: "success"});
+        setResponseMessage(_, responseMessage) {
+            toastService.$emit('message', {message: responseMessage.message[0], variant: 'success'});
         },
     },
     getters: {
         //Errors and response
-        getResponseMessage: (state) => {
+        getResponseMessage: state => {
             return state.responseMessage;
         },
-        getErrorMessages: (state) => {
+        getErrorMessages: state => {
             return state.errors;
         },
     },
     actions: {
-        clearErrors({ commit }) {
+        clearErrors({commit}) {
             commit('setErrorMessages', []);
         },
         getDashboard: ({commit}) => {
@@ -58,9 +58,8 @@ export default new Vuex.Store({
                 commit('character/setCharacter', response.data.character, {root:true});
             });
         },
-        sendToasts({}, messages){
-            Object.keys(messages).forEach(msg => toastService.$emit('message', {message: messages[msg], variant: "sucess"}));
+        sendToasts(_, messages) {
+            Object.keys(messages).forEach(msg => toastService.$emit('message', {message: messages[msg], variant: 'sucess'}));
         },
-
-    }
+    },
 });

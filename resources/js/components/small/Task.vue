@@ -3,37 +3,37 @@
         <p class="task-title d-flex">
             <b-icon-check-square
                 class="icon-small green"
-                @click="completeTask(task)"></b-icon-check-square>
+                @click="completeTask(task)" />
             {{task.name}}             
             <span class="ml-auto">
                 <b-icon-plus-square-fill
                     class="icon-small green"
-                    @click="openNewTask(task)"></b-icon-plus-square-fill>
+                    @click="openNewTask(task)" />
                 <b-icon-pencil-square 
                     class="icon-small"
-                    @click="editTask(task)"></b-icon-pencil-square>
+                    @click="editTask(task)" />
                 <b-icon-trash 
                     class="icon-small red"
-                    @click="deleteTask(task)"></b-icon-trash>
+                    @click="deleteTask(task)" />
             </span>
             
         </p>
         
         <p class="task-description">{{task.description}}</p>
 
-        <div class="sub-task" v-for="subTask in task.tasks" :key="subTask.id">
+        <div v-for="subTask in task.tasks" :key="subTask.id" class="sub-task">
             <p class="task-title d-flex">
-                <b-icon-arrow-return-right></b-icon-arrow-return-right>
+                <b-icon-arrow-return-right />
                 <b-icon-check-square
                     class="icon-small green"
-                    @click="completeTask(subTask)"></b-icon-check-square>
+                    @click="completeTask(subTask)" />
                 {{subTask.name}}
                 <b-icon-pencil-square 
                     class="icon-small ml-auto"
-                    @click="editTask(subTask)"></b-icon-pencil-square>
+                    @click="editTask(subTask)" />
                 <b-icon-trash
                     class="icon-small red"
-                    @click="deleteTask(subTask)"></b-icon-trash>
+                    @click="deleteTask(subTask)" />
             </p>
             <p class="task-description">{{subTask.description}}</p>
         </div>
@@ -42,31 +42,43 @@
 
 
 <script>
+import {t} from 'vue-i18n';
 export default {
     props: {
-        task: Object,
+        task: {
+            /** @type {import('resources/types/task').Task} */
+            type: Object,
+            required: true,
+        },
     },
     methods: {
-        openNewTask(task){
+        /** @param {import('resources/types/task').Task} task */
+        openNewTask(task) {
             this.$emit('newTask', task);
         },
-        editTask(task){
+        /** @param {import('resources/types/task').Task} task */
+        editTask(task) {
             this.$emit('editTask', task);
         },
-        deleteTask(task){
-            if(confirm('Are you sure you wish to delete the task \'' + task.name + '\' without completing it? Any subtasks will automatically be deleted. You will not receive any rewards for it.')){
+        /** @param {import('resources/types/task').Task} task */
+        deleteTask(task) {
+            const confirmationText = t('confirmation-delete-task', [task.name]);
+            //TODO Test text
+            if (confirm(confirmationText)) {
                 this.$store.dispatch('task/deleteTask', task);
             }
         },
-        completeTask(task){
-            if(task.tasks.length > 0){
-                if(confirm('Completing this task also completes all sub tasks. Are you sure?')){
+        /** @param {import('resources/types/task').Task} task */
+        completeTask(task) {
+            if (task.tasks.length > 0) {
+                if (confirm(t('complete-sub-task-confirmation'))) {
+                    //TODO Test text
                     this.$store.dispatch('task/completeTask', task);
                 }
             } else {
                 this.$store.dispatch('task/completeTask', task);
             }
         },
-    }
+    },
 }
 </script>

@@ -63,7 +63,6 @@ export default {
             this.$bvModal.show('edit-achievement');
         },
         closeEditAchievement() {
-            this.achievementToEdit = null;
             this.$bvModal.hide('edit-achievement');
         },
     },

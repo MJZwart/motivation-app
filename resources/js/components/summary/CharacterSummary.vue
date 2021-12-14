@@ -1,35 +1,35 @@
 <template>
     <div>
-        <div class="summary-card" v-if="character">
+        <div v-if="character" class="summary-card">
             <span class="card-title">{{character.name}}                 
                 <b-icon-pencil-square v-if="userCharacter"
-                    @click="showEditCharacter()"></b-icon-pencil-square>
+                                      @click="showEditCharacter()" />
             </span>
             <div class="bottom-border side-border card-content">
                 <p>{{ $t('level') }}: {{character.level}}</p>
                 <p>{{ $t('experience') }}: {{character.experience}}
-                <b-progress class="level-bar" :value="character.experience" :max="experienceToLevel(character.level)"></b-progress>
+                    <b-progress class="level-bar" :value="character.experience" :max="experienceToLevel(character.level)" />
                 </p>
                 <p>{{ $t('strength') }}: {{character.strength}}
-                    <b-progress :value="character.strength_exp" :max="experienceToLevel(character.strength)"></b-progress>
+                    <b-progress :value="character.strength_exp" :max="experienceToLevel(character.strength)" />
                 </p>
                 <p>{{ $t('endurance') }}: {{character.endurance}}
-                    <b-progress :value="character.endurance_exp" :max="experienceToLevel(character.endurance)"></b-progress>
+                    <b-progress :value="character.endurance_exp" :max="experienceToLevel(character.endurance)" />
                 </p>
                 <p>{{ $t('agility') }}: {{character.agility}}
-                    <b-progress :value="character.agility_exp" :max="experienceToLevel(character.agility)"></b-progress>
+                    <b-progress :value="character.agility_exp" :max="experienceToLevel(character.agility)" />
                 </p>
                 <p>{{ $t('intelligence') }}: {{character.intelligence}}
-                    <b-progress :value="character.intelligence_exp" :max="experienceToLevel(character.intelligence)"></b-progress>
+                    <b-progress :value="character.intelligence_exp" :max="experienceToLevel(character.intelligence)" />
                 </p>
                 <p>{{ $t('charisma') }}: {{character.charisma}}
-                    <b-progress :value="character.charisma_exp" :max="experienceToLevel(character.agility)"></b-progress>
+                    <b-progress :value="character.charisma_exp" :max="experienceToLevel(character.agility)" />
                 </p>
             </div>
         </div>
         
         <b-modal id="edit-character-name" hide-footer :title="$t('edit-character-name')">
-            <edit-character-name :character="characterToEdit" @close="closeEditCharacter"></edit-character-name>
+            <edit-character-name :character="characterToEdit" @close="closeEditCharacter" />
         </b-modal>
     </div>
 </template>
@@ -51,9 +51,9 @@ export default {
         }
     },
     methods: {
-        experienceToLevel(level){
+        experienceToLevel(level) {
             const index = this.character.experienceTable.findIndex(item => item.level == level);
-            if(index >= 0){
+            if (index >= 0) {
                 return this.character.experienceTable[index].experience_points;
             }
         },
@@ -62,7 +62,7 @@ export default {
             this.characterToEdit = this.character;
             this.$bvModal.show('edit-character-name');
         },
-        closeEditCharacter(){
+        closeEditCharacter() {
             this.characterToEdit = null;
             this.$bvModal.hide('edit-character-name');
         },

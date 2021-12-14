@@ -66,6 +66,7 @@ export default {
     },
     data() {
         return {
+            /** @type {import('resources/types/achievement').Achievement} */
             achievement: {
                 trigger_amount: 0,
             },

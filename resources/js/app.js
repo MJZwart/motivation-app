@@ -1,24 +1,23 @@
-require("./bootstrap");
-import Vue from "vue";
-window.Vue = Vue;
+require('./bootstrap');
+import Vue from 'vue';
 import './interceptors';
 import '../assets/scss/app.scss';
 
 //Main pages
-import App from "./App.vue";
+import App from './App.vue';
 
 //Import store
-import store from "./store/store";
+import store from './store/store';
 
 //Import router
-import router from "./router/router";
+import router from './router/router';
 
 //Import BootstrapVue
-import { BootstrapVue, BootstrapVueIcons, ToastPlugin } from 'bootstrap-vue';
+import {BootstrapVue, BootstrapVueIcons, ToastPlugin} from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css';
 Vue.use(BootstrapVueIcons);
 Vue.use(BootstrapVue, {
-    BButton: { variant: 'primary' }
+    BButton: {variant: 'primary'},
 });
 Vue.use(ToastPlugin);
 
@@ -32,10 +31,11 @@ import toastService from './services/toastService';
 
 const app = new Vue({
     i18n,
-    el: "#app",
+    el: '#app',
     store,
     router,
-    render: (h) => h(App),
+    render: h => h(App),
 });
 
+// @ts-ignore
 toastService.$app = app;

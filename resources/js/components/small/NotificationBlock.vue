@@ -15,9 +15,12 @@
 <script>
 export default {
     props: {
-        notification: Object,
+        notification: {
+            /** @type {import('resources/types/notification').Notification} */
+            type: Object,
+            required: true,
+        },
     },
-    
 }
 </script>
 

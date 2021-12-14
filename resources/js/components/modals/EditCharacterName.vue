@@ -22,13 +22,19 @@
 
 <script>
 import BaseFormError from '../BaseFormError.vue';
+import Vue from 'vue';
 export default {
     components: {BaseFormError},
     props: {
-        character: Object,
+        character: {
+            /** @type {import('../../../types/character').Character} */
+            type: Object,
+            required: true,
+        },
     },
     data() {
         return {
+            /** @type {import('../../../types/character').Character} */
             editedCharacter: {},
         }
     },
