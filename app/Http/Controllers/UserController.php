@@ -40,21 +40,21 @@ class UserController extends Controller
         //Invalidate old e-mail
         //Send new e-mail confirmation
         //Update new e-mail, unconfirmed
-        return new JsonResponse(['message' => ['message' => ['Your email has been changed.']], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ['Your email has been changed.']], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
     }
 
     public function updatePassword(UpdateUserPasswordRequest $request){
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         Auth::user()->update($validated);
-        return new JsonResponse(['message' => ['message' => ['Your password has been updated. Please log in using your new password.']]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ['Your password has been updated. Please log in using your new password.']]], Response::HTTP_OK);
     }
 
     public function updateSettings(UpdateUserSettingsRequest $request){
         $validated = $request->validated();
         Auth::user()->update($validated);
         return new JsonResponse([
-            'message' => ['message' => ['Your settings have been changed.']], 
+            'message' => ['success' => ['Your settings have been changed.']], 
             'user' => new UserResource(Auth::user())],
             Response::HTTP_OK);
     }
@@ -72,7 +72,7 @@ class UserController extends Controller
             $activeReward = new CharacterResource($character);
         }
         return new JsonResponse([
-            'message' => ['message' => ['Your rewards type has been changed.']], 
+            'message' => ['success' => ['Your rewards type has been changed.']], 
             'user' => new UserResource($user),
             'activeReward' => $activeReward],
             Response::HTTP_OK);

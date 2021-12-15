@@ -45,9 +45,9 @@ export default {
         },
 
         //TODO up until here
-        updateCharacter: ({commit}, character) => {
+        updateCharacter: ({ commit, dispatch }, character) => {
             return axios.put('/character/' + character.id, character).then(function(response) {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('setCharacter', response.data.data);
                 return Promise.resolve();
             });
