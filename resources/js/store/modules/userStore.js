@@ -70,13 +70,13 @@ export default {
         },
 
         //New user
-        register: ({ commit }, user) => {
+        register: ({ dispatch }, user) => {
             axios.post('/register', user).then(response => {
                 router.push('/login').catch(() => { });
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
-        confirmRegister: ({ commit }, user) => {
+        confirmRegister: ({ commit, dispatch }, user) => {
             axios.post('/register/confirm', user).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 commit('setUser', response.data.user);
@@ -99,25 +99,25 @@ export default {
             });
         },
 
-        updatePassword: ({commit, dispatch}, passwords) => {
+        updatePassword: ({ dispatch }, passwords) => {
             axios.put('/user/settings/password', passwords).then(response => {
                 dispatch('logout');
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
-        updateEmail: ({commit}, email) => {
+        updateEmail: ({ commit, dispatch }, email) => {
             axios.put('/user/settings/email', email).then(response => {
                 commit('setUser', response.data.user);
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
-        updateSettings: ({commit}, settings) => {
+        updateSettings: ({ commit, dispatch }, settings) => {
             axios.put('/user/settings', settings).then(response => {
                 commit('setUser', response.data.user);
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
-        changeRewardType: ({commit}, user) => {
+        changeRewardType: ({ commit, dispatch }, user) => {
             return axios.put('/user/settings/rewards', user).then(response => {
                 commit('setUser', response.data.user);
                 dispatch('sendToasts', response.data.message, {root:true});

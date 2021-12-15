@@ -19,7 +19,7 @@ class AuthenticationController extends Controller
             return new JsonResponse(['user' => new UserResource(Auth::user())]);
         }
         $errorMessage = 'Username or password is incorrect.';
-        return new JsonResponse(['message' => ['Username or password is incorrect.'], 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
+        return new JsonResponse(['message' => [$errorMessage], 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
 
     }
 
