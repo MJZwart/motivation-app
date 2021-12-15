@@ -21,21 +21,21 @@ export default {
         },
         newAchievement: ({commit}, achievement) => {
             return axios.post('/achievements', achievement).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
         },
         editAchievement: ({commit}, achievement) => {
             return axios.put('/achievements/' + achievement.id, achievement).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
         },
         sendNotification: ({commit}, notification) => {
             axios.post('/notifications/all', notification).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
             });
         },
     },

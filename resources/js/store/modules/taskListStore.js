@@ -20,21 +20,21 @@ export default {
     actions: {
         storeTaskList: ({ commit }, taskList) => {
             return axios.post('/tasklists', taskList).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('setTaskLists', response.data.data);
                 return Promise.resolve();
             });
         },
         updateTaskList: ({ commit }, taskList) => {
             return axios.put('/tasklists/' + taskList.id, taskList).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('setTaskLists', response.data.data);
                 return Promise.resolve();
             });
         },
         deleteTaskList: ({ commit }, taskList) => {
             axios.delete('/tasklists/' + taskList.id).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('setTaskLists', response.data.data);
             });
         },

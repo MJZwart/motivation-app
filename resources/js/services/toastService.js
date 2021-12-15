@@ -4,8 +4,8 @@ import Vue from 'vue';
 
 const toastService = new Vue();
 
-const messageHandler = ({message, variant}) => {
-    const title = getTitle(variant);
+const messageHandler = ({message, key}) => {
+    const {title, variant} = getTitleAndVariant(key);
 
     toastService.$app.$bvToast.toast(message, {
         title,
@@ -17,30 +17,36 @@ const messageHandler = ({message, variant}) => {
     });
 };
 
-const getTitle = (variant) => {
-    let title;
+const getTitleAndVariant = (variant) => {
+    let variables = {};
     switch(variant){
         case 'danger':
-            title = 'Error';
+        case 'error':
+            variables.title = 'Error';
+            variables.variant = 'danger';
             break;
         case 'success':
-            title = 'Success';
+            variables.title = 'Success';
+            variables.variant = 'success';
             break;
         case 'warning':
-            title = 'Warning';
+            variables.title = 'Warning';
+            variables.variant = 'warning';
             break;
         case 'info':
-            title = 'Info';
+        default:
+            variables.title = 'Info';
+            variables.variant = 'info';
             break;
     }
-    return title;
+    return variables;
 }
 
 toastService.$on('message', messageHandler);
 
 /**
  * How to send a toast:
- * toastService.$emit('message', {message: insertMessage, variant: insertVariable});
+ * toastService.$emit('message', {message: insertMessage, variant: insertVariant});
  * Info: blue
  * Warning: yellow
  * Danger: red

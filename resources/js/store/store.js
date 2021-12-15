@@ -35,16 +35,9 @@ export default new Vuex.Store({
         setErrorMessages(state, response){
             state.errors = response;
         },
-        //TODO?
-        setResponseMessage(state, responseMessage){
-            toastService.$emit('message', {message: responseMessage.message[0], variant: "success"});
-        },
     },
     getters: {
         //Errors and response
-        getResponseMessage: (state) => {
-            return state.responseMessage;
-        },
         getErrorMessages: (state) => {
             return state.errors;
         },
@@ -59,15 +52,21 @@ export default new Vuex.Store({
                 commit('character/setCharacter', response.data.character, {root:true});
             });
         },
-        //Decide which way to go
-        sendToasts({}, messages, variant){
-            Object.keys(messages).forEach(msg => toastService.$emit('message', {message: messages[msg], variant: variant}));
-        },
-        sendErrorToast({}, message){
-            toastService.$emit('message', {message: message, variant: 'danger'});
-        },
-        sendToast({}, {message, variant}){
-            toastService.$emit('message', {message: message, variant: variant});
+        /**
+         * Send a toast by calling:
+         * dispatch('sendToasts', response.data.message, {root:true});
+         * where 'response.data.message' is an object with one or multiple messages.
+         * In the JsonResponse, name the response message 'success', 'danger' or 'info' 
+         * to get corresponding themes and titles.
+         * 
+         * @param {*} 
+         * @param {Object} messages 
+         */
+        sendToasts({}, messages){
+            Object.entries(messages).forEach(msg => {
+                const [key, value] = msg;
+                toastService.$emit('message', {message: value, key: key})
+            });
         },
 
     }

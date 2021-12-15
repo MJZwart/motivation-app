@@ -1,7 +1,6 @@
 import axios from 'axios';
 import router from './router/router.js';
 import store from './store/store.js';
-import toastService from '../js/services/toastService';
 
 window.axios = axios;
 
@@ -45,8 +44,8 @@ axios.interceptors.response.use(
                 sendErrorToast('You are not authorized for this action');
                 return Promise.reject(error);
             case 422:
-                sendErrorToast();
-                store.commit('setErrorMessages', errors);
+                sendErrorToast(error.response.data.message);
+                store.commit('setErrorMessages', error.response.data.errors);
                 return Promise.reject(error);
             default:
                 return Promise.reject(error);
@@ -55,5 +54,6 @@ axios.interceptors.response.use(
 );
 
 function sendErrorToast(toastMessage){
-    toastService.$emit('message', {message: toastMessage, variant: 'danger'});
+    let toastObject = {'error': toastMessage};
+    store.dispatch('sendToasts', toastObject)
 }

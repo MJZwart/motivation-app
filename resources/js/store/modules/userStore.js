@@ -73,12 +73,12 @@ export default {
         register: ({ commit }, user) => {
             axios.post('/register', user).then(response => {
                 router.push('/login').catch(() => { });
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
             });
         },
         confirmRegister: ({ commit }, user) => {
             axios.post('/register/confirm', user).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('setUser', response.data.user);
                 router.push('/').catch(() => {});
             });
@@ -102,25 +102,25 @@ export default {
         updatePassword: ({commit, dispatch}, passwords) => {
             axios.put('/user/settings/password', passwords).then(response => {
                 dispatch('logout');
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
             });
         },
         updateEmail: ({commit}, email) => {
             axios.put('/user/settings/email', email).then(response => {
                 commit('setUser', response.data.user);
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
             });
         },
         updateSettings: ({commit}, settings) => {
             axios.put('/user/settings', settings).then(response => {
                 commit('setUser', response.data.user);
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
             });
         },
         changeRewardType: ({commit}, user) => {
             return axios.put('/user/settings/rewards', user).then(response => {
                 commit('setUser', response.data.user);
-                commit('setResponseMessage', response.data.message, {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 if(response.data.user.rewards == 'CHARACTER'){
                     commit('character/setCharacter', response.data.activeReward, {root:true});
                 }
