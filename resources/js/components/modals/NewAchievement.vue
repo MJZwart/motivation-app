@@ -74,7 +74,8 @@ export default {
     },
     methods: {
         submitAchievement() {
-            this.$store.dispatch('admin/newAchievement', this.achievement).then(() => {
+            this.achievement.trigger_amount = parseInt(this.achievement.trigger_amount);
+            this.$store.dispatch('admin/newAchievement', this.achievement).then(response => {
                 this.close();
             });
         },

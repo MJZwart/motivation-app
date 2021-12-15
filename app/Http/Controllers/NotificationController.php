@@ -49,6 +49,6 @@ class NotificationController extends Controller
             'title' => $validated['title'],
             'text' => $validated['text']]);
         }
-        return new JsonResponse(['message' => ['message' => ['Notification sent.']]]);
+        return new JsonResponse(['message' => ['success' => ['Notification sent.']]]);
     }
 }

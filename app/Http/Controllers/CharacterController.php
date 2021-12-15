@@ -32,7 +32,7 @@ class CharacterController extends Controller
 
         $character = new CharacterResource($character);
         
-        return new JsonResponse(['message' => ['message' => ["Character successfully updated."]], 'data' => $character], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ["Character successfully updated."]], 'data' => $character], Response::HTTP_OK);
     }
 
     public function getExperienceTable(){

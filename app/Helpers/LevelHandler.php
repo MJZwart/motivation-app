@@ -48,7 +48,7 @@ class LevelHandler {
                 $returnMessage->$key = (array)$message;
             }
         }
-        $returnMessage->complete = ['Task completed.'];
+        $returnMessage->success = ['Task completed.'];
         $returnValue = new \stdClass();
         $returnValue->character = $character; //Add the newly levelled character on the return value
         $returnValue->message = $returnMessage; //As well as the messages for the user.
