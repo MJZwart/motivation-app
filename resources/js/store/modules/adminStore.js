@@ -1,4 +1,5 @@
-import axios from "axios";
+// @ts-nocheck
+import axios from 'axios';
 
 export default {
 
@@ -11,7 +12,8 @@ export default {
         //
     },
     getters: {
-        isAdmin: (state, getters, rootState, rootGetters) => {
+        //TODO check if this still works
+        isAdmin: rootGetters => {
             return rootGetters['user/getUser'].admin;
         },
     },
@@ -19,21 +21,21 @@ export default {
         checkAdmin: () => {
             axios.get('/isadmin');
         },
-        newAchievement: ({ commit, dispatch }, achievement) => {
+        newAchievement: ({commit, dispatch}, achievement) => {
             return axios.post('/achievements', achievement).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
         },
-        editAchievement: ({ commit, dispatch }, achievement) => {
+        editAchievement: ({commit, dispatch}, achievement) => {
             return axios.put('/achievements/' + achievement.id, achievement).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
         },
-        sendNotification: ({ commit, dispatch }, notification) => {
+        sendNotification: ({dispatch}, notification) => {
             axios.post('/notifications/all', notification).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
             });

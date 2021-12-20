@@ -33,21 +33,15 @@
 
 
 <script>
-import {mapGetters} from 'vuex';
 export default {
-    components: { },
     mounted() {
         this.$store.dispatch('admin/checkAdmin');
     },
     data() {
         return {
+            /** @type {import('resources/types/notification').Notification} */
             notification: {},
         }
-    },
-    computed: {
-        ...mapGetters({
-            
-        }),
     },
     methods: {
         /** Sends notification to all members */

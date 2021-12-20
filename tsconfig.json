@@ -16,8 +16,6 @@
         "esModuleInterop": true,
         "checkJs": true,
         "allowSyntheticDefaultImports": true,
-        "vetur.validation.interpolation": false,
-        "vetur.validation.script": false,
         "baseUrl": ".",
         "paths": {
             "assets/*": ["./resources/assets/*"],

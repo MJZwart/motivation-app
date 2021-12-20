@@ -29,11 +29,6 @@ export default {
     mounted() {
         this.$store.dispatch('user/getOverview',  {root:true});
     },
-    data() {
-        return {
-            
-        }
-    },
     computed: {
         ...mapGetters({
             character: 'character/getCharacter',

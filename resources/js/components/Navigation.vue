@@ -14,7 +14,7 @@
 
             <b-navbar-nav class="ml-auto">
                 <b-nav-item v-if="authenticated">
-                    <search-bar></search-bar>
+                    <search-bar />
                 </b-nav-item>
                 <b-nav-item v-if="authenticated" to="/notifications">
                     <b-iconstack class="icon-nav-stack">
@@ -53,7 +53,6 @@ export default {
             admin: 'admin/isAdmin',
         }),
     },
-
     methods: {
         logout() {
             this.$store.dispatch('user/logout');

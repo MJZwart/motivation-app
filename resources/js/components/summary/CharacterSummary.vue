@@ -39,18 +39,31 @@
 import EditCharacterName from '../modals/EditCharacterName.vue';
 export default {
     props: {
-        character: Object,
-        userCharacter: Boolean,
+        character: {
+            /** @type {import('resources/types/character').Character} */
+            type: Object,
+            required: true,
+        },
+        userCharacter: {
+            type: Boolean,
+            required: true,
+        },
     },
     components: {
         EditCharacterName,
     },
     data() {
         return {
+            /** @type {import('resources/types/character').Character} */
             characterToEdit: null,
         }
     },
     methods: {
+        /**
+         * Calculates the experience needed to level up, in order to display the bar correctly
+         * There must be a better way than this
+         * @param {Number} level
+         */
         experienceToLevel(level) {
             const index = this.character.experienceTable.findIndex(item => item.level == level);
             if (index >= 0) {

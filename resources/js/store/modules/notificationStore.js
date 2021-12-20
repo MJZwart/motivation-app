@@ -1,4 +1,5 @@
-import axios from "axios";
+// @ts-nocheck
+import axios from 'axios';
 
 export default {
 
@@ -17,23 +18,23 @@ export default {
         },
     },
     getters: {
-        getNotifications: (state) => {
+        getNotifications: state => {
             return state.notifications;
         },
-        getHasNotifications: (state) => {
+        getHasNotifications: state => {
             return state.hasNotifications;
         },
     },
     actions: {
         getNotifications: ({commit}) => {
-            axios.get('/notifications').then(function(response){
+            axios.get('/notifications').then(function(response) {
                 commit('setNotifications', response.data.data);
             });
         },
         hasUnreadNotifications: ({commit}) => {
-            axios.get('/notifications/unread').then(function(response){
+            axios.get('/notifications/unread').then(function(response) {
                 commit('setHasNotifications', response.data);
             });
         },
-    }
+    },
 }

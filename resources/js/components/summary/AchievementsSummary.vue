@@ -5,7 +5,9 @@
             <ul class="summary-list">
                 <li v-for="(achievement, index) in achievements" :key="index">
                     <span>{{achievement.name}}</span>
-                    <p class="silent">{{achievement.description}} {{achievement.trigger_description}} {{ $t('earned-on') }}: {{achievement.pivot.earned}}</p>
+                    <p class="silent">
+                        {{achievementSummary}}
+                    </p>
                 </li>
             </ul>
         </div>
@@ -14,9 +16,19 @@
 
 
 <script>
+import {t} from 'vue-i18n';
 export default {
     props: {
-        achievements: Array,
+        achievements: {
+            type: Array,
+            required: true,
+        },
+    },
+    computed: {
+        achievementSummary() {
+            return this.achievement.description+' '+this.achievement.trigger_description+' '
+            +t('earned-on')+': '+this.achievement.pivot.earned;
+        },
     },
 }
 </script>
