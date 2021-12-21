@@ -10,6 +10,9 @@
             <li v-if="authenticated">
                 <router-link to="/friends">Friends</router-link>
             </li>
+            <li v-if="authenticated">
+                <router-link to="/bugreports">BugReports</router-link>
+            </li>
 
             <li v-if="admin">
                 <router-link to="/achievements">Achievements</router-link>
