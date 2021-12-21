@@ -16,7 +16,6 @@
 
 
 <script>
-import {t} from 'vue-i18n';
 export default {
     props: {
         achievements: {
@@ -27,7 +26,7 @@ export default {
     computed: {
         achievementSummary() {
             return this.achievement.description+' '+this.achievement.trigger_description+' '
-            +t('earned-on')+': '+this.achievement.pivot.earned;
+            +this.$t('earned-on')+': '+this.achievement.pivot.earned;
         },
     },
 }

@@ -42,7 +42,6 @@
 
 
 <script>
-import {t} from 'vue-i18n';
 export default {
     props: {
         task: {
@@ -62,7 +61,7 @@ export default {
         },
         /** @param {import('resources/types/task').Task} task */
         deleteTask(task) {
-            const confirmationText = t('confirmation-delete-task', [task.name]);
+            const confirmationText = this.$t('confirmation-delete-task', [task.name]);
             //TODO Test text
             if (confirm(confirmationText)) {
                 this.$store.dispatch('task/deleteTask', task);
@@ -71,7 +70,7 @@ export default {
         /** @param {import('resources/types/task').Task} task */
         completeTask(task) {
             if (task.tasks.length > 0) {
-                if (confirm(t('complete-sub-task-confirmation'))) {
+                if (confirm(this.$t('complete-sub-task-confirmation'))) {
                     //TODO Test text
                     this.$store.dispatch('task/completeTask', task);
                 }
