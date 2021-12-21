@@ -62,7 +62,6 @@ export default {
         /** @param {import('resources/types/task').Task} task */
         deleteTask(task) {
             const confirmationText = this.$t('confirmation-delete-task', [task.name]);
-            //TODO Test text
             if (confirm(confirmationText)) {
                 this.$store.dispatch('task/deleteTask', task);
             }
@@ -71,7 +70,6 @@ export default {
         completeTask(task) {
             if (task.tasks.length > 0) {
                 if (confirm(this.$t('complete-sub-task-confirmation'))) {
-                    //TODO Test text
                     this.$store.dispatch('task/completeTask', task);
                 }
             } else {

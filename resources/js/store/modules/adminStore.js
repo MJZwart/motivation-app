@@ -12,7 +12,6 @@ export default {
         //
     },
     getters: {
-        //TODO check if this still works
         isAdmin: (state, getters, rootState, rootGetters) => {
             return rootGetters['user/getUser'].admin;
         },
