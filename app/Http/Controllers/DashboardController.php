@@ -11,6 +11,10 @@ use App\Http\Resources\CharacterResource;
 
 class DashboardController extends Controller
 {
+    /**
+     * Fetches the authenticated user's active task list and reward option
+     * Returns the task lists and character in an object
+     */
     public function getDashboard(){
         $user = Auth::user();
         $taskLists = TaskListResource::collection($user->taskLists);

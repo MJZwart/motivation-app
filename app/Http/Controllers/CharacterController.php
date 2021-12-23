@@ -14,11 +14,17 @@ use App\Helpers\CharacterHelper;
 
 class CharacterController extends Controller
 {
+    /**
+     * Returns all the characters owned by the authenticated user.
+     */
     public function fetchAllCharactersByUser(){ //tested only when exists TODO
         $characters = Character::where('user_id', Auth::user()->id)->get();
         return $characters ? CharacterResource::collection($characters) : null;
     }
 
+    /** 
+     * Returns the authenticated user's currently active character 
+     */
     public function fetchActiveCharacter(){ //tested TODO
         if(Auth::user()->rewards == 'CHARACTER'){
             $character = Character::where('user_id', Auth::user()->id)->where('active', true)->first();
@@ -26,6 +32,11 @@ class CharacterController extends Controller
         }
     }
 
+    /**
+     * Updates the given character with the given form input.
+     * Currently only accepts a name change
+     * Returns the updated character
+     */
     public function update(UpdateCharacterRequest $request, Character $character): JsonResponse{
         $validated = $request->validated();
         $character->update($validated);
@@ -35,6 +46,9 @@ class CharacterController extends Controller
         return new JsonResponse(['message' => ['success' => ["Character successfully updated."]], 'data' => $character], Response::HTTP_OK);
     }
 
+    /**
+     * Returns the experience table
+     */
     public function getExperienceTable(){
         return DB::table('experience_points')->get();
     }
