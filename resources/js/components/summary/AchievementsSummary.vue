@@ -7,7 +7,7 @@
                     <li v-for="(achievement, index) in achievements" :key="index">
                         <span>{{achievement.name}}</span>
                         <p class="silent">
-                            {{achievementSummary}}
+                            {{achievementSummary(achievement)}}
                         </p>
                     </li>
                 </ul>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <character-summary v-if="character" :character="character" />
+            <character-summary v-if="character" :character="character" :userCharacter="true" />
         </div>
         <div v-if="userStats">
             <span class="card-title">{{ $t('stats') }}</span>
