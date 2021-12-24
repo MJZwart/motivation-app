@@ -1,10 +1,10 @@
 <template>
     <div>
-        <navigation></navigation>
+        <navigation />
         <div class="content">
-            <router-view></router-view>
+            <router-view />
         </div>
-        <footer-comp></footer-comp>
+        <footer-comp />
     </div>
 </template>
 
@@ -13,7 +13,7 @@ import Navigation from './components/Navigation.vue';
 import FooterComp from './components/FooterComp.vue';
 
 export default {
-    components: { Navigation, FooterComp },
+    components: {Navigation, FooterComp},
     
 };
 </script>

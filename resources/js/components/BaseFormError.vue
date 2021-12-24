@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { BFormInvalidFeedback } from "bootstrap-vue";
+import {BFormInvalidFeedback} from 'bootstrap-vue';
 import {mapGetters} from 'vuex';
 export default {
     components: {BFormInvalidFeedback},
@@ -12,11 +12,11 @@ export default {
     },
     computed: {
         ...mapGetters({
-            responseMessage: "getErrorMessages",
+            responseMessage: 'getErrorMessages',
         }),
         errorMsg() {
             const errors = this.responseMessage;
-            if(!this.name || !errors) {
+            if (!this.name || !errors) {
                 return '';
             }
             return (errors[this.name] || [])[0] || '';

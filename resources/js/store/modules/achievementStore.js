@@ -1,4 +1,5 @@
-import axios from "axios";
+// @ts-nocheck
+import axios from 'axios';
 
 export default {
 
@@ -21,13 +22,13 @@ export default {
         },
     },
     getters: {
-        getAchievements: (state) => {
+        getAchievements: state => {
             return state.achievements;
         },
-        getAchievementsByUser: (state) => {
+        getAchievementsByUser: state => {
             return state.achievements;
         },
-        getAchievementTriggers: (state) => {
+        getAchievementTriggers: state => {
             return state.achievementTriggers;
         },
     },
@@ -42,5 +43,5 @@ export default {
                 commit('setAchievementTriggers', response.data);
             });
         },
-    }
+    },
 }

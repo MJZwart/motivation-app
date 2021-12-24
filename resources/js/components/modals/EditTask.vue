@@ -5,54 +5,54 @@
                 :label="$t('task-name')" 
                 label-for="name">
                 <b-form-input 
-                    type="text" 
                     id="name" 
+                    v-model="editedTask.name"
+                    type="text" 
                     name="name" 
-                    :placeholder="$t('name')" 
-                    v-model="editedTask.name" />
+                    :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('description-optional')" 
                 label-for="description">
                 <b-form-input 
-                    type="text" 
                     id="description" 
+                    v-model="editedTask.description"
+                    type="text" 
                     name="description" 
-                    :placeholder="$t('description')" 
-                    v-model="editedTask.description" />
+                    :placeholder="$t('description')"  />
             </b-form-group>
             <b-form-group
                 :label="$t('type')" 
                 label-for="type">
                 <b-form-select
-                    name="type"
                     id="type"
-                    :options="taskTypes"
-                    v-model="editedTask.type" />
+                    v-model="editedTask.type"
+                    name="type"
+                    :options="taskTypes" />
                 <base-form-error name="type" /> 
             </b-form-group>
             <b-form-group
                 :label="'Difficulty: '+editedTask.difficulty+'/5'" 
                 label-for="difficulty">
                 <b-form-input 
+                    id="difficulty"
+                    v-model="editedTask.difficulty"
                     type="range"
                     name="difficulty"
-                    id="difficulty"
                     min="1"
                     max="5"
-                    value="3"
-                    v-model="editedTask.difficulty" />
+                    value="3" />
                 <base-form-error name="difficulty" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('repeatable')" 
                 label-for="repeatable">
                 <b-form-select
-                    name="repeatable"
                     id="repeatable"
-                    :options="repeatables"
-                    v-model="editedTask.repeatable" />
+                    v-model="editedTask.repeatable"
+                    name="repeatable"
+                    :options="repeatables" />
                 <base-form-error name="repeatable" /> 
             </b-form-group>
             <b-form-group>
@@ -68,32 +68,38 @@
 
 <script>
 import BaseFormError from '../BaseFormError.vue';
-import { TASK_TYPES, REPEATABLES } from '../../constants/taskConstants';
+import {TASK_TYPES, REPEATABLES} from '../../constants/taskConstants';
+import Vue from 'vue';
 
 export default {
     components: {BaseFormError},
     props: {
-        task: Object,
+        task: {
+            /** @type {import('../../../types/task').Task} */
+            type: Object,
+            required: true,
+        },
     },
     data() {
         return {
+            /** @type {import('../../../types/task').Task} */
             editedTask: {},
             taskTypes: TASK_TYPES,
             repeatables: REPEATABLES,
         }
     },
-    mounted(){
+    mounted() {
         this.task ? this.editedTask = Vue.util.extend({}, this.task) : this.editedTask = {};
     },
     methods: {
-        updateTask(){
-            this.$store.dispatch('task/updateTask', this.editedTask).then(response => {
+        updateTask() {
+            this.$store.dispatch('task/updateTask', this.editedTask).then(() => {
                 this.close();
             });
         },
-        close(){
+        close() {
             this.$emit('close');
-        }
+        },
     },
 }
 </script>

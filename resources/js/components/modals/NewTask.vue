@@ -5,30 +5,30 @@
                 :label="$t('task-name')" 
                 label-for="name">
                 <b-form-input 
-                    type="text" 
                     id="name" 
+                    v-model="task.name"
+                    type="text" 
                     name="name" 
-                    :placeholder="$t('name')"
-                    v-model="task.name" />
+                    :placeholder="$t('name')" />
                 <base-form-error name="name" /> 
             </b-form-group >
             <b-form-group
                 :label="$t('description-optional')" 
                 label-for="description">
                 <b-form-input  
-                    type="text" 
                     id="description" 
+                    v-model="task.description"
+                    type="text" 
                     name="description" 
-                    :placeholder="$t('description')" 
-                    v-model="task.description" />
+                    :placeholder="$t('description')"  />
             </b-form-group>
             <b-form-group
                 :label="$t('type')" 
                 label-for="type">
                 <b-form-select
-                    name="type"
                     id="type"
                     v-model="task.type"
+                    name="type"
                     :options="taskTypes" />
                 <base-form-error name="type" /> 
             </b-form-group>
@@ -36,22 +36,22 @@
                 :label="$t('difficulty')+': '+task.difficulty+'/5'"
                 label-for="difficulty">
                 <b-form-input 
+                    id="difficulty"
+                    v-model="task.difficulty"
                     type="range"
                     name="difficulty"
-                    id="difficulty"
                     min="1"
                     max="5"
-                    value="3"
-                    v-model="task.difficulty" />
+                    value="3" />
                 <base-form-error name="difficulty" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('repeatable')" 
                 label-for="repeatable">
                 <b-form-select
-                    name="repeatable"
                     id="repeatable"
                     v-model="task.repeatable"
+                    name="repeatable"
                     :options="repeatables" />
                 <base-form-error name="repeatable" /> 
             </b-form-group>
@@ -68,18 +68,27 @@
 
 <script>
 import BaseFormError from '../BaseFormError.vue';
-import { TASK_TYPES, REPEATABLES } from '../../constants/taskConstants';
+import {TASK_TYPES, REPEATABLES} from '../../constants/taskConstants';
 
 export default {
     components: {
         BaseFormError,
     },
     props: {
-        taskList: Object,
-        superTask: Object,
+        taskList: {
+            /** @type {import('../../../types/task').TaskList} */
+            type: Object,
+            required: true,
+        },
+        superTask: {
+            /** @type {import('../../../types/task').Task} */
+            type: Object,
+            required: false,
+        },
     },
     data() {
         return {
+            /** @type {import('../../../types/task').Task} */
             task: {
                 difficulty: 3,
                 type: 1,
@@ -90,22 +99,22 @@ export default {
         }
     },
     methods: {
-        submitTask(){
-            this.task.super_task_id = this.superTask ? this.superTask.id : null;
+        submitTask() {
+            this.task.super_task = this.superTask ? this.superTask.id : null;
             this.task.task_list_id = this.taskList.id || null;
             var self = this;
-            this.$store.dispatch('task/storeTask', this.task).then(function(){
+            this.$store.dispatch('task/storeTask', this.task).then(function() {
                 self.close();
             });
         },
-        close(){
+        close() {
             this.task = {
                 difficulty: 3,
                 type: 1,
                 repeatable: 'NONE',
             },
             this.$emit('close');
-        }
+        },
     },
 }
 </script>

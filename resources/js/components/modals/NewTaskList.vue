@@ -5,11 +5,11 @@
                 :label="$t('task-list-name')" 
                 label-for="name">
                 <b-form-input 
-                    type="text" 
                     id="name" 
+                    v-model="taskList.name"
+                    type="text" 
                     name="name" 
-                    :placeholder="$t('name')" 
-                    v-model="taskList.name" />
+                    :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
             </b-form-group>
             <b-button type="submit" block>Create new task list</b-button>
@@ -27,21 +27,22 @@ export default {
     },
     data() {
         return {
+            /** @type {import('resources/types/task').TaskList} */
             taskList: {},
         }
     },
     methods: {
-        submitTaskList(){
+        submitTaskList() {
             var self = this;
-            this.$store.dispatch('taskList/storeTaskList', this.taskList).then(function(){
+            this.$store.dispatch('taskList/storeTaskList', this.taskList).then(function() {
                 self.close();
             });
 
         },
-        close(){
+        close() {
             this.taskList = {},
             this.$emit('close');
-        }
+        },
     },
 }
 </script>

@@ -4,9 +4,16 @@ import Vue from 'vue';
 
 const toastService = new Vue();
 
+/**
+ * 
+ * @param {Object} obj 
+ * @param {String} obj.message
+ * @param {String} obj.key
+ */
 const messageHandler = ({message, key}) => {
     const {title, variant} = getTitleAndVariant(key);
 
+    // @ts-ignore
     toastService.$app.$bvToast.toast(message, {
         title,
         toaster: 'b-toaster-top-center',
@@ -17,9 +24,15 @@ const messageHandler = ({message, key}) => {
     });
 };
 
-const getTitleAndVariant = (variant) => {
+/**
+ * 
+ * @param {Object} variant 
+ * @returns Object
+ */
+// eslint-disable-next-line complexity
+const getTitleAndVariant = variant => {
     let variables = {};
-    switch(variant){
+    switch (variant) {
         case 'danger':
         case 'error':
             variables.title = 'Error';

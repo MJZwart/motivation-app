@@ -5,11 +5,11 @@
                 :label="$t('character-name')" 
                 label-for="name">
                 <b-form-input 
-                    type="text" 
                     id="name" 
+                    v-model="editedCharacter.name"
+                    type="text" 
                     name="name" 
-                    :placeholder="$t('name')" 
-                    v-model="editedCharacter.name" />
+                    :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
             </b-form-group>
             <b-button type="submit" block>{{ $t('update-character-name') }}</b-button>
@@ -22,30 +22,36 @@
 
 <script>
 import BaseFormError from '../BaseFormError.vue';
+import Vue from 'vue';
 export default {
     components: {BaseFormError},
     props: {
-        character: Object,
+        character: {
+            /** @type {import('../../../types/character').Character} */
+            type: Object,
+            required: true,
+        },
     },
     data() {
         return {
+            /** @type {import('../../../types/character').Character} */
             editedCharacter: {},
         }
     },
-    mounted(){
+    mounted() {
         this.character ? this.editedCharacter = Vue.util.extend({}, this.character) : this.editedCharacter = {};
     },
     methods: {
-        updateCharacter(){
+        updateCharacter() {
             var self = this;
-            this.$store.dispatch('character/updateCharacter', this.editedCharacter).then(function(){
+            this.$store.dispatch('character/updateCharacter', this.editedCharacter).then(function() {
                 self.close();
             });
         },
-        close(){
+        close() {
             this.editedCharacter = {},
             this.$emit('close');
-        }
+        },
     },
 }
 </script>

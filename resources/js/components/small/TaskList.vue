@@ -4,21 +4,21 @@
             <span class="ml-auto">
                 <b-icon-pencil-square 
                     class="icon-small"
-                    @click="editTaskList()"></b-icon-pencil-square>
+                    @click="editTaskList()" />
                 <b-icon-trash 
                     class="icon-small"
-                    @click="deleteTaskList()"></b-icon-trash>
+                    @click="deleteTaskList()" />
             </span>
 
         </span>
         <template v-for="task in taskList.tasks">
 
             <task 
-                :task="task" 
                 :key="task.id" 
+                :task="task" 
                 class="task side-border" 
                 v-on:newTask="openNewTask"
-                v-on:editTask="editTask"></task>
+                v-on:editTask="editTask" />
 
         </template>
         <b-button block class="bottom-radius" @click="openNewTask(null)">{{ $t('add-new-task') }}</b-button>
@@ -31,21 +31,27 @@ import Task from './Task.vue';
 export default {
     components: {Task},
     props: {
-        taskList: Object,
+        taskList: {
+            /** @type {import('resources/types/task').TaskList} */
+            type: Object,
+            required: true,
+        },
     },
     methods: {
-        openNewTask(task){
+        /** @param {import('resources/types/task').Task} */
+        openNewTask(task) {
             this.$emit('newTask', task, this.taskList);
         },
-        editTask(task){
+        /** @param {import('resources/types/task').Task} */
+        editTask(task) {
             this.$emit('editTask', task);
         },
-        editTaskList(){
+        editTaskList() {
             this.$emit('editTaskList', this.taskList);
         },
-        deleteTaskList(){
+        deleteTaskList() {
             this.$emit('deleteTaskList', this.taskList);
         },
-    }
+    },
 }
 </script>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 window._ = require('lodash');
 
 /**

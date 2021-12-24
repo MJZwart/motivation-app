@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\ConfirmRegisterRequest;
 use App\Models\User;
@@ -18,14 +17,22 @@ use App\Helpers\AchievementHandler;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     * Creates a new user with a hashed password. Returns confirmation.
+     */
     public function store(RegisterUserRequest $request): JsonResponse{
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
-        $user = User::create($validated);
+        User::create($validated);
         $successMessage = "You have successfully registered. You can now login with your chosen username.";
         return new JsonResponse(['message' => ['sucess' => [$successMessage]]], Response::HTTP_OK);
     }
 
+    /**
+     * Sets additional new-user settings:
+     * * The reward type, with a new instance of this reward if applicable
+     * * Optionally chosen example tasks
+     */
     public function confirmRegister(ConfirmRegisterRequest $request): JsonResponse{
         $request->validated();
         $user = Auth::user();
@@ -53,6 +60,13 @@ class RegisteredUserController extends Controller
         return new JsonResponse(['message' => ['success' => [$successMessage]], 'user' => new UserResource(Auth::user())]);
     }
 
+    /**
+     * Copies the example tasks from the database and adds a new instance of them to the user
+     *
+     * @param Array $tasks
+     * @param Integer $userId
+     * @param Integer $taskListId
+     */
     private function addExampleTasks($tasks, $userId, $taskListId){
         for($i = 0 ; $i < count($tasks) ; $i ++){
             $task = ExampleTask::find($tasks[$i]);

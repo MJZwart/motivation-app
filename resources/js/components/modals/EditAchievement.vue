@@ -5,42 +5,45 @@
                 :label="$t('achievement-name')" 
                 label-for="name">
                 <b-form-input  
-                    type="text" 
                     id="name" 
+                    v-model="achievementToEdit.name"
+                    type="text" 
                     name="name" 
-                    :placeholder="$t('name')" 
-                    v-model="achievementToEdit.name" />
+                    :placeholder="$t('name')"  />
+                <base-form-error name="name" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('achievement-description')" 
                 label-for="description">
                 <b-form-input  
-                    type="text" 
                     id="description" 
+                    v-model="achievementToEdit.description"
+                    type="text" 
                     name="description" 
-                    :placeholder="$t('description')" 
-                    v-model="achievementToEdit.description" />
+                    :placeholder="$t('description')"  />
+                <base-form-error name="description" /> 
             </b-form-group>
             <b-form-group
-                :label="$t('achievement-type')" 
+                :label="$t('trigger-type')" 
                 label-for="type">
                 <b-select 
                     id="type" 
                     v-model="achievementToEdit.trigger_type"
                     :options="achievementTriggers"
                     value-field="trigger_type"
-                    text-field="trigger_type">
-                </b-select>
+                    text-field="trigger_type" />
+                <base-form-error name="trigger_type" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('trigger-amount')" 
-                label-for="amount">
+                label-for="trigger_amount">
                 <b-form-input  
+                    id="trigger_amount" 
+                    v-model="achievementToEdit.trigger_amount"
                     type="number" 
-                    id="amount" 
-                    name="amount" 
-                    :placeholder="$t('amount')" 
-                    v-model="achievementToEdit.trigger_amount" />
+                    name="trigger_amount" 
+                    :placeholder="$t('amount')"  />
+                <base-form-error name="trigger_amount" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('trigger-description')" 
@@ -57,9 +60,14 @@
 <script>
 import BaseFormError from '../BaseFormError.vue';
 import {mapGetters} from 'vuex';
+import Vue from 'vue';
 export default {
     props: {
-        achievement: Object,
+        achievement: {
+            /** @type {import('resources/types/achievement').Achievement} */
+            type: Object,
+            required: true,
+        },
     },
     mounted() {
         this.achievementToEdit = Vue.util.extend({}, this.achievement);
@@ -69,36 +77,35 @@ export default {
     },
     data() {
         return {
+            /** @type {import('resources/types/achievement').Achievement} */
             achievementToEdit: {
                 
             },
         }
     },
     methods: {
-        updateAchievement(){
-            this.$store.dispatch('admin/editAchievement', this.achievementToEdit).then(response => {
+        updateAchievement() {
+            this.$store.dispatch('admin/editAchievement', this.achievementToEdit).then(() => {
                 this.close();
             });
 
         },
-        close(){
+        close() {
             this.achievementToEdit = {},
             this.$emit('close');
-        }
+        },
     },
     computed: {
         ...mapGetters({
             achievementTriggers: 'achievement/getAchievementTriggers',
         }),
+        /** Parses the achievement description from the type (eg Made {0} friends) and the amount */
         triggerDescription() {
-            if(this.achievementToEdit.trigger_type){
-                const plural = this.achievement.trigger_amount > 1 ? 's' : '';
-                let desc = this.achievementTriggers.find(item => item.trigger_type === this.achievement.trigger_type);
-                desc = desc.trigger_description.replace('%d', this.achievement.trigger_amount);
-                return desc.replace('%s', plural);
-            }
+            const plural = this.achievement.trigger_amount > 1 ? 's' : '';
+            let desc = this.achievementTriggers.find(item => item.trigger_type === this.achievement.trigger_type);
+            desc = desc.trigger_description.replace('%d', this.achievement.trigger_amount);
+            return desc.replace('%s', plural);
         },
     },
-    
 }
 </script>

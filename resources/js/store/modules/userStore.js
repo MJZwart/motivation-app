@@ -1,4 +1,5 @@
-import axios from "axios";
+// @ts-nocheck
+import axios from 'axios';
 import router from '../../router/router.js';
 
 export default {
@@ -32,35 +33,36 @@ export default {
         },
     },
     getters: {
-        authenticated(state) {
+        authenticated: state => {
             return state.authenticated;
         },
-        getUser: (state) => {
+        getUser: state => {
             return state.user;
         },
-        getUserProfile: (state) => {
+        getUserProfile: state => {
             return state.userProfile;
         },
-        getUserStats: (state) => {
+        getUserStats: state => {
             return state.userStats;
         },
-        getSearchResults: (state) => {
+        getSearchResults: state => {
             return state.searchResults;
         },
     },
     actions: {
         //User authentication
-        login: ({ commit }, user) => {
-            axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
+        login: ({commit}, user) => {
+            //axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
+            axios.get('http://localhost:8000/sanctum/csrf-cookie').then(_ => {
                 axios.post('/login', user).then(response => {
                     commit('setUser', response.data.user);
                     commit('setAuthenticated', true);
-                    router.push('/').catch(()=>{});
+                    router.push('/').catch(() => {});
                 });
             });
         },
-        logout({ commit }) {
-            axios.post('/logout').then(response => {
+        logout({commit}) {
+            axios.post('/logout').then(() => {
                 commit('setUser', {});
                 commit('setAuthenticated', false);
                 router.push('/').catch(() => {
@@ -70,13 +72,13 @@ export default {
         },
 
         //New user
-        register: ({ dispatch }, user) => {
+        register: ({dispatch}, user) => {
             axios.post('/register', user).then(response => {
                 router.push('/login').catch(() => { });
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
-        confirmRegister: ({ commit, dispatch }, user) => {
+        confirmRegister: ({commit, dispatch}, user) => {
             axios.post('/register/confirm', user).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 commit('setUser', response.data.user);
@@ -85,13 +87,13 @@ export default {
         },
 
         //Public user profile
-        getUserProfile: ({ commit }, userId) => {
+        getUserProfile: ({commit}, userId) => {
             axios.get('/profile/' + userId).then(response => {
                 commit('setUserProfile', response.data.data);
             });
         },
 
-        getOverview: ({ commit }) => {
+        getOverview: ({commit}) => {
             axios.get('/overview').then(response => {
                 commit('setUserStats', response.data.stats);
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
@@ -99,29 +101,29 @@ export default {
             });
         },
 
-        updatePassword: ({ dispatch }, passwords) => {
+        updatePassword: ({dispatch}, passwords) => {
             axios.put('/user/settings/password', passwords).then(response => {
                 dispatch('logout');
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
-        updateEmail: ({ commit, dispatch }, email) => {
+        updateEmail: ({commit, dispatch}, email) => {
             axios.put('/user/settings/email', email).then(response => {
                 commit('setUser', response.data.user);
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
-        updateSettings: ({ commit, dispatch }, settings) => {
+        updateSettings: ({commit, dispatch}, settings) => {
             axios.put('/user/settings', settings).then(response => {
                 commit('setUser', response.data.user);
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
-        changeRewardType: ({ commit, dispatch }, user) => {
+        changeRewardType: ({commit, dispatch}, user) => {
             return axios.put('/user/settings/rewards', user).then(response => {
                 commit('setUser', response.data.user);
                 dispatch('sendToasts', response.data.message, {root:true});
-                if(response.data.user.rewards == 'CHARACTER'){
+                if (response.data.user.rewards == 'CHARACTER') {
                     commit('character/setCharacter', response.data.activeReward, {root:true});
                 }
                 return Promise.resolve();

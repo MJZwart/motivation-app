@@ -2,6 +2,7 @@ import axios from 'axios';
 import router from './router/router.js';
 import store from './store/store.js';
 
+// @ts-ignore
 window.axios = axios;
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -14,6 +15,7 @@ axios.interceptors.response.use(
         // do nothing, return response
         return response;
     },
+    // eslint-disable-next-line complexity
     function (error) {
         if (!error.response) {
             return Promise.reject(error);
@@ -38,7 +40,7 @@ axios.interceptors.response.use(
                     store.dispatch('user/logout', false);
                 }
                 sendErrorToast('You are not logged in');
-                return Promise.reject(error, false);
+                return Promise.reject(error);
             // user tried to access unauthorized resource
             case 403:
                 sendErrorToast('You are not authorized for this action');
@@ -50,10 +52,14 @@ axios.interceptors.response.use(
             default:
                 return Promise.reject(error);
         }
-    }
+    },
 );
 
-function sendErrorToast(toastMessage){
+/**
+ * Sends a toast with the type of 'danger'
+ * @param {String} toastMessage 
+ */
+function sendErrorToast(toastMessage) {
     let toastObject = {'error': toastMessage};
     store.dispatch('sendToasts', toastObject)
 }

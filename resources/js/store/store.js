@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 import taskListStore from './modules/taskListStore.js';
 import taskStore from './modules/taskStore.js';
@@ -10,7 +10,7 @@ import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
 import toastService from '../services/toastService';
-import axios from "axios";
+import axios from 'axios';
 
 Vue.use(Vuex);
 
@@ -32,18 +32,18 @@ export default new Vuex.Store({
     },
     mutations: {
         //Errors and response
-        setErrorMessages(state, response){
+        setErrorMessages(state, response) {
             state.errors = response;
         },
     },
     getters: {
         //Errors and response
-        getErrorMessages: (state) => {
+        getErrorMessages: state => {
             return state.errors;
         },
     },
     actions: {
-        clearErrors({ commit }) {
+        clearErrors({commit}) {
             commit('setErrorMessages', []);
         },
         getDashboard: ({commit}) => {
@@ -59,15 +59,13 @@ export default new Vuex.Store({
          * In the JsonResponse, name the response message 'success', 'danger' or 'info' 
          * to get corresponding themes and titles.
          * 
-         * @param {*} 
          * @param {Object} messages 
          */
-        sendToasts({}, messages){
+        sendToasts(_, messages) {
             Object.entries(messages).forEach(msg => {
                 const [key, value] = msg;
                 toastService.$emit('message', {message: value, key: key})
             });
         },
-
-    }
+    },
 });

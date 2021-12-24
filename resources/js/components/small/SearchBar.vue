@@ -1,9 +1,9 @@
 <template>
     <div>
-        <b-form class="navbar-search">
-            <b-form-input type="search" :placeholder="$t('search-user')" aria-label="Search user" v-model="data.userSearch"></b-form-input>
+        <form class="navbar-search">
+            <b-form-input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
             <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 
@@ -13,17 +13,17 @@ export default {
     data() {
         return {
             data: {
-                userSearch: "",
+                userSearch: '',
             },
-            
         }
     },
     methods: {
+        /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
         searchUser() {
             this.$store.dispatch('user/searchUser', this.data);
-            this.$router.push({path: '/search'}).catch(()=>{});
-            this.data.userSearch = "";
-        }
+            this.$router.push({path: '/search'}).catch(() => {});
+            this.data.userSearch = '';
+        },
     },
 }
 </script>

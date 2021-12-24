@@ -10,7 +10,7 @@
                         v-on:newTask="showNewTask"
                         v-on:editTask="showEditTask"
                         v-on:editTaskList="showEditTaskList"
-                        v-on:deleteTaskList="showDeleteTaskList"></task-list>
+                        v-on:deleteTaskList="showDeleteTaskList" />
                 </template>
                 <div class="task-list">
                     <b-button type="button" block @click="showNewTaskList">{{ $t('create-new-task-list') }}</b-button>
@@ -18,18 +18,27 @@
             </div>
 
             <div class="right-align">
-                <character-summary class="summary-tab" :character="character" :userCharacter="true" v-if="character"></character-summary>
+                <character-summary v-if="character" class="summary-tab" :character="character" :userCharacter="true" />
 
-                <friends-summary class="summary-tab"></friends-summary>
+                <friends-summary class="summary-tab" />
             </div>
         </div>
 
-        <b-modal id="new-task" hide-footer :title="$t('new-task')"><new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask"></new-task></b-modal>
-        
-        <b-modal id="edit-task" hide-footer :title="$t('edit-task')"><edit-task @close="closeEditTask" :task="taskToEdit"></edit-task></b-modal>
-        <b-modal id="new-task-list" hide-footer :title="$t('new-task-list')"><new-task-list @close="closeNewTaskList"></new-task-list></b-modal>
-        <b-modal id="edit-task-list" hide-footer :title="$t('edit-task-list')"><edit-task-list @close="closeEditTaskList" :taskList="taskListToEdit"></edit-task-list></b-modal>
-        <b-modal id="delete-task-list-confirm" hide-footer :title="$t('delete-task-list-confirm')"><delete-task-list-confirm @close="closeDeleteTaskList" :taskList="taskListToDelete"></delete-task-list-confirm></b-modal>
+        <b-modal id="new-task" hide-footer :title="$t('new-task')">
+            <new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
+        </b-modal>
+        <b-modal id="edit-task" hide-footer :title="$t('edit-task')">
+            <edit-task :task="taskToEdit"  @close="closeEditTask"/>
+        </b-modal>
+        <b-modal id="new-task-list" hide-footer :title="$t('new-task-list')">
+            <new-task-list @close="closeNewTaskList" />
+        </b-modal>
+        <b-modal id="edit-task-list" hide-footer :title="$t('edit-task-list')">
+            <edit-task-list :taskList="taskListToEdit" @close="closeEditTaskList" />
+        </b-modal>
+        <b-modal id="delete-task-list-confirm" hide-footer :title="$t('delete-task-list-confirm')">
+            <delete-task-list-confirm :taskList="taskListToDelete" @close="closeDeleteTaskList" />
+        </b-modal>
     
     </div>
 </template>
@@ -46,20 +55,38 @@ import DeleteTaskListConfirm from '../components/modals/DeleteTaskListConfirm.vu
 import CharacterSummary from '../components/summary/CharacterSummary.vue';
 import FriendsSummary from '../components/summary/FriendsSummary.vue';
 export default {
-    components: { TaskList, NewTask, EditTask, NewTaskList, EditTaskList, DeleteTaskListConfirm, CharacterSummary, FriendsSummary},
-    data(){
+    components: { 
+        TaskList, 
+        NewTask, 
+        EditTask, 
+        NewTaskList, 
+        EditTaskList, 
+        DeleteTaskListConfirm, 
+        CharacterSummary, 
+        FriendsSummary},
+    data() {
         return {
+            /** @type {import('../../types/task').Task | null} */
             superTask: null,
-            taskList: null,
+            /** @type {import('../../types/task').Task | null} */
             taskToEdit: null,
+            /** @type {import('../../types/task').TaskList | null} */
+            taskList: null,
+            /** @type {import('../../types/task').TaskList | null} */
             taskListToEdit: null,
+            /** @type {import('../../types/task').TaskList | null} */
             taskListToDelete: null,
         }
     },
-    mounted(){
+    mounted() {
+        //Fetches all dashboard data and stores it in the store
         this.$store.dispatch('getDashboard');
     },
     methods: {
+        /** Shows and hides the modal to create a new task. 
+         * @param {import('../../types/task').Task} superTask 
+         * @param {import('../../types/task').TaskList} taskList
+         */
         showNewTask(superTask, taskList) {
             this.$store.dispatch('clearErrors');
             this.superTask = superTask;
@@ -71,15 +98,21 @@ export default {
             this.superTask = null;
             this.$bvModal.hide('new-task');
         },
-        showEditTask(task){
+
+        /** Shows and hides the modal to edit a given task
+         * @param {import('../../types/task').Task} task
+         */
+        showEditTask(task) {
             this.$store.dispatch('clearErrors');
             this.taskToEdit = task;
             this.$bvModal.show('edit-task');
         },
-        closeEditTask(){
+        closeEditTask() {
             this.taskToEdit = null;
             this.$bvModal.hide('edit-task');
         },
+
+        /** Shows and hides the modal to create a new task list */
         showNewTaskList() {
             this.$store.dispatch('clearErrors');
             this.$bvModal.show('new-task-list');
@@ -87,6 +120,10 @@ export default {
         closeNewTaskList() {
             this.$bvModal.hide('new-task-list');
         },
+
+        /** Shows and hides the modal to edit a given task list
+         * @param {import('../../types/task').TaskList} taskList
+         */
         showEditTaskList(taskList) {
             this.$store.dispatch('clearErrors');
             this.taskListToEdit = taskList;
@@ -96,6 +133,10 @@ export default {
             this.taskListToEdit = null;
             this.$bvModal.hide('edit-task-list');
         },
+
+        /** Shows and hides the modal to confirm deleting a task list
+         * @param {import('../../types/task').TaskList} taskList
+         */
         showDeleteTaskList(taskList) {
             this.$store.dispatch('clearErrors');
             this.taskListToDelete = taskList;

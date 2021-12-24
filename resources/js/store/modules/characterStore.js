@@ -1,4 +1,5 @@
-import axios from "axios";
+// @ts-nocheck
+import axios from 'axios';
 
 export default {
 
@@ -17,10 +18,10 @@ export default {
         },
     },
     getters: {
-        getCharacter: (state) => {
+        getCharacter: state => {
             return state.character;
         },
-        getCharacters: (state) => {
+        getCharacters: state => {
             return state.characters;
         },
     },
@@ -45,14 +46,14 @@ export default {
         },
 
         //TODO up until here
-        updateCharacter: ({ commit, dispatch }, character) => {
+        updateCharacter: ({commit, dispatch}, character) => {
             return axios.put('/character/' + character.id, character).then(function(response) {
                 dispatch('sendToasts', response.data.message, {root:true});
                 commit('setCharacter', response.data.data);
                 return Promise.resolve();
             });
         },
-    }
+    },
 }
 
 

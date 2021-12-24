@@ -1,17 +1,20 @@
 <template>
     <div>
         <div>
-            <character-summary :character="character" v-if="character"></character-summary>
+            <character-summary v-if="character" :character="character" :userCharacter="true" />
         </div>
         <div v-if="userStats">
             <span class="card-title">{{ $t('stats') }}</span>
             <div class="side-border bottom-border">
                 <span>{{ $t('tasks-completed')}}: {{userStats.tasks_completed}}</span>
-                <p v-if="userStats.repeatable_most_completed">{{ $t('most-completed-repeatable', [userStats.repeatable_most_completed.task_name, userStats.repeatable_most_completed.total])}}</p>
+                <p v-if="userStats.repeatable_most_completed">
+                    {{ $t('most-completed-repeatable', [userStats.repeatable_most_completed.task_name, 
+                                                        userStats.repeatable_most_completed.total])}}
+                </p>
             </div>
         </div>
         <div>
-            <achievements-summary :achievements="achievements"></achievements-summary>
+            <achievements-summary :achievements="achievements" />
         </div>
     </div>
 </template>
@@ -25,11 +28,6 @@ export default {
     components: {CharacterSummary, AchievementsSummary},
     mounted() {
         this.$store.dispatch('user/getOverview',  {root:true});
-    },
-    data() {
-        return {
-            
-        }
     },
     computed: {
         ...mapGetters({

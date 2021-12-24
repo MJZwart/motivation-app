@@ -14,12 +14,12 @@
 
             <b-navbar-nav class="ml-auto">
                 <b-nav-item v-if="authenticated">
-                    <search-bar></search-bar>
+                    <search-bar />
                 </b-nav-item>
                 <b-nav-item v-if="authenticated" to="/notifications">
                     <b-iconstack class="icon-nav-stack">
-                        <b-icon-bell class="icon-nav"></b-icon-bell>
-                        <b-icon-dot v-if="hasNotifications" font-scale="3" class="icon-dot-red" shift-h="-2" shift-v="7"></b-icon-dot>
+                        <b-icon-bell class="icon-nav" />
+                        <b-icon-dot v-if="hasNotifications" font-scale="3" class="icon-dot-red" shift-h="-2" shift-v="7" />
                     </b-iconstack>
                 </b-nav-item>
                 <b-nav-item v-if="authenticated">
@@ -53,9 +53,8 @@ export default {
             admin: 'admin/isAdmin',
         }),
     },
-
     methods: {
-        logout(){
+        logout() {
             this.$store.dispatch('user/logout');
         },
     },

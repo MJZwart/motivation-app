@@ -6,8 +6,8 @@
                 <div class="side-border bottom-border">
                     <ul class="summary-list">
                         <li v-for="request in requests.incoming" :key="request.id">
-                            <b-icon-check-square class="icon-small" @click="acceptFriendRequest(request.id)"></b-icon-check-square>
-                            <b-icon-x-square class="icon-small icon-red" @click="denyFriendRequest(request.id)"></b-icon-x-square>
+                            <b-icon-check-square class="icon-small" @click="acceptFriendRequest(request.id)" />
+                            <b-icon-x-square class="icon-small icon-red" @click="denyFriendRequest(request.id)" />
                             {{request.friend}}
                         </li>
                     </ul>
@@ -20,7 +20,7 @@
                 <div class="side-border bottom-border">
                     <ul class="summary-list">
                         <li v-for="request in requests.outgoing" :key="request.id">
-                            <b-icon-x-square class="icon-small red" @click="removeFriendRequest(request.id)"></b-icon-x-square>
+                            <b-icon-x-square class="icon-small red" @click="removeFriendRequest(request.id)" />
                             {{request.friend}}
                         </li>
                     </ul>
@@ -30,7 +30,7 @@
         </div>
 
 
-        <friends-summary></friends-summary>
+        <friends-summary />
 
     </div>
 </template>
@@ -41,7 +41,7 @@ import {mapGetters} from 'vuex';
 import FriendsSummary from '../components/summary/FriendsSummary.vue';
 export default {
     components: {
-        FriendsSummary
+        FriendsSummary,
     },
     mounted() {
         this.$store.dispatch('friend/getRequests');
@@ -59,15 +59,24 @@ export default {
         }),
     },
     methods: {
-        removeFriendRequest(requestId){
-
-        },
-        denyFriendRequest(requestId){
+        /**
+         * @param {Number} requestId
+         */
+        // removeFriendRequest(requestId) {
+            
+        // },
+        /**
+         * @param {Number} requestId
+         */
+        denyFriendRequest(requestId) {
             this.$store.dispatch('friend/denyRequest', requestId);
         },
-        acceptFriendRequest(requestId){
+        /**
+         * @param {Number} requestId
+         */
+        acceptFriendRequest(requestId) {
             this.$store.dispatch('friend/acceptRequest', requestId);
         },
-    }
+    },
 }
 </script>
