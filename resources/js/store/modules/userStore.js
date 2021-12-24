@@ -52,7 +52,7 @@ export default {
     actions: {
         //User authentication
         login: ({commit}, user) => {
-            //TODO test if still works, otherwise take csrfResponse as param
+            //axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
             axios.get('http://localhost:8000/sanctum/csrf-cookie').then(_ => {
                 axios.post('/login', user).then(response => {
                     commit('setUser', response.data.user);

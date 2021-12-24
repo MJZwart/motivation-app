@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
-use App\Models\User;
 use App\Http\Resources\AchievementResource;
 use App\Http\Requests\NewAchievementRequest;
 use Illuminate\Http\JsonResponse;

@@ -115,7 +115,7 @@ export default {
     },
     data() {
         return {
-            /** @type {import('resources/types/task').Task} */
+            /** @type {import('resources/types/task').Task | {}} */
             task: {},
             settings: {},
             emailSettings: {},
@@ -129,6 +129,7 @@ export default {
         ...mapGetters({
             user: 'user/getUser',
         }),
+        /** @return {string} */
         currentRewardType() {
             return this.user.rewards.toLowerCase();
         },

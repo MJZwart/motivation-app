@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use App\Helpers\CharacterHelper;
 
 class CharacterController extends Controller
 {

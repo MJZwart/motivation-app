@@ -15,6 +15,14 @@ class LevelHandler {
     public const STAT_EXP_ARRAY = [RewardHandler::STRENGTH_EXP, RewardHandler::AGILITY_EXP, RewardHandler::ENDURANCE_EXP, RewardHandler::INTELLIGENCE_EXP, RewardHandler::CHARISMA_EXP, RewardHandler::EXPERIENCE];
     public const STAT_ARRAY = [RewardHandler::STRENGTH, RewardHandler::AGILITY, RewardHandler::ENDURANCE, RewardHandler::INTELLIGENCE, RewardHandler::CHARISMA, RewardHandler::LEVEL];
 
+    /**
+     * Adds experience to a given character, using the given parsed rewards in RewardHandler
+     * Sends the data to the checkLevelUp function to further check and return information
+     *
+     * @param Character $character
+     * @param Array $parsedRewards
+     * @return Object
+     */
     public static function addExperience($character, $parsedRewards){
         forEach(LevelHandler::STAT_EXP_ARRAY as $value){
             $character[$value] += $parsedRewards[$value];
@@ -22,6 +30,17 @@ class LevelHandler {
         return LevelHandler::checkLevelUp($character);
     }
 
+    /**
+     * Checks if a given character can level up any of their skills or level with the updated experience points
+     * Iterates over all stats a character has, checking each if their current experience is higher than the experience needed for levelup
+     * If the experience is higher, it lowers the current experience by experience needed for that level and adds one level
+     * In the case of a level up, push a message into an array of messages
+     * Repeat until there is no more level up available
+     * Parses the messages and returns the value
+     *
+     * @param Character $character
+     * @return void
+     */
     public static function checkLevelUp($character){
         $messages = [];
         $experienceTable =  DB::table('experience_points')->get();
@@ -41,6 +60,15 @@ class LevelHandler {
         return LevelHandler::parseReturnValues($character, $messages);
     }
 
+    /**
+     * Parses the messages and values to return to the user after the rewards have been applied.
+     * Adds a message that the task has been completed, as well as all messages in case of level up
+     * Adds the handled character and returns all in an object
+     *
+     * @param Character $character
+     * @param Array $messages
+     * @return Object
+     */
     public static function parseReturnValues($character, $messages){
         $returnMessage = new \stdClass();
         if(!empty($messages)){

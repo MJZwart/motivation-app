@@ -9,12 +9,9 @@ use App\Http\Resources\IncomingFriendRequestResource;
 use App\Http\Resources\OutgoingFriendRequestResource;
 use App\Http\Resources\UserResource;
 use App\Helpers\AchievementHandler;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Carbon\Carbon;
 
 class FriendController extends Controller
 {

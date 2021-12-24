@@ -33,6 +33,12 @@ class Character extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    /**
+     * Applies a reward from a completed task to a character
+     *
+     * @param Task $task
+     * @return Object
+     */
     public function applyReward(Task $task){
         $parsedReward = RewardHandler::calculateReward($task->type, $task->difficulty);
         $returnValue = LevelHandler::addExperience($this->toArray(), $parsedReward);

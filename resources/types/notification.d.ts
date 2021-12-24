@@ -1,4 +1,7 @@
 export type Notification = {
     id: number,
-    //TODO
+    read: boolean,
+    created_at: Date,
+    title: String,
+    text: String
 }

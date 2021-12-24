@@ -1,15 +1,20 @@
 <template>
-    <div v-if="achievements">
+    <div>
         <span class="card-title">{{ $t('achievements') }}</span>
         <div class="side-border bottom-border">
-            <ul class="summary-list">
-                <li v-for="(achievement, index) in achievements" :key="index">
-                    <span>{{achievement.name}}</span>
-                    <p class="silent">
-                        {{achievementSummary}}
-                    </p>
-                </li>
-            </ul>
+            <div v-if="achievements">
+                <ul class="summary-list">
+                    <li v-for="(achievement, index) in achievements" :key="index">
+                        <span>{{achievement.name}}</span>
+                        <p class="silent">
+                            {{achievementSummary}}
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div v-else>
+                No achievements.
+            </div>
         </div>
     </div>
 </template>
@@ -20,13 +25,17 @@ export default {
     props: {
         achievements: {
             type: Array,
-            required: true,
+            required: false,
         },
     },
-    computed: {
-        achievementSummary() {
-            return this.achievement.description+' '+this.achievement.trigger_description+' '
-            +this.$t('earned-on')+': '+this.achievement.pivot.earned;
+    methods: {
+        /**
+         * @param {import('resources/types/achievement').Achievement} achievement
+         * @return {string}
+         */
+        achievementSummary(achievement) {
+            return achievement.description+' '+achievement.trigger_description+' '
+            +this.$t('earned-on')+': '+achievement.pivot.earned;
         },
     },
 }

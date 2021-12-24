@@ -14,7 +14,7 @@
         "noImplicitThis": true,
         "alwaysStrict": true,
         "esModuleInterop": true,
-        "checkJs": true,
+        // "checkJs": true,
         "allowSyntheticDefaultImports": true,
         "baseUrl": ".",
         "paths": {

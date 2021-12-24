@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskList;
-use App\Models\Character;
 use App\Http\Resources\TaskListResource;
 use App\Http\Resources\CharacterResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Helpers\AchievementHandler;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
