@@ -1,38 +1,59 @@
 <template>
     <div>
-        <b-navbar type="dark" sticky class="box-shadow">
+        <b-navbar toggleable="lg" type="dark" sticky class="box-shadow">
+
             <b-navbar-nav v-if="authenticated">
                 <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
                 <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
                 <b-nav-item to="/friends">{{ $t('friends') }}</b-nav-item>
             </b-navbar-nav>
 
-            <b-navbar-nav v-if="admin">
-                <b-nav-item to="/achievements">{{ $t('achievements') }}</b-nav-item>
-                <b-nav-item to="/admin">{{ $t('admin') }}</b-nav-item>
-            </b-navbar-nav>
+            <b-navbar-toggle target="nav-collapse" />
+            <b-collapse id="nav-collapse" v-model="isOpen" is-nav>
 
-            <b-navbar-nav class="ml-auto">
-                <b-nav-item v-if="authenticated">
-                    <search-bar />
-                </b-nav-item>
-                <b-nav-item v-if="authenticated" to="/notifications">
-                    <b-iconstack class="icon-nav-stack">
-                        <b-icon-bell class="icon-nav" />
-                        <b-icon-dot v-if="hasNotifications" font-scale="3" class="icon-dot-red" shift-h="-2" shift-v="7" />
-                    </b-iconstack>
-                </b-nav-item>
-                <b-nav-item v-if="authenticated">
-                    <b-dropdown id="user-dropdown" :text=user.username variant="primary">
-                        <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">{{ $t('profile') }}</b-dropdown-item>
-                        <b-dropdown-item to="/settings">{{ $t('settings') }}</b-dropdown-item>
-                        <b-dropdown-item @click="logout">{{ $t('logout') }}</b-dropdown-item>
-                    </b-dropdown>
-                </b-nav-item>
-                <b-nav-item v-if="!authenticated" to="/login">{{ $t('login') }}</b-nav-item>
-                <b-nav-item v-if="!authenticated" to="/register">{{ $t('register') }}</b-nav-item>
-            </b-navbar-nav>
+                <b-navbar-nav v-if="admin">
+                    <b-nav-item to="/achievements">{{ $t('achievements') }}</b-nav-item>
+                    <b-nav-item to="/admin">{{ $t('admin') }}</b-nav-item>
+                </b-navbar-nav>
 
+                <b-navbar-nav class="ml-auto toggled">
+                    <b-nav-item v-if="authenticated">
+                        <search-bar />
+                    </b-nav-item>
+                    <b-nav-item v-if="authenticated" to="/notifications">
+                        <div v-if="isOpen">
+                            Notifications
+                        </div>
+                        <div v-else>
+                            <b-iconstack class="icon-nav-stack">
+                                <b-icon-bell class="icon-nav" />
+                                <b-icon-dot v-if="hasNotifications" font-scale="3" class="icon-dot-red" shift-h="-2" shift-v="7" />
+                            </b-iconstack>
+                        </div>
+                    </b-nav-item>
+                    <b-nav-item v-if="authenticated">
+                        <div v-if="isOpen">
+                            <b-nav-item :to="{ name: 'profile', params: { id: user.id}}">
+                                {{ $t('profile') }}
+                            </b-nav-item>
+                            <b-nav-item to="/settings">{{ $t('settings') }}</b-nav-item>
+                            <b-nav-item @click="logout">{{ $t('logout') }}</b-nav-item>
+                        </div>
+                        <!-- TODO When closing the navbar, you catch glimpse of the original design -->
+                        <div v-else>
+                            <b-dropdown id="user-dropdown" :text=user.username variant="primary">
+                                <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">
+                                    {{ $t('profile') }}
+                                </b-dropdown-item>
+                                <b-dropdown-item to="/settings">{{ $t('settings') }}</b-dropdown-item>
+                                <b-dropdown-item @click="logout">{{ $t('logout') }}</b-dropdown-item>
+                            </b-dropdown>
+                        </div>
+                    </b-nav-item>
+                    <b-nav-item v-if="!authenticated" to="/login">{{ $t('login') }}</b-nav-item>
+                    <b-nav-item v-if="!authenticated" to="/register">{{ $t('register') }}</b-nav-item>
+                </b-navbar-nav>
+            </b-collapse>
         </b-navbar>
     </div>
 </template>
@@ -44,6 +65,11 @@ import SearchBar from '../components/small/SearchBar.vue';
 export default {
     components: {
         SearchBar,
+    },
+    data() {
+        return {
+            isOpen: false,
+        }
     },
     computed: {
         ...mapGetters({

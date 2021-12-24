@@ -131,7 +131,18 @@ p {
     padding-inline-start:0;
     font-size:14px;
 }
-@media (max-width:1000px){
+@media (max-width:991px){
+    .navbar{
+        .navbar-nav{
+            flex-direction: row;
+                .nav-item{
+                    margin-right: 0.5rem;
+                }
+            }
+        .toggled {
+            flex-direction: column;
+        }
+    }
     .task-list{
         flex: 100%;
     }
@@ -140,5 +151,18 @@ p {
 @media (max-width:730px){
     .task-lists{
         flex:100%;
+    }
+}
+
+@media (max-width: 425px){
+    .task-description{
+        font-size: 0.8rem;
+    }
+    .task-title{
+        font-size: 1rem;
+    }
+    .b-icon{
+        width: 1.6rem;
+        height: 1.6rem;
     }
 }
