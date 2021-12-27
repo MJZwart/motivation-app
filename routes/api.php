@@ -14,6 +14,7 @@ use App\Http\Controllers\FriendController;
 use App\Http\Controllers\ExampleTaskController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OverviewController;
+use App\Http\Controllers\VillageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/character/find', [CharacterController::class, 'fetchCharacterIfExists']);
     Route::get('/character/active', [CharacterController::class, 'fetchActiveCharacter']);
     Route::get('/character/all', [CharacterController::class, 'fetchAllCharactersByUser']);
+
+    Route::get('/village/all', [VillageController::class, 'fetchAllVillagesByUser']);
 
     
     Route::get('/notifications', [NotificationController::class, 'show']);

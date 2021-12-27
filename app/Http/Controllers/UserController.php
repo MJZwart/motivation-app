@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\CharacterResource;
+use App\Http\Resources\VillageResource;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\UserResource;
@@ -13,6 +14,7 @@ use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Helpers\CharacterHandler;
+use App\Helpers\VillageHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -91,18 +93,36 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         $activeReward = null;
-        if($request['rewards'] == 'CHARACTER' && $request['keepCharacter'] == 'NEW'){
-            $character = CharacterHandler::createNewCharacterAndActivate($user->id, $request['character_name']);
-            $activeReward = new CharacterResource($character);
-        } else if($request['rewards'] == 'CHARACTER' && is_numeric($request['keepCharacter'])){
-            $character = CharacterHandler::toggleCharacterActive($user->id, $request['keepCharacter']);
-            $activeReward = new CharacterResource($character);
+        if($request['rewards'] == 'CHARACTER'){
+            $activeReward = $this->handleCharacterSettings($user, $request['keepOldInstance'], $request['character_name']);
+        } else if($request['rewards'] == 'VILLAGE'){
+            $activeReward = $this->handleVillageSettings($user, $request['keepOldInstance'], $request['village_name']);
         }
         return new JsonResponse([
             'message' => ['success' => ['Your rewards type has been changed.']], 
             'user' => new UserResource($user),
             'activeReward' => $activeReward],
             Response::HTTP_OK);
+    }
+
+    private function handleCharacterSettings(User $user, $keepCharacter, $characterName){
+        $character = null;
+        if($keepCharacter == 'NEW') {
+            $character = CharacterHandler::createNewCharacterAndActivate($user->id, $characterName);
+        } else if(is_numeric($keepCharacter)){
+            $character = CharacterHandler::toggleCharacterActive($user->id, $keepCharacter);
+        }
+        return new CharacterResource($character);
+    }
+
+    private function handleVillageSettings(User $user, $keepVillage, $villageName) { 
+        $village = null;
+        if($keepVillage == 'NEW') {
+            $village = VillageHandler::createNewVillageAndActivate($user->id, $villageName);
+        } else if(is_numeric($keepVillage)){
+            $village = VillageHandler::toggleVillageActive($user->id, $keepVillage);
+        }
+        return new VillageResource($village);
     }
 
     /**
