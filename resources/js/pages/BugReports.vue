@@ -1,53 +1,52 @@
-#navigation comp: DONE
-#add route in router.js: DONE
-#create page file: DONE
-#create (/modify) form: TODO
+#TODO: create type selection
+#TODO: create severity selection
+#TODO: store dispatch
 
 
 <template>
     <div>
-        <h2>Register</h2>
+        <h2>Submit a bug report.</h2>
 
-        <div class="register-form">
-            <form @submit.prevent="submitRegister">
+        <div class="bugreport-form">
+            <form @submit.prevent="submitBugReport">
                 <div class="form-group">
-                    <label for="username">Username</label>
+                    <label for="title">Title</label>
                     <input 
                         type="text" 
-                        id="username" 
-                        name="username" 
-                        placeholder="Username" 
-                        v-model="register.username" />
+                        id="title" 
+                        name="title" 
+                        placeholder="Title" 
+                        v-model="bugreports.title" />
                 </div>
                 <div class="form-group">
-                    <label for="email">E-mail</label>
+                    <label for="page">Page</label>
                     <input 
                         type="text" 
-                        id="email" 
-                        name="email" 
-                        placeholder="E-mail" 
-                        v-model="register.email" />
+                        id="page" 
+                        name="page" 
+                        placeholder="Page" 
+                        v-model="bugreports.page" />
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="image_link">Image Link</label>
                     <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Password" 
-                        v-model="register.password" />
+                        type="text" 
+                        id="image_link" 
+                        name="image_link" 
+                        placeholder="Image Link" 
+                        v-model="bugreports.image_link" />
                 </div>
                 <div class="form-group">
-                    <label for="password_confirmation">Repeat password</label>
+                    <label for="comment">Comment</label>
                     <input 
-                        type="password" 
-                        id="password_confirmation" 
-                        name="password_confirmation" 
-                        placeholder="Repeat password" 
-                        v-model="register.password_confirmation" />
+                        type="text" 
+                        id="comment" 
+                        name="comment" 
+                        placeholder="Comment" 
+                        v-model="bugreports.comment" />
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="long-button">Register new account</button>
+                    <button type="submit" class="long-button">submit bug report</button>
                 </div>
             </form> 
         </div>
@@ -59,17 +58,17 @@
 export default {
     data() {
         return {
-            register: {
-                username: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
+            bugreport: {
+                title: '',
+                page: '',
+                image_link: '',
+                comment: '',
             },
         }
     },
     methods: {
-        submitRegister(){
-            this.$store.dispatch('user/register', this.register);
+        submitBugReport(){
+            this.$store.dispatch('user/register', this.bugreport);
         }
     },
     
