@@ -1,8 +1,17 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" type="dark" sticky class="box-shadow">
+        <b-navbar v-if="!authenticated" type="dark" sticky class="box-shadow">
+            <!-- <b-navbar-nav>
+                <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
+            </b-navbar-nav> -->
+            <b-navbar-nav class="ml-auto">
+                <b-nav-item to="/login">{{ $t('login') }}</b-nav-item>
+                <b-nav-item to="/register">{{ $t('register') }}</b-nav-item>
+            </b-navbar-nav>
+        </b-navbar>
 
-            <b-navbar-nav v-if="authenticated">
+        <b-navbar v-if="authenticated" toggleable="md" type="dark" sticky class="box-shadow">
+            <b-navbar-nav>
                 <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
                 <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
                 <b-nav-item to="/friends">{{ $t('friends') }}</b-nav-item>
@@ -17,21 +26,19 @@
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto toggled">
-                    <b-nav-item v-if="authenticated">
-                        <search-bar />
-                    </b-nav-item>
-                    <b-nav-item v-if="authenticated" to="/notifications">
+                    <b-nav-item to="/notifications">
                         <div v-if="isOpen">
                             Notifications
                         </div>
                         <div v-else>
                             <b-iconstack class="icon-nav-stack">
                                 <b-icon-bell class="icon-nav" />
-                                <b-icon-dot v-if="hasNotifications" font-scale="3" class="icon-dot-red" shift-h="-2" shift-v="7" />
+                                <b-icon-dot v-if="hasNotifications" font-scale="3" 
+                                            class="icon-dot-red" shift-h="-2" shift-v="7" />
                             </b-iconstack>
                         </div>
                     </b-nav-item>
-                    <b-nav-item v-if="authenticated">
+                    <b-nav-item>
                         <div v-if="isOpen">
                             <b-nav-item :to="{ name: 'profile', params: { id: user.id}}">
                                 {{ $t('profile') }}
@@ -50,8 +57,6 @@
                             </b-dropdown>
                         </div>
                     </b-nav-item>
-                    <b-nav-item v-if="!authenticated" to="/login">{{ $t('login') }}</b-nav-item>
-                    <b-nav-item v-if="!authenticated" to="/register">{{ $t('register') }}</b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -61,11 +66,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import SearchBar from '../components/small/SearchBar.vue';
 export default {
-    components: {
-        SearchBar,
-    },
     data() {
         return {
             isOpen: false,
@@ -78,6 +79,12 @@ export default {
             hasNotifications: 'notification/getHasNotifications',
             admin: 'admin/isAdmin',
         }),
+        isMedium() {
+            return screen.width <= 768;
+        },
+        isSmall() {
+            return screen.width <= 425;
+        },
     },
     methods: {
         logout() {

@@ -131,38 +131,61 @@ p {
     padding-inline-start:0;
     font-size:14px;
 }
+.overview{
+    div{
+        margin-bottom: 0.8rem;
+    }
+}
+
 @media (max-width:991px){
+    .task-list{
+        flex: 100%;
+    }
+}
+
+@media (max-width:767px){
     .navbar{
         .navbar-nav{
             flex-direction: row;
                 .nav-item{
-                    margin-right: 0.5rem;
+                    margin-right: 0.8rem;
                 }
             }
         .toggled {
             flex-direction: column;
         }
     }
-    .task-list{
-        flex: 100%;
+    .w-40, .w-60{
+        width:80%;
     }
-}
-
-@media (max-width:730px){
     .task-lists{
-        flex:100%;
+        flex:64%;
+    }
+    .right-align{
+        flex: 34%;
+    }
+    .b-icon{
+        width: 1.4rem;
+        height: 1.4rem;
     }
 }
 
 @media (max-width: 425px){
+    .nav-item{
+        margin-right: 0.5rem;
+    }
+    .navbar{
+        .toggled {
+            flex-direction: column;
+        }
+    }
     .task-description{
         font-size: 0.8rem;
     }
     .task-title{
         font-size: 1rem;
     }
-    .b-icon{
-        width: 1.6rem;
-        height: 1.6rem;
+    .task-lists{
+        flex:100%;
     }
 }
