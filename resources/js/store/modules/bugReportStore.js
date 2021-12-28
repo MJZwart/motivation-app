@@ -11,7 +11,7 @@ export default {
     },
     actions: {
         storeBugReport: ({ commit }, bugReport) => {
-            return axios.post('/bugReports', bugReport).then(response => {
+            return axios.post('/bugReport', bugReport).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
                 /*commit('taskList/setTaskLists', response.data.data, {root:true});*/
