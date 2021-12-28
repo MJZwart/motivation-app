@@ -10,6 +10,7 @@ import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
+import rewardStore from './modules/rewardStore.js';
 import toastService from '../services/toastService';
 import axios from 'axios';
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
         notification: notificationStore,
         achievement: achievementStore,
         admin: adminStore,
+        reward: rewardStore,
     },
     state: {
         //Errors and response
@@ -51,7 +53,7 @@ export default new Vuex.Store({
         getDashboard: ({commit}) => {
             axios.get('/dashboard').then(response => {
                 commit('taskList/setTaskLists', response.data.taskLists, {root:true});
-                commit('character/setCharacter', response.data.character, {root:true});
+                commit('reward/setRewardObj', response.data.rewardObj, {root:true});
             });
         },
         /**

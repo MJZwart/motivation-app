@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <character-summary v-if="character" :character="character" :userCharacter="true" />
+            <reward-summary v-if="rewardObj" :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
         </div>
         <div v-if="userStats">
             <span class="card-title">{{ $t('stats') }}</span>
@@ -23,15 +23,15 @@
 <script>
 import {mapGetters} from 'vuex';
 import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
-import CharacterSummary from '../components/summary/CharacterSummary.vue';
+import RewardSummary from '../components/summary/RewardSummary.vue';
 export default {
-    components: {CharacterSummary, AchievementsSummary},
+    components: {RewardSummary, AchievementsSummary},
     mounted() {
         this.$store.dispatch('user/getOverview',  {root:true});
     },
     computed: {
         ...mapGetters({
-            character: 'character/getCharacter',
+            rewardObj: 'reward/getRewardObj',
             user: 'user/getUser',
             achievements: 'achievement/getAchievementsByUser',
             userStats: 'user/getUserStats',

@@ -2,8 +2,9 @@
     <div>
         <div v-if="userProfile" class="profile-grid">
             <div class="left-column">
-                <character-summary v-if="userProfile.character" class="summary-tab" 
-                                   :character="userProfile.character" :userCharacter="false" />
+                <reward-summary v-if="userProfile.rewardObj" class="summary-tab" 
+                                :reward="userProfile.rewardObj" :userReward="false" 
+                                :rewardType="userProfile.rewardObj.rewardType" />
                 <div v-if="userProfile.friends" class="summary-tab">
                     <span class="card-title">Friends 
                         <b-icon-person-plus-fill 
@@ -35,9 +36,9 @@
 <script>
 import {mapGetters} from 'vuex';
 import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
-import CharacterSummary from '../components/summary/CharacterSummary.vue';
+import RewardSummary from '../components/summary/RewardSummary.vue';
 export default {
-    components: {CharacterSummary, AchievementsSummary},
+    components: {RewardSummary, AchievementsSummary},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();
