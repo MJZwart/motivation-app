@@ -9,6 +9,7 @@ import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
+import bugReportStore from "./modules/bugReportStore.js";
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
         notification: notificationStore,
         achievement: achievementStore,
         admin: adminStore,
+        bugReport: bugReportStore,
     },
     state: {
         //Errors and response

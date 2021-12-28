@@ -9,12 +9,12 @@ export default {
     },
     getters: {
     },
-    actions: {/*
+    actions: {
         storeBugReport: ({ commit }, bugReport) => {
             return axios.post('/bugReports', bugReport).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
                 commit('setStatus', 'success', {root:true});
-                commit('taskList/setTaskLists', response.data.data, {root:true});
+                /*commit('taskList/setTaskLists', response.data.data, {root:true});*/
                 return Promise.resolve();
             });
         },

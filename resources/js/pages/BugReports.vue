@@ -68,7 +68,7 @@ export default {
     },
     methods: {
         submitBugReport(){
-            this.$store.dispatch('user/register', this.bugReport);
+            this.$store.dispatch('bugReport/storeBugReport', this.bugReport);
         }
     },
     
