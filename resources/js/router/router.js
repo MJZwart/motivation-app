@@ -65,8 +65,8 @@ let routes = [
         meta: { requiresAuth: true},
     },
     {
-        path: "/bugreports",
-        component: require('../pages/BugReports.vue').default,
+        path: "/bugreport",
+        component: require('../pages/BugReport.vue').default,
     },
 
 ];
