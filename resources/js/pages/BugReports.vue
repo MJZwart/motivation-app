@@ -16,7 +16,7 @@
                         id="title" 
                         name="title" 
                         placeholder="Title" 
-                        v-model="bugreports.title" />
+                        v-model="bugReport.title" />
                 </div>
                 <div class="form-group">
                     <label for="page">Page</label>
@@ -25,7 +25,7 @@
                         id="page" 
                         name="page" 
                         placeholder="Page" 
-                        v-model="bugreports.page" />
+                        v-model="bugReport.page" />
                 </div>
                 <div class="form-group">
                     <label for="image_link">Image Link</label>
@@ -34,7 +34,7 @@
                         id="image_link" 
                         name="image_link" 
                         placeholder="Image Link" 
-                        v-model="bugreports.image_link" />
+                        v-model="bugReport.image_link" />
                 </div>
                 <div class="form-group">
                     <label for="comment">Comment</label>
@@ -43,7 +43,7 @@
                         id="comment" 
                         name="comment" 
                         placeholder="Comment" 
-                        v-model="bugreports.comment" />
+                        v-model="bugReport.comment" />
                 </div>
                 <div class="form-group">
                     <button type="submit" class="long-button">submit bug report</button>
@@ -58,7 +58,7 @@
 export default {
     data() {
         return {
-            bugreport: {
+            bugReport: {
                 title: '',
                 page: '',
                 image_link: '',
@@ -68,7 +68,7 @@ export default {
     },
     methods: {
         submitBugReport(){
-            this.$store.dispatch('user/register', this.bugreport);
+            this.$store.dispatch('user/register', this.bugReport);
         }
     },
     
@@ -77,8 +77,5 @@ export default {
 
 
 <style>
-    .register-form{
-        width:40%;
-        margin: auto auto;
-    }
+
 </style>

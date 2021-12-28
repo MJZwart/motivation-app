@@ -9,7 +9,7 @@ export default {
     },
     getters: {
     },
-    actions: {
+    actions: {/*
         storeBugReport: ({ commit }, bugReport) => {
             return axios.post('/bugReports', bugReport).then(response => {
                 commit('setResponseMessage', response.data.message, {root:true});
