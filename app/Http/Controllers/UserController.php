@@ -14,6 +14,7 @@ use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Helpers\CharacterHandler;
+use App\Helpers\RewardObjectHandler;
 use App\Helpers\VillageHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -92,12 +93,10 @@ class UserController extends Controller
         $validated = $request->validated();
         $user = Auth::user();
         $user->update($validated);
-        $activeReward = null;
-        if($request['rewards'] == 'CHARACTER'){
-            $activeReward = $this->handleCharacterSettings($user, $request['keepOldInstance'], $request['character_name']);
-        } else if($request['rewards'] == 'VILLAGE'){
-            $activeReward = $this->handleVillageSettings($user, $request['keepOldInstance'], $request['village_name']);
-        }
+        $activeReward = $this->handleRewardSettings($user, 
+                                                       $request['keepOldInstance'], 
+                                                       $request['new_object_name'], 
+                                                       $request['rewards']);
         return new JsonResponse([
             'message' => ['success' => ['Your rewards type has been changed.']], 
             'user' => new UserResource($user),
@@ -105,24 +104,21 @@ class UserController extends Controller
             Response::HTTP_OK);
     }
 
-    private function handleCharacterSettings(User $user, $keepCharacter, $characterName){
-        $character = null;
-        if($keepCharacter == 'NEW') {
-            $character = CharacterHandler::createNewCharacterAndActivate($user->id, $characterName);
-        } else if(is_numeric($keepCharacter)){
-            $character = CharacterHandler::toggleCharacterActive($user->id, $keepCharacter);
+    /**
+     * Separates by type and further handles the reward settings
+     *
+     * @param User $user
+     * @param [String | int] $keepOldInstance
+     * @param String $rewardObjectName
+     * @param String $rewardType
+     * @return void
+     */
+    private function handleRewardSettings(User $user, $keepOldInstance, String $rewardObjectName, String $rewardType){
+        if($keepOldInstance == 'NEW'){
+            return RewardObjectHandler::createNewObjectAndActivate($rewardType, $user->id, $rewardObjectName);
+        } else if (is_numeric($keepOldInstance)) {
+            return RewardObjectHandler::toggleActiveRewardObject($rewardType, $user->id, $keepOldInstance);
         }
-        return new CharacterResource($character);
-    }
-
-    private function handleVillageSettings(User $user, $keepVillage, $villageName) { 
-        $village = null;
-        if($keepVillage == 'NEW') {
-            $village = VillageHandler::createNewVillageAndActivate($user->id, $villageName);
-        } else if(is_numeric($keepVillage)){
-            $village = VillageHandler::toggleVillageActive($user->id, $keepVillage);
-        }
-        return new VillageResource($village);
     }
 
     /**

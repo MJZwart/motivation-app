@@ -46,24 +46,6 @@
             <b-button class="long-button" @click="cancel()">{{ $t('cancel') }}</b-button>
         </b-modal>
 
-        <!-- Will show when the user chooses to set up a new character -->
-        <b-modal id="new-character" :title="$t('set-up-new-character')" hide-footer>
-            <b-form-group
-                :label="$t('character-name')"
-                label-for="character_name">
-                <p class="silent">{{ $t('change-name-later') }}</p>
-                <b-form-input 
-                    id="character_name" 
-                    v-model="user.character_name"
-                    type="text" 
-                    name="character_name" 
-                    :placeholder="$t('character-name')"   />
-                <base-form-error name="character_name" /> 
-            </b-form-group>
-            <b-button class="long-button" @click="confirmNewRewardsType()">{{ $t('confirm') }}</b-button>
-            <b-button class="long-button" @click="cancel()">{{ $t('cancel') }}</b-button>
-        </b-modal>
-
         <!-- Will show when the user chooses a village -->
         <b-modal id="village-options" :title="$t('village-options')" hide-footer>
             <b-form-group
@@ -88,24 +70,23 @@
             <b-button class="long-button" @click="cancel()">{{ $t('cancel') }}</b-button>
         </b-modal>
 
-        <!-- Will show when the user chooses to set up a new village -->
-        <b-modal id="new-village" :title="$t('set-up-new-village')" hide-footer>
+        <!-- Will show when the user chooses to set up a new character or village object -->
+        <b-modal id="new-object-name" :title="setUpNewObject" hide-footer>
             <b-form-group
-                :label="$t('village-name')"
-                label-for="village_name">
+                :label="rewardTypeName"
+                label-for="new-object-name">
                 <p class="silent">{{ $t('change-name-later') }}</p>
                 <b-form-input 
-                    id="village_name" 
-                    v-model="user.village_name"
+                    id="new-object-name" 
+                    v-model="user.new_object_name"
                     type="text" 
-                    name="village_name" 
-                    :placeholder="$t('village-name')"   />
-                <base-form-error name="village_name" /> 
+                    name="new-object-name" 
+                    :placeholder="rewardTypeName"   />
+                <base-form-error name="new-object-name" /> 
             </b-form-group>
             <b-button class="long-button" @click="confirmNewRewardsType()">{{ $t('confirm') }}</b-button>
             <b-button class="long-button" @click="cancel()">{{ $t('cancel') }}</b-button>
         </b-modal>
-        
     </div>
 </template>
 
@@ -135,10 +116,7 @@ export default {
                 rewards: 'NONE',
                 existingCharacter: {},
                 keepOldInstance: 'NEW',
-                keepCharacter: 'NEW',
-                keepVillage: 'NEW',
-                character_name: '',
-                village_name: '',
+                new_object_name: '',
             },
         }
     },
@@ -148,13 +126,12 @@ export default {
          * Show/hide modals accordingly
          */
         confirmRewardsType() {
-            //TODO For future options such as village, change this to an if-else or switch
             if (this.user.rewards == 'CHARACTER') {
                 this.$store.dispatch('character/fetchAllCharacters').then(() => {
                     const hasCharacter = !!this.characters.length;
                     this.$bvModal.hide('change-reward-type');
                     if (!hasCharacter) {
-                        this.$bvModal.show('new-character');
+                        this.$bvModal.show('new-object_name');
                     } else {
                         this.$bvModal.show('character-options');
                     }
@@ -164,7 +141,7 @@ export default {
                     const hasVillages = !!this.villages.length;
                     this.$bvModal.hide('change-reward-type');
                     if (!hasVillages) {
-                        this.$bvModal.show('new-village');
+                        this.$bvModal.show('new-object-name');
                     } else {
                         this.$bvModal.show('village-options');
                     }
@@ -178,7 +155,7 @@ export default {
         confirmCharacterOptions() {
             if (this.user.keepOldInstance == 'NEW') {
                 this.$bvModal.hide('character-options');
-                this.$bvModal.show('new-character');
+                this.$bvModal.show('new-object-name');
             } else {
                 this.confirmNewRewardsType();
             }
@@ -188,7 +165,7 @@ export default {
         confirmVillageOptions() { //TODO can be one method
             if (this.user.keepOldInstance == 'NEW') {
                 this.$bvModal.hide('village-options');
-                this.$bvModal.show('new-village');
+                this.$bvModal.show('new-object-name');
             } else {
                 this.confirmNewRewardsType();
             }
@@ -197,15 +174,11 @@ export default {
          */
         // eslint-disable-next-line complexity
         checkNewInstanceInput() {
-            console.log('Checking input');
-            console.log('user.rewards = ' + this.user.rewards);
-            console.log('user.keepOldInstance = ' + this.user.keepOldInstance);
-            console.log('user.village_name = ' + this.user.village_name);
-            //TODO You can change the name to one global value, rather than two.
-            if (this.user.rewards == 'CHARACTER' && this.user.keepOldInstance == 'NEW' && !this.user.character_name) {
+            const nameGiven = this.user.keepOldInstance == 'NEW' && !this.user.new_object_name;
+            if (this.user.rewards == 'CHARACTER' && nameGiven) {
                 this.sendErrorMessage('No character name given.');
                 return false;
-            } else if (this.user.rewards == 'VILLAGE' && this.user.keepOldInstance == 'NEW' && !this.user.village_name) {
+            } else if (this.user.rewards == 'VILLAGE' && nameGiven) {
                 this.sendErrorMessage('No village name given');
                 return false;
             } else {
@@ -214,19 +187,7 @@ export default {
             }
         },
         sendErrorMessage(message) {
-            console.log('sending error ' + message);
             this.$store.commit('setErrorMessages', {message: [message]});
-        },
-        /** Check if the user has set a village name if they have chosen to make a new village
-         */
-        checkVillageInput() { //TODO can be one method
-            if (this.user.rewards == 'VILLAGE' && this.user.keepVillage == 'NEW' && !this.user.village_name) {
-                this.$store.commit('setErrorMessages', {message: ['No village name given.']});
-                return false;
-            } else {
-                this.$store.dispatch('clearErrors');
-                return true;
-            }
         },
         /** After checking the input, send the call to the server, save the settings and close the modal
          */
@@ -246,6 +207,12 @@ export default {
             characters: 'character/getCharacters',
             villages: 'village/getVillages',
         }),
+        rewardTypeName() {
+            return this.user.rewards == 'VILLAGE' ? this.$t('village-name') : this.$t('character-name');
+        },
+        setUpNewObject() {
+            return this.user.rewards == 'VILLAGE' ? this.$t('set-up-new-village') : this.$t('set-up-new-character');
+        },
     },
 }
 </script>

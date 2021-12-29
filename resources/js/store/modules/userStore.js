@@ -123,9 +123,7 @@ export default {
             return axios.put('/user/settings/rewards', user).then(response => {
                 commit('setUser', response.data.user);
                 dispatch('sendToasts', response.data.message, {root:true});
-                if (response.data.user.rewards == 'CHARACTER') {
-                    commit('character/setCharacter', response.data.activeReward, {root:true});
-                }
+                commit('reward/setRewardObj', response.data.activeReward, {root:true});
                 return Promise.resolve();
             });
         },
