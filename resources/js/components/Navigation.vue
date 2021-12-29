@@ -27,10 +27,10 @@
 
                 <b-navbar-nav class="ml-auto toggled">
                     <b-nav-item to="/notifications">
-                        <div v-if="isOpen">
+                        <div class="toggled-nav">
                             Notifications
                         </div>
-                        <div v-else>
+                        <div class="full-nav">
                             <b-iconstack class="icon-nav-stack">
                                 <b-icon-bell class="icon-nav" />
                                 <b-icon-dot v-if="hasNotifications" font-scale="3" 
@@ -39,7 +39,7 @@
                         </div>
                     </b-nav-item>
                     <b-nav-item>
-                        <div v-if="isOpen">
+                        <div class="toggled-nav">
                             <b-nav-item :to="{ name: 'profile', params: { id: user.id}}">
                                 {{ $t('profile') }}
                             </b-nav-item>
@@ -47,7 +47,7 @@
                             <b-nav-item @click="logout">{{ $t('logout') }}</b-nav-item>
                         </div>
                         <!-- TODO When closing the navbar, you catch glimpse of the original design -->
-                        <div v-else>
+                        <div class="full-nav">
                             <b-dropdown id="user-dropdown" :text=user.username variant="primary">
                                 <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">
                                     {{ $t('profile') }}
@@ -79,12 +79,6 @@ export default {
             hasNotifications: 'notification/getHasNotifications',
             admin: 'admin/isAdmin',
         }),
-        isMedium() {
-            return screen.width <= 768;
-        },
-        isSmall() {
-            return screen.width <= 425;
-        },
     },
     methods: {
         logout() {
@@ -97,26 +91,43 @@ export default {
 
 <style lang="scss">
 @import '../../assets/scss/variables';
-    .navbar{
-        background-color: $primary;
+.navbar{
+    background-color: $primary;
 
-        li {
-            a.router-link-active{
-                font-weight:600;
-            }
+    li {
+        a.router-link-active{
+            font-weight:600;
         }
     }
-    .box-shadow {
-        box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
+}
+.box-shadow {
+    box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
+}
+.icon-nav{
+    color: rgba(255, 255, 255, 0.5);
+}
+.icon-nav-stack{
+    margin-top:5px;
+    margin-right:25px;
+}
+.icon-dot-red{
+    color:$warning;
+}
+.toggled-nav{
+    display: none;
+}
+.full-nav{
+    display: block;   
+}
+.btn-primary{
+    color: rgba(255, 255, 255, 0.5);
+}
+@media (max-width:767px){   
+    .toggled-nav{
+        display: block;
     }
-    .icon-nav{
-        color:$secondary;
+    .full-nav{
+        display: none;
     }
-    .icon-nav-stack{
-        margin-top:5px;
-        margin-right:25px;
-    }
-    .icon-dot-red{
-        color:$warning;
-    }
+}
 </style>
