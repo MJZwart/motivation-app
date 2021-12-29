@@ -144,17 +144,6 @@ p {
 }
 
 @media (max-width:767px){
-    .navbar{
-        .navbar-nav{
-            flex-direction: row;
-                .nav-item{
-                    margin-right: 0.8rem;
-                }
-            }
-        .toggled {
-            flex-direction: column;
-        }
-    }
     .w-40, .w-60{
         width:80%;
     }
@@ -171,14 +160,6 @@ p {
 }
 
 @media (max-width: 425px){
-    .nav-item{
-        margin-right: 0.5rem;
-    }
-    .navbar{
-        .toggled {
-            flex-direction: column;
-        }
-    }
     .task-description{
         font-size: 0.8rem;
     }
