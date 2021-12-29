@@ -48,7 +48,7 @@
                         </div>
                         <!-- TODO When closing the navbar, you catch glimpse of the original design -->
                         <div class="full-nav">
-                            <b-dropdown id="user-dropdown" :text=user.username variant="primary">
+                            <b-dropdown id="user-dropdown" :text=user.username variant="primary" class="nav-text" offset="-5">
                                 <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">
                                     {{ $t('profile') }}
                                 </b-dropdown-item>
@@ -93,7 +93,6 @@ export default {
 @import '../../assets/scss/variables';
 .navbar{
     background-color: $primary;
-
     li {
         a.router-link-active{
             font-weight:600;
@@ -119,8 +118,10 @@ export default {
 .full-nav{
     display: block;   
 }
-.btn-primary{
-    color: rgba(255, 255, 255, 0.5);
+.nav-text{
+    .btn-primary{
+        color: rgba(255, 255, 255, 0.5) !important;
+    }
 }
 @media (max-width:767px){   
     .toggled-nav{
@@ -128,6 +129,28 @@ export default {
     }
     .full-nav{
         display: none;
+    }
+    .navbar{
+        .navbar-nav{
+            flex-direction: row;
+                .nav-item{
+                    margin-right: 0.8rem;
+                }
+            }
+        .toggled {
+            flex-direction: column;
+        }
+    }
+}
+
+@media (max-width: 425px){
+    .nav-item{
+        margin-right: 0.5rem;
+    }
+    .navbar{
+        .toggled {
+            flex-direction: column;
+        }
     }
 }
 </style>
