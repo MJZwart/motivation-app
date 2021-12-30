@@ -50,6 +50,24 @@ class RewardHandler {
         }
         return $balance;
     }
+    //First determines the balance of the reward based on the type.
+    public static function calculateVillageBalance($type){
+        $balance = [3, 3, 3, 3, 3, 20]; //Economy, Labour, Craft, Art, Community. 18 points total.
+        switch($type){
+            case RewardHandler::TYPEGENERIC:
+                break;
+            case RewardHandler::TYPEPHYSICAL:
+                $balance = [6, 6, 4, 1, 1, 20];
+                break;
+            case RewardHandler::TYPEMENTAL:
+                $balance = [2, 1, 3, 7, 5, 20];
+                break;
+            case RewardHandler::TYPESOCIAL:
+                $balance = [2, 3, 2, 3, 8, 20];
+                break;
+        }
+        return $balance;
+    }
 
     //Parses the earned experience points into an associative array that can be handled by the controller.
     private static function parseTypeRewards($experiencePoints){
