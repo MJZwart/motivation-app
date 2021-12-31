@@ -39,6 +39,7 @@
                     <base-form-error name="character_name" /> 
                 </b-form-group>
                 <b-button block @click="nextModal()">{{ $t('next') }}</b-button>
+                <b-button block variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
             </div>
         </b-modal>
         <b-modal id="second-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
@@ -65,8 +66,11 @@
                     </div>
                     
                 </b-form-group>
-                <b-button class="long-button half" @click="startFirstModal()">{{ $t('go-back') }}</b-button>
-                <b-button class="long-button half" @click="confirmSettings()">{{ $t('submit') }}</b-button>
+                <div class="d-flex">
+                    <b-button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</b-button>
+                    <b-button @click="confirmSettings()">{{ $t('submit') }}</b-button>
+                    <b-button class="ml-auto" variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
+                </div>
             </div>
         </b-modal>
     </div>
@@ -113,6 +117,9 @@ export default {
                 this.$store.dispatch('clearErrors');
                 return true;
             }
+        },
+        logout() {
+            this.$store.dispatch('user/logout');
         },
     },
     computed: {
