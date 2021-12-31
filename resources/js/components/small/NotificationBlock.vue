@@ -1,7 +1,10 @@
 <template>
     <div>
         <div :class="{unread: !notification.read}">
-            <span class="card-title">{{notification.title}}</span>
+            <span class="card-title d-flex">
+                {{notification.title}}
+                <b-icon-trash class="ml-auto red pointer" @click="deleteNotification()" />
+            </span>
             <div class="side-border bottom-border">
                 <p>{{notification.text}}</p>
                 <p>{{ $t('received-on') }}: {{notification.created_at}}</p>
@@ -19,6 +22,13 @@ export default {
             /** @type {import('resources/types/notification').Notification} */
             type: Object,
             required: true,
+        },
+    },
+    methods: {
+        deleteNotification() {
+            if (confirm(this.$t('delete-notification-confirmation'))) {
+                this.$store.dispatch('notification/deleteNotification', this.notification.id);
+            }
         },
     },
 }
