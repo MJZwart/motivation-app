@@ -131,13 +131,41 @@ p {
     padding-inline-start:0;
     font-size:14px;
 }
-@media (max-width:1000px){
+.overview{
+    div{
+        margin-bottom: 0.8rem;
+    }
+}
+
+@media (max-width:991px){
     .task-list{
         flex: 100%;
     }
 }
 
-@media (max-width:730px){
+@media (max-width:767px){
+    .w-40, .w-60{
+        width:80%;
+    }
+    .task-lists{
+        flex:64%;
+    }
+    .right-align{
+        flex: 34%;
+    }
+    .b-icon{
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+}
+
+@media (max-width: 425px){
+    .task-description{
+        font-size: 0.8rem;
+    }
+    .task-title{
+        font-size: 1rem;
+    }
     .task-lists{
         flex:100%;
     }

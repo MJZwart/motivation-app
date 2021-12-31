@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <div>
-            <character-summary v-if="character" :character="character" :userCharacter="true" />
-        </div>
+    <div class="overview">
+        <character-summary v-if="character" :character="character" :userCharacter="true" />
         <div v-if="userStats">
             <span class="card-title">{{ $t('stats') }}</span>
             <div class="side-border bottom-border">
@@ -13,9 +11,7 @@
                 </p>
             </div>
         </div>
-        <div>
-            <achievements-summary :achievements="achievements" />
-        </div>
+        <achievements-summary :achievements="achievements" />
     </div>
 </template>
 

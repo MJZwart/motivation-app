@@ -1,6 +1,11 @@
 <template>
     <div>
         <div v-if="userProfile" class="profile-grid">
+            <div class="right-column">
+                <h2>{{userProfile.username}}</h2>
+                <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
+                <achievements-summary v-if="userProfile.achievements" :achievements="userProfile.achievements" />
+            </div>
             <div class="left-column">
                 <character-summary v-if="userProfile.character" class="summary-tab" 
                                    :character="userProfile.character" :userCharacter="false" />
@@ -21,11 +26,6 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div class="right-column">
-                <h2>{{userProfile.username}}</h2>
-                <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
-                <achievements-summary v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
         </div>
     </div>
@@ -70,6 +70,7 @@ export default {
     gap:10px;
 }
 .left-column{
+    grid-row-start: 1;
     grid-column-start: 1;
     display: flex;
     flex-direction: column;
@@ -81,5 +82,11 @@ export default {
     display: flex;
     flex-direction: column;
     gap:10px;
+}
+@media (max-width:767px){
+    .profile-grid{
+        display: flex;
+        flex-direction: column;
+    }
 }
 </style>

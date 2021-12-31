@@ -4,11 +4,14 @@ import store from '../store/store';
 
 Vue.use(VueRouter);
 
-
 let routes = [
     {
         path: '/',
         component: require('../pages/Home.vue').default,
+    },
+    {
+        path: '/dashboard',
+        component: require('../pages/Dashboard.vue').default,
         meta: {requiresAuth: true},
     },
     {
@@ -79,6 +82,10 @@ const router = new VueRouter({
 // eslint-disable-next-line complexity
 router.beforeEach((to, from, next) => {
     store.dispatch('clearErrors');
+
+    if (to.path == '/' && store.getters['user/authenticated']) {
+        return next({path: '/dashboard'});
+    }
 
     if (to.path != '/welcome' && store.getters['user/getUser'].first) {
         return next({path: '/welcome'});
