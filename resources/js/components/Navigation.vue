@@ -1,9 +1,9 @@
 <template>
     <div>
         <b-navbar v-if="!authenticated" type="dark" sticky class="box-shadow">
-            <!-- <b-navbar-nav>
+            <b-navbar-nav>
                 <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
-            </b-navbar-nav> -->
+            </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                 <b-nav-item to="/login">{{ $t('login') }}</b-nav-item>
                 <b-nav-item to="/register">{{ $t('register') }}</b-nav-item>
