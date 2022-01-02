@@ -57,13 +57,13 @@ class RewardHandler {
             case RewardHandler::TYPEGENERIC:
                 break;
             case RewardHandler::TYPEPHYSICAL:
-                $balance = [6, 6, 4, 1, 1, 20];
+                $balance = [1, 9, 4, 1, 3, 20];
                 break;
             case RewardHandler::TYPEMENTAL:
-                $balance = [2, 1, 3, 7, 5, 20];
+                $balance = [6, 2, 6, 3, 1, 20];
                 break;
             case RewardHandler::TYPESOCIAL:
-                $balance = [2, 3, 2, 3, 8, 20];
+                $balance = [3, 1, 1, 6, 7, 20];
                 break;
         }
         return $balance;
