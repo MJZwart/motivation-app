@@ -127,7 +127,7 @@ export default {
          */
         confirmRewardsType() {
             if (this.user.rewards == 'CHARACTER') {
-                this.$store.dispatch('character/fetchAllCharacters').then(() => {
+                this.$store.dispatch('reward/fetchAllCharacters').then(() => {
                     const hasCharacter = !!this.characters.length;
                     this.$bvModal.hide('change-reward-type');
                     if (!hasCharacter) {
@@ -137,7 +137,7 @@ export default {
                     }
                 });
             } else if (this.user.rewards == 'VILLAGE') {
-                this.$store.dispatch('village/fetchAllVillages').then(() => {
+                this.$store.dispatch('reward/fetchAllVillages').then(() => {
                     const hasVillages = !!this.villages.length;
                     this.$bvModal.hide('change-reward-type');
                     if (!hasVillages) {
@@ -204,8 +204,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            characters: 'character/getCharacters',
-            villages: 'village/getVillages',
+            characters: 'reward/getCharacters',
+            villages: 'reward/getVillages',
         }),
         rewardTypeName() {
             return this.user.rewards == 'VILLAGE' ? this.$t('village-name') : this.$t('character-name');

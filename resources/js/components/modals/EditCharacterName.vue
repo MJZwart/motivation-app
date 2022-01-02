@@ -44,7 +44,7 @@ export default {
     methods: {
         updateCharacter() {
             var self = this;
-            this.$store.dispatch('character/updateCharacter', this.editedCharacter).then(function() {
+            this.$store.dispatch('reward/updateCharacter', this.editedCharacter).then(function() {
                 self.close();
             });
         },

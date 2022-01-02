@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\CharacterHandler;
+use App\Helpers\RewardObjectHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\CharacterResource;
 use App\Http\Resources\StatsResource;
 
 class OverviewController extends Controller
@@ -16,12 +15,9 @@ class OverviewController extends Controller
      */
     public function getOverview(){
         $user = Auth::user();
-        $character = null;
-        if($user->rewards == 'CHARACTER'){
-            $character = new CharacterResource(CharacterHandler::findActiveCharacter($user->id));
-        }
+        $rewardObj = RewardObjectHandler::getActiveRewardObjectByUser($user->rewards, $user->id);
         $achievements = $user->achievements;
         $stats = new StatsResource($user);
-        return new JsonResponse(['character' => $character, 'achievements' => $achievements, 'stats' => $stats]);
+        return new JsonResponse(['rewardObj' => $rewardObj, 'achievements' => $achievements, 'stats' => $stats]);
     }
 }

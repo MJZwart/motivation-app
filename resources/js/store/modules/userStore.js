@@ -97,7 +97,7 @@ export default {
             axios.get('/overview').then(response => {
                 commit('setUserStats', response.data.stats);
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
-                commit('character/setCharacter', response.data.character, {root:true});
+                commit('reward/setRewardObj', response.data.rewardObj, {root:true});
             });
         },
 

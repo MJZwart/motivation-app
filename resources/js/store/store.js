@@ -4,8 +4,6 @@ import Vuex from 'vuex';
 import taskListStore from './modules/taskListStore.js';
 import taskStore from './modules/taskStore.js';
 import userStore from './modules/userStore.js';
-import characterStore from './modules/characterStore.js';
-import villageStore from './modules/villageStore.js';
 import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
@@ -21,8 +19,6 @@ export default new Vuex.Store({
         taskList: taskListStore,
         task: taskStore,
         user: userStore,
-        character: characterStore,
-        village: villageStore,
         friend: friendStore,
         notification: notificationStore,
         achievement: achievementStore,
