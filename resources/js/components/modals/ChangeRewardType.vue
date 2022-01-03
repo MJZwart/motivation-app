@@ -131,7 +131,7 @@ export default {
                     const hasCharacter = !!this.characters.length;
                     this.$bvModal.hide('change-reward-type');
                     if (!hasCharacter) {
-                        this.$bvModal.show('new-object_name');
+                        this.$bvModal.show('new-object-name');
                     } else {
                         this.$bvModal.show('character-options');
                     }

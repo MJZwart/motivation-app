@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\ConfirmRegisterRequest;
 use App\Models\User;
 use App\Models\Character;
+use App\Models\Village;
 use App\Models\Task;
 use App\Models\TaskList;
 use App\Models\ExampleTask;
@@ -43,7 +44,12 @@ class RegisteredUserController extends Controller
                 break;
             case 'CHARACTER':
                 Character::create(
-                    ['name' => $request['character_name'],
+                    ['name' => $request['reward_object_name'],
+                    'user_id' => $user->id]);
+                break;
+            case 'VILLAGE':
+                Village::create(
+                    ['name' => $request['reward_object_name'],
                     'user_id' => $user->id]);
                 break;
         }

@@ -64,10 +64,11 @@ class TaskController extends Controller
             AchievementHandler::checkForAchievement('TASKS_COMPLETED', $user);
             
             $taskLists = TaskListResource::collection($user->taskLists);
-            if($user->rewards == 'CHARACTER'){
-                $character = $user->getActiveCharacter();
-                $returnValue = $character->applyReward($task);
-                return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => new CharacterResource($character->fresh())], Response::HTTP_OK);
+            $activeReward = $user->getActiveRewardObject();
+            $returnValue = null;
+            if($user->rewards == 'CHARACTER' || $user->rewards == 'VILLAGE') {
+                $returnValue = $activeReward->applyReward($task);
+                return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'activeReward' => $returnValue->activeReward], Response::HTTP_OK);
             } else {
                 return new JsonResponse(['message' => ['success' => ['Task completed.']], 'data' => $taskLists], Response::HTTP_OK);
             }

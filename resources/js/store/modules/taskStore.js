@@ -42,7 +42,7 @@ export default {
             axios.put('/tasks/complete/' + task.id).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
-                commit('reward/setRewardObj', response.data.character, {root:true});
+                commit('reward/setRewardObj', response.data.activeReward, {root:true});
             });
         },
         fetchExampleTasks: ({commit}) => {

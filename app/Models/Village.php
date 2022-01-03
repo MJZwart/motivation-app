@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\RewardHandler;
+use App\Helpers\LevelHandler;
+use App\Http\Resources\VillageResource;
 
 class Village extends Model
 {
@@ -32,5 +35,19 @@ class Village extends Model
     }
     public function experienceTable(){
         return DB::table('experience_points')->get();
+    }
+
+    /**
+     * Applies a reward from a completed task to a village
+     *
+     * @param Task $task
+     * @return Object
+     */
+    public function applyReward(Task $task){
+        $parsedReward = RewardHandler::calculateReward($task->type, $task->difficulty, 'VILLAGE');
+        $returnValue = LevelHandler::addVillageExperience($this->toArray(), $parsedReward);
+        $this->update($returnValue->activeReward);
+        $returnValue->activeReward = new VillageResource($this);
+        return $returnValue;
     }
 }

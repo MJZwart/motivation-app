@@ -77,9 +77,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
-    /**
-     * TODO
-     */
+    public function getActiveRewardObjectResource(){
+        return RewardObjectHandler::getActiveRewardObjectResourceByUser($this->rewards, $this->id);
+    }
     public function getActiveRewardObject(){
         return RewardObjectHandler::getActiveRewardObjectByUser($this->rewards, $this->id);
     }

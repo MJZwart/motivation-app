@@ -19,11 +19,21 @@ class RewardObjectHandler {
         }
     }
 
-    public static function getActiveRewardObjectByUser(String $type, int $userId) {
+    public static function getActiveRewardObjectResourceByUser(String $type, int $userId) {
         if($type == 'VILLAGE') {
             return new VillageResource(VillageHandler::findActiveVillage($userId));
         } else if($type == 'CHARACTER') {
             return new CharacterResource(CharacterHandler::findActiveCharacter($userId));
+        } else {
+            return null;
+        }
+    }
+
+    public static function getActiveRewardObjectByUser(String $type, int $userId) {
+        if($type == 'VILLAGE') {
+            return VillageHandler::findActiveVillage($userId);
+        } else if($type == 'CHARACTER') {
+            return CharacterHandler::findActiveCharacter($userId);
         } else {
             return null;
         }

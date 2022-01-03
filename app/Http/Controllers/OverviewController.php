@@ -15,7 +15,7 @@ class OverviewController extends Controller
      */
     public function getOverview(){
         $user = Auth::user();
-        $rewardObj = RewardObjectHandler::getActiveRewardObjectByUser($user->rewards, $user->id);
+        $rewardObj = RewardObjectHandler::getActiveRewardObjectResourceByUser($user->rewards, $user->id);
         $achievements = $user->achievements;
         $stats = new StatsResource($user);
         return new JsonResponse(['rewardObj' => $rewardObj, 'achievements' => $achievements, 'stats' => $stats]);
