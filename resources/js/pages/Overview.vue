@@ -13,9 +13,7 @@
                 </p>
             </div>
         </div>
-        <div>
-            <achievements-summary :achievements="achievements" />
-        </div>
+        <achievements-summary :achievements="achievements" />
     </div>
 </template>
 
