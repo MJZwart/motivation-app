@@ -1,4 +1,6 @@
 {
+    "app-name": "Motivation App",
+
     "create-new-task-list": "Create new task list",
     "create-new-task": "Create new task",
     "new-task": "New task",
@@ -127,6 +129,7 @@
     "admin-panel": "Admin panel",
     "send-notification-to-users": "Send notification to all users",
     "send-notification": "Send notification",
+    "delete-notification-confirmation": "Are you sure you want to delete this notification?",
 
     "next": "Next",
     "go-back": "Go back",
@@ -146,5 +149,15 @@
     "profile": "Profile",
     "logout": "Logout",
 
-    "footer-text": "Version 1.0 - MJ Black © 2021."
+    "footer-text": "Version 1.0 - MJ Black © 2021.",
+
+
+    "home-welcome-to": "Welcome to {0}.",
+    "home-introduction": "I've no clue what to write here to entice you to join, so how about I tell you what you can do with this site?",
+    "home-abilities": "What you can do on this site:",
+    "home-abilities-1": "Clicky",
+    "home-abilities-2": "Number go up",
+    "home-abilities-3": "Enter dumb names",
+    "home-and-more": "And more!",
+    "home-2": "More information that is very important for all of you to know"
 }
