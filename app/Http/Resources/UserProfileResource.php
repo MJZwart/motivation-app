@@ -22,7 +22,7 @@ class UserProfileResource extends JsonResource
             'created_at' => $this->created_at->toDateString(),
             'username' => $this->username,
             'display_picture' => $this->display_picture,
-            'rewardObj' => $this->getActiveRewardObjectResource(),
+            'rewardObj' => $this->show_reward ? $this->getActiveRewardObjectResource() : false,
             'achievements' => $this->show_achievements ? $this->achievements : false,
             'friends' => $this->show_friends ? FriendResource::collection($this->friends) : false,
         ];

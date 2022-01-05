@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
         $user->rewards = $request['rewardsType'];
         switch($request['rewardsType']){
             case 'NONE':
-                $user->show_character = false;
+                $user->show_reward = false;
                 break;
             case 'CHARACTER':
                 Character::create(

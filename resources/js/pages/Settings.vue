@@ -9,13 +9,13 @@
             </b-form-group>
             <b-form-group>
                 <b-form-checkbox
-                    id="show_character"
-                    v-model="settings.show_character"
-                    name="show_character"
+                    id="show_reward"
+                    v-model="settings.show_reward"
+                    name="show_reward"
                     switch>
-                    {{ $t('show-character-on-profile') }}
+                    {{ $t('show-reward-on-profile') }}
                 </b-form-checkbox>
-                <base-form-error name="show_character" /> 
+                <base-form-error name="show_reward" /> 
                 <b-form-checkbox
                     id="show_achievements"
                     v-model="settings.show_achievements"
@@ -139,7 +139,7 @@ export default {
         setupSettings() {
             this.emailSettings.email = this.user.email;
             this.settings.show_achievements = this.user.show_achievements;
-            this.settings.show_character = this.user.show_character;
+            this.settings.show_reward = this.user.show_reward;
             this.settings.show_friends = this.user.show_friends;
             this.loading = false;
         },
