@@ -93,10 +93,13 @@ class UserController extends Controller
         $validated = $request->validated();
         $user = Auth::user();
         $user->update($validated);
-        $activeReward = $this->handleRewardSettings($user, 
-                                                       $request['keepOldInstance'], 
-                                                       $request['new_object_name'], 
-                                                       $request['rewards']);
+        $activeReward = null;
+        if($user->rewards != 'NONE'){
+            $activeReward = $this->handleRewardSettings($user, 
+                                                           $request['keepOldInstance'], 
+                                                           $request['new_object_name'], 
+                                                           $request['rewards']);
+        }
         return new JsonResponse([
             'message' => ['success' => ['Your rewards type has been changed.']], 
             'user' => new UserResource($user),
