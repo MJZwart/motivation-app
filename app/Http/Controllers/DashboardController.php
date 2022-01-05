@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Resources\TaskListResource;
 use App\Http\Resources\CharacterResource;
 use App\Helpers\VillageHandler;
+use App\Helpers\RewardObjectHandler;
 use App\Http\Resources\VillageResource;
 
 class DashboardController extends Controller
@@ -19,12 +20,7 @@ class DashboardController extends Controller
     public function getDashboard(){
         $user = Auth::user();
         $taskLists = TaskListResource::collection($user->taskLists);
-        $rewardObj = null;
-        if($user->rewards == 'CHARACTER'){
-            $rewardObj = new CharacterResource(CharacterHandler::findActiveCharacter($user->id));
-        } else if ($user->rewards == 'VILLAGE') {
-            $rewardObj = new VillageResource(VillageHandler::findActiveVillage($user->id));
-        }
+        $rewardObj = RewardObjectHandler::getActiveRewardObjectResourceByUser($user->rewards, $user->id);
         return new JsonResponse(['taskLists' => $taskLists, 'rewardObj' => $rewardObj]);
     }
 }
