@@ -15,6 +15,7 @@ use App\Http\Controllers\ExampleTaskController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\VillageController;
+use App\Http\Controllers\RewardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/character/all', [CharacterController::class, 'fetchAllCharactersByUser']);
 
     Route::get('/village/all', [VillageController::class, 'fetchAllVillagesByUser']);
+
+    Route::put('/reward/update', [RewardController::class, 'updateRewardObj']);
 
     
     Route::get('/notifications', [NotificationController::class, 'show']);

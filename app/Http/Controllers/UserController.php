@@ -112,11 +112,11 @@ class UserController extends Controller
      *
      * @param User $user
      * @param [String | int] $keepOldInstance
-     * @param String $rewardObjectName
+     * @param [String | null] $rewardObjectName
      * @param String $rewardType
      * @return void
      */
-    private function handleRewardSettings(User $user, $keepOldInstance, String $rewardObjectName, String $rewardType){
+    private function handleRewardSettings(User $user, $keepOldInstance, $rewardObjectName, String $rewardType){
         if($keepOldInstance == 'NEW'){
             return RewardObjectHandler::createNewObjectAndActivate($rewardType, $user->id, $rewardObjectName);
         } else if (is_numeric($keepOldInstance)) {

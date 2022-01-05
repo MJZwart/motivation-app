@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Village;
+use Illuminate\Support\Facades\Auth;
 
 class VillageHandler {
 
@@ -83,5 +84,15 @@ class VillageHandler {
      */
     public static function findAllVillagesByUser($userId){
         return Village::where('user_id', $userId)->get();
+    }
+
+    public static function updateActiveVillage($activeVillage, $newName) {
+        $village = Village::find($activeVillage);
+        if($village->user_id == Auth::user()->id){
+            $village->update(['name' => $newName]);
+            return $village->refresh();
+        } else {
+            //Throw exception
+        }
     }
 }

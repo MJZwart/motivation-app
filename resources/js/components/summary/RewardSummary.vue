@@ -28,15 +28,15 @@
             </div>
         </div>
         
-        <!-- <b-modal id="edit-reward-name" hide-footer :title="$t('edit-reward-name')">
-            <edit-reward-name :reward="rewardToEdit" @close="closeEditReward" />
-        </b-modal> -->
+        <b-modal id="edit-reward-name" hide-footer :title="$t('edit-reward-name')">
+            <edit-reward-object-name :rewardObj="rewardToEdit" :type="rewardType" @close="closeEditReward" />
+        </b-modal>
     </div>
 </template>
 
 
 <script>
-// import EditRewardName from '../modals/EditRewardName.vue';
+import EditRewardObjectName from '../modals/EditRewardObjectName.vue';
 export default {
     props: {
         reward: {
@@ -54,7 +54,7 @@ export default {
         },
     },
     components: {
-        // EditRewardName,
+        EditRewardObjectName,
     },
     data() {
         return {
@@ -74,15 +74,15 @@ export default {
                 return this.reward.experienceTable[index].experience_points;
             }
         },
-        // showEditReward() {
-        //     this.$store.dispatch('clearErrors');
-        //     this.rewardToEdit = this.reward;
-        //     this.$bvModal.show('edit-reward-name');
-        // },
-        // closeEditReward() {
-        //     this.rewardToEdit = null;
-        //     this.$bvModal.hide('edit-reward-name');
-        // },
+        showEditReward() {
+            this.$store.dispatch('clearErrors');
+            this.rewardToEdit = this.reward;
+            this.$bvModal.show('edit-reward-name');
+        },
+        closeEditReward() {
+            this.rewardToEdit = null;
+            this.$bvModal.hide('edit-reward-name');
+        },
     },
 }
 </script>

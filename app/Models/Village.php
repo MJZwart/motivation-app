@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\RewardHandler;
 use App\Helpers\LevelHandler;
 use App\Http\Resources\VillageResource;
+use App\Helpers\VariableHandler;
 
 class Village extends Model
 {
@@ -34,6 +35,7 @@ class Village extends Model
         return $this->belongsTo('App\Models\User');
     }
     public function experienceTable(){
+        return VariableHandler::getExperienceTable();
         return DB::table('experience_points')->get();
     }
 
