@@ -6,10 +6,7 @@ use App\Helpers\CharacterHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\TaskListResource;
-use App\Http\Resources\CharacterResource;
-use App\Helpers\VillageHandler;
 use App\Helpers\RewardObjectHandler;
-use App\Http\Resources\VillageResource;
 
 class DashboardController extends Controller
 {
