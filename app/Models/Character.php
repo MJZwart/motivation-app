@@ -8,6 +8,7 @@ use App\Helpers\RewardHandler;
 use App\Helpers\LevelHandler;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CharacterResource;
+use App\Helpers\VariableHandler;
 
 class Character extends Model
 {
@@ -49,6 +50,7 @@ class Character extends Model
     }
 
     public function experienceTable(){
-        return DB::table('experience_points')->get();
+        return VariableHandler::getExperienceTable();
+        //return DB::table('experience_points')->get();
     }
 }
