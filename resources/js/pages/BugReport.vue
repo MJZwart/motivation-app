@@ -1,8 +1,3 @@
-#TODO: create type selection
-#TODO: create severity selection
-#TODO: store dispatch
-
-
 <template>
     <div>
         <h2>Submit a bug report.</h2>
@@ -27,6 +22,31 @@
                         placeholder="Page" 
                         v-model="bugReport.page" />
                 </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select
+                        name="type"
+                        id="type"
+                        v-model="bugReport.type">
+                        <option value="1">Design</option>
+                        <option value="2">Language</option>
+                        <option value="3">Functionality</option>
+                        <option value="4">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="severity">Severity</label>
+                    <select
+                        name="severity"
+                        id="severity"
+                        v-model="bugReport.severity">
+                        <option value="1">low</option>
+                        <option value="2">medium</option>
+                        <option value="3">high</option>
+                        <option value="4">severe</option>
+                        <option value="5">critical</option>
+                    </select>
+                </div>                
                 <div class="form-group">
                     <label for="image_link">Image Link</label>
                     <input 
@@ -61,6 +81,8 @@ export default {
             bugReport: {
                 title: '',
                 page: '',
+                type: 1,
+                severity: 1,
                 image_link: '',
                 comment: '',
             },
