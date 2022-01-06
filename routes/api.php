@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/search', [UserController::class, 'searchUser']);
     Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
 
-    Route::post('/bugreport', [BugReportController::class, 'bugreport']);
+    Route::post('/bugreport', [BugReportController::class, 'store']);
 });
 
     Route::get('/achievements', [AchievementController::class, 'showAll']);
