@@ -28,6 +28,7 @@
                         name="type"
                         id="type"
                         v-model="bugReport.type">
+                        <option disabled value="">Please select type</option>
                         <option value="1">Design</option>
                         <option value="2">Language</option>
                         <option value="3">Functionality</option>
@@ -40,6 +41,7 @@
                         name="severity"
                         id="severity"
                         v-model="bugReport.severity">
+                        <option disabled value="">Please select severity</option>
                         <option value="1">low</option>
                         <option value="2">medium</option>
                         <option value="3">high</option>
@@ -81,8 +83,8 @@ export default {
             bugReport: {
                 title: '',
                 page: '',
-                type: 1,
-                severity: 1,
+                type: '',
+                severity: '',
                 image_link: '',
                 comment: '',
             },
