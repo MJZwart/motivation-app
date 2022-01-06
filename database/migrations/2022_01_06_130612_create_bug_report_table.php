@@ -20,7 +20,7 @@ class CreateBugReportTable extends Migration
             $table->string('page');
             $table->string('type');
             $table->integer('severity');
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->string('comment');
             $table->string('admin_comment')->nullable();
             $table->integer('status')->default(0); //0 = reported, 1 = in progress, 2 = done, 3 = resolved
