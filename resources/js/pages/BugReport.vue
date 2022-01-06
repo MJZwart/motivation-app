@@ -46,7 +46,7 @@
                         <option value="4">severe</option>
                         <option value="5">critical</option>
                     </select>
-                </div>                
+                </div>
                 <div class="form-group">
                     <label for="image_link">Image Link</label>
                     <input 

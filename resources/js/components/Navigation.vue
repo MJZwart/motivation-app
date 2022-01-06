@@ -11,7 +11,7 @@
                 <router-link to="/friends">Friends</router-link>
             </li>
             <li v-if="authenticated">
-                <router-link to="/bugreports">BugReports</router-link>
+                <router-link to="/bugreport">Report a Bug</router-link>
             </li>
 
             <li v-if="admin">
