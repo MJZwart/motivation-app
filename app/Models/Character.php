@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\RewardHandler;
 use App\Helpers\LevelHandler;
-use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CharacterResource;
 use App\Helpers\VariableHandler;
 
@@ -51,6 +50,5 @@ class Character extends Model
 
     public function experienceTable(){
         return VariableHandler::getExperienceTable();
-        //return DB::table('experience_points')->get();
     }
 }
