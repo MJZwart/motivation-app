@@ -20,23 +20,23 @@
                             <p class="radio-label">{{ $t('character-reward') }}</p>
                         </b-form-radio>
                         <b-form-radio v-model="user.rewardsType" type="radio" 
-                                      class="input-override" value="VILLAGE" name="rewards-type" disabled>
-                            <p class="radio-label disabled">{{ $t('village-reward') }}</p>
+                                      class="input-override" value="VILLAGE" name="rewards-type">
+                            <p class="radio-label">{{ $t('village-reward') }}</p>
                         </b-form-radio>
                     </b-form-radio-group>
                     <base-form-error name="rewards-type" /> 
                 </b-form-group>
-                <b-form-group v-if="user.rewardsType == 'CHARACTER'"
-                              :label="$t('character-name')"
-                              label-for="character_name"
+                <b-form-group v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
+                              :label="parsedLabelName"
+                              label-for="reward_object_name"
                               :description="$t('change-name-later')">
                     <b-form-input 
-                        id="character_name" 
-                        v-model="user.character_name"
+                        id="reward_object_name" 
+                        v-model="user.reward_object_name"
                         type="text" 
-                        name="character_name" 
-                        :placeholder="$t('character-name')"  />
-                    <base-form-error name="character_name" /> 
+                        name="reward_object_name" 
+                        :placeholder="parsedLabelName"  />
+                    <base-form-error name="reward-object_name" /> 
                 </b-form-group>
                 <b-button block @click="nextModal()">{{ $t('next') }}</b-button>
                 <b-button block variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
@@ -91,7 +91,7 @@ export default {
             user: {
                 rewardsType: 'NONE',
                 tasks: [],
-                character_name: null,
+                reward_object_name: null,
             },
         }
     },
@@ -110,9 +110,11 @@ export default {
             this.$store.dispatch('user/confirmRegister', this.user);
         },
         checkInput() {
-            if (this.user.rewardsType == 'CHARACTER' && !this.user.character_name) {
-                this.$store.commit('setErrorMessages', {'character_name': ['No character name given.']});
+            if (this.user.rewardsType == 'CHARACTER' && !this.user.reward_object_name) {
+                this.$store.commit('setErrorMessages', {'reward_object_name': ['No character name given.']});
                 return false;
+            } else if (this.user.rewardsType == 'VILLAGE' && !this.user.reward_object_name) {
+                this.$store.commit('setErrorMessages', {'reward_object_name': ['No village name given.']});
             } else {
                 this.$store.dispatch('clearErrors');
                 return true;
@@ -126,6 +128,15 @@ export default {
         ...mapGetters({
             exampleTasks: 'task/getExampleTasks',
         }),
+        parsedLabelName() {
+            if (this.user.rewardsType == 'CHARACTER') {
+                return this.$t('character-name');
+            } else if (this.user.rewardsType == 'VILLAGE') {
+                return this.$t('village-name');
+            } else {
+                return null;
+            }
+        },
     },
 }
 </script>

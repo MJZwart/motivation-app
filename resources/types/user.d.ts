@@ -6,7 +6,7 @@ export type User = {
     first: boolean,
     rewards: String,
     show_achievements: boolean,
-    show_character: boolean,
+    show_reward: boolean,
     show_friends: boolean,
     friends: Array,
 }

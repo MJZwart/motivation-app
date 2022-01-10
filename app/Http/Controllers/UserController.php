@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\CharacterResource;
+use App\Http\Resources\VillageResource;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\UserResource;
@@ -13,6 +14,8 @@ use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Helpers\CharacterHandler;
+use App\Helpers\RewardObjectHandler;
+use App\Helpers\VillageHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -91,18 +94,34 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         $activeReward = null;
-        if($request['rewards'] == 'CHARACTER' && $request['keepCharacter'] == 'NEW'){
-            $character = CharacterHandler::createNewCharacterAndActivate($user->id, $request['character_name']);
-            $activeReward = new CharacterResource($character);
-        } else if($request['rewards'] == 'CHARACTER' && is_numeric($request['keepCharacter'])){
-            $character = CharacterHandler::toggleCharacterActive($user->id, $request['keepCharacter']);
-            $activeReward = new CharacterResource($character);
+        if($user->rewards != 'NONE'){
+            $activeReward = $this->handleRewardSettings($user, 
+                                                           $request['keepOldInstance'], 
+                                                           $request['new_object_name'], 
+                                                           $request['rewards']);
         }
         return new JsonResponse([
             'message' => ['success' => ['Your rewards type has been changed.']], 
             'user' => new UserResource($user),
             'activeReward' => $activeReward],
             Response::HTTP_OK);
+    }
+
+    /**
+     * Separates by type and further handles the reward settings
+     *
+     * @param User $user
+     * @param [String | int] $keepOldInstance
+     * @param [String | null] $rewardObjectName
+     * @param String $rewardType
+     * @return void
+     */
+    private function handleRewardSettings(User $user, $keepOldInstance, $rewardObjectName, String $rewardType){
+        if($keepOldInstance == 'NEW'){
+            return RewardObjectHandler::createNewObjectAndActivate($rewardType, $user->id, $rewardObjectName);
+        } else if (is_numeric($keepOldInstance)) {
+            return RewardObjectHandler::toggleActiveRewardObject($rewardType, $user->id, $keepOldInstance);
+        }
     }
 
     /**

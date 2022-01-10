@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Character;
+use Illuminate\Support\Facades\Auth;
 
 class CharacterHandler {
 
@@ -83,5 +84,15 @@ class CharacterHandler {
      */
     public static function findAllCharactersByUser($userId){
         return Character::where('user_id', $userId)->get();
+    }
+
+    public static function updateActiveCharacter($activeCharacter, $newName) {
+        $character = Character::find($activeCharacter);
+        if($character->user_id == Auth::user()->id){
+            $character->update(['name' => $newName]);
+            return $character->refresh();
+        } else {
+            //Throw exception
+        }
     }
 }

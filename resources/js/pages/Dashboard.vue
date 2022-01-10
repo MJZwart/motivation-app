@@ -18,7 +18,8 @@
             </div>
 
             <div class="right-align">
-                <character-summary v-if="character" class="summary-tab" :character="character" :userCharacter="true" />
+                <reward-summary v-if="rewardObj" class="summary-tab" 
+                                :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
 
                 <friends-summary class="summary-tab" />
             </div>
@@ -52,7 +53,7 @@ import EditTask from '../components/modals/EditTask.vue';
 import NewTaskList from '../components/modals/NewTaskList.vue';
 import EditTaskList from '../components/modals/EditTaskList.vue';
 import DeleteTaskListConfirm from '../components/modals/DeleteTaskListConfirm.vue';
-import CharacterSummary from '../components/summary/CharacterSummary.vue';
+import RewardSummary from '../components/summary/RewardSummary.vue';
 import FriendsSummary from '../components/summary/FriendsSummary.vue';
 export default {
     components: { 
@@ -62,7 +63,7 @@ export default {
         NewTaskList, 
         EditTaskList, 
         DeleteTaskListConfirm, 
-        CharacterSummary, 
+        RewardSummary,
         FriendsSummary},
     data() {
         return {
@@ -150,7 +151,7 @@ export default {
     computed: {
         ...mapGetters({
             taskLists: 'taskList/getTaskLists',
-            character: 'character/getCharacter',
+            rewardObj: 'reward/getRewardObj',
         }),
     },
     

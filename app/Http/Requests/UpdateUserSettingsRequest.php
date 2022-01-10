@@ -27,7 +27,7 @@ class UpdateUserSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'show_character' => [Rule::requiredIf($this->rewards == 'CHARACTER'),'boolean'],
+            'show_reward' => [Rule::requiredIf($this->rewards != 'NONE'),'boolean'],
             'show_achievements' => 'required|boolean',
             'show_friends' => 'required|boolean',
         ];

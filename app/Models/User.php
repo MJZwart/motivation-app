@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
+use App\Helpers\RewardObjectHandler;
 use Illuminate\Support\Facades\DB;
 use App\Models\RepeatableTaskCompleted;
 
@@ -27,7 +28,7 @@ class User extends Authenticatable
         'display_picture',
         'rewards',
         'show_achievements',
-        'show_character',
+        'show_reward',
         'show_friends',
     ];
 
@@ -74,6 +75,13 @@ class User extends Authenticatable
 
     public function notifications(){
         return $this->hasMany('App\Models\Notification');
+    }
+
+    public function getActiveRewardObjectResource(){
+        return RewardObjectHandler::getActiveRewardObjectResourceByUser($this->rewards, $this->id);
+    }
+    public function getActiveRewardObject(){
+        return RewardObjectHandler::getActiveRewardObjectByUser($this->rewards, $this->id);
     }
 
     /**
