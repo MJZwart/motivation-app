@@ -1,6 +1,6 @@
 <template>
     <div class="w-60 center">
-        <h2>Submit a bug report.</h2>
+        <h2>{{ $t('submit-bug-report') }}</h2>
 
         <b-form @submit.prevent="submitBugReport">
             <b-form-group
@@ -16,7 +16,8 @@
             </b-form-group>
             <b-form-group
                 :label="$t('page')"
-                label-for="page">
+                label-for="page"
+                :description="$t('page-desc')">
                 <b-form-input 
                     id="page" 
                     v-model="bugReport.page" 
@@ -27,38 +28,30 @@
             </b-form-group>
             <b-form-group
                 :label="$t('type')"
-                label-for="type">
+                label-for="type"
+                :description="$t('bug-type-desc')">
                 <b-form-select
                     id="type"
-                    v-model="bugReport.type">
-                    name="type"
-                    <option disabled value="">Please select type</option>
-                    <option value="1">Design</option>
-                    <option value="2">Language</option>
-                    <option value="3">Functionality</option>
-                    <option value="4">Other</option>
-                </b-form-select>
+                    v-model="bugReport.type"
+                    name="type" 
+                    :options="bugTypes" />
                 <base-form-error name="type" />
             </b-form-group>
             <b-form-group
                 :label="$t('severity')"
-                label-for="severity">
+                label-for="severity"
+                :description="$t('bug-severity-desc')">
                 <b-form-select
                     id="severity"
-                    v-model="bugReport.severity">
+                    v-model="bugReport.severity"
                     name="severity"
-                    <option disabled value="">Please select severity</option>
-                    <option value="1">low</option>
-                    <option value="2">medium</option>
-                    <option value="3">high</option>
-                    <option value="4">severe</option>
-                    <option value="5">critical</option>
-                </b-form-select>
+                    :options="bugSeverity" />
                 <base-form-error name="severity" />
             </b-form-group>
             <b-form-group
                 :label="$t('image-link')"
-                label-for="image-link">
+                label-for="image-link"
+                :description="$t('bug-image-link-desc')">
                 <b-form-input 
                     id="image-link" 
                     v-model="bugReport.image_link" 
@@ -69,13 +62,15 @@
             </b-form-group>
             <b-form-group
                 :label="$t('comment')"
-                label-for="comment">
-                <b-form-input 
+                label-for="comment"
+                :description="$t('bug-comment-desc')">
+                <b-form-textarea 
                     id="comment" 
                     v-model="bugReport.comment"
                     type="text" 
                     name="comment" 
-                    placeholder="Comment" />
+                    rows=3
+                    :placeholder="$t('comment')" />
                 <base-form-error name="comment" />
             </b-form-group>
             <b-button type="submit" block>{{ $t('submit-bug-report') }}</b-button>
@@ -86,6 +81,8 @@
 
 <script>
 import BaseFormError from '../components/BaseFormError.vue';
+import {BUG_TYPES, BUG_SEVERITY} from '../constants/bugConstants';
+
 export default {
     components: {BaseFormError},
     data() {
@@ -93,11 +90,13 @@ export default {
             bugReport: {
                 title: '',
                 page: '',
-                type: '',
-                severity: '',
+                type: 1,
+                severity: 1,
                 image_link: '',
                 comment: '',
             },
+            bugTypes: BUG_TYPES,
+            bugSeverity: BUG_SEVERITY,
         }
     },
     methods: {
