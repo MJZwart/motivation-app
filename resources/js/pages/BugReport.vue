@@ -1,83 +1,93 @@
 <template>
-    <div>
+    <div class="w-60 center">
         <h2>Submit a bug report.</h2>
 
-        <div class="bugreport-form">
-            <form @submit.prevent="submitBugReport">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input 
-                        type="text" 
-                        id="title" 
-                        name="title" 
-                        placeholder="Title" 
-                        v-model="bugReport.title" />
-                </div>
-                <div class="form-group">
-                    <label for="page">Page</label>
-                    <input 
-                        type="text" 
-                        id="page" 
-                        name="page" 
-                        placeholder="Page" 
-                        v-model="bugReport.page" />
-                </div>
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <select
-                        name="type"
-                        id="type"
-                        v-model="bugReport.type">
-                        <option disabled value="">Please select type</option>
-                        <option value="1">Design</option>
-                        <option value="2">Language</option>
-                        <option value="3">Functionality</option>
-                        <option value="4">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="severity">Severity</label>
-                    <select
-                        name="severity"
-                        id="severity"
-                        v-model="bugReport.severity">
-                        <option disabled value="">Please select severity</option>
-                        <option value="1">low</option>
-                        <option value="2">medium</option>
-                        <option value="3">high</option>
-                        <option value="4">severe</option>
-                        <option value="5">critical</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="image_link">Image Link</label>
-                    <input 
-                        type="text" 
-                        id="image_link" 
-                        name="image_link" 
-                        placeholder="Image Link" 
-                        v-model="bugReport.image_link" />
-                </div>
-                <div class="form-group">
-                    <label for="comment">Comment</label>
-                    <input 
-                        type="text" 
-                        id="comment" 
-                        name="comment" 
-                        placeholder="Comment" 
-                        v-model="bugReport.comment" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="long-button">submit bug report</button>
-                </div>
-            </form> 
-        </div>
+        <b-form @submit.prevent="submitBugReport">
+            <b-form-group
+                :label="$t('title')"
+                label-for="title">
+                <b-form-input 
+                    id="title" 
+                    v-model="bugReport.title" 
+                    type="text" 
+                    name="title" 
+                    :placeholder="$t('title')" />
+                <base-form-error name="title" />
+            </b-form-group>
+            <b-form-group
+                :label="$t('page')"
+                label-for="page">
+                <b-form-input 
+                    id="page" 
+                    v-model="bugReport.page" 
+                    type="text" 
+                    name="page" 
+                    :placeholder="$t('page')" />
+                <base-form-error name="page" />
+            </b-form-group>
+            <b-form-group
+                :label="$t('type')"
+                label-for="type">
+                <b-form-select
+                    id="type"
+                    v-model="bugReport.type">
+                    name="type"
+                    <option disabled value="">Please select type</option>
+                    <option value="1">Design</option>
+                    <option value="2">Language</option>
+                    <option value="3">Functionality</option>
+                    <option value="4">Other</option>
+                </b-form-select>
+                <base-form-error name="type" />
+            </b-form-group>
+            <b-form-group
+                :label="$t('severity')"
+                label-for="severity">
+                <b-form-select
+                    id="severity"
+                    v-model="bugReport.severity">
+                    name="severity"
+                    <option disabled value="">Please select severity</option>
+                    <option value="1">low</option>
+                    <option value="2">medium</option>
+                    <option value="3">high</option>
+                    <option value="4">severe</option>
+                    <option value="5">critical</option>
+                </b-form-select>
+                <base-form-error name="severity" />
+            </b-form-group>
+            <b-form-group
+                :label="$t('image-link')"
+                label-for="image-link">
+                <b-form-input 
+                    id="image-link" 
+                    v-model="bugReport.image_link" 
+                    type="text" 
+                    name="image-link" 
+                    :placeholder="$t('image-link')" />
+                <base-form-error name="image_link" />
+            </b-form-group>
+            <b-form-group
+                :label="$t('comment')"
+                label-for="comment">
+                <b-form-input 
+                    id="comment" 
+                    v-model="bugReport.comment"
+                    type="text" 
+                    name="comment" 
+                    placeholder="Comment" />
+                <base-form-error name="comment" />
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('submit-bug-report') }}</b-button>
+        </b-form> 
     </div>
 </template>
 
 
 <script>
+import BaseFormError from '../components/BaseFormError.vue';
 export default {
+    components: {BaseFormError},
     data() {
         return {
             bugReport: {
@@ -91,15 +101,10 @@ export default {
         }
     },
     methods: {
-        submitBugReport(){
+        submitBugReport() {
             this.$store.dispatch('bugReport/storeBugReport', this.bugReport);
-        }
+        },
     },
     
 }
 </script>
-
-
-<style>
-
-</style>

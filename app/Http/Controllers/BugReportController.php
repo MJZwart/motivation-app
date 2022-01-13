@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\BugReport;
-use App\Http\BugReportRessource;
 use App\Http\Requests\StoreBugReportRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-
 
 class BugReportController extends Controller
 {
@@ -19,6 +16,6 @@ class BugReportController extends Controller
 
         BugReport::create($validated);
 
-        return new JsonResponse(['message' => ['message' => ['Bug Report successfully created.']]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ['Bug report successfully created.']]], Response::HTTP_OK);
     }
 }
