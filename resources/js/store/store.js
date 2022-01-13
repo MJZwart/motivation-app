@@ -8,6 +8,7 @@ import friendStore from './modules/friendStore.js';
 import notificationStore from './modules/notificationStore.js';
 import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
+import bugReportStore from './modules/bugReportStore.js';
 import rewardStore from './modules/rewardStore.js';
 import toastService from '../services/toastService';
 import axios from 'axios';
@@ -23,6 +24,7 @@ export default new Vuex.Store({
         notification: notificationStore,
         achievement: achievementStore,
         admin: adminStore,
+        bugReport: bugReportStore,
         reward: rewardStore,
     },
     state: {

@@ -72,6 +72,10 @@ let routes = [
         component: require('../pages/AdminBugPanel.vue').default,
         meta: {requiresAuth: true, requiresAdmin: true},
     },
+    {
+        path: '/bugreport',
+        component: require('../pages/BugReport.vue').default,
+    },
     // {
     //     path: '/test',
     //     component: require('../pages/Test.vue').default,
