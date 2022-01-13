@@ -12,6 +12,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\ExampleTaskController;
+use App\Http\Controllers\BugReportController;
 
 /*
 |--------------------------------------------------------------------------

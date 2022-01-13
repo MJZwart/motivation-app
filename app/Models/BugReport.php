@@ -9,7 +9,7 @@ class BugReport extends Model
 {
     use HasFactory;
 
-    protected $fullable = [
+    protected $fillable = [
         'title',
         'page',
         'type',
