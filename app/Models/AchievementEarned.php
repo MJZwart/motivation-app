@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AchievementEarned extends Model
@@ -11,8 +10,6 @@ class AchievementEarned extends Model
 
     protected $fillable = ['user_id', 'achievement_id'];
     public $timestamps = false;
-
-    //TODO Untested
 
     public function achievement(){
         return $this->belongsTo('App\Models\Achievement');

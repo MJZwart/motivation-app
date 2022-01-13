@@ -1,8 +1,8 @@
 <template>
     <div>
         <form class="navbar-search">
-            <input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch">
-            <button type="submit" @click="searchUser">Search</button>
+            <b-form-input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
+            <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
         </form>
     </div>
 </template>
@@ -13,19 +13,18 @@ export default {
     data() {
         return {
             data: {
-                userSearch: "",
+                userSearch: '',
             },
-            
         }
     },
     methods: {
+        /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
         searchUser() {
             this.$store.dispatch('user/searchUser', this.data);
-            this.$router.push({path: '/search'}).catch(()=>{});
-            this.data.userSearch = "";
-        }
+            this.$router.push({path: '/search'}).catch(() => {});
+            this.data.userSearch = '';
+        },
     },
-
 }
 </script>
 

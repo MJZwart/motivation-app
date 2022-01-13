@@ -1,0 +1,175 @@
+@import 'variables';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
+
+* {
+    box-sizing: border-box;
+}
+.content {
+    margin: 20px;
+}
+p {
+    margin-left:5px;
+}
+
+
+.silent {
+    font-weight: 200;
+    color: $grey;
+}
+
+.icon-small{
+    color:$primary;
+    margin:2px;
+    cursor:pointer;
+}
+.pointer{
+    cursor:pointer;
+}
+.modal-backdrop {
+    opacity: 0.5;
+}
+.bottom-radius {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.box-shadow {
+    box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
+}
+.summary-card{
+    font-size: 12px;
+    font-weight: 400;
+}
+.card-title{
+    font-size:18px;
+    font-weight: 600;
+    border: 1px solid $primary;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    display: block;
+    padding:5px;
+    margin-bottom:0;
+}
+.card-content{
+    padding: 5px;
+    p{
+        margin-bottom:1px;
+    }
+}
+
+.side-border {
+    border-left: 1px solid $primary;
+    border-right: 1px solid $primary;
+}
+.bottom-border {
+    border-bottom: 1px solid $primary;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.border{
+    border: 1px solid $primary;
+    border-radius: 6px;
+}
+
+.w-40{
+    width:40%;
+}
+.w-60{
+    width:60%;
+}
+.w-80{
+    width:80%;
+}
+
+.center{
+    margin: auto auto;
+}
+
+.task{
+    margin:0;
+    padding:5px;
+    border-bottom: 1px solid $primary;
+}
+.sub-task{
+    margin:-6px;
+    padding:5px;
+    .task-description{
+        margin-left:1.5rem;
+    }
+}
+.task-description{
+    font-size:12px;
+    color:$grey;
+    margin: 0 0.5rem;
+}
+.task-title{
+    font-weight:600;
+    margin-bottom:0;
+}
+
+.green{
+    color: $green;
+}
+
+.red{
+    color: $red;
+}
+
+.task-lists{
+    flex:74%;
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+}
+.task-list{
+    flex: 49%;
+    height: fit-content;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.summary-list{
+    list-style: none;
+    padding-inline-start:0;
+    font-size:14px;
+}
+.overview{
+    div{
+        margin-bottom: 0.8rem;
+    }
+}
+
+@media (max-width:991px){
+    .task-list{
+        flex: 100%;
+    }
+}
+
+@media (max-width:767px){
+    .w-40, .w-60{
+        width:80%;
+    }
+    .task-lists{
+        flex:64%;
+    }
+    .right-align{
+        flex: 34%;
+    }
+    .b-icon{
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+}
+
+@media (max-width: 425px){
+    .task-description{
+        font-size: 0.8rem;
+    }
+    .task-title{
+        font-size: 1rem;
+    }
+    .task-lists{
+        flex:100%;
+    }
+}

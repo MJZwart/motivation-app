@@ -19,11 +19,17 @@ class Achievement extends Model
         'image',
     ];
 
-    //TODO Untested public key
     public function users(){
         return $this->belongsToMany('App\Models\User', 'achievements_earned');
     }
 
+    /**
+     * Creates a human readable trigger description, given the amount and type of achievement trigger
+     *
+     * @param Integer $amount
+     * @param String $type
+     * @return String
+     */
     public function parseTrigger($amount, $type){
         $trigger = AchievementTrigger::where('trigger_type', $type)->first();
         $plural = $amount > 1 ? 's': '';

@@ -1,15 +1,5 @@
 <template>
-    <h2>Footer</h2>
+    <div class="d-flex">
+        <p class="silent ml-auto mr-2">{{ $t('footer-text') }}</p>
+    </div>
 </template>
-
-
-<script>
-export default {
-    
-}
-</script>
-
-
-<style>
-
-</style>

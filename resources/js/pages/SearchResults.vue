@@ -1,34 +1,34 @@
 <template>
-    <div>
-        <form class="search-bar">
-            <input type="search" placeholder="Search user" aria-label="Search user" v-model="data.userSearch">
-            <button type="submit" @click="searchUser">Search</button>
-        </form>
+    <div class="w-60 m-auto">
+        <b-form class="search-bar">
+            <b-form-input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
+            <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
+        </b-form>
         <br />
-        <h3>Search results:</h3>
+        <h3>{{ $t('search-results') }}:</h3>
         <div v-if="searchResults">
-            <div v-if="!searchResults.length">No results</div>
-            <div v-for="user in searchResults" :key="user.id">
+            <div  v-for="user in searchResults" :key="user.id">
                 <router-link :to="{ name: 'profile', params: { id: user.id}}">{{user.username}}</router-link>
             </div>
         </div>
+        <div v-else>{{ $t('no-results') }}</div>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 export default {
     data() {
         return {
             data: {
-                userSearch: "",
+                userSearch: '',
             },
         }
     },
     methods: {
         searchUser() {
             this.$store.dispatch('user/searchUser', this.data);
-            this.data.userSearch = "";
+            this.data.userSearch = '';
         },
     },
     computed: {
@@ -42,7 +42,6 @@ export default {
 <style>
 .search-bar{
     display:flex;
-    width:70%;
     flex-direction:row;
 }
 </style>

@@ -30,7 +30,7 @@ class StoreTaskRequest extends FormRequest
         return [
             'task_list_id' => ['required', 'integer', 'exists:task_lists,id', new OwnerOfTaskList(Auth::user()->id)],
             'difficulty' => 'required|integer|max:5',
-            'type' => 'required|integer|max:10',
+            'type' => 'required|integer|max:4',
             'name' => 'required|string|max:255',
             'description' => 'string',
             'super_task_id' => ['nullable', 'integer', 'exists:tasks,id', new OwnerOfTask(Auth::user()->id)],

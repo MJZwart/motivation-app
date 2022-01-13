@@ -1,163 +1,149 @@
 <template>
     <div>
-        <div v-show="firstModal">
-            <transition name="modal-fade">
-                <div class="modal-backdrop">
-                    <div class="modal">
-                        <information-block></information-block>
-
-                        <div class="form-title">
-                        <h3>Welcome!</h3>
-                        <p class="silent">Hold up, you're not quite done yet.</p>
-                        </div>
-                            <div class="form-group">
-                                <label for="name">Rewards type</label>
-                                <p class="silent">How would you like to be rewarded for completing your tasks?</p>
-                                <b-form-radio-group checked="NONE">
-                                    <b-form-radio type="radio" class="input-override" v-model="user.rewardsType" value="NONE">
-                                        <p class="radio-label">Nothing, just let me complete tasks.</p>
-                                    </b-form-radio>
-                                    <b-form-radio type="radio" class="input-override" v-model="user.rewardsType" value="CHARACTER">
-                                        <p class="radio-label">RPG Character (Gain experience and level up your character)</p>
-                                    </b-form-radio>
-                                    <b-form-radio type="radio" class="input-override" v-model="user.rewardsType" value="VILLAGE" disabled>
-                                        <p class="radio-label disabled">Village (coming soon)</p>
-                                    </b-form-radio>
-                                </b-form-radio-group>
-                                </div>
-                            <div class="form-group" v-if="user.rewardsType == 'CHARACTER'">
-                                <label for="character_name">Character name</label>
-                                <p class="silent">You can change the name later through your settings.</p>
-                                <input 
-                                    type="text" 
-                                    id="character_name" 
-                                    name="character_name" 
-                                    placeholder="Character name" 
-                                    v-model="user.character_name" />
-                            </div>
-                            <div class="form-group">
-                                <button @click="nextModal()" class="long-button">Next</button>
-                            </div>
+        <b-modal id="first-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
+            <template #modal-title>
+                <h2>{{ $t('welcome') }}</h2>
+                <p class="silent mb-0">{{ $t('not-yet-done') }}</p>
+            </template>
+            <div>
+                <b-form-group
+                    :label="$t('rewards-type')"
+                    label-for="rewards-type">
+                    <b-form-text class="text-muted mb-2">{{ $t('which-reward-type') }}</b-form-text>
+                    <b-form-radio-group :checked="user.rewardsType">
+                        <b-form-radio v-model="user.rewardsType" type="radio" 
+                                      class="input-override" value="NONE" name="rewards-type">
+                            <p class="radio-label">{{ $t('no-rewards') }}</p>
+                        </b-form-radio>
+                        <b-form-radio v-model="user.rewardsType" type="radio" 
+                                      class="input-override" value="CHARACTER" name="rewards-type">
+                            <p class="radio-label">{{ $t('character-reward') }}</p>
+                        </b-form-radio>
+                        <b-form-radio v-model="user.rewardsType" type="radio" 
+                                      class="input-override" value="VILLAGE" name="rewards-type">
+                            <p class="radio-label">{{ $t('village-reward') }}</p>
+                        </b-form-radio>
+                    </b-form-radio-group>
+                    <base-form-error name="rewards-type" /> 
+                </b-form-group>
+                <b-form-group v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
+                              :label="parsedLabelName"
+                              label-for="reward_object_name"
+                              :description="$t('change-name-later')">
+                    <b-form-input 
+                        id="reward_object_name" 
+                        v-model="user.reward_object_name"
+                        type="text" 
+                        name="reward_object_name" 
+                        :placeholder="parsedLabelName"  />
+                    <base-form-error name="reward-object_name" /> 
+                </b-form-group>
+                <b-button block @click="nextModal()">{{ $t('next') }}</b-button>
+                <b-button block variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
+            </div>
+        </b-modal>
+        <b-modal id="second-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
+            <template #modal-title>
+                <h2>{{ $t('little-more') }}</h2>
+                <p class="silent mb-0">{{ $t('pick-example-tasks') }}</p>
+            </template>
+            <div>
+                <b-form-group
+                    :label="$t('example-tasks')"
+                    label-for="example-tasks">
+                    <div class="examples-slot">
+                        <b-form-checkbox 
+                            v-for="task in exampleTasks"
+                            :key="task.id"
+                            v-model="user.tasks"
+                            :value="task.id" 
+                            name="example-tasks">
+                            <p class="task-title d-flex label-override">
+                                {{task.name}}
+                            </p>
+                            <p class="task-description label-override">{{task.description}}</p>
+                        </b-form-checkbox>
                     </div>
+                    
+                </b-form-group>
+                <div class="d-flex">
+                    <b-button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</b-button>
+                    <b-button @click="confirmSettings()">{{ $t('submit') }}</b-button>
+                    <b-button class="ml-auto" variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
                 </div>
-            </transition>
-        </div>
-        <div v-show="secondModal">
-            <transition name="modal-fade">
-                <div class="modal-backdrop">
-                    <div class="modal">
-                        <information-block></information-block>
-
-                        <div class="form-title">
-                        <h3>Just a little more</h3>
-                        <p class="silent">To get you started, you can pick a few of these example tasks to directly put into your task lists.</p>
-                        </div>
-                            <div class="form-group">
-                                <label for="name">Example tasks</label>
-                                <div class="examples-slot">
-                                    <b-form-checkbox-group v-model="user.tasks">
-                                    <div v-for="task in exampleTasks" :key="task.id">
-                                        <b-form-checkbox :value="task.id">
-                                            <p class="task-title flex label-override">
-                                                {{task.name}}
-                                            </p>
-                                            <p class="task-description label-override">{{task.description}}</p>
-                                        </b-form-checkbox>
-                                    </div>
-                                    </b-form-checkbox-group>
-                                </div>
-                                
-                            </div>
-                            <div class="form-group">
-                                <button @click="backOneModal()" class="long-button half">Go back</button>
-                                <button @click="confirmSettings()" class="long-button half">Submit</button>
-                            </div>
-                    </div>
-                </div>
-            </transition>
-        </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 
 <script>
-import InformationBlock from '../components/InformationBlock.vue';
-import { mapGetters } from 'vuex';
-    export default {
-        mounted () {
-            this.$store.dispatch('task/fetchExampleTasks');
-        },
-        components: {
-            InformationBlock,
-        },
-        data() {
-            return {
-                user: {
-                    rewardsType: "NONE",
-                    tasks: [],
-                },
-                firstModal: true,
-                secondModal: false,
+import BaseFormError from '../components/BaseFormError.vue';
+import {mapGetters} from 'vuex';
+export default {
+    components: {BaseFormError},
+    mounted () {
+        this.$store.dispatch('clearErrors');
+        this.$store.dispatch('task/fetchExampleTasks');
+        this.startFirstModal();
+    },
+    data() {
+        return {
+            user: {
+                rewardsType: 'NONE',
+                tasks: [],
+                reward_object_name: null,
+            },
+        }
+    },
+    methods: {
+        nextModal() {
+            if (this.checkInput()) {
+                this.$bvModal.hide('first-modal');
+                this.$bvModal.show('second-modal');
             }
         },
-        methods: {
-            nextModal() {
-                if(this.checkInput()){
-                    this.firstModal = false;
-                    this.secondModal = true;
-                }
-            },
-            backOneModal(){
-                this.firstModal = true;
-                this.secondModal = false;
-            },
-            confirmSettings() {
-                this.$store.dispatch('user/confirmRegister', this.user);
-            },
-            checkInput(){
-                if(this.user.rewardsType == "CHARACTER" && !this.user.character_name){
-                    this.$store.commit('setResponseMessage', {message: ["No character name given."]});
-                    this.$store.commit('setStatus', 'error');
-                    return false;
-                } else {
-                    this.$store.dispatch('clearInformationBlock');
-                    return true;
-                }
-            },
+        startFirstModal() {
+            this.$bvModal.show('first-modal');
+            this.$bvModal.hide('second-modal');
         },
-        computed: {
-            ...mapGetters({
-                exampleTasks: 'task/getExampleTasks',
-            }),
+        confirmSettings() {
+            this.$store.dispatch('user/confirmRegister', this.user);
         },
-    }
+        checkInput() {
+            if (this.user.rewardsType == 'CHARACTER' && !this.user.reward_object_name) {
+                this.$store.commit('setErrorMessages', {'reward_object_name': ['No character name given.']});
+                return false;
+            } else if (this.user.rewardsType == 'VILLAGE' && !this.user.reward_object_name) {
+                this.$store.commit('setErrorMessages', {'reward_object_name': ['No village name given.']});
+            } else {
+                this.$store.dispatch('clearErrors');
+                return true;
+            }
+        },
+        logout() {
+            this.$store.dispatch('user/logout');
+        },
+    },
+    computed: {
+        ...mapGetters({
+            exampleTasks: 'task/getExampleTasks',
+        }),
+        parsedLabelName() {
+            if (this.user.rewardsType == 'CHARACTER') {
+                return this.$t('character-name');
+            } else if (this.user.rewardsType == 'VILLAGE') {
+                return this.$t('village-name');
+            } else {
+                return null;
+            }
+        },
+    },
+}
 </script>
 
 <style>
 .examples-slot{
-    height:500px;
+    max-height:500px;
     overflow-y:scroll;
-}
-.label-override{
-    text-transform:none;
-    letter-spacing:0;
-}
-.input-override input{
-    width:5%;
-}
-.input-override label{
-    display:inline;
-    text-transform:none;
-    letter-spacing:0;
-    font-weight: 400;
-    font-size: 1rem;
-}
-.radio-label{
-    display:inline-block;
-}
-.disabled {
-    text-decoration-line: line-through;
-}
-.long-button.half{
-    width:49%;
 }
 </style>

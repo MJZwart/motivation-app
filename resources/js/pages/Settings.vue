@@ -1,133 +1,145 @@
 <template>
-    <div>
-        <div class="form-title">
-            <h3>Settings</h3>
-        </div>
-
-        <form @submit.prevent="submitSettings" v-if="!loading">
-            <h4>Profile settings</h4>
-            <div class="form-group">
-                <label for="rewards">Rewards type</label>
-                <select
-                    name="rewards"
-                    id="rewards"
-                    v-model="settings.rewards">
-                    <option value="CHARACTER">Character</option>
-                </select>
-            </div>
-            <div class="form-group">
+    <div class="w-60 center">
+        <h3>{{ $t('settings') }}</h3>
+        <b-form v-if="!loading" @submit.prevent="submitSettings">
+            <h4>{{ $t('profile-settings') }}</h4>
+            <b-form-group>
+                <p>{{ $t('current-reward-type') }}: {{currentRewardType}}</p>
+                <b-button type="button" @click="showChangeRewardType()">{{ $t('change-reward-type') }}</b-button>
+            </b-form-group>
+            <b-form-group>
                 <b-form-checkbox
-                    name="show_character"
-                    id="show_character"
-                    v-model="settings.show_character"
-                    >
-                    Show character on profile
+                    id="show_reward"
+                    v-model="settings.show_reward"
+                    name="show_reward"
+                    switch>
+                    {{ $t('show-reward-on-profile') }}
                 </b-form-checkbox>
+                <base-form-error name="show_reward" /> 
                 <b-form-checkbox
-                    name="show_achievements"
                     id="show_achievements"
                     v-model="settings.show_achievements"
-                    >
-                    Show achievements on profile
+                    name="show_achievements"
+                    switch>
+                    {{ $t('show-achievements-on-profile') }}
                 </b-form-checkbox>
+                <base-form-error name="show_achievements" /> 
                 <b-form-checkbox
-                    name="show_friends"
                     id="show_friends"
                     v-model="settings.show_friends"
-                    >
-                    Show friends on profile
+                    name="show_friends"
+                    switch>
+                    {{ $t('show-friends-on-profile') }}
                 </b-form-checkbox>
-            </div>
+                <base-form-error name="show_friends" /> 
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('save-settings') }}</b-button>
+        </b-form>
 
-            <div class="form-group">
-                <button type="submit" class="long-button">Save settings</button>
-            </div>
-        </form>
         <hr />
-        <form @submit.prevent="submitPasswordSettings" v-if="!loading">
-            <h4>Change password</h4>
-            <p class="silent">If successful, you will be logged out. Please log in with your new password.</p>
-            <div class="form-group">
-                <label for="old_password">Old password</label>
-                <input 
-                    type="password" 
+        
+        <b-form v-if="!loading" @submit.prevent="submitPasswordSettings">
+            <h4>{{ $t('change-password') }}</h4>
+            <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
+            <b-form-group
+                :label="$t('old-password')"
+                label-for="old_password">
+                <b-form-input 
                     id="old_password" 
+                    v-model="passwordSettings.old_password"
+                    type="password" 
                     name="old_password" 
-                    placeholder="Old password" 
-                    v-model="passwordSettings.old_password" />
-            </div>
-            <div class="form-group">
-                <label for="password">New password</label>
-                <input 
-                    type="password" 
+                    :placeholder="$t('old-password')"  />
+                <base-form-error name="old_password" /> 
+            </b-form-group>
+            <b-form-group
+                :label="$t('new-password')"
+                label-for="password">
+                <b-form-input 
                     id="password" 
-                    name="password" 
-                    placeholder="New password" 
-                    v-model="passwordSettings.password" />
-            </div>
-            <div class="form-group">
-                <label for="password_confirmation">Repeat new password</label>
-                <input 
+                    v-model="passwordSettings.password"
                     type="password" 
+                    name="password" 
+                    :placeholder="$t('new-password')"  />
+                <base-form-error name="password" /> 
+            </b-form-group>
+            <b-form-group
+                :label="$t('repeat-new-password')"
+                label-for="password_confirmation">
+                <b-form-input 
                     id="password_confirmation" 
+                    v-model="passwordSettings.password_confirmation"
+                    type="password" 
                     name="password_confirmation" 
-                    placeholder="Repeat password" 
-                    v-model="passwordSettings.password_confirmation" />
-            </div>
-            
-            <div class="form-group">
-                <button type="submit" class="long-button">Update password</button>
-            </div>
-        </form>
+                    :placeholder="$t('repeat-password')"  />
+                <base-form-error name="password_confirmation" /> 
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('update-password') }}</b-button>
+        </b-form>
 
         <hr />
 
-        <form @submit.prevent="submitEmailSettings" v-if="!loading">
-            <h4>Change e-mail</h4>
-            <div class="form-group">
-                <label for="email">Change e-mail</label>
+        <b-form v-if="!loading" @submit.prevent="submitEmailSettings">
+            <h4>{{ $t('change-email') }}</h4>
+            <b-form-group
+                :label="$t('change-email')"
+                label-for="email">
                 <!-- Todo verify e-mail and show e-mail as verified -->
-                <input 
-                    type="text" 
+                <b-form-input 
                     id="email" 
+                    v-model="emailSettings.email"
+                    type="text" 
                     name="email" 
-                    placeholder="E-mail" 
-                    v-model="emailSettings.email" />
-            </div>
-            <div class="form-group">
-                <button type="submit" class="long-button">Update e-mail</button>
-            </div>
-        </form>
+                    :placeholder="$t('email')"  />
+                <base-form-error name="email" /> 
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('update-email') }}</b-button>
+        </b-form>
+
+        <change-reward-type v-if="isChangeRewardTypeVisible" :rewardsType="user.rewards" @close="closeChangeRewardType" />
+        
     </div>
 </template>
 
 
 <script>
 import {mapGetters} from 'vuex';
+import BaseFormError from '../components/BaseFormError';
+import {REWARD_TYPES} from '../constants/rewardConstants';
+import ChangeRewardType from '../components/modals/ChangeRewardType.vue';
+
 export default {
+    components: {ChangeRewardType, BaseFormError},
     mounted() {
         this.setupSettings();
     },
     data() {
         return {
+            /** @type {import('resources/types/task').Task | {}} */
             task: {},
             settings: {},
             emailSettings: {},
             passwordSettings: {},
             loading: true,
+            rewardTypes: REWARD_TYPES,
+            isChangeRewardTypeVisible: false,
         }
     },
     computed: {
         ...mapGetters({
             user: 'user/getUser',
         }),
+        /** @return {string} */
+        currentRewardType() {
+            return this.user.rewards.toLowerCase();
+        },
     },
     methods: {
+        /** Sets up the form with the user settings */
         setupSettings() {
             this.emailSettings.email = this.user.email;
-            this.settings.rewards = this.user.rewards;
             this.settings.show_achievements = this.user.show_achievements;
-            this.settings.show_character = this.user.show_character;
+            this.settings.show_reward = this.user.show_reward;
             this.settings.show_friends = this.user.show_friends;
             this.loading = false;
         },
@@ -140,11 +152,13 @@ export default {
         submitEmailSettings() {
             this.$store.dispatch('user/updateEmail', this.emailSettings);
         },
+        /** Shows and hides the modal to change the reward type */
+        showChangeRewardType() {
+            this.isChangeRewardTypeVisible = true;
+        },
+        closeChangeRewardType() {
+            this.isChangeRewardTypeVisible = false;
+        },
     },
 }
 </script>
-
-
-<style>
-
-</style>

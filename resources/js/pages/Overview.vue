@@ -1,18 +1,19 @@
 <template>
     <div>
         <div>
-            <character-summary :character="character" v-if="character"></character-summary>
+            <reward-summary v-if="rewardObj" :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
         </div>
         <div v-if="userStats">
-            <span class="frame-title">Stats</span>
+            <span class="card-title">{{ $t('stats') }}</span>
             <div class="side-border bottom-border">
-                <span>Tasks completed: {{userStats.tasks_completed}}</span>
-                <p v-if="userStats.repeatable_most_completed">Most completed repeatable: {{userStats.repeatable_most_completed.task_name}}. Completed {{userStats.repeatable_most_completed.total}} times.</p>
+                <span>{{ $t('tasks-completed')}}: {{userStats.tasks_completed}}</span>
+                <p v-if="userStats.repeatable_most_completed">
+                    {{ $t('most-completed-repeatable', [userStats.repeatable_most_completed.task_name, 
+                                                        userStats.repeatable_most_completed.total])}}
+                </p>
             </div>
         </div>
-        <div>
-            <achievements-summary :achievements="achievements"></achievements-summary>
-        </div>
+        <achievements-summary :achievements="achievements" />
     </div>
 </template>
 
@@ -20,22 +21,15 @@
 <script>
 import {mapGetters} from 'vuex';
 import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
-import CharacterSummary from '../components/summary/CharacterSummary.vue';
+import RewardSummary from '../components/summary/RewardSummary.vue';
 export default {
-    components: {CharacterSummary, AchievementsSummary},
+    components: {RewardSummary, AchievementsSummary},
     mounted() {
-        this.$store.dispatch('character/getCharacter', { root:true });
-        this.$store.dispatch('achievement/getAchievementsByUser', this.user.id);
-        this.$store.dispatch('user/getUserStats', { root:true });
-    },
-    data() {
-        return {
-            
-        }
+        this.$store.dispatch('user/getOverview',  {root:true});
     },
     computed: {
         ...mapGetters({
-            character: 'character/getCharacter',
+            rewardObj: 'reward/getRewardObj',
             user: 'user/getUser',
             achievements: 'achievement/getAchievementsByUser',
             userStats: 'user/getUserStats',
@@ -44,9 +38,3 @@ export default {
     
 }
 </script>
-
-
-
-<style>
-
-</style>

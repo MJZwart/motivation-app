@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\RewardHandler;
 use App\Helpers\LevelHandler;
-use Illuminate\Support\Facades\DB;
+use App\Http\Resources\CharacterResource;
+use App\Helpers\VariableHandler;
 
 class Character extends Model
 {
@@ -33,14 +34,21 @@ class Character extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    /**
+     * Applies a reward from a completed task to a character
+     *
+     * @param Task $task
+     * @return Object
+     */
     public function applyReward(Task $task){
-        $parsedReward = RewardHandler::calculateReward($task->type, $task->difficulty);
-        $returnValue = LevelHandler::addExperience($this->toArray(), $parsedReward);
-        $this->update($returnValue->character);
+        $parsedReward = RewardHandler::calculateReward($task->type, $task->difficulty, 'CHARACTER');
+        $returnValue = LevelHandler::addCharacterExperience($this->toArray(), $parsedReward);
+        $this->update($returnValue->activeReward);
+        $returnValue->activeReward = new CharacterResource($this);
         return $returnValue;
     }
 
     public function experienceTable(){
-        return DB::table('experience_points')->get();
+        return VariableHandler::getExperienceTable();
     }
 }

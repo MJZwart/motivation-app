@@ -1,10 +1,13 @@
 <template>
     <div>
         <div :class="{unread: !notification.read}">
-            <span class="frame-title">{{notification.title}}</span>
-            <div class="side-border bottom-border grid-2 small-text">
+            <span class="card-title d-flex">
+                {{notification.title}}
+                <b-icon-trash class="ml-auto red pointer" @click="deleteNotification()" />
+            </span>
+            <div class="side-border bottom-border">
                 <p>{{notification.text}}</p>
-                <p>Received on: {{notification.created_at}}</p>
+                <p>{{ $t('received-on') }}: {{notification.created_at}}</p>
             </div>
         </div>
         <br />
@@ -15,9 +18,19 @@
 <script>
 export default {
     props: {
-        notification: Object,
+        notification: {
+            /** @type {import('resources/types/notification').Notification} */
+            type: Object,
+            required: true,
+        },
     },
-    
+    methods: {
+        deleteNotification() {
+            if (confirm(this.$t('delete-notification-confirmation'))) {
+                this.$store.dispatch('notification/deleteNotification', this.notification.id);
+            }
+        },
+    },
 }
 </script>
 

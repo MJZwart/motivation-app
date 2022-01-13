@@ -1,17 +1,15 @@
-import axios from "axios";
+// @ts-nocheck
+import axios from 'axios';
 
 export default {
 
     namespaced: true,
 
     state: {
-        // admin: false,
+        //
     },
     mutations: {
-        // setAdmin: (state, value) => {
-        //     state.admin = value;
-        //     localStorage.setItem('admin', JSON.stringify(value));
-        // },
+        //
     },
     getters: {
         isAdmin: (state, getters, rootState, rootGetters) => {
@@ -22,26 +20,23 @@ export default {
         checkAdmin: () => {
             axios.get('/isadmin');
         },
-        newAchievement: ({commit}, achievement) => {
+        newAchievement: ({commit, dispatch}, achievement) => {
             return axios.post('/achievements', achievement).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
         },
-        editAchievement: ({commit}, achievement) => {
+        editAchievement: ({commit, dispatch}, achievement) => {
             return axios.put('/achievements/' + achievement.id, achievement).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
         },
-        sendNotification: ({commit}, notification) => {
+        sendNotification: ({dispatch}, notification) => {
             axios.post('/notifications/all', notification).then(response => {
-                commit('setResponseMessage', response.data.message, {root:true});
-                commit('setStatus', 'success', {root:true});
+                dispatch('sendToasts', response.data.message, {root:true});
             });
         },
     },

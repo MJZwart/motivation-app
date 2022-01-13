@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskList;
-use App\Models\Character;
 use App\Http\Resources\TaskListResource;
 use App\Http\Resources\CharacterResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Helpers\AchievementHandler;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -27,31 +25,16 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
-        return new JsonResponse(['message' => ['message' => ["Task successfully created."]], 'data' => $taskLists], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ["Task successfully created."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
-    /*
-    Will likely be changed to account for TaskList
-    */
-    public function show(Task $task) {
-        // #30
-    }
-
-    public function showTasks(){
-        // #30
-    }
-    /*
-
-    */
-
-    //TODO UpdateTaskRequest
     public function update(Task $task, UpdateTaskRequest $request){
         $validated = $request->validated();
         $task->update($validated);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         
-        return new JsonResponse(['message' => ['message' => ["Task successfully updated."]], 'data' => $taskLists], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ["Task successfully updated."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
     public function destroy(Task $task): JsonResponse
@@ -61,14 +44,15 @@ class TaskController extends Controller
             $task->delete();
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => ['message' => ["Task successfully deleted."]], 'data' => $taskLists], Response::HTTP_OK);
+            return new JsonResponse(['message' => ['info' => ["Task deleted."]], 'data' => $taskLists], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to delete this task"]]], Response::HTTP_FORBIDDEN);
         }
     }
 
     public function complete(Task $task){
-        if(Auth::user()->id === $task->user_id){
+        $user = Auth::user();
+        if($user->id === $task->user_id){
             if($task->repeatable != 'NONE'){
                 $task->completeRepeatable();
                 $this->completeRepeatable($task);
@@ -77,15 +61,16 @@ class TaskController extends Controller
                 $task->update();
             }
 
-            AchievementHandler::checkForAchievement('TASKS_COMPLETED', Auth::user());
+            AchievementHandler::checkForAchievement('TASKS_COMPLETED', $user);
             
-            $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            if(Auth::user()->rewards == 'CHARACTER'){
-                $character = Character::where('user_id', Auth::user()->id)->get()->first();
-                $returnValue = $character->applyReward($task);
-                return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'character' => new CharacterResource($character->fresh())], Response::HTTP_OK);
+            $taskLists = TaskListResource::collection($user->taskLists);
+            $activeReward = $user->getActiveRewardObject();
+            $returnValue = null;
+            if($user->rewards == 'CHARACTER' || $user->rewards == 'VILLAGE') {
+                $returnValue = $activeReward->applyReward($task);
+                return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'activeReward' => $returnValue->activeReward], Response::HTTP_OK);
             } else {
-                return new JsonResponse(['message' => ['message' => ['Task completed.']], 'data' => $taskLists], Response::HTTP_OK);
+                return new JsonResponse(['message' => ['success' => ['Task completed.']], 'data' => $taskLists], Response::HTTP_OK);
             }
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to complete this task"]]], Response::HTTP_FORBIDDEN);

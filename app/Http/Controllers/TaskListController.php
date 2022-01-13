@@ -14,6 +14,10 @@ use Illuminate\Http\Response;
 
 class TaskListController extends Controller
 {
+    /**
+     * Create a new task list with the user given name
+     * Returns the updated list of task lists
+     */
     public function store(StoreTaskListRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -22,27 +26,27 @@ class TaskListController extends Controller
         TaskList::create($validated);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return new JsonResponse(['message' => ['message' => ['Task list successfully created.']], 'data' => $taskLists], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ['Task list successfully created.']], 'data' => $taskLists], Response::HTTP_OK);
     }
 
-    public function show(TaskList $taskList)
-    {
-        // #30
-    }
-
-    public function showTaskLists(){
-        return TaskListResource::collection(Auth::user()->taskLists);
-    }
-
+    /**
+     * Updates a given task list
+     * Param TaskList automatically fetched by given ID
+     * Returns updated list of task lists
+     */
     public function update(TaskList $tasklist, UpdateTaskListRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $tasklist->update($validated);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return new JsonResponse(['message' => ['message' => ["Task list successfully updated."]], 'data' => $taskLists], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ["Task list updated."]], 'data' => $taskLists], Response::HTTP_OK);
     }
 
+    /**
+     * Destroys a given task list by Id parameter
+     * Returns the updated list of task lists
+     */
     public function destroy(TaskList $tasklist): JsonResponse
     {
         if(Auth::user()->id === $tasklist->user_id){
@@ -50,12 +54,16 @@ class TaskListController extends Controller
             $tasklist->delete();
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => ['message' => ["Task list successfully deleted."]], 'data' => $taskLists], Response::HTTP_OK);
+            return new JsonResponse(['message' => ['info' => ["Task list deleted."]], 'data' => $taskLists], Response::HTTP_OK);
         } else {
             return new JsonResponse(['errors' => ['error' => ["You are not authorized to delete this task list"]]], Response::HTTP_FORBIDDEN);
         }
     }
 
+    /**
+     * Merges tasks from a deleted task list into an active task list
+     * Params: Task list ID to be merged into, and tasks in the request object
+     */
     public function mergeTasks(TaskList $tasklist, Request $request){
         foreach($request->tasks as $task){
             $taskModel = Task::find($task['id']);

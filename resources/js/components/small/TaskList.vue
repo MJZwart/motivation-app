@@ -1,29 +1,27 @@
 <template>
     <div>
-        <span class="frame-title flex">{{taskList.name}}
-            <span class="flex-end">
+        <span class="card-title d-flex">{{taskList.name}}
+            <span class="ml-auto">
                 <b-icon-pencil-square 
                     class="icon-small"
-                    @click="editTaskList()"></b-icon-pencil-square>
+                    @click="editTaskList()" />
                 <b-icon-trash 
                     class="icon-small"
-                    @click="deleteTaskList()"></b-icon-trash>
+                    @click="deleteTaskList()" />
             </span>
 
         </span>
         <template v-for="task in taskList.tasks">
 
             <task 
-                :task="task" 
                 :key="task.id" 
-                class="task side-border no-margin" 
+                :task="task" 
+                class="task side-border" 
                 v-on:newTask="openNewTask"
-                v-on:editTask="editTask"></task>
+                v-on:editTask="editTask" />
 
         </template>
-        <div>
-            <button class="long-button no-margin bottom-radius" @click="openNewTask(null)">Add new task</button>
-        </div>
+        <b-button block class="bottom-radius" @click="openNewTask(null)">{{ $t('add-new-task') }}</b-button>
     </div>
 </template>
 
@@ -33,56 +31,27 @@ import Task from './Task.vue';
 export default {
     components: {Task},
     props: {
-        taskList: Object,
+        taskList: {
+            /** @type {import('resources/types/task').TaskList} */
+            type: Object,
+            required: true,
+        },
     },
     methods: {
-        openNewTask(task){
+        /** @param {import('resources/types/task').Task} */
+        openNewTask(task) {
             this.$emit('newTask', task, this.taskList);
         },
-        editTask(task){
+        /** @param {import('resources/types/task').Task} */
+        editTask(task) {
             this.$emit('editTask', task);
         },
-        editTaskList(){
+        editTaskList() {
             this.$emit('editTaskList', this.taskList);
         },
-        deleteTaskList(){
+        deleteTaskList() {
             this.$emit('deleteTaskList', this.taskList);
         },
-    }
+    },
 }
 </script>
-
-
-<style>
-.frame-title{
-    font-size:18px;
-    font-weight: 600;
-    border: 1px solid teal;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    display: block;
-    padding:5px;
-}
-.task{
-    margin:0;
-    padding:5px;
-    border-bottom: 1px solid teal;
-}
-.sub-task{
-    margin:-6px;
-    padding:5px;
-}
-.task-description{
-    font-size:12px;
-    font-weight:400;
-    color:#586069;
-    margin:0px;
-}
-.task-title{
-    display:flex;
-    font-size:16px;
-    font-weight:600;
-    margin-top:0;
-    margin-bottom:0;
-}
-</style>

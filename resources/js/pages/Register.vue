@@ -1,56 +1,64 @@
 <template>
-    <div>
-        <h2>Register</h2>
-
-        <div class="register-form">
-            <form @submit.prevent="submitRegister">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        placeholder="Username" 
-                        v-model="register.username" />
-                </div>
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input 
-                        type="text" 
-                        id="email" 
-                        name="email" 
-                        placeholder="E-mail" 
-                        v-model="register.email" />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Password" 
-                        v-model="register.password" />
-                </div>
-                <div class="form-group">
-                    <label for="password_confirmation">Repeat password</label>
-                    <input 
-                        type="password" 
-                        id="password_confirmation" 
-                        name="password_confirmation" 
-                        placeholder="Repeat password" 
-                        v-model="register.password_confirmation" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="long-button">Register new account</button>
-                </div>
-            </form> 
-        </div>
+    <div class="w-40 center">
+        <h2>{{ $t('register') }}</h2>
+        <b-form @submit.prevent="submitRegister">
+            <b-form-group
+                :label="$t('username')"
+                label-for="username">
+                <b-form-input 
+                    id="username"  
+                    v-model="register.username"
+                    type="text" 
+                    name="username" 
+                    :placeholder="$t('username')" />
+                <base-form-error name="username" /> 
+            </b-form-group>
+            <b-form-group
+                :label="$t('email')"
+                label-for="email">
+                <b-form-input 
+                    id="email" 
+                    v-model="register.email"
+                    type="text" 
+                    name="email" 
+                    :placeholder="$t('email')"  />
+                <base-form-error name="email" /> 
+            </b-form-group>
+            <b-form-group
+                :label="$t('password')"
+                label-for="password">
+                <b-form-input 
+                    id="password"  
+                    v-model="register.password"
+                    type="password" 
+                    name="password" 
+                    :placeholder="$t('password')" />
+                <base-form-error name="password" /> 
+            </b-form-group>
+            <b-form-group
+                :label="$t('repeat-password')"
+                label-for="password_confirmation">
+                <b-form-input 
+                    id="password_confirmation" 
+                    v-model="register.password_confirmation" 
+                    type="password" 
+                    name="password_confirmation" 
+                    :placeholder="$t('repeat-password')" />
+                <base-form-error name="password_confirmation" /> 
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('register-new-account') }}</b-button>
+        </b-form> 
     </div>
 </template>
 
 
 <script>
+import BaseFormError from '../components/BaseFormError.vue';
+
 export default {
+    components: {
+        BaseFormError,
+    },
     data() {
         return {
             register: {
@@ -62,18 +70,10 @@ export default {
         }
     },
     methods: {
-        submitRegister(){
+        submitRegister() {
             this.$store.dispatch('user/register', this.register);
-        }
+        },
     },
     
 }
 </script>
-
-
-<style>
-    .register-form{
-        width:40%;
-        margin: auto auto;
-    }
-</style>

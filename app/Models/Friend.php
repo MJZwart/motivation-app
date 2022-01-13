@@ -15,12 +15,10 @@ class Friend extends Model
         'accepted',
     ];
 
-    //TODO Untested foreign key
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
-
-    //TODO Untested foreign key
+    
     public function friend(){
         return $this->belongsTo('App\Models\User', 'friend_id');
     }

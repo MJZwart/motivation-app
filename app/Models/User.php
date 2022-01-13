@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
+use App\Helpers\RewardObjectHandler;
 use Illuminate\Support\Facades\DB;
 use App\Models\RepeatableTaskCompleted;
 
@@ -27,7 +28,7 @@ class User extends Authenticatable
         'display_picture',
         'rewards',
         'show_achievements',
-        'show_character',
+        'show_reward',
         'show_friends',
     ];
 
@@ -76,12 +77,25 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
+    public function getActiveRewardObjectResource(){
+        return RewardObjectHandler::getActiveRewardObjectResourceByUser($this->rewards, $this->id);
+    }
+    public function getActiveRewardObject(){
+        return RewardObjectHandler::getActiveRewardObjectByUser($this->rewards, $this->id);
+    }
+
+    /**
+     * Returns the total number of regular and repeatable tasks completed by a user
+     */
     public function getTotalTasksCompleted(){
         $regularTasks = Task::where('user_id', $this->id)->where('completed', '!=', null)->count();
         $repeatableTasks = RepeatableTaskCompleted::where('user_id', $this->id)->count();
         return $regularTasks + $repeatableTasks;
     }
 
+    /**
+     * Finds the repeatable task that has been completed most often and returns the task
+     */
     public function getRepeatableTaskMostCompleted(){
         $repeatable = RepeatableTaskCompleted::where('user_id', $this->id)
             ->select('task_id', DB::raw('count(*) as total'))
@@ -94,9 +108,16 @@ class User extends Authenticatable
         return $repeatable;
     }
 
+    /**
+     * Returns the amount of tasks the user has made, counting the active tasks + the completed tasks
+     */
     public function getTotalTasksMade(){
         $completedTasks = Task::where('user_id', $this->id)->where('completed', '!=', null)->count();
         $activeTasks = Task::where('user_id', $this->id)->where('completed', null)->count();
         return $completedTasks + $activeTasks;
+    }
+
+    public function getActiveCharacter(){
+        return Character::where('user_id', $this->id)->where('active', true)->first();
     }
 }

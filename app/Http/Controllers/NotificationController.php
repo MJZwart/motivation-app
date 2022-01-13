@@ -17,6 +17,9 @@ class NotificationController extends Controller
         // #68
     }
 
+    /**
+     * Returns a user's notifications. Marks all unread as read
+     */
     public function show(){
         $notifications = Auth::user()->notifications;
         $response = new JsonResponse(['data' => NotificationResource::collection($notifications)], Response::HTTP_OK); 
@@ -26,13 +29,25 @@ class NotificationController extends Controller
     }
 
     public function destroy(Notification $notification){
-        //
+        if($notification->user_id == Auth::user()->id){
+            $notification->delete();
+            return new JsonResponse(['message' => ['success' => ['Notification deleted.']], 'data' => NotificationResource::collection(Auth::user()->notifications)], Response::HTTP_OK); 
+        } else {
+            return new JsonResponse(['errors' => ['error' => ['You are not authorized to do this.']]], Response::HTTP_FORBIDDEN); 
+        }
     }
 
+    /**
+     * Check if the user has any unread notifications
+     * Returns boolean
+     */
     public function hasUnreadNotifications(){
         return Notification::where('user_id', Auth::user()->id)->where('read', false)->count() > 0;
     }
 
+    /**
+     * Sets all notifications as read if any of them are unread
+     */
     private function markAsRead($notificationArray){
         foreach($notificationArray as $notification){
             if(!$notification->read){
@@ -42,6 +57,10 @@ class NotificationController extends Controller
         }
     }
 
+    /**
+     * Admin function
+     * Sends a notification to all users
+     */
     public function sendNotificationToAll(SendNotificationRequest $request){
         $validated = $request->validated();
         foreach(User::lazy() as $user){
@@ -49,6 +68,6 @@ class NotificationController extends Controller
             'title' => $validated['title'],
             'text' => $validated['text']]);
         }
-        return new JsonResponse(['message' => ['message' => ['Notification sent.']]]);
+        return new JsonResponse(['message' => ['success' => ['Notification sent.']]]);
     }
 }

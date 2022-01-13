@@ -1,88 +1,84 @@
 <template>
-    <div>
-        <transition name="modal-fade">
-            <div class="modal-backdrop">
-                <div class="modal" v-if="taskListToDelete">
-                    <information-block></information-block>
-                    <div class="form-title">
-                    <h3>Delete task list</h3>
-                    </div>
-                    <div>
-                        <form @submit.prevent="deleteTaskList">
-                            <p class="modal-text">Are you sure you want to delete {{taskListToDelete.name}}</p>
-                            <div v-if="taskListHasTasks">
-                                <p class="modal-text">
-                                    This task list has {{taskListTasks.length}} tasks. Do you wish to delete these or merge the tasks into a different task list?
-                                </p>
-                            
-                                <div class="form-group">
-                                    <select 
-                                        id="deleteOption" 
-                                        v-model="deleteOption">
-                                        <option value="delete" selected>Delete</option>
-                                        <option v-for="option in taskLists" :value="option.id" :key="option.key">Merge with: {{option.name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="long-button">Delete task list</button>
-                                <button type="button" class="long-button" @click="close">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </transition>
+    <div v-if="taskListToDelete">
+        <b-form @submit.prevent="deleteTaskList">
+            <p>{{ $t('are-you-sure-delete') }} {{taskListToDelete.name}}</p>
+            <b-form-group v-if="taskListHasTasks">
+                <p>
+                    <!-- TODO fix the | -->
+                    {{ $tc('task-list-has-tasks', [taskListTasks.length]) }} 
+                </p>
+            
+                <b-form-group>
+                    <b-form-select 
+                        id="deleteOption" 
+                        v-model="deleteOption">
+                        <option value="delete" selected>{{ $t('delete') }}</option>
+                        <option v-for="option in taskLists" :key="option.key" :value="option.id">
+                            {{ $t('merge-with') }} {{option.name}}
+                        </option>
+                    </b-form-select>
+                </b-form-group>
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('delete-task-list-confirm') }}</b-button>
+            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <base-form-error name="error" /> 
+        </b-form>
     </div>
 </template>
 
 
 <script>
-import InformationBlock from '../InformationBlock.vue';
+import BaseFormError from '../BaseFormError.vue';
+
 export default {
     components: {
-        InformationBlock,
+        BaseFormError,
     },
     props: {
-        taskList: Object,
+        taskList: {
+            /** @type {import('resources/types/task').TaskList} */
+            type: Object,
+            required: true,
+        },
     },
     mounted() {
         this.taskListToDelete = this.taskList;
     },
     data() {
         return {
+            /** @type {import('resources/types/task').TaskList} */
             taskListToDelete: null,
-            deleteOption: "delete",
+            deleteOption: 'delete',
         }
     },
     computed: {
-        taskListHasTasks(){
-            if(this.taskListToDelete){
-                return !!this.taskListToDelete.tasks[0];
-            }
+        taskListHasTasks() {
+            return !!this.taskListToDelete && !!this.taskListToDelete.tasks[0];
         },
-        taskListTasks(){
+        taskListTasks() {
             return this.taskListToDelete.tasks;
         },
-        taskLists(){
+        //Gets all the other existing taskLists, without the one the user is trying to delete
+        taskLists() {
             let taskLists = this.$store.getters['taskList/getTaskLists'];
             return taskLists.filter(item => item != this.taskListToDelete);
         },
     },
     methods: {
-        deleteTaskList(){
-            if(this.deleteOption != "delete"){
-                const data = { taskListId : this.deleteOption, tasks: this.taskListTasks};
+        /** If the user chooses to merge existing tasks into another tasklist, merge those first, then delete the list. */
+        deleteTaskList() {
+            if (this.deleteOption != 'delete') {
+                const data = {taskListId : this.deleteOption, tasks: this.taskListTasks};
                 this.$store.dispatch('taskList/mergeTasks', data);
             }
-            this.$store.dispatch('taskList/deleteTaskList', this.taskListToDelete).then(response =>{
+            this.$store.dispatch('taskList/deleteTaskList', this.taskListToDelete).then(() => {
                 this.close();
             });
         },
-        close(){
-            this.taskListToDelete = {},
+        close() {
+            this.taskListToDelete = null;
             this.$emit('close');
-        }
+        },
     },
 }
 </script>

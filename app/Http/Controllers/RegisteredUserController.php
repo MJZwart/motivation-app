@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\ConfirmRegisterRequest;
 use App\Models\User;
 use App\Models\Character;
+use App\Models\Village;
 use App\Models\Task;
 use App\Models\TaskList;
 use App\Models\ExampleTask;
@@ -18,25 +18,38 @@ use App\Helpers\AchievementHandler;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     * Creates a new user with a hashed password. Returns confirmation.
+     */
     public function store(RegisterUserRequest $request): JsonResponse{
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
-        $user = User::create($validated);
+        User::create($validated);
         $successMessage = "You have successfully registered. You can now login with your chosen username.";
-        return new JsonResponse(['message' => ['success' => [$successMessage]]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['sucess' => [$successMessage]]], Response::HTTP_OK);
     }
 
+    /**
+     * Sets additional new-user settings:
+     * * The reward type, with a new instance of this reward if applicable
+     * * Optionally chosen example tasks
+     */
     public function confirmRegister(ConfirmRegisterRequest $request): JsonResponse{
         $request->validated();
         $user = Auth::user();
         $user->rewards = $request['rewardsType'];
         switch($request['rewardsType']){
             case 'NONE':
-                $user->show_character = false;
+                $user->show_reward = false;
                 break;
             case 'CHARACTER':
                 Character::create(
-                    ['name' => $request['character_name'],
+                    ['name' => $request['reward_object_name'],
+                    'user_id' => $user->id]);
+                break;
+            case 'VILLAGE':
+                Village::create(
+                    ['name' => $request['reward_object_name'],
                     'user_id' => $user->id]);
                 break;
         }
@@ -49,9 +62,17 @@ class RegisteredUserController extends Controller
         }
         $user->first_login = false;
         $user->save();
-        return new JsonResponse(['user' => new UserResource(Auth::user())]);
+        $successMessage = "You have successfully set up your account.";
+        return new JsonResponse(['message' => ['success' => [$successMessage]], 'user' => new UserResource(Auth::user())]);
     }
 
+    /**
+     * Copies the example tasks from the database and adds a new instance of them to the user
+     *
+     * @param Array $tasks
+     * @param Integer $userId
+     * @param Integer $taskListId
+     */
     private function addExampleTasks($tasks, $userId, $taskListId){
         for($i = 0 ; $i < count($tasks) ; $i ++){
             $task = ExampleTask::find($tasks[$i]);

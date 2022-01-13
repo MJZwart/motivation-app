@@ -1,58 +1,54 @@
 <template>
-    <div>
-        <h2>Login</h2>
-
-        <div class="login-form">
-            <form @submit.prevent="submitLogin">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        placeholder="Username" 
-                        v-model="login.username" />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Password" 
-                        v-model="login.password" />
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="long-button">Login</button>
-                </div>
-            </form> 
-        </div>
+    <div class="w-40 center">
+        <h2>{{ $t('login') }}</h2>
+        <b-form @submit.prevent="submitLogin">
+            <b-form-group
+                :label="$t('username')"
+                label-for="username">
+                <b-form-input 
+                    id="username" 
+                    v-model="login.username" 
+                    type="text" 
+                    :placeholder="$t('username')"  />
+                <base-form-error name="username" /> 
+            </b-form-group>
+            <b-form-group 
+                :label="$t('password')"
+                label-for="password">
+                <b-form-input  
+                    id="password" 
+                    v-model="login.password"
+                    type="password" 
+                    name="password" 
+                    :placeholder="$t('password')" />
+                <base-form-error name="password" /> 
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('login') }}</b-button>
+            <base-form-error name="error" /> 
+        </b-form> 
     </div>
 </template>
 
 
 <script>
+import BaseFormError from '../components/BaseFormError.vue';
+
 export default {
-    data(){
+    components: {
+        BaseFormError,
+    },
+    data() {
         return {
             login: {
                 username: '',
-                password: ''
-            }
+                password: '',
+            },
         }
     },
     methods: {
-        submitLogin(){
-            this.$store.dispatch('user/login', this.login, { root:true });
-        }
-    }
+        submitLogin() {
+            this.$store.dispatch('user/login', this.login, {root:true});
+        },
+    },
 }
 </script>
-
-
-<style>
-    .login-form{
-        width:40%;
-        margin: auto auto;
-    }
-</style>

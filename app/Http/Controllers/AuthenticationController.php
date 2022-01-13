@@ -11,6 +11,9 @@ use Illuminate\Http\Response;
 
 class AuthenticationController extends Controller
 {
+    /**
+     * Check login credentials. Logs the user in, regenerates a session.
+     */
     public function authenticate(LoginRequest $request): JsonResponse{
         $credentials = $request->validated();
 
@@ -18,11 +21,14 @@ class AuthenticationController extends Controller
             $request->session()->regenerate();
             return new JsonResponse(['user' => new UserResource(Auth::user())]);
         }
-        $errorMessage = "Username or password is incorrect.";
-        return new JsonResponse(['message' => $errorMessage, 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
+        $errorMessage = 'Username or password is incorrect.';
+        return new JsonResponse(['message' => [$errorMessage], 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
 
     }
 
+    /**
+     * Invalidates the session to log the user out
+     */
     public function logout(Request $request){
         Auth::logout();
 

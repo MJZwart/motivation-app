@@ -1,64 +1,54 @@
 <template>
     <div>
-        <h3>Admin panel</h3>
+        <h3>{{ $t('admin-panel') }}</h3>
         <div>
-            <h4>Send notification to all users</h4>
-            <form @submit.prevent="sendNotification">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input 
-                        type="text" 
+            <h4>{{ $t('send-notification-to-users') }}</h4>
+            <b-form @submit.prevent="sendNotification">
+                <b-form-group
+                    :label="$t('title')" 
+                    label-for="title">
+                    <b-form-input 
                         id="title" 
+                        v-model="notification.title" 
+                        type="text" 
                         name="title" 
-                        placeholder="Title" 
-                        v-model="notification.title" />
-                </div>
-                <div class="form-group">
-                    <label for="text">Text</label>
-                    <textarea 
+                        :placeholder="$t('title')" />
+                </b-form-group>
+                <b-form-group
+                    :label="$t('text')" 
+                    label-for="text">
+                    <b-form-textarea 
+                        id="text" 
+                        v-model="notification.text" 
                         rows="5"
                         type="text" 
-                        id="text" 
-                        name="text"
-                        v-model="notification.text"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <button type="submit" class="long-button">Send notification</button>
-                </div>
-            </form>
+                        name="text"/>
+                </b-form-group>
+
+                <b-button type="submit" block>{{ $t('send-notification') }}</b-button>
+            </b-form>
         </div>
     </div>
 </template>
 
 
 <script>
-import {mapGetters} from 'vuex';
 export default {
-    components: { },
     mounted() {
         this.$store.dispatch('admin/checkAdmin');
     },
     data() {
         return {
+            /** @type {import('resources/types/notification').Notification} */
             notification: {},
         }
     },
-    computed: {
-        ...mapGetters({
-            
-        }),
-    },
     methods: {
-        sendNotification(){
+        /** Sends notification to all members */
+        sendNotification() {
             this.$store.dispatch('admin/sendNotification', this.notification);
         },
     },
     
 }
 </script>
-
-
-<style>
-
-</style>

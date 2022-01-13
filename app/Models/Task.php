@@ -28,12 +28,10 @@ class Task extends Model
         return $this->belongsTo('App\Models\TaskList');
     }
 
-    //TODO Untested: Is the foreign key set properly?
     public function superTask(){
         return $this->belongsTo('App\Models\Task', 'super_task_id');
     }
 
-    //TODO Untested: First key should be the foreign key, second one the local. Test if this is correct with seeder data.
     public function subTasks(){
         return $this->hasMany('App\Models\Task', 'super_task_id', 'id');
     }

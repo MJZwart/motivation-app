@@ -1,73 +1,80 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import store from '../store/store';
 
 Vue.use(VueRouter);
 
-
 let routes = [
     {
-        path: "/",
+        path: '/',
         component: require('../pages/Home.vue').default,
-        meta: { requiresAuth: true },
     },
     {
-        path: "/login",
+        path: '/dashboard',
+        component: require('../pages/Dashboard.vue').default,
+        meta: {requiresAuth: true},
+    },
+    {
+        path: '/login',
         component: require('../pages/Login.vue').default,
     },
     {
-        path: "/register",
+        path: '/register',
         component: require('../pages/Register.vue').default,
     },
     {
-        path: "/overview",
+        path: '/overview',
         component: require('../pages/Overview.vue').default,
-        meta: { requiresAuth: true },
+        meta: {requiresAuth: true},
     },
     {
-        path: "/notifications",
+        path: '/notifications',
         component: require('../pages/Notifications.vue').default,
-        meta: { requiresAuth: true },
+        meta: {requiresAuth: true},
     },
     {
-        path: "/settings",
+        path: '/settings',
         component: require('../pages/Settings.vue').default,
-        meta: { requiresAuth: true },
+        meta: {requiresAuth: true},
     },
     {
-        name: "profile",
-        path: "/profile/:id",
+        name: 'profile',
+        path: '/profile/:id',
         component: require('../pages/Profile.vue').default,
     },
     {
-        path: "/friends",
+        path: '/friends',
         component: require('../pages/Friends.vue').default,
-        meta: { requiresAuth: true },
+        meta: {requiresAuth: true},
     },
     {
-        path: "/achievements",
+        path: '/achievements',
         component: require('../pages/Achievements.vue').default,
-        meta: { requiresAuth: true, requiresAdmin: true },
+        meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
-        path: "/admin",
+        path: '/admin',
         component: require('../pages/Admin.vue').default,
-        meta: { requiresAuth: true, requiresAdmin: true },
+        meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
-        path: "/search",
-        component: require('../pages/Search.vue').default,
-        meta: { requiresAuth: true},
+        path: '/search',
+        component: require('../pages/SearchResults.vue').default,
+        meta: {requiresAuth: true},
     },
     {
-        path: "/welcome",
+        path: '/welcome',
         component: require('../pages/Welcome.vue').default,
-        meta: { requiresAuth: true},
+        meta: {requiresAuth: true},
     },
     {
-        path: "/bugreport",
+        path: '/bugreport',
         component: require('../pages/BugReport.vue').default,
     },
+    // {
+    //     path: '/test',
+    //     component: require('../pages/Test.vue').default,
+    // },
 
 ];
 
@@ -75,23 +82,29 @@ const router = new VueRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => {
-    store.dispatch('clearInformationBlock');
 
-    if(to.path != '/welcome' && store.getters['user/getUser'].first){
-        return next({ path: '/welcome' });
+// eslint-disable-next-line complexity
+router.beforeEach((to, from, next) => {
+    store.dispatch('clearErrors');
+
+    if (to.path == '/' && store.getters['user/authenticated']) {
+        return next({path: '/dashboard'});
+    }
+
+    if (to.path != '/welcome' && store.getters['user/getUser'].first) {
+        return next({path: '/welcome'});
     }
 
     if (to.meta.requiresAuth && !store.getters['user/authenticated']) {
-        return next({ path: '/login' });
+        return next({path: '/login'});
     }
 
-    if(to.meta.requiresAdmin && !store.getters['admin/isAdmin']) {
+    if (to.meta.requiresAdmin && !store.getters['admin/isAdmin']) {
         store.dispatch('user/logout');
-        return next({ path: '/login' });
+        return next({path: '/login'});
     }
     
-    if(store.getters['user/authenticated']){
+    if (store.getters['user/authenticated']) {
         store.dispatch('notification/hasUnreadNotifications');
     }
     
