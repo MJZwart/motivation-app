@@ -127,6 +127,10 @@
     "register-new-account": "Register new account",
     "login": "Login",
     "stats": "Stats",
+    "page": "Page",
+    "severity": "Severity",
+    "image-link": "Image link",
+    "submit-bug-report": "Submit bug report",
     
     "admin-panel": "Admin panel",
     "send-notification-to-users": "Send notification to all users",

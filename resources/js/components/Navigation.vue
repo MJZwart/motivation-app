@@ -15,6 +15,7 @@
                 <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
                 <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
                 <b-nav-item to="/friends">{{ $t('friends') }}</b-nav-item>
+                <b-nav-item to="/bugreport">Report a bug</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-toggle target="nav-collapse" />

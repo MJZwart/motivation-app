@@ -11,6 +11,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\ExampleTaskController;
+use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\RewardController;
@@ -75,6 +76,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/search', [UserController::class, 'searchUser']);
     Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
 
+    Route::post('/bugreport', [BugReportController::class, 'store']);
     Route::get('/dashboard', [DashboardController::class, 'getDashboard']);
     Route::get('/overview', [OverviewController::class, 'getOverview']);
 });
