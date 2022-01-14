@@ -75,6 +75,7 @@ let routes = [
     {
         path: '/bugreport',
         component: require('../pages/BugReport.vue').default,
+        meta: {requiresAuth: true},
     },
     // {
     //     path: '/test',
@@ -100,11 +101,11 @@ router.beforeEach((to, from, next) => {
         return next({path: '/welcome'});
     }
 
-    if (to.meta.requiresAuth && !store.getters['user/authenticated']) {
+    if (to.meta && to.meta.requiresAuth && !store.getters['user/authenticated']) {
         return next({path: '/login'});
     }
 
-    if (to.meta.requiresAdmin && !store.getters['admin/isAdmin']) {
+    if (to.meta && to.meta.requiresAdmin && !store.getters['admin/isAdmin']) {
         store.dispatch('user/logout');
         return next({path: '/login'});
     }
