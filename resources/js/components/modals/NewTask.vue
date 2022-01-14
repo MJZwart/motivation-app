@@ -100,7 +100,7 @@ export default {
     },
     methods: {
         submitTask() {
-            this.task.super_task = this.superTask ? this.superTask.id : null;
+            this.task.super_task_id = this.superTask ? this.superTask.id : null;
             this.task.task_list_id = this.taskList.id || null;
             var self = this;
             this.$store.dispatch('task/storeTask', this.task).then(function() {
@@ -108,11 +108,6 @@ export default {
             });
         },
         close() {
-            this.task = {
-                difficulty: 3,
-                type: 1,
-                repeatable: 'NONE',
-            },
             this.$emit('close');
         },
     },
