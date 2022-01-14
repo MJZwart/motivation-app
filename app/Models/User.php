@@ -57,6 +57,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Character');
     }
 
+    public function villages(){
+        return $this->hasMany('App\Models\Village');
+    }
+
     public function taskLists(){
         return $this->hasMany('App\Models\TaskList');
     }

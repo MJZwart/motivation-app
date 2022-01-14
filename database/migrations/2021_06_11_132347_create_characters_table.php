@@ -29,6 +29,7 @@ class CreateCharactersTable extends Migration
             $table->integer('charisma_exp')->default(0);
             $table->integer('level')->default(1);
             $table->integer('experience')->default(0);
+            $table->boolean('active')->default(true);
         });
     }
 

@@ -25,7 +25,7 @@ class NotificationFactory extends Factory
         return [
             'user_id' => rand(1, User::count()),
             'title' => $this->faker->sentence,
-            'text' => $this->faker->paragraph,
+            'text' => $this->faker->sentences(2, true),
         ];
     }
 }
