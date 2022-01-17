@@ -12,6 +12,8 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $with = ['subTasks'];
+
     protected $fillable = [
         'user_id',
         'task_list_id',
