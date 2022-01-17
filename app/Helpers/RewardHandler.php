@@ -48,11 +48,11 @@ class RewardHandler {
      * @return Array
      */
     public static function parseVillageReward($balance, $difficulty) {
-        return [RewardEnums::ECONOMY_EXP => ($balance->strength * $difficulty) * rand(5, 20), 
-                RewardEnums::LABOUR_EXP => ($balance->agility * $difficulty) * rand(5, 20),
-                RewardEnums::CRAFT_EXP => ($balance->endurance * $difficulty) * rand(5, 20),
-                RewardEnums::ART_EXP => ($balance->intelligence * $difficulty) * rand(5, 20),
-                RewardEnums::COMMUNITY_EXP => ($balance->charisma * $difficulty) * rand(5, 20),
+        return [RewardEnums::ECONOMY_EXP => ($balance->economy * $difficulty) * rand(5, 20), 
+                RewardEnums::LABOUR_EXP => ($balance->labour * $difficulty) * rand(5, 20),
+                RewardEnums::CRAFT_EXP => ($balance->craft * $difficulty) * rand(5, 20),
+                RewardEnums::ART_EXP => ($balance->art * $difficulty) * rand(5, 20),
+                RewardEnums::COMMUNITY_EXP => ($balance->community * $difficulty) * rand(5, 20),
                 RewardEnums::EXPERIENCE => ($balance->level * $difficulty) * rand(5, 20)];
     }
 

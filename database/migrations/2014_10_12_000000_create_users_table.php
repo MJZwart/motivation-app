@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('rewards')->default('CHARACTER');
             $table->boolean('show_achievements')->default(true);
             $table->boolean('show_friends')->default(true);
-            $table->boolean('show_character')->default(true);
+            $table->boolean('show_reward')->default(true);
             $table->boolean('first_login')->default(true);
         });
     }
