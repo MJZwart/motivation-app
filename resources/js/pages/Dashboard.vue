@@ -95,8 +95,6 @@ export default {
             this.$bvModal.show('new-task');
         },
         closeNewTask() {
-            this.taskList = null;
-            this.superTask = null;
             this.$bvModal.hide('new-task');
         },
 
@@ -109,7 +107,6 @@ export default {
             this.$bvModal.show('edit-task');
         },
         closeEditTask() {
-            this.taskToEdit = null;
             this.$bvModal.hide('edit-task');
         },
 
@@ -131,7 +128,6 @@ export default {
             this.$bvModal.show('edit-task-list');
         },
         closeEditTaskList() {
-            this.taskListToEdit = null;
             this.$bvModal.hide('edit-task-list');
         },
 
@@ -144,7 +140,6 @@ export default {
             this.$bvModal.show('delete-task-list-confirm');
         },
         closeDeleteTaskList() {
-            this.taskListToDelete = null;
             this.$bvModal.hide('delete-task-list-confirm');
         },
     },
