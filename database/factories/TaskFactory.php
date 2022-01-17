@@ -23,11 +23,12 @@ class TaskFactory extends Factory
      */
     public function definition()
     {
+        $types = ['GENERIC', 'PHYSICAL', 'SOCIAL', 'MENTAL'];
         return [
             'user_id' => rand(1, User::count()),
             'task_list_id' => rand(1, TaskList::count()),
             'difficulty' => rand(1, 5),
-            'type' => rand(1, 10),
+            'type' => $types[rand(0, 3)],
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
         ];

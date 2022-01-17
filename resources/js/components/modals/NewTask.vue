@@ -91,7 +91,7 @@ export default {
             /** @type {import('../../../types/task').Task} */
             task: {
                 difficulty: 3,
-                type: 1,
+                type: 'GENERIC',
                 repeatable: 'NONE',
             },
             taskTypes: TASK_TYPES,

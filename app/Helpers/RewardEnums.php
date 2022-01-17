@@ -4,11 +4,6 @@ namespace App\Helpers;
 
 class RewardEnums {
 
-    public const TYPEGENERIC = 1;
-    public const TYPEPHYSICAL = 2;
-    public const TYPEMENTAL = 3;
-    public const TYPESOCIAL = 4;
-
     public const EXPERIENCE = "experience";
     public const LEVEL = "level";
 

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Rules\OwnerOfTaskList;
 use App\Rules\OwnerOfTask;
 use App\Rules\ValidRepeatable;
+use App\Rules\ValidTaskType;
 use App\Models\Task;
 
 class UpdateTaskRequest extends FormRequest
@@ -31,7 +32,7 @@ class UpdateTaskRequest extends FormRequest
         return [
             'task_list_id' => ['required', 'integer', 'exists:task_lists,id', new OwnerOfTaskList(Auth::user()->id)],
             'difficulty' => 'required|integer|max:5',
-            'type' => 'required|integer|max:10',
+            'type' => ['required', 'string', new ValidTaskType()],
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'super_task_id' => ['nullable', 'integer', 'exists:tasks,id', new OwnerOfTask(Auth::user()->id)],
@@ -48,7 +49,6 @@ class UpdateTaskRequest extends FormRequest
             'name.max' => 'The name you picked is too long. Use the description to add more information.',
             'super_task_id.*' => 'You have not picked a valid task to make this a sub-task of.',
             'repeatable.*' => 'You have not picked a valid repeatable type.',
-            'type.max' => 'You have not picked a valid type.',
         ];
     }
 }
