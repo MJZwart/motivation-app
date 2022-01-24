@@ -16,7 +16,7 @@ class CreateExampleTasksTable extends Migration
         Schema::create('example_tasks', function (Blueprint $table) {
             $table->id();
             $table->integer('difficulty')->default(3); //Difficulty between 1 and 5
-            $table->integer('type')->default(1); //Type 1 is generic, rewards divided evenly
+            $table->string('type')->default('GENERIC');
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('repeatable')->default('NONE'); //NONE, DAILY, WEEKLY, MONTHLY

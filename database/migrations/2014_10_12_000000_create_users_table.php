@@ -21,10 +21,13 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
-            $table->string('full_display_name')->nullable();
             $table->string('display_picture')->nullable();
             $table->boolean('admin')->default(false);
             $table->string('rewards')->default('CHARACTER');
+            $table->boolean('show_achievements')->default(true);
+            $table->boolean('show_friends')->default(true);
+            $table->boolean('show_reward')->default(true);
+            $table->boolean('first_login')->default(true);
         });
     }
 
