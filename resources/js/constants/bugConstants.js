@@ -6,7 +6,7 @@ export const BUG_SEVERITY = [
     {text: 'Critical (Site-breaking)', value: 5}];
 
 export const BUG_TYPES = [
-    {text: 'Design', value: 1}, 
-    {text: 'Language', value: 2},
-    {text: 'Functionality', value: 3}, 
-    {text: 'Other', value: 4}];
+    {text: 'Design', value: 'Design'}, 
+    {text: 'Language', value: 'Language'},
+    {text: 'Functionality', value: 'Functionality'}, 
+    {text: 'Other', value: 'Other'}];
