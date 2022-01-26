@@ -90,7 +90,7 @@ export default {
             bugReport: {
                 title: '',
                 page: '',
-                type: 1,
+                type: 'Other',
                 severity: 1,
                 image_link: '',
                 comment: '',
