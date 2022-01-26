@@ -8,7 +8,8 @@
             <p>
                 sort by:
                 <template v-for="sortable in sortables">
-                    <button :key="sortable" v-on:click="sort(sortable)">{{sortable}}</button>
+                    <button v-if="sortable != 'type'" :key="sortable" v-on:click="sort(sortable)">{{sortable}}</button>
+                    <button v-if="sortable == 'type'" :key="sortable" v-on:click="sort(sortable)">{{sortable}}: {{currentSortType}}</button>
                 </template>
                 (click again to reverse order)
             </p>
@@ -31,6 +32,7 @@
                 </div>
             </div>
         </template>
+        debug: currentSort: {{currentSort}} | currentSortDir: {{currentSortDir}} | currentSortType: {{currentSortType}}
     </div>
 </template>
 
@@ -49,19 +51,33 @@ export default {
         sortedBugs:function() {
             return this.bugs.sort((a,b) => {
                 let modifier = 1;
-                if(this.currentSortDir === 'desc') modifier = -1;
-                if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                if(this.currentSort === 'type') {
+                    modifier = (this.types.length - this.types.indexOf(this.currentSortType));
+                    let tempA = (this.types.indexOf(a[this.currentSort]) + modifier) % this.types.length;
+                    let tempB = (this.types.indexOf(b[this.currentSort]) + modifier) % this.types.length;
+                    if(tempA < tempB) return -1;
+                    if(tempA > tempB) return 1;
+                } else {
+                    if(this.currentSortDir === 'desc') modifier = -1;
+                    if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                    if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                }
                 return 0;
             })
         },
+        //this may be needed for language support
+        sortedTypes:function() {
+            return this.types.sort();
+        }
 
     },
     data() {
         return {
             currentSort: 'time_created',
             currentSortDir: 'asc',
-            sortables: ['time_created', 'title', 'page', 'type', 'severity', 'user_id', 'status',]
+            currentSortType: 'Design',
+            sortables: ['time_created', 'title', 'page', 'type', 'severity', 'user_id', 'status',],
+            types: ['Design', 'Functionality', 'Language', 'Other',],
         }
     },    
     methods: {
@@ -71,9 +87,16 @@ export default {
         sort:function(s) {
             //if s == current sort, reverse
             if(s === this.currentSort) {
-                this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
-            }
+                if(s === 'type') {
+                    this.currentSortType = this.types[((this.types.indexOf(this.currentSortType) +1) % this.types.length)]
+                } else {
+                    this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+                };
+            } else {
             this.currentSort = s;
+            this.currentSortType = 'Design';
+            this.currentSortDir = 'asc';
+            }
         },
     },
 }
