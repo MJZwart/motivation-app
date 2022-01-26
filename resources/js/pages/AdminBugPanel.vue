@@ -1,10 +1,19 @@
 <template>
-    <div>
+    <div v-if="this.bugs">
         <h3>{{ $t('admin-bug-panel') }}</h3>
         <div>
             <h4>{{ "this is an admin bug panel" }}</h4>
         </div>
-        <template v-for="bug in bugs">
+        <div>
+            <p>
+                sort by:
+                <template v-for="sortable in sortables">
+                    <button :key="sortable" v-on:click="sort(sortable)">{{sortable}}</button>
+                </template>
+                (click again to reverse order)
+            </p>
+        </div>
+        <template v-for="bug in sortedBugs">
             <div :key="bug.id" :title="bug.title" class="bug">
                 <div :class="headerColour(bug.severity) + ' d-flex header'">
                     <span>{{bug.title}}</span>
@@ -17,6 +26,7 @@
                     <p>Comment: "{{bug.comment}}"</p>
                     <p>Reported by user: {{bug.user_id}} </p>
                     <p>Status: {{bug.status}}</p>
+                    <p>time: {{bug.time_created}}</p>
                     <span v-if="bug.admin_comment">Admin comment: "{{bug.admin_comment}}"</span>
                 </div>
             </div>
@@ -36,24 +46,36 @@ export default {
         ...mapGetters({
             bugs: 'bugReport/getBugs',
         }),        
+        sortedBugs:function() {
+            return this.bugs.sort((a,b) => {
+                let modifier = 1;
+                if(this.currentSortDir === 'desc') modifier = -1;
+                if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            })
+        },
 
     },
-    /*data() {
+    data() {
         return {
-            notification: {},
+            currentSort: 'time_created',
+            currentSortDir: 'asc',
+            sortables: ['time_created', 'title', 'page', 'type', 'severity', 'user_id', 'status',]
         }
-    },*/
+    },    
     methods: {
         headerColour(severity) {
             return 'severity-' + severity;
         },
-        /** Sends notification to all members */
-        /*sendNotification() {
-            this.$store.dispatch('admin/sendNotification', this.notification);
-        },*/
+        sort:function(s) {
+            //if s == current sort, reverse
+            if(s === this.currentSort) {
+                this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+            }
+            this.currentSort = s;
+        },
     },
-
-    
 }
 </script>
 
