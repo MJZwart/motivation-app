@@ -1,15 +1,11 @@
 <template>
     <div v-if="this.bugs">
-        <h3>{{ $t('admin-bug-panel') }}</h3>
-        <div>
-            <h4>{{ "this is an admin bug panel" }}</h4>
-        </div>
+        <h3>{{ $t('admin-bug-panel-title') }}</h3>
         <div>
             <p>
                 sort by:
                 <template v-for="sortable in sortables">
-                    <button v-if="sortable != 'type'" :key="sortable" v-on:click="sort(sortable)">{{sortable}}</button>
-                    <button v-if="sortable == 'type'" :key="sortable" v-on:click="sort(sortable)">{{sortable}}: {{currentSortType}}</button>
+                    <button :key="sortable" v-on:click="sort(sortable)">{{sortable == 'type' ? `${sortable}: ${currentSortType}` : sortable}}</button>
                 </template>
                 (click again to reverse order)
             </p>
@@ -32,7 +28,7 @@
                 </div>
             </div>
         </template>
-        debug: currentSort: {{currentSort}} | currentSortDir: {{currentSortDir}} | currentSortType: {{currentSortType}}
+        <!---debug: currentSort: {{currentSort}} | currentSortDir: {{currentSortDir}} | currentSortType: {{currentSortType}}--->
     </div>
 </template>
 
@@ -48,7 +44,7 @@ export default {
         ...mapGetters({
             bugs: 'bugReport/getBugs',
         }),        
-        sortedBugs:function() {
+        sortedBugs() {
             return this.bugs.sort((a,b) => {
                 let modifier = 1;
                 if(this.currentSort === 'type') {
@@ -66,7 +62,7 @@ export default {
             })
         },
         //this may be needed for language support
-        sortedTypes:function() {
+        sortedTypes() {
             return this.types.sort();
         }
 
@@ -84,16 +80,16 @@ export default {
         headerColour(severity) {
             return 'severity-' + severity;
         },
-        sort:function(s) {
-            //if s == current sort, reverse
-            if(s === this.currentSort) {
-                if(s === 'type') {
+        sort(sortInput) {
+            //if sortInput == current sort, reverse
+            if(sortInput === this.currentSort) {
+                if(sortInput === 'type') {
                     this.currentSortType = this.types[((this.types.indexOf(this.currentSortType) +1) % this.types.length)]
                 } else {
                     this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
                 };
             } else {
-            this.currentSort = s;
+            this.currentSort = sortInput;
             this.currentSortType = 'Design';
             this.currentSortDir = 'asc';
             }
