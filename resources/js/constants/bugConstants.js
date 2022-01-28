@@ -6,7 +6,17 @@ export const BUG_SEVERITY = [
     {text: 'Critical (Site-breaking)', value: 5}];
 
 export const BUG_TYPES = [
-    {text: 'Design', value: 'Design'}, 
-    {text: 'Language', value: 'Language'},
-    {text: 'Functionality', value: 'Functionality'}, 
-    {text: 'Other', value: 'Other'}];
+    {text: 'Design', value: 'DESIGN'}, 
+    {text: 'Language', value: 'LANGUAGE'},
+    {text: 'Functionality', value: 'FUNCTIONALITY'}, 
+    {text: 'Other', value: 'OTHER'}];
+
+export const BUG_SORTABLES = [
+    {text: 'Time Created', value: 'TIME_CREATED'},
+    {text: 'Title', value: 'TITLE'},
+    {text: 'Page', value: 'PAGE'},
+    {text: 'Type', value: 'TYPE'},
+    {text: 'Severity', value: 'SEVERITY'},
+    {text: 'User ID', value: 'USER_ID'},
+    {text: 'Status', value: 'STATUS'},
+]
