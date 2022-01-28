@@ -34,6 +34,7 @@
 
 
 <script>
+import {BUG_TYPES, BUG_SORTABLES, BUG_SEVERITY} from '../constants/bugConstants';
 import {mapGetters} from 'vuex';
 export default {
     mounted() {
