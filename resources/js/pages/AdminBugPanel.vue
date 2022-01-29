@@ -28,7 +28,7 @@
                 </div>
             </div>
         </template>
-        debug: currentSort: {{currentSort}} | currentSortDir: {{currentSortDir}} | currentSortType: {{currentSortType}}
+        <!---debug: currentSort: {{currentSort}} | currentSortDir: {{currentSortDir}} | currentSortType: {{currentSortType}}--->
     </div>
 </template>
 
