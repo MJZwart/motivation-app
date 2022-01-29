@@ -18,5 +18,9 @@ export const BUG_SORTABLES = [
     {text: 'Type', value: 'TYPE'},
     {text: 'Severity', value: 'SEVERITY'},
     {text: 'User ID', value: 'USER_ID'},
-    {text: 'Status', value: 'STATUS'},
-]
+    {text: 'Status', value: 'STATUS'}];
+
+export const BUG_DEFAULTS = {
+    currentSort: 'TIME_CREATED',
+    currentSortDir: 'asc',
+    currentSortType: 'DESIGN'};
