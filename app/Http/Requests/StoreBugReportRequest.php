@@ -28,7 +28,7 @@ class StoreBugReportRequest extends FormRequest
         return [
             'title' => 'required|string',
             'page' => 'required|string',
-            'type' => ['required'|'string'| new ValidBugType()],
+            'type' => ['required','string', new ValidBugType()],
             'severity' => 'required|integer|min:1|max:5',
             'image_link' => 'nullable|string',
             'comment' => 'required|string',
