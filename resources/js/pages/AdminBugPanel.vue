@@ -5,7 +5,7 @@
             <p>
                 sort by:
                 <template v-for="sortable in sortables">
-                    <button :key="sortable.value" v-on:click="sort(sortable.value)">{{sortable.value == 'TYPE' ? `${sortable.text}: ${types[types.findIndex(element => element.value == this.currentSortType)].text}` : sortable.text}}</button>
+                    <button :key="sortable.value" v-on:click="sort(sortable.value)">{{sortable.value == 'type' ? `Type: ${types[types.findIndex(element => element.value == currentSortType)].text}` : sortable.text}}</button>
                 </template>
                 (click again to reverse order)
             </p>
@@ -51,7 +51,7 @@ export default {
         },
         sortedBugs() {
             return this.bugs.slice().sort((a,b) => {
-                if(this.currentSort === 'TYPE') {
+                if(this.currentSort === 'type') {
                     let bugTypeLength = this.types.length;
                     let modifier = (bugTypeLength - this.types.findIndex(element => element.value == this.currentSortType));
                     let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugTypeLength;
@@ -85,7 +85,7 @@ export default {
         sort(sortInput) {
             //if sortInput == current sort, reverse
             if(sortInput === this.currentSort) {
-                if(sortInput === 'TYPE') {
+                if(sortInput === 'type') {
                     this.currentSortType = this.types[((this.types.findIndex(element => element.value == this.currentSortType) +1) % this.types.length)].value;
                 } else {
                     this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';

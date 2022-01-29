@@ -12,15 +12,15 @@ export const BUG_TYPES = [
     {text: 'Other', value: 'OTHER'}];
 
 export const BUG_SORTABLES = [
-    {text: 'Time Created', value: 'TIME_CREATED'},
-    {text: 'Title', value: 'TITLE'},
-    {text: 'Page', value: 'PAGE'},
-    {text: 'Type', value: 'TYPE'},
-    {text: 'Severity', value: 'SEVERITY'},
-    {text: 'User ID', value: 'USER_ID'},
-    {text: 'Status', value: 'STATUS'}];
+    {text: 'Time Created', value: 'time_created'},
+    {text: 'Title', value: 'title'},
+    {text: 'Page', value: 'page'},
+    {text: 'Type', value: 'type'},
+    {text: 'Severity', value: 'severity'},
+    {text: 'User ID', value: 'user_id'},
+    {text: 'Status', value: 'status'}];
 
 export const BUG_DEFAULTS = {
-    currentSort: 'TIME_CREATED',
+    currentSort: 'time_created',
     currentSortDir: 'asc',
     currentSortType: 'DESIGN'};
