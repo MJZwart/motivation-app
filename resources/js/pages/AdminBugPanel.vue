@@ -29,6 +29,11 @@
             </div>
         </template>
         <!---debug: currentSort: {{currentSort}} | currentSortDir: {{currentSortDir}} | currentSortType: {{currentSortType}}--->
+
+        <b-modal id="edit-bug-report" hide-footer :title="$t('edit-bug-report')">
+            <edit-bug-report :bug="bugReportToEdit" @close="closeEditBugReport"/>
+        </b-modal>
+
     </div>
 </template>
 
