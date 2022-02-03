@@ -19,7 +19,7 @@ class BugReportController extends Controller
 
         return new JsonResponse(['message' => ['success' => ['Bug report successfully created.']]], Response::HTTP_OK);
     }
-    public function getAllBugs(){
+    public function getAllBugReports(){
     return BugReportResource::collection(BugReport::all());
     }
 }
