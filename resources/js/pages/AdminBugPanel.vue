@@ -1,7 +1,7 @@
 <template>
     <div v-if="this.bugs">
         <h3>{{ $t('admin-bug-panel-title') }}</h3>
-        <div>
+        <div>            
             <p>
                 sort by:
                 <template v-for="sortable in sortables">
@@ -13,7 +13,10 @@
         <template v-for="bug in sortedBugs">
             <div :key="bug.id" :title="bug.title" class="bug">
                 <div :class="headerColour(bug.severity) + ' d-flex header'">
-                    <span>{{bug.title}}</span>
+                    <span>
+                        {{bug.title}}
+                        <button type="button" @click="editBugReport(bug)">editerino</button>
+                    </span>
                     <span class="m-auto">{{bug.type}}</span>
                     <span class="ml-auto">{{bug.severity}}</span>
                 </div>
@@ -41,7 +44,11 @@
 <script>
 import {BUG_TYPES, BUG_SORTABLES, BUG_SEVERITY, BUG_DEFAULTS} from '../constants/bugConstants';
 import {mapGetters} from 'vuex';
+import EditBugReport from '../components/modals/EditBugReport.vue';
 export default {
+    components: {
+        EditBugReport,
+    },
     mounted() {
         this.$store.dispatch('admin/checkAdmin');
         this.$store.dispatch('bugReport/fetchBugs');
@@ -84,6 +91,12 @@ export default {
         }
     },    
     methods: {
+        editBugReport() {
+            this.$bvModal.show('edit-bug-report');
+        },
+        closeEditBugReport() {
+            this.$bvModal.hide('edit-bug-report');
+        },
         headerColour(severity) {
             return 'severity-' + severity;
         },

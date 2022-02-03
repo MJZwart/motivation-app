@@ -15,7 +15,7 @@ export default {
     },
     data() {
         return {
-            bug = this.incomingBug;
+            bug: this.incomingBug,
         }
     },
     methods: {
