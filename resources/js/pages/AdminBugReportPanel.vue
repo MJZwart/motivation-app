@@ -88,11 +88,15 @@ export default {
             currentSortType: BUG_DEFAULTS.currentSortType,
             sortables: BUG_SORTABLES,
             types: BUG_TYPES,
+            bugReportToEdit: {},
         }
     },    
     methods: {
-        editBugReport() {
+        editBugReport(bugReport) {
+            this.$store.dispatch('clearErrors');
+            this.bugReportToEdit = bugReport;
             this.$bvModal.show('edit-bug-report');
+
         },
         closeEditBugReport() {
             this.$bvModal.hide('edit-bug-report');
