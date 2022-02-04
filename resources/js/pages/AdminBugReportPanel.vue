@@ -15,7 +15,7 @@
                 <div :class="headerColour(bugReport.severity) + ' d-flex header'">
                     <span>
                         {{bugReport.title}}
-                        <button type="button" @click="editBugReport(bugReport)">editerino</button>
+                        <button type="button" @click="editBugReport(bugReport)">edit</button>
                     </span>
                     <span class="m-auto">{{bugReport.type}}</span>
                     <span class="ml-auto">{{bugReport.severity}}</span>

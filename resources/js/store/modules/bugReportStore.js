@@ -23,6 +23,13 @@ export default {
                 commit('setBugReports', response.data.data);
             });
         },
+        updateBugReport: ({commit, dispatch}, bugReport) => {
+            return axios.put('/bugreport/' + bugReport.id, bugReport).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('setBugReports', response.data.data);
+                return Promise.resolve();
+            });
+        },
         storeBugReport: ({dispatch}, bugReport) => {
             axios.post('/bugreport', bugReport).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});

@@ -50,6 +50,8 @@
                     :placeholder="bugReportToEdit.status" />
                 <base-form-error name="status" /> 
             </b-form-group>
+            <b-button type="submit" block>{{$t('update-bug-report')}}</b-button>
+            <b-button type="button" block @click="close">{{$t('cancel')}}</b-button>
         </b-form>
     </div>
 </template>
@@ -83,11 +85,14 @@ export default {
     },
     methods: {
         updateBugReport() {
-            //
+            let self = this;
+            this.$store.dispatch('bugReport/updateBugReport', this. bugReportToEdit).then(function() {
+                self.close();
+            })
         },
         close() {
-            this.bug = {};
-            this.$emit('cloce');
+            this.bugReportToEdit = {};
+            this.$emit('close');
         },
     },
 }
