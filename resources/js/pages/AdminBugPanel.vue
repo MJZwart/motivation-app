@@ -20,7 +20,7 @@
             <div :key="bug.id" :title="bug.title" class="bug">
                 <div :class="headerColour(bug.severity) + ' d-flex header'">
                     <span>{{bug.title}}</span>
-                    <span class="m-auto">{{bug.type}}</span>
+                    <span class="m-auto">{{parsedType(bug.type)}}</span>
                     <span class="ml-auto">{{bug.severity}}</span>
                 </div>
                 <div class="bug-content">
@@ -70,6 +70,9 @@ export default {
         }
     },    
     methods: {
+        parsedType(type) {
+            return BUG_TYPES.find(element => element.value == type).text;
+        },
         headerColour(severity) {
             return 'severity-' + severity;
         },
@@ -90,22 +93,25 @@ export default {
             }
         },
         sortBugs() {
-            return this.bugs.slice().sort((a,b) => {
-                if (this.currentSort === 'type') {
-                    let bugTypeLength = this.types.length;
-                    let modifier = (bugTypeLength - this.types.findIndex(element => element.value == this.currentSortType));
-                    let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugTypeLength;
-                    let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugTypeLength;
-                    if (tempA < tempB) return -1;
-                    if (tempA > tempB) return 1;
-                } else {
-                    let modifier = 1;
-                    if (this.currentSortDir === 'desc') modifier = -1;
-                    if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                    if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
-                }
-                return 0;
-            })
+            if (this.bugs) {
+                // eslint-disable-next-line complexity
+                return this.bugs.slice().sort((a,b) => {
+                    if (this.currentSort === 'type') {
+                        let bugTypeLength = this.types.length;
+                        let modifier = (bugTypeLength - this.types.findIndex(element => element.value == this.currentSortType));
+                        let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugTypeLength;
+                        let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugTypeLength;
+                        if (tempA < tempB) return -1;
+                        if (tempA > tempB) return 1;
+                    } else {
+                        let modifier = 1;
+                        if (this.currentSortDir === 'desc') modifier = -1;
+                        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                    }
+                    return 0;
+                })
+            }
         },
     },
 }
@@ -113,7 +119,6 @@ export default {
 
 <style lang="scss" scoped>
 
-//NOTE: Parsing the severity in the back-end will break the colours. Change the 'severity-#' to 'severity-low' etc
 @import '../../assets/scss/variables';
 .bug{
     border: 1px solid $grey;
