@@ -15,6 +15,7 @@ class MessageOutResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'sent_by_user' => true,
             'recipient' => $this->recipient,
             'message' => $this->message,
             'visible' => $this->visible_to_sender,

@@ -16,8 +16,10 @@ class Conversation extends Model
         'conversation_id',
     ];
 
+    protected $with = ['recipient', 'messages'];
+
     public function messages() {
-        return $this->hasMany('App\Models\Message');
+        return $this->hasMany('App\Models\Message', 'conversation_id', 'conversation_id');
     }
 
     public function user() {
@@ -30,7 +32,7 @@ class Conversation extends Model
 
     public function getLastMessage() {
         //Message::where('conversation_id', $this->conversation_id)->order_by('created_at', 'desc')->first();
-        $this->messages->order_by('created_at', 'desc')->first();
+        return $this->messages()->orderBy('created_at', 'desc')->first();
     }
 
     public function getLastMessageAsResource() {

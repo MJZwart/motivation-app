@@ -20,9 +20,9 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('recipient_id');
             $table->longText('message');
             $table->unsignedBigInteger('conversation_id');
-            $table->boolean('read');
-            $table->boolean('visible_to_sender');
-            $table->boolean('visible_to_recipient');
+            $table->boolean('read')->default(false);
+            $table->boolean('visible_to_sender')->default(true);
+            $table->boolean('visible_to_recipient')->default(true);
         });
     }
 
