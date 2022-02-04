@@ -86,7 +86,7 @@ export default {
     methods: {
         updateBugReport() {
             let self = this;
-            this.$store.dispatch('bugReport/updateBugReport', this. bugReportToEdit).then(function() {
+            this.$store.dispatch('bugReport/updateBugReport', this.bugReportToEdit).then(function() {
                 self.close();
             })
         },
