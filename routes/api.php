@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/overview', [OverviewController::class, 'getOverview']);
 
     Route::get('/conversations', [MessageController::class, 'getConversations']);
+    Route::post('/message', [MessageController::class, 'sendMessage']);
 });
 
 Route::get('/achievements', [AchievementController::class, 'showAll']);

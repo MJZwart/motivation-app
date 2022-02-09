@@ -4,11 +4,11 @@
             <b-form-group
                 label="Message" 
                 label-for="message">
-                <b-form-input 
+                <b-form-textarea 
                     id="message" 
-                    v-model="message"
-                    type="text" 
+                    v-model="message.message"
                     name="message" 
+                    rows=3
                     placeholder="Type your message"  />
                 <base-form-error name="message" /> 
             </b-form-group>
@@ -30,19 +30,31 @@ export default {
             type: Object,
             required: true,
         },
+        conversation: {
+            type: Object,
+            required: false,
+        },
     },
     data() {
         return {
-            message: '',
+            message: {
+                message: '',
+            },
         }
     },
 
     methods: {
         close() {
-            console.log('cancel');
+            this.$emit('close');
         },
         sendMessage() {
-            console.log('send');
+            this.message.recipient_id = this.user.id;
+            if (this.conversation) {
+                this.message.conversation_id = this.conversation.conversation_id;
+            }
+            this.$store.dispatch('message/sendMessage', this.message).then(() => {
+                this.$emit('close');
+            });
         },
     },
 

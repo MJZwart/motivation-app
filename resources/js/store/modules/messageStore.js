@@ -5,34 +5,38 @@ export default {
 
     namespaced: true,
     state: {
-        messages: [],
+        // messages: [],
         conversations: [],
     },
     mutations: {
-        setMessages(state, messages) {
-            state.messages = messages;
-        },
+        // setMessages(state, messages) {
+        //     state.messages = messages;
+        // },
         setConversations(state, conversations) {
             state.conversations = conversations;
         },
     },
     getters: {
-        getMessages(state) {
-            return state.messages;
-        },
+        // getMessages(state) {
+        //     return state.messages;
+        // },
         getConversations(state) {
             return state.conversations;
         },
     },
     actions: {
-        getMessages: ({commit}) => {
-            axios.get('/messages').then(response => {
-                commit('setMessages', response.data.data);
+
+        getConversations: ({commit}) => {
+            return axios.get('/conversations').then(response => {
+                commit('setConversations', response.data.data);
+                return Promise.resolve();
             });
         },
-        getConversations: ({commit}) => {
-            axios.get('/conversations').then(response => {
-                commit('setConversations', response.data.data);
+
+        sendMessage: ({dispatch}, message) => {
+            return axios.post('/message', message).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
             });
         },
     },

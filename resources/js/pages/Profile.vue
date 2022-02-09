@@ -31,7 +31,7 @@
             </div>
         </div>
         
-        <b-modal id="send-message" hide-footer title="Send message">
+        <b-modal id="send-message" hide-footer :title="sendMessageTitle" @close="closeSendMessageModal">
             <send-message :user="userProfile" />
         </b-modal>
     </div>
@@ -62,6 +62,9 @@ export default {
         notLoggedUser() {
             return this.$route.params.id != this.user.id;
         },
+        sendMessageTitle() {
+            return 'Send message to ' + this.userProfile.username;
+        },
     },
     methods: {
         sendFriendRequest() {
@@ -69,6 +72,9 @@ export default {
         },
         sendMessage() {
             this.$bvModal.show('send-message');
+        },
+        closeSendMessageModal() {
+            this.$bvModal.hide('send-message');
         },
     },
 }

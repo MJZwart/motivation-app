@@ -16,6 +16,8 @@ class Message extends Model
         'conversation_id',
     ];
 
+    protected $touches = ['conversation'];
+
     public function sender() {
         return $this->belongsTo('App\Models\User');
     }
@@ -25,6 +27,6 @@ class Message extends Model
     }
 
     public function conversation() {
-        return $this->belongsTo('App\Models\Conversation');
+        return $this->belongsTo('App\Models\Conversation', 'conversation_id', 'conversation_id');
     }
 }

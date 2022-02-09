@@ -14,15 +14,13 @@ class ConversationOverviewResource extends JsonResource
      */
     public function toArray($request)
     {
-        //dd($this->getLastMessage());
-        // dd($this->getLastMessage()->sender_id);
-        // dd($this->user_id);
         return [
             'recipient' => new StrippedUserResource($this->recipient),
             'conversation_id' => $this->conversation_id,
             'last_message' => $this->getLastMessage()->sender_id == $this->user_id ? 
                 new MessageOutResource($this->getLastMessage()) : 
                 new MessageInResource($this->getLastMessage()),
+            'messages' => $this->messages,
         ];
     }
 }
