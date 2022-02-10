@@ -20,6 +20,12 @@ export const BUG_SORTABLES = [
     {text: 'User ID', value: 'user_id'},
     {text: 'Status', value: 'status'}];
 
+export const BUG_STATUS = [
+    {text: 'reported', value: 0},
+    {text: 'in progress', value: 1},
+    {text: 'done', value: 2},
+    {text: 'resolved', value: 3}];
+
 export const BUG_DEFAULTS = {
     currentSort: 'time_created',
     currentSortDir: 'desc',

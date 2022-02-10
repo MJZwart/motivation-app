@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BugReport;
 use App\Http\Requests\StoreBugReportRequest;
+use App\Http\Requests\UpdateBugReportRequest;
 use App\Http\Resources\BugReportResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +20,23 @@ class BugReportController extends Controller
 
         return new JsonResponse(['message' => ['success' => ['Bug report successfully created.']]], Response::HTTP_OK);
     }
-    public function getAllBugs(){
-    return BugReportResource::collection(BugReport::all());
+
+    public function update(UpdateBugReportRequest $request, $id): JsonResponse
+    {
+        $validated = $request->validated();
+        
+        $bugReport = BugReport::find($id);
+        $bugReport->type = $validated['type'];
+        $bugReport->severity = $validated['severity'];
+        $bugReport->admin_comment = $validated['admin_comment'];
+        $bugReport->status = $validated['status'];
+        $bugReport->save();
+        $return = BugReportResource::collection(BugReport::all());
+
+    return new JsonResponse(['message' => ['success' => ["Bug Report updated."]], 'data' => $return], Response::HTTP_OK);
+    }
+
+    public function getAllBugReports(){
+        return BugReportResource::collection(BugReport::all());
     }
 }

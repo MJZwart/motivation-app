@@ -143,7 +143,7 @@
     "send-notification": "Send notification",
     "delete-notification-confirmation": "Are you sure you want to delete this notification?",
 
-    "admin-bug-panel-title": "Admin Bug Panel",
+    "admin-bug-report-panel-title": "Admin Bug Report Panel",
 
     "next": "Next",
     "go-back": "Go back",

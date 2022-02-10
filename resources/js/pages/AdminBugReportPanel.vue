@@ -1,7 +1,7 @@
 <template>
-    <div v-if="bugs">
-        <h3>{{ $t('admin-bug-panel-title') }}</h3>
-        <div>
+    <div v-if="this.bugReports">
+        <h3>{{ $t('admin-bug-report-panel-title') }}</h3>
+        <div>            
             <p>
                 sort by:
                 <template v-for="sortable in sortables">
@@ -16,25 +16,33 @@
                 (click again to reverse order)
             </p>
         </div>
-        <template v-for="bug in sortedBugs">
-            <div :key="bug.id" :title="bug.title" class="bug">
-                <div :class="headerColour(bug.severity) + ' d-flex header'">
-                    <span>{{bug.title}}</span>
+        <template v-for="bugReport in sortedBugReports">
+            <div :key="bugReport.id" :title="bugReport.title" class="bugReport">
+                <div :class="headerColour(bugReport.severity) + ' d-flex header'">
+                    <span>
+                        {{bugReport.title}}
+                        <button type="button" @click="editBugReport(bugReport)">edit</button>
+                    </span>
                     <span class="m-auto">{{parsedType(bug.type)}}</span>
-                    <span class="ml-auto">{{bug.severity}}</span>
+                    <span class="ml-auto">{{bugReport.severity}}</span>
                 </div>
-                <div class="bug-content">
-                    <p>Page: {{bug.page}}</p>
-                    <p v-if="bug.image_link">Image: {{bug.image_link}}</p>
-                    <p>Comment: "{{bug.comment}}"</p>
-                    <p>Reported by user: {{bug.user_id}} </p>
-                    <p>Status: {{bug.status}}</p>
-                    <p>time: {{bug.time_created}}</p>
-                    <span v-if="bug.admin_comment">Admin comment: "{{bug.admin_comment}}"</span>
+                <div class="bug-report-content">
+                    <p>Page: {{bugReport.page}}</p>
+                    <p v-if="bugReport.image_link">Image: {{bugReport.image_link}}</p>
+                    <p>Comment: "{{bugReport.comment}}"</p>
+                    <p>Reported by user: {{bugReport.user_id}} </p>
+                    <p>Status: {{bugReport.status}}</p>
+                    <p>time: {{bugReport.time_created}}</p>
+                    <span v-if="bugReport.admin_comment">Admin comment: "{{bugReport.admin_comment}}"</span>
                 </div>
             </div>
         </template>
         <!---debug: currentSort: {{currentSort}} | currentSortDir: {{currentSortDir}} | currentSortType: {{currentSortType}}--->
+
+        <b-modal id="edit-bug-report" hide-footer :title="$t('edit-bug-report')">
+            <edit-bug-report :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
+        </b-modal>
+
     </div>
 </template>
 
@@ -42,22 +50,25 @@
 <script>
 import {BUG_TYPES, BUG_SORTABLES, BUG_DEFAULTS} from '../constants/bugConstants';
 import {mapGetters} from 'vuex';
-
+import EditBugReport from '../components/modals/EditBugReport.vue';
 export default {
+    components: {
+        EditBugReport,
+    },
     mounted() {
         this.$store.dispatch('admin/checkAdmin');
-        this.$store.dispatch('bugReport/fetchBugs');
+        this.$store.dispatch('bugReport/fetchBugReports');
     },
     computed: {
         ...mapGetters({
-            bugs: 'bugReport/getBugs',
+            bugReports: 'bugReport/getBugReports',
         }),
         //this may be needed for language support
         // sortedTypes() {
         //     return this.types.sort();
         // },
-        sortedBugs() {
-            return this.sortBugs();
+        sortedBugReports() {
+            return this.sortBugReports();
         },
     },
     data() {
@@ -67,11 +78,21 @@ export default {
             currentSortType: BUG_DEFAULTS.currentSortType,
             sortables: BUG_SORTABLES,
             types: BUG_TYPES,
+            bugReportToEdit: {},
         }
     },    
     methods: {
         parsedType(type) {
             return BUG_TYPES.find(element => element.value == type).text;
+        },
+        editBugReport(bugReport) {
+            this.$store.dispatch('clearErrors');
+            this.bugReportToEdit = bugReport;
+            this.$bvModal.show('edit-bug-report');
+
+        },
+        closeEditBugReport() {
+            this.$bvModal.hide('edit-bug-report');
         },
         headerColour(severity) {
             return 'severity-' + severity;
@@ -92,22 +113,22 @@ export default {
                 this.currentSortType = BUG_DEFAULTS.currentSortType;
             }
         },
-        sortBugs() {
-            if (this.bugs) {
+        sortBugReports() {
+            if (this.bugReports) {
                 // eslint-disable-next-line complexity
-                return this.bugs.slice().sort((a,b) => {
-                    if (this.currentSort === 'type') {
-                        let bugTypeLength = this.types.length;
-                        let modifier = (bugTypeLength - this.types.findIndex(element => element.value == this.currentSortType));
-                        let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugTypeLength;
-                        let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugTypeLength;
-                        if (tempA < tempB) return -1;
-                        if (tempA > tempB) return 1;
+                return this.bugReports.slice().sort((a,b) => {
+                    if(this.currentSort === 'type') {
+                        let bugTypesLength = this.types.length;
+                        let modifier = (bugTypesLength - this.types.findIndex(element => element.value == this.currentSortType));
+                        let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugsTypeLength;
+                        let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugsTypeLength;
+                        if(tempA < tempB) return -1;
+                        if(tempA > tempB) return 1;
                     } else {
                         let modifier = 1;
-                        if (this.currentSortDir === 'desc') modifier = -1;
-                        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                        if(this.currentSortDir === 'desc') modifier = -1;
+                        if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                        if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
                     }
                     return 0;
                 })
@@ -120,14 +141,14 @@ export default {
 <style lang="scss" scoped>
 
 @import '../../assets/scss/variables';
-.bug{
+.bugReport{
     border: 1px solid $grey;
     color: black;
     margin-bottom: 0.5rem;
     .header {
         padding: 0.2rem;
     }
-    .bug-content {
+    .bugReport-content {
         p {
             margin-bottom: 0.2rem;
         }
