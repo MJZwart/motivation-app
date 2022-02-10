@@ -5,7 +5,13 @@
             <p>
                 sort by:
                 <template v-for="sortable in sortables">
-                    <button :key="sortable.value" v-on:click="sort(sortable.value)">{{sortable.value == 'type' ? `Type: ${types[types.findIndex(element => element.value == currentSortType)].text}` : sortable.text}}</button>
+                    <button 
+                        :key="sortable.value" 
+                        v-on:click="sort(sortable.value)">
+                        {{sortable.value == 'type' ? 
+                            `Type: ${types[types.findIndex(element => element.value == currentSortType)].text}` : 
+                            sortable.text}}
+                    </button>
                 </template>
                 (click again to reverse order)
             </p>
@@ -17,7 +23,7 @@
                         {{bugReport.title}}
                         <button type="button" @click="editBugReport(bugReport)">edit</button>
                     </span>
-                    <span class="m-auto">{{bugReport.type}}</span>
+                    <span class="m-auto">{{parsedType(bug.type)}}</span>
                     <span class="ml-auto">{{bugReport.severity}}</span>
                 </div>
                 <div class="bug-report-content">
@@ -42,7 +48,7 @@
 
 
 <script>
-import {BUG_TYPES, BUG_SORTABLES, BUG_SEVERITY, BUG_DEFAULTS} from '../constants/bugConstants';
+import {BUG_TYPES, BUG_SORTABLES, BUG_DEFAULTS} from '../constants/bugConstants';
 import {mapGetters} from 'vuex';
 import EditBugReport from '../components/modals/EditBugReport.vue';
 export default {
@@ -58,28 +64,12 @@ export default {
             bugReports: 'bugReport/getBugReports',
         }),
         //this may be needed for language support
-        sortedTypes() {
-            return this.types.sort();
-        },
+        // sortedTypes() {
+        //     return this.types.sort();
+        // },
         sortedBugReports() {
-            return this.bugReports.slice().sort((a,b) => {
-                if(this.currentSort === 'type') {
-                    let bugTypesLength = this.types.length;
-                    let modifier = (bugTypesLength - this.types.findIndex(element => element.value == this.currentSortType));
-                    let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugsTypeLength;
-                    let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugsTypeLength;
-                    if(tempA < tempB) return -1;
-                    if(tempA > tempB) return 1;
-                } else {
-                    let modifier = 1;
-                    if(this.currentSortDir === 'desc') modifier = -1;
-                    if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                    if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
-                }
-                return 0;
-            })
+            return this.sortBugReports();
         },
-
     },
     data() {
         return {
@@ -92,6 +82,9 @@ export default {
         }
     },    
     methods: {
+        parsedType(type) {
+            return BUG_TYPES.find(element => element.value == type).text;
+        },
         editBugReport(bugReport) {
             this.$store.dispatch('clearErrors');
             this.bugReportToEdit = bugReport;
@@ -106,16 +99,39 @@ export default {
         },
         sort(sortInput) {
             //if sortInput == current sort, reverse
-            if(sortInput === this.currentSort) {
-                if(sortInput === 'type') {
-                    this.currentSortType = this.types[((this.types.findIndex(element => element.value == this.currentSortType) +1) % this.types.length)].value;
+            if (sortInput === this.currentSort) {
+                if (sortInput === 'type') {
+                    this.currentSortType = 
+                        this.types[((this.types.findIndex(
+                            element => element.value == this.currentSortType) +1) % this.types.length)].value;
                 } else {
                     this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
-                };
+                }
             } else {
-            this.currentSort = sortInput;
-            this.currentSortDir = BUG_DEFAULTS.currentSortDir;
-            this.currentSortType = BUG_DEFAULTS.currentSortType;
+                this.currentSort = sortInput;
+                this.currentSortDir = BUG_DEFAULTS.currentSortDir;
+                this.currentSortType = BUG_DEFAULTS.currentSortType;
+            }
+        },
+        sortBugReports() {
+            if (this.bugReports) {
+                // eslint-disable-next-line complexity
+                return this.bugReports.slice().sort((a,b) => {
+                    if(this.currentSort === 'type') {
+                        let bugTypesLength = this.types.length;
+                        let modifier = (bugTypesLength - this.types.findIndex(element => element.value == this.currentSortType));
+                        let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugsTypeLength;
+                        let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugsTypeLength;
+                        if(tempA < tempB) return -1;
+                        if(tempA > tempB) return 1;
+                    } else {
+                        let modifier = 1;
+                        if(this.currentSortDir === 'desc') modifier = -1;
+                        if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                        if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                    }
+                    return 0;
+                })
             }
         },
     },
@@ -124,7 +140,6 @@ export default {
 
 <style lang="scss" scoped>
 
-//NOTE: Parsing the severity in the back-end will break the colours. Change the 'severity-#' to 'severity-low' etc
 @import '../../assets/scss/variables';
 .bugReport{
     border: 1px solid $grey;

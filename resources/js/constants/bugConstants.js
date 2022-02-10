@@ -28,5 +28,5 @@ export const BUG_STATUS = [
 
 export const BUG_DEFAULTS = {
     currentSort: 'time_created',
-    currentSortDir: 'asc',
+    currentSortDir: 'desc',
     currentSortType: 'DESIGN'};

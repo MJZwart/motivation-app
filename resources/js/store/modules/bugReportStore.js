@@ -5,7 +5,7 @@ export default {
 
     namespaced: true,
     state: {
-        bugReports: {},
+        bugs: null,
     },
     mutations: {
         setBugReports(state, bugReports) {
