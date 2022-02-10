@@ -78,7 +78,7 @@ export default {
             currentSortType: BUG_DEFAULTS.currentSortType,
             sortables: BUG_SORTABLES,
             types: BUG_TYPES,
-            bugReportToEdit: {},
+            bugReportToEdit: null,
         }
     },    
     methods: {
@@ -114,12 +114,9 @@ export default {
             }
         },
         sortBugReports() {
-            console.log("trying to sort");
-            console.log(this.bugReports);
             if (this.bugReports) {
                 // eslint-disable-next-line complexity
                 return this.bugReports.slice().sort((a,b) => {
-                    console.log("sorting");
                     if(this.currentSort === 'type') {
                         let bugTypesLength = this.types.length;
                         let modifier = (bugTypesLength - this.types.findIndex(element => element.value == this.currentSortType));
