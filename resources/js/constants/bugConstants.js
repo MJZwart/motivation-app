@@ -22,5 +22,5 @@ export const BUG_SORTABLES = [
 
 export const BUG_DEFAULTS = {
     currentSort: 'time_created',
-    currentSortDir: 'asc',
+    currentSortDir: 'desc',
     currentSortType: 'DESIGN'};
