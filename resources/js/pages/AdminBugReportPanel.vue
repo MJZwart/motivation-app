@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.bugReports">
+    <div>
         <h3>{{ $t('admin-bug-report-panel-title') }}</h3>
         <div>            
             <p>
@@ -23,7 +23,7 @@
                         {{bugReport.title}}
                         <button type="button" @click="editBugReport(bugReport)">edit</button>
                     </span>
-                    <span class="m-auto">{{parsedType(bug.type)}}</span>
+                    <span class="m-auto">{{parsedType(bugReport.type)}}</span>
                     <span class="ml-auto">{{bugReport.severity}}</span>
                 </div>
                 <div class="bug-report-content">
@@ -114,9 +114,12 @@ export default {
             }
         },
         sortBugReports() {
+            console.log("trying to sort");
+            console.log(this.bugReports);
             if (this.bugReports) {
                 // eslint-disable-next-line complexity
                 return this.bugReports.slice().sort((a,b) => {
+                    console.log("sorting");
                     if(this.currentSort === 'type') {
                         let bugTypesLength = this.types.length;
                         let modifier = (bugTypesLength - this.types.findIndex(element => element.value == this.currentSortType));
