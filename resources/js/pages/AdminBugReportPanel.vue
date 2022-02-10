@@ -120,8 +120,8 @@ export default {
                     if(this.currentSort === 'type') {
                         let bugTypesLength = this.types.length;
                         let modifier = (bugTypesLength - this.types.findIndex(element => element.value == this.currentSortType));
-                        let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugsTypeLength;
-                        let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugsTypeLength;
+                        let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugTypesLength;
+                        let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugTypesLength;
                         if(tempA < tempB) return -1;
                         if(tempA > tempB) return 1;
                     } else {
