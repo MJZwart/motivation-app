@@ -16,10 +16,10 @@ class MessageOutResource extends JsonResource
     {
         return [
             'sent_by_user' => true,
-            'recipient' => $this->recipient,
+            'recipient' => new StrippedUserResource($this->recipient),
             'message' => $this->message,
             'visible' => $this->visible_to_sender,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->toDateTimeString(),
         ];
     }
 }

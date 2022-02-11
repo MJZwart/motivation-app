@@ -45,10 +45,10 @@ class Conversation extends Model
     }
 
     public function messagesOut() {
-        $this->messages->where('sender_id', $this->user_id)->get();
+        return $this->messages->where('sender_id', $this->user_id);
     }
 
     public function messagesIn() {
-        $this->messages->where('recipient_id', $this->recipient_id)->get();
+        return $this->messages->where('recipient_id', $this->user_id);
     }
 }

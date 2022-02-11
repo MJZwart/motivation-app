@@ -16,11 +16,11 @@ class MessageInResource extends JsonResource
     {
         return [
             'sent_by_user' => false,
-            'sender' => $this->sender,
+            'sender' => new StrippedUserResource($this->sender),
             'message' => $this->message,
             'read' => $this->read,
             'visible' => $this->visible_to_recipient,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->toDateTimeString(),
         ];
     }
 }
