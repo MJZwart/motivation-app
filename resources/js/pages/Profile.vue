@@ -3,6 +3,7 @@
         <div v-if="userProfile" class="profile-grid">
             <div class="right-column">
                 <h2>{{userProfile.username}}</h2>
+                <b-icon-envelope-fill v-if="notLoggedUser" class="icon-small" @click="sendMessage" />
                 <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
                 <achievements-summary v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
@@ -29,6 +30,10 @@
                 </div>
             </div>
         </div>
+        
+        <b-modal id="send-message" hide-footer :title="sendMessageTitle" @close="closeSendMessageModal">
+            <send-message :user="userProfile" />
+        </b-modal>
     </div>
 </template>
 
@@ -37,8 +42,10 @@
 import {mapGetters} from 'vuex';
 import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
 import RewardSummary from '../components/summary/RewardSummary.vue';
+import SendMessage from '../components/modals/SendMessage.vue';
+
 export default {
-    components: {RewardSummary, AchievementsSummary},
+    components: {RewardSummary, AchievementsSummary, SendMessage},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();
@@ -55,10 +62,19 @@ export default {
         notLoggedUser() {
             return this.$route.params.id != this.user.id;
         },
+        sendMessageTitle() {
+            return 'Send message to ' + this.userProfile.username;
+        },
     },
     methods: {
         sendFriendRequest() {
             this.$store.dispatch('friend/sendRequest', this.$route.params.id);
+        },
+        sendMessage() {
+            this.$bvModal.show('send-message');
+        },
+        closeSendMessageModal() {
+            this.$bvModal.hide('send-message');
         },
     },
 }

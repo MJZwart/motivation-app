@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
         User::factory()
             ->hasVillages(1)
             ->hasTaskLists(2)
-            ->create(['username' => 'villtest', 'first_login' => false]);
+            ->create(['username' => 'villtest', 'first_login' => false, 'rewards' => 'VILLAGE']);
 
         User::factory()
             ->hasTaskLists(2)

@@ -77,6 +77,11 @@ let routes = [
         component: require('../pages/BugReport.vue').default,
         meta: {requiresAuth: true},
     },
+    {
+        path: '/messages',
+        component: require('../pages/Messages.vue').default,
+        meta: {requiresAuth: true},
+    },
     // {
     //     path: '/test',
     //     component: require('../pages/Test.vue').default,

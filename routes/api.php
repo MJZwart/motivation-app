@@ -15,6 +15,7 @@ use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\RewardController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/bugreports', [BugReportController::class, 'getAllBugReports']);
     Route::get('/dashboard', [DashboardController::class, 'getDashboard']);
     Route::get('/overview', [OverviewController::class, 'getOverview']);
+
+    Route::get('/conversations', [MessageController::class, 'getConversations']);
+    Route::post('/message', [MessageController::class, 'sendMessage']);
 });
 
 Route::get('/achievements', [AchievementController::class, 'showAll']);
