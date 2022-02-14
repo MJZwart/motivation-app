@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         User::factory(10)
             ->hasVillages(1)
             ->hasTaskLists(3)
-            ->create(['first_login' => false]);
+            ->create(['rewards' => 'VILLAGE', 'first_login' => false]);
 
         User::factory()
             ->hasCharacters(1)

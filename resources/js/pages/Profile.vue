@@ -31,8 +31,8 @@
             </div>
         </div>
         
-        <b-modal id="send-message" hide-footer :title="sendMessageTitle" @close="closeSendMessageModal">
-            <send-message :user="userProfile" />
+        <b-modal id="send-message" hide-footer hide-header>
+            <send-message :user="userProfile" @close="closeSendMessageModal" />
         </b-modal>
     </div>
 </template>
@@ -61,9 +61,6 @@ export default {
         /** Checked if this user profile is not the user currently logged in, so you can't send a request to yourself */
         notLoggedUser() {
             return this.$route.params.id != this.user.id;
-        },
-        sendMessageTitle() {
-            return 'Send message to ' + this.userProfile.username;
         },
     },
     methods: {

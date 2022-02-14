@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/conversations', [MessageController::class, 'getConversations']);
     Route::post('/message', [MessageController::class, 'sendMessage']);
+    Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
 });
 
 Route::get('/achievements', [AchievementController::class, 'showAll']);

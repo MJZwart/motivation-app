@@ -1,5 +1,6 @@
 <template>
     <div v-if="user">
+        <h2>{{ sendMessageTitle }}</h2>
         <b-form @submit.prevent="sendMessage">
             <b-form-group
                 label="Message" 
@@ -55,6 +56,11 @@ export default {
             this.$store.dispatch('message/sendMessage', this.message).then(() => {
                 this.$emit('close');
             });
+        },
+    },
+    computed: {
+        sendMessageTitle() {
+            return 'Send message to ' + this.user.username;
         },
     },
 

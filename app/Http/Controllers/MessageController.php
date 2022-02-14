@@ -35,16 +35,29 @@ class MessageController extends Controller
     }
 
     private function getConversationId($user_id, $recipient_id) {
-        $conversation_id = Conversation::where('user_id', $user_id)
+        $conversation_id = null;
+        $conversation = Conversation::where('user_id', $user_id)
                   ->where('recipient_id', $recipient_id)
-                  ->first()->conversation_id;
-        if(!$conversation_id) {
+                  ->first();
+        if(!$conversation) {
             do {
                 $conversation_id = random_int(11111, 99999);
             } while (Conversation::where('conversation_id', $conversation_id)->first() != null);
             Conversation::create(['user_id' => $user_id, 'recipient_id' => $recipient_id, 'conversation_id' => $conversation_id]);
             Conversation::create(['user_id' => $recipient_id, 'recipient_id' => $user_id, 'conversation_id' => $conversation_id]);
+        } else {
+            $conversation_id = $conversation->id;
         }
         return $conversation_id;
+    }
+
+    public function markConversationAsRead(Conversation $conversation) {
+        foreach ($conversation->messages as $message) {
+            if(!$message->read) {
+                $message->read = true;
+                $message->save([
+                    'touch' => false]);
+            }
+        }
     }
 }

@@ -5,21 +5,14 @@ export default {
 
     namespaced: true,
     state: {
-        // messages: [],
         conversations: [],
     },
     mutations: {
-        // setMessages(state, messages) {
-        //     state.messages = messages;
-        // },
         setConversations(state, conversations) {
             state.conversations = conversations;
         },
     },
     getters: {
-        // getMessages(state) {
-        //     return state.messages;
-        // },
         getConversations(state) {
             return state.conversations;
         },
@@ -38,6 +31,10 @@ export default {
                 dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
             });
+        },
+
+        markConversationRead: (_, conversationId) => {
+            axios.put('/conversation/' + conversationId + '/read');
         },
     },
 }
