@@ -15,6 +15,7 @@ class ConversationOverviewResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'recipient' => new StrippedUserResource($this->recipient),
             'conversation_id' => $this->conversation_id,
             'last_message' => $this->getLastMessage()->sender_id == $this->user_id ? 

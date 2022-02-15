@@ -7,11 +7,14 @@
                 <div v-for="(conversation, index) in conversations" :key="conversation.id" 
                      class="conversation clickable"
                      @click="switchActiveConversation(index)">
-                    <p>Conversation with: {{conversation.recipient.username}}</p>
+                    <p class="d-flex">
+                        Conversation with: {{conversation.recipient.username}}
+                        <span v-if="hasUnreadMessages(conversation)" class="ml-auto"><strong>Unread</strong></span>
+                    </p>
                     <p><strong>{{getSender(conversation.last_message)}}</strong>
                         {{conversation.last_message.message}}
                     </p>
-                    <p class="silent">Last message on: {{conversation.updated_at}}</p>
+                    <p class="silent mb-0">Last message on: {{conversation.updated_at}}</p>
                 </div>
             </div>
             <div v-if="activeConversation" class="messages">
@@ -67,10 +70,12 @@ export default {
         load() {
             this.$store.dispatch('message/getConversations').then(() => {
                 this.activeConversation = this.conversations[0];
+                this.markAsRead(this.conversations[0]);
             });
         },
         switchActiveConversation(key) {
             this.activeConversation = this.conversations[key];
+            this.markAsRead(this.conversations[key]);
         },
         sendMessage() {
             this.message.conversation_id = this.activeConversation.conversation_id;
@@ -82,6 +87,18 @@ export default {
         },
         getSender(message) {
             return message.sent_by_user ? 'You: ' : message.sender.username + ': ';
+        },
+        async markAsRead(conversation) {
+            if (this.hasUnreadMessages(conversation)) {
+                this.$store.dispatch('message/markConversationRead', conversation.id);
+                setTimeout(() => {
+                    conversation.messages.forEach(message => {
+                        message.read = true;
+                    })}, 3000);
+            }
+        },
+        hasUnreadMessages(conversation) {
+            return conversation.messages.some(message => message.read == false);
         },
     },
 }
