@@ -46,7 +46,7 @@ class MessageController extends Controller
             Conversation::create(['user_id' => $user_id, 'recipient_id' => $recipient_id, 'conversation_id' => $conversation_id]);
             Conversation::create(['user_id' => $recipient_id, 'recipient_id' => $user_id, 'conversation_id' => $conversation_id]);
         } else {
-            $conversation_id = $conversation->id;
+            $conversation_id = $conversation->conversation_id;
         }
         return $conversation_id;
     }
