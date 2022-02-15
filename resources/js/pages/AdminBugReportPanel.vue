@@ -4,12 +4,12 @@
         <div>            
             <p>
                 sort by:
-                <template v-for="sortable in sortables">
+                <template v-for="sortable in bugSortables">
                     <button 
                         :key="sortable.value" 
                         v-on:click="sort(sortable.value)">
                         {{sortable.value == 'type' ? 
-                            `Type: ${types[types.findIndex(element => element.value == currentSortType)].text}` : 
+                            `Type: ${parsedType(currentSortType)}` : 
                             sortable.text}}
                     </button>
                 </template>
@@ -25,14 +25,14 @@
                         <button type="button" @click="sendMessageToBugReportAuthor(bugReport.user_id)">send message</button>
                     </span>
                     <span class="m-auto">{{parsedType(bugReport.type)}}</span>
-                    <span class="ml-auto">{{bugReport.severity}}</span>
+                    <span class="ml-auto">{{parsedSeverity(bugReport.severity)}}</span>
                 </div>
                 <div class="bug-report-content">
                     <p>Page: {{bugReport.page}}</p>
                     <p v-if="bugReport.image_link">Image: {{bugReport.image_link}}</p>
                     <p>Comment: "{{bugReport.comment}}"</p>
                     <p>Reported by user: {{bugReport.user_id}} </p>
-                    <p>Status: {{bugReport.status}}</p>
+                    <p>Status: {{parsedStatus(bugReport.status)}}</p>
                     <p>time: {{bugReport.time_created}}</p>
                     <span v-if="bugReport.admin_comment">Admin comment: "{{bugReport.admin_comment}}"</span>
                 </div>
@@ -52,7 +52,7 @@
 
 
 <script>
-import {BUG_TYPES, BUG_SORTABLES, BUG_DEFAULTS} from '../constants/bugConstants';
+import {BUG_TYPES, BUG_SORTABLES, BUG_DEFAULTS, BUG_SEVERITY, BUG_STATUS} from '../constants/bugConstants';
 import {mapGetters} from 'vuex';
 import EditBugReport from '../components/modals/EditBugReport.vue';
 import SendMessage from '../components/modals/SendMessage.vue';
@@ -71,7 +71,7 @@ export default {
         }),
         //this may be needed for language support
         // sortedTypes() {
-        //     return this.types.sort();
+        //     return this.bugTypes.sort();
         // },
         sortedBugReports() {
             return this.sortBugReports();
@@ -82,13 +82,27 @@ export default {
             currentSort: BUG_DEFAULTS.currentSort,
             currentSortDir: BUG_DEFAULTS.currentSortDir,
             currentSortType: BUG_DEFAULTS.currentSortType,
-            sortables: BUG_SORTABLES,
-            types: BUG_TYPES,
+            bugSortables: BUG_SORTABLES,
+            bugTypes: BUG_TYPES,
+            bugSeverity: BUG_SEVERITY,
+            bugStatus: BUG_STATUS,
             bugReportToEdit: null,
             bugReportAuthor: null,
         }
     },    
     methods: {
+        parsedKey(key, array) {
+            return array.find(element => element.value == key).text
+        },
+        parsedType(type) {
+            return this.parsedKey(type, this.bugTypes);
+        },
+        parsedSeverity(severity) {
+            return this.parsedKey(severity, this.bugSeverity);
+        },
+        parsedStatus(status) {
+            return this.parsedKey(status, this.bugStatus)
+        },
         sendMessageToBugReportAuthor(authorId) {
             this.$store.dispatch('clearErrors');
             this.bugReportAuthor = {id: authorId};
@@ -96,9 +110,6 @@ export default {
         },
         closeSendMessageToBugReportAuthor() {
             this.$bvModal.hide('send-message-to-bug-report-author');
-        },
-        parsedType(type) {
-            return BUG_TYPES.find(element => element.value == type).text;
         },
         editBugReport(bugReport) {
             this.$store.dispatch('clearErrors');
@@ -117,8 +128,8 @@ export default {
             if (sortInput === this.currentSort) {
                 if (sortInput === 'type') {
                     this.currentSortType = 
-                        this.types[((this.types.findIndex(
-                            element => element.value == this.currentSortType) +1) % this.types.length)].value;
+                        this.bugTypes[((this.bugTypes.findIndex(
+                            element => element.value == this.currentSortType) +1) % this.bugTypes.length)].value;
                 } else {
                     this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
                 }
@@ -133,10 +144,10 @@ export default {
                 // eslint-disable-next-line complexity
                 return this.bugReports.slice().sort((a,b) => {
                     if(this.currentSort === 'type') {
-                        let bugTypesLength = this.types.length;
-                        let modifier = (bugTypesLength - this.types.findIndex(element => element.value == this.currentSortType));
-                        let tempA = (this.types.findIndex(element => element.value == a.type) + modifier) % bugTypesLength;
-                        let tempB = (this.types.findIndex(element => element.value == b.type) + modifier) % bugTypesLength;
+                        let bugTypesLength = this.bugTypes.length;
+                        let modifier = (bugTypesLength - this.bugTypes.findIndex(element => element.value == this.currentSortType));
+                        let tempA = (this.bugTypes.findIndex(element => element.value == a.type) + modifier) % bugTypesLength;
+                        let tempB = (this.bugTypes.findIndex(element => element.value == b.type) + modifier) % bugTypesLength;
                         if(tempA < tempB) return -1;
                         if(tempA > tempB) return 1;
                     } else {
