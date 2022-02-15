@@ -22,6 +22,7 @@
                     <span>
                         {{bugReport.title}}
                         <button type="button" @click="editBugReport(bugReport)">edit</button>
+                        <button type="button" @click="sendMessageToBugReportAuthor(bugReport.user_id)">send message</button>
                     </span>
                     <span class="m-auto">{{parsedType(bugReport.type)}}</span>
                     <span class="ml-auto">{{bugReport.severity}}</span>
@@ -42,6 +43,9 @@
         <b-modal id="edit-bug-report" hide-footer :title="$t('edit-bug-report')">
             <edit-bug-report :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
         </b-modal>
+        <b-modal id="send-message-to-bug-report-author" hide-footer :title="$t('send-message-to-bug-report-author')">
+            <send-message :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor"/>
+        </b-modal>
 
     </div>
 </template>
@@ -51,9 +55,11 @@
 import {BUG_TYPES, BUG_SORTABLES, BUG_DEFAULTS} from '../constants/bugConstants';
 import {mapGetters} from 'vuex';
 import EditBugReport from '../components/modals/EditBugReport.vue';
+import SendMessage from '../components/modals/SendMessage.vue';
 export default {
     components: {
         EditBugReport,
+        SendMessage,
     },
     mounted() {
         this.$store.dispatch('admin/checkAdmin');
@@ -79,9 +85,18 @@ export default {
             sortables: BUG_SORTABLES,
             types: BUG_TYPES,
             bugReportToEdit: null,
+            bugReportAuthor: null,
         }
     },    
     methods: {
+        sendMessageToBugReportAuthor(authorId) {
+            this.$store.dispatch('clearErrors');
+            this.bugReportAuthor = {id: authorId};
+            this.$bvModal.show('send-message-to-bug-report-author');
+        },
+        closeSendMessageToBugReportAuthor() {
+            this.$bvModal.hide('send-message-to-bug-report-author');
+        },
         parsedType(type) {
             return BUG_TYPES.find(element => element.value == type).text;
         },
