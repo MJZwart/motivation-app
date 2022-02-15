@@ -81,13 +81,20 @@ export default {
             bugTypes: BUG_TYPES,
             bugSeverity: BUG_SEVERITY,
             bugStatus: BUG_STATUS,
+            message: {
+                message: 'Your bug report has been resolved!',
+            }
         }
     },
     methods: {
         updateBugReport() {
             let self = this;
-            this.$store.dispatch('bugReport/updateBugReport', this.bugReportToEdit).then(function() {
-                self.close();
+            this.$store.dispatch('bugReport/updateBugReport', this.bugReportToEdit).then(() => {
+                if (this.bugReportToEdit.status == 3) {
+                    this.message.recipient_id = this.bugReportToEdit.user_id;
+                    this.$store.dispatch('message/sendMessage', this.message);
+                }
+                this.close();
             })
         },
         close() {
