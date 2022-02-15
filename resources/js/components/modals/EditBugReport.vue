@@ -4,7 +4,7 @@
             <b-form-group
                 :label="$t('type')"
                 label-for="type"
-                :description="$t('type-desc')">
+                :description="$t('bug-type-desc')">
                 <b-form-select
                     id="type" 
                     v-model="bugReportToEdit.type" 
@@ -16,7 +16,7 @@
             <b-form-group
                 :label="$t('severity')"
                 label-for="severity"
-                :description="$t('severity-desc')">
+                :description="$t('bug-severity-desc')">
                 <b-form-select
                     id="severity" 
                     v-model="bugReportToEdit.severity"
@@ -28,7 +28,7 @@
             <b-form-group
                 :label="$t('admin-comment')"
                 label-for="admin-comment"
-                :description="$t('admin-comment-desc')">
+                :description="$t('bug-admin-comment-desc')">
                 <b-form-input 
                     id="admin-comment" 
                     v-model="bugReportToEdit.admin_comment"
@@ -40,7 +40,7 @@
             <b-form-group
                 :label="$t('status')"
                 label-for="status"
-                :description="$t('status-desc')">
+                :description="$t('bug-status-desc')">
                 <b-form-select
                     id="status" 
                     v-model="bugReportToEdit.status"
