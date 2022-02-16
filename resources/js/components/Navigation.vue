@@ -16,6 +16,7 @@
                 <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
                 <b-nav-item to="/friends">{{ $t('friends') }}</b-nav-item>
                 <b-nav-item to="/bugreport">Report a bug</b-nav-item>
+                <b-nav-item to="/messages">Messages</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-toggle target="nav-collapse" />
@@ -24,7 +25,7 @@
                 <b-navbar-nav v-if="admin">
                     <b-nav-item to="/achievements">{{ $t('achievements') }}</b-nav-item>
                     <b-nav-item to="/admin">{{ $t('admin') }}</b-nav-item>
-                    <b-nav-item to="/adminbugpanel">{{ $t('admin-bug-panel-title')}}</b-nav-item>
+                    <b-nav-item to="/adminbugreportpanel">{{ $t('admin-bug-report-panel-title')}}</b-nav-item>
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto toggled">

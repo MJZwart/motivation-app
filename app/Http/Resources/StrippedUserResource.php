@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FriendResource extends JsonResource
+class StrippedUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,8 @@ class FriendResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'friendship_id' => $this->pivot->id,
-            'id' => $this->pivot->friend_id,
+            'id' => $this->id,
             'username' => $this->username,
-            'friends_since' => $this->pivot->created_at->toDateString(),
         ];
     }
 }

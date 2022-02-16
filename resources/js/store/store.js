@@ -10,6 +10,7 @@ import achievementStore from './modules/achievementStore.js';
 import adminStore from './modules/adminStore.js';
 import bugReportStore from './modules/bugReportStore.js';
 import rewardStore from './modules/rewardStore.js';
+import messageStore from './modules/messageStore.js';
 import toastService from '../services/toastService';
 import axios from 'axios';
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
         admin: adminStore,
         bugReport: bugReportStore,
         reward: rewardStore,
+        message: messageStore,
     },
     state: {
         //Errors and response

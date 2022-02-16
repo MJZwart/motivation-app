@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             AchievementSeeder::class,
             ExperiencePointsSeeder::class,
             BalancingSeeder::class,
+            MessageSeeder::class,
         ]);
     }
 }
