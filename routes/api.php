@@ -98,5 +98,3 @@ Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks'
 //Route::group(['middleware' => ['admin']], function () {
 
 //});
-
-Route::get('/experience', [CharacterController::class, 'getExperienceTable']);
