@@ -44,7 +44,7 @@ class MessageController extends Controller
                 $conversation_id = random_int(11111, 99999);
             } while (Conversation::where('conversation_id', $conversation_id)->first() != null);
             Conversation::create(['user_id' => $user_id, 'recipient_id' => $recipient_id, 'conversation_id' => $conversation_id]);
-            Conversation::create(['user_id' => $recipient_id, 'recipient_id' => $user_id, 'conversation_id' => $conversation_id]);
+            if ($user_id != $recipient_id) Conversation::create(['user_id' => $recipient_id, 'recipient_id' => $user_id, 'conversation_id' => $conversation_id]);
         } else {
             $conversation_id = $conversation->conversation_id;
         }
