@@ -25,9 +25,8 @@ class BugReportController extends Controller
     {
         $validated = $request->validated();
         
-        $bugReport = BugReport::find($id);
-        $bugReport->update($validated);
-        $bugReport->save();
+        BugReport::find($id)->update($validated);
+
         $return = BugReportResource::collection(BugReport::all());
 
     return new JsonResponse(['message' => ['success' => ["Bug Report updated."]], 'data' => $return], Response::HTTP_OK);
