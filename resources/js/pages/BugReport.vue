@@ -56,7 +56,7 @@
                     id="image-link" 
                     v-model="bugReport.image_link" 
                     type="text" 
-                    name="image-link" 
+                    name="image_link" 
                     :placeholder="$t('image-link')" />
                 <base-form-error name="image_link" />
             </b-form-group>

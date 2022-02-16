@@ -17,5 +17,7 @@ class BugReport extends Model
         'user_id',
         'image_link',
         'comment',
+        'admin_comment',
+        'status',
     ];
 }

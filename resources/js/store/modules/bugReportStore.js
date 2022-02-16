@@ -5,22 +5,29 @@ export default {
 
     namespaced: true,
     state: {
-        bugs: null,
+        bugReports: null,
     },
     mutations: {
-        setBugs(state, bugs) {
-            state.bugs = bugs;
+        setBugReports(state, bugReports) {
+            state.bugReports = bugReports;
         },
     },
     getters: {
-        getBugs: state => {
-            return state.bugs;
+        getBugReports: state => {
+            return state.bugReports;
         },
     },
     actions: {
-        fetchBugs: ({commit}) => {
-            axios.get('/bugreports').then(response => {
-                commit('setBugs', response.data.data);
+        fetchBugReports: ({commit}) => {
+            axios.get('/bugreport/all').then(response => {
+                commit('setBugReports', response.data.data);
+            });
+        },
+        updateBugReport: ({commit, dispatch}, bugReport) => {
+            return axios.put('/bugreport/' + bugReport.id, bugReport).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('setBugReports', response.data.data);
+                return Promise.resolve();
             });
         },
         storeBugReport: ({dispatch}, bugReport) => {
