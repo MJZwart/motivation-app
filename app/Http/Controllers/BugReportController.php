@@ -33,7 +33,10 @@ class BugReportController extends Controller
     return new JsonResponse(['message' => ['success' => ["Bug Report updated."]], 'data' => $return], Response::HTTP_OK);
     }
 
-    public function getAllBugReports(){
-        return BugReportResource::collection(BugReport::all());
+    public function show($argument){
+        if ($argument == 'all') {
+            return BugReportResource::collection(BugReport::all());
+        };
+        return new JsonResponse(['message' => ['error' => ["Only bugreport/all is permitted."]]], Response::HTTP_OK);
     }
 }

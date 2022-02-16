@@ -77,11 +77,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/search', [UserController::class, 'searchUser']);
     Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
 
-    Route::put('/bugreport', [BugReportController::class, 'update']);
     Route::resource('/bugreport', BugReportController::class)->only([
-        'store', 'update'
+        'store', 'update', 'show',
     ]);
-    Route::get('/bugreports', [BugReportController::class, 'getAllBugReports']);
     Route::get('/dashboard', [DashboardController::class, 'getDashboard']);
     Route::get('/overview', [OverviewController::class, 'getOverview']);
 

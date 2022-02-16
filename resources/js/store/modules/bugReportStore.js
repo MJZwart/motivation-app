@@ -19,7 +19,7 @@ export default {
     },
     actions: {
         fetchBugReports: ({commit}) => {
-            axios.get('/bugreports').then(response => {
+            axios.get('/bugreport/all').then(response => {
                 commit('setBugReports', response.data.data);
             });
         },
