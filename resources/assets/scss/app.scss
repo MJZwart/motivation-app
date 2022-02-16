@@ -5,6 +5,11 @@
 * {
     box-sizing: border-box;
 }
+
+body {
+    background-color: $background;
+}
+
 .content {
     margin: 20px;
 }
@@ -79,8 +84,24 @@ p {
 .w-60{
     width:60%;
 }
+.w-65 {
+    width:65%;
+}
 .w-80{
     width:80%;
+}
+
+.h-65 {
+    height: 65%;
+}
+
+
+.break-word {
+    overflow-wrap: break-word;
+}
+
+.scroll-y {
+    overflow-y: scroll;
 }
 
 .center{
@@ -138,6 +159,10 @@ p {
     div{
         margin-bottom: 0.8rem;
     }
+}
+
+.clickable { 
+    cursor: pointer;
 }
 
 @media (max-width:991px){

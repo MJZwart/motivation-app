@@ -1,24 +1,24 @@
 <template>
-    <div v-if="this.conversations.length != 0">
-        <h3>Messages</h3>
+    <div v-if="activeConversation">
+        <h3>{{ $t('messages') }}</h3>
         <div class="message-page">
             <div class="conversations">
-                <h5>Conversations</h5>
+                <h5>{{ $t('conversations') }}</h5>
                 <div v-for="(conversation, index) in conversations" :key="conversation.id" 
-                     class="conversation clickable"
+                     :class="['conversation', 'clickable', activeConversation.id == conversation.id ? 'active': '']"
                      @click="switchActiveConversation(index)">
-                    <p class="d-flex">
-                        Conversation with: {{conversation.recipient.username}}
-                        <span v-if="hasUnreadMessages(conversation)" class="ml-auto"><strong>Unread</strong></span>
-                    </p>
+                    <span class="d-flex">
+                        <h6 class="mt-1 ml-2">{{conversation.recipient.username}}</h6>
+                        <span v-if="hasUnreadMessages(conversation)" class="ml-auto"><strong>{{ $t('unread') }}</strong></span>
+                    </span>
                     <p><strong>{{getSender(conversation.last_message)}}</strong>
-                        {{conversation.last_message.message}}
+                        {{limitMessage(conversation.last_message.message)}}
                     </p>
-                    <p class="silent mb-0">Last message on: {{conversation.updated_at}}</p>
+                    <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
                 </div>
             </div>
-            <div v-if="activeConversation" class="messages">
-                <h5>Messages with {{activeConversation.recipient.username}}</h5>
+            <div v-if="activeConversation" class="m-1 w-65">
+                <h5>{{ $t('conversation-with') }} {{activeConversation.recipient.username}}</h5>
                 <div class="new-message mb-3">
                     <b-form @submit.prevent="sendMessage">
                         <b-form-group>
@@ -30,13 +30,16 @@
                                 placeholder="Type your reply"  />
                             <base-form-error name="message" /> 
                         </b-form-group>
-                        <b-button type="submit" block>Send reply</b-button>
+                        <b-button type="submit" block>{{ $t('send-reply') }}</b-button>
                     </b-form>
                 </div>
-                <div v-for="message in activeConversation.messages" :key="message.id">
-                    <p class="mb-0">{{getSender(message)}} {{message.message}}</p>
-                    <p class="silent">{{message.created_at}}</p>
+                <div class="h-75 scroll-y">
+                    <div v-for="message in activeConversation.messages" :key="message.id" class="break-word">
+                        <p class="mb-0">{{getSender(message)}} {{message.message}}</p>
+                        <p class="silent">{{message.created_at}}</p>
+                    </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -86,7 +89,7 @@ export default {
             });
         },
         getSender(message) {
-            return message.sent_by_user ? 'You: ' : message.sender.username + ': ';
+            return message.sent_by_user ? this.$t('you')+': ' : message.sender.username + ': ';
         },
         async markAsRead(conversation) {
             if (this.hasUnreadMessages(conversation)) {
@@ -100,6 +103,14 @@ export default {
         hasUnreadMessages(conversation) {
             return conversation.messages.some(message => message.read == false);
         },
+        limitMessage(message) {
+            if (message.length > 100) {
+                return message.slice(0, 100) + '...';
+            } else {
+                return message;
+            }
+            
+        },
     },
 }
 </script>
@@ -107,23 +118,24 @@ export default {
 <style lang="scss">
 @import '../../assets/scss/variables';
 .message-page {
-    display:grid;
-    grid-template-columns: 1fr 2fr;
+    display:flex;
+}
+.conversations {
+    width:33%;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 .conversation {
-    border: 1px solid $grey;
     margin: 6px;
+    box-shadow: $light-shadow;
+    padding: 0.1rem;
 }
-.messages {
-    margin: 3px;
+.conversation:hover {
+    box-shadow: $active-shadow;
 }
-.message {
-
-}
-.new-message {
-
-}
-.clickable { 
-    cursor: pointer;
+.conversation.active {
+    margin: 4px 6px 6px 4px;
+    background-color: $white;
+    box-shadow: $active-shadow;
 }
 </style>

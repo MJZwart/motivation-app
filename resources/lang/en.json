@@ -163,6 +163,14 @@
 
     "footer-text": "Version 1.0 - MJ Black © 2021.",
 
+    "messages": "Messages",
+    "conversations": "Conversations",
+    "conversation-with": "Conversation with",
+    "last-message": "Last message",
+    "send-reply": "Send reply",
+    "unread": "Unread",
+    "you": "You",
+
 
     "home-welcome-to": "Welcome to {0}.",
     "home-introduction": "I've no clue what to write here to entice you to join, so how about I tell you what you can do with this site?",
