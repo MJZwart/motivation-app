@@ -21,7 +21,7 @@ class ConversationOverviewResource extends JsonResource
             'last_message' => $this->getLastMessage()->sender_id == $this->user_id ? 
                 new MessageOutResource($this->getLastMessage()) : 
                 new MessageInResource($this->getLastMessage()),
-            'messages' => MessageResource::collection($this->messages->sortByDesc('created_at'))->setUserId($this->user_id),
+            'messages' => MessageResource::collection($this->visibleMessages()->sortByDesc('created_at'))->setUserId($this->user_id),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }

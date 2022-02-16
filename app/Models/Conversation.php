@@ -22,6 +22,12 @@ class Conversation extends Model
         return $this->hasMany('App\Models\Message', 'conversation_id', 'conversation_id');
     }
 
+    public function visibleMessages() {
+        return $this->messages->filter(function ($value, $key) {
+            return ($this->user_id == $value->sender_id && $value->visible_to_sender) || ($this->user_id == $value->recipient_id && $value->visible_to_recipient);
+        });
+    }
+
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
