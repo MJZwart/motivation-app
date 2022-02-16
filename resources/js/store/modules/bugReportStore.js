@@ -31,8 +31,9 @@ export default {
             });
         },
         storeBugReport: ({dispatch}, bugReport) => {
-            axios.post('/bugreport', bugReport).then(response => {
+            return axios.post('/bugreport', bugReport).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
             });
         },
     },
