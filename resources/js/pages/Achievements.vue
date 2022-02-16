@@ -4,8 +4,8 @@
         <b-button block @click="showNewAchievement">{{ $t('add-new-achievement') }}</b-button>
         <div v-for="(value, index) in achievements" :key="index">
             <p>
-                <b-icon-trash-fill class="icon-small" />
-                <b-icon-pencil-square class="icon-small" @click="showEditAchievement(value)" />
+                <b-icon-trash-fill class="icon small" />
+                <b-icon-pencil-square class="icon small" @click="showEditAchievement(value)" />
                 {{value.name}}
             </p>
             <p class="silent">{{value.description}}</p>

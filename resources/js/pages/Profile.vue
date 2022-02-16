@@ -3,7 +3,7 @@
         <div v-if="userProfile" class="profile-grid">
             <div class="right-column">
                 <h2>{{userProfile.username}}</h2>
-                <b-icon-envelope v-if="notLoggedUser" class="icon-small" @click="sendMessage" />
+                <b-icon-envelope v-if="notLoggedUser" class="icon small" @click="sendMessage" />
                 <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
                 <achievements-summary v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
@@ -15,7 +15,7 @@
                     <span class="card-title">Friends 
                         <b-icon-person-plus-fill 
                             v-if="notLoggedUser" 
-                            class="icon-small" 
+                            class="icon small" 
                             @click="sendFriendRequest" />
                     </span>
                     <div class="side-border bottom-border">

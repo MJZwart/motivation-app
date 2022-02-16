@@ -2,18 +2,18 @@
     <div>
         <p class="task-title d-flex">
             <b-icon-check-square
-                class="icon-small green"
+                class="icon small green"
                 @click="completeTask(task)" />
             {{task.name}}             
             <span class="ml-auto">
                 <b-icon-plus-square-fill
-                    class="icon-small green"
+                    class="icon small green"
                     @click="openNewTask(task)" />
                 <b-icon-pencil-square 
-                    class="icon-small"
+                    class="icon small"
                     @click="editTask(task)" />
                 <b-icon-trash 
-                    class="icon-small red"
+                    class="icon small red"
                     @click="deleteTask(task)" />
             </span>
             
@@ -25,14 +25,14 @@
             <p class="task-title d-flex">
                 <b-icon-arrow-return-right />
                 <b-icon-check-square
-                    class="icon-small green"
+                    class="icon small green"
                     @click="completeTask(subTask)" />
                 {{subTask.name}}
                 <b-icon-pencil-square 
-                    class="icon-small ml-auto"
+                    class="icon small ml-auto"
                     @click="editTask(subTask)" />
                 <b-icon-trash
-                    class="icon-small red"
+                    class="icon small red"
                     @click="deleteTask(subTask)" />
             </p>
             <p class="task-description">{{subTask.description}}</p>

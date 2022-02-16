@@ -17,16 +17,24 @@ p {
     margin-left:5px;
 }
 
-
+.font-sm {
+    font-size: small;
+}
 .silent {
     font-weight: 200;
     color: $grey;
 }
 
-.icon-small{
+.icon {
     color:$primary;
     margin:2px;
     cursor:pointer;
+}
+.icon.small {
+    font-size: 100%;
+}
+.icon.medium {
+    font-size: 150%;
 }
 .pointer{
     cursor:pointer;

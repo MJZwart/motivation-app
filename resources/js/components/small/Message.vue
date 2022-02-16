@@ -7,7 +7,7 @@
             {{message.created_at}}
             <span v-if="showActionButtons" class="ml-auto">                
                 <b-icon-trash
-                    class="icon-small red"
+                    class="icon small red"
                     @click="deleteMessage()" />
             </span>
         </p>

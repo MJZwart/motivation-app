@@ -73,7 +73,10 @@ export default {
         },
     },
     mounted() {
-        this.bugReport ? this.bugReportToEdit = Vue.util.extend({}, this.bugReport) : this.bugReportToEdit = {};
+        if (this.bugReport) {
+            this.bugReportToEdit = Vue.util.extend({}, this.bugReport);
+            this.bugReportToEdit.status = BUG_STATUS.find(element => element.text == this.bugReportToEdit.status).value
+        }
     },
     data() {
         return {
@@ -83,7 +86,7 @@ export default {
             bugStatus: BUG_STATUS,
             message: {
                 message: 'Your bug report has been resolved!',
-            }
+            },
         }
     },
     methods: {
