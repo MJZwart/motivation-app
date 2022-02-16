@@ -30,7 +30,6 @@ export default {
     },
     computed: {
         getSender() {
-            console.log(this.message);
             return this.message.sent_by_user ? this.$t('you')+': ' : this.message.sender.username + ': ';
         },
     },

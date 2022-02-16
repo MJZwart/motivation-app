@@ -141,6 +141,9 @@
     "bug-admin-comment-desc": "Add a comment only admins can see",
     "status": "Status",
     "bug-status-desc": "Status of the bug report",
+    "reported-by": "Reported by",
+    "time": "Time",
+    
 
     "admin-panel": "Admin panel",
     "send-notification-to-users": "Send notification to all users",
@@ -148,9 +151,13 @@
     "delete-notification-confirmation": "Are you sure you want to delete this notification?",
 
     "admin-bug-report-panel-title": "Admin Bug Report Panel",
-    "edit-bug-report": "Edit bug report:",
+    "edit-bug-report": "Edit bug report",
     "send-message-to-bug-report-author": "Send a message to the author of this bug report:",
     "update-bug-report": "Update",
+    "sort-by": "Sort by",
+    "reverse-order": "Click again to reverse order",
+
+    
 
 
     "next": "Next",
@@ -173,10 +180,13 @@
 
     "footer-text": "Version 1.0 - MJ Black © 2021.",
 
+    "message": "Message",
     "messages": "Messages",
+    "send-message-placeholder": "Type your message",
     "conversations": "Conversations",
     "conversation-with": "Conversation with",
     "last-message": "Last message",
+    "send-message": "Send message",
     "send-reply": "Send reply",
     "unread": "Unread",
     "you": "You",

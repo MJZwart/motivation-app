@@ -1,46 +1,48 @@
 <template>
     <div v-if="activeConversation">
         <h3>{{ $t('messages') }}</h3>
-        <div class="message-page">
-            <div class="conversations">
-                <h5>{{ $t('conversations') }}</h5>
-                <div v-for="(conversation, index) in conversations" :key="conversation.id" 
-                     :class="['conversation', 'clickable', activeConversation.id == conversation.id ? 'active': '']"
-                     @click="switchActiveConversation(index)">
-                    <span class="d-flex">
-                        <h6 class="mt-1 ml-2">{{conversation.recipient.username}}</h6>
-                        <span v-if="hasUnreadMessages(conversation)" class="ml-auto"><strong>{{ $t('unread') }}</strong></span>
-                    </span>
-                    <p><strong>{{getSender(conversation.last_message)}}</strong>
-                        {{limitMessage(conversation.last_message.message)}}
-                    </p>
-                    <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
-                </div>
-            </div>
-            <div v-if="activeConversation" class="m-1 w-65">
-                <h5>{{ $t('conversation-with') }} {{activeConversation.recipient.username}}</h5>
-                <div class="new-message mb-3">
-                    <b-form @submit.prevent="sendMessage">
-                        <b-form-group>
-                            <b-form-textarea 
-                                id="message" 
-                                v-model="message.message"
-                                name="message" 
-                                rows=3
-                                placeholder="Type your reply" />
-                            <base-form-error name="message" /> 
-                        </b-form-group>
-                        <b-button type="submit" block>{{ $t('send-reply') }}</b-button>
-                    </b-form>
-                </div>
-                <div class="h-75 scroll-y">
+        <b-container class="message-page">
+            <b-row>
+                <b-col class="conversations">
+                    <h5>{{ $t('conversations') }}</h5>
+                    <div v-for="(conversation, index) in conversations" :key="conversation.id" 
+                         :class="['conversation', 'clickable', activeConversation.id == conversation.id ? 'active': '']"
+                         @click="switchActiveConversation(index)">
+                        <span class="d-flex">
+                            <h6 class="mt-1 ml-2">{{conversation.recipient.username}}</h6>
+                            <span v-if="hasUnreadMessages(conversation)" class="ml-auto">
+                                <strong>{{ $t('unread') }}</strong>
+                            </span>
+                        </span>
+                        <p><strong>{{getSender(conversation.last_message)}}</strong>
+                            {{limitMessage(conversation.last_message.message)}}
+                        </p>
+                        <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
+                    </div>
+                </b-col>
+                <b-col v-if="activeConversation" cols="8" class="m-1">
+                    <h5>{{ $t('conversation-with') }} {{activeConversation.recipient.username}}</h5>
+                    <div class="new-message mb-3">
+                        <b-form @submit.prevent="sendMessage">
+                            <b-form-group>
+                                <b-form-textarea 
+                                    id="message" 
+                                    v-model="message.message"
+                                    name="message" 
+                                    rows=3
+                                    placeholder="Type your reply" />
+                                <base-form-error name="message" /> 
+                            </b-form-group>
+                            <b-button type="submit" block>{{ $t('send-reply') }}</b-button>
+                        </b-form>
+                    </div>
                     <message v-for="message in activeConversation.messages" :key="message.id"
                              :message="message" @deleteMessage="deleteMessage"
                     />
-                </div>
-                
-            </div>
-        </div>
+                    
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 
@@ -126,11 +128,7 @@ export default {
 
 <style lang="scss">
 @import '../../assets/scss/variables';
-.message-page {
-    display:flex;
-}
 .conversations {
-    width:33%;
     overflow-wrap: break-word;
     hyphens: auto;
 }

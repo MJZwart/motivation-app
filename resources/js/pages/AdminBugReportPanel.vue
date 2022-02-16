@@ -2,39 +2,44 @@
     <div>
         <h3>{{ $t('admin-bug-report-panel-title') }}</h3>
         <div>            
-            <p>
-                sort by:
+            <p>{{ $t('sort-by') }}:</p>
+            <b-button-group>
                 <template v-for="sortable in bugSortables">
-                    <button 
-                        :key="sortable.value" 
-                        v-on:click="sort(sortable.value)">
+                    <b-button :key="sortable.value"
+                              variant="primary"
+                              v-on:click="sort(sortable.value)">
                         {{sortable.value == 'type' ? 
                             `Type: ${parsedType(currentSortType)}` : 
                             sortable.text}}
-                    </button>
+                    </b-button>
                 </template>
-                (click again to reverse order)
-            </p>
+            </b-button-group>
+            ({{ $t('reverse-order') }})
+            
         </div>
         <template v-for="bugReport in sortedBugReports">
             <div :key="bugReport.id" :title="bugReport.title" class="bugReport">
                 <div :class="headerColour(bugReport.severity) + ' d-flex header'">
                     <span>
                         {{bugReport.title}}
-                        <button type="button" @click="editBugReport(bugReport)">edit</button>
-                        <button type="button" @click="sendMessageToBugReportAuthor(bugReport.user_id)">send message</button>
                     </span>
                     <span class="m-auto">{{parsedType(bugReport.type)}}</span>
                     <span class="ml-auto">{{parsedSeverity(bugReport.severity)}}</span>
                 </div>
                 <div class="bug-report-content">
-                    <p>Page: {{bugReport.page}}</p>
-                    <p v-if="bugReport.image_link">Image: {{bugReport.image_link}}</p>
-                    <p>Comment: "{{bugReport.comment}}"</p>
-                    <p>Reported by user: {{bugReport.user_id}} </p>
-                    <p>Status: {{parsedStatus(bugReport.status)}}</p>
-                    <p>time: {{bugReport.time_created}}</p>
-                    <span v-if="bugReport.admin_comment">Admin comment: "{{bugReport.admin_comment}}"</span>
+                    <p>{{ $t('page') }}: {{bugReport.page}}</p>
+                    <p v-if="bugReport.image_link">{{ $t('image') }}: {{bugReport.image_link}}</p>
+                    <p>{{ $t('comment') }}: "{{bugReport.comment}}"</p>
+                    <p>{{ $t('reported-by') }}: {{bugReport.user_id}} </p>
+                    <p>{{ $t('status') }}: {{parsedStatus(bugReport.status)}}</p>
+                    <p>{{ $t('time') }}: {{bugReport.time_created}}</p>
+                    <span v-if="bugReport.admin_comment">{{ $t('admin-comment') }}: "{{bugReport.admin_comment}}"</span>
+                    <b-button-group>
+                        <b-button type="button" @click="editBugReport(bugReport)">{{ $t('edit-bug-report') }}</b-button>
+                        <b-button type="button" @click="sendMessageToBugReportAuthor(bugReport.user_id)">
+                            {{ $t('send-message') }}
+                        </b-button>
+                    </b-button-group>
                 </div>
             </div>
         </template>
