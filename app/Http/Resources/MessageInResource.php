@@ -15,6 +15,7 @@ class MessageInResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'sent_by_user' => false,
             'sender' => new StrippedUserResource($this->sender),
             'message' => $this->message,

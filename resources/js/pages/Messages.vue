@@ -27,17 +27,16 @@
                                 v-model="message.message"
                                 name="message" 
                                 rows=3
-                                placeholder="Type your reply"  />
+                                placeholder="Type your reply" />
                             <base-form-error name="message" /> 
                         </b-form-group>
                         <b-button type="submit" block>{{ $t('send-reply') }}</b-button>
                     </b-form>
                 </div>
                 <div class="h-75 scroll-y">
-                    <div v-for="message in activeConversation.messages" :key="message.id" class="break-word">
-                        <p class="mb-0">{{getSender(message)}} {{message.message}}</p>
-                        <p class="silent">{{message.created_at}}</p>
-                    </div>
+                    <message v-for="message in activeConversation.messages" :key="message.id"
+                             :message="message" @deleteMessage="deleteMessage"
+                    />
                 </div>
                 
             </div>
@@ -48,10 +47,12 @@
 <script>
 import BaseFormError from '../components/BaseFormError.vue';
 import {mapGetters} from 'vuex';
+import Message from '../components/small/Message.vue';
 
 export default {
     components: {
         BaseFormError,
+        Message,
     },
     data() {
         return {
@@ -72,9 +73,10 @@ export default {
     methods: {
         load() {
             this.$store.dispatch('message/getConversations').then(() => {
-                this.activeConversation = this.conversations[0];
                 this.markAsRead(this.conversations[0]);
+                this.activeConversation = this.conversations[0];
             });
+            
         },
         switchActiveConversation(key) {
             this.activeConversation = this.conversations[key];
@@ -110,6 +112,13 @@ export default {
                 return message;
             }
             
+        },
+        deleteMessage(message) {
+            if (confirm(this.$t('confirmation-delete-message'))) {
+                this.$store.dispatch('message/deleteMessage', message.id).then(() => {
+                    this.load();
+                });
+            }
         },
     },
 }
