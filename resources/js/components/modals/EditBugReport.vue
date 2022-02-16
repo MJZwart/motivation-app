@@ -33,9 +33,9 @@
                     id="admin-comment" 
                     v-model="bugReportToEdit.admin_comment"
                     type="text" 
-                    name="admin-comment" 
+                    name="admin_comment" 
                     :placeholder="bugReportToEdit.admin_comment" />
-                <base-form-error name="admin-comment" /> 
+                <base-form-error name="admin_comment" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('status')"
