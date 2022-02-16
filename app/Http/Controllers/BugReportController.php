@@ -26,10 +26,7 @@ class BugReportController extends Controller
         $validated = $request->validated();
         
         $bugReport = BugReport::find($id);
-        $bugReport->type = $validated['type'];
-        $bugReport->severity = $validated['severity'];
-        $bugReport->admin_comment = $validated['admin_comment'];
-        $bugReport->status = $validated['status'];
+        $bugReport->update($validated);
         $bugReport->save();
         $return = BugReportResource::collection(BugReport::all());
 
