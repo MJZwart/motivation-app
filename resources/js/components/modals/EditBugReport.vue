@@ -88,7 +88,6 @@ export default {
     },
     methods: {
         updateBugReport() {
-            let self = this;
             this.$store.dispatch('bugReport/updateBugReport', this.bugReportToEdit).then(() => {
                 if (this.bugReportToEdit.status == 3) {
                     this.message.recipient_id = this.bugReportToEdit.user_id;
