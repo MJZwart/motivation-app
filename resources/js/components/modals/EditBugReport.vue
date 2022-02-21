@@ -75,7 +75,6 @@ export default {
     mounted() {
         if (this.bugReport) {
             this.bugReportToEdit = Vue.util.extend({}, this.bugReport);
-            this.bugReportToEdit.status = BUG_STATUS.find(element => element.text == this.bugReportToEdit.status).value
         }
     },
     data() {
