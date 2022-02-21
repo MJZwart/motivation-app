@@ -143,18 +143,19 @@ export default {
             if (this.bugReports) {
                 // eslint-disable-next-line complexity
                 return this.bugReports.slice().sort((a,b) => {
-                    if(this.currentSort === 'type') {
+                    if (this.currentSort === 'type') {
                         let bugTypesLength = this.bugTypes.length;
-                        let modifier = (bugTypesLength - this.bugTypes.findIndex(element => element.value == this.currentSortType));
+                        let modifier = (bugTypesLength - this.bugTypes.findIndex(element => 
+                            element.value == this.currentSortType));
                         let tempA = (this.bugTypes.findIndex(element => element.value == a.type) + modifier) % bugTypesLength;
                         let tempB = (this.bugTypes.findIndex(element => element.value == b.type) + modifier) % bugTypesLength;
-                        if(tempA < tempB) return -1;
-                        if(tempA > tempB) return 1;
+                        if (tempA < tempB) return -1;
+                        if (tempA > tempB) return 1;
                     } else {
                         let modifier = 1;
-                        if(this.currentSortDir === 'desc') modifier = -1;
-                        if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                        if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                        if (this.currentSortDir === 'desc') modifier = -1;
+                        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
                     }
                     return 0;
                 })

@@ -83,7 +83,7 @@ export default {
             bugStatus: BUG_STATUS,
             message: {
                 message: 'Your bug report has been resolved!',
-            }
+            },
         }
     },
     methods: {
