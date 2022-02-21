@@ -58,6 +58,16 @@ let routes = [
         meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
+        path: '/adminbugreportpanel',
+        component: require('../pages/AdminBugReportPanel.vue').default,
+        meta: {requiresAuth: true, requiresAdmin: true},
+    },
+    {
+        path: '/admindashboard',
+        component: require('../pages/AdminDashboard.vue').default,
+        meta: {requiresAuth: true, requiresAdmin: true},
+    },
+    {
         path: '/search',
         component: require('../pages/SearchResults.vue').default,
         meta: {requiresAuth: true},
@@ -66,11 +76,6 @@ let routes = [
         path: '/welcome',
         component: require('../pages/Welcome.vue').default,
         meta: {requiresAuth: true},
-    },
-    {
-        path: '/adminbugreportpanel',
-        component: require('../pages/AdminBugReportPanel.vue').default,
-        meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
         path: '/bugreport',
