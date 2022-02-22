@@ -33,8 +33,16 @@ export default {
             });
         },
 
+        deleteMessage: ({dispatch, commit}, messageId) => {
+            axios.delete('/message/' + messageId).then(response => {
+                commit('setConversations', response.data.data);
+                dispatch('sendToasts', response.data.message, {root:true});
+            })
+        },
+
         markConversationRead: (_, conversationId) => {
             axios.put('/conversation/' + conversationId + '/read');
         },
+
     },
 }

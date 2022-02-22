@@ -22,6 +22,12 @@ class Conversation extends Model
         return $this->hasMany('App\Models\Message', 'conversation_id', 'conversation_id');
     }
 
+    public function visibleMessages() {
+        return $this->messages->filter(function ($value, $key) {
+            return ($this->user_id == $value->sender_id && $value->visible_to_sender) || ($this->user_id == $value->recipient_id && $value->visible_to_recipient);
+        });
+    }
+
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
@@ -31,17 +37,7 @@ class Conversation extends Model
     }
 
     public function getLastMessage() {
-        //Message::where('conversation_id', $this->conversation_id)->order_by('created_at', 'desc')->first();
-        return $this->messages()->orderBy('created_at', 'desc')->first();
-    }
-
-    public function getLastMessageAsResource() {
-        $message = $this->messages->order_by('created_at', 'desc')->first();
-        if($message->sender_id == $this->user_id) {
-            return new MessageOutResource($message);
-        } else {
-            return new MessageInResource($message);
-        }
+        return $this->visibleMessages()->sortByDesc('created_at')->first();
     }
 
     public function messagesOut() {

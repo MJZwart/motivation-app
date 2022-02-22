@@ -8,8 +8,8 @@ class MessageResource extends JsonResource
 {
     protected $user_id;
 
-    public function setUserId($user_id) {
-        $this->user_id = $user_id;
+    public function setUserId($userId) {
+        $this->user_id = $userId;
         return $this;
     }
     /**
@@ -21,14 +21,15 @@ class MessageResource extends JsonResource
     public function toArray($request)
     {
         $resourceData = [
+            'id' => $this->id,
             'message' => $this->message,
             'created_at' => $this->created_at->toDateTimeString(),
         ];
-        if($this->user_id == $this->sender->id) {
+        if($this->user_id == $this->sender->id && $this->visible_to_sender) {
             $resourceData['sent_by_user'] = true;
             $resourceData['recipient'] = new StrippedUserResource($this->recipient);
             $resourceData['visible'] = $this->visible_to_sender;
-        } else {
+        } else if($this->user_id == $this->recipient->id && $this->visible_to_recipient) {
             $resourceData['sent_by_user'] = false;
             $resourceData['sender'] = new StrippedUserResource($this->sender);
             $resourceData['read'] = $this->read;

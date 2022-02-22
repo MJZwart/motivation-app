@@ -73,7 +73,9 @@ export default {
         },
     },
     mounted() {
-        this.bugReport ? this.bugReportToEdit = Vue.util.extend({}, this.bugReport) : this.bugReportToEdit = {};
+        if (this.bugReport) {
+            this.bugReportToEdit = Vue.util.extend({}, this.bugReport);
+        }
     },
     data() {
         return {

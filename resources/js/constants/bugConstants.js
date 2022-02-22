@@ -12,21 +12,25 @@ export const BUG_TYPES = [
     {text: 'Other', value: 'OTHER'}];
 
 export const BUG_SORTABLES = [
-    {text: 'Time Created', value: 'time_created'},
-    {text: 'Title', value: 'title'},
-    {text: 'Page', value: 'page'},
-    {text: 'Type', value: 'type'},
-    {text: 'Severity', value: 'severity'},
-    {text: 'User ID', value: 'user_id'},
-    {text: 'Status', value: 'status'}];
+    {text: 'Time Created', key: 'time_created', sortable: true},
+    {text: 'Title', key: 'title', sortable: true},
+    {text: 'Page', key: 'page', sortable: true},
+    {text: 'Type', key: 'type', sortable: true},
+    {text: 'Severity', key: 'severity', sortable: true},
+    {text: 'User ID', key: 'user_id'},
+    {text: 'Status', key: 'status', sortable: true},
+    {text: 'Image', key: 'image'},
+    {text: 'Comment', key: 'comment'},
+    {text: 'Admin comment', key: 'admin_comment'},
+];
 
 export const BUG_STATUS = [
-    {text: 'reported', value: 0},
-    {text: 'in progress', value: 1},
-    {text: 'done', value: 2},
-    {text: 'resolved', value: 3}];
+    {text: 'Reported', value: 0},
+    {text: 'In progress', value: 1},
+    {text: 'Done', value: 2},
+    {text: 'Resolved', value: 3}];
 
 export const BUG_DEFAULTS = {
     currentSort: 'time_created',
-    currentSortDir: 'asc',
+    currentSortDir: 'desc',
     currentSortType: 'DESIGN'};

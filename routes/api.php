@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/conversations', [MessageController::class, 'getConversations']);
     Route::post('/message', [MessageController::class, 'sendMessage']);
+    Route::delete('/message/{message}', [MessageController::class, 'deleteMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
 });
 
@@ -98,5 +99,3 @@ Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks'
 //Route::group(['middleware' => ['admin']], function () {
 
 //});
-
-Route::get('/experience', [CharacterController::class, 'getExperienceTable']);

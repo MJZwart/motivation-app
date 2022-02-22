@@ -6,8 +6,8 @@
                 <div class="side-border bottom-border">
                     <ul class="summary-list">
                         <li v-for="request in requests.incoming" :key="request.id">
-                            <b-icon-check-square class="icon-small" @click="acceptFriendRequest(request.id)" />
-                            <b-icon-x-square class="icon-small icon-red" @click="denyFriendRequest(request.id)" />
+                            <b-icon-check-square class="icon small" @click="acceptFriendRequest(request.id)" />
+                            <b-icon-x-square class="icon small icon-red" @click="denyFriendRequest(request.id)" />
                             {{request.friend}}
                         </li>
                     </ul>
@@ -20,7 +20,7 @@
                 <div class="side-border bottom-border">
                     <ul class="summary-list">
                         <li v-for="request in requests.outgoing" :key="request.id">
-                            <b-icon-x-square class="icon-small red" @click="removeFriendRequest(request.id)" />
+                            <b-icon-x-square class="icon small red" @click="removeFriendRequest(request.id)" />
                             {{request.friend}}
                         </li>
                     </ul>
