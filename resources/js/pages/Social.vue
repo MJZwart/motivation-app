@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Groups from '../components/small/Groups.vue';
+import Groups from '../components/Groups.vue';
 
 export default {
     components: {

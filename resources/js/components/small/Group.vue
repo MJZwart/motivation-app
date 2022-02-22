@@ -5,6 +5,7 @@
         <div v-for="member in group.members" :key="member.id" class="member">
             <p class="member">{{member.name}}</p>
         </div>
+        <button type="button" @click="leaveGroup">leave</button>
     </div>
 </template>
 
@@ -16,5 +17,11 @@ export default {
             required: true,
         },
     },
+    methods: {
+        leaveGroup() {
+            console.log(`leaving group: ${this.group.name}`);
+            this.$emit('reload');
+        }
+    }
 }
 </script>
