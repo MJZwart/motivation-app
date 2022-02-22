@@ -5,6 +5,11 @@
 * {
     box-sizing: border-box;
 }
+
+body {
+    background-color: $background;
+}
+
 .content {
     margin: 20px;
 }
@@ -12,16 +17,24 @@ p {
     margin-left:5px;
 }
 
-
+.font-sm {
+    font-size: small;
+}
 .silent {
     font-weight: 200;
     color: $grey;
 }
 
-.icon-small{
+.icon {
     color:$primary;
     margin:2px;
     cursor:pointer;
+}
+.icon.small {
+    font-size: 100%;
+}
+.icon.medium {
+    font-size: 150%;
 }
 .pointer{
     cursor:pointer;
@@ -79,8 +92,24 @@ p {
 .w-60{
     width:60%;
 }
+.w-65 {
+    width:65%;
+}
 .w-80{
     width:80%;
+}
+
+.h-65 {
+    height: 65%;
+}
+
+
+.break-word {
+    overflow-wrap: break-word;
+}
+
+.scroll-y {
+    overflow-y: scroll;
 }
 
 .center{
@@ -138,6 +167,10 @@ p {
     div{
         margin-bottom: 0.8rem;
     }
+}
+
+.clickable { 
+    cursor: pointer;
 }
 
 @media (max-width:991px){

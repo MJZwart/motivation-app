@@ -4,8 +4,8 @@
         <div class="side-border bottom-border">
             <ul class="summary-list">
                 <li v-for="(friend, index) in user.friends" :key="index">
-                    <b-icon-person-x-fill class="icon-small" @click="removeFriend(friend)" />
-                    <b-icon-envelope class="icon-small" @click="sendMessage(friend)" /> 
+                    <b-icon-person-x-fill class="icon small" @click="removeFriend(friend)" />
+                    <b-icon-envelope class="icon small" @click="sendMessage(friend)" /> 
                     <router-link :to="{ name: 'profile', params: { id: friend.id}}">
                         {{friend.username}}
                     </router-link>

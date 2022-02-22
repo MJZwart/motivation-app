@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ExperiencePointsSeeder::class,
             BalancingSeeder::class,
             MessageSeeder::class,
+            BugReportSeeder::class,
         ]);
     }
 }
