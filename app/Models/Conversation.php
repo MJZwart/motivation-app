@@ -37,8 +37,6 @@ class Conversation extends Model
     }
 
     public function getLastMessage() {
-        //Message::where('conversation_id', $this->conversation_id)->order_by('created_at', 'desc')->first();
-        error_log($this->visibleMessages()->sortByDesc('created_at')->first());
         return $this->visibleMessages()->sortByDesc('created_at')->first();
     }
 
