@@ -124,4 +124,11 @@ class User extends Authenticatable
     public function getActiveCharacter(){
         return Character::where('user_id', $this->id)->where('active', true)->first();
     }
+
+    public function getVisibleConversations() {
+        $allConversations = Conversation::where('user_id', $this->id)->orderBy('updated_at', 'desc')->get();
+        return $allConversations->filter(function ($value, $key) {
+            return $value->getLastMessage();
+        });
+    }
 }

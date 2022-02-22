@@ -90,7 +90,7 @@ export default {
             bugReport: {
                 title: '',
                 page: '',
-                type: 'Other',
+                type: 'OTHER',
                 severity: 1,
                 image_link: '',
                 comment: '',
@@ -101,7 +101,17 @@ export default {
     },
     methods: {
         submitBugReport() {
-            this.$store.dispatch('bugReport/storeBugReport', this.bugReport);
+            this.$store.dispatch('bugReport/storeBugReport', this.bugReport).then(() => {
+                this.clearInputFields();
+            })
+        },
+        clearInputFields() {
+            this.bugReport.title="";
+            this.bugReport.page="";
+            this.bugReport.type="OTHER";
+            this.bugReport.severity=1;
+            this.bugReport.image_link="";
+            this.bugReport.comment="";
         },
     },
     
