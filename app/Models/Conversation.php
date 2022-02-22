@@ -41,15 +41,6 @@ class Conversation extends Model
         return $this->messages()->orderBy('created_at', 'desc')->first();
     }
 
-    public function getLastMessageAsResource() {
-        $message = $this->messages->order_by('created_at', 'desc')->first();
-        if($message->sender_id == $this->user_id) {
-            return new MessageOutResource($message);
-        } else {
-            return new MessageInResource($message);
-        }
-    }
-
     public function messagesOut() {
         return $this->messages->where('sender_id', $this->user_id);
     }

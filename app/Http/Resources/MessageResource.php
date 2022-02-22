@@ -8,8 +8,8 @@ class MessageResource extends JsonResource
 {
     protected $user_id;
 
-    public function setUserId($user_id) {
-        $this->user_id = $user_id;
+    public function setUserId($userId) {
+        $this->user_id = $userId;
         return $this;
     }
     /**
