@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <p class="group-title">{{group.name}}</p>
-        <p class="group-description">{{group.description}}</p>
-        <div v-for="member in group.members" :key="member.id" class="member">
-            <p class="member">{{member.name}}</p>
-        </div>
-        <button type="button" @click="leaveGroup">leave</button>
+    <div class="group">
+        <p class="group-title" @click="toggleInfo">{{group.name}}</p>
+        <template v-if="showInfo">
+            <p class="group-description">{{group.description}}</p>
+            <div v-for="member in group.members" :key="member.id" class="member">
+                <p class="member">{{member.name}}</p>
+            </div>
+            <b-button type="button" @click="leaveGroup">leave</b-button>
+        </template>
     </div>
 </template>
 
@@ -17,10 +19,18 @@ export default {
             required: true,
         },
     },
+    data () {
+        return {
+            showInfo: false,
+        }
+    },
     methods: {
         leaveGroup() {
             console.log(`leaving group: ${this.group.name}`);
             this.$emit('reload');
+        },
+        toggleInfo() {
+            this.showInfo = this.showInfo ? false : true;
         }
     }
 }
