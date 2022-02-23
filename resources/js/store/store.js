@@ -56,6 +56,12 @@ export default new Vuex.Store({
                 commit('reward/setRewardObj', response.data.rewardObj, {root:true});
             });
         },
+        hasUnread: ({commit}) => {
+            axios.get('/unread').then(function(response) {
+                commit('notification/setHasNotifications', response.data.hasNotifications);
+                commit('message/setHasMessages', response.data.hasMessages);
+            });
+        },
         /**
          * Send a toast by calling:
          * dispatch('sendToasts', response.data.message, {root:true});

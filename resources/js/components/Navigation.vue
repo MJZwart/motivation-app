@@ -16,7 +16,6 @@
                 <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
                 <b-nav-item to="/friends">{{ $t('friends') }}</b-nav-item>
                 <b-nav-item to="/bugreport">Report a bug</b-nav-item>
-                <b-nav-item to="/messages">Messages</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-toggle target="nav-collapse" />
@@ -29,6 +28,18 @@
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto toggled">
+                    <b-nav-item to="/messages">
+                        <div class="toggled-nav">
+                            Messages
+                        </div>
+                        <div class="full-nav">
+                            <b-iconstack class="icon-nav-stack">
+                                <b-icon-envelope class="icon-nav" /> 
+                                <b-icon-dot v-if="hasMessages" font-scale="3" 
+                                            class="icon-dot-red" shift-h="-2" shift-v="7" />
+                            </b-iconstack>
+                        </div>
+                    </b-nav-item>
                     <b-nav-item to="/notifications">
                         <div class="toggled-nav">
                             Notifications
@@ -80,6 +91,7 @@ export default {
             authenticated: 'user/authenticated',
             user: 'user/getUser',
             hasNotifications: 'notification/getHasNotifications',
+            hasMessages: 'message/getHasMessages',
             admin: 'admin/isAdmin',
         }),
     },
@@ -107,6 +119,9 @@ export default {
 }
 .icon-nav{
     color: rgba(255, 255, 255, 0.5);
+}
+.router-link-exact-active .icon-nav{
+    color:rgba(255, 255, 255, 0.75);
 }
 .icon-nav-stack{
     margin-top:5px;

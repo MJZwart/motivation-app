@@ -56,7 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/reward/update', [RewardController::class, 'updateRewardObj']);
     
     Route::get('/notifications', [NotificationController::class, 'show']);
-    Route::get('/notifications/unread', [NotificationController::class, 'hasUnreadNotifications']);
+    // Route::get('/notifications/unread', [NotificationController::class, 'hasUnreadNotifications']);
     Route::post('/notifications/all', [NotificationController::class, 'sendNotificationToAll']);
     Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy']);
     Route::get('/profile/{user}', [UserController::class, 'show']);
@@ -87,6 +87,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/message', [MessageController::class, 'sendMessage']);
     Route::delete('/message/{message}', [MessageController::class, 'deleteMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
+
+    Route::get('/unread', [UserController::class, 'hasUnread']);
 });
 
 Route::get('/achievements', [AchievementController::class, 'showAll']);
