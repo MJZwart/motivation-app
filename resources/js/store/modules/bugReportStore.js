@@ -18,11 +18,6 @@ export default {
         },
     },
     actions: {
-        fetchBugReports: ({commit}) => {
-            axios.get('/bugreport/all').then(response => {
-                commit('setBugReports', response.data.data);
-            });
-        },
         updateBugReport: ({commit, dispatch}, bugReport) => {
             return axios.put('/bugreport/' + bugReport.id, bugReport).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});

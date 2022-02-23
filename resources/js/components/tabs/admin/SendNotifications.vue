@@ -1,8 +1,7 @@
 <template>
     <div>
-        <h3>{{ $t('admin-panel') }}</h3>
+        <h3>{{ $t('send-notification-to-users') }}</h3>
         <div>
-            <h4>{{ $t('send-notification-to-users') }}</h4>
             <b-form @submit.prevent="sendNotification">
                 <b-form-group
                     :label="$t('title')" 
@@ -34,9 +33,6 @@
 
 <script>
 export default {
-    mounted() {
-        this.$store.dispatch('admin/checkAdmin');
-    },
     data() {
         return {
             /** @type {import('resources/types/notification').Notification} */

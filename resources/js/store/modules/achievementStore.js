@@ -33,14 +33,18 @@ export default {
         },
     },
     actions: {
-        getAllAchievements: ({commit}) => {
-            axios.get('/achievements').then(response => {
-                commit('setAchievements', response.data.data);
+        newAchievement: ({commit, dispatch}, achievement) => {
+            return axios.post('/achievements', achievement).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('achievement/setAchievements', response.data.achievements, {root:true});
+                return Promise.resolve();
             });
         },
-        getAchievementTriggers: ({commit}) => {
-            axios.get('/achievements/triggers').then(response => {
-                commit('setAchievementTriggers', response.data);
+        editAchievement: ({commit, dispatch}, achievement) => {
+            return axios.put('/achievements/' + achievement.id, achievement).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('achievement/setAchievements', response.data.achievements, {root:true});
+                return Promise.resolve();
             });
         },
     },

@@ -145,12 +145,12 @@
     "time": "Time",
     
 
-    "admin-panel": "Admin panel",
+    "manage-achievements": "Manage achievements",
     "send-notification-to-users": "Send notification to all users",
     "send-notification": "Send notification",
     "delete-notification-confirmation": "Are you sure you want to delete this notification?",
 
-    "admin-bug-report-panel-title": "Admin Bug Report Panel",
+    "bug-report-panel-title": "Manage bug reports",
     "edit-bug-report": "Edit bug report",
     "send-message-to-bug-report-author": "Send a message to the author of this bug report:",
     "update-bug-report": "Update",

@@ -20,18 +20,11 @@ export default {
         checkAdmin: () => {
             axios.get('/isadmin');
         },
-        newAchievement: ({commit, dispatch}, achievement) => {
-            return axios.post('/achievements', achievement).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+        getAdminDashboard: ({commit}) => {
+            axios.get('/admin/dashboard').then(response => {
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
-                return Promise.resolve();
-            });
-        },
-        editAchievement: ({commit, dispatch}, achievement) => {
-            return axios.put('/achievements/' + achievement.id, achievement).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
-                commit('achievement/setAchievements', response.data.achievements, {root:true});
-                return Promise.resolve();
+                commit('achievement/setAchievementTriggers', response.data.achievementTriggers, {root:true});
+                commit('bugReport/setBugReports', response.data.bugReports, {root:true});
             });
         },
         sendNotification: ({dispatch}, notification) => {

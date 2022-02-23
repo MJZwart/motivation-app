@@ -85,7 +85,7 @@ export default {
     },
     methods: {
         updateAchievement() {
-            this.$store.dispatch('admin/editAchievement', this.achievementToEdit).then(() => {
+            this.$store.dispatch('achievement/editAchievement', this.achievementToEdit).then(() => {
                 this.close();
             });
 

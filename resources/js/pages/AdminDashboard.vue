@@ -5,10 +5,10 @@
                 <achievements />
             </b-tab>
             <b-tab title="Bug reports">
-                Bugs.
+                <bug-report-panel />
             </b-tab>
             <b-tab title="Send notification">
-                Notifs.
+                <send-notifications />
             </b-tab>
         </b-tabs>
     </div>
@@ -17,15 +17,15 @@
 
 <script>
 import Achievements from '../components/tabs/admin/Achievements.vue';
+import BugReportPanel from '../components/tabs/admin/BugReportPanel.vue';
+import SendNotifications from '../components/tabs/admin/SendNotifications.vue';
 
 export default {
     components: {
-        Achievements,
+        Achievements, BugReportPanel, SendNotifications,
     },
     mounted() {
-        this.$store.dispatch('admin/checkAdmin');
-        this.$store.dispatch('achievement/getAllAchievements');
-        this.$store.dispatch('achievement/getAchievementTriggers');
+        this.$store.dispatch('admin/getAdminDashboard');
     },
 
 }
