@@ -1,21 +1,21 @@
 <template>
     <div v-if="user">
         <div v-if="user.username">
-            <h2>{{ sendMessageTitle }}</h2>
+            <h5>{{ sendMessageTitle }}</h5>
         </div>
         <b-form @submit.prevent="sendMessage">
             <b-form-group
-                label="Message" 
+                :label="$t('message')" 
                 label-for="message">
                 <b-form-textarea 
                     id="message" 
                     v-model="message.message"
                     name="message" 
                     rows=3
-                    placeholder="Type your message"  />
+                    :placeholder="$t('send-message-placeholder')"  />
                 <base-form-error name="message" /> 
             </b-form-group>
-            <b-button type="submit" block>Send message</b-button>
+            <b-button type="submit" block>{{ $t('send-message') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
         </b-form>
     </div>

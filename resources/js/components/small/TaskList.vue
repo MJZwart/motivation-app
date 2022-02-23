@@ -3,10 +3,10 @@
         <span class="card-title d-flex">{{taskList.name}}
             <span class="ml-auto">
                 <b-icon-pencil-square 
-                    class="icon-small"
+                    class="icon small"
                     @click="editTaskList()" />
                 <b-icon-trash 
-                    class="icon-small"
+                    class="icon small"
                     @click="deleteTaskList()" />
             </span>
 

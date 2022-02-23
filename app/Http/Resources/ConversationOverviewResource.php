@@ -18,10 +18,8 @@ class ConversationOverviewResource extends JsonResource
             'id' => $this->id,
             'recipient' => new StrippedUserResource($this->recipient),
             'conversation_id' => $this->conversation_id,
-            'last_message' => $this->getLastMessage()->sender_id == $this->user_id ? 
-                new MessageOutResource($this->getLastMessage()) : 
-                new MessageInResource($this->getLastMessage()),
-            'messages' => MessageResource::collection($this->messages->sortByDesc('created_at'))->setUserId($this->user_id),
+            'last_message' => MessageResource::make($this->getLastMessage())->setUserId($this->user_id),
+            'messages' => MessageResource::collection($this->visibleMessages()->sortByDesc('created_at'))->setUserId($this->user_id),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
