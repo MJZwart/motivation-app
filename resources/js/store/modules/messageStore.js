@@ -6,15 +6,22 @@ export default {
     namespaced: true,
     state: {
         conversations: [],
+        hasMessages: false,
     },
     mutations: {
         setConversations(state, conversations) {
             state.conversations = conversations;
         },
+        setHasMessages(state, bool) {
+            state.hasMessages = bool;
+        },
     },
     getters: {
         getConversations(state) {
             return state.conversations;
+        },
+        getHasMessages(state) {
+            return state.hasMessages;
         },
     },
     actions: {

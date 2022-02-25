@@ -106,7 +106,7 @@ router.beforeEach((to, from, next) => {
     }
     
     if (store.getters['user/authenticated']) {
-        store.dispatch('notification/hasUnreadNotifications');
+        store.dispatch('hasUnread');
     }
     
     next();

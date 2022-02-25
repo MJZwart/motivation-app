@@ -31,11 +31,6 @@ export default {
                 commit('setNotifications', response.data.data);
             });
         },
-        hasUnreadNotifications: ({commit}) => {
-            axios.get('/notifications/unread').then(function(response) {
-                commit('setHasNotifications', response.data);
-            });
-        },
         deleteNotification: ({commit, dispatch}, notificationId) => {
             axios.delete('/notifications/' + notificationId).then(function(response) {
                 dispatch('sendToasts', response.data.message, {root:true});

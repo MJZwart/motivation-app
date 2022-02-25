@@ -16,7 +16,9 @@ class MessageController extends Controller
 {
 
     public function getConversations() {
-        return ConversationOverviewResource::collection(Auth::user()->getVisibleConversations());
+        /** @var User */
+        $user = Auth::user();
+        return ConversationOverviewResource::collection($user->getVisibleConversations());
     }
 
     public function sendMessage(SendMessageRequest $request) {
@@ -61,15 +63,16 @@ class MessageController extends Controller
     }
 
     public function deleteMessage(Message $message) {
-        $user_id = Auth::user()->id;
-        if ($message->recipient_id == $user_id) {
+        /** @var User */
+        $user = Auth::user()->id;
+        if ($message->recipient_id == $user->id) {
             $message->visible_to_recipient = false;
         } 
-        if ($message->sender_id == $user_id) {
+        if ($message->sender_id == $user->id) {
             $message->visible_to_sender = false;
         }
         $message->save(['touch' => false]);
         return new JsonResponse(['message' => ['success' => ['Message deleted.']], 'data' => ConversationOverviewResource::collection(
-            Auth::user()->getVisibleConversations())], Response::HTTP_OK);
+            $user->getVisibleConversations())], Response::HTTP_OK);
     }
 }

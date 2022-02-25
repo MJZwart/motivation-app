@@ -36,6 +36,7 @@ class RegisteredUserController extends Controller
      */
     public function confirmRegister(ConfirmRegisterRequest $request): JsonResponse{
         $request->validated();
+        /** @var User */
         $user = Auth::user();
         $user->rewards = $request['rewardsType'];
         switch($request['rewardsType']){
