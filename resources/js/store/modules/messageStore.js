@@ -33,15 +33,16 @@ export default {
             });
         },
 
-        sendMessage: ({dispatch}, message) => {
+        sendMessage: ({dispatch, commit}, message) => {
             return axios.post('/message', message).then(response => {
+                commit('setConversations', response.data.data);
                 dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },
 
         deleteMessage: ({dispatch, commit}, messageId) => {
-            axios.delete('/message/' + messageId).then(response => {
+            return axios.delete('/message/' + messageId).then(response => {
                 commit('setConversations', response.data.data);
                 dispatch('sendToasts', response.data.message, {root:true});
             })
@@ -49,6 +50,14 @@ export default {
 
         markConversationRead: (_, conversationId) => {
             axios.put('/conversation/' + conversationId + '/read');
+        },
+
+        blockUser: ({dispatch, commit}, userId) => {
+            return axios.put('/user/' + userId + '/block').then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('setConversations', response.data.data);
+                return Promise.resolve();
+            })
         },
 
     },

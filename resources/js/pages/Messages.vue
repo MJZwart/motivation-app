@@ -21,7 +21,26 @@
                     </div>
                 </b-col>
                 <b-col v-if="activeConversation" cols="8" class="m-1">
-                    <h5>{{ $t('conversation-with') }} {{activeConversation.recipient.username}}</h5>
+                    <h5 class="d-flex">{{ $t('conversation-with') }}&nbsp;
+                        <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
+                            {{activeConversation.recipient.username}}
+                        </router-link>
+                        <span class="ml-auto">
+                            <b-dropdown no-caret right variant="link">
+                                <template #button-content>
+                                    <b-icon-three-dots-vertical class="icon" />
+                                </template>
+                                <b-dropdown-item :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
+                                    Go to profile
+                                </b-dropdown-item>
+                                <b-dropdown-item @click="addFriend(activeConversation.recipient)">Add friend</b-dropdown-item>
+                                <b-dropdown-item @click="blockUser(activeConversation.recipient)">Block</b-dropdown-item>
+                                <!-- <b-dropdown-item @click="reportUser(activeConversation.recipient)">
+                                    Report
+                                </b-dropdown-item> -->
+                            </b-dropdown>
+                        </span>
+                    </h5>
                     <div class="new-message mb-3">
                         <b-form @submit.prevent="sendMessage">
                             <b-form-group>
@@ -76,9 +95,11 @@ export default {
         load() {
             this.$store.dispatch('message/getConversations').then(() => {
                 this.markAsRead(this.conversations[0]);
-                this.activeConversation = this.conversations[0];
+                this.resetConversation();
             });
-            
+        },
+        resetConversation() {
+            this.activeConversation = this.conversations[0];
         },
         switchActiveConversation(key) {
             this.activeConversation = this.conversations[key];
@@ -89,7 +110,7 @@ export default {
             this.message.recipient_id = this.activeConversation.recipient.id;
             this.$store.dispatch('message/sendMessage', this.message).then(() => {
                 this.message.message = '';
-                this.load();
+                this.resetConversation();
             });
         },
         getSender(message) {
@@ -118,10 +139,21 @@ export default {
         deleteMessage(message) {
             if (confirm(this.$t('confirmation-delete-message'))) {
                 this.$store.dispatch('message/deleteMessage', message.id).then(() => {
-                    this.load();
+                    this.resetConversation();
                 });
             }
         },
+        addFriend(user) {
+            this.$store.dispatch('friend/sendRequest', user.id);
+        },
+        blockUser(user) {
+            this.$store.dispatch('message/blockUser', user.id).then(() => {
+                this.resetConversation();
+            });
+        },
+        // reportUser(user) {
+
+        // },
     },
 }
 </script>

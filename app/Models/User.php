@@ -81,6 +81,15 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
+    public function blockedUsers() {
+        return $this->belongsToMany('App\Models\User', 'blocklist', 'user_id', 'blocked_user_id')->withPivot('id');;
+    }
+
+    public function isBlocked($userId) {
+        $user = User::find($userId);
+        return $user->blockedUsers->contains('id', $this->id);
+    }
+
     public function getActiveRewardObjectResource(){
         return RewardObjectHandler::getActiveRewardObjectResourceByUser($this->rewards, $this->id);
     }
