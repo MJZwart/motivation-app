@@ -1,29 +1,25 @@
 <template>
     <div>
-        <h3>{{ $t('admin-bug-report-panel-title') }}</h3>
+        <h3>{{ $t('bug-report-panel-title') }}</h3>
 
         <b-table
             :items="bugReports"
             :fields="bugSortables"
             :sort-by.sync="currentSort"
             :sort-desc.sync="currentSortDesc"
-            hover small
+            hover small responsive
             class="font-sm">
             <template #cell(severity)="data">
                 <span class="severity">{{ data.item.severity }}</span>
             </template>
-            <template #cell(user_id)="data">
-                <b-icon-envelope class="icon medium" @click="sendMessageToBugReportAuthor(data.item.user_id)" /> 
-                {{ data.item.user_id }}
-            </template>
             <template #cell(status)="data">
                 {{ parseStatus(data.item.status) }}
             </template>
-            <template #cell(admin_comment)="data">
+            <template #cell(actions)="data">
                 <b-icon-pencil-square 
                     class="icon medium"
                     @click="editBugReport(data.item)" /> 
-                {{ data.item.admin_comment }}
+                <b-icon-envelope class="icon medium" @click="sendMessageToBugReportAuthor(data.item.user_id)" /> 
             </template>
         </b-table>
 
@@ -39,18 +35,14 @@
 
 
 <script>
-import {BUG_SORTABLES, BUG_DEFAULTS, BUG_STATUS} from '../constants/bugConstants';
+import {BUG_SORTABLES, BUG_DEFAULTS, BUG_STATUS} from '../../../constants/bugConstants';
 import {mapGetters} from 'vuex';
-import EditBugReport from '../components/modals/EditBugReport.vue';
-import SendMessage from '../components/modals/SendMessage.vue';
+import EditBugReport from '../../modals/EditBugReport.vue';
+import SendMessage from '../../modals/SendMessage.vue';
 export default {
     components: {
         EditBugReport,
         SendMessage,
-    },
-    mounted() {
-        this.$store.dispatch('admin/checkAdmin');
-        this.$store.dispatch('bugReport/fetchBugReports');
     },
     computed: {
         ...mapGetters({

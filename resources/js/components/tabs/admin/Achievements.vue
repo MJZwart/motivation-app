@@ -1,16 +1,20 @@
 <template>
     <div>
-        <h2>Achievements</h2>
+        <h3>{{ $t('manage-achievements') }}</h3>
         <b-button block @click="showNewAchievement">{{ $t('add-new-achievement') }}</b-button>
-        <div v-for="(value, index) in achievements" :key="index">
-            <p>
-                <b-icon-trash-fill class="icon small" />
-                <b-icon-pencil-square class="icon small" @click="showEditAchievement(value)" />
-                {{value.name}}
-            </p>
-            <p class="silent">{{value.description}}</p>
-            <p class="silent">{{value.trigger}}</p>
-        </div>
+
+        <b-table
+            :items="achievements"
+            :fields="achievementFields"
+            :sort-by.sync="currentSort"
+            :sort-desc.sync="currentSortDesc"
+            hover small
+            class="font-sm">
+            <template #cell(actions)="data">
+                <!-- <b-icon-trash-fill class="icon small" /> -->
+                <b-icon-pencil-square class="icon small" @click="showEditAchievement(data.item)" />
+            </template>
+        </b-table>
 
         <b-modal id="new-achievement" hide-footer :title="$t('new-achievement')">
             <new-achievement @close="closeNewAchievement"/>
@@ -24,20 +28,19 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import EditAchievement from '../components/modals/EditAchievement.vue';
-import NewAchievement from '../components/modals/NewAchievement.vue';
+import EditAchievement from '../../modals/EditAchievement.vue';
+import NewAchievement from '../../modals/NewAchievement.vue';
+import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '../../../constants/achievementsConstants.js';
+
 export default {
     components: {NewAchievement, EditAchievement},
-    mounted() {
-        //TODO Reduce
-        this.$store.dispatch('admin/checkAdmin');
-        this.$store.dispatch('achievement/getAllAchievements');
-        this.$store.dispatch('achievement/getAchievementTriggers');
-    },
     data() {
         return {
             /** @type {import('../../types/achievement').Achievement | null} */
             achievementToEdit: null,
+            achievementFields: ACHIEVEMENT_FIELDS,
+            currentSort: ACHIEVEMENT_DEFAULTS.currentSort,
+            currentSortDesc: false,
         }
     },
     computed: {

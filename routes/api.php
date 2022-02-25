@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
 
     Route::resource('/bugreport', BugReportController::class)->only([
-        'store', 'update', 'show',
+        'store', 'update',
     ]);
     Route::get('/dashboard', [DashboardController::class, 'getDashboard']);
     Route::get('/overview', [OverviewController::class, 'getOverview']);
@@ -89,13 +90,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
 });
 
-Route::get('/achievements', [AchievementController::class, 'showAll']);
-Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
-Route::resource('/achievements', AchievementController::class)->only([
-    'store', 'update',
-]);
+Route::group(['middleware' => ['admin']], function () {
+
+    Route::resource('/achievements', AchievementController::class)->only([
+        'store', 'update',
+    ]);
+    Route::get('/admin/dashboard', [AdminController::class, 'getAdminDashboard']);
+});
+
+// Route::get('/achievements', [AchievementController::class, 'showAll']);
+// Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
+
 
 Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
-//Route::group(['middleware' => ['admin']], function () {
 
-//});

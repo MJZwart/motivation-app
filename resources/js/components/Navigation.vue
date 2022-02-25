@@ -23,9 +23,7 @@
             <b-collapse id="nav-collapse" v-model="isOpen" is-nav>
 
                 <b-navbar-nav v-if="admin">
-                    <b-nav-item to="/achievements">{{ $t('achievements') }}</b-nav-item>
-                    <b-nav-item to="/admin">{{ $t('admin') }}</b-nav-item>
-                    <b-nav-item to="/adminbugreportpanel">{{ $t('admin-bug-report-panel-title')}}</b-nav-item>
+                    <b-nav-item to="/admindashboard">{{ $t('admin') }}</b-nav-item>
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto toggled">

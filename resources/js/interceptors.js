@@ -43,6 +43,9 @@ axios.interceptors.response.use(
                 return Promise.reject(error);
             // user tried to access unauthorized resource
             case 403:
+                if (router.currentRoute.name !== 'login') {
+                    router.push('/dashboard');
+                }
                 sendErrorToast('You are not authorized for this action');
                 return Promise.reject(error);
             case 422:

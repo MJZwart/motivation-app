@@ -48,13 +48,8 @@ let routes = [
         meta: {requiresAuth: true},
     },
     {
-        path: '/achievements',
-        component: require('../pages/Achievements.vue').default,
-        meta: {requiresAuth: true, requiresAdmin: true},
-    },
-    {
-        path: '/admin',
-        component: require('../pages/Admin.vue').default,
+        path: '/admindashboard',
+        component: require('../pages/AdminDashboard.vue').default,
         meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
@@ -66,11 +61,6 @@ let routes = [
         path: '/welcome',
         component: require('../pages/Welcome.vue').default,
         meta: {requiresAuth: true},
-    },
-    {
-        path: '/adminbugreportpanel',
-        component: require('../pages/AdminBugReportPanel.vue').default,
-        meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
         path: '/bugreport',
@@ -111,8 +101,8 @@ router.beforeEach((to, from, next) => {
     }
 
     if (to.meta && to.meta.requiresAdmin && !store.getters['admin/isAdmin']) {
-        store.dispatch('user/logout');
-        return next({path: '/login'});
+        store.dispatch('sendToasts', {'error': 'You are not authorized to view this page'});
+        return next({path: '/dashboard'});
     }
     
     if (store.getters['user/authenticated']) {
