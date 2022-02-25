@@ -2,7 +2,7 @@
     <div>
         <div class="groups">
             <div class="group-list">
-                <template v-for="group in groupList">
+                <template v-for="group in myGroups">
                     <group
                         :key="group.id"
                         :group="group"
@@ -10,6 +10,7 @@
                         @reload="reload"/>
                 </template>
             </div>
+            <b-button type="button" @click="blurbMyGroups">blurb</b-button>
             <div class="create-group">
                 <b-button type="button" @click="createGroup">{{$t('create-group')}}</b-button>
             </div>
@@ -24,8 +25,17 @@
 <script>
 import Group from './small/Group.vue'
 import CreateGroup from './modals/CreateGroup.vue'
+import {mapGetters} from 'vuex';
 export default{
     components: {Group, CreateGroup},
+    computed: {
+        ...mapGetters({
+            myGroups: 'groups/getMyGroups'
+        }),
+    },
+    mounted() {
+        this.$store.dispatch('groups/fetchMyGroups');
+    },
     data() {
         return {
             groupList: [
@@ -51,8 +61,11 @@ export default{
         }
     },
     methods: {
+        blurbMyGroups() {
+            console.log(this.myGroups);
+        },
         reload() {
-            console.log("placeholder for reloading the groups");
+            this.$store.dispatch('groups/fetchMyGroups');
         },
         createGroup() {
             this.$store.dispatch('clearErrors');

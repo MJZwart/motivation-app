@@ -81,6 +81,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
+    public function groups(){
+        return $this->belongsToMany('App\Models\Group')
+            ->withPivot(['is_admin'])
+            ->withPivot(['joined']);
+    }
+
     public function getActiveRewardObjectResource(){
         return RewardObjectHandler::getActiveRewardObjectResourceByUser($this->rewards, $this->id);
     }

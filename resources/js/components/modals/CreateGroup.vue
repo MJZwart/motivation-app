@@ -27,7 +27,7 @@
                 :description="$t('group-public-checkbox-desc')">
                 <b-form-checkbox
                     id="public-checkbox"
-                    v-model="groupToCreate.public"
+                    v-model="groupToCreate.is_public"
                     name="public-checkbox" />
             </b-form-group>
             <b-button type="submit" block>{{$t('create-group')}}</b-button>
@@ -43,14 +43,14 @@ export default {
             groupToCreate: {
                 name: "",
                 description: "",
-                public: false,
+                is_public: false,
             }
         }
     },
     methods: {
         createGroup() {
-            console.log(`group "${this.groupToCreate.name}" with desc: "${this.groupToCreate.description}" and publicity set to: ${this.groupToCreate.public} has totally been created`);
-            this.$emit('close');
+            console.log(`group "${this.groupToCreate.name}" with desc: "${this.groupToCreate.description}" and publicity set to: ${this.groupToCreate.is_public} has totally been created`);
+            this.$store.dispatch('groups/createGroup', this.groupToCreate).then(() => this.close());
         },
         close() {
             this.groupToCreate = {};
