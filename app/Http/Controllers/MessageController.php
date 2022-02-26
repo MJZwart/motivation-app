@@ -13,8 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-use function PHPUnit\Framework\returnSelf;
-
 class MessageController extends Controller
 {
 

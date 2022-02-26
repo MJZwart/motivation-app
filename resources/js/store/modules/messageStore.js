@@ -45,7 +45,8 @@ export default {
             return axios.delete('/message/' + messageId).then(response => {
                 commit('setConversations', response.data.data);
                 dispatch('sendToasts', response.data.message, {root:true});
-            })
+                return Promise.resolve();
+            });
         },
 
         markConversationRead: (_, conversationId) => {
@@ -57,7 +58,7 @@ export default {
                 dispatch('sendToasts', response.data.message, {root:true});
                 commit('setConversations', response.data.data);
                 return Promise.resolve();
-            })
+            });
         },
 
     },
