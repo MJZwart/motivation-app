@@ -17,7 +17,7 @@
         </div>
 
         <b-modal id="create-group" hide-footer :title="$t('create-group')">
-            <create-group @close="closeCreateGroup" />
+            <create-group @close="closeCreateGroup" @reload="reload"/>
         </b-modal>
     </div>
 </template>
@@ -30,11 +30,13 @@ export default{
     components: {Group, CreateGroup},
     computed: {
         ...mapGetters({
-            myGroups: 'groups/getMyGroups'
+            myGroups: 'groups/getMyGroups',
+            allGroups: 'groups/getAllGroups',
         }),
     },
     mounted() {
         this.$store.dispatch('groups/fetchMyGroups');
+        this.$store.dispatch('groups/fetchAllGroups');
     },
     data() {
         return {

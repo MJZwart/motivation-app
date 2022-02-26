@@ -8,7 +8,7 @@
             <div v-for="member in group.members" :key="member.id" class="member">
                 <p class="member">{{member.username}}</p>
             </div>
-            <b-button type="button" @click="leaveGroup">leave</b-button>
+            <b-button type="button" @click="deleteGroup">delete</b-button>
         </template>
     </div>
 </template>
@@ -22,7 +22,6 @@ export default {
         },
     },
     mounted() {
-        this.areYouAdmin = this.areYouAdminFunc();
     },
     data () {
         return {
@@ -31,14 +30,9 @@ export default {
         }
     },
     methods: {
-        areYouAdminFunc() {
-            let bool = this.group.pivot.is_admin;
-            if (bool) return 'yes';
-            return 'no';
-        },
-        leaveGroup() {
+        deleteGroup() {
             console.log(`leaving group: ${this.group.name}`);
-            this.$store.dispatch(`/groups/${group.id}`, this.group).then(() => this.$emit('reload'));
+            this.$store.dispatch('groups/deleteGroup', this.group).then(() => this.$emit('reload'));
         },
         toggleInfo() {
             this.showInfo = this.showInfo ? false : true;

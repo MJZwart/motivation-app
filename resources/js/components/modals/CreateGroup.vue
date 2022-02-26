@@ -50,7 +50,10 @@ export default {
     methods: {
         createGroup() {
             console.log(`group "${this.groupToCreate.name}" with desc: "${this.groupToCreate.description}" and publicity set to: ${this.groupToCreate.is_public} has totally been created`);
-            this.$store.dispatch('groups/createGroup', this.groupToCreate).then(() => this.close());
+            this.$store.dispatch('groups/createGroup', this.groupToCreate).then(() => {
+                this.$emit('reload');
+                this.close();
+            });
         },
         close() {
             this.groupToCreate = {};
