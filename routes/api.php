@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/message', [MessageController::class, 'sendMessage']);
     Route::delete('/message/{message}', [MessageController::class, 'deleteMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
+    Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
 
     Route::get('/unread', [UserController::class, 'hasUnread']);
 });

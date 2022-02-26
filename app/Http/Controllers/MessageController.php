@@ -11,6 +11,7 @@ use App\Http\Resources\ConversationOverviewResource;
 use App\Http\Requests\SendMessageRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -22,17 +23,23 @@ class MessageController extends Controller
     }
 
     public function sendMessage(SendMessageRequest $request) {
+        /** @var User */
+        $user = Auth::user();
+        if($user->isBlocked($request['recipient_id'])){
+            return new JsonResponse(['message' => ['You are unable to send messages to this user.']], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
         $validated = $request->validated();
-        $validated['sender_id'] = Auth::user()->id;
+        $validated['sender_id'] = $user->id;
 
         if(!array_key_exists('conversation_id', $validated)) {
-            $validated['conversation_id'] = $this->getConversationId(Auth::user()->id, $validated['recipient_id']);
+            $validated['conversation_id'] = $this->getConversationId($user->id, $validated['recipient_id']);
         }
 
         $message = Message::create($validated);
         $message->conversation->touch();
 
-        return new JsonResponse(['message' => ['success' => ['Message sent.']]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => ['Message sent.']], 'data' => ConversationOverviewResource::collection(
+            $user->getVisibleConversations())], Response::HTTP_OK);
     }
 
     private function getConversationId($user_id, $recipient_id) {
@@ -65,14 +72,38 @@ class MessageController extends Controller
     public function deleteMessage(Message $message) {
         /** @var User */
         $user = Auth::user()->id;
-        if ($message->recipient_id == $user->id) {
+        $this->makeMessageInvisibleToUser($message, $user->id);
+        return new JsonResponse(['message' => ['success' => ['Message deleted.']], 'data' => ConversationOverviewResource::collection(
+            $user->getVisibleConversations())], Response::HTTP_OK);
+    }
+
+    public function blockUser(User $blockedUser) {
+        /** @var User */
+        $user = Auth::user();
+        DB::table('blocklist')->insertOrIgnore([
+            'user_id' => $user->id,
+            'blocked_user_id' => $blockedUser->id,
+        ]);
+        $this->makeConversationInvisible($user, $blockedUser);
+        return new JsonResponse(['message' => ['success' => ['User blocked.']], 'data' => ConversationOverviewResource::collection(
+            $user->getVisibleConversations())], Response::HTTP_OK);
+    }
+
+    private function makeConversationInvisible($user, $blockedUser) {
+        $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->id)->first();
+        if(!$conversation) return;
+        foreach ($conversation->messages as $message) {
+            $this->makeMessageInvisibleToUser($message, $user->id);
+        }
+    }
+
+    private function makeMessageInvisibleToUser($message, $userId) {
+        if ($message->recipient_id == $userId) {
             $message->visible_to_recipient = false;
         } 
-        if ($message->sender_id == $user->id) {
+        if ($message->sender_id == $userId) {
             $message->visible_to_sender = false;
         }
         $message->save(['touch' => false]);
-        return new JsonResponse(['message' => ['success' => ['Message deleted.']], 'data' => ConversationOverviewResource::collection(
-            $user->getVisibleConversations())], Response::HTTP_OK);
     }
 }
