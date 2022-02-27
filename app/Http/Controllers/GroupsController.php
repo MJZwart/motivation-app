@@ -22,20 +22,20 @@ class GroupsController extends Controller
         if ($argument == 'all') {
             $allGroups = Group::where('is_public', 1)->get();
             foreach ($allGroups as $group){
-                $group->members = $group->users->map->only('id', 'username');
+                $group->members = $group->users->map->only('id', 'username', 'is_admin')->map(function ($member) use ($group) {
+                    $member['is_admin'] = $group->isAdmin(User::find($member['id']));
+                    return $member;
+                });
             }
             return GroupResource::collection($allGroups);
         }
         if ($argument == 'my') {
             $myGroups = Auth::user()->groups;
             foreach ($myGroups as $group){
-                $group->members = $group->users->map->only('id', 'username', 'is_admin');
-                foreach ($group->members as &$member) {
-                    //dump($member['id'], $member['is_admin']);
-                    $members['is_admin'] = $group->isAdmin(User::find($member['id']));
-                    //dump($member['is_admin']);
-                }
-                //dump($group->members);
+                $group->members = $group->users->map->only('id', 'username', 'is_admin')->map(function ($member) use ($group) {
+                    $member['is_admin'] = $group->isAdmin(User::find($member['id']));
+                    return $member;
+                });
             }
             return GroupResource::collection($myGroups);
         }

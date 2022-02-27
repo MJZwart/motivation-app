@@ -89,8 +89,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/message/{message}', [MessageController::class, 'deleteMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
 
-    Route::post('/groups/join', [GroupsController::class, 'join']);
-    Route::post('/groups/leave', [GroupsController::class, 'leave']);
+    Route::post('/groups/join/{id}', [GroupsController::class, 'join']);
+    Route::post('/groups/leave/{id}', [GroupsController::class, 'leave']);
     Route::resource('/groups', GroupsController::class)->only([
         'store', 'destroy', 'show',
     ]);
