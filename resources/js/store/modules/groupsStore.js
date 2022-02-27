@@ -6,22 +6,22 @@ export default {
     namespaced: true,
     state: {
         myGroups: [],
-        groups: [],
+        allGroups: [],
     },
     mutations: {
         setMyGroups(state, myGroups) {
             state.myGroups = myGroups;
         },
-        setGroups(state, groups) {
-            state.groups = groups;
+        setAllGroups(state, allGroups) {
+            state.allGroups = allGroups;
         },
     },
     getters: {
         getMyGroups: state => {
             return state.myGroups;
         },
-        getGroups: state => {
-            return state.groups;
+        getAllGroups: state => {
+            return state.allGroups;
         },
     },
     actions: {
@@ -32,7 +32,7 @@ export default {
         },
         fetchAllGroups: ({commit}) => {
             axios.get('groups/all').then(response => {
-                commit('setGroups', response.data.data);
+                commit('setAllGroups', response.data.data);
             });
         },
         createGroup: ({dispatch}, group) => {
@@ -48,13 +48,13 @@ export default {
             })
         },
         joinGroup: ({dispatch}, group) => {
-            return axios.post(`/groups/${group.id}`).then(response => {
+            return axios.post(`/groups/join/${group.id}`).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
             })
         },
         leaveGroup: ({dispatch}, group) => {
-            return axios.post(`/groups/${group.id}`).then(response => {
+            return axios.post(`/groups/leave/${group.id}`).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
             })

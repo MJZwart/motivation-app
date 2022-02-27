@@ -1,38 +1,59 @@
 <template>
     <div>
-        <div class="groups">
+        <span>
+            <b-button type="button" @click="showMyGroups">my groups</b-button>
+            <b-button type="button" @click="showAllGroups">all groups</b-button>
+        </span>
+        <template v-if="activeTab == 'MY_GROUPS'" class="groups">
             <div class="group-list">
                 <template v-for="group in myGroups">
-                    <group
+                    <my-group
                         :key="group.id"
                         :group="group"
                         class="group"
-                        @reload="reload"/>
+                        @reloadGroups="reloadGroups"/>
                 </template>
             </div>
-            <b-button type="button" @click="blurbMyGroups">blurb</b-button>
             <div class="create-group">
                 <b-button type="button" @click="createGroup">{{$t('create-group')}}</b-button>
             </div>
-        </div>
+        </template>
+        <template v-if="activeTab == 'ALL_GROUPS'" class="groups">
+            <div class="search">
+                <input type="text" v-model="search" :placeholder="$t('group-search-placeholder')"/>
+            </div>
+            <div class="group-list">
+                <template v-for="group in filteredAllGroups">
+                    <all-group
+                        :key="group.id"
+                        :group="group"
+                        class="group"
+                        @reloadGroups="reloadGroups"/>
+                </template>
+            </div>
+        </template>
 
         <b-modal id="create-group" hide-footer :title="$t('create-group')">
-            <create-group @close="closeCreateGroup" @reload="reload"/>
+            <create-group @close="closeCreateGroup" @reloadGroups="reloadGroups"/>
         </b-modal>
     </div>
 </template>
 
 <script>
-import Group from './small/Group.vue'
+import MyGroup from './small/MyGroup.vue'
+import AllGroup from './small/AllGroup.vue'
 import CreateGroup from './modals/CreateGroup.vue'
 import {mapGetters} from 'vuex';
 export default{
-    components: {Group, CreateGroup},
+    components: {MyGroup, AllGroup, CreateGroup},
     computed: {
         ...mapGetters({
             myGroups: 'groups/getMyGroups',
             allGroups: 'groups/getAllGroups',
         }),
+        filteredAllGroups() {
+            return this.allGroups.filter(group => group.name.toLowerCase().includes(this.search.toLowerCase()));
+        },
     },
     mounted() {
         this.$store.dispatch('groups/fetchMyGroups');
@@ -40,33 +61,25 @@ export default{
     },
     data() {
         return {
-            groupList: [
-                {
-                    id: 1,
-                    name: "myGroup",
-                    description: "this is my group",
-                    members:
-                        [{id: 1, name: "carl"},
-                        {id: 2, name: "franz"}],
-                    rank: 1,
-                },
-                {
-                    id: 2,
-                    name: "mySecondGroup",
-                    description: "this is my second group",
-                    members:
-                        [{id: 2, name: "franz"},
-                        {id: 3, name: "sissi"}],
-                    rank: 2,
-                },
-            ]
+            activeTab: 'MY_GROUPS',
+            search: '',
         }
     },
     methods: {
-        blurbMyGroups() {
-            console.log(this.myGroups);
+        showMyGroups() {
+            this.activeTab = 'MY_GROUPS';
         },
-        reload() {
+        showAllGroups() {
+            this.activeTab = 'ALL_GROUPS';
+        },
+        reloadGroups() {
+            this.reloadAllGroups();
+            this.reloadMyGroups();
+        },
+        reloadAllGroups() {
+            this.$store.dispatch('groups/fetchAllGroups');
+        },
+        reloadMyGroups() {
             this.$store.dispatch('groups/fetchMyGroups');
         },
         createGroup() {

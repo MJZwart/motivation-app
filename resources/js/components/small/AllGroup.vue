@@ -6,9 +6,9 @@
             <p class="are-you-admin">Are you an admin: {{areYouAdmin}}</p>
             <p class="members">Members: </p>
             <div v-for="member in group.members" :key="member.id" class="member">
-                <p class="member">{{member.username}}</p>
+                <p class="member">{{member.username}} <template v-if="member.is_admin">admin</template></p>
             </div>
-            <b-button type="button" @click="deleteGroup">delete</b-button>
+            <b-button type="button" @click="joinGroup">join</b-button>
         </template>
     </div>
 </template>
@@ -30,9 +30,8 @@ export default {
         }
     },
     methods: {
-        deleteGroup() {
-            console.log(`leaving group: ${this.group.name}`);
-            this.$store.dispatch('groups/deleteGroup', this.group).then(() => this.$emit('reload'));
+        joinGroup() {
+            this.$store.dispatch('groups/joinGroup', this.group).then(() => this.$emit('reloadGroups'));
         },
         toggleInfo() {
             this.showInfo = this.showInfo ? false : true;

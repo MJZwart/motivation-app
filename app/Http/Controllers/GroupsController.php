@@ -63,8 +63,8 @@ class GroupsController extends Controller
 
     public function join($id): JsonResponse{
         $group = Group::find($id);
-        $users = $group->users;
-        if (!$users->find(Auth::user())->isEmpty()) {
+        $users = $group->users();
+        if ($users->find(Auth::user())) {
             return new JsonResponse(['message' => ['success' => ["You are already a member of this group."]]], Response::HTTP_OK);};
         $users->attach(Auth::user()->id);
         return new JsonResponse(['message' => ['success' => ["You successfully joined the group \"{$group->name}\"."]]], Response::HTTP_OK);
@@ -72,8 +72,8 @@ class GroupsController extends Controller
 
     public function leave($id): JsonResponse{
         $group = Group::find($id);
-        $users = $group->users;
-        if (Auth::user()->groups->find($id)->isEmpty) {
+        $users = $group->users();
+        if (!Auth::user()->groups()->find($id)) {
             return new JsonResponse(['message' => ['success' => ["You are not a member of the group you are trying to leave."]]], Response::HTTP_OK);};
         if ($users->count() == 1) {
             return new JsonResponse(['message' => ['success' => ["You can't leave a group you are the only member of, please delete instead."]]], Response::HTTP_OK);};
