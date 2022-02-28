@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateExperiencePointsRequest;
 use Illuminate\Http\Request;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
@@ -26,6 +27,14 @@ class AdminController extends Controller
         return new JsonResponse(
             ['achievements' => $achievements, 'achievementTriggers' => $achievementTriggers, 'bugReports' => $bugReports, 'balancing' => $balancing], 
             Response::HTTP_OK);
+    }
 
+    public function updateExeriencePoints(UpdateExperiencePointsRequest $request) {
+        $validated = $request->validated();
+        DB::table('experience_points')->upsert($validated, ['id'], ['experience_points']);
+        $experiencePoints = DB::table('experience_points')->get();
+        return new JsonResponse(
+            ['message' => ['success' => ['Experience points updated']], 'data' => $experiencePoints], 
+            Response::HTTP_OK);
     }
 }

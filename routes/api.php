@@ -98,6 +98,7 @@ Route::group(['middleware' => ['admin']], function () {
         'store', 'update',
     ]);
     Route::get('/admin/dashboard', [AdminController::class, 'getAdminDashboard']);
+    Route::put('/admin/experience_points', [AdminController::class, 'updateExeriencePoints']);
 });
 
 // Route::get('/achievements', [AchievementController::class, 'showAll']);

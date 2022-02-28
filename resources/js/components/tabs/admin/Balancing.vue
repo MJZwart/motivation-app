@@ -52,7 +52,8 @@ export default {
 
     methods: {
         updateExpPoints() {
-            console.log(this.experiencePoints);
+            // console.log(this.experiencePoints);
+            this.$store.dispatch('admin/updateExpPoints', this.experiencePoints);
         },
         handleInput() {
         },
