@@ -1,17 +1,28 @@
 <template>
     <div v-if="!loading">
         <b-tabs>
-            <b-tab title="Experience points" active>
+            <b-tab title="Experience points">
                 <div class="d-flex">
                     <b-button class="ml-auto m-2" @click="updateExpPoints">Update experience points</b-button>
                 </div>
                 <b-editable-table 
                     v-model="experiencePoints" 
                     :fields="experiencePointsFields" 
-                    class="exp-table" 
+                    class="balancing-table experience-table"
+                    hover foot-clone
                     @input-change="handleInput" />
             </b-tab>
-            <b-tab title="Character XP gain">Char exp</b-tab>
+            <b-tab title="Character XP gain" active>
+                <div class="d-flex">
+                    <b-button class="ml-auto m-2" @click="updateCharExpGain">Update</b-button>
+                </div>
+                <b-editable-table
+                    v-model="characterExpGain"
+                    :fields="characterExpGainFields"
+                    class="balancing-table character-table"
+                    small
+                    @input-change="handleInput" />
+            </b-tab>
             <b-tab title="Village XP gain">Vill exp</b-tab>
         </b-tabs>
     </div>    
@@ -19,7 +30,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import {experiencePointsFields} from '../../../constants/balancingConstants.js';
+import {experiencePointsFields, characterExpGainFields} from '../../../constants/balancingConstants.js';
 import BEditableTable from 'bootstrap-vue-editable-table';
 import BaseFormError from '../../BaseFormError.vue';
 import Vue from 'vue';
@@ -41,6 +52,7 @@ export default {
             villageExpGain: null,
             loading: true,
             experiencePointsFields: experiencePointsFields,
+            characterExpGainFields: characterExpGainFields,
         }
     },
     computed: {
@@ -51,22 +63,33 @@ export default {
     },
 
     methods: {
+        handleInput() {},
         updateExpPoints() {
             // console.log(this.experiencePoints);
             this.$store.dispatch('admin/updateExpPoints', this.experiencePoints);
         },
-        handleInput() {
+        updateCharExpGain() {
+            console.log('cchar');
         },
     },
 }
 </script>
 
-<style lang="scss" scoped>
-.exp-table {
-
-    td .cell-data {
-        padding:5rem;
-        margin:5rem;
+<style lang="scss">
+.points-col {
+    width:10rem;
+    .form-control {
+        width:8rem !important;
+    }
+}
+table.balancing-table .data-cell {
+    height:2.5rem;
+    padding:0.48rem;
+    padding-left: 0.81rem;
+}
+table.balancing-table td{
+    .form-control {
+        width:3rem;
     }
 }
 </style>

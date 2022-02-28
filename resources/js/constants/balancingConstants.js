@@ -13,4 +13,42 @@ export const experiencePointsFields = [
         editable: true, 
         class: 'points-col',
         sortable: true},
+];
+
+export const characterExpGainFields = [
+    {
+        key: 'task_type',
+        label: 'Task type',
+        editable: false,
+    },
+    {
+        key: 'strength',
+        label: 'Strength',
+        editable: true,
+    },
+    {
+        key: 'agility',
+        label: 'Agility',
+        editable: true,
+    },
+    {
+        key: 'endurance',
+        label: 'Endurance',
+        editable: true,
+    },
+    {
+        key: 'intelligence',
+        label: 'Intelligence',
+        editable: true,
+    },
+    {
+        key: 'charisma',
+        label: 'Charisma',
+        editable: true,
+    },
+    {
+        key: 'level',
+        label: 'Level',
+        editable: true,
+    },
 ]
