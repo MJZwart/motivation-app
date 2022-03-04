@@ -32,7 +32,7 @@ export default {
             return state.charExpGain;
         },
         getVillageExpGain: state => {
-            return state.charExpGain;
+            return state.villageExpGain;
         },
         getBalancing: state => {
             return {
@@ -73,6 +73,12 @@ export default {
         updateCharExpGain: ({dispatch, commit}, charExpGain) => {
             axios.put('/admin/character_exp_gain', charExpGain).then(response => {
                 commit('setCharExpGain', response.data.data);
+                dispatch('sendToasts', response.data.message, {root:true});
+            });
+        },
+        updateVillageExpGain: ({commit, dispatch}, villageExpGain) => {
+            axios.put('/admin/village_exp_gain', villageExpGain).then(response => {
+                commit('setVillageExpGain', response.data.data);
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },

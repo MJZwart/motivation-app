@@ -51,4 +51,42 @@ export const characterExpGainFields = [
         label: 'Level',
         editable: true,
     },
-]
+];
+
+export const villageExpGainFields = [
+    {
+        key: 'task_type',
+        label: 'Task type',
+        editable: false,
+    },
+    {
+        key: 'economy',
+        label: 'Economy',
+        editable: true,
+    },
+    {
+        key: 'labour',
+        label: 'Labour',
+        editable: true,
+    },
+    {
+        key: 'craft',
+        label: 'Craft',
+        editable: true,
+    },
+    {
+        key: 'art',
+        label: 'Art',
+        editable: true,
+    },
+    {
+        key: 'community',
+        label: 'Community',
+        editable: true,
+    },
+    {
+        key: 'level',
+        label: 'Level',
+        editable: true,
+    },
+];

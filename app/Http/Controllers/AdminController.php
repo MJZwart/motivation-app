@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
+use App\Http\Requests\UpdateVillageExpGainRequest;
 use Illuminate\Http\Request;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
@@ -45,6 +46,15 @@ class AdminController extends Controller
         $characterExpGain = DB::table('character_exp_gain')->get();
         return new JsonResponse(
             ['message' => ['success' => ['Character experience balancing updated']], 'data' => $characterExpGain], 
+            Response::HTTP_OK);
+    }
+
+    public function updateVillageExpGain(UpdateVillageExpGainRequest $request) {
+        $validated = $request->validated();
+        DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level']);
+        $villageExpGain = DB::table('village_exp_gain')->get();
+        return new JsonResponse(
+            ['message' => ['success' => ['Village experience balancing updated']], 'data' => $villageExpGain], 
             Response::HTTP_OK);
     }
 }

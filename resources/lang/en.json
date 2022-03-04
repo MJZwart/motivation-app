@@ -157,7 +157,13 @@
     "sort-by": "Sort by",
     "reverse-order": "Click again to reverse order",
 
+    "update-exp-points": "Update experience points",
+    "update-char-exp-gain": "Update character experience gain",
+    "update-vill-exp-gain": "Update village experience gain",
     
+    "exp-points": "Experience points",
+    "char-exp-gain": "Character XP gain",
+    "vill-exp-gain": "Village XP gain",
 
 
     "next": "Next",
