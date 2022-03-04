@@ -133,5 +133,11 @@ export default {
                 commit('setSearchResults', response.data.data);
             });
         },
+
+        reportUser: ({dispatch}, user) => {
+            axios.post('/user/' + user.id + '/report').then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+            });
+        },
     },
 }

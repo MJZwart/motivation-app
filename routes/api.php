@@ -90,6 +90,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
 
     Route::get('/unread', [UserController::class, 'hasUnread']);
+
+    Route::post('/user/{user}/report', [UserController::class, 'reportUser']);
 });
 
 Route::group(['middleware' => ['admin']], function () {
