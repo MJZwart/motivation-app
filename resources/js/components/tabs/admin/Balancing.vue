@@ -65,11 +65,10 @@ export default {
     methods: {
         handleInput() {},
         updateExpPoints() {
-            // console.log(this.experiencePoints);
             this.$store.dispatch('admin/updateExpPoints', this.experiencePoints);
         },
         updateCharExpGain() {
-            console.log('cchar');
+            this.$store.dispatch('admin/updateCharExpGain', this.characterExpGain);
         },
     },
 }

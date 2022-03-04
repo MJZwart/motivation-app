@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateExperiencePointsRequest;
+use App\Http\Requests\UpdateCharacterExpGainRequest;
 use Illuminate\Http\Request;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
@@ -35,6 +36,15 @@ class AdminController extends Controller
         $experiencePoints = DB::table('experience_points')->get();
         return new JsonResponse(
             ['message' => ['success' => ['Experience points updated']], 'data' => $experiencePoints], 
+            Response::HTTP_OK);
+    }
+
+    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request) {
+        $validated = $request->validated();
+        DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level']);
+        $characterExpGain = DB::table('character_exp_gain')->get();
+        return new JsonResponse(
+            ['message' => ['success' => ['Character experience balancing updated']], 'data' => $characterExpGain], 
             Response::HTTP_OK);
     }
 }

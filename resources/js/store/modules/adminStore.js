@@ -70,5 +70,11 @@ export default {
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
+        updateCharExpGain: ({dispatch, commit}, charExpGain) => {
+            axios.put('/admin/character_exp_gain', charExpGain).then(response => {
+                commit('setCharExpGain', response.data.data);
+                dispatch('sendToasts', response.data.message, {root:true});
+            });
+        },
     },
 }
