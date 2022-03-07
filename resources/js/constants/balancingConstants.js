@@ -1,21 +1,22 @@
-export const experiencePointsFields = [
+export const EXPERIENCE_POINTS_FIELDS = [
     {
         key: 'level', 
         label: 'Level', 
         type: 'number',
         editable: false,
-        class: 'level-col',
-        sortable: true},
+        sortable: true,
+    },
     {
         key: 'experience_points', 
         label: 'Points',
         type: 'number',
         editable: true, 
         class: 'points-col',
-        sortable: true},
+        sortable: true,
+    },
 ];
 
-export const characterExpGainFields = [
+export const CHARACTER_EXP_GAIN_FIELDS = [
     {
         key: 'task_type',
         label: 'Task type',
@@ -53,7 +54,7 @@ export const characterExpGainFields = [
     },
 ];
 
-export const villageExpGainFields = [
+export const VILLAGE_EXP_GAIN_FIELDS = [
     {
         key: 'task_type',
         label: 'Task type',

@@ -9,7 +9,7 @@
                 <b-editable-table 
                     v-model="experiencePoints" 
                     :fields="experiencePointsFields" 
-                    class="balancing-table experience-table"
+                    class="balancing-table"
                     hover foot-clone
                     @input-change="handleInput" />
             </b-tab>
@@ -21,7 +21,7 @@
                 <b-editable-table
                     v-model="characterExpGain"
                     :fields="characterExpGainFields"
-                    class="balancing-table character-table"
+                    class="balancing-table"
                     small
                     @input-change="handleInput" />
             </b-tab>
@@ -33,7 +33,7 @@
                 <b-editable-table
                     v-model="villageExpGain"
                     :fields="villageExpGainFields"
-                    class="balancing-table village-table"
+                    class="balancing-table"
                     small
                     @input-change="handleInput" />
             </b-tab>
@@ -43,7 +43,11 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import {experiencePointsFields, characterExpGainFields, villageExpGainFields} from '../../../constants/balancingConstants.js';
+import {
+    EXPERIENCE_POINTS_FIELDS, 
+    CHARACTER_EXP_GAIN_FIELDS, 
+    VILLAGE_EXP_GAIN_FIELDS,
+} from '../../../constants/balancingConstants.js';
 import BEditableTable from 'bootstrap-vue-editable-table';
 import GeneralFormError from '../../GeneralFormError.vue';
 import Vue from 'vue';
@@ -64,9 +68,9 @@ export default {
             characterExpGain: null,
             villageExpGain: null,
             loading: true,
-            experiencePointsFields: experiencePointsFields,
-            characterExpGainFields: characterExpGainFields,
-            villageExpGainFields: villageExpGainFields,
+            experiencePointsFields: EXPERIENCE_POINTS_FIELDS,
+            characterExpGainFields: CHARACTER_EXP_GAIN_FIELDS,
+            villageExpGainFields: VILLAGE_EXP_GAIN_FIELDS,
         }
     },
     computed: {
