@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div v-if="userProfile" class="profile-grid">
+        <Loading v-if="loading" />
+        <div v-else class="profile-grid">
             <div class="right-column">
                 <h2>{{userProfile.username}}</h2>
                 <b-icon-envelope v-if="notLoggedUser" class="icon small" @click="sendMessage" />
@@ -43,15 +44,21 @@ import {mapGetters} from 'vuex';
 import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
 import RewardSummary from '../components/summary/RewardSummary.vue';
 import SendMessage from '../components/modals/SendMessage.vue';
+import Loading from '../components/Loading.vue';
 
 export default {
-    components: {RewardSummary, AchievementsSummary, SendMessage},
+    components: {RewardSummary, AchievementsSummary, SendMessage, Loading},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();
     },
+    data() {
+        return {
+            loading: true,
+        }
+    },
     mounted() {
-        this.$store.dispatch('user/getUserProfile', this.$route.params.id);
+        this.$store.dispatch('user/getUserProfile', this.$route.params.id).then(() => this.loading = false);
     },
     computed: {
         ...mapGetters({
