@@ -21,10 +21,11 @@ export default {
             axios.get('/isadmin');
         },
         getAdminDashboard: ({commit}) => {
-            axios.get('/admin/dashboard').then(response => {
+            return axios.get('/admin/dashboard').then(response => {
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 commit('achievement/setAchievementTriggers', response.data.achievementTriggers, {root:true});
                 commit('bugReport/setBugReports', response.data.bugReports, {root:true});
+                return Promise.resolve();
             });
         },
         sendNotification: ({dispatch}, notification) => {
