@@ -31,13 +31,17 @@
                                     <b-icon-three-dots-vertical class="icon" />
                                 </template>
                                 <b-dropdown-item :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
-                                    Go to profile
+                                    {{ $t('go-to-profile') }}
                                 </b-dropdown-item>
-                                <b-dropdown-item @click="addFriend(activeConversation.recipient)">Add friend</b-dropdown-item>
-                                <b-dropdown-item @click="blockUser(activeConversation.recipient)">Block</b-dropdown-item>
-                                <!-- <b-dropdown-item @click="reportUser(activeConversation.recipient)">
-                                    Report
-                                </b-dropdown-item> -->
+                                <b-dropdown-item @click="addFriend(activeConversation.recipient)">
+                                    {{ $t('add-friend') }}
+                                </b-dropdown-item>
+                                <b-dropdown-item @click="blockUser(activeConversation.recipient)">
+                                    {{ $t('block-user') }}
+                                </b-dropdown-item>
+                                <b-dropdown-item @click="reportUser(activeConversation)">
+                                    {{ $t('report') }}
+                                </b-dropdown-item>
                             </b-dropdown>
                         </span>
                     </h5>
@@ -49,7 +53,7 @@
                                     v-model="message.message"
                                     name="message" 
                                     rows=3
-                                    placeholder="Type your reply" />
+                                    :placeholder="$t('type-your-reply')" />
                                 <base-form-error name="message" /> 
                             </b-form-group>
                             <b-button type="submit" block>{{ $t('send-reply') }}</b-button>
@@ -62,6 +66,10 @@
                 </b-col>
             </b-row>
         </b-container>
+        
+        <b-modal id="report-user" hide-footer hide-header>
+            <ReportUser :user="userToReport" :conversation_id="conversationToReport" @close="closeReportUserModal" />
+        </b-modal>
     </div>
 </template>
 
@@ -69,11 +77,13 @@
 import BaseFormError from '../components/BaseFormError.vue';
 import {mapGetters} from 'vuex';
 import Message from '../components/small/Message.vue';
+import ReportUser from '../components/modals/ReportUser.vue';
 
 export default {
     components: {
         BaseFormError,
         Message,
+        ReportUser,
     },
     data() {
         return {
@@ -81,6 +91,8 @@ export default {
             message: {
                 message: '',
             },
+            userToReport: {},
+            conversationToReport: '',
         }
     },
     mounted() {
@@ -147,13 +159,22 @@ export default {
             this.$store.dispatch('friend/sendRequest', user.id);
         },
         blockUser(user) {
-            this.$store.dispatch('message/blockUser', user.id).then(() => {
-                this.resetConversation();
-            });
+            if (confirm(this.$t('block-user-confirmation', {user: user.username}))) {
+                this.$store.dispatch('user/blockUser', user.id).then(() => {
+                    this.resetConversation();
+                });
+            }
         },
-        // reportUser(user) {
-
-        // },
+        reportUser(conversation) {
+            this.userToReport = conversation.recipient;
+            this.conversationToReport = conversation.conversation_id;
+            this.$bvModal.show('report-user');
+        },
+        closeReportUserModal() {
+            this.$bvModal.hide('report-user');
+            this.userToReport = {};
+            this.conversationToReport = '';
+        },
     },
 }
 </script>

@@ -152,11 +152,10 @@ class UserController extends Controller
     }
 
     public function reportUser(StoreReportedUserRequest $request, User $user) {
-        $request['reported_user_id'] = $user->id;
-        $request['reported_by_user_id'] = Auth::user()->id;
         $validated = $request->validated();
+        $validated['reported_user_id'] = $user->id;
+        $validated['reported_by_user_id'] = Auth::user()->id;
         DB::table('reported_users')->insert($validated);
         return new JsonResponse(['message' => ['success' => ['User reported']]]);
-        //TODO block user
     }
 }

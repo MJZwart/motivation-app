@@ -1,0 +1,70 @@
+<template>
+    <div>
+        <h4>{{ reportTitle }}</h4>
+        <b-form @submit.prevent="reportUser">
+            <b-form-group
+                :label="$t('report-reason')" 
+                label-for="reason">
+                <b-form-select
+                    id="reason"
+                    v-model="report.reason"
+                    name="reason"
+                    :options="reportReasons" />
+                <base-form-error name="reason" /> 
+            </b-form-group>
+            <b-form-group
+                :label="$t('report-comment')" 
+                label-for="comment">
+                <b-form-textarea 
+                    id="comment" 
+                    v-model="report.comment"
+                    name="comment" 
+                    :placeholder="$t('comment')"  />
+                <base-form-error name="comment" /> 
+            </b-form-group>
+            <b-button type="submit" block>{{ $t('report-user') }}</b-button>
+            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+        </b-form>
+    </div>
+</template>
+
+<script>
+import BaseFormError from '../BaseFormError.vue';
+import {REPORT_REASONS} from '../../constants/reportUserConstants';
+export default {
+    data() {
+        return {
+            reportReasons: REPORT_REASONS,
+            report: {reason: null, comment: null},
+        }
+    },
+    props: {
+        user: {
+            type: Object,
+            required: true,
+        },
+        conversation_id: {
+            type: String,
+            required: false,
+        },
+    },
+    components: {BaseFormError},
+    methods: {
+        reportUser() {
+            if (this.conversation_id) this.report.conversation_id = this.conversation_id;
+            this.$store.dispatch('user/reportUser', [this.user, this.report]).then(() => {
+                this.close();
+            });
+        },
+        close() {
+            this.$emit('close');
+        },
+    },
+    computed: {
+        reportTitle() {
+            return this.$t('report-user-name', {user: this.user.username});
+        },
+    },
+    
+}
+</script>

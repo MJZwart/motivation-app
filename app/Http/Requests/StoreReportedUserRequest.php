@@ -25,11 +25,16 @@ class StoreReportedUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'reported_user_id' => 'required|integer|exists:users,id',
-            'reported_by_user_id' => 'required|integer|exists:users,id',
-            'comment' => 'required_without:conversation_id|string',
+            'comment' => 'required_without:conversation_id|string|nullable',
             'reason' => 'required|string',
             'conversation_id' => 'required_without:comment|string',
+        ];
+    }
+
+    public function messages(){
+        return [
+            'comment.required_without' => 'Please explain why you are reporting this user.',
+            'reason.required' => 'Please select a reason.',
         ];
     }
 }

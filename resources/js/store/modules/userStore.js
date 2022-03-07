@@ -134,9 +134,18 @@ export default {
             });
         },
 
-        reportUser: ({dispatch}, user) => {
-            axios.post('/user/' + user.id + '/report').then(response => {
+        reportUser: ({dispatch}, [user, report]) => {
+            return axios.post('/user/' + user.id + '/report', report).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
+            });
+        },
+
+        blockUser: ({dispatch, commit}, userId) => {
+            return axios.put('/user/' + userId + '/block').then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('message/setConversations', response.data.data, {root:true});
+                return Promise.resolve();
             });
         },
     },
