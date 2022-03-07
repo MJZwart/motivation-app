@@ -11,6 +11,9 @@
             <b-tab title="Send notification">
                 <send-notifications />
             </b-tab>
+            <b-tab active title="Balancing">
+                <balancing />
+            </b-tab>
         </b-tabs>
     </div>
 </template>
@@ -20,11 +23,12 @@
 import Achievements from '../components/tabs/admin/Achievements.vue';
 import BugReportPanel from '../components/tabs/admin/BugReportPanel.vue';
 import SendNotifications from '../components/tabs/admin/SendNotifications.vue';
+import Balancing from '../components/tabs/admin/Balancing.vue';
 import Loading from '../components/Loading.vue';
 
 export default {
     components: {
-        Achievements, BugReportPanel, SendNotifications, Loading,
+        Achievements, BugReportPanel, SendNotifications, Balancing, Loading,
     },
     mounted() {
         this.$store.dispatch('admin/getAdminDashboard').then(() => this.loading = false);
