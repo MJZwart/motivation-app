@@ -1,44 +1,42 @@
 <template>
-    <div v-if="!loading">
-        <b-tabs>
-            <b-tab :title="$t('exp-points')">
-                <general-form-error />
-                <div class="d-flex">
-                    <b-button class="ml-auto m-2" @click="updateExpPoints">{{ $t('update-exp-points') }}</b-button>
-                </div>
-                <b-editable-table 
-                    v-model="experiencePoints" 
-                    :fields="experiencePointsFields" 
-                    class="balancing-table"
-                    hover foot-clone
-                    @input-change="handleInput" />
-            </b-tab>
-            <b-tab :title="$t('char-exp-gain')">
-                <general-form-error />
-                <div class="d-flex">
-                    <b-button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</b-button>
-                </div>
-                <b-editable-table
-                    v-model="characterExpGain"
-                    :fields="characterExpGainFields"
-                    class="balancing-table"
-                    small
-                    @input-change="handleInput" />
-            </b-tab>
-            <b-tab :title="$t('vill-exp-gain')">  
-                <general-form-error />              
-                <div class="d-flex">
-                    <b-button class="ml-auto m-2" @click="updateVillageExpGain">{{ $t('update-vill-exp-gain') }}</b-button>
-                </div>
-                <b-editable-table
-                    v-model="villageExpGain"
-                    :fields="villageExpGainFields"
-                    class="balancing-table"
-                    small
-                    @input-change="handleInput" />
-            </b-tab>
-        </b-tabs>
-    </div>    
+    <b-tabs>
+        <b-tab :title="$t('exp-points')">
+            <general-form-error />
+            <div class="d-flex">
+                <b-button class="ml-auto m-2" @click="updateExpPoints">{{ $t('update-exp-points') }}</b-button>
+            </div>
+            <b-editable-table 
+                v-model="experiencePoints" 
+                :fields="experiencePointsFields" 
+                class="balancing-table"
+                hover foot-clone
+                @input-change="handleInput" />
+        </b-tab>
+        <b-tab :title="$t('char-exp-gain')">
+            <general-form-error />
+            <div class="d-flex">
+                <b-button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</b-button>
+            </div>
+            <b-editable-table
+                v-model="characterExpGain"
+                :fields="characterExpGainFields"
+                class="balancing-table"
+                small
+                @input-change="handleInput" />
+        </b-tab>
+        <b-tab :title="$t('vill-exp-gain')">  
+            <general-form-error />              
+            <div class="d-flex">
+                <b-button class="ml-auto m-2" @click="updateVillageExpGain">{{ $t('update-vill-exp-gain') }}</b-button>
+            </div>
+            <b-editable-table
+                v-model="villageExpGain"
+                :fields="villageExpGainFields"
+                class="balancing-table"
+                small
+                @input-change="handleInput" />
+        </b-tab>
+    </b-tabs>
 </template>
 
 <script>
@@ -59,7 +57,6 @@ export default {
             this.experiencePoints = Vue.util.extend([], this.experience_points);
             this.characterExpGain = Vue.util.extend([], this.character_exp_gain);
             this.villageExpGain = Vue.util.extend([], this.village_exp_gain);
-            this.loading = false;
         }
     },
     data() {
@@ -67,7 +64,6 @@ export default {
             experiencePoints: null,
             characterExpGain: null,
             villageExpGain: null,
-            loading: true,
             experiencePointsFields: EXPERIENCE_POINTS_FIELDS,
             characterExpGainFields: CHARACTER_EXP_GAIN_FIELDS,
             villageExpGainFields: VILLAGE_EXP_GAIN_FIELDS,
