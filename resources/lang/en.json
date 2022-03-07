@@ -93,6 +93,7 @@
 
     "incoming-friend-requests": "Incoming friend requests",
     "outgoing-friend-requests": "Outgoing friend requests",
+    "add-friend": "Add friend",
     "notifications": "Notifications",
 
     "member-since": "Member since",
@@ -157,6 +158,16 @@
     "sort-by": "Sort by",
     "reverse-order": "Click again to reverse order",
 
+    "report-user-name": "Report {user}",
+    "report-user": "Report user",
+    "report-reason": "Reason",
+    "report-comment": "Comment",
+    "report": "Report",
+
+    "block-user-confirmation": "Are you sure you wish to block {user}?",
+
+    "message-user": "Send message to this user",
+    "block-user": "Block user",
     "update-exp-points": "Update experience points",
     "update-char-exp-gain": "Update character experience gain",
     "update-vill-exp-gain": "Update village experience gain",
@@ -182,6 +193,7 @@
     "achievements": "Achievements",
     "admin": "Admin",
     "profile": "Profile",
+    "go-to-profile": "Go to profile",
     "logout": "Logout",
 
     "footer-text": "Version 1.0 - MJ Black © 2021.",
@@ -194,6 +206,7 @@
     "last-message": "Last message",
     "send-message": "Send message",
     "send-reply": "Send reply",
+    "type-your-reply": "Type your reply",
     "unread": "Unread",
     "you": "You",
     "confirmation-delete-message": "Are you sure you want to delete this message?",

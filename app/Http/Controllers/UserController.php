@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\CharacterResource;
-use App\Http\Resources\VillageResource;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\UserResource;
@@ -15,12 +13,12 @@ use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
-use App\Helpers\CharacterHandler;
+use App\Http\Requests\StoreReportedUserRequest;
 use App\Helpers\RewardObjectHandler;
-use App\Helpers\VillageHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -151,5 +149,13 @@ class UserController extends Controller
         $hasMessages = Message::where('recipient_id', Auth::user()->id)->where('read', false)->count() > 0;
         $hasNotifications = Notification::where('user_id', Auth::user()->id)->where('read', false)->count() > 0;
         return new JsonResponse(['hasNotifications' => $hasNotifications, 'hasMessages' => $hasMessages]);
+    }
+
+    public function reportUser(StoreReportedUserRequest $request, User $user) {
+        $validated = $request->validated();
+        $validated['reported_user_id'] = $user->id;
+        $validated['reported_by_user_id'] = Auth::user()->id;
+        DB::table('reported_users')->insert($validated);
+        return new JsonResponse(['message' => ['success' => ['User reported']]]);
     }
 }

@@ -53,13 +53,5 @@ export default {
             axios.put('/conversation/' + conversationId + '/read');
         },
 
-        blockUser: ({dispatch, commit}, userId) => {
-            return axios.put('/user/' + userId + '/block').then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
-                commit('setConversations', response.data.data);
-                return Promise.resolve();
-            });
-        },
-
     },
 }
