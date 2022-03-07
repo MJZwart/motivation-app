@@ -1,46 +1,49 @@
 <template>
     <div>
-        <div class="home-grid">
-            <div class="task-lists">
-                <template v-for="(list, index) in taskLists">
-                    <task-list 
-                        :key="index" 
-                        :taskList="list" 
-                        class="task-list"
-                        v-on:newTask="showNewTask"
-                        v-on:editTask="showEditTask"
-                        v-on:editTaskList="showEditTaskList"
-                        v-on:deleteTaskList="showDeleteTaskList" />
-                </template>
-                <div class="task-list">
-                    <b-button type="button" block @click="showNewTaskList">{{ $t('create-new-task-list') }}</b-button>
+        <Loading v-if="loading" />
+        <div v-else>
+            <div class="home-grid">
+                <div class="task-lists">
+                    <template v-for="(list, index) in taskLists">
+                        <task-list 
+                            :key="index" 
+                            :taskList="list" 
+                            class="task-list"
+                            v-on:newTask="showNewTask"
+                            v-on:editTask="showEditTask"
+                            v-on:editTaskList="showEditTaskList"
+                            v-on:deleteTaskList="showDeleteTaskList" />
+                    </template>
+                    <div class="task-list">
+                        <b-button type="button" block @click="showNewTaskList">{{ $t('create-new-task-list') }}</b-button>
+                    </div>
+                </div>
+
+                <div class="right-align">
+                    <reward-summary v-if="rewardObj" class="summary-tab" 
+                                    :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
+
+                    <friends-summary class="summary-tab" />
                 </div>
             </div>
 
-            <div class="right-align">
-                <reward-summary v-if="rewardObj" class="summary-tab" 
-                                :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
-
-                <friends-summary class="summary-tab" />
-            </div>
+            <b-modal id="new-task" hide-footer :title="$t('new-task')">
+                <new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
+            </b-modal>
+            <b-modal id="edit-task" hide-footer :title="$t('edit-task')">
+                <edit-task :task="taskToEdit"  @close="closeEditTask"/>
+            </b-modal>
+            <b-modal id="new-task-list" hide-footer :title="$t('new-task-list')">
+                <new-task-list @close="closeNewTaskList" />
+            </b-modal>
+            <b-modal id="edit-task-list" hide-footer :title="$t('edit-task-list')">
+                <edit-task-list :taskList="taskListToEdit" @close="closeEditTaskList" />
+            </b-modal>
+            <b-modal id="delete-task-list-confirm" hide-footer :title="$t('delete-task-list-confirm')">
+                <delete-task-list-confirm :taskList="taskListToDelete" @close="closeDeleteTaskList" />
+            </b-modal>
+        
         </div>
-
-        <b-modal id="new-task" hide-footer :title="$t('new-task')">
-            <new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
-        </b-modal>
-        <b-modal id="edit-task" hide-footer :title="$t('edit-task')">
-            <edit-task :task="taskToEdit"  @close="closeEditTask"/>
-        </b-modal>
-        <b-modal id="new-task-list" hide-footer :title="$t('new-task-list')">
-            <new-task-list @close="closeNewTaskList" />
-        </b-modal>
-        <b-modal id="edit-task-list" hide-footer :title="$t('edit-task-list')">
-            <edit-task-list :taskList="taskListToEdit" @close="closeEditTaskList" />
-        </b-modal>
-        <b-modal id="delete-task-list-confirm" hide-footer :title="$t('delete-task-list-confirm')">
-            <delete-task-list-confirm :taskList="taskListToDelete" @close="closeDeleteTaskList" />
-        </b-modal>
-    
     </div>
 </template>
 
@@ -55,6 +58,7 @@ import EditTaskList from '../components/modals/EditTaskList.vue';
 import DeleteTaskListConfirm from '../components/modals/DeleteTaskListConfirm.vue';
 import RewardSummary from '../components/summary/RewardSummary.vue';
 import FriendsSummary from '../components/summary/FriendsSummary.vue';
+import Loading from '../components/Loading.vue';
 export default {
     components: { 
         TaskList, 
@@ -64,7 +68,8 @@ export default {
         EditTaskList, 
         DeleteTaskListConfirm, 
         RewardSummary,
-        FriendsSummary},
+        FriendsSummary,
+        Loading},
     data() {
         return {
             /** @type {import('../../types/task').Task | null} */
@@ -77,11 +82,12 @@ export default {
             taskListToEdit: null,
             /** @type {import('../../types/task').TaskList | null} */
             taskListToDelete: null,
+            loading: true,
         }
     },
     mounted() {
         //Fetches all dashboard data and stores it in the store
-        this.$store.dispatch('getDashboard');
+        this.$store.dispatch('getDashboard').then(() => this.loading = false);
     },
     methods: {
         /** Shows and hides the modal to create a new task. 

@@ -168,6 +168,13 @@
 
     "message-user": "Send message to this user",
     "block-user": "Block user",
+    "update-exp-points": "Update experience points",
+    "update-char-exp-gain": "Update character experience gain",
+    "update-vill-exp-gain": "Update village experience gain",
+    
+    "exp-points": "Experience points",
+    "char-exp-gain": "Character XP gain",
+    "vill-exp-gain": "Village XP gain",
 
 
     "next": "Next",

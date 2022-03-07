@@ -88,16 +88,18 @@ export default {
 
         //Public user profile
         getUserProfile: ({commit}, userId) => {
-            axios.get('/profile/' + userId).then(response => {
+            return axios.get('/profile/' + userId).then(response => {
                 commit('setUserProfile', response.data.data);
+                return Promise.resolve();
             });
         },
 
         getOverview: ({commit}) => {
-            axios.get('/overview').then(response => {
+            return axios.get('/overview').then(response => {
                 commit('setUserStats', response.data.stats);
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 commit('reward/setRewardObj', response.data.rewardObj, {root:true});
+                return Promise.resolve();
             });
         },
 
