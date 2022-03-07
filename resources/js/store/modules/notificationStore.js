@@ -27,8 +27,9 @@ export default {
     },
     actions: {
         getNotifications: ({commit}) => {
-            axios.get('/notifications').then(function(response) {
+            return axios.get('/notifications').then(function(response) {
                 commit('setNotifications', response.data.data);
+                return Promise.resolve();
             });
         },
         deleteNotification: ({commit, dispatch}, notificationId) => {

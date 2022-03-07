@@ -1,6 +1,7 @@
 <template>
-    <div v-if="!loading">
-        <b-tabs card pills vertical>
+    <div>
+        <Loading v-if="loading" />
+        <b-tabs v-else card pills vertical>
             <b-tab title="Achievements">
                 <achievements />
             </b-tab>
@@ -23,15 +24,14 @@ import Achievements from '../components/tabs/admin/Achievements.vue';
 import BugReportPanel from '../components/tabs/admin/BugReportPanel.vue';
 import SendNotifications from '../components/tabs/admin/SendNotifications.vue';
 import Balancing from '../components/tabs/admin/Balancing.vue';
+import Loading from '../components/Loading.vue';
 
 export default {
     components: {
-        Achievements, BugReportPanel, SendNotifications, Balancing,
+        Achievements, BugReportPanel, SendNotifications, Balancing, Loading,
     },
     mounted() {
-        this.$store.dispatch('admin/getAdminDashboard').then(() => {
-            this.loading = false
-        });
+        this.$store.dispatch('admin/getAdminDashboard').then(() => this.loading = false);
     },
     data() {
         return {
