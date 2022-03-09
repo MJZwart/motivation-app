@@ -3,7 +3,7 @@
         <p class="group-title" @click="toggleInfo">{{group.name}}</p>
         <template v-if="showInfo">
             <p class="group-description">{{group.description}}</p>
-            <p class="are-you-admin">Are you an admin: {{areYouAdmin}}</p>
+            <p class="are-you-admin">{{$t('your-rank')}}: {{yourRank}}</p>
             <p class="members">Members: </p>
             <div v-for="member in group.members" :key="member.id" class="member">
                 <p class="member">{{member.username}} {{member.rank}}</p>
@@ -21,12 +21,21 @@ export default {
             type: Object,
             required: true,
         },
+        user: {
+            type: Object,
+            required: true,
+        },
     },
-    mounted() {
+    computed: {
+        yourRank() {
+            let rank = '';
+            this.group.members.forEach(member => {
+                if (member.id == this.user.id) rank = member.rank});
+            return rank;
+        },
     },
     data () {
         return {
-            areYouAdmin: false,
             showInfo: false,
         }
     },

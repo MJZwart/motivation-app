@@ -10,6 +10,7 @@
                     <my-group
                         :key="group.id"
                         :group="group"
+                        :user="user"
                         class="group"
                         @reloadGroups="reloadGroups"/>
                 </template>
