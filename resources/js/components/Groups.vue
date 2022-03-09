@@ -33,7 +33,7 @@
             </div>
         </template>
 
-        <b-modal id="show-all-group" hide-footer :title="'test title'">
+        <b-modal id="show-all-group" hide-footer :title="$t('group-information')">
             <show-all-group :group="groupToShow" @close="closeShowAllGroup" @reloadGroups="reloadGroups"/>
         </b-modal>
         <b-modal id="create-group" hide-footer :title="$t('create-group')">

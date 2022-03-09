@@ -22,7 +22,7 @@
                     :placeholder="$t('description')" />
             </b-form-group>
             <b-form-group
-                :label="$t('public-checkbox')"
+                :label="$t('group-public-checkbox')"
                 label-for="public-checkbox"
                 :description="$t('group-public-checkbox-desc')">
                 <b-form-checkbox

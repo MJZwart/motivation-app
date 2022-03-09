@@ -157,8 +157,18 @@
     "sort-by": "Sort by",
     "reverse-order": "Click again to reverse order",
 
-    
-
+    "social": "Social",
+    "create-group": "Create Group",
+    "your-rank": "your rank",
+    "group-public-checkbox": "Is this group public?",
+    "group-public-checkbox-desc": "If you check this box, other people can find, see, and join this group.",
+    "group-desc": "Description",
+    "group-description-desc": "How would you describe this group?",
+    "group-name-desc": "How do you want to call this group?",
+    "group-search-placeholder": "search for group names",
+    "group-information": "Group Information",
+    "join-group-button": "Join",
+    "close-group-button": "Close",
 
     "next": "Next",
     "go-back": "Go back",

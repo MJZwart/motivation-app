@@ -7,8 +7,8 @@
             <div v-for="member in group.members" :key="member.id" class="member">
                 <p class="member">{{member.username}} {{member.rank}}</p>
             </div>
-            <b-button type="button" @click="close">close</b-button>
-            <b-button type="button" @click="joinGroup">join</b-button>
+            <b-button type="button" @click="close">{{$t('close-group-button')}}</b-button>
+            <b-button type="button" @click="joinGroup">{{$t('join-group-button')}}</b-button>
         </div>
     </div>
 </template>
@@ -37,7 +37,6 @@ export default {
             });
         },
         close() {
-            this.group = {};
             this.$emit('close');
         }
     }
