@@ -83,7 +83,7 @@ class User extends Authenticatable
 
     public function groups(){
         return $this->belongsToMany('App\Models\Group')
-            ->withPivot(['is_admin'])
+            ->withPivot(['rank'])
             ->withPivot(['joined']);
     }
 

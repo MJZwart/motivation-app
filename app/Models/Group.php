@@ -18,11 +18,15 @@ class Group extends Model
 
     public function users() {
         return $this->belongsToMany('App\Models\User')
-            ->withPivot(['is_admin'])
+            ->withPivot(['rank'])
             ->withPivot(['joined']);
     }
 
     public function isAdmin(User $user):bool {
-        return $this->users->find($user->id)->pivot->is_admin;
+        return $this->users->find($user->id)->pivot->rank == 'admin';
+    }
+
+    public function rankOfMember(User $user):string {
+        return $this->users->find($user->id)->pivot->rank;
     }
 }

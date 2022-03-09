@@ -6,7 +6,7 @@
             <p class="are-you-admin">Are you an admin: {{areYouAdmin}}</p>
             <p class="members">Members: </p>
             <div v-for="member in group.members" :key="member.id" class="member">
-                <p class="member">{{member.username}} <template v-if="member.is_admin">admin</template></p>
+                <p class="member">{{member.username}} {{member.rank}}</p>
             </div>
             <b-button type="button" @click="leaveGroup">leave</b-button>
             <b-button type="button" @click="deleteGroup">delete</b-button>

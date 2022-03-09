@@ -18,7 +18,7 @@ class CreateGroupUserTable extends Migration
             $table->timestamp('joined')->useCurrent();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('group_id')->constrained();
-            $table->boolean('is_admin')->default(false);
+            $table->string('rank')->default('member');
         });
     }
 
