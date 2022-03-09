@@ -24,15 +24,17 @@
             </div>
             <div class="group-list">
                 <template v-for="group in filteredAllGroups">
-                    <all-group
-                        :key="group.id"
-                        :group="group"
-                        class="group"
-                        @reloadGroups="reloadGroups"/>
+                    <div :key="group.name" @click="showAllGroup(group)">
+                        <p :key="group.name">{{group.name}}</p>
+                        <p :key="group.description">{{group.description}}</p>
+                    </div>
                 </template>
             </div>
         </template>
 
+        <b-modal id="show-all-group" hide-footer :title="'test title'">
+            <show-all-group :group="groupToShow" @close="closeShowAllGroup" @reloadGroups="reloadGroups"/>
+        </b-modal>
         <b-modal id="create-group" hide-footer :title="$t('create-group')">
             <create-group @close="closeCreateGroup" @reloadGroups="reloadGroups"/>
         </b-modal>
@@ -41,18 +43,20 @@
 
 <script>
 import MyGroup from './small/MyGroup.vue'
-import AllGroup from './small/AllGroup.vue'
+import ShowAllGroup from './modals/ShowAllGroup.vue'
 import CreateGroup from './modals/CreateGroup.vue'
 import {mapGetters} from 'vuex';
 export default{
-    components: {MyGroup, AllGroup, CreateGroup},
+    components: {MyGroup, ShowAllGroup, CreateGroup},
     computed: {
         ...mapGetters({
             myGroups: 'groups/getMyGroups',
             allGroups: 'groups/getAllGroups',
+            user: 'user/getUser',
         }),
         filteredAllGroups() {
-            return this.allGroups.filter(group => group.name.toLowerCase().includes(this.search.toLowerCase()));
+            return this.allGroups.filter(group =>
+                group.name.toLowerCase().includes(this.search.toLowerCase()));
         },
     },
     mounted() {
@@ -63,6 +67,7 @@ export default{
         return {
             activeTab: 'MY_GROUPS',
             search: '',
+            groupToShow: null,
         }
     },
     methods: {
@@ -81,6 +86,14 @@ export default{
         },
         reloadMyGroups() {
             this.$store.dispatch('groups/fetchMyGroups');
+        },
+        showAllGroup(group) {
+            this.$store.dispatch('clearErrors');
+            this.groupToShow = group;
+            this.$bvModal.show('show-all-group');
+        },
+        closeShowAllGroup() {
+            this.$bvModal.hide('show-all-group');
         },
         createGroup() {
             this.$store.dispatch('clearErrors');

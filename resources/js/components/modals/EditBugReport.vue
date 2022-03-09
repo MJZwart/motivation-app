@@ -58,14 +58,12 @@
 
 
 <script>
-import BaseFormError from '../BaseFormError.vue'
+import BaseFormError from '../BaseFormError.vue';
 import Vue from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '../../constants/bugConstants';
 
 export default {
-    components: {
-        BaseFormError,
-    },
+    components: {BaseFormError},
     props: {
         bugReport: {
             type: Object,
