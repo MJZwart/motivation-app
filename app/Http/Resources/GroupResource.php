@@ -20,7 +20,7 @@ class GroupResource extends JsonResource
             'time_updated' => $this->updated_at->toDateTimeString(),
             'name' => $this->name,
             'description' => $this->description,
-            'is_public' => $this->is_public,
+            'is_public' => (boolean) $this->is_public,
             'members' => $this->members,
         ];
     }

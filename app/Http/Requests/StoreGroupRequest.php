@@ -33,8 +33,8 @@ class StoreGroupRequest extends FormRequest
 
     public function messages() {
         return [
-            'title.required' => 'You have not entered a title.',
-            'title.*' => 'You have not entered a valid title',
+            'name.required' => 'You have not entered a title.',
+            'name.*' => 'You have not entered a valid title',
             'description.required' => 'You have not entered a description.',
             'description.*' => 'You have not entered a valid description.',
             'is_public.*' => 'You have not selected the publicity of your group.',

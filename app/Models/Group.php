@@ -22,11 +22,11 @@ class Group extends Model
             ->withPivot(['joined']);
     }
 
-    public function isAdmin(User $user):bool {
-        return $this->users->find($user->id)->pivot->rank == 'admin';
+    public function isAdminById(int $id):bool {
+        return $this->users()->find($id)->pivot->rank == 'admin';
     }
 
-    public function rankOfMember(User $user):string {
-        return $this->users->find($user->id)->pivot->rank;
+    public function rankOfMemberById(int $id):string {
+        return $this->users->find($id)->pivot->rank;
     }
 }
