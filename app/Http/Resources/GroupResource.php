@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\GroupUserResource;
 
 class GroupResource extends JsonResource
 {
@@ -21,7 +22,7 @@ class GroupResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'is_public' => (boolean) $this->is_public,
-            'members' => $this->members,
+            'members' => GroupUserResource::collection($this->users),
         ];
     }
 }

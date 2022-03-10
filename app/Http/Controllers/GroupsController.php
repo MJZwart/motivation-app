@@ -19,26 +19,10 @@ use Illuminate\Http\Response;
 class GroupsController extends Controller
 {
     public function show($argument){
-        if ($argument == 'all') {
-            $allGroups = Group::where('is_public', true)->get();
-            foreach ($allGroups as $group){
-                $group->members = $group->users->map->only('id', 'username', 'rank')->map(function ($member) use ($group) {
-                    $member['rank'] = $group->rankOfMemberById($member['id']);
-                    return $member;
-                });
-            }
-            return GroupResource::collection($allGroups);
-        }
-        if ($argument == 'my') {
-            $myGroups = Auth::user()->groups;
-            foreach ($myGroups as $group){
-                $group->members = $group->users->map->only('id', 'username', 'rank')->map(function ($member) use ($group) {
-                    $member['rank'] = $group->rankOfMemberById($member['id']);
-                    return $member;
-                });
-            }
-            return GroupResource::collection($myGroups);
-        }
+        if ($argument == 'all')
+            return GroupResource::collection(Group::where('is_public', true)->get());
+        if ($argument == 'my')
+            return GroupResource::collection(Auth::user()->groups);
         return new JsonResponse(['message' => ['error' => ["Only 'all' and 'my' are permitted."]]], Response::HTTP_FORBIDDEN);
     }
 
@@ -63,7 +47,6 @@ class GroupsController extends Controller
     public function join(Group $group): JsonResponse{
         $user = Auth::user();
         $users = $group->users();
-        //dd($user->id, $group->id, $group->users, $users->find($user) == $user);
         if ($users->find($user)) 
             return new JsonResponse(['message' => ['error' => ["You are already a member of this group."]]], Response::HTTP_BAD_REQUEST);
         $users->attach($user);
