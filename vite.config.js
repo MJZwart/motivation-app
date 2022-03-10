@@ -1,5 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import {createVuePlugin} from 'vite-plugin-vue2';
+import ViteRequireContext from '@originjs/vite-plugin-require-context'
 
 import {defineConfig} from 'vite';
 
@@ -14,6 +15,7 @@ export default defineConfig(({command}) => {
 
     const plugins = [
         createVuePlugin(),
+        ViteRequireContext(),
     ];
 
     return {
@@ -44,6 +46,11 @@ export default defineConfig(({command}) => {
                 'vue',
                 'portal-vue',
                 'axios',
+                'bootstrap-vue',
+                'vue-i18n',
+                'vuex',
+                'vue-router',
+                'bootstrap-vue-editable-table',
             ],
         },
 

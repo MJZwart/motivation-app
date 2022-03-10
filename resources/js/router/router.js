@@ -2,74 +2,90 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/store';
 
+import Home from '../pages/Home.vue';
+import Dashboard from '../pages/Dashboard.vue';
+import Login from '../pages/Login.vue';
+import Register from '../pages/Register.vue';
+import Overview from '../pages/Overview.vue';
+import Notifications from '../pages/Notifications.vue';
+import Settings from '../pages/Settings.vue';
+import Profile from '../pages/Profile.vue';
+import Friends from '../pages/Friends.vue';
+import AdminDashboard from '../pages/AdminDashboard.vue';
+import SearchResults from '../pages/SearchResults.vue';
+import Welcome from '../pages/Welcome.vue';
+import BugReport from '../pages/BugReport.vue';
+import Messages from '../pages/Messages.vue';
+import Test from '../pages/Test.vue';
+
 Vue.use(VueRouter);
 
 let routes = [
     {
         path: '/',
-        component: require('../pages/Home.vue').default,
+        component: Home,
     },
     {
         path: '/dashboard',
-        component: require('../pages/Dashboard.vue').default,
+        component: Dashboard,
         meta: {requiresAuth: true},
     },
     {
         path: '/login',
-        component: require('../pages/Login.vue').default,
+        component: Login,
     },
     {
         path: '/register',
-        component: require('../pages/Register.vue').default,
+        component: Register,
     },
     {
         path: '/overview',
-        component: require('../pages/Overview.vue').default,
+        component: Overview,
         meta: {requiresAuth: true},
     },
     {
         path: '/notifications',
-        component: require('../pages/Notifications.vue').default,
+        component: Notifications,
         meta: {requiresAuth: true},
     },
     {
         path: '/settings',
-        component: require('../pages/Settings.vue').default,
+        component: Settings,
         meta: {requiresAuth: true},
     },
     {
         name: 'profile',
         path: '/profile/:id',
-        component: require('../pages/Profile.vue').default,
+        component: Profile,
     },
     {
         path: '/friends',
-        component: require('../pages/Friends.vue').default,
+        component: Friends,
         meta: {requiresAuth: true},
     },
     {
         path: '/admindashboard',
-        component: require('../pages/AdminDashboard.vue').default,
+        component: AdminDashboard,
         meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
         path: '/search',
-        component: require('../pages/SearchResults.vue').default,
+        component: SearchResults,
         meta: {requiresAuth: true},
     },
     {
         path: '/welcome',
-        component: require('../pages/Welcome.vue').default,
+        component: Welcome,
         meta: {requiresAuth: true},
     },
     {
         path: '/bugreport',
-        component: require('../pages/BugReport.vue').default,
+        component: BugReport,
         meta: {requiresAuth: true},
     },
     {
         path: '/messages',
-        component: require('../pages/Messages.vue').default,
+        component: Messages,
         meta: {requiresAuth: true},
     },
     // {

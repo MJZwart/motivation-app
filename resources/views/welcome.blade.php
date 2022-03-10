@@ -11,6 +11,6 @@
     <body>
         <div id="app"></div>
         <script type="module" src="http://localhost:3000/@vite/client"></script>
-        <script type="module" src="http://localhost:3000/resources/js/app.js"></script>
+        <script type="module" src="http://localhost:3000/js/app.js"></script>
     </body>
 </html>
