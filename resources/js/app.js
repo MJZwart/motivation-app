@@ -1,4 +1,4 @@
-require('./bootstrap');
+import './bootstrap';
 import Vue from 'vue';
 import './interceptors';
 import '../assets/scss/app.scss';
@@ -28,7 +28,6 @@ Vue.use(VueI18n);
 import i18n from './i18n';
 
 import toastService from './services/toastService';
-
 const app = new Vue({
     i18n,
     el: '#app',

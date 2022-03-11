@@ -108,7 +108,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import BaseFormError from '../components/BaseFormError';
+import BaseFormError from '../components/BaseFormError.vue';
 import {REWARD_TYPES} from '../constants/rewardConstants';
 import ChangeRewardType from '../components/modals/ChangeRewardType.vue';
 
