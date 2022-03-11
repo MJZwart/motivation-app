@@ -22,6 +22,7 @@ export default defineConfig(({command}) => {
         root: 'resources',
         base: production ? '/js/' : '',
         build: {
+            target: 'es2022',
             assetsInclude: [],
             manifest: true,
             outDir: 'public/js',
