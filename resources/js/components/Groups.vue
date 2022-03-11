@@ -4,7 +4,7 @@
             <b-button type="button" @click="showMyGroups">my groups</b-button>
             <b-button type="button" @click="showAllGroups">all groups</b-button>
         </span>
-        <template v-if="activeTab == 'MY_GROUPS'" class="groups">
+        <template v-if="activeTab == 'MY_GROUPS'">
             <div class="group-list">
                 <template v-for="group in myGroups">
                     <my-group
@@ -19,9 +19,9 @@
                 <b-button type="button" @click="createGroup">{{$t('create-group')}}</b-button>
             </div>
         </template>
-        <template v-if="activeTab == 'ALL_GROUPS'" class="groups">
+        <template v-if="activeTab == 'ALL_GROUPS'">
             <div class="search">
-                <input type="text" v-model="search" :placeholder="$t('group-search-placeholder')"/>
+                <input v-model="search" type="text" :placeholder="$t('group-search-placeholder')"/>
             </div>
             <div class="group-list">
                 <template v-for="group in filteredAllGroups">
@@ -47,7 +47,7 @@ import MyGroup from './small/MyGroup.vue'
 import ShowAllGroup from './modals/ShowAllGroup.vue'
 import CreateGroup from './modals/CreateGroup.vue'
 import {mapGetters} from 'vuex';
-export default{
+export default {
     components: {MyGroup, ShowAllGroup, CreateGroup},
     computed: {
         ...mapGetters({

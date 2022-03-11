@@ -106,12 +106,12 @@ export default {
             })
         },
         clearInputFields() {
-            this.bugReport.title="";
-            this.bugReport.page="";
-            this.bugReport.type="OTHER";
+            this.bugReport.title='';
+            this.bugReport.page='';
+            this.bugReport.type='OTHER';
             this.bugReport.severity=1;
-            this.bugReport.image_link="";
-            this.bugReport.comment="";
+            this.bugReport.image_link='';
+            this.bugReport.comment='';
         },
     },
     

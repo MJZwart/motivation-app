@@ -41,15 +41,14 @@ export default {
     data() {
         return {
             groupToCreate: {
-                name: "",
-                description: "",
+                name: '',
+                description: '',
                 is_public: false,
-            }
+            },
         }
     },
     methods: {
         createGroup() {
-            console.log(`group "${this.groupToCreate.name}" with desc: "${this.groupToCreate.description}" and publicity set to: ${this.groupToCreate.is_public} has totally been created`);
             this.$store.dispatch('groups/createGroup', this.groupToCreate).then(() => {
                 this.$emit('reloadGroups');
                 this.close();
@@ -58,7 +57,7 @@ export default {
         close() {
             this.groupToCreate = {};
             this.$emit('close');
-        }
+        },
     },
 }
 </script>
