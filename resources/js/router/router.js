@@ -16,7 +16,8 @@ import SearchResults from '../pages/SearchResults.vue';
 import Welcome from '../pages/Welcome.vue';
 import BugReport from '../pages/BugReport.vue';
 import Messages from '../pages/Messages.vue';
-import Test from '../pages/Test.vue';
+import Social from '../pages/Social.vue';
+// import Test from '../pages/Test.vue';
 
 Vue.use(VueRouter);
 
@@ -86,6 +87,11 @@ let routes = [
     {
         path: '/messages',
         component: Messages,
+        meta: {requiresAuth: true},
+    },
+    {  
+        path:'/social',
+        component: Social,
         meta: {requiresAuth: true},
     },
     // {

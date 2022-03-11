@@ -81,6 +81,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
+    public function groups(){
+        return $this->belongsToMany('App\Models\Group')
+            ->withPivot(['rank'])
+            ->withPivot(['joined']);
+    }
+    
     public function blockedUsers() {
         return $this->belongsToMany('App\Models\User', 'blocklist', 'user_id', 'blocked_user_id')->withPivot('id');;
     }

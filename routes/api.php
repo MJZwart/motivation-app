@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\AdminController;
 
 /*
@@ -87,6 +88,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/message', [MessageController::class, 'sendMessage']);
     Route::delete('/message/{message}', [MessageController::class, 'deleteMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
+
+    Route::post('/groups/join/{group}', [GroupsController::class, 'join']);
+    Route::post('/groups/leave/{group}', [GroupsController::class, 'leave']);
+    Route::resource('/groups', GroupsController::class)->only([
+        'store', 'destroy', 'show',
+    ]);
     Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
 
     Route::get('/unread', [UserController::class, 'hasUnread']);

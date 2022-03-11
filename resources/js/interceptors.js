@@ -41,13 +41,23 @@ axios.interceptors.response.use(
                 }
                 sendErrorToast('You are not logged in');
                 return Promise.reject(error);
-            // user tried to access unauthorized resource
+            /** 
+             * User tries to perform an action they are not authorized for, such as
+             * an admin action. Redirect to dashboard and reject. Most of the time the 
+             * router will already redirect them, this is backup.
+             */
             case 403:
                 if (router.currentRoute.name !== 'login') {
                     router.push('/dashboard');
                 }
                 sendErrorToast('You are not authorized for this action');
                 return Promise.reject(error);
+            /**
+             * In case of a 400 (Bad Request) the user tried to perform an invalid action 
+             * In case of a 422 (Unprocessable Entity) the user made a mistake, such as
+             * sending invalid data. This is mostly thrown by the validator
+             */
+            case 400:
             case 422:
                 sendErrorToast(error.response.data.message);
                 store.commit('setErrorMessages', error.response.data.errors);
