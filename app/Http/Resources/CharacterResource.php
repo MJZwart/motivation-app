@@ -42,6 +42,7 @@ class CharacterResource extends JsonResource
             'e_exp' => $this->charisma_exp,
             'rewardType' => 'CHARACTER',
             'experienceTable' => $this->experienceTable(),
+            'active' => !!$this->active,
         ];
     }
 }

@@ -101,34 +101,16 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         $activeReward = null;
-        if($user->rewards != 'NONE'){
-            $activeReward = $this->handleRewardSettings($user, 
-                                                           $request['keepOldInstance'], 
-                                                           $request['new_object_name'], 
-                                                           $request['rewards']);
-        }
+        $activeReward = RewardObjectHandler::changeRewardSettings(
+            $user, 
+            $request['keepOldInstance'], 
+            $request['new_object_name'], 
+            $request['rewards']);
         return new JsonResponse([
             'message' => ['success' => ['Your rewards type has been changed.']], 
             'user' => new UserResource($user),
             'activeReward' => $activeReward],
             Response::HTTP_OK);
-    }
-
-    /**
-     * Separates by type and further handles the reward settings
-     *
-     * @param User $user
-     * @param [String | int] $keepOldInstance
-     * @param [String | null] $rewardObjectName
-     * @param String $rewardType
-     * @return void
-     */
-    private function handleRewardSettings(User $user, $keepOldInstance, $rewardObjectName, String $rewardType){
-        if($keepOldInstance == 'NEW'){
-            return RewardObjectHandler::createNewObjectAndActivate($rewardType, $user->id, $rewardObjectName);
-        } else if (is_numeric($keepOldInstance)) {
-            return RewardObjectHandler::toggleActiveRewardObject($rewardType, $user->id, $keepOldInstance);
-        }
     }
 
     /**

@@ -9,6 +9,7 @@ const resolve = {
     },
 };
 
+// eslint-disable-next-line max-lines-per-function
 export default defineConfig(({command}) => {
     const production = command !== 'serve';
 

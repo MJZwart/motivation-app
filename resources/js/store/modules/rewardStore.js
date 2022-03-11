@@ -50,7 +50,7 @@ export default {
 
         fetchAllRewardInstances: ({commit}) => {
             return axios.get('/rewards/all').then(response => {
-                commit('setCharacters', response.data.rewards.character);
+                commit('setCharacters', response.data.rewards.characters);
                 commit('setVillages', response.data.rewards.villages);
             })
         },

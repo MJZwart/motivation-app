@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Character;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CharacterHandler {
@@ -93,6 +94,15 @@ class CharacterHandler {
             return $character->refresh();
         } else {
             //Throw exception
+        }
+    }
+
+    public static function deactivateAllCharacters(User $user) {
+        foreach ($user->characters as $character) {
+            if($character->active) {
+                $character->active = false;
+                $character->save();
+            }
         }
     }
 }

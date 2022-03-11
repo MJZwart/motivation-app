@@ -1,67 +1,56 @@
 <template>
     <div>
-        Reward settings
+        <h4>{{ $t('reward-settings') }}</h4>
         <Loading v-if="loading" />
 
         <div v-else>
+            <!-- Pick a reward type -->
             <b-form-group
                 :label="$t('which-reward-type')"
                 label-for="rewards">
-                <b-form-radio-group :checked="rewardSetting.currentRewardType" 
-                                    name="rewards" 
-                                    stacked
-                                    :options="rewardTypes"
-                >
+                <b-form-radio-group 
+                    v-model="rewardSetting.rewards"
+                    name="rewards" 
+                    stacked
+                    :options="rewardTypes">
                     <base-form-error name="rewards" /> 
                 </b-form-radio-group>
+                <hr />
             </b-form-group>
-            <!-- <b-button class="long-button" @click="confirmRewardsType()">{{ $t('next') }}</b-button>
-            <b-button class="long-button" @click="cancel()">{{ $t('cancel') }}</b-button> -->
         
+            <!-- If the user clicks 'Character' -->
             <b-form-group
-                v-if="rewardSetting.currentRewardType == 'CHARACTER'"
+                v-if="rewardSetting.rewards == 'CHARACTER'"
                 :label="$t('activate-or-new')"
                 label-for="character-option">
-                <b-form-radio-group name="character-option" stacked>
-                    <b-form-radio 
-                        v-for="character in characters" :key="character.id" 
-                        v-model="rewardSetting.keepOldInstance"
-                        type="radio" 
-                        class="input-override" 
-                        :value="character.id">
-                        <p class="radio-label">{{ $t('activate') }}: {{character.name}}</p>
-                    </b-form-radio>
-                    <b-form-radio v-model="rewardSetting.keepOldInstance" type="radio" class="input-override" value="NEW">
-                        <p class="radio-label">{{ $t('make-new-character') }}</p>
-                    </b-form-radio>
-                    <base-form-error name="character-option" /> 
+                <b-form-radio-group 
+                    v-model="rewardSetting.keepOldInstance" 
+                    name="character-option" 
+                    :options="characterOptions"
+                    stacked>
+                    <base-form-error name="keepOldInstance" /> 
                 </b-form-radio-group>
+                <hr />
             </b-form-group>
-            <b-button class="long-button" @click="confirmCharacterOptions()">{{ $t('confirm') }}</b-button>
-            <b-button class="long-button" @click="cancel()">{{ $t('cancel') }}</b-button>
 
+            <!-- Or if the user clicks 'Village' -->
             <b-form-group
+                v-if="rewardSetting.rewards == 'VILLAGE'"
                 :label="$t('activate-or-new-village')"
                 label-for="village-option">
-                <b-form-radio-group name="village-option" stacked>
-                    <b-form-radio 
-                        v-for="village in villages" :key="village.id" 
-                        v-model="rewardSetting.keepOldInstance"
-                        type="radio" 
-                        class="input-override" 
-                        :value="village.id">
-                        <p class="radio-label">{{ $t('activate') }}: {{village.name}}</p>
-                    </b-form-radio>
-                    <b-form-radio v-model="rewardSetting.keepOldInstance" type="radio" class="input-override" value="NEW">
-                        <p class="radio-label">{{ $t('make-new-village') }}</p>
-                    </b-form-radio>
-                    <base-form-error name="village-option" /> 
+                <b-form-radio-group 
+                    v-model="rewardSetting.keepOldInstance"
+                    name="village-option" 
+                    :options="villageOptions"
+                    stacked >
+                    <base-form-error name="keepOldInstance" /> 
                 </b-form-radio-group>
+                <hr />
             </b-form-group>
-            <b-button class="long-button" @click="confirmVillageOptions()">{{ $t('confirm') }}</b-button>
-            <b-button class="long-button" @click="cancel()">{{ $t('cancel') }}</b-button>
 
+            <!-- If the user wants to create a new instance -->
             <b-form-group
+                v-if="isNewInstance"
                 :label="rewardTypeName"
                 label-for="new-object-name">
                 <p class="silent">{{ $t('change-name-later') }}</p>
@@ -71,12 +60,10 @@
                     type="text" 
                     name="new-object-name" 
                     :placeholder="rewardTypeName"   />
-                <base-form-error name="new-object-name" /> 
+                <base-form-error name="new_object_name" /> 
             </b-form-group>
-            <b-button class="long-button" @click="confirmNewRewardsType()">{{ $t('confirm') }}</b-button>
-            <b-button class="long-button" @click="cancel()">{{ $t('cancel') }}</b-button> 
         </div>
-
+        <b-button block @click="confirmRewardsSettings()">{{ $t('save-settings') }}</b-button>
 
         
     </div>
@@ -89,17 +76,11 @@ import BaseFormError from '../../BaseFormError.vue';
 import Loading from '../../Loading.vue';
 export default {
     components: {BaseFormError, Loading},
-    props: {
-        user: {
-            /** @type import('resources/types/user').User */
-            type: Object,
-            required: true,
-        },
-    },
     data() {
         return {
             rewardSetting: {
-                currentRewardType: null,
+                rewards: null,
+                keepOldInstance: null,
             },
             rewardTypes: REWARD_TYPES,
             loading: true,
@@ -107,18 +88,64 @@ export default {
     },
     computed: {
         ...mapGetters({
+            user: 'user/getUser',
             characters: 'reward/getCharacters',
             villages: 'reward/getVillages',
         }),
         rewardTypeName() {
-            return this.user.rewards == 'VILLAGE' ? this.$t('village-name') : this.$t('character-name');
+            return this.rewardSetting.rewards == 'VILLAGE' ? this.$t('village-name') : this.$t('character-name');
+        },
+        isNewInstance() {
+            if (this.rewardSetting.rewards == 'NONE') return false;
+            return this.rewardSetting.keepOldInstance == 'NEW';
+        },
+        characterOptions() {
+            let options = [];
+            for (const character of this.characters) {
+                options.push({
+                    value: character.id, 
+                    text: 'Activate ' + character.name + this.displayActive(character), 
+                    disabled: character.active});
+            }
+            options.push({text: 'Make a new character', value: 'NEW'});
+            return options;
+        },
+        villageOptions() {
+            let options = [];
+            for (const village of this.villages) {
+                options.push({
+                    value: village.id, 
+                    text: 'Activate ' + village.name + this.displayActive(village), 
+                    disabled: village.active});
+            }
+            options.push({text: 'Make a new village', value: 'NEW'});
+            return options;
+        },
+    },
+    methods: {
+        confirmRewardsSettings() {
+            this.$store.dispatch('user/changeRewardType', this.rewardSetting).then(() => {
+                this.rewardSetting.keepOldInstance = null;
+                this.rewardSetting.new_object_name = null;
+                this.load();
+            });
+        },
+        isActiveInstance(instance) {
+            return instance.active;
+        },
+        displayActive(instance) {
+            return instance.active ? ' (' + this.$t('currently-active') + ')' : ''; 
+        },
+        load() {
+            this.$store.dispatch('clearErrors');
+            this.$store.dispatch('reward/fetchAllRewardInstances').then(() => {
+                this.rewardSetting.rewards = this.user.rewards;
+                this.loading = false;
+            });
         },
     },
     mounted() {
-        this.$store.dispatch('reward/fetchAllRewardInstances').then(() => {
-            this.rewardSetting.currentRewardType = this.user.rewards;
-            this.loading = false;
-        });
+        this.load();
     },
 }
 </script>
