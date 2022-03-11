@@ -34,4 +34,13 @@ class RewardController extends Controller
         $villages = Village::where('user_id', Auth::user()->id)->get();
         return $villages ? VillageResource::collection($villages) : null;
     }
+
+    public function fetchAllRewardInstancesByUser() {
+        $user = Auth::user();
+        $characters = Character::where('user_id', $user->id)->get();
+        $villages = Village::where('user_id', $user->id)->get();
+        return new JsonResponse(['rewards' => [
+            'characters' => $characters ? CharacterResource::collection($characters) : null,
+            'villages' => $villages ? VillageResource::collection($villages) : null]]);
+    }
 }

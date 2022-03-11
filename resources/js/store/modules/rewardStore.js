@@ -48,6 +48,13 @@ export default {
             });
         },
 
+        fetchAllRewardInstances: ({commit}) => {
+            return axios.get('/rewards/all').then(response => {
+                commit('setCharacters', response.data.rewards.character);
+                commit('setVillages', response.data.rewards.villages);
+            })
+        },
+
         updateRewardObjName: ({commit, dispatch}, rewardObj) => {
             return axios.put('/reward/update', rewardObj).then(function(response) {
                 dispatch('sendToasts', response.data.message, {root:true});

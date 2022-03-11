@@ -1,7 +1,8 @@
 <template>
     <div class="w-80 center">
         <b-tabs card pills vertical>
-            <b-tab :title="$t('account-settings')" active>
+            <!-- TODO active -->
+            <b-tab :title="$t('account-settings')">
                 <b-form v-if="!loading" @submit.prevent="submitPasswordSettings">
                     <h4>{{ $t('change-password') }}</h4>
                     <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
@@ -94,10 +95,12 @@
                 </b-form>
             </b-tab>
 
-            <b-tab :title="$t('reward-settings')">
-                <h4>{{ $t('reward-settings') }}</h4>
+            <!-- TODO unactive -->
+            <b-tab :title="$t('reward-settings')" active>
+                <RewardSettings :user="user" />
+                <!-- <h4>{{ $t('reward-settings') }}</h4>
                 <p>{{ $t('current-reward-type') }}: {{currentRewardType}}</p>
-                <b-button type="button" @click="showChangeRewardType()">{{ $t('change-reward-type') }}</b-button>
+                <b-button type="button" @click="showChangeRewardType()">{{ $t('change-reward-type') }}</b-button> -->
             </b-tab>
             
             <change-reward-type v-if="isChangeRewardTypeVisible" :rewardsType="user.rewards" @close="closeChangeRewardType" />
@@ -109,11 +112,11 @@
 <script>
 import {mapGetters} from 'vuex';
 import BaseFormError from '../components/BaseFormError.vue';
-import {REWARD_TYPES} from '../constants/rewardConstants';
 import ChangeRewardType from '../components/modals/ChangeRewardType.vue';
+import RewardSettings from '../components/tabs/settings/RewardSettings.vue';
 
 export default {
-    components: {ChangeRewardType, BaseFormError},
+    components: {ChangeRewardType, BaseFormError, RewardSettings},
     mounted() {
         this.setupSettings();
     },
@@ -125,7 +128,6 @@ export default {
             emailSettings: {},
             passwordSettings: {},
             loading: true,
-            rewardTypes: REWARD_TYPES,
             isChangeRewardTypeVisible: false,
         }
     },
@@ -134,9 +136,9 @@ export default {
             user: 'user/getUser',
         }),
         /** @return {string} */
-        currentRewardType() {
-            return this.user.rewards.toLowerCase();
-        },
+        // currentRewardType() {
+        //     return this.user.rewards.toLowerCase();
+        // },
     },
     methods: {
         /** Sets up the form with the user settings */
