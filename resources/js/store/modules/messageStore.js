@@ -6,15 +6,22 @@ export default {
     namespaced: true,
     state: {
         conversations: [],
+        hasMessages: false,
     },
     mutations: {
         setConversations(state, conversations) {
             state.conversations = conversations;
         },
+        setHasMessages(state, bool) {
+            state.hasMessages = bool;
+        },
     },
     getters: {
         getConversations(state) {
             return state.conversations;
+        },
+        getHasMessages(state) {
+            return state.hasMessages;
         },
     },
     actions: {
@@ -26,18 +33,20 @@ export default {
             });
         },
 
-        sendMessage: ({dispatch}, message) => {
+        sendMessage: ({dispatch, commit}, message) => {
             return axios.post('/message', message).then(response => {
+                commit('setConversations', response.data.data);
                 dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },
 
         deleteMessage: ({dispatch, commit}, messageId) => {
-            axios.delete('/message/' + messageId).then(response => {
+            return axios.delete('/message/' + messageId).then(response => {
                 commit('setConversations', response.data.data);
                 dispatch('sendToasts', response.data.message, {root:true});
-            })
+                return Promise.resolve();
+            });
         },
 
         markConversationRead: (_, conversationId) => {

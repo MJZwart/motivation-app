@@ -51,6 +51,7 @@ class TaskController extends Controller
     }
 
     public function complete(Task $task){
+        /** @var User */
         $user = Auth::user();
         if($user->id === $task->user_id){
             if($task->repeatable != 'NONE'){

@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class StoreMessageRequest extends FormRequest
+class UpdateExperiencePointsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class StoreMessageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::user()->admin;
     }
 
     /**
@@ -24,7 +25,9 @@ class StoreMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            '*.id' => 'required|integer',
+            '*.experience_points' => 'required|integer',
+            '*.level' => 'required|integer',
         ];
     }
 }

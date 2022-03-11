@@ -79,13 +79,15 @@
     "update-reward-name": "Update name",
     "edit-reward-name": "Edit name",
 
+    "account-settings": "Account settings",
     "settings": "Settings",
     "profile-settings": "Profile settings",
+    "reward-settings": "Reward settings",
     "current-reward-type": "Current reward type",
     "show-reward-on-profile": "Show linked reward on profile",
     "show-achievements-on-profile": "Show achievements on profile",
     "show-friends-on-profile": "Show friends on profile",
-    "save-settings": "Save settings",
+    "save-profile-settings": "Save profile settings",
     "change-password": "Change password",
     "automatically-logged-out": "If successful, you will be automatically logged out. Please log in with your new password.",
     "update-password": "Update password",
@@ -93,6 +95,7 @@
 
     "incoming-friend-requests": "Incoming friend requests",
     "outgoing-friend-requests": "Outgoing friend requests",
+    "add-friend": "Add friend",
     "notifications": "Notifications",
 
     "member-since": "Member since",
@@ -136,6 +139,7 @@
     "image-link": "Image link (optional)",
     "bug-image-link-desc": "If you have a screenshot of the bug, please upload it on a site like imgur and post the link here.",
     "bug-comment-desc": "What can you tell us about the bug? What were you doing? What did you expect to happen? What actually happened?",
+    "report-bug": "Report a bug",
     "submit-bug-report": "Submit bug report",
     "admin-comment": "Admin Comment",
     "bug-admin-comment-desc": "Add a comment only admins can see",
@@ -145,12 +149,12 @@
     "time": "Time",
     
 
-    "admin-panel": "Admin panel",
+    "manage-achievements": "Manage achievements",
     "send-notification-to-users": "Send notification to all users",
     "send-notification": "Send notification",
     "delete-notification-confirmation": "Are you sure you want to delete this notification?",
 
-    "admin-bug-report-panel-title": "Admin Bug Report Panel",
+    "bug-report-panel-title": "Manage bug reports",
     "edit-bug-report": "Edit bug report",
     "send-message-to-bug-report-author": "Send a message to the author of this bug report:",
     "update-bug-report": "Update",
@@ -169,6 +173,24 @@
     "group-information": "Group Information",
     "join-group-button": "Join",
     "close-group-button": "Close",
+    "report-user-name": "Report {user}",
+    "report-user": "Report user",
+    "report-reason": "Reason",
+    "report-comment": "Comment",
+    "report": "Report",
+
+    "block-user-confirmation": "Are you sure you wish to block {user}?",
+
+    "message-user": "Send message to this user",
+    "block-user": "Block user",
+    "update-exp-points": "Update experience points",
+    "update-char-exp-gain": "Update character experience gain",
+    "update-vill-exp-gain": "Update village experience gain",
+    
+    "exp-points": "Experience points",
+    "char-exp-gain": "Character XP gain",
+    "vill-exp-gain": "Village XP gain",
+
 
     "next": "Next",
     "go-back": "Go back",
@@ -186,6 +208,7 @@
     "achievements": "Achievements",
     "admin": "Admin",
     "profile": "Profile",
+    "go-to-profile": "Go to profile",
     "logout": "Logout",
 
     "footer-text": "Version 1.0 - MJ Black © 2021.",
@@ -198,6 +221,7 @@
     "last-message": "Last message",
     "send-message": "Send message",
     "send-reply": "Send reply",
+    "type-your-reply": "Type your reply",
     "unread": "Unread",
     "you": "You",
     "confirmation-delete-message": "Are you sure you want to delete this message?",

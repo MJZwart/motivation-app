@@ -27,13 +27,9 @@ export default {
     },
     actions: {
         getNotifications: ({commit}) => {
-            axios.get('/notifications').then(function(response) {
+            return axios.get('/notifications').then(function(response) {
                 commit('setNotifications', response.data.data);
-            });
-        },
-        hasUnreadNotifications: ({commit}) => {
-            axios.get('/notifications/unread').then(function(response) {
-                commit('setHasNotifications', response.data);
+                return Promise.resolve();
             });
         },
         deleteNotification: ({commit, dispatch}, notificationId) => {

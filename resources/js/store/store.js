@@ -53,9 +53,16 @@ export default new Vuex.Store({
             commit('setErrorMessages', []);
         },
         getDashboard: ({commit}) => {
-            axios.get('/dashboard').then(response => {
+            return axios.get('/dashboard').then(response => {
                 commit('taskList/setTaskLists', response.data.taskLists, {root:true});
                 commit('reward/setRewardObj', response.data.rewardObj, {root:true});
+                return Promise.resolve();
+            });
+        },
+        hasUnread: ({commit}) => {
+            axios.get('/unread').then(function(response) {
+                commit('notification/setHasNotifications', response.data.hasNotifications);
+                commit('message/setHasMessages', response.data.hasMessages);
             });
         },
         /**

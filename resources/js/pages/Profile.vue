@@ -1,18 +1,26 @@
 <template>
     <div>
-        <div v-if="userProfile" class="profile-grid">
+        <Loading v-if="loading" />
+        <div v-else class="profile-grid">
             <div class="right-column">
                 <h2>{{userProfile.username}}</h2>
-                <b-icon-envelope v-if="notLoggedUser" class="icon small" @click="sendMessage" />
+                <div v-if="notLoggedUser" class="d-flex">
+                    <b-icon-envelope id="message-user" class="icon small" @click="sendMessage" />
+                    <b-tooltip target="message-user">{{ $t('message-user') }}</b-tooltip>
+                    <b-icon-dash-circle id="block-user" class="icon small red" @click="blockUser" />
+                    <b-tooltip target="block-user">{{ $t('block-user') }}</b-tooltip>
+                    <b-icon-exclamation-circle id="report-user" class="icon small red" @click="reportUser" />
+                    <b-tooltip target="report-user">{{ $t('report-user') }}</b-tooltip>
+                </div>
                 <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
-                <achievements-summary v-if="userProfile.achievements" :achievements="userProfile.achievements" />
+                <AchievementsSummary v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
             <div class="left-column">
-                <reward-summary v-if="userProfile.rewardObj" class="summary-tab" 
-                                :reward="userProfile.rewardObj" :userReward="false" 
-                                :rewardType="userProfile.rewardObj.rewardType" />
+                <RewardSummary v-if="userProfile.rewardObj" class="summary-tab" 
+                               :reward="userProfile.rewardObj" :userReward="false" 
+                               :rewardType="userProfile.rewardObj.rewardType" />
                 <div v-if="userProfile.friends" class="summary-tab">
-                    <span class="card-title">Friends 
+                    <span class="card-title">{{ $t('friends') }} 
                         <b-icon-person-plus-fill 
                             v-if="notLoggedUser" 
                             class="icon small" 
@@ -21,8 +29,8 @@
                     <div class="side-border bottom-border">
                         <ul class="summary-list">
                             <li v-for="(friend, index) in userProfile.friends" :key="index">
-                                <router-link :to="{ name: 'profile', params: { id: friend.friend_id}}">
-                                    {{friend.friend}}
+                                <router-link :to="{ name: 'profile', params: { id: friend.id}}">
+                                    {{friend.username}}
                                 </router-link>
                             </li>
                         </ul>
@@ -32,7 +40,10 @@
         </div>
         
         <b-modal id="send-message" hide-footer hide-header>
-            <send-message :user="userProfile" @close="closeSendMessageModal" />
+            <SendMessage :user="userProfile" @close="closeSendMessageModal" />
+        </b-modal>
+        <b-modal id="report-user" hide-footer hide-header>
+            <ReportUser :user="userProfile" @close="closeReportUserModal" />
         </b-modal>
     </div>
 </template>
@@ -43,15 +54,22 @@ import {mapGetters} from 'vuex';
 import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
 import RewardSummary from '../components/summary/RewardSummary.vue';
 import SendMessage from '../components/modals/SendMessage.vue';
+import ReportUser from '../components/modals/ReportUser.vue';
+import Loading from '../components/Loading.vue';
 
 export default {
-    components: {RewardSummary, AchievementsSummary, SendMessage},
+    components: {RewardSummary, AchievementsSummary, SendMessage, ReportUser, Loading},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();
     },
+    data() {
+        return {
+            loading: true,
+        }
+    },
     mounted() {
-        this.$store.dispatch('user/getUserProfile', this.$route.params.id);
+        this.$store.dispatch('user/getUserProfile', this.$route.params.id).then(() => this.loading = false);
     },
     computed: {
         ...mapGetters({
@@ -72,6 +90,17 @@ export default {
         },
         closeSendMessageModal() {
             this.$bvModal.hide('send-message');
+        },
+        reportUser() {
+            this.$bvModal.show('report-user');
+        },
+        closeReportUserModal() {
+            this.$bvModal.hide('report-user');
+        },
+        blockUser() {
+            if (confirm(this.$t('block-user-confirmation', {user: this.userProfile.username}))) {
+                this.$store.dispatch('user/blockUser');
+            }
         },
     },
 }

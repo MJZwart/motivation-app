@@ -88,16 +88,18 @@ export default {
 
         //Public user profile
         getUserProfile: ({commit}, userId) => {
-            axios.get('/profile/' + userId).then(response => {
+            return axios.get('/profile/' + userId).then(response => {
                 commit('setUserProfile', response.data.data);
+                return Promise.resolve();
             });
         },
 
         getOverview: ({commit}) => {
-            axios.get('/overview').then(response => {
+            return axios.get('/overview').then(response => {
                 commit('setUserStats', response.data.stats);
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 commit('reward/setRewardObj', response.data.rewardObj, {root:true});
+                return Promise.resolve();
             });
         },
 
@@ -131,6 +133,21 @@ export default {
         searchUser: ({commit}, searchValue) => {
             axios.post('/search', searchValue).then(response => {
                 commit('setSearchResults', response.data.data);
+            });
+        },
+
+        reportUser: ({dispatch}, [user, report]) => {
+            return axios.post('/user/' + user.id + '/report', report).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
+            });
+        },
+
+        blockUser: ({dispatch, commit}, userId) => {
+            return axios.put('/user/' + userId + '/block').then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('message/setConversations', response.data.data, {root:true});
+                return Promise.resolve();
             });
         },
     },

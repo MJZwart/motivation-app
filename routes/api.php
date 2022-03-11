@@ -17,6 +17,7 @@ use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\GroupsController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +58,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/reward/update', [RewardController::class, 'updateRewardObj']);
     
     Route::get('/notifications', [NotificationController::class, 'show']);
-    Route::get('/notifications/unread', [NotificationController::class, 'hasUnreadNotifications']);
     Route::post('/notifications/all', [NotificationController::class, 'sendNotificationToAll']);
     Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy']);
     Route::get('/profile/{user}', [UserController::class, 'show']);
@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
 
     Route::resource('/bugreport', BugReportController::class)->only([
-        'store', 'update', 'show',
+        'store', 'update',
     ]);
     Route::get('/dashboard', [DashboardController::class, 'getDashboard']);
     Route::get('/overview', [OverviewController::class, 'getOverview']);
@@ -94,15 +94,27 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/groups', GroupsController::class)->only([
         'store', 'destroy', 'show',
     ]);
+    Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
+
+    Route::get('/unread', [UserController::class, 'hasUnread']);
+
+    Route::post('/user/{user}/report', [UserController::class, 'reportUser']);
 });
 
-Route::get('/achievements', [AchievementController::class, 'showAll']);
-Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
-Route::resource('/achievements', AchievementController::class)->only([
-    'store', 'update',
-]);
+Route::group(['middleware' => ['admin']], function () {
+
+    Route::resource('/achievements', AchievementController::class)->only([
+        'store', 'update',
+    ]);
+    Route::get('/admin/dashboard', [AdminController::class, 'getAdminDashboard']);
+    Route::put('/admin/experience_points', [AdminController::class, 'updateExeriencePoints']);
+    Route::put('/admin/character_exp_gain', [AdminController::class, 'updateCharacterExpGain']);
+    Route::put('/admin/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);
+});
+
+// Route::get('/achievements', [AchievementController::class, 'showAll']);
+// Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
+
 
 Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
-//Route::group(['middleware' => ['admin']], function () {
 
-//});

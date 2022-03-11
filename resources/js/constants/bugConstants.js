@@ -22,6 +22,7 @@ export const BUG_SORTABLES = [
     {text: 'Image', key: 'image'},
     {text: 'Comment', key: 'comment'},
     {text: 'Admin comment', key: 'admin_comment'},
+    {text: 'Actions', key: 'actions'},
 ];
 
 export const BUG_STATUS = [

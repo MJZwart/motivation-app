@@ -20,7 +20,7 @@
 
 
 <script>
-import BaseFormError from '../BaseFormError';
+import BaseFormError from '../BaseFormError.vue';
 export default {
     components: {
         BaseFormError,

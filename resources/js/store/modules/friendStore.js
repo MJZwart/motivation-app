@@ -25,8 +25,9 @@ export default {
             });
         },
         getRequests: ({commit}) => {
-            axios.get('/friend/requests/all').then(response => {
+            return axios.get('/friend/requests/all').then(response => {
                 commit('setRequests', response.data);
+                return Promise.resolve();
             });
         },
         acceptRequest: ({commit, dispatch}, requestId) => {

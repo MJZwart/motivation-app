@@ -38,14 +38,6 @@ class NotificationController extends Controller
     }
 
     /**
-     * Check if the user has any unread notifications
-     * Returns boolean
-     */
-    public function hasUnreadNotifications(){
-        return Notification::where('user_id', Auth::user()->id)->where('read', false)->count() > 0;
-    }
-
-    /**
      * Sets all notifications as read if any of them are unread
      */
     private function markAsRead($notificationArray){
