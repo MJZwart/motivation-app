@@ -23,7 +23,7 @@ class GroupsController extends Controller
             return GroupResource::collection(Group::where('is_public', true)->get());
         if ($argument == 'my')
             return GroupResource::collection(Auth::user()->groups);
-        return new JsonResponse(['message' => ['error' => ["Only 'all' and 'my' are permitted."]]], Response::HTTP_FORBIDDEN);
+        return new JsonResponse(['message' => "Only 'all' and 'my' are permitted."], Response::HTTP_FORBIDDEN);
     }
 
     public function store(StoreGroupRequest $request): JsonResponse{
@@ -37,7 +37,7 @@ class GroupsController extends Controller
 
     public function destroy(Group $group): JsonResponse{
         if (!$group->isAdminById(Auth::user()->id))
-            return new JsonResponse(['message' => ['error' => ["You are not an admin of the group you are trying to delete."]]], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => "You are not an admin of the group you are trying to delete."], Response::HTTP_BAD_REQUEST);
         $group->users()->detach();
         $group->delete();
         return new JsonResponse(['message' => ['success' => ["Your group \"{$group->name}\" has been deleted!"]]], Response::HTTP_OK);
@@ -48,20 +48,21 @@ class GroupsController extends Controller
         $user = Auth::user();
         $users = $group->users();
         if ($users->find($user)) 
-            return new JsonResponse(['message' => ['error' => ["You are already a member of this group."]]], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => "You are already a member of this group."], Response::HTTP_BAD_REQUEST);
         $users->attach($user);
         return new JsonResponse(['message' => ['success' => ["You successfully joined the group \"{$group->name}\"."]]], Response::HTTP_OK);
     }
 
     public function leave(Group $group): JsonResponse{
+        /** @var User */
         $user = Auth::user();
         $users = $group->users();
         if (!$user->groups()->find($group))
-            return new JsonResponse(['message' => ['error' => ["You are not a member of the group you are trying to leave."]]], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => "You are not a member of the group you are trying to leave."], Response::HTTP_BAD_REQUEST);
         if ($users->count() == 1)
-            return new JsonResponse(['message' => ['error' => ["You can't leave a group you are the only member of, please delete instead."]]], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => "You can't leave a group you are the only member of, please delete instead."], Response::HTTP_BAD_REQUEST);
         if ($group->isAdminById($user->id))
-            return new JsonResponse(['message' => ['error' => ["You cannot leave a group where you are an admin."]]], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => "You cannot leave a group where you are an admin."], Response::HTTP_BAD_REQUEST);
         $users->detach($user);
         return new JsonResponse(['message' => ['success' => ["You have successfully left the group \"{$group->name}\"."]]], Response::HTTP_OK);
     }
