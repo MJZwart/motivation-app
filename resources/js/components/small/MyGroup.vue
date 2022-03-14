@@ -48,7 +48,7 @@ export default {
         },
         toggleInfo() {
             this.showInfo = this.showInfo ? false : true;
-        }
-    }
+        },
+    },
 }
 </script>

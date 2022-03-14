@@ -14,20 +14,13 @@
 </template>
 
 <script>
-import BaseFormError from '../BaseFormError.vue';
-import Vue from 'vue';
 
 export default {
-    components: {BaseFormError},
     props: {
         group: {
             type: Object,
             required: true,
         },
-    },
-    data () {
-        return {
-        }
     },
     methods: {
         joinGroup() {
@@ -38,7 +31,7 @@ export default {
         },
         close() {
             this.$emit('close');
-        }
-    }
+        },
+    },
 }
 </script>

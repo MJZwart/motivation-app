@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Village;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class VillageHandler {
@@ -93,6 +94,15 @@ class VillageHandler {
             return $village->refresh();
         } else {
             //Throw exception
+        }
+    }
+    
+    public static function deactivateAllVillages(User $user) {
+        foreach ($user->villages as $village) {
+            if($village->active) {
+                $village->active = false;
+                $village->save();
+            }
         }
     }
 }

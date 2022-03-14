@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import {createVuePlugin} from 'vite-plugin-vue2';
 import ViteRequireContext from '@originjs/vite-plugin-require-context'
 
@@ -10,6 +9,7 @@ const resolve = {
     },
 };
 
+// eslint-disable-next-line max-lines-per-function
 export default defineConfig(({command}) => {
     const production = command !== 'serve';
 

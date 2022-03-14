@@ -56,6 +56,7 @@
     "d": "Intelligence | Art",
     "e": "Charisma | Community",
 
+    "currently-active": "Currently active",
     "rewards-type": "Rewards type",
     "change-reward-type": "Change reward type",
     "which-reward-type": "How would you like to be rewarded for completing your tasks?",
@@ -79,6 +80,7 @@
     "update-reward-name": "Update name",
     "edit-reward-name": "Edit name",
 
+    "save-settings": "Save settings",
     "account-settings": "Account settings",
     "settings": "Settings",
     "profile-settings": "Profile settings",
