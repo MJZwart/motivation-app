@@ -51,10 +51,6 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
     Route::post('/tasks/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
 
-    // Route::get('/character/all', [RewardController::class, 'fetchAllCharactersByUser']);
-
-    // Route::get('/village/all', [RewardController::class, 'fetchAllVillagesByUser']);
-
     Route::get('/rewards/all', [RewardController::class, 'fetchAllRewardInstancesByUser']);
 
     Route::put('/reward/update', [RewardController::class, 'updateRewardObj']);

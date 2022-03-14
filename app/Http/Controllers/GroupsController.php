@@ -10,6 +10,7 @@ use App\Http\Requests\DeleteGroupRequest;
 use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
 use App\Http\Resources\GroupResource;
+use App\Http\Resources\MyGroupResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -22,8 +23,13 @@ class GroupsController extends Controller
         if ($argument == 'all')
             return GroupResource::collection(Group::where('is_public', true)->get());
         if ($argument == 'my')
-            return GroupResource::collection(Auth::user()->groups);
-        return new JsonResponse(['message' => "Only 'all' and 'my' are permitted."], Response::HTTP_FORBIDDEN);
+            return MyGroupResource::collection(Auth::user()->groups);
+        if ($argument == 'dashboard') {
+            $myGroups = MyGroupResource::collection(Auth::user()->groups);
+            $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
+            return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
+        }
+        return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_FORBIDDEN);
     }
 
     public function store(StoreGroupRequest $request): JsonResponse{

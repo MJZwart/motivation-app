@@ -19,6 +19,9 @@ class GroupUserResource extends JsonResource
             'username' => $this->username,
             'rank' => $this->whenPivotLoaded('group_user', function() {
                 return $this->pivot->rank;
+            }),
+            'joined' => $this->whenPivotLoaded('group_user', function() {
+                return $this->pivot->joined;
             })
         ];
     }

@@ -10,6 +10,7 @@
                     v-model="groupToCreate.name"
                     name="name"
                     :placeholder="$t('name')" />
+                <base-form-error name="name" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('group-desc')"
@@ -20,6 +21,7 @@
                     v-model="groupToCreate.description"
                     name="description"
                     :placeholder="$t('description')" />
+                <base-form-error name="description" /> 
             </b-form-group>
             <b-form-group
                 :label="$t('group-public-checkbox')"
@@ -29,6 +31,7 @@
                     id="public-checkbox"
                     v-model="groupToCreate.is_public"
                     name="public-checkbox" />
+                <base-form-error name="public-checkbox" /> 
             </b-form-group>
             <b-button type="submit" block>{{$t('create-group')}}</b-button>
             <b-button type="button" block @click="close">{{$t('cancel')}}</b-button>
@@ -37,7 +40,9 @@
 </template>
 
 <script>
+import BaseFormError from '../BaseFormError.vue';
 export default {
+    components: {BaseFormError},
     data() {
         return {
             groupToCreate: {
