@@ -3,16 +3,14 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\GroupUserResource;
-use App\Http\Resources\StrippedUserResource;
 
-class GroupResource extends JsonResource
+class MyGroupResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
@@ -25,6 +23,8 @@ class GroupResource extends JsonResource
             'is_public' => (boolean) $this->is_public,
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
+            'rank' => $this->findLoggedUser()->pivot->rank,
+            'joined' => $this->findLoggedUser()->pivot->joined,
         ];
     }
 }

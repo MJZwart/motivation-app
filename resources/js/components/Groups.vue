@@ -1,54 +1,41 @@
 <template>
     <div>
-        <span>
-            <b-button type="button" @click="showMyGroups">my groups</b-button>
-            <b-button type="button" @click="showAllGroups">all groups</b-button>
-        </span>
-        <template v-if="activeTab == 'MY_GROUPS'">
-            <div class="group-list">
-                <template v-for="group in myGroups">
-                    <my-group
-                        :key="group.id"
-                        :group="group"
-                        :user="user"
-                        class="group"
-                        @reloadGroups="reloadGroups"/>
+        <Loading v-if="loading" />
+        <div v-else>
+            <span class="d-flex">
+                <b-button type="button" class="m-1" @click="showMyGroups">{{ $t('my-groups') }}</b-button>
+                <b-button type="button" class="m-1" @click="showAllGroups">{{ $t('all-groups') }}</b-button>
+                <b-input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
+                <b-button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</b-button>
+            </span>
+            <b-table
+                :items="filteredAllGroups"
+                :fields="groupFields"
+                class="groups-table"
+                striped
+            >
+                <template #cell(details)="row">
+                    <b-button @click="row.toggleDetails">{{ $t('show-details') }}</b-button>
                 </template>
-            </div>
-            <div class="create-group">
-                <b-button type="button" @click="createGroup">{{$t('create-group')}}</b-button>
-            </div>
-        </template>
-        <template v-if="activeTab == 'ALL_GROUPS'">
-            <div class="search">
-                <input v-model="search" type="text" :placeholder="$t('group-search-placeholder')"/>
-            </div>
-            <div class="group-list">
-                <template v-for="group in filteredAllGroups">
-                    <div :key="group.name" @click="showAllGroup(group)">
-                        <p :key="group.name">{{group.name}}</p>
-                        <p :key="group.description">{{group.description}}</p>
-                    </div>
+                <template #row-details="row">
+                    <GroupDetails :group="row.item" :user="user" @reloadGroups="load" />
                 </template>
-            </div>
-        </template>
-
-        <b-modal id="show-all-group" hide-footer :title="$t('group-information')">
-            <show-all-group :group="groupToShow" @close="closeShowAllGroup" @reloadGroups="reloadGroups"/>
-        </b-modal>
-        <b-modal id="create-group" hide-footer :title="$t('create-group')">
-            <create-group @close="closeCreateGroup" @reloadGroups="reloadGroups"/>
-        </b-modal>
+            </b-table>
+            <b-modal id="create-group" hide-footer :title="$t('create-group')">
+                <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
+            </b-modal>
+        </div>
     </div>
 </template>
 
 <script>
-import MyGroup from './small/MyGroup.vue'
-import ShowAllGroup from './modals/ShowAllGroup.vue'
 import CreateGroup from './modals/CreateGroup.vue'
+import GroupDetails from '../components/small/GroupDetails.vue';
 import {mapGetters} from 'vuex';
+import Loading from '../components/Loading.vue';
+import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../constants/groupConstants.js';
 export default {
-    components: {MyGroup, ShowAllGroup, CreateGroup},
+    components: {CreateGroup, GroupDetails, Loading},
     computed: {
         ...mapGetters({
             myGroups: 'groups/getMyGroups',
@@ -56,45 +43,41 @@ export default {
             user: 'user/getUser',
         }),
         filteredAllGroups() {
-            return this.allGroups.filter(group =>
+            return this.chosenGroups.filter(group =>
                 group.name.toLowerCase().includes(this.search.toLowerCase()));
         },
     },
     mounted() {
-        this.$store.dispatch('groups/fetchMyGroups');
-        this.$store.dispatch('groups/fetchAllGroups');
+        this.load();
     },
     data() {
         return {
-            activeTab: 'MY_GROUPS',
             search: '',
             groupToShow: null,
+            chosenGroups: null,
+            loading: true,
+            groupFields: null,
+            chosen: '',
         }
     },
     methods: {
+        load() {
+            this.$store.dispatch('groups/fetchGroupsDashboard').then(() => {
+                this.chosenGroups = this.myGroups;
+                this.groupFields = MY_GROUP_FIELDS;
+                this.chosen = 'MY';
+                this.loading = false;
+            });
+        },
         showMyGroups() {
-            this.activeTab = 'MY_GROUPS';
+            this.chosenGroups = this.myGroups;
+            this.groupFields = MY_GROUP_FIELDS;
+            this.chosen = 'MY';
         },
         showAllGroups() {
-            this.activeTab = 'ALL_GROUPS';
-        },
-        reloadGroups() {
-            this.reloadAllGroups();
-            this.reloadMyGroups();
-        },
-        reloadAllGroups() {
-            this.$store.dispatch('groups/fetchAllGroups');
-        },
-        reloadMyGroups() {
-            this.$store.dispatch('groups/fetchMyGroups');
-        },
-        showAllGroup(group) {
-            this.$store.dispatch('clearErrors');
-            this.groupToShow = group;
-            this.$bvModal.show('show-all-group');
-        },
-        closeShowAllGroup() {
-            this.$bvModal.hide('show-all-group');
+            this.chosenGroups = this.allGroups;
+            this.groupFields = ALL_GROUP_FIELDS;
+            this.chosen = 'ALL';
         },
         createGroup() {
             this.$store.dispatch('clearErrors');
@@ -106,3 +89,19 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../../assets/scss/variables';
+.groups-table {
+
+    .details {
+        padding: 0.6rem;
+        border: 1px solid $grey;
+        border-radius: 4px;
+        background-color:white;
+    }
+}
+.filter-input{
+    width: 50%;
+}
+</style>

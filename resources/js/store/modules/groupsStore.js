@@ -25,14 +25,21 @@ export default {
         },
     },
     actions: {
-        fetchMyGroups: ({commit}) => {
-            axios.get('/groups/my').then(response => {
-                commit('setMyGroups', response.data.data);
-            });
-        },
-        fetchAllGroups: ({commit}) => {
-            axios.get('groups/all').then(response => {
-                commit('setAllGroups', response.data.data);
+        // fetchMyGroups: ({commit}) => {
+        //     axios.get('/groups/my').then(response => {
+        //         commit('setMyGroups', response.data.data);
+        //     });
+        // },
+        // fetchAllGroups: ({commit}) => {
+        //     axios.get('groups/all').then(response => {
+        //         commit('setAllGroups', response.data.data);
+        //     });
+        // },
+        fetchGroupsDashboard: ({commit}) => {
+            return axios.get('groups/dashboard').then(response => {
+                commit('setAllGroups', response.data.groups.all);
+                commit('setMyGroups', response.data.groups.my);
+                return Promise.resolve();
             });
         },
         createGroup: ({dispatch}, group) => {
