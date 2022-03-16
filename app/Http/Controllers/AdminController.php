@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
+use App\Http\Requests\StoreNewLevelRequest;
 use Illuminate\Http\Request;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
@@ -37,6 +38,15 @@ class AdminController extends Controller
         $experiencePoints = DB::table('experience_points')->get();
         return new JsonResponse(
             ['message' => ['success' => ['Experience points updated']], 'data' => $experiencePoints], 
+            Response::HTTP_OK);
+    }
+
+    public function addNewLevel(StoreNewLevelRequest $request) {
+        $validated = $request->validated();
+        DB::table('experience_points')->insert($validated);
+        $experiencePoints = DB::table('experience_points')->get();
+        return new JsonResponse(
+            ['message' => ['success' => ['Level added']], 'data' => $experiencePoints], 
             Response::HTTP_OK);
     }
 
