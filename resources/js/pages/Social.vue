@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import Groups from '../components/Groups.vue';
-import Friends from '../components/Friends.vue';
+import Groups from '../components/tabs/social/Groups.vue';
+import Friends from '../components/tabs/social/Friends.vue';
 
 export default {
     components: {
