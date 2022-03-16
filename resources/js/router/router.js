@@ -17,6 +17,7 @@ import Welcome from '../pages/Welcome.vue';
 import BugReport from '../pages/BugReport.vue';
 import Messages from '../pages/Messages.vue';
 import Social from '../pages/Social.vue';
+import Faq from '../pages/Faq.vue';
 // import Test from '../pages/Test.vue';
 
 Vue.use(VueRouter);
@@ -93,6 +94,10 @@ let routes = [
         path:'/social',
         component: Social,
         meta: {requiresAuth: true},
+    },
+    {
+        path:'/faq',
+        component: Faq,
     },
     // {
     //     path: '/test',

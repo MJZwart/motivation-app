@@ -1,5 +1,6 @@
 {
     "app-name": "Motivation App",
+    "faq": "Frequently Asked Question",
 
     "create-new-task-list": "Create new task list",
     "create-new-task": "Create new task",
