@@ -24,10 +24,13 @@ class AdminController extends Controller
         $experiencePoints = DB::table('experience_points')->get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
-        $balancing = ['experience_points' => $experiencePoints, 'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain];
+        $reportedUsers = DB::table('reported_users')->get();
+        $balancing = ['experience_points' => $experiencePoints,
+            'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain];
        
         return new JsonResponse(
-            ['achievements' => $achievements, 'achievementTriggers' => $achievementTriggers, 'bugReports' => $bugReports, 'balancing' => $balancing], 
+            ['achievements' => $achievements, 'achievementTriggers' => $achievementTriggers,
+                'bugReports' => $bugReports, 'balancing' => $balancing, 'reportedUsers' => $reportedUsers], 
             Response::HTTP_OK);
     }
 

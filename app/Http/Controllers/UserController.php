@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\ReportedUser;
 use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserSettingsRequest;
@@ -137,7 +138,7 @@ class UserController extends Controller
         $validated = $request->validated();
         $validated['reported_user_id'] = $user->id;
         $validated['reported_by_user_id'] = Auth::user()->id;
-        DB::table('reported_users')->insert($validated);
+        ReportedUser::create($validated);
         return new JsonResponse(['message' => ['success' => ['User reported']]]);
     }
 }

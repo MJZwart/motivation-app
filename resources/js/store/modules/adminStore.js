@@ -9,6 +9,7 @@ export default {
         experiencePoints: null,
         charExpGain: null,
         villageExpGain: null,
+        reportedUsers: null,
     },
     mutations: {
         setExperiencePoints(state, experiencePoints) {
@@ -19,6 +20,9 @@ export default {
         },
         setVillageExpGain(state, villageExpGain) {
             state.villageExpGain = villageExpGain;
+        },
+        setReportedUsers(statem, reportedUsers) {
+            state.reportedUsers = reportedUsers;
         },
     },
     getters: {
@@ -41,6 +45,9 @@ export default {
                 'village_exp_gain': state.villageExpGain,
             }
         },
+        getReportedUsers: state => {
+            return state.reportedUsers;
+        }
     },
     actions: {
         checkAdmin: () => {
@@ -54,6 +61,7 @@ export default {
                 commit('setExperiencePoints', response.data.balancing.experience_points);
                 commit('setCharExpGain', response.data.balancing.character_exp_gain);
                 commit('setVillageExpGain', response.data.balancing.village_exp_gain);
+                commit('setReportedUsers', response.data.reportedUsers, {root:true});
                 return Promise.resolve();
             });
         },
