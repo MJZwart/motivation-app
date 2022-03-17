@@ -1,5 +1,7 @@
+
+
 <template>
-    <div>
+    <div class="w-50">
         <h2>F.A.Q.</h2>
         <div>
             <div v-for="(question, index) in questions" :key="index">
@@ -14,6 +16,8 @@
 
 <script>
 export default {
+    /* eslint-disable max-len */
+    // eslint-disable-next-line max-lines-per-function
     data() {
         return {
             questions: [
@@ -35,7 +39,35 @@ export default {
                 },
                 {
                     question: 'Can I help out?', 
-                    answer: 'Of course!',
+                    answer: 'Of course! We\'re open to any and all feedback and tips on how we can improve. Think new features, tips on design, quality of life improvement, accessibility improvements etc.. Please share ideas you have through our feedback form (TODO) or in the #suggestions channel in our discord (TODO). We could also use some help regarding translations, so if you\'re proficient in English and another language you wish to translate into, please contact us through our Discord.',
+                },
+                {
+                    question: 'I found a bug, what do I do?', 
+                    answer: 'You can use our bug report page to report on any and all bugs you find. If you encounter a big problem you need help with, you also contact us on Discord. When filling in a bug report, please provide us with as much detail as possible to help us fix the problem quicker. We need to be able to reproduce the bug in order to fix it, so we might ask some more questions before fixing it.',
+                },
+                {
+                    question: 'Can I hunt for bugs and exploits?', 
+                    answer: 'Or course! This project is open-source, so the source code is up on Github for all to see. Obviously we try our best not to put any passwords or exploitable data online, so if you find anything that shouldn\'t be there, please let us know ASAP. If you manage to break into the site or otherwise break the site, please let us know how you did it and we\'ll do our best to fix it as quickly as we can. Obviously don\'t go trolling on us and bringing the site down altogether.',
+                },
+                {
+                    question: '', 
+                    answer: '',
+                },
+                {
+                    question: '', 
+                    answer: '',
+                },
+                {
+                    question: '', 
+                    answer: '',
+                },
+                {
+                    question: '', 
+                    answer: '',
+                },
+                {
+                    question: '', 
+                    answer: '',
                 },
                 {
                     question: '', 
