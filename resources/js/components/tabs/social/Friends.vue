@@ -5,7 +5,6 @@
             <FriendRequests />
             
             <ManageFriends />
-            <!-- <friends-summary /> -->
         </div>
     </div>
 </template>
