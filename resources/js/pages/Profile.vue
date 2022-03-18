@@ -16,9 +16,9 @@
                 <AchievementsSummary v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
             <div class="left-column">
-                <RewardSummary v-if="userProfile.rewardObj" class="summary-tab" 
-                               :reward="userProfile.rewardObj" :userReward="false" 
-                               :rewardType="userProfile.rewardObj.rewardType" />
+                <Reward v-if="userProfile.rewardObj" class="summary-tab" 
+                        :reward="userProfile.rewardObj" :userReward="false" 
+                        :rewardType="userProfile.rewardObj.rewardType" />
                 <div v-if="userProfile.friends" class="summary-tab">
                     <span class="card-title">{{ $t('friends') }} 
                         <b-icon-person-plus-fill 
@@ -52,13 +52,13 @@
 <script>
 import {mapGetters} from 'vuex';
 import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
-import RewardSummary from '../components/summary/RewardSummary.vue';
+import Reward from '../components/summary/Reward.vue';
 import SendMessage from '../components/modals/SendMessage.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
 
 export default {
-    components: {RewardSummary, AchievementsSummary, SendMessage, ReportUser, Loading},
+    components: {Reward, AchievementsSummary, SendMessage, ReportUser, Loading},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();

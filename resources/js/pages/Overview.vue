@@ -24,7 +24,7 @@
 <script>
 import {mapGetters} from 'vuex';
 import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
-import RewardSummary from '../components/summary/RewardSummary.vue';
+import RewardSummary from '../components/summary/Reward.vue';
 import Loading from '../components/Loading.vue';
 export default {
     components: {RewardSummary, AchievementsSummary, Loading},

@@ -23,7 +23,7 @@
                     <reward-summary v-if="rewardObj" class="summary-tab" 
                                     :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
 
-                    <friends-summary class="summary-tab" />
+                    <Friends />
                 </div>
             </div>
 
@@ -56,8 +56,8 @@ import EditTask from '../components/modals/EditTask.vue';
 import NewTaskList from '../components/modals/NewTaskList.vue';
 import EditTaskList from '../components/modals/EditTaskList.vue';
 import DeleteTaskListConfirm from '../components/modals/DeleteTaskListConfirm.vue';
-import RewardSummary from '../components/summary/RewardSummary.vue';
-import FriendsSummary from '../components/summary/FriendsSummary.vue';
+import RewardSummary from '../components/summary/Reward.vue';
+import Friends from '../components/summary/Friends.vue';
 import Loading from '../components/Loading.vue';
 export default {
     components: { 
@@ -68,7 +68,7 @@ export default {
         EditTaskList, 
         DeleteTaskListConfirm, 
         RewardSummary,
-        FriendsSummary,
+        Friends,
         Loading},
     data() {
         return {

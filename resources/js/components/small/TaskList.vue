@@ -1,35 +1,52 @@
 <template>
     <div>
-        <span class="card-title d-flex">{{taskList.name}}
-            <span class="ml-auto">
-                <b-icon-pencil-square 
-                    class="icon small"
-                    @click="editTaskList()" />
-                <b-icon-trash 
-                    class="icon small"
-                    @click="deleteTaskList()" />
-            </span>
-
-        </span>
-        <template v-for="task in taskList.tasks">
-
-            <task 
-                :key="task.id" 
-                :task="task" 
-                class="task side-border" 
-                v-on:newTask="openNewTask"
-                v-on:editTask="editTask" />
-
-        </template>
-        <b-button block class="bottom-radius" @click="openNewTask(null)">{{ $t('add-new-task') }}</b-button>
+        <Summary :footer="true" class="p-0">
+            <template #header>
+                <span class="d-flex">
+                    {{taskList.name}}
+                    <span class="ml-auto">
+                        <b-icon-pencil-square 
+                            :id="'edit-task-list-' + taskList.id"
+                            class="icon white small"
+                            @click="editTaskList()" />
+                        <b-tooltip :target="'edit-task-list-' + taskList.id">{{ $t('edit-task-list') }}</b-tooltip>
+                        <b-icon-trash 
+                            :id="'delete-task-list-' + taskList.id"
+                            class="icon white small"
+                            @click="deleteTaskList()" />
+                        <b-tooltip :target="'delete-task-list-' + taskList.id">{{ $t('delete-task-list') }}</b-tooltip>
+                    </span>
+                </span>
+            </template>
+            <slot>
+                <template v-for="(task, index) in taskList.tasks">
+                    <Task 
+                        :key="task.id" 
+                        :task="task" 
+                        :class="taskClass(index)"
+                        v-on:newTask="openNewTask"
+                        v-on:editTask="editTask" />
+                </template>
+            </slot>
+            <template #footer>           
+                <b-button block variant="outline" class="bottom-radius p-0">
+                    <b-icon-plus-square-fill 
+                        :id="'add-new-task-' + taskList.id" 
+                        class="icon large green m-0" 
+                        @click="openNewTask(null)" />
+                    <b-tooltip :target="'add-new-task-' + taskList.id">{{ $t('add-new-task') }}</b-tooltip>
+                </b-button>
+            </template>
+        </Summary>
     </div>
 </template>
 
 
 <script>
 import Task from './Task.vue';
+import Summary from '../summary/Summary.vue';
 export default {
-    components: {Task},
+    components: {Task, Summary},
     props: {
         taskList: {
             /** @type {import('resources/types/task').TaskList} */
@@ -52,6 +69,18 @@ export default {
         deleteTaskList() {
             this.$emit('deleteTaskList', this.taskList);
         },
+        taskClass(index) {
+            return index == this.taskList.tasks.length -1 ? 'task-last' : 'task';
+        },
     },
 }
 </script>
+
+<style lang="scss">
+.p-0 {
+    .card-body {
+        padding: 0 !important;
+        min-height: 0;
+    }
+}
+</style>
