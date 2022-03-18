@@ -62,3 +62,35 @@ If you discover a security vulnerability within the site, please [open a new iss
 ## License
 
 You are free to fork this git and make your own version, but please give credit where credit is due. This project is open-source software licensed under the MIT License.
+
+## Roadmap
+
+Before launching the beta version of the site, the following things need to be finished:
+# Content
+- [ ] An actual landing page
+- [ ] A filled in FAQ page
+- [ ] A privacy policy
+- [ ] Responsive design on every page in terms of placement of components and readable text
+- [ ] A feedback form
+- [ ] All invalid inputs show as red when validation fails
+- [ ] Tooltips on all buttons and otherwise unclear data
+- [ ] A tutorial or 'help what do I do here' button on every page
+# Users and interaction
+- [ ] Allowing users to manage their blocklist and search for friends to add
+- [ ] Allow a user to manage the group they are an admin of
+- [ ] Fully allowing a user to manage their characters or villages (rename them, see their level)
+- [ ] Finished groups: invites to private groups, 
+# Admin and back-end
+- [ ] Admins able to view and respond to feedback
+- [ ] Admins able to view reported users and perform action: message the user, ban the user
+- [ ] Tracking of logins (attempts) for security
+- [ ] Worked out good balancing of the rewards (experience points) to start off with, and plenty of levels to gain
+
+## Further development
+- [ ] Dark version of the website
+- [ ] More than one language
+- [ ] Other types of rewards for completing tasks
+- [ ] Allowing a user to retire an existing character into a village for a boost
+- [ ] Adding favourite tasks or templates so users can easily find tasks that can be repeated in various ways, with slight variations
+- [ ] Interaction with the characters and villages that users grow with their tasks
+- [ ] Interaction with characters and villages within a group to help and motivate each other
