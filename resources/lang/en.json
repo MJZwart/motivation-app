@@ -202,9 +202,13 @@
 
     "message-user": "Send message to this user",
     "block-user": "Block user",
-    "update-exp-points": "Update experience points",
+    "update-exp-points": "Update experience points table",
     "update-char-exp-gain": "Update character experience gain",
     "update-vill-exp-gain": "Update village experience gain",
+    "add-new-level": "Add a new level",
+    "add-level": "Add level",
+    "points": "Points",
+    "search-by-level": "Search by level",
     
     "exp-points": "Experience points",
     "char-exp-gain": "Character XP gain",

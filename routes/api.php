@@ -109,6 +109,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::put('/admin/experience_points', [AdminController::class, 'updateExeriencePoints']);
     Route::put('/admin/character_exp_gain', [AdminController::class, 'updateCharacterExpGain']);
     Route::put('/admin/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);
+    Route::post('/admin/experience_points', [AdminController::class, 'addNewLevel']);
 });
 
 // Route::get('/achievements', [AchievementController::class, 'showAll']);
