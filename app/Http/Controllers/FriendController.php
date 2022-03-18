@@ -79,6 +79,14 @@ class FriendController extends Controller
             Response::HTTP_OK);
     }
 
+    public function removeFriendRequest(Friend $friend) {
+        $friend->delete();
+        $requests = $this->fetchRequests();
+        return new JsonResponse(['message' => ['info' => ['Friend request cancelled.']], 
+            'requests' => $requests], 
+            Response::HTTP_OK);
+    }
+
     /**
      * Returns all open friend requests
      */

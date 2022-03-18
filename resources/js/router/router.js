@@ -10,7 +10,6 @@ import Overview from '../pages/Overview.vue';
 import Notifications from '../pages/Notifications.vue';
 import Settings from '../pages/Settings.vue';
 import Profile from '../pages/Profile.vue';
-import Friends from '../pages/Friends.vue';
 import AdminDashboard from '../pages/AdminDashboard.vue';
 import SearchResults from '../pages/SearchResults.vue';
 import Welcome from '../pages/Welcome.vue';
@@ -58,11 +57,6 @@ let routes = [
         name: 'profile',
         path: '/profile/:id',
         component: Profile,
-    },
-    {
-        path: '/friends',
-        component: Friends,
-        meta: {requiresAuth: true},
     },
     {
         path: '/admindashboard',

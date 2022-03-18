@@ -43,6 +43,12 @@ export default {
                 commit('setRequests', response.data.requests);
             });
         },
+        removeRequest: ({commit, dispatch}, requestId) => {
+            axios.delete('/friend/request/' + requestId).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('setRequests', response.data.requests);
+            });
+        },
         removeFriend: ({commit, dispatch}, friendId) => {
             axios.delete('/friend/remove/' + friendId).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
