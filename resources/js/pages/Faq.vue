@@ -1,7 +1,7 @@
 
 
 <template>
-    <div class="w-50">
+    <div class="w-50 center">
         <h2>F.A.Q.</h2>
         <div>
             <div v-for="(question, index) in questions" :key="index">
@@ -21,10 +21,10 @@ export default {
     data() {
         return {
             questions: [
-                {
-                    question: 'Hiya', 
-                    answer: 'Hi',
-                },
+                // {
+                //     question: 'So what is this site?', 
+                //     answer: 'Hi',
+                // },
                 {
                     question: 'Are there any ads?', 
                     answer: 'No, I hate ads.',
@@ -47,7 +47,11 @@ export default {
                 },
                 {
                     question: 'Can I hunt for bugs and exploits?', 
-                    answer: 'Or course! This project is open-source, so the source code is up on Github for all to see. Obviously we try our best not to put any passwords or exploitable data online, so if you find anything that shouldn\'t be there, please let us know ASAP. If you manage to break into the site or otherwise break the site, please let us know how you did it and we\'ll do our best to fix it as quickly as we can. Obviously don\'t go trolling on us and bringing the site down altogether.',
+                    answer: 'Or course! This project is open-source, so the source code is up on Github for all to see. Obviously we make sure not to put any passwords or exploitable data online, so if you find anything that shouldn\'t be there, please let us know ASAP. If you manage to break into the site or otherwise break the site, please let us know how you did it and we\'ll do our best to fix it as quickly as we can. Obviously don\'t go trolling on us and try to bring the site down altogether.',
+                },
+                {
+                    question: 'Is this site still being worked on?', 
+                    answer: 'Absolutely, we have lots of plans and ideas to work out. Keep in mind this is a hobby-project, we can only work on it in our spare time, so some features might take a while before showing up on the site.',
                 },
                 {
                     question: '', 
@@ -62,12 +66,8 @@ export default {
                     answer: '',
                 },
                 {
-                    question: '', 
-                    answer: '',
-                },
-                {
-                    question: '', 
-                    answer: '',
+                    question: 'What do I do if I have any more questions?', 
+                    answer: '(TODO)',
                 },
                 {
                     question: '', 
