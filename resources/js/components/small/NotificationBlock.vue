@@ -1,22 +1,28 @@
 <template>
     <div>
-        <div :class="{unread: !notification.read}">
-            <span class="card-title d-flex">
-                {{notification.title}}
-                <b-icon-trash class="ml-auto red pointer" @click="deleteNotification()" />
-            </span>
-            <div class="side-border bottom-border">
+        <Summary class="mb-2">
+            <template #header>
+                <span class="d-flex">
+                    {{notification.title}}
+                    <span class="ml-auto">
+                        <span v-if="!notification.read">{{ $t('new') }} </span>
+                        <b-icon-trash class="red pointer" @click="deleteNotification()" />
+                    </span>
+                </span>
+            </template>
+            <slot>
                 <p>{{notification.text}}</p>
                 <p>{{ $t('received-on') }}: {{notification.created_at}}</p>
-            </div>
-        </div>
-        <br />
+            </slot>
+        </Summary>
     </div>
 </template>
 
 
 <script>
+import Summary from '../summary/Summary.vue';
 export default {
+    components: {Summary},
     props: {
         notification: {
             /** @type {import('resources/types/notification').Notification} */
@@ -36,8 +42,4 @@ export default {
 
 
 <style>
-.unread {
-    background-color:#eeeeee;
-    border-radius:5px;
-}
 </style>

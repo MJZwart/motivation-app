@@ -7,58 +7,45 @@
                 <div v-if="notLoggedUser" class="d-flex">
                     <b-icon-envelope id="message-user" class="icon small" @click="sendMessage" />
                     <b-tooltip target="message-user">{{ $t('message-user') }}</b-tooltip>
+                    <b-icon-person-plus-fill id="send-friend-request" class="icon small" @click="sendFriendRequest" />
+                    <b-tooltip target="send-friend-request">{{ $t('send-friend-request') }}</b-tooltip>
                     <b-icon-dash-circle id="block-user" class="icon small red" @click="blockUser" />
                     <b-tooltip target="block-user">{{ $t('block-user') }}</b-tooltip>
                     <b-icon-exclamation-circle id="report-user" class="icon small red" @click="reportUser" />
                     <b-tooltip target="report-user">{{ $t('report-user') }}</b-tooltip>
                 </div>
                 <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
-                <AchievementsSummary v-if="userProfile.achievements" :achievements="userProfile.achievements" />
+                <Achievements v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
             <div class="left-column">
                 <Reward v-if="userProfile.rewardObj" class="summary-tab" 
                         :reward="userProfile.rewardObj" :userReward="false" 
                         :rewardType="userProfile.rewardObj.rewardType" />
-                <div v-if="userProfile.friends" class="summary-tab">
-                    <span class="card-title">{{ $t('friends') }} 
-                        <b-icon-person-plus-fill 
-                            v-if="notLoggedUser" 
-                            class="icon small" 
-                            @click="sendFriendRequest" />
-                    </span>
-                    <div class="side-border bottom-border">
-                        <ul class="summary-list">
-                            <li v-for="(friend, index) in userProfile.friends" :key="index">
-                                <router-link :to="{ name: 'profile', params: { id: friend.id}}">
-                                    {{friend.username}}
-                                </router-link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <Friends :manage="false" :message="false" />
             </div>
+
+            <b-modal id="send-message" hide-footer hide-header>
+                <SendMessage :user="userProfile" @close="closeSendMessageModal" />
+            </b-modal>
+            <b-modal id="report-user" hide-footer hide-header>
+                <ReportUser :user="userProfile" @close="closeReportUserModal" />
+            </b-modal>
         </div>
-        
-        <b-modal id="send-message" hide-footer hide-header>
-            <SendMessage :user="userProfile" @close="closeSendMessageModal" />
-        </b-modal>
-        <b-modal id="report-user" hide-footer hide-header>
-            <ReportUser :user="userProfile" @close="closeReportUserModal" />
-        </b-modal>
     </div>
 </template>
 
 
 <script>
 import {mapGetters} from 'vuex';
-import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
-import Reward from '../components/summary/Reward.vue';
+import Achievements from '../components/summary/AchievementsCard.vue';
+import Reward from '../components/summary/RewardCard.vue';
 import SendMessage from '../components/modals/SendMessage.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
+import Friends from '../components/summary/FriendsCard.vue';
 
 export default {
-    components: {Reward, AchievementsSummary, SendMessage, ReportUser, Loading},
+    components: {Reward, Achievements, ReportUser, Loading, Friends, SendMessage},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();

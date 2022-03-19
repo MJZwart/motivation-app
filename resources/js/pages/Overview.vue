@@ -2,20 +2,9 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
-            <div>
-                <reward-summary v-if="rewardObj" :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
-            </div>
-            <div v-if="userStats">
-                <span class="card-title">{{ $t('stats') }}</span>
-                <div class="side-border bottom-border">
-                    <span>{{ $t('tasks-completed')}}: {{userStats.tasks_completed}}</span>
-                    <p v-if="userStats.repeatable_most_completed">
-                        {{ $t('most-completed-repeatable', [userStats.repeatable_most_completed.task_name, 
-                                                            userStats.repeatable_most_completed.total])}}
-                    </p>
-                </div>
-            </div>
-            <achievements-summary :achievements="achievements" />
+            <Reward v-if="rewardObj" class="mb-2" :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
+            <UserStats class="mb-2" :user-stats="userStats" />
+            <Achievements :achievements="achievements" />
         </div>
     </div>
 </template>
@@ -23,11 +12,12 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import AchievementsSummary from '../components/summary/AchievementsSummary.vue';
-import RewardSummary from '../components/summary/Reward.vue';
+import Achievements from '../components/summary/AchievementsCard.vue';
+import Reward from '../components/summary/RewardCard.vue';
 import Loading from '../components/Loading.vue';
+import UserStats from '../components/summary/UserStats.vue';
 export default {
-    components: {RewardSummary, AchievementsSummary, Loading},
+    components: {Reward, Achievements, Loading, UserStats},
     data() {
         return {
             loading: true,
