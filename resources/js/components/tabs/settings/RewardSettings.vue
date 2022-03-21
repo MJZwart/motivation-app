@@ -14,19 +14,25 @@
                     </template>
                     <template #cell(actions)="item">
                         <b-icon-pencil-square :id="'edit-item-' + item.index" class="icon" @click="showEditReward(item.item)" />
-                        <b-tooltip :target="'edit-item-' + item.index">{{ $t('change-name') }}</b-tooltip>
+                        <b-tooltip :target="'edit-item-' + item.index">
+                            {{ $t('change-name') }}
+                        </b-tooltip>
                         <b-icon-play-circle 
                             v-if="!item.item.active" 
                             :id="'activate-item-' + item.index" 
                             class="icon" 
                             @click="activateReward(item.item)" />
-                        <b-tooltip :target="'activate-item-' + item.index">{{ $t('activate') }}</b-tooltip>
+                        <b-tooltip v-if="!item.item.active" :target="'activate-item-' + item.index">
+                            {{ $t('activate') }}
+                        </b-tooltip>
                         <b-icon-trash
                             v-if="!item.item.active" 
                             :id="'delete-item-' + item.index"
                             class="icon small red"
                             @click="deleteItem(item.item)" />
-                        <b-tooltip :target="'delete-item-' + item.index">{{ $t('delete') }}</b-tooltip>
+                        <b-tooltip v-if="!item.item.active"  :target="'delete-item-' + item.index">
+                            {{ $t('delete') }}
+                        </b-tooltip>
                     </template>
                 </b-table>
             </div>
