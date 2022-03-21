@@ -1,7 +1,7 @@
 <template>
     <div class="w-80 center">
         <b-tabs card pills vertical>
-            <b-tab :title="$t('account-settings')">
+            <b-tab :title="$t('account-settings')" active>
                 <AccountSettings />
             </b-tab>
 
@@ -9,7 +9,7 @@
                 <ProfileSettings />
             </b-tab>
 
-            <b-tab :title="$t('reward-settings')" active>
+            <b-tab :title="$t('reward-settings')">
                 <RewardSettings />
             </b-tab>
         </b-tabs>
