@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>{{ reportTitle }}</h4>
+        <h5>{{ reportTitle }}</h5>
         <b-form @submit.prevent="reportUser">
             <b-form-group
                 :label="$t('report-reason')" 
