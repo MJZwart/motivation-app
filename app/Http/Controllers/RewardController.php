@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\RewardObjectHandler;
 use App\Models\Character;
 use App\Models\Village;
+use App\Models\User;
 use App\Http\Resources\CharacterResource;
 use App\Http\Resources\VillageResource;
+use App\Http\Resources\UserResource;
 
 class RewardController extends Controller
 {
@@ -42,5 +44,14 @@ class RewardController extends Controller
         return new JsonResponse(['rewards' => [
             'characters' => $characters ? CharacterResource::collection($characters) : null,
             'villages' => $villages ? VillageResource::collection($villages) : null]]);
+    }
+
+    public function activateRewardInstance(Request $request) {
+        /** @var User */
+        $user = Auth::user();
+        RewardObjectHandler::toggleActiveRewardObject($request['rewardType'], $user, $request['id']);
+        if($request['rewardType'] != $user->rewards)
+            $user->update(['rewards' => $request['rewardType']]);
+        return new JsonResponse(['message' => ['success' => ['You have activated '.$request['name']]], 'user' => new UserResource(Auth::user())]);
     }
 }
