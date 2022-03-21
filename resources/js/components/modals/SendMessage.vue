@@ -1,8 +1,6 @@
 <template>
-    <div v-if="user">
-        <div v-if="user.username">
-            <h5>{{ sendMessageTitle }}</h5>
-        </div>
+    <div>
+        <h5>{{ sendMessageTitle }}</h5>
         <b-form @submit.prevent="sendMessage">
             <b-form-group
                 :label="$t('message')" 

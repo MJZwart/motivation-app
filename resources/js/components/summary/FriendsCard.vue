@@ -22,7 +22,7 @@
             <p v-else class="mb-1">{{ $t('no-friends') }}</p>
         </Summary>
         <b-modal id="send-message" hide-footer hide-header>
-            <send-message :user="friendToMessage" @close="closeSendMessageModal" />
+            <SendMessage :user="friendToMessage" @close="closeSendMessageModal" />
         </b-modal>
     </div>
 </template>
