@@ -69,5 +69,12 @@ export default {
                 return Promise.resolve();
             });
         },
+
+        deleteInstance: ({dispatch}, rewardObj) => {
+            return axios.put('/reward/delete', rewardObj).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
+            });
+        },
     },
 }

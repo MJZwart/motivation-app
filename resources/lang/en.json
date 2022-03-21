@@ -90,6 +90,7 @@
     "pick-example-tasks": "To get you started, you can pick a few of these example tasks to directly put into your task lists.",
     "update-reward-name": "Update name",
     "edit-reward-name": "Edit name",
+    "confirm-delete-instance": "Are you sure you wish to delete the {type} {name}?",
 
     "save-settings": "Save settings",
     "account-settings": "Account settings",

@@ -21,6 +21,12 @@
                             class="icon" 
                             @click="activateReward(item.item)" />
                         <b-tooltip :target="'activate-item-' + item.index">{{ $t('activate') }}</b-tooltip>
+                        <b-icon-trash
+                            v-if="!item.item.active" 
+                            :id="'delete-item-' + item.index"
+                            class="icon small red"
+                            @click="deleteItem(item.item)" />
+                        <b-tooltip :target="'delete-item-' + item.index">{{ $t('delete') }}</b-tooltip>
                     </template>
                 </b-table>
             </div>
@@ -191,6 +197,13 @@ export default {
         },
         displayActive(instance) {
             return instance.active ? ' (' + this.$t('currently-active') + ')' : ''; 
+        },
+        deleteItem(instance) {
+            if (confirm(this.$t('confirm-delete-instance', {name: instance.name, type: instance.type.toLowerCase()}))) {
+                this.$store.dispatch('reward/deleteInstance', instance).then(() => {
+                    this.load();
+                });
+            }
         },
         load() {
             this.$store.dispatch('clearErrors');

@@ -54,4 +54,9 @@ class RewardController extends Controller
             $user->update(['rewards' => $request['rewardType']]);
         return new JsonResponse(['message' => ['success' => ['You have activated '.$request['name']]], 'user' => new UserResource(Auth::user())]);
     }
+
+    public function deleteInstance(Request $request) {
+        RewardObjectHandler::deleteRewardObject($request['rewardType'], $request['id']);
+        return new JsonResponse(['message' => ['success' => ['You have deleted '.$request['name']]]]);
+    }
 }

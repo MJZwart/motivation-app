@@ -105,4 +105,8 @@ class CharacterHandler {
             }
         }
     }
+
+    public static function deleteCharacter($characterId) {
+        Character::find($characterId)->delete();
+    }
 }
