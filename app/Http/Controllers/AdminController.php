@@ -11,6 +11,7 @@ use App\Models\Achievement;
 use App\Models\AchievementTrigger;
 use App\Http\Resources\AchievementResource;
 use App\Models\BugReport;
+use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -22,7 +23,7 @@ class AdminController extends Controller
         $achievements = AchievementResource::collection(Achievement::get());
         $achievementTriggers = AchievementTrigger::get();
         $bugReports = BugReportResource::collection(BugReport::all());
-        $experiencePoints = DB::table('experience_points')->get();
+        $experiencePoints = ExperiencePoint::get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
         $balancing = ['experience_points' => $experiencePoints, 'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain];
@@ -34,8 +35,8 @@ class AdminController extends Controller
 
     public function updateExeriencePoints(UpdateExperiencePointsRequest $request) {
         $validated = $request->validated();
-        DB::table('experience_points')->upsert($validated, ['id'], ['experience_points']);
-        $experiencePoints = DB::table('experience_points')->get();
+        ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
+        $experiencePoints = ExperiencePoint::get();
         return new JsonResponse(
             ['message' => ['success' => ['Experience points updated']], 'data' => $experiencePoints], 
             Response::HTTP_OK);
@@ -43,8 +44,8 @@ class AdminController extends Controller
 
     public function addNewLevel(StoreNewLevelRequest $request) {
         $validated = $request->validated();
-        DB::table('experience_points')->insert($validated);
-        $experiencePoints = DB::table('experience_points')->get();
+        ExperiencePoint::insert($validated);
+        $experiencePoints = ExperiencePoint::get();
         return new JsonResponse(
             ['message' => ['success' => ['Level added']], 'data' => $experiencePoints], 
             Response::HTTP_OK);
