@@ -4,7 +4,7 @@
         <div v-else>
             <FriendRequests />
             
-            <ManageFriends />
+            <FriendsCard :manage="true" :message="true" />
         </div>
     </div>
 </template>
@@ -12,11 +12,11 @@
 
 <script>
 import Loading from '../../Loading.vue';
-import ManageFriends from './components/ManageFriends.vue';
+import FriendsCard from '../../summary/FriendsCard.vue';
 import FriendRequests from './components/FriendRequests.vue';
 export default {
     components: {
-        Loading, ManageFriends, FriendRequests,
+        Loading, FriendsCard, FriendRequests,
     },
     mounted() {
         this.$store.dispatch('friend/getRequests').then(() => this.loading = false);

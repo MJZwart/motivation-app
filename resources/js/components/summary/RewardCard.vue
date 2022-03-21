@@ -1,11 +1,7 @@
 <template>
-    <div>
-        <div v-if="reward" class="summary-card">
-            <span class="card-title">{{reward.name}}                 
-                <b-icon-pencil-square v-if="userReward"
-                                      @click="showEditReward()" />
-            </span>
-            <div class="bottom-border side-border card-content">
+    <div v-if="reward">
+        <Summary :title='reward.name'>
+            <div class="compact">
                 <p>{{ $t('level') }}: {{reward.level}}</p>
                 <p>{{ $t('experience') }}: {{reward.experience}}
                     <b-progress class="level-bar" :value="reward.experience" :max="experienceToLevel(reward.level)" />
@@ -26,17 +22,13 @@
                     <b-progress :value="reward.e_exp" :max="experienceToLevel(reward.e)" />
                 </p>
             </div>
-        </div>
-        
-        <b-modal id="edit-reward-name" hide-footer :title="$t('edit-reward-name')">
-            <edit-reward-object-name :rewardObj="rewardToEdit" :type="rewardType" @close="closeEditReward" />
-        </b-modal>
+        </Summary>
     </div>
 </template>
 
 
 <script>
-import EditRewardObjectName from '../modals/EditRewardObjectName.vue';
+import Summary from './Summary.vue';
 export default {
     props: {
         reward: {
@@ -48,14 +40,8 @@ export default {
             type: String,
             required: true,
         },
-        userReward: {
-            type: Boolean,
-            required: true,
-        },
     },
-    components: {
-        EditRewardObjectName,
-    },
+    components: {Summary},
     data() {
         return {
             /** @type {import('resources/types/reward').Reward} */
@@ -74,25 +60,19 @@ export default {
                 return this.reward.experienceTable[index].experience_points;
             }
         },
-        showEditReward() {
-            this.$store.dispatch('clearErrors');
-            this.rewardToEdit = this.reward;
-            this.$bvModal.show('edit-reward-name');
-        },
-        closeEditReward() {
-            this.rewardToEdit = null;
-            this.$bvModal.hide('edit-reward-name');
-        },
     },
 }
 </script>
 
 <style lang="scss">
 .progress{
-    height:0.5rem;
+    height:0.5rem !important;
 }
 .progress.level-bar{
-    height:0.7rem;
-    margin-bottom:3px;
+    height:0.7rem !important;
+    margin-bottom:3px !important;
+}
+.compact > p {
+    margin-bottom: 0.5rem;
 }
 </style>

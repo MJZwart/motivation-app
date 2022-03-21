@@ -1,9 +1,8 @@
 <template>
     <b-row class="mb-2">
         <b-col>
-            <span class="card-title">{{ $t('incoming-friend-requests') }}</span>
-            <div class="side-border bottom-border">
-                <ul class="summary-list">
+            <Summary :title="$t('incoming-friend-requests')">
+                <ul class="no-list-style">
                     <div v-if="requests.incoming[0]">
                         <li v-for="(request, index) in requests.incoming" :key="index">
                             <b-icon-check-square 
@@ -22,12 +21,11 @@
                     
                     <p v-else>{{ $t('no-incoming-friend-requests') }}</p>
                 </ul>
-            </div>
+            </Summary>
         </b-col>
         <b-col>
-            <span class="card-title">{{ $t('outgoing-friend-requests') }}</span>
-            <div class="side-border bottom-border">
-                <ul class="summary-list">
+            <Summary :title="$t('outgoing-friend-requests')">
+                <ul class="no-list-style">
                     <div v-if="requests.outgoing[0]">
                         <li v-for="(request, index) in requests.outgoing" :key="index">
                             <b-icon-x-square 
@@ -41,15 +39,18 @@
 
                     <p v-else>{{ $t('no-outgoing-friend-requests') }}</p>
                 </ul>
-            </div>
+            </Summary>
         </b-col>
     </b-row>
 </template>
 
 <script>
 import {mapGetters} from 'vuex';
+import Summary from '../../../summary/Summary.vue';
 export default {
-    
+    components: {
+        Summary,
+    },
     data() {
         return {
             outgoingRequests: true,
