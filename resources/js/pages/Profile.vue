@@ -15,13 +15,13 @@
                     <b-tooltip target="report-user">{{ $t('report-user') }}</b-tooltip>
                 </div>
                 <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
-                <Achievements v-if="userProfile.achievements" :achievements="userProfile.achievements" />
+                <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
             <div class="left-column">
-                <Reward v-if="userProfile.rewardObj" class="summary-tab" 
-                        :reward="userProfile.rewardObj" :userReward="false" 
-                        :rewardType="userProfile.rewardObj.rewardType" />
-                <Friends :manage="false" :message="false" />
+                <RewardCard v-if="userProfile.rewardObj" class="summary-tab" 
+                            :reward="userProfile.rewardObj" :userReward="false" 
+                            :rewardType="userProfile.rewardObj.rewardType" />
+                <FriendsCard :manage="false" :message="false" />
             </div>
 
             <b-modal id="send-message" hide-footer hide-header>
@@ -37,15 +37,15 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import Achievements from '../components/summary/AchievementsCard.vue';
-import Reward from '../components/summary/RewardCard.vue';
+import AchievementsCard from '../components/summary/AchievementsCard.vue';
+import RewardCard from '../components/summary/RewardCard.vue';
 import SendMessage from '../components/modals/SendMessage.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
-import Friends from '../components/summary/FriendsCard.vue';
+import FriendsCard from '../components/summary/FriendsCard.vue';
 
 export default {
-    components: {Reward, Achievements, ReportUser, Loading, Friends, SendMessage},
+    components: {RewardCard, AchievementsCard, ReportUser, Loading, FriendsCard, SendMessage},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();

@@ -56,8 +56,4 @@ export default {
         background-color: $light;
     }
 }
-// .summary-card-slot {
-
-// }
-
 </style>

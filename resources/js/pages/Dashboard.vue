@@ -20,10 +20,10 @@
                 </div>
 
                 <div class="right-align">
-                    <reward-summary v-if="rewardObj" class="summary-tab" 
-                                    :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
+                    <RewardCard v-if="rewardObj" class="summary-tab" 
+                                :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
 
-                    <Friends :message="true" :manage="false" />
+                    <FriendsCard :message="true" :manage="false" />
                 </div>
             </div>
 
@@ -56,8 +56,8 @@ import EditTask from '../components/modals/EditTask.vue';
 import NewTaskList from '../components/modals/NewTaskList.vue';
 import EditTaskList from '../components/modals/EditTaskList.vue';
 import DeleteTaskListConfirm from '../components/modals/DeleteTaskListConfirm.vue';
-import RewardSummary from '../components/summary/RewardCard.vue';
-import Friends from '../components/summary/FriendsCard.vue';
+import RewardCard from '../components/summary/RewardCard.vue';
+import FriendsCard from '../components/summary/FriendsCard.vue';
 import Loading from '../components/Loading.vue';
 export default {
     components: { 
@@ -67,8 +67,8 @@ export default {
         NewTaskList, 
         EditTaskList, 
         DeleteTaskListConfirm, 
-        RewardSummary,
-        Friends,
+        RewardCard,
+        FriendsCard,
         Loading},
     data() {
         return {

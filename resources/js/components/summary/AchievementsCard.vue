@@ -1,6 +1,6 @@
 <template>
     <Summary :title="$t('achievements')">
-        <div v-if="achievements">
+        <div v-if="achievements && achievements[0]">
             <ul class="no-list-style">
                 <li v-for="(achievement, index) in achievements" :key="index">
                     <span>{{achievement.name}}</span>

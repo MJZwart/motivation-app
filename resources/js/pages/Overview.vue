@@ -2,9 +2,9 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
-            <Reward v-if="rewardObj" class="mb-2" :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
+            <RewardCard v-if="rewardObj" class="mb-2" :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
             <UserStats class="mb-2" :user-stats="userStats" />
-            <Achievements :achievements="achievements" />
+            <AchievementsCard :achievements="achievements" />
         </div>
     </div>
 </template>
@@ -12,12 +12,12 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import Achievements from '../components/summary/AchievementsCard.vue';
-import Reward from '../components/summary/RewardCard.vue';
+import AchievementsCard from '../components/summary/AchievementsCard.vue';
+import RewardCard from '../components/summary/RewardCard.vue';
 import Loading from '../components/Loading.vue';
 import UserStats from '../components/summary/UserStats.vue';
 export default {
-    components: {Reward, Achievements, Loading, UserStats},
+    components: {RewardCard, AchievementsCard, Loading, UserStats},
     data() {
         return {
             loading: true,

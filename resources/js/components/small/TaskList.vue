@@ -29,11 +29,11 @@
                 </template>
             </slot>
             <template #footer>           
-                <b-button block variant="outline" class="bottom-radius p-0">
+                <b-button block variant="outline" class="bottom-radius p-0" @click="openNewTask(null)">
                     <b-icon-plus-square-fill 
                         :id="'add-new-task-' + taskList.id" 
-                        class="icon large green m-0" 
-                        @click="openNewTask(null)" />
+                        class="icon large green m-0 wide" 
+                    />
                     <b-tooltip :target="'add-new-task-' + taskList.id">{{ $t('add-new-task') }}</b-tooltip>
                 </b-button>
             </template>
@@ -56,8 +56,8 @@ export default {
     },
     methods: {
         /** @param {import('resources/types/task').Task} */
-        openNewTask(task) {
-            this.$emit('newTask', task, this.taskList);
+        openNewTask(superTask) {
+            this.$emit('newTask', superTask, this.taskList);
         },
         /** @param {import('resources/types/task').Task} */
         editTask(task) {
