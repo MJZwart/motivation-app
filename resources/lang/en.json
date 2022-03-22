@@ -1,5 +1,5 @@
 {
-    "app-name": "Motivation App",
+    "app-name": "Dumb Bitch Simulator",
     "faq": "Frequently Asked Question",
 
     "create-new-task-list": "Create new task list",
@@ -21,7 +21,7 @@
     "merge-with": "Merge with:",
     "add-new-task": "Add new task",
     "confirmation-delete-task": "Are you sure you wish to delete the task '{0}' without completing it? Any subtasks will automatically be deleted. You will not receive any rewards for it.",
-    "complete-sub-task-confirmation": "Completing this task also completes all sub tasks. Are you sure?'",
+    "complete-sub-task-confirmation": "Completing this task also completes all sub tasks. Are you sure?",
     
     "task-list": "Task list",
     "subtask-of": "Subtask of",
@@ -270,5 +270,7 @@
     "home-abilities-2": "Number go up",
     "home-abilities-3": "Enter dumb names",
     "home-and-more": "And more!",
-    "home-2": "More information that is very important for all of you to know"
+    "home-2": "More information that is very important for all of you to know",
+    "explanation-tasks": "Do clicky",
+    "explanation-reward": "Watch number go up"
 }

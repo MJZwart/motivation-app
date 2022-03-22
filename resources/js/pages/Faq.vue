@@ -54,8 +54,8 @@ export default {
                     answer: 'Absolutely, we have lots of plans and ideas to work out. Keep in mind this is a hobby-project, we can only work on it in our spare time, so some features might take a while before showing up on the site.',
                 },
                 {
-                    question: '', 
-                    answer: '',
+                    question: 'It\'s not very pretty.', 
+                    answer: 'Okay listen here you little sh-. I\'m not very good at designing, give me a break.',
                 },
                 {
                     question: '', 
