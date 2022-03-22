@@ -47,7 +47,7 @@ export default {
         },
         getReportedUsers: state => {
             return state.reportedUsers;
-        }
+        },
     },
     actions: {
         checkAdmin: () => {
