@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\User;
 
 class ReportedUserReportResource extends JsonResource
 {
@@ -17,7 +18,8 @@ class ReportedUserReportResource extends JsonResource
         return [
             'comment' => $this->comment,
             'reported_date' => $this->created_at->toDateTimeString(),
-            'reported_by' => $this->reported_by_user_id,
+            'reported_by_id' => $this->reported_by_user_id,
+            'reported_by_name' => User::find($this->reported_by_user_id)->username,
             'conversation' => $this->conversation_id,
             'id' => $this->id,
             'reason' => $this->reason,

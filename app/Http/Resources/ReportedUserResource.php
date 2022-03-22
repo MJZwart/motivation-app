@@ -18,7 +18,7 @@ class ReportedUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->username,
+            'username' => $this->username,
             'report_amount' => ReportedUser::where('reported_user_id', $this->id)->get()->count(),
             'last_report_date' => $this->getLatestReport()->created_at->toDateTimeString(),
             'reports' => ReportedUserReportResource::collection($this->getReports()),

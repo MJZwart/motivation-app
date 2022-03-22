@@ -21,7 +21,7 @@ export default {
         setVillageExpGain(state, villageExpGain) {
             state.villageExpGain = villageExpGain;
         },
-        setReportedUsers(statem, reportedUsers) {
+        setReportedUsers(state, reportedUsers) {
             state.reportedUsers = reportedUsers;
         },
     },
@@ -61,7 +61,7 @@ export default {
                 commit('setExperiencePoints', response.data.balancing.experience_points);
                 commit('setCharExpGain', response.data.balancing.character_exp_gain);
                 commit('setVillageExpGain', response.data.balancing.village_exp_gain);
-                commit('setReportedUsers', response.data.reportedUsers, {root:true});
+                commit('setReportedUsers', response.data.reportedUsers);
                 return Promise.resolve();
             });
         },
