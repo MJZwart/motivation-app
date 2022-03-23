@@ -1,5 +1,5 @@
 <template>
-    <b-row class="mb-2">
+    <b-row>
         <b-col>
             <Summary :title="$t('incoming-friend-requests')">
                 <ul class="no-list-style">

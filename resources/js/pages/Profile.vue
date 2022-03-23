@@ -7,8 +7,10 @@
                 <div v-if="notLoggedUser" class="d-flex">
                     <b-icon-envelope id="message-user" class="icon small" @click="sendMessage" />
                     <b-tooltip target="message-user">{{ $t('message-user') }}</b-tooltip>
-                    <b-icon-person-plus-fill id="send-friend-request" class="icon small" @click="sendFriendRequest" />
-                    <b-tooltip target="send-friend-request">{{ $t('send-friend-request') }}</b-tooltip>
+                    <span v-if="!isConnection">
+                        <b-icon-person-plus-fill id="send-friend-request" class="icon small" @click="sendFriendRequest" />
+                        <b-tooltip target="send-friend-request">{{ $t('send-friend-request') }}</b-tooltip>
+                    </span>
                     <b-icon-dash-circle id="block-user" class="icon small red" @click="blockUser" />
                     <b-tooltip target="block-user">{{ $t('block-user') }}</b-tooltip>
                     <b-icon-exclamation-circle id="report-user" class="icon small red" @click="reportUser" />
@@ -62,7 +64,15 @@ export default {
         ...mapGetters({
             userProfile: 'user/getUserProfile',
             user: 'user/getUser',
+            requests: 'friend/getRequests',
         }),
+        isConnection() {
+            const ids = [];
+            ids.push(...this.requests.outgoing.map(request => request.friend_id));
+            ids.push(...this.requests.incoming.map(request => request.friend_id));
+            ids.push(...this.user.friends.map(friend => friend.id));
+            return ids.includes(this.userProfile.id);
+        },
         /** Checked if this user profile is not the user currently logged in, so you can't send a request to yourself */
         notLoggedUser() {
             return this.$route.params.id != this.user.id;
