@@ -10,6 +10,7 @@
                     <b-nav-item class="silent" href="https://github.com/MJZwart/motivation-app#roadmap" target="_blank">
                         {{ $t('roadmap') }}
                     </b-nav-item>
+                    <b-nav-item class="silent" to="/feedback">{{ $t('feedback') }}</b-nav-item>
                 </b-navbar-nav>
             </b-col>
         </b-row>
