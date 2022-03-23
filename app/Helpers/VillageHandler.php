@@ -105,4 +105,8 @@ class VillageHandler {
             }
         }
     }
+
+    public static function deleteVillage($villageId) {
+        Village::find($villageId)->delete();
+    }
 }

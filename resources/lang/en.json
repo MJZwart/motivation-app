@@ -65,8 +65,10 @@
     "e": "Charisma | Community",
 
     "currently-active": "Currently active",
+    "manage-rewards": "Manage rewards",
     "rewards-type": "Rewards type",
     "change-reward-type": "Change reward type",
+    "change-reward-settings": "Change reward type",
     "which-reward-type": "How would you like to be rewarded for completing your tasks?",
     "no-rewards": "Nothing, just let me complete tasks.",
     "character-reward": "RPG Character (Gain experience and level up your character)",
@@ -78,6 +80,7 @@
     "make-new-village": "Make new village",
     "set-up-new-village": "Set up new village",
     "village-name": "Village name",
+    "change-name": "Change name",
     "activate": "Activate",
     "make-new-character": "Make new character",
     "set-up-new-character": "Set up new character",
@@ -87,6 +90,7 @@
     "pick-example-tasks": "To get you started, you can pick a few of these example tasks to directly put into your task lists.",
     "update-reward-name": "Update name",
     "edit-reward-name": "Edit name",
+    "confirm-delete-instance": "Are you sure you wish to delete the {type} {name}?",
 
     "save-settings": "Save settings",
     "account-settings": "Account settings",

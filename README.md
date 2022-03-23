@@ -73,12 +73,12 @@ Before launching the beta version of the site, the following things need to be f
 - [ ] Responsive design on every page in terms of placement of components and readable text
 - [ ] A feedback form
 - [ ] All invalid inputs show as red when validation fails
-- [ ] Tooltips on all buttons and otherwise unclear data
+- [x] Tooltips on all buttons and otherwise unclear data
 - [ ] A tutorial or 'help what do I do here' button on every page
 # Users and interaction
 - [ ] Allowing users to manage their blocklist and search for friends to add
 - [ ] Allow a user to manage the group they are an admin of
-- [ ] Fully allowing a user to manage their characters or villages (rename them, see their level)
+- [x] Fully allowing a user to manage their characters or villages (rename them, see their level)
 - [ ] Finished groups: invites to private groups, 
 # Admin and back-end
 - [ ] Admins able to view and respond to feedback
