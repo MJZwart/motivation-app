@@ -1,6 +1,6 @@
 {
-    "app-name": "Motivation App",
-    "faq": "Frequently Asked Question",
+    "app-name": "Dumb Bitch Simulator",
+    "faq": "Frequently Asked Questions",
 
     "create-new-task-list": "Create new task list",
     "create-new-task": "Create new task",
@@ -21,7 +21,7 @@
     "merge-with": "Merge with:",
     "add-new-task": "Add new task",
     "confirmation-delete-task": "Are you sure you wish to delete the task '{0}' without completing it? Any subtasks will automatically be deleted. You will not receive any rewards for it.",
-    "complete-sub-task-confirmation": "Completing this task also completes all sub tasks. Are you sure?'",
+    "complete-sub-task-confirmation": "Completing this task also completes all sub tasks. Are you sure?",
     
     "task-list": "Task list",
     "subtask-of": "Subtask of",
@@ -269,10 +269,12 @@
 
     "home-welcome-to": "Welcome to {0}.",
     "home-introduction": "I've no clue what to write here to entice you to join, so how about I tell you what you can do with this site?",
-    "home-abilities": "What you can do on this site:",
-    "home-abilities-1": "Clicky",
-    "home-abilities-2": "Number go up",
-    "home-abilities-3": "Enter dumb names",
-    "home-and-more": "And more!",
-    "home-2": "More information that is very important for all of you to know"
+    "explanation-tasks": "Create repeatable or one-off tasks to manage your to-do list. Create sub-tasks to divide your chore up in bite-sized chunks and keep a clear overview of your mission. You can use this to create order in your daily chores, discipline yourself into new habits or work towards a bigger goal.",
+    "explanation-reward": "Choose between improving a character or growing a village and watch it grow with each task you complete. Want to reach a higher level with your character or reach a new level with your village? Be sure to finish your chores for the day and watch your reward grow. Can't decide between a character or a village? You can switch whenever you feel like it, without losing progress! Of course, if this doesn't interest you, there's an option to turn it off entirely and switch it on at your disposal.",
+    "explanation-tasks-header": "Manage your to-do list",
+    "explanation-reward-header": "Grow your character or village by completing tasks",
+    "explanation-social-header": "Motivate your friends",
+    "explanation-social": "While you can use this app alone, it's much more fun with friends. Invite your friends and make your own group, where you can see each other's progress and motivate each other.",
+    "roadmap": "Roadmap",
+    "create-account-today": "Create an account today!"
 }
