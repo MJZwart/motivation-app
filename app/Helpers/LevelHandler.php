@@ -5,6 +5,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CharacterResource;
 use App\Http\Resources\VillageResource;
+use App\Models\ExperiencePoint;
 
 class LevelHandler {
     /**
@@ -35,7 +36,7 @@ class LevelHandler {
      */
     public static function checkCharacterLevelUp($character){
         $messages = [];
-        $experienceTable =  DB::table('experience_points')->get();
+        $experienceTable =  ExperiencePoint::get();
         for($i = 0 ; $i < count(RewardEnums::CHAR_STAT_ARRAY) ; $i++){
             $expNeeded = $experienceTable->firstWhere('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])->experience_points;
             while($character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] > $expNeeded){ //While the exp owned is higher than the exp needed to level up:
@@ -80,7 +81,7 @@ class LevelHandler {
      */
     public static function checkVillageLevelUp($village){
         $messages = [];
-        $experienceTable =  DB::table('experience_points')->get();
+        $experienceTable =  ExperiencePoint::get();
         for($i = 0 ; $i < count(RewardEnums::VILL_STAT_ARRAY) ; $i++){
             $expNeeded = $experienceTable->firstWhere('level', $village[RewardEnums::VILL_STAT_ARRAY[$i]])->experience_points;
             while($village[RewardEnums::VILL_STAT_EXP_ARRAY[$i]] > $expNeeded){ //While the exp owned is higher than the exp needed to level up:

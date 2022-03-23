@@ -29,8 +29,8 @@ class VillageResource extends JsonResource
             'c_exp' => $this->craft_exp,
             'd_exp' => $this->art_exp,
             'e_exp' => $this->community_exp,
+            'exp_to_level' => $this->expToLevel(),
             'rewardType' => 'VILLAGE',
-            'experienceTable' => $this->experienceTable(),
             'active' => !!$this->active,
         ];
     }

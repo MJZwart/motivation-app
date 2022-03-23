@@ -55,9 +55,9 @@ export default {
          * @param {Number} level
          */
         experienceToLevel(level) {
-            const index = this.reward.experienceTable.findIndex(item => item.level == level);
+            const index = this.reward.exp_to_level.findIndex(item => item.level == level);
             if (index >= 0) {
-                return this.reward.experienceTable[index].experience_points;
+                return this.reward.exp_to_level[index].experience_points;
             }
         },
     },
