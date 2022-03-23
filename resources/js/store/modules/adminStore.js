@@ -10,6 +10,7 @@ export default {
         charExpGain: null,
         villageExpGain: null,
         reportedUsers: null,
+        conversation: null,
     },
     mutations: {
         setExperiencePoints(state, experiencePoints) {
@@ -23,6 +24,9 @@ export default {
         },
         setReportedUsers(state, reportedUsers) {
             state.reportedUsers = reportedUsers;
+        },
+        setConversation(state, conversation) {
+            state.conversation = conversation;
         },
     },
     getters: {
@@ -48,6 +52,9 @@ export default {
         getReportedUsers: state => {
             return state.reportedUsers;
         },
+        getConversation: state => {
+            return state.conversation;
+        },
     },
     actions: {
         checkAdmin: () => {
@@ -68,6 +75,12 @@ export default {
         sendNotification: ({dispatch}, notification) => {
             axios.post('/notifications/all', notification).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
+            });
+        },
+        fetchConversation: ({commit}, id) => {
+            return axios.get(`/admin/conversation/${id}`).then(response => {
+                commit('setConversation', response.data.data);
+                return Promise.resolve();
             });
         },
 

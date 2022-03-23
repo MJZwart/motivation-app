@@ -12,8 +12,10 @@ use App\Http\Resources\AchievementResource;
 use App\Models\BugReport;
 use App\Models\User;
 use App\Models\ReportedUser;
+use App\Models\Conversation;
 use App\Http\Resources\BugReportResource;
 use App\Http\Resources\ReportedUserResource;
+use App\Http\Resources\AdminConversationResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -66,5 +68,9 @@ class AdminController extends Controller
         return new JsonResponse(
             ['message' => ['success' => ['Village experience balancing updated']], 'data' => $villageExpGain], 
             Response::HTTP_OK);
+    }
+    
+    public function getConversationById($id) {
+        return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
     }
 }
