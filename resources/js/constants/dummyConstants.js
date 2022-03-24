@@ -37,7 +37,7 @@ export const DUMMY_CHARACTER = {
     e_exp: 800,
     experience: 500,
     level: 1,
-    experienceTable: [
+    exp_to_level: [
         {id: 0, level: 1, experience_points: 1000},
         {id: 1, level: 2, experience_points: 1200},
         {id: 2, level: 3, experience_points: 1500},
