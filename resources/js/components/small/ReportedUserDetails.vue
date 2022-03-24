@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <b-table
@@ -8,21 +7,22 @@
             striped
         >
             <template #cell(actions)>
-                <b-button @click="sendMessageToReportedUser">place holder message</b-button>
+                <b-button @click="sendMessageToReportedUser(user.id)">place holder message</b-button>
             </template>
             <template #cell(conversation)="row">
                 <p>{{row.item.conversation}}</p>
                 <template v-if="row.item.conversation">
-                    <b-button @click="showConversation(row.item.conversation)"> placeholder show conversation</b-button>
+                    <b-button @click="showConversation(row.item.conversation, user.id)"> placeholder show conversation</b-button>
                 </template>
             </template>
         </b-table>
 
-        <b-modal id="send-message-to-reported-user" hide-footer :title="'placeholer title'">
-            <SendMessage :user="user" @close="closeSendMessageToReportedUser"/>
+        <b-modal :id="`send-message-to-reported-user-${user.id}`" hide-footer :title="'placeholer title'">
+            <SendMessage :user="user" @close="closeSendMessageToReportedUser(user.id)"/>
         </b-modal>
-        <b-modal id="show-conversation" hide-footer :title="`placeholder title conversation ${conversationToShow}:`">
-            <AdminShowConversation :conversationId="conversationToShow" @close="closeShowConversation"/>
+        <b-modal :id="`show-conversation-${user.id}`"
+                 hide-footer :title="`placeholder title conversation ${conversationToShow}:`">
+            <AdminShowConversation :conversationId="conversationToShow" @close="closeShowConversation(user.id)"/>
         </b-modal>
     </div>
 </template>
@@ -50,21 +50,21 @@ export default {
         }
     },
     methods: {
-        sendMessageToReportedUser() {
+        sendMessageToReportedUser(id) {
             this.$store.dispatch('clearErrors');
-            this.$bvModal.show('send-message-to-reported-user');
+            this.$bvModal.show(`send-message-to-reported-user-${id}`);
         },
-        closeSendMessageToReportedUser() {
-            this.$bvModal.hide('send-message-to-reported-user');
+        closeSendMessageToReportedUser(id) {
+            this.$bvModal.hide(`send-message-to-reported-user-${id}`);
         },
-        showConversation(conversationId) {
+        showConversation(conversationId, id) {
             this.$store.dispatch('clearErrors');
             this.conversationToShow = conversationId;
-            this.$bvModal.show('show-conversation');
+            this.$bvModal.show(`show-conversation-${id}`);
         },
-        closeShowConversation() {
+        closeShowConversation(id) {
             this.conversationToShow = null;
-            this.$bvModal.hide('show-conversation');
+            this.$bvModal.hide(`show-conversation-${id}`);
         },
     },
 }
