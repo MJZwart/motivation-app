@@ -1,5 +1,5 @@
 <template>
-    <div v-if="message" class="break_work">
+    <div v-if="message" class="break-word">
         <p class="mb-0">{{`${message.sender_username}: ${message.message}`}}</p>
         <p class="silent d-flex">
             {{message.created_at}}

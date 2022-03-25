@@ -20,7 +20,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import ReportedUserDetails from '../../../components/small/ReportedUserDetails.vue';
+import ReportedUserDetails from './components/ReportedUserDetails.vue';
 import {REPORTED_USER_FIELDS} from '../../../constants/reportedUserConstants.js';
 export default {
     components: {

@@ -22,20 +22,20 @@
         </b-modal>
         <b-modal :id="`show-conversation-${user.id}`"
                  hide-footer :title="`placeholder title conversation ${conversationToShow}:`">
-            <AdminShowConversation :conversationId="conversationToShow" @close="closeShowConversation()"/>
+            <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation()"/>
         </b-modal>
     </div>
 </template>
 
 
 <script>
-import {REPORTED_USER_DETAILS_FIELDS} from '../../constants/reportedUserConstants.js';
-import SendMessage from '../modals/SendMessage.vue';
-import AdminShowConversation from '../modals/AdminShowConversation.vue';
+import {REPORTED_USER_DETAILS_FIELDS} from '../../../../constants/reportedUserConstants.js';
+import SendMessage from '../../../modals/SendMessage.vue';
+import ShowConversationModal from './ShowConversationModal.vue';
 export default {
     components: {
         SendMessage,
-        AdminShowConversation,
+        ShowConversationModal,
     },
     props: {
         user: {

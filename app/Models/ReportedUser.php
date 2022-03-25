@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class ReportedUser extends Model
 {
@@ -16,4 +17,8 @@ class ReportedUser extends Model
         'reason',
         'conversation_id',
     ];
+
+    public function getReportedUser() {
+        return User::find($this->reported_user_id);
+    }
 }

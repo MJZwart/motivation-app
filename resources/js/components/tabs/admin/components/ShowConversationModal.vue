@@ -2,19 +2,19 @@
     <div>
         <Loading v-if="loading" />
         <template v-else>
-            <AdminShowMessage v-for="message in conversation.messages" :key="message.id"
-                              :message="message" />
+            <ShowMessage v-for="message in conversation.messages" :key="message.id"
+                         :message="message" />
         </template>
     </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex';
-import AdminShowMessage from '../small/AdminShowMessage.vue';
-import Loading from '../../components/Loading.vue'
+import ShowMessage from './ShowMessage.vue';
+import Loading from '../../../Loading.vue'
 export default {
     components: {
-        AdminShowMessage, Loading,
+        ShowMessage, Loading,
     },
     props: {
         conversationId: {
