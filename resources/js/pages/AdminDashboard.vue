@@ -14,6 +14,9 @@
             <b-tab active title="Balancing">
                 <balancing />
             </b-tab>
+            <b-tab title="Reported Users">
+                <reported-users />
+            </b-tab>
         </b-tabs>
     </div>
 </template>
@@ -25,10 +28,11 @@ import BugReportPanel from '../components/tabs/admin/BugReportPanel.vue';
 import SendNotifications from '../components/tabs/admin/SendNotifications.vue';
 import Balancing from '../components/tabs/admin/Balancing.vue';
 import Loading from '../components/Loading.vue';
+import ReportedUsers from '../components/tabs/admin/ReportedUsers.vue';
 
 export default {
     components: {
-        Achievements, BugReportPanel, SendNotifications, Balancing, Loading,
+        Achievements, BugReportPanel, SendNotifications, Balancing, ReportedUsers, Loading,
     },
     mounted() {
         this.$store.dispatch('admin/getAdminDashboard').then(() => this.loading = false);

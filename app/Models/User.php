@@ -11,6 +11,7 @@ use App\Models\Task;
 use App\Helpers\RewardObjectHandler;
 use Illuminate\Support\Facades\DB;
 use App\Models\RepeatableTaskCompleted;
+use App\Models\ReportedUser;
 
 class User extends Authenticatable
 {
@@ -103,6 +104,17 @@ class User extends Authenticatable
         return RewardObjectHandler::getActiveRewardObjectByUser($this->rewards, $this->id);
     }
 
+    public function getReports() {
+        return ReportedUser::where('reported_user_id', $this->id)->get();
+    }
+
+    public function isReported():bool{
+        return $this->getReports()->isNotEmpty();
+    }
+
+    public function getLatestReport(){
+        return $this->getReports()->sortByDesc('created_at')->first();
+    }
     /**
      * Returns the total number of regular and repeatable tasks completed by a user
      */

@@ -11,8 +11,13 @@ use App\Models\Achievement;
 use App\Models\AchievementTrigger;
 use App\Http\Resources\AchievementResource;
 use App\Models\BugReport;
+use App\Models\User;
+use App\Models\ReportedUser;
+use App\Models\Conversation;
 use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
+use App\Http\Resources\ReportedUserResource;
+use App\Http\Resources\AdminConversationResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -26,10 +31,17 @@ class AdminController extends Controller
         $experiencePoints = ExperiencePoint::get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
-        $balancing = ['experience_points' => $experiencePoints, 'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain];
+        $reportedUsers = ReportedUserResource::collection(
+            User::get()->filter(function ($user) {
+                return $user->isReported();
+            })
+        );
+        $balancing = ['experience_points' => $experiencePoints,
+            'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain];
        
         return new JsonResponse(
-            ['achievements' => $achievements, 'achievementTriggers' => $achievementTriggers, 'bugReports' => $bugReports, 'balancing' => $balancing], 
+            ['achievements' => $achievements, 'achievementTriggers' => $achievementTriggers,
+                'bugReports' => $bugReports, 'balancing' => $balancing, 'reportedUsers' => $reportedUsers], 
             Response::HTTP_OK);
     }
 
@@ -67,5 +79,9 @@ class AdminController extends Controller
         return new JsonResponse(
             ['message' => ['success' => ['Village experience balancing updated']], 'data' => $villageExpGain], 
             Response::HTTP_OK);
+    }
+    
+    public function getConversationById($id) {
+        return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
     }
 }
