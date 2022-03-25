@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
+use App\Http\Requests\StoreNewLevelRequest;
 use Illuminate\Http\Request;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
@@ -13,6 +14,7 @@ use App\Models\BugReport;
 use App\Models\User;
 use App\Models\ReportedUser;
 use App\Models\Conversation;
+use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
 use App\Http\Resources\ReportedUserResource;
 use App\Http\Resources\AdminConversationResource;
@@ -26,7 +28,7 @@ class AdminController extends Controller
         $achievements = AchievementResource::collection(Achievement::get());
         $achievementTriggers = AchievementTrigger::get();
         $bugReports = BugReportResource::collection(BugReport::all());
-        $experiencePoints = DB::table('experience_points')->get();
+        $experiencePoints = ExperiencePoint::get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
         $reportedUsers = ReportedUserResource::collection(
@@ -45,10 +47,19 @@ class AdminController extends Controller
 
     public function updateExeriencePoints(UpdateExperiencePointsRequest $request) {
         $validated = $request->validated();
-        DB::table('experience_points')->upsert($validated, ['id'], ['experience_points']);
-        $experiencePoints = DB::table('experience_points')->get();
+        ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
+        $experiencePoints = ExperiencePoint::get();
         return new JsonResponse(
             ['message' => ['success' => ['Experience points updated']], 'data' => $experiencePoints], 
+            Response::HTTP_OK);
+    }
+
+    public function addNewLevel(StoreNewLevelRequest $request) {
+        $validated = $request->validated();
+        ExperiencePoint::insert($validated);
+        $experiencePoints = ExperiencePoint::get();
+        return new JsonResponse(
+            ['message' => ['success' => ['Level added']], 'data' => $experiencePoints], 
             Response::HTTP_OK);
     }
 

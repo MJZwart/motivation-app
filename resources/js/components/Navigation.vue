@@ -14,7 +14,6 @@
             <b-navbar-nav>
                 <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
                 <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
-                <b-nav-item to="/friends">{{ $t('friends') }}</b-nav-item>
                 <b-nav-item to="/bugreport">{{ $t('report-bug') }}</b-nav-item>
                 <b-nav-item to="/social">{{$t('social')}}</b-nav-item>
             </b-navbar-nav>

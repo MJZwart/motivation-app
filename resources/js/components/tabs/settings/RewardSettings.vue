@@ -4,6 +4,40 @@
         <Loading v-if="loading" />
 
         <div v-else>
+            <h5>{{ $t('manage-rewards') }}</h5>
+            <div>
+                <b-table
+                    :items="rewardItems"
+                    :fields="rewardFields">
+                    <template #cell(active)="item">
+                        {{ item.item.active ? 'Yes' : 'No' }}
+                    </template>
+                    <template #cell(actions)="item">
+                        <b-icon-pencil-square :id="'edit-item-' + item.index" class="icon" @click="showEditReward(item.item)" />
+                        <b-tooltip :target="'edit-item-' + item.index">
+                            {{ $t('change-name') }}
+                        </b-tooltip>
+                        <b-icon-play-circle 
+                            v-if="!item.item.active" 
+                            :id="'activate-item-' + item.index" 
+                            class="icon" 
+                            @click="activateReward(item.item)" />
+                        <b-tooltip v-if="!item.item.active" :target="'activate-item-' + item.index">
+                            {{ $t('activate') }}
+                        </b-tooltip>
+                        <b-icon-trash
+                            v-if="!item.item.active" 
+                            :id="'delete-item-' + item.index"
+                            class="icon small red"
+                            @click="deleteItem(item.item)" />
+                        <b-tooltip v-if="!item.item.active"  :target="'delete-item-' + item.index">
+                            {{ $t('delete') }}
+                        </b-tooltip>
+                    </template>
+                </b-table>
+            </div>
+            
+            <h5>{{ $t('change-reward-settings') }}</h5>
             <!-- Pick a reward type -->
             <b-form-group
                 :label="$t('which-reward-type')"
@@ -62,20 +96,24 @@
                     :placeholder="rewardTypeName"   />
                 <base-form-error name="new_object_name" /> 
             </b-form-group>
+            <b-button block @click="confirmRewardsSettings()">{{ $t('save-settings') }}</b-button>
         </div>
-        <b-button block @click="confirmRewardsSettings()">{{ $t('save-settings') }}</b-button>
 
         
+        <b-modal id="edit-reward-name" hide-footer :title="$t('edit-reward-name')">
+            <EditRewardObjectName :rewardObj="rewardToEdit" :type="rewardType" @close="closeEditReward" />
+        </b-modal>
     </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex';
-import {REWARD_TYPES} from '../../../constants/rewardConstants';
+import {REWARD_TYPES, REWARD_FIELDS} from '../../../constants/rewardConstants';
 import BaseFormError from '../../BaseFormError.vue';
 import Loading from '../../Loading.vue';
+import EditRewardObjectName from '../../modals/EditRewardObjectName.vue';
 export default {
-    components: {BaseFormError, Loading},
+    components: {BaseFormError, Loading, EditRewardObjectName},
     data() {
         return {
             rewardSetting: {
@@ -83,7 +121,10 @@ export default {
                 keepOldInstance: null,
             },
             rewardTypes: REWARD_TYPES,
+            rewardFields: REWARD_FIELDS,
             loading: true,
+            rewardToEdit: null,
+            rewardType: null,
         }
     },
     computed: {
@@ -121,6 +162,18 @@ export default {
             options.push({text: 'Make a new village', value: 'NEW'});
             return options;
         },
+        rewardItems() {
+            let rewardItems = [];
+            for (const character of this.characters) {
+                character.type = 'Character';
+                rewardItems.push(character);
+            }
+            for (const village of this.villages) {
+                village.type = 'Village';
+                rewardItems.push(village);
+            }
+            return rewardItems;
+        },
     },
     methods: {
         confirmRewardsSettings() {
@@ -130,11 +183,33 @@ export default {
                 this.load();
             });
         },
+        showEditReward(instance) {
+            this.$store.dispatch('clearErrors');
+            this.rewardToEdit = instance;
+            this.rewardType = instance.type.toUpperCase()
+            this.$bvModal.show('edit-reward-name');
+        },
+        closeEditReward() {
+            this.$bvModal.hide('edit-reward-name');
+            this.load();
+        },
+        activateReward(instance) {
+            this.$store.dispatch('reward/activateInstance', instance).then(() => {
+                this.load();
+            });
+        },
         isActiveInstance(instance) {
             return instance.active;
         },
         displayActive(instance) {
             return instance.active ? ' (' + this.$t('currently-active') + ')' : ''; 
+        },
+        deleteItem(instance) {
+            if (confirm(this.$t('confirm-delete-instance', {name: instance.name, type: instance.type.toLowerCase()}))) {
+                this.$store.dispatch('reward/deleteInstance', instance).then(() => {
+                    this.load();
+                });
+            }
         },
         load() {
             this.$store.dispatch('clearErrors');
