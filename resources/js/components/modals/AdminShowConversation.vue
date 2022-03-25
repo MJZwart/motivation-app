@@ -18,6 +18,7 @@ export default {
     },
     props: {
         conversationId: {
+            type: Number,
             required: true,
         },
     },
