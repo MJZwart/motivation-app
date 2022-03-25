@@ -68,8 +68,8 @@ export default {
         }),
         isConnection() {
             const ids = [];
-            ids.push(...this.requests.outgoing.map(request => request.friend_id));
-            ids.push(...this.requests.incoming.map(request => request.friend_id));
+            ids.push(...this.requests.outgoing.map(request => request.id));
+            ids.push(...this.requests.incoming.map(request => request.id));
             ids.push(...this.user.friends.map(friend => friend.id));
             return ids.includes(this.userProfile.id);
         },

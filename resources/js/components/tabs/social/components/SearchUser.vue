@@ -12,7 +12,7 @@
             <b-table
                 :items="searchResults"
                 :fields="searchResultsFields"
-                small
+                small hover
             >
                 <template #cell(username)="item">
                     <router-link :to="{ name: 'profile', params: { id: item.item.id}}">{{item.item.username}}</router-link>
@@ -33,6 +33,9 @@
                 </template>
             </b-table>
         </div>
+        <b-modal id="send-message-search" hide-footer hide-header>
+            <SendMessage :user="userToMessage" @close="closeSendMessageModal" />
+        </b-modal>
     </div>
 </template>
 
@@ -40,13 +43,18 @@
 <script>
 import {mapGetters} from 'vuex';
 import {SEARCH_RESULTS_FIELDS} from '../../../../constants/userConstants.js';
+import SendMessage from '../../../modals/SendMessage.vue';
 export default {
+    components: {
+        SendMessage,
+    },
     data() {
         return {
             data: {
                 userSearch: '',
             },
             searchResultsFields: null,
+            userToMessage: null,
         }
     },
     mounted() {
@@ -60,8 +68,8 @@ export default {
         /** Checks if a given user (by id) is already friends with the logged in user or a request is already sent */
         isConnection(id) {
             const ids = [];
-            ids.push(...this.requests.outgoing.map(request => request.friend_id));
-            ids.push(...this.requests.incoming.map(request => request.friend_id));
+            ids.push(...this.requests.outgoing.map(request => request.id));
+            ids.push(...this.requests.incoming.map(request => request.id));
             ids.push(...this.user.friends.map(friend => friend.id));
             return ids.includes(id);
         },
@@ -69,6 +77,13 @@ export default {
             this.$store.dispatch('friend/sendRequest', id).then(() => {
                 this.$emit('reload');
             });
+        },
+        sendMessage(user) {
+            this.userToMessage = user;
+            this.$bvModal.show('send-message-search');
+        },
+        closeSendMessageModal() {
+            this.$bvModal.hide('send-message-search');
         },
     },
     computed: {
