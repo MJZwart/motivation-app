@@ -26,8 +26,8 @@ class StoreFeedbackRequest extends FormRequest
         return [
             'type' => 'required|string',
             'text' => 'required|string',
-            'email' => 'required_without:user|nullable|email',
-            'user' => 'nullable|exists:users,id',
+            'email' => 'required_without:user_id|nullable|email',
+            'user_id' => 'nullable|exists:users,id',
         ];
     }
 

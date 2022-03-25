@@ -28,6 +28,7 @@
                 <BaseFormError name="feedback" /> 
             </b-form-group>
             <b-form-group
+                v-if="!user"
                 :label="$t('email')"
                 label-for="email">
                 <b-form-input
