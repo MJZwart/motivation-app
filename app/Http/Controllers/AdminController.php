@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActionTrackingHandler;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
@@ -37,6 +38,7 @@ class AdminController extends Controller
         $validated = $request->validated();
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
         $experiencePoints = ExperiencePoint::get();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
         return new JsonResponse(
             ['message' => ['success' => ['Experience points updated']], 'data' => $experiencePoints], 
             Response::HTTP_OK);
@@ -46,6 +48,7 @@ class AdminController extends Controller
         $validated = $request->validated();
         ExperiencePoint::insert($validated);
         $experiencePoints = ExperiencePoint::get();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
         return new JsonResponse(
             ['message' => ['success' => ['Level added']], 'data' => $experiencePoints], 
             Response::HTTP_OK);
@@ -55,6 +58,7 @@ class AdminController extends Controller
         $validated = $request->validated();
         DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level']);
         $characterExpGain = DB::table('character_exp_gain')->get();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
         return new JsonResponse(
             ['message' => ['success' => ['Character experience balancing updated']], 'data' => $characterExpGain], 
             Response::HTTP_OK);
@@ -64,6 +68,7 @@ class AdminController extends Controller
         $validated = $request->validated();
         DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level']);
         $villageExpGain = DB::table('village_exp_gain')->get();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
         return new JsonResponse(
             ['message' => ['success' => ['Village experience balancing updated']], 'data' => $villageExpGain], 
             Response::HTTP_OK);

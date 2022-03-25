@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActionTrackingHandler;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StatsResource;
@@ -55,6 +56,7 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating email');
         //Invalidate old e-mail
         //Send new e-mail confirmation
         //Update new e-mail, unconfirmed
@@ -71,6 +73,7 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating password');
         return new JsonResponse(['message' => ['success' => ['Your password has been updated. Please log in using your new password.']]], Response::HTTP_OK);
     }
 
@@ -83,6 +86,7 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating settings');
         return new JsonResponse([
             'message' => ['success' => ['Your settings have been changed.']], 
             'user' => new UserResource(Auth::user())],
@@ -106,6 +110,7 @@ class UserController extends Controller
             $request['keepOldInstance'], 
             $request['new_object_name'], 
             $request['rewards']);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating rewards type');
         return new JsonResponse([
             'message' => ['success' => ['Your rewards type has been changed.']], 
             'user' => new UserResource($user),
@@ -138,6 +143,7 @@ class UserController extends Controller
         $validated['reported_user_id'] = $user->id;
         $validated['reported_by_user_id'] = Auth::user()->id;
         DB::table('reported_users')->insert($validated);
+        ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: '.$user->username);
         return new JsonResponse(['message' => ['success' => ['User reported']]]);
     }
 }

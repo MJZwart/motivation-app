@@ -28,7 +28,7 @@
                 <BaseFormError name="feedback" /> 
             </b-form-group>
             <b-form-group
-                v-if="!user"
+                v-if="!auth"
                 :label="$t('email')"
                 label-for="email">
                 <b-form-input
@@ -60,7 +60,11 @@ export default {
         ...mapGetters({
             conversations: 'message/getConversations',
             user: 'user/getUser',
+            auth: 'user/authenticated',
         }),
+    },
+    mounted() {
+        // console.log(auth);
     },
     methods: {
         sendFeedback() {

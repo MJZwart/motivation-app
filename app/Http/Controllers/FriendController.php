@@ -9,8 +9,10 @@ use App\Http\Resources\IncomingFriendRequestResource;
 use App\Http\Resources\OutgoingFriendRequestResource;
 use App\Http\Resources\UserResource;
 use App\Helpers\AchievementHandler;
+use App\Helpers\ActionTrackingHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class FriendController extends Controller
@@ -23,10 +25,12 @@ class FriendController extends Controller
      * Removes the friendship on both ends.
      * Returns the user, which includes friends.
      */
-    public function destroy(Friend $friend){
+    public function destroy(Request $request, Friend $friend){
         $inverseFriendship = Friend::where('user_id', $friend->friend_id)->where('friend_id', Auth::user()->id)->first();
         $friend->delete();
         $inverseFriendship->delete();
+        
+        ActionTrackingHandler::handleAction($request, 'DELETE_FRIEND', 'Friendship removed');
         return new JsonResponse(['message' => ['info' => ['Friend removed.']], 
             'user' => new UserResource(Auth::user())], 
             Response::HTTP_OK);
@@ -35,7 +39,7 @@ class FriendController extends Controller
     /**
      * Sends a friend request to another user. They will receive a notification and have an option to accept this request in the Social page
      */
-    public function sendFriendRequest(User $user):JsonResponse{
+    public function sendFriendRequest(Request $request, User $user):JsonResponse{
         if(Friend::where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()){
             return new JsonResponse(['errors' => ['error' => ['You\'ve already sent a friend request to this user']]], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -44,6 +48,7 @@ class FriendController extends Controller
             'user_id' => $user->id,
             'title' => 'New friend request!',
             'text' => 'You have a new friend request from '.Auth::user()->username.'. Would you like to accept?']);
+        ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request sent to '.$user->username);
         return new JsonResponse(['message' => ['success' => ['Friend request successfully sent.']]], Response::HTTP_OK);
     }
 
@@ -52,13 +57,14 @@ class FriendController extends Controller
      * The friendship uses two database entries for both sides of the friendship
      * Returns all open requests after updating
      */
-    public function acceptFriendRequest(Friend $friend){
+    public function acceptFriendRequest(Request $request, Friend $friend){
         $friend->accepted = true;
         $friend->update();
         Friend::create(['user_id' => $friend->friend_id, 'friend_id' => $friend->user_id, 'accepted' => true]);
 
         AchievementHandler::checkForAchievement('FRIENDS', Auth::user());
         AchievementHandler::checkForAchievement('FRIENDS', $friend->friend);
+        ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request accepted');
 
         $requests = $this->fetchRequests();
         return new JsonResponse(['message' => ['success' => ['Friend request accepted. You are now friends.']], 
@@ -71,17 +77,19 @@ class FriendController extends Controller
      * When the user denies the friend request, delete the request.
      * Returns the updated list of request
      */
-    public function denyFriendRequest(Friend $friend){
+    public function denyFriendRequest(Request $request, Friend $friend){
         $friend->delete();
         $requests = $this->fetchRequests();
+        ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request denied');
         return new JsonResponse(['message' => ['info' => ['Friend request denied.']], 
             'requests' => $requests], 
             Response::HTTP_OK);
     }
 
-    public function removeFriendRequest(Friend $friend) {
+    public function removeFriendRequest(Request $request, Friend $friend) {
         $friend->delete();
         $requests = $this->fetchRequests();
+        ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request cancelled');
         return new JsonResponse(['message' => ['info' => ['Friend request cancelled.']], 
             'requests' => $requests], 
             Response::HTTP_OK);

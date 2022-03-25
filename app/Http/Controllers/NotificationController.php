@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActionTrackingHandler;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,11 +29,13 @@ class NotificationController extends Controller
         return $response;
     }
 
-    public function destroy(Notification $notification){
+    public function destroy(Request $request, Notification $notification){
         if($notification->user_id == Auth::user()->id){
             $notification->delete();
+            ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
             return new JsonResponse(['message' => ['success' => ['Notification deleted.']], 'data' => NotificationResource::collection(Auth::user()->notifications)], Response::HTTP_OK); 
         } else {
+            ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
             return new JsonResponse(['errors' => ['error' => ['You are not authorized to do this.']]], Response::HTTP_FORBIDDEN); 
         }
     }
