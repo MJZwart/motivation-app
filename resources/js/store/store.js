@@ -65,6 +65,11 @@ export default new Vuex.Store({
                 commit('message/setHasMessages', response.data.hasMessages);
             });
         },
+        sendFeedback: ({dispatch}, feedback) => {
+            axios.post('/feedback', feedback).then(response => {
+                dispatch('sendToasts', response.data.message);
+            })
+        },
         /**
          * Send a toast by calling:
          * dispatch('sendToasts', response.data.message, {root:true});

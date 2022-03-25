@@ -18,6 +18,7 @@ use App\Http\Controllers\RewardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,4 +120,5 @@ Route::group(['middleware' => ['admin']], function () {
 
 
 Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
+Route::post('/feedback', [FeedbackController::class, 'store']);
 

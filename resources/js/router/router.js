@@ -16,6 +16,7 @@ import BugReport from '../pages/BugReport.vue';
 import Messages from '../pages/Messages.vue';
 import Social from '../pages/Social.vue';
 import Faq from '../pages/Faq.vue';
+import Feedback from '../pages/Feedback.vue';
 // import Test from '../pages/Test.vue';
 
 Vue.use(VueRouter);
@@ -86,6 +87,10 @@ let routes = [
     {
         path:'/faq',
         component: Faq,
+    },
+    {
+        path:'/feedback',
+        component: Feedback,
     },
     // {
     //     path: '/test',
