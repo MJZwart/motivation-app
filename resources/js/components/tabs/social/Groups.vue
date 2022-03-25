@@ -13,7 +13,11 @@
                 :fields="groupFields"
                 class="groups-table"
                 striped
+                show-empty
             >
+                <template #empty>
+                    {{ $t('no-groups-found') }}
+                </template>
                 <template #cell(details)="row">
                     <b-button @click="row.toggleDetails">{{ $t('show-details') }}</b-button>
                 </template>
@@ -29,11 +33,11 @@
 </template>
 
 <script>
-import CreateGroup from './modals/CreateGroup.vue'
-import GroupDetails from '../components/small/GroupDetails.vue';
+import CreateGroup from '../../modals/CreateGroup.vue'
+import GroupDetails from '../../small/GroupDetails.vue';
 import {mapGetters} from 'vuex';
-import Loading from '../components/Loading.vue';
-import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../constants/groupConstants.js';
+import Loading from '../../Loading.vue';
+import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../../../constants/groupConstants.js';
 export default {
     components: {CreateGroup, GroupDetails, Loading},
     computed: {
@@ -91,7 +95,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/variables';
+@import '../../../../assets/scss/variables';
 .groups-table {
 
     .details {

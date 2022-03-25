@@ -87,4 +87,12 @@ class RewardObjectHandler {
             return new CharacterResource(CharacterHandler::updateActiveCharacter($activeRewardId, $newName));
         }
     }
+
+    public static function deleteRewardObject(String $type, $rewardId) {
+        if($type == 'VILLAGE') {
+            VillageHandler::deleteVillage($rewardId);
+        } else if($type == 'CHARACTER') {
+            CharacterHandler::deleteCharacter($rewardId);
+        }
+    }
 }

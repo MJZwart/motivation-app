@@ -18,6 +18,7 @@ use App\Http\Controllers\RewardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tasks/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
 
     Route::get('/rewards/all', [RewardController::class, 'fetchAllRewardInstancesByUser']);
+    Route::put('/reward/activate', [RewardController::class, 'activateRewardInstance']);
+    Route::put('/reward/delete', [RewardController::class, 'deleteInstance']);
 
     Route::put('/reward/update', [RewardController::class, 'updateRewardObj']);
     
@@ -64,6 +67,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/friend/requests/all', [FriendController::class, 'getAllRequests']);
     Route::post('/friend/request/{friend}/accept', [FriendController::class, 'acceptFriendRequest']);
     Route::post('/friend/request/{friend}/deny', [FriendController::class, 'denyFriendRequest']);
+    Route::delete('/friend/request/{friend}', [FriendController::class, 'removeFriendRequest']);
     Route::delete('/friend/remove/{friend}', [FriendController::class, 'destroy']);
 
     Route::put('/user/settings/email', [UserController::class, 'updateEmail']);
@@ -109,6 +113,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::put('/admin/character_exp_gain', [AdminController::class, 'updateCharacterExpGain']);
     Route::put('/admin/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);
     Route::get('/admin/conversation/{id}', [AdminController::class, 'getConversationById']);
+    Route::post('/admin/experience_points', [AdminController::class, 'addNewLevel']);
 });
 
 // Route::get('/achievements', [AchievementController::class, 'showAll']);
@@ -116,4 +121,5 @@ Route::group(['middleware' => ['admin']], function () {
 
 
 Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
+Route::post('/feedback', [FeedbackController::class, 'store']);
 

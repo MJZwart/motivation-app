@@ -55,10 +55,24 @@ export default {
             })
         },
 
-        updateRewardObjName: ({commit, dispatch}, rewardObj) => {
+        updateRewardObjName: ({dispatch}, rewardObj) => {
             return axios.put('/reward/update', rewardObj).then(function(response) {
                 dispatch('sendToasts', response.data.message, {root:true});
-                commit('setRewardObj', response.data.rewardObj);
+                return Promise.resolve();
+            });
+        },
+
+        activateInstance: ({commit, dispatch}, rewardObj) => {
+            return axios.put('/reward/activate', rewardObj).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('user/setUser', response.data.user, {root:true});
+                return Promise.resolve();
+            });
+        },
+
+        deleteInstance: ({dispatch}, rewardObj) => {
+            return axios.put('/reward/delete', rewardObj).then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },

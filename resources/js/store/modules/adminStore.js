@@ -91,6 +91,13 @@ export default {
                 dispatch('sendToasts', response.data.message, {root:true});
             });
         },
+        addNewLevel: ({dispatch, commit}, newLevel) => {
+            return axios.post('/admin/experience_points', newLevel).then(response => {
+                commit('setExperiencePoints', response.data.data);
+                dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
+            });
+        },
         updateCharExpGain: ({dispatch, commit}, charExpGain) => {
             axios.put('/admin/character_exp_gain', charExpGain).then(response => {
                 commit('setCharExpGain', response.data.data);

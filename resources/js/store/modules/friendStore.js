@@ -20,8 +20,9 @@ export default {
     },
     actions: {
         sendRequest: ({dispatch}, friendId) => {
-            axios.post('/friend/request/' + friendId).then(response => {
+            return axios.post('/friend/request/' + friendId).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
             });
         },
         getRequests: ({commit}) => {
@@ -39,6 +40,12 @@ export default {
         },
         denyRequest: ({commit, dispatch}, requestId) => {
             axios.post('/friend/request/' + requestId + '/deny').then(response => {
+                dispatch('sendToasts', response.data.message, {root:true});
+                commit('setRequests', response.data.requests);
+            });
+        },
+        removeRequest: ({commit, dispatch}, requestId) => {
+            axios.delete('/friend/request/' + requestId).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 commit('setRequests', response.data.requests);
             });

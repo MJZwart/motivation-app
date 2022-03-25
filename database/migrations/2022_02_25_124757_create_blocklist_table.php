@@ -19,6 +19,15 @@ class CreateBlocklistTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('blocked_user_id');
         });
+        
+        Schema::table('blocklist', function (Blueprint $table){
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('blocked_user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+        });
     }
 
     /**

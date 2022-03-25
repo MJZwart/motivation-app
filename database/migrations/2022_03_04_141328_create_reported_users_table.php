@@ -22,6 +22,15 @@ class CreateReportedUsersTable extends Migration
             $table->string('reason');
             $table->string('conversation_id')->nullable();
         });
+        
+        Schema::table('reported_users', function (Blueprint $table){
+            $table->foreign('reported_user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('reported_by_user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+        });
     }
 
     /**

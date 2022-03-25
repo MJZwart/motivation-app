@@ -10,13 +10,13 @@ import Overview from '../pages/Overview.vue';
 import Notifications from '../pages/Notifications.vue';
 import Settings from '../pages/Settings.vue';
 import Profile from '../pages/Profile.vue';
-import Friends from '../pages/Friends.vue';
 import AdminDashboard from '../pages/AdminDashboard.vue';
-import SearchResults from '../pages/SearchResults.vue';
 import Welcome from '../pages/Welcome.vue';
 import BugReport from '../pages/BugReport.vue';
 import Messages from '../pages/Messages.vue';
 import Social from '../pages/Social.vue';
+import Faq from '../pages/Faq.vue';
+import Feedback from '../pages/Feedback.vue';
 // import Test from '../pages/Test.vue';
 
 Vue.use(VueRouter);
@@ -60,19 +60,9 @@ let routes = [
         component: Profile,
     },
     {
-        path: '/friends',
-        component: Friends,
-        meta: {requiresAuth: true},
-    },
-    {
         path: '/admindashboard',
         component: AdminDashboard,
         meta: {requiresAuth: true, requiresAdmin: true},
-    },
-    {
-        path: '/search',
-        component: SearchResults,
-        meta: {requiresAuth: true},
     },
     {
         path: '/welcome',
@@ -93,6 +83,14 @@ let routes = [
         path:'/social',
         component: Social,
         meta: {requiresAuth: true},
+    },
+    {
+        path:'/faq',
+        component: Faq,
+    },
+    {
+        path:'/feedback',
+        component: Feedback,
     },
     // {
     //     path: '/test',
