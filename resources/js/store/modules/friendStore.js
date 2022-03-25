@@ -20,8 +20,9 @@ export default {
     },
     actions: {
         sendRequest: ({dispatch}, friendId) => {
-            axios.post('/friend/request/' + friendId).then(response => {
+            return axios.post('/friend/request/' + friendId).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
             });
         },
         getRequests: ({commit}) => {

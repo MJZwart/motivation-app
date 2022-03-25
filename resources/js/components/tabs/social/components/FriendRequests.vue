@@ -1,5 +1,5 @@
 <template>
-    <b-row class="mb-2">
+    <b-row>
         <b-col>
             <Summary :title="$t('incoming-friend-requests')">
                 <ul class="no-list-style">
@@ -8,12 +8,12 @@
                             <b-icon-check-square 
                                 :id="'accept-friend-request-' + index" 
                                 class="icon small green" 
-                                @click="acceptFriendRequest(request.id)" />
+                                @click="acceptFriendRequest(request.friendship_id)" />
                             <b-tooltip :target="'accept-friend-request-' + index">{{ $t('accept-friend-request') }}</b-tooltip>
                             <b-icon-x-square 
                                 :id="'deny-friend-request-' + index" 
                                 class="icon small red" 
-                                @click="denyFriendRequest(request.id)" />
+                                @click="denyFriendRequest(request.friendship_id)" />
                             <b-tooltip :target="'deny-friend-request-' + index">{{ $t('deny-friend-request') }}</b-tooltip>
                             {{request.friend}}
                         </li>
@@ -31,7 +31,7 @@
                             <b-icon-x-square 
                                 :id="'cancel-friend-request-' + index" 
                                 class="icon small red" 
-                                @click="removeFriendRequest(request.id)" />
+                                @click="removeFriendRequest(request.friendship_id)" />
                             <b-tooltip :target="'cancel-friend-request-' + index">{{ $t('cancel-friend-request') }}</b-tooltip>
                             {{request.friend}}
                         </li>

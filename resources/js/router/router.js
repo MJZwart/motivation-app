@@ -11,7 +11,6 @@ import Notifications from '../pages/Notifications.vue';
 import Settings from '../pages/Settings.vue';
 import Profile from '../pages/Profile.vue';
 import AdminDashboard from '../pages/AdminDashboard.vue';
-import SearchResults from '../pages/SearchResults.vue';
 import Welcome from '../pages/Welcome.vue';
 import BugReport from '../pages/BugReport.vue';
 import Messages from '../pages/Messages.vue';
@@ -63,11 +62,6 @@ let routes = [
         path: '/admindashboard',
         component: AdminDashboard,
         meta: {requiresAuth: true, requiresAdmin: true},
-    },
-    {
-        path: '/search',
-        component: SearchResults,
-        meta: {requiresAuth: true},
     },
     {
         path: '/welcome',
