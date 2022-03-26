@@ -17,10 +17,10 @@
             </template>
         </b-table>
 
-        <b-modal :id="`send-message-to-reported-user-${user.id}`" hide-footer :title="'placeholer title'">
+        <b-modal :id="`send-message-to-reported-user-${index}`" hide-footer :title="'placeholer title'">
             <SendMessage :user="user" @close="closeSendMessageToReportedUser()"/>
         </b-modal>
-        <b-modal :id="`show-conversation-${user.id}`"
+        <b-modal :id="`show-conversation-${index}`"
                  hide-footer :title="`placeholder title conversation ${conversationToShow}:`">
             <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation()"/>
         </b-modal>
@@ -42,6 +42,10 @@ export default {
             type: Object,
             required: true,
         },
+        index: {
+            type: Number,
+            reqired: true,
+        },
     },
     data() {
         return {
@@ -52,19 +56,19 @@ export default {
     methods: {
         sendMessageToReportedUser() {
             this.$store.dispatch('clearErrors');
-            this.$bvModal.show(`send-message-to-reported-user-${this.user.id}`);
+            this.$bvModal.show(`send-message-to-reported-user-${this.index}`);
         },
         closeSendMessageToReportedUser() {
-            this.$bvModal.hide(`send-message-to-reported-user-${this.user.id}`);
+            this.$bvModal.hide(`send-message-to-reported-user-${this.index}`);
         },
         showConversation(conversationId) {
             this.$store.dispatch('clearErrors');
             this.conversationToShow = conversationId;
-            this.$bvModal.show(`show-conversation-${this.user.id}`);
+            this.$bvModal.show(`show-conversation-${this.index}`);
         },
         closeShowConversation() {
             this.conversationToShow = null;
-            this.$bvModal.hide(`show-conversation-${this.user.id}`);
+            this.$bvModal.hide(`show-conversation-${this.index}`);
         },
     },
 }

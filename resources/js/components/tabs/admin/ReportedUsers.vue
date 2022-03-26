@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3>this is a placeholder title</h3>
-
+        
         <b-table
             :items="reportedUsers"
             :fields="reportedUserFields"
@@ -12,7 +12,7 @@
                 <b-button @click="row.toggleDetails">placeholder details</b-button>
             </template>
             <template #row-details="row">
-                <ReportedUserDetails :user="row.item" />
+                <ReportedUserDetails :user="row.item" :index="row.index"/>
             </template>
         </b-table>
     </div>
