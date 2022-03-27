@@ -34,7 +34,7 @@
 
 <script>
 import CreateGroup from '../../modals/CreateGroup.vue'
-import GroupDetails from '../../small/GroupDetails.vue';
+import GroupDetails from './components/GroupDetails.vue';
 import {mapGetters} from 'vuex';
 import Loading from '../../Loading.vue';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../../../constants/groupConstants.js';

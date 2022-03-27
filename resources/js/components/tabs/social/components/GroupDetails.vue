@@ -19,7 +19,8 @@
         </b-row>
         <b-row v-else>
             <b-col v-if="isUserAdmin">
-                <b-button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</b-button>
+                <b-button @click="deleteGroup()">{{ $t('delete-group') }}</b-button>
+                <b-button class="ml-1" @click="manageGroup()">{{ $t('manage-group') }}</b-button>
             </b-col>
 
             <b-col v-else>
@@ -38,11 +39,17 @@
             </b-col>
         </b-row>
         
+        <b-modal :id='`manage-group-modal-${group.id}`' hide-footer hide-header>
+            <ManageGroupModal :group="group" @close="closeManageGroup" />
+        </b-modal>
+
     </div>
 </template>
 
 <script>
+import ManageGroupModal from './ManageGroupModal.vue';
 export default {
+    components: {ManageGroupModal},
     props: {
         group: {
             type: Object,
@@ -78,6 +85,12 @@ export default {
         leaveGroup() {
             if (confirm(this.$t('leave-group-confirm', {group: this.group.name})))
                 this.$store.dispatch('groups/leaveGroup', this.group).then(() => this.$emit('reloadGroups'));
+        },
+        manageGroup() {
+            this.$bvModal.show(`manage-group-modal-${this.group.id}`);
+        },
+        closeManageGroup() {
+            this.$bvModal.hide(`manage-group-modal-${this.group.id}`);
         },
     },
 }

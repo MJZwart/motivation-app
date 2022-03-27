@@ -52,19 +52,26 @@ export default {
             return axios.delete(`/groups/${group.id}`).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
-            })
+            });
         },
         joinGroup: ({dispatch}, group) => {
             return axios.post(`/groups/join/${group.id}`).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
-            })
+            });
         },
         leaveGroup: ({dispatch}, group) => {
             return axios.post(`/groups/leave/${group.id}`).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
                 return Promise.resolve();
-            })
+            });
+        },
+        updateGroup: ({commit, dispatch}, group) => {
+            return axios.put(`/groups/edit/${group.id}`, group).then(response => {
+                commit('setMyGroups', response.data.groups.my);
+                dispatch('sendToasts', response.data.message, {root:true});
+                return Promise.resolve();
+            });
         },
 
 
