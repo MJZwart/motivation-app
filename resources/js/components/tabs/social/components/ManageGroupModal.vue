@@ -3,23 +3,36 @@
         <h5>{{ myGroups[index].name }}</h5>
         <div v-if="myGroups[index]">
             <b-form @submit.prevent="editGroup">
-                <Editable :key="myGroups[index].name" :item="myGroups[index].name" :index="1" :name="'name'" @save="save" />
+                <label for="edit-name-comp">Name</label>
+                <Editable 
+                    id="edit-name-comp" 
+                    :key="myGroups[index].name" 
+                    class="ml-1 mb-2"
+                    :item="myGroups[index].name" 
+                    :index="1" 
+                    :name="'name'" 
+                    @save="save" />
                 
+                <label for="edit-description-comp">Description</label>
                 <EditableTextarea 
+                    id="edit-description-comp"
                     :key="myGroups[index].description"
+                    class="ml-1 mb-2"
                     :item="myGroups[index].description" 
                     :index="2" 
                     :name="'description'" 
                     :rows="3" 
                     @save="save" />
 
-                <b-button @click="togglePublic">{{myGroups[index].is_public ? 'Set to private' : 'Make public' }}</b-button>
+                <b-button class="m-1" @click="togglePublic">
+                    {{myGroups[index].is_public ? 'Set to private' : 'Make public' }}
+                </b-button>
                 <!-- TODO turn this into a 'turn off button' -->
             </b-form>
         </div>
         <!-- Manage users -->
         <div>
-            <b>Members</b>
+            <label for="">Members</label>
             <div v-for="member in myGroups[index].members" :key="member.id" class="d-flex hover">
                 <!-- TODO make a table -->
                 {{member.username}}
