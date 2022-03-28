@@ -1,92 +1,67 @@
 <template>
     <div>
-        <h5>{{ group.name }}</h5>
-        <div v-if="groupToEdit">
+        <h5>{{ myGroups[index].name }}</h5>
+        <div v-if="myGroups[index]">
             <b-form @submit.prevent="editGroup">
-                <Editable :item="groupToEdit.name" :index="groupToEdit.id" :name="'name'" @save="save" />
-                <!-- <b-form-group
-                    :label="$t('name')"
-                    label-for="name"
-                    :description="$t('group-name-desc')">
-                    <b-form-input
-                        id="name"
-                        v-model="groupToEdit.name"
-                        name="name"
-                        :placeholder="$t('name')" />
-                    <base-form-error name="name" /> 
-                </b-form-group> -->
+                <Editable :key="myGroups[index].name" :item="myGroups[index].name" :index="1" :name="'name'" @save="save" />
                 
                 <EditableTextarea 
-                    :item="groupToEdit.description" 
-                    :index="groupToEdit.id" 
+                    :key="myGroups[index].description"
+                    :item="myGroups[index].description" 
+                    :index="2" 
                     :name="'description'" 
                     :rows="3" 
                     @save="save" />
-                <!-- <b-form-group
-                    :label="$t('group-desc')"
-                    label-for="description"
-                    :description="$t('group-description-desc')">
-                    <b-form-textarea
-                        id="description"
-                        v-model="groupToEdit.description"
-                        name="description"
-                        :placeholder="$t('description')" />
-                    <base-form-error name="description" /> 
-                </b-form-group> -->
-                <b-form-group
-                    :label="$t('group-public-checkbox')"
-                    label-for="public-checkbox"
-                    :description="$t('group-public-checkbox-desc')">
-                    <b-form-checkbox
-                        id="public-checkbox"
-                        v-model="groupToEdit.is_public"
-                        name="public-checkbox" />
-                    <base-form-error name="public-checkbox" /> 
-                </b-form-group>
+
+                <b-button @click="togglePublic">{{myGroups[index].is_public ? 'Set to private' : 'Make public' }}</b-button>
+                <!-- TODO turn this into a 'turn off button' -->
             </b-form>
-            <!-- Change name -->
         </div>
-        <div>
-            <!-- Change desc -->
-        </div>
+        <!-- Manage users -->
         <div>
             <b>Members</b>
-            <p v-for="member in group.members" :key="member.id">
+            <div v-for="member in myGroups[index].members" :key="member.id" class="d-flex hover">
+                <!-- TODO make a table -->
                 {{member.username}}
-            </p>
-            <!-- Manage users -->
+                <span class="ml-auto">
+                    <b-icon-envelope
+                        class="small icon" />
+                    <b-icon-x
+                        class="small icon red" />
+
+                </span>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import BaseFormError from '../../../BaseFormError.vue';
 import Editable from '../../../small/Editable.vue';
 import EditableTextarea from '../../../small/EditableTextarea.vue';
+import {mapGetters} from 'vuex';
 export default {
-    components: {BaseFormError, Editable, EditableTextarea},
+    components: {Editable, EditableTextarea},
     props: {
-        group: {
-            type: Object,
+        index: {
+            type: Number,
             required: true,
         },
     },
-    data() {
-        return {
-            groupToEdit: null,
-        }
-    },
-    mounted() {
-        console.log(this.group);
-        this.groupToEdit = this.group;
+    computed: {
+        ...mapGetters({
+            myGroups: 'groups/getMyGroups',
+        }),
     },
     methods: {
         save(item) {
-            item.id = this.group.id;
-            this.$store.dispatch('groups/updateGroup', item).then(() => {
-                console.log(this.group);
-                this.groupToEdit = this.group;
-            });
+            item.id = this.myGroups[this.index].id;
+            this.$store.dispatch('groups/updateGroup', item);
+        },
+        togglePublic() {
+            const group = {};
+            group.is_public = !this.myGroups[this.index].is_public;
+            group.id = this.myGroups[this.index].id;
+            this.$store.dispatch('groups/updateGroup', group);
         },
     },
 }

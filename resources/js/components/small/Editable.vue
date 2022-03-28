@@ -3,10 +3,10 @@
         <div v-if="!edit">
             {{item}}
             <b-icon-pencil-square
-                :id="'edit-item' + index"
+                :id="'edit-item-' + index"
                 class="icon small"
                 @click="edit = true" />
-            <b-tooltip :target="'edit-item' + index">{{ $t('edit') }}</b-tooltip>
+            <b-tooltip :target="'edit-item-' + index">{{ $t('edit') }}</b-tooltip>
         </div>
         <div v-else>
             <b-form-input
@@ -55,7 +55,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.item);
         this.itemToEdit = this.item;
     },
     methods: {

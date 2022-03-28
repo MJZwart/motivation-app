@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditGroupsRequest extends FormRequest
+class UpdateGroupsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class EditGroupsRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; //TODO change to make sure it's the group's admin
+        return Auth::user(); 
     }
 
     /**
@@ -26,7 +27,7 @@ class EditGroupsRequest extends FormRequest
         return [
             'name' => 'nullable|string',
             'description' => 'nullable|string',
-            'public' => 'nullable|boolean',
+            'is_public' => 'nullable|boolean',
         ];
     }
 }

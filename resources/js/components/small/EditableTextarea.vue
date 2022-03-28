@@ -3,10 +3,10 @@
         <div v-if="!edit">
             {{item}}
             <b-icon-pencil-square
-                :id="'edit-item' + index"
+                :id="'edit-item-' + index"
                 class="icon small"
                 @click="edit = true" />
-            <b-tooltip :target="'edit-item' + index">{{ $t('edit') }}</b-tooltip>
+            <b-tooltip :target="'edit-item-' + index">{{ $t('edit') }}</b-tooltip>
         </div>
         <div v-else>
             <b-form-textarea

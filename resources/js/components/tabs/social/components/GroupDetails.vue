@@ -40,13 +40,14 @@
         </b-row>
         
         <b-modal :id='`manage-group-modal-${group.id}`' hide-footer hide-header>
-            <ManageGroupModal :group="group" @close="closeManageGroup" />
+            <ManageGroupModal :key="group.id" :index="index" @close="closeManageGroup" />
         </b-modal>
 
     </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import ManageGroupModal from './ManageGroupModal.vue';
 export default {
     components: {ManageGroupModal},
@@ -59,8 +60,15 @@ export default {
             type: Object,
             required: true,
         },
+        index: {
+            type: Number,
+            required: true,
+        },
     },
     computed: {
+        ...mapGetters({
+            myGroups: 'groups/getMyGroups',
+        }),
         isJoinGroupVisible() {
             let $isVisible = true;
             for (const member of this.group.members) {
@@ -72,6 +80,11 @@ export default {
             return this.group.admin.id == this.user.id;
         },
     },
+    // data() {
+    //     return {
+    //         group: this.myGroups[index],
+    //     }
+    // },
     methods: {
         joinGroup() {
             this.$store.dispatch('groups/joinGroup', this.group).then(() => {

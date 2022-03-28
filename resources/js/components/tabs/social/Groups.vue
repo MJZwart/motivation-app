@@ -22,7 +22,7 @@
                     <b-button @click="row.toggleDetails">{{ $t('show-details') }}</b-button>
                 </template>
                 <template #row-details="row">
-                    <GroupDetails :group="row.item" :user="user" @reloadGroups="load" />
+                    <GroupDetails :group="row.item" :user="user" :index="row.index" @reloadGroups="load" />
                 </template>
             </b-table>
             <b-modal id="create-group" hide-footer :title="$t('create-group')">
