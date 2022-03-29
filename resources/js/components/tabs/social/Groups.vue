@@ -8,7 +8,11 @@
                 <b-input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
                 <b-button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</b-button>
             </span>
-            <b-table
+            <BTable
+                :items="filteredAllGroups"
+                :fields="groupFields"
+                :options="['table-striped']" />
+            <!-- <b-table
                 :items="filteredAllGroups"
                 :fields="groupFields"
                 class="groups-table"
@@ -24,7 +28,7 @@
                 <template #row-details="row">
                     <GroupDetails :group="row.item" :user="user" @reloadGroups="load" />
                 </template>
-            </b-table>
+            </b-table> -->
             <b-modal id="create-group" hide-footer :title="$t('create-group')">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
             </b-modal>
@@ -33,13 +37,14 @@
 </template>
 
 <script>
+import BTable from '../../bootstrap/BTable.vue';
 import CreateGroup from '../../modals/CreateGroup.vue'
 import GroupDetails from '../../small/GroupDetails.vue';
 import {mapGetters} from 'vuex';
 import Loading from '../../Loading.vue';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../../../constants/groupConstants.js';
 export default {
-    components: {CreateGroup, GroupDetails, Loading},
+    components: {CreateGroup, GroupDetails, Loading, BTable},
     computed: {
         ...mapGetters({
             myGroups: 'groups/getMyGroups',
