@@ -1,22 +1,12 @@
-import {createVuePlugin} from 'vite-plugin-vue2';
+// import {createVuePlugin} from 'vite-plugin-vue2';
 import ViteRequireContext from '@originjs/vite-plugin-require-context'
+import vue from '@vitejs/plugin-vue'
 
 import {defineConfig} from 'vite';
-
-const resolve = {
-    alias: {
-        '@': '/js',
-    },
-};
 
 // eslint-disable-next-line max-lines-per-function
 export default defineConfig(({command}) => {
     const production = command !== 'serve';
-
-    const plugins = [
-        createVuePlugin(),
-        ViteRequireContext(),
-    ];
 
     return {
         root: 'resources',
@@ -30,11 +20,27 @@ export default defineConfig(({command}) => {
                 input: 'resources/js/app.js',
             },
         },
-        plugins,
+        plugins: [
+            ViteRequireContext(),
+            vue({
+                template: {
+                    compilerOptions: {
+                        compatConfig: {
+                            MODE: 2,
+                        },
+                    },
+                },
+            }),
+        ],
         server: {
             port: 3000,
         },
-        resolve,
+        resolve: {
+            alias: {
+                '@': '/js',
+                'vue': '@vue/compat',
+            },
+        },
         css: {
             preprocessorOptions: {
                 scss: {
@@ -59,3 +65,24 @@ export default defineConfig(({command}) => {
         publicDir: 'random_non_existent_folder',
     };
 });
+
+
+// const resolve = {
+//     alias: {
+//         '@': '/js',
+//         'vue': '@vue/compat',
+//     },
+// };
+// const plugins = [
+//     // createVuePlugin(),
+//     ViteRequireContext(),
+//     vue({
+//         template: {
+//             compilerOptions: {
+//                 compatConfig: {
+//                     MODE: 2,
+//                 },
+//             },
+//         },
+//     }),
+// ];
