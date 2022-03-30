@@ -11,26 +11,19 @@
             <BTable
                 :items="filteredAllGroups"
                 :fields="groupFields"
-                :options="['table-striped']" />
-            <!-- <b-table
-                :items="filteredAllGroups"
-                :fields="groupFields"
-                class="groups-table"
-                striped
-                show-empty
-            >
+                :options="['table-striped']">
+                <template #details="row">
+                    <button class="primary" @click="showGroupsDetails(row.item)">{{ $t('show-details') }}</button>
+                </template>
                 <template #empty>
                     {{ $t('no-groups-found') }}
                 </template>
-                <template #cell(details)="row">
-                    <b-button @click="row.toggleDetails">{{ $t('show-details') }}</b-button>
-                </template>
-                <template #row-details="row">
-                    <GroupDetails :group="row.item" :user="user" @reloadGroups="load" />
-                </template>
-            </b-table> -->
+            </BTable>
             <b-modal id="create-group" hide-footer :title="$t('create-group')">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
+            </b-modal>
+            <b-modal id="show-group-details" hide-footer :title="groupDetailsTitle">
+                <GroupDetails :group="groupDetailsItem" :user="user" @close="closeGroupDetails" @reloadGroups="load" />
             </b-modal>
         </div>
     </div>
@@ -67,6 +60,8 @@ export default {
             loading: true,
             groupFields: null,
             chosen: '',
+            groupDetailsItem: null,
+            groupDetailsTitle: null,
         }
     },
     methods: {
@@ -94,6 +89,14 @@ export default {
         },
         closeCreateGroup() {
             this.$bvModal.hide('create-group');
+        },
+        showGroupsDetails(group) {
+            this.groupDetailsItem = group;
+            this.groupDetailsTitle = group.name;
+            this.$bvModal.show('show-group-details');
+        },
+        closeGroupDetails() {
+            this.$bvModal.hide('show-group-details');
         },
     },
 }

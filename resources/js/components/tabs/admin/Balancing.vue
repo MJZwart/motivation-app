@@ -46,12 +46,22 @@
                             The Experience points table
                          -->
                         <b-col>
-                            <b-editable-table 
-                                v-model="experiencePoints" 
-                                :fields="experiencePointsFields" 
-                                class="balancing-table"
-                                hover foot-clone
-                                @input-change="handleInput" />
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Level</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(level, index) in experiencePoints" :key="index">
+                                        <td>{{level.level}}</td>
+                                        <td>
+                                            <input v-model="experiencePoints[index].experience_points" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </b-col>
                     </b-row>
                 </b-tab>
@@ -63,12 +73,25 @@
                     <div class="d-flex">
                         <b-button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</b-button>
                     </div>
-                    <b-editable-table
-                        v-model="characterExpGain"
-                        :fields="characterExpGainFields"
-                        class="balancing-table"
-                        small
-                        @input-change="handleInput" />
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th v-for="(field, index) in characterExpGainFields" :key="index">{{field.label}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(exp, itemIndex) in characterExpGain" :key="itemIndex">
+                                <td v-for="(field, fieldIndex) in characterExpGainFields" :key="fieldIndex">
+                                    <span v-if="field.editable">
+                                        <input v-model="characterExpGain[itemIndex][field.key]" class="w-3" />
+                                    </span>
+                                    <span v-else>
+                                        {{exp[field.key]}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </b-tab>
                 <!-- 
                     The tab for Village Exp gain
@@ -78,12 +101,25 @@
                     <div class="d-flex">
                         <b-button class="ml-auto m-2" @click="updateVillageExpGain">{{ $t('update-vill-exp-gain') }}</b-button>
                     </div>
-                    <b-editable-table
-                        v-model="villageExpGain"
-                        :fields="villageExpGainFields"
-                        class="balancing-table"
-                        small
-                        @input-change="handleInput" />
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th v-for="(field, index) in villageExpGainFields" :key="index">{{field.label}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(exp, itemIndex) in villageExpGain" :key="itemIndex">
+                                <td v-for="(field, fieldIndex) in villageExpGainFields" :key="fieldIndex">
+                                    <span v-if="field.editable">
+                                        <input v-model="villageExpGain[itemIndex][field.key]" class="w-3" />
+                                    </span>
+                                    <span v-else>
+                                        {{exp[field.key]}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </b-tab>
             </b-tabs>
         </div>
@@ -97,14 +133,13 @@ import {
     CHARACTER_EXP_GAIN_FIELDS, 
     VILLAGE_EXP_GAIN_FIELDS,
 } from '../../../constants/balancingConstants.js';
-import BEditableTable from 'bootstrap-vue-editable-table';
 import GeneralFormError from '../../GeneralFormError.vue';
 import Vue from 'vue';
 import BaseFormError from '../../BaseFormError.vue';
 import Loading from '../../Loading.vue';
 
 export default {
-    components: {GeneralFormError, BEditableTable, BaseFormError, Loading},
+    components: {GeneralFormError, BaseFormError, Loading},
     mounted() {
         if (this.experience_points && this.character_exp_gain && this.village_exp_gain) {
             this.experiencePoints = Vue.util.extend([], this.experience_points);
@@ -134,7 +169,6 @@ export default {
     },
 
     methods: {
-        handleInput() {},
         updateExpPoints() {
             this.clearErrors();
             this.$store.dispatch('admin/updateExpPoints', this.experiencePoints);

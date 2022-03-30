@@ -3,18 +3,17 @@
         <h3>{{ $t('manage-achievements') }}</h3>
         <b-button block @click="showNewAchievement">{{ $t('add-new-achievement') }}</b-button>
 
-        <b-table
+        <BTable
             :items="achievements"
             :fields="achievementFields"
-            :sort-by.sync="currentSort"
-            :sort-desc.sync="currentSortDesc"
-            hover small
+            :sort="currentSort"
+            :sortAsc="currentSortAsc"
+            :options="['table-sm', 'table-striped', 'table-hover']"
             class="font-sm">
-            <template #cell(actions)="data">
-                <!-- <b-icon-trash-fill class="icon small" /> -->
-                <b-icon-pencil-square class="icon small" @click="showEditAchievement(data.item)" />
+            <template #actions="row">
+                <b-icon-pencil-square class="icon small" @click="showEditAchievement(row.item)" />
             </template>
-        </b-table>
+        </BTable>
 
         <b-modal id="new-achievement" hide-footer :title="$t('new-achievement')">
             <new-achievement @close="closeNewAchievement"/>
@@ -28,19 +27,20 @@
 
 <script>
 import {mapGetters} from 'vuex';
+import BTable from '../../bootstrap/BTable.vue';
 import EditAchievement from '../../modals/EditAchievement.vue';
 import NewAchievement from '../../modals/NewAchievement.vue';
 import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '../../../constants/achievementsConstants.js';
 
 export default {
-    components: {NewAchievement, EditAchievement},
+    components: {NewAchievement, EditAchievement, BTable},
     data() {
         return {
             /** @type {import('../../types/achievement').Achievement | null} */
             achievementToEdit: null,
             achievementFields: ACHIEVEMENT_FIELDS,
             currentSort: ACHIEVEMENT_DEFAULTS.currentSort,
-            currentSortDesc: false,
+            currentSortAsc: true,
         }
     },
     computed: {
