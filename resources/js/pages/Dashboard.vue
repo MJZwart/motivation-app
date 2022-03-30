@@ -88,6 +88,23 @@ export default {
     mounted() {
         //Fetches all dashboard data and stores it in the store
         this.$store.dispatch('getDashboard').then(() => this.loading = false);
+        this.$store.commit('addToast', {
+            title: 'Hello Vuex!',
+            type: 'success',
+            message: 'It looks like you have successfully set up Vuex.'
+        });
+
+        this.$store.commit('addToast', {
+            title: 'System Error',
+            type: 'error',
+            message: 'Our API is currently experiencing issues - please try again in a couple minutes.'
+        });
+
+        this.$store.commit('addToast', {
+            title: 'New Mention in Post',
+            type: 'info',
+            message: 'One of your followers mentioned you in a new post. Click here to see it.'
+        });
     },
     methods: {
         /** Shows and hides the modal to create a new task. 
@@ -96,6 +113,7 @@ export default {
          */
         showNewTask(superTask, taskList) {
             this.$store.dispatch('clearErrors');
+            console.log(this.$store.state.toasts);
             this.superTask = superTask;
             this.taskList = taskList;
             this.$bvModal.show('new-task');

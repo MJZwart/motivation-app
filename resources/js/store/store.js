@@ -35,17 +35,28 @@ export default new Vuex.Store({
         //Errors and response
         responseMessage: {},
         errors: [],
+        toasts: [],
     },
     mutations: {
         //Errors and response
         setErrorMessages(state, response) {
             state.errors = response;
         },
+        addToast(state, toast) {
+            state.toasts.push(toast);
+        },
+        clearToast(state, title) {
+            const index = state.toasts.findIndex((toast) => toast.title === title);
+            state.toasts.splice(index, 1);
+        },
     },
     getters: {
         //Errors and response
         getErrorMessages: state => {
             return state.errors;
+        },
+        getToasts: state => {
+            return state.toasts;
         },
     },
     actions: {
