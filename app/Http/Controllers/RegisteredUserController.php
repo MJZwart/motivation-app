@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
         $successMessage = "You have successfully registered. You can now login with your chosen username.";
-        return new JsonResponse(['message' => ['sucess' => [$successMessage]]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['sucess' => $successMessage]], Response::HTTP_OK);
     }
 
     /**
@@ -64,7 +64,7 @@ class RegisteredUserController extends Controller
         $user->first_login = false;
         $user->save();
         $successMessage = "You have successfully set up your account.";
-        return new JsonResponse(['message' => ['success' => [$successMessage]], 'user' => new UserResource(Auth::user())]);
+        return new JsonResponse(['message' => ['success' => $successMessage], 'user' => new UserResource(Auth::user())]);
     }
 
     /**

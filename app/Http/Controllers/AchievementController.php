@@ -20,7 +20,7 @@ class AchievementController extends Controller
         $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
         Achievement::create($validated);
 
-        return new JsonResponse(['message' => ['success' => ["Achievement added."]], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => "Achievement added."], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
     }
 
     /**
@@ -46,7 +46,7 @@ class AchievementController extends Controller
         $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
         $achievement->update($validated);
 
-        return new JsonResponse(['message' => ['success' => ["Achievement updated."]], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => "Achievement updated."], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
     }
 
     public function destroy(Achievement $achievement){

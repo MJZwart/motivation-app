@@ -50,7 +50,7 @@ class AdminController extends Controller
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
         $experiencePoints = ExperiencePoint::get();
         return new JsonResponse(
-            ['message' => ['success' => ['Experience points updated']], 'data' => $experiencePoints], 
+            ['message' => ['success' => 'Experience points updated'], 'data' => $experiencePoints], 
             Response::HTTP_OK);
     }
 
@@ -59,7 +59,7 @@ class AdminController extends Controller
         ExperiencePoint::insert($validated);
         $experiencePoints = ExperiencePoint::get();
         return new JsonResponse(
-            ['message' => ['success' => ['Level added']], 'data' => $experiencePoints], 
+            ['message' => ['success' => 'Level added'], 'data' => $experiencePoints], 
             Response::HTTP_OK);
     }
 
@@ -68,7 +68,7 @@ class AdminController extends Controller
         DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level']);
         $characterExpGain = DB::table('character_exp_gain')->get();
         return new JsonResponse(
-            ['message' => ['success' => ['Character experience balancing updated']], 'data' => $characterExpGain], 
+            ['message' => ['success' => 'Character experience balancing updated'], 'data' => $characterExpGain], 
             Response::HTTP_OK);
     }
 
@@ -77,7 +77,7 @@ class AdminController extends Controller
         DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level']);
         $villageExpGain = DB::table('village_exp_gain')->get();
         return new JsonResponse(
-            ['message' => ['success' => ['Village experience balancing updated']], 'data' => $villageExpGain], 
+            ['message' => ['success' => 'Village experience balancing updated'], 'data' => $villageExpGain], 
             Response::HTTP_OK);
     }
     

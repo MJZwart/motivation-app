@@ -18,7 +18,7 @@ class BugReportController extends Controller
 
         BugReport::create($validated);
 
-        return new JsonResponse(['message' => ['success' => ['Bug report successfully created.']]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => 'Bug report successfully created.']], Response::HTTP_OK);
     }
 
     public function update(UpdateBugReportRequest $request, $id): JsonResponse
@@ -29,6 +29,6 @@ class BugReportController extends Controller
 
         $return = BugReportResource::collection(BugReport::all());
 
-    return new JsonResponse(['message' => ['success' => ["Bug Report updated."]], 'data' => $return], Response::HTTP_OK);
+    return new JsonResponse(['message' => ['success' => "Bug Report updated."], 'data' => $return], Response::HTTP_OK);
     }
 }

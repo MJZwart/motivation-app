@@ -1,5 +1,5 @@
 <template>
-    <div v-if="toasts.length" class="toasts-wrapper-2">
+    <div v-if="toasts.length" class="custom-toasts-wrapper">
         <Toast 
             v-for="(toast, index) of toasts" 
             :key="index"
@@ -21,14 +21,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.toasts-wrapper-2 {
+.custom-toasts-wrapper {
   width: 600px;
   min-height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: fixed;
-  right: 2rem;
+  right: 1rem;
   bottom: 1rem;
+  z-index: 1060;
 }
 </style>

@@ -33,18 +33,18 @@ export default {
             });
         },
 
-        sendMessage: ({dispatch, commit}, message) => {
+        sendMessage: ({commit}, message) => {
             return axios.post('/message', message).then(response => {
                 commit('setConversations', response.data.data);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },
 
-        deleteMessage: ({dispatch, commit}, messageId) => {
+        deleteMessage: ({commit}, messageId) => {
             return axios.delete('/message/' + messageId).then(response => {
                 commit('setConversations', response.data.data);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },

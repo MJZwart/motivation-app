@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function isAdmin() {
         if(!Auth::user()->admin){
-            return new JsonResponse(['errors' => ['error' => ["You are not admin."]]], Response::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['errors' => ['error' => "You are not admin."]], Response::HTTP_UNAUTHORIZED);
         }
     }
 
@@ -59,7 +59,7 @@ class UserController extends Controller
         //Invalidate old e-mail
         //Send new e-mail confirmation
         //Update new e-mail, unconfirmed
-        return new JsonResponse(['message' => ['success' => ['Your email has been changed.']], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => 'Your email has been changed.'], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
     }
 
     /**
@@ -72,7 +72,7 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
-        return new JsonResponse(['message' => ['success' => ['Your password has been updated. Please log in using your new password.']]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => 'Your password has been updated. Please log in using your new password.']], Response::HTTP_OK);
     }
 
     /**
@@ -85,7 +85,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         return new JsonResponse([
-            'message' => ['success' => ['Your settings have been changed.']], 
+            'message' => ['success' => 'Your settings have been changed.'], 
             'user' => new UserResource(Auth::user())],
             Response::HTTP_OK);
     }
@@ -108,7 +108,7 @@ class UserController extends Controller
             $request['new_object_name'], 
             $request['rewards']);
         return new JsonResponse([
-            'message' => ['success' => ['Your rewards type has been changed.']], 
+            'message' => ['success' => 'Your rewards type has been changed.'], 
             'user' => new UserResource($user),
             'activeReward' => $activeReward],
             Response::HTTP_OK);
@@ -139,6 +139,6 @@ class UserController extends Controller
         $validated['reported_user_id'] = $user->id;
         $validated['reported_by_user_id'] = Auth::user()->id;
         ReportedUser::create($validated);
-        return new JsonResponse(['message' => ['success' => ['User reported']]]);
+        return new JsonResponse(['message' => ['success' => 'User reported']]);
     }
 }

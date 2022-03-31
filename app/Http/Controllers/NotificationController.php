@@ -31,9 +31,9 @@ class NotificationController extends Controller
     public function destroy(Notification $notification){
         if($notification->user_id == Auth::user()->id){
             $notification->delete();
-            return new JsonResponse(['message' => ['success' => ['Notification deleted.']], 'data' => NotificationResource::collection(Auth::user()->notifications)], Response::HTTP_OK); 
+            return new JsonResponse(['message' => ['success' => 'Notification deleted.'], 'data' => NotificationResource::collection(Auth::user()->notifications)], Response::HTTP_OK); 
         } else {
-            return new JsonResponse(['errors' => ['error' => ['You are not authorized to do this.']]], Response::HTTP_FORBIDDEN); 
+            return new JsonResponse(['errors' => ['error' => 'You are not authorized to do this.']], Response::HTTP_FORBIDDEN); 
         }
     }
 
@@ -60,6 +60,6 @@ class NotificationController extends Controller
             'title' => $validated['title'],
             'text' => $validated['text']]);
         }
-        return new JsonResponse(['message' => ['success' => ['Notification sent.']]]);
+        return new JsonResponse(['message' => ['success' => 'Notification sent.']]);
     }
 }
