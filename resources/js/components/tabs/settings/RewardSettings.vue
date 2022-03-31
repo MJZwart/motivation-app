@@ -100,7 +100,7 @@
         </div>
 
         
-        <b-modal id="edit-reward-name" hide-footer :title="$t('edit-reward-name')">
+        <b-modal id="edit-reward-name" :footer="false" :title="$t('edit-reward-name')">
             <EditRewardObjectName :rewardObj="rewardToEdit" :type="rewardType" @close="closeEditReward" />
         </b-modal>
     </div>

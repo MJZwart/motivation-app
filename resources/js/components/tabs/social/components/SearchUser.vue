@@ -33,7 +33,7 @@
                 </template>
             </b-table>
         </div>
-        <b-modal id="send-message-search" hide-footer hide-header>
+        <b-modal id="send-message-search" :footer="false" :header="false">
             <SendMessage :user="userToMessage" @close="closeSendMessageModal" />
         </b-modal>
     </div>

@@ -27,21 +27,25 @@
                 </div>
             </div>
 
-            <b-modal id="new-task" hide-footer :title="$t('new-task')">
+            <BModal :show="showNewTaskModal" :footer="false" :title="$t('new-task')" @close="closeNewTask">
                 <new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
-            </b-modal>
-            <b-modal id="edit-task" hide-footer :title="$t('edit-task')">
-                <edit-task :task="taskToEdit"  @close="closeEditTask"/>
-            </b-modal>
-            <b-modal id="new-task-list" hide-footer :title="$t('new-task-list')">
+            </BModal>
+            <BModal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
+                <edit-task :task="taskToEdit" @close="closeEditTask" />
+            </BModal>
+            <BModal :show="showNewTaskListModal" :footer="false" :title="$t('new-task-list')" @close="closeNewTaskList">
                 <new-task-list @close="closeNewTaskList" />
-            </b-modal>
-            <b-modal id="edit-task-list" hide-footer :title="$t('edit-task-list')">
+            </BModal>
+            <BModal :show="showEditTaskListModal" :footer="false" :title="$t('edit-task-list')" @close="closeEditTaskList">
                 <edit-task-list :taskList="taskListToEdit" @close="closeEditTaskList" />
-            </b-modal>
-            <b-modal id="delete-task-list-confirm" hide-footer :title="$t('delete-task-list-confirm')">
+            </BModal>
+            <BModal 
+                :show="showDeleteTaskListConfirmModal" 
+                :footer="false" 
+                :title="$t('delete-task-list-confirm')" 
+                @close="closeDeleteTaskList">
                 <delete-task-list-confirm :taskList="taskListToDelete" @close="closeDeleteTaskList" />
-            </b-modal>
+            </BModal>
         
         </div>
     </div>
@@ -59,6 +63,7 @@ import DeleteTaskListConfirm from '../components/modals/DeleteTaskListConfirm.vu
 import RewardCard from '../components/summary/RewardCard.vue';
 import FriendsCard from '../components/summary/FriendsCard.vue';
 import Loading from '../components/Loading.vue';
+import BModal from '../components/bootstrap/BModal.vue';
 export default {
     components: { 
         TaskList, 
@@ -69,7 +74,8 @@ export default {
         DeleteTaskListConfirm, 
         RewardCard,
         FriendsCard,
-        Loading},
+        Loading,
+        BModal},
     data() {
         return {
             /** @type {import('../../types/task').Task | null} */
@@ -83,6 +89,11 @@ export default {
             /** @type {import('../../types/task').TaskList | null} */
             taskListToDelete: null,
             loading: true,
+            showNewTaskModal: false,
+            showEditTaskModal: false,
+            showNewTaskListModal: false,
+            showEditTaskListModal: false,
+            showDeleteTaskListConfirmModal: false,
         }
     },
     mounted() {
@@ -98,10 +109,10 @@ export default {
             this.$store.dispatch('clearErrors');
             this.superTask = superTask;
             this.taskList = taskList;
-            this.$bvModal.show('new-task');
+            this.showNewTaskModal = true;
         },
         closeNewTask() {
-            this.$bvModal.hide('new-task');
+            this.showNewTaskModal = false;
         },
 
         /** Shows and hides the modal to edit a given task
@@ -110,19 +121,19 @@ export default {
         showEditTask(task) {
             this.$store.dispatch('clearErrors');
             this.taskToEdit = task;
-            this.$bvModal.show('edit-task');
+            this.showEditTaskModal = true;
         },
         closeEditTask() {
-            this.$bvModal.hide('edit-task');
+            this.showEditTaskModal = false;
         },
 
         /** Shows and hides the modal to create a new task list */
         showNewTaskList() {
             this.$store.dispatch('clearErrors');
-            this.$bvModal.show('new-task-list');
+            this.showNewTaskListModal = true;
         },
         closeNewTaskList() {
-            this.$bvModal.hide('new-task-list');
+            this.showNewTaskListModal = false;
         },
 
         /** Shows and hides the modal to edit a given task list
@@ -131,10 +142,10 @@ export default {
         showEditTaskList(taskList) {
             this.$store.dispatch('clearErrors');
             this.taskListToEdit = taskList;
-            this.$bvModal.show('edit-task-list');
+            this.showEditTaskListModal = true;
         },
         closeEditTaskList() {
-            this.$bvModal.hide('edit-task-list');
+            this.showEditTaskListModal = false;
         },
 
         /** Shows and hides the modal to confirm deleting a task list
@@ -143,10 +154,10 @@ export default {
         showDeleteTaskList(taskList) {
             this.$store.dispatch('clearErrors');
             this.taskListToDelete = taskList;
-            this.$bvModal.show('delete-task-list-confirm');
+            this.showDeleteTaskListConfirmModal = true;
         },
         closeDeleteTaskList() {
-            this.$bvModal.hide('delete-task-list-confirm');
+            this.showDeleteTaskListConfirmModal = true;
         },
     },
     computed: {

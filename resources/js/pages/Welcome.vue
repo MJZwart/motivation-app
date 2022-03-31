@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal id="first-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
+        <b-modal id="first-modal" :footer="false" :header="false"-close no-close-on-backdrop no-close-on-esc>
             <template #modal-title>
                 <h2>{{ $t('welcome') }}</h2>
                 <p class="silent mb-0">{{ $t('not-yet-done') }}</p>
@@ -42,7 +42,7 @@
                 <b-button block variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
             </div>
         </b-modal>
-        <b-modal id="second-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
+        <b-modal id="second-modal" :footer="false" :header="false"-close no-close-on-backdrop no-close-on-esc>
             <template #modal-title>
                 <h2>{{ $t('little-more') }}</h2>
                 <p class="silent mb-0">{{ $t('pick-example-tasks') }}</p>

@@ -25,10 +25,10 @@
                             :rewardType="userProfile.rewardObj.rewardType" />
                 <FriendsCard :manage="false" :message="false" />
             </div>
-            <b-modal id="send-message-profile" hide-footer hide-header>
+            <b-modal id="send-message-profile" :footer="false" :header="false">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />
             </b-modal>
-            <b-modal id="report-user" hide-footer hide-header>
+            <b-modal id="report-user" :footer="false" :header="false">
                 <ReportUser :user="userProfile" @close="closeReportUserModal" />
             </b-modal>
         </div>

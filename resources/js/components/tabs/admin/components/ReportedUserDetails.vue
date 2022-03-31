@@ -17,11 +17,11 @@
             </template>
         </b-table>
 
-        <b-modal :id="`send-message-to-reported-user-${index}`" hide-footer :title="'placeholer title'">
+        <b-modal :id="`send-message-to-reported-user-${index}`" :footer="false" :title="'placeholer title'">
             <SendMessage :user="user" @close="closeSendMessageToReportedUser()"/>
         </b-modal>
         <b-modal :id="`show-conversation-${index}`"
-                 hide-footer :title="`placeholder title conversation ${conversationToShow}:`">
+                 :footer="false" :title="`placeholder title conversation ${conversationToShow}:`">
             <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation()"/>
         </b-modal>
     </div>

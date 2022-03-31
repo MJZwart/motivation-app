@@ -69,7 +69,7 @@
                 </b-row>
             </b-container>
             
-            <b-modal id="report-user" hide-footer hide-header>
+            <b-modal id="report-user" :footer="false" :header="false">
                 <ReportUser :user="userToReport" :conversation_id="conversationToReport" @close="closeReportUserModal" />
             </b-modal>
         </div>

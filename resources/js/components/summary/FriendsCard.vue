@@ -21,9 +21,9 @@
             </ul>
             <p v-else class="mb-1">{{ $t('no-friends') }}</p>
         </Summary>
-        <b-modal id="send-message" hide-footer hide-header>
+        <BModal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
             <SendMessage :user="friendToMessage" @close="closeSendMessageModal" />
-        </b-modal>
+        </BModal>
     </div>
 </template>
 
@@ -32,10 +32,11 @@
 import {mapGetters} from 'vuex';
 import SendMessage from '../modals/SendMessage.vue';
 import Summary from './Summary.vue';
+import BModal from '../bootstrap/BModal.vue';
 
 export default {
     components: {
-        SendMessage, Summary,
+        SendMessage, Summary, BModal,
     },
     props: {
         manage: {
@@ -50,6 +51,7 @@ export default {
     data() {
         return {
             friendToMessage: null,
+            showSendMessageModal: false,
         }
     },
     methods: {
@@ -60,10 +62,10 @@ export default {
         },
         sendMessage(friend) {
             this.friendToMessage = friend;
-            this.$bvModal.show('send-message');
+            this.showSendMessageModal = true;
         },
         closeSendMessageModal() {
-            this.$bvModal.hide('send-message');
+            this.showSendMessageModal = false;
         },
     },
     computed: {

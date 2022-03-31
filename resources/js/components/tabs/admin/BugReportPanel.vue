@@ -23,12 +23,16 @@
             </template>
         </b-table>
 
-        <b-modal id="edit-bug-report" hide-footer :title="$t('edit-bug-report')">
+        <BModal :show="showEditBugReportModal" :footer="false" :title="$t('edit-bug-report')" @close="closeEditBugReport">
             <edit-bug-report :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
-        </b-modal>
-        <b-modal id="send-message-to-bug-report-author" hide-footer :title="$t('send-message-to-bug-report-author')">
+        </BModal>
+        <BModal 
+            :show="showSendMessageModal" 
+            :footer="false" 
+            :title="$t('send-message-to-bug-report-author')" 
+            @close="closeSendMessageToBugReportAuthor">
             <send-message :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor"/>
-        </b-modal>
+        </BModal>
 
     </div>
 </template>
@@ -39,10 +43,12 @@ import {BUG_SORTABLES, BUG_DEFAULTS, BUG_STATUS} from '../../../constants/bugCon
 import {mapGetters} from 'vuex';
 import EditBugReport from '../../modals/EditBugReport.vue';
 import SendMessage from '../../modals/SendMessage.vue';
+import BModal from '../../bootstrap/BModal.vue';
 export default {
     components: {
         EditBugReport,
         SendMessage,
+        BModal,
     },
     computed: {
         ...mapGetters({
@@ -56,24 +62,26 @@ export default {
             currentSortDesc: true,
             bugReportToEdit: null,
             bugReportAuthor: null,
+            showEditBugReportModal: false,
+            showSendMessageModal: false,
         }
     },    
     methods: {
         sendMessageToBugReportAuthor(authorId) {
             this.$store.dispatch('clearErrors');
             this.bugReportAuthor = {id: authorId};
-            this.$bvModal.show('send-message-to-bug-report-author');
+            this.showSendMessageModal = true;
         },
         closeSendMessageToBugReportAuthor() {
-            this.$bvModal.hide('send-message-to-bug-report-author');
+            this.showSendMessageModal = false;
         },
         editBugReport(bugReport) {
             this.$store.dispatch('clearErrors');
             this.bugReportToEdit = bugReport;
-            this.$bvModal.show('edit-bug-report');
+            this.showEditBugReportModal = true;
         },
         closeEditBugReport() {
-            this.$bvModal.hide('edit-bug-report');
+            this.showEditBugReportModal = false;
         },
         parseStatus(status) {
             return BUG_STATUS.find(element => element.value == status).text;

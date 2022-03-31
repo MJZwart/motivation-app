@@ -25,7 +25,7 @@
                     <GroupDetails :group="row.item" :user="user" @reloadGroups="load" />
                 </template>
             </b-table>
-            <b-modal id="create-group" hide-footer :title="$t('create-group')">
+            <b-modal id="create-group" :footer="false" :title="$t('create-group')">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
             </b-modal>
         </div>
