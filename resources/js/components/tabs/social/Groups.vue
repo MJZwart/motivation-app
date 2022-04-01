@@ -25,9 +25,9 @@
                     <GroupDetails :group="row.item" :user="user" @reloadGroups="load" />
                 </template>
             </b-table>
-            <b-modal id="create-group" :footer="false" :title="$t('create-group')">
+            <BModal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
-            </b-modal>
+            </BModal>
         </div>
     </div>
 </template>
@@ -38,8 +38,9 @@ import GroupDetails from '../../small/GroupDetails.vue';
 import {mapGetters} from 'vuex';
 import Loading from '../../Loading.vue';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../../../constants/groupConstants.js';
+import BModal from '../../bootstrap/BModal.vue';
 export default {
-    components: {CreateGroup, GroupDetails, Loading},
+    components: {CreateGroup, GroupDetails, Loading, BModal},
     computed: {
         ...mapGetters({
             myGroups: 'groups/getMyGroups',
@@ -62,6 +63,7 @@ export default {
             loading: true,
             groupFields: null,
             chosen: '',
+            showCreateGroupModal: false,
         }
     },
     methods: {
@@ -85,10 +87,10 @@ export default {
         },
         createGroup() {
             this.$store.dispatch('clearErrors');
-            this.$bvModal.show('create-group');
+            this.showCreateGroupModal = true;
         },
         closeCreateGroup() {
-            this.$bvModal.hide('create-group');
+            this.showCreateGroupModal = false;
         },
     },
 }

@@ -17,13 +17,15 @@
             </template>
         </b-table>
 
-        <b-modal :id="`send-message-to-reported-user-${index}`" :footer="false" :title="'placeholer title'">
-            <SendMessage :user="user" @close="closeSendMessageToReportedUser()"/>
-        </b-modal>
-        <b-modal :id="`show-conversation-${index}`"
-                 :footer="false" :title="`placeholder title conversation ${conversationToShow}:`">
-            <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation()"/>
-        </b-modal>
+        <BModal :show="showSendMessageModal" :footer="false" :title="'placeholer title'" @close="closeSendMessageToReportedUser">
+            <SendMessage :user="user" @close="closeSendMessageToReportedUser"/>
+        </BModal>
+        <BModal :show="showConversationModal"
+                :footer="false" 
+                :title="`placeholder title conversation ${conversationToShow}:`" 
+                @close="closeShowConversation">
+            <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation"/>
+        </BModal>
     </div>
 </template>
 
@@ -32,10 +34,12 @@
 import {REPORTED_USER_DETAILS_FIELDS} from '../../../../constants/reportedUserConstants.js';
 import SendMessage from '../../../modals/SendMessage.vue';
 import ShowConversationModal from './ShowConversationModal.vue';
+import BModal from '../../../bootstrap/BModal.vue';
 export default {
     components: {
         SendMessage,
         ShowConversationModal,
+        BModal,
     },
     props: {
         user: {
@@ -51,24 +55,26 @@ export default {
         return {
             reportedUserDetailsFields: REPORTED_USER_DETAILS_FIELDS,
             conversationToShow: null,
+            showSendMessageModal: false,
+            showConversationModal: false,
         }
     },
     methods: {
         sendMessageToReportedUser() {
             this.$store.dispatch('clearErrors');
-            this.$bvModal.show(`send-message-to-reported-user-${this.index}`);
+            this.showSendMessageModal = true;
         },
         closeSendMessageToReportedUser() {
-            this.$bvModal.hide(`send-message-to-reported-user-${this.index}`);
+            this.showSendMessageModal = false;
         },
         showConversation(conversationId) {
             this.$store.dispatch('clearErrors');
             this.conversationToShow = conversationId;
-            this.$bvModal.show(`show-conversation-${this.index}`);
+            this.showConversationModal = true;
         },
         closeShowConversation() {
             this.conversationToShow = null;
-            this.$bvModal.hide(`show-conversation-${this.index}`);
+            this.showConversationModal = false;
         },
     },
 }

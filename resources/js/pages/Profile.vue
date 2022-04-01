@@ -25,12 +25,12 @@
                             :rewardType="userProfile.rewardObj.rewardType" />
                 <FriendsCard :manage="false" :message="false" />
             </div>
-            <b-modal id="send-message-profile" :footer="false" :header="false">
+            <BModal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />
-            </b-modal>
-            <b-modal id="report-user" :footer="false" :header="false">
+            </BModal>
+            <BModal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userProfile" @close="closeReportUserModal" />
-            </b-modal>
+            </BModal>
         </div>
 
     </div>
@@ -45,9 +45,10 @@ import SendMessage from '../components/modals/SendMessage.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
 import FriendsCard from '../components/summary/FriendsCard.vue';
+import BModal from '../components/bootstrap/BModal.vue';
 
 export default {
-    components: {RewardCard, AchievementsCard, ReportUser, Loading, FriendsCard, SendMessage},
+    components: {RewardCard, AchievementsCard, ReportUser, Loading, FriendsCard, SendMessage, BModal},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();
@@ -55,6 +56,8 @@ export default {
     data() {
         return {
             loading: true,
+            showSendMessageModal: false,
+            showReportUserModal: false,
         }
     },
     mounted() {
@@ -83,16 +86,16 @@ export default {
             this.$store.dispatch('friend/sendRequest', this.$route.params.id);
         },
         sendMessage() {
-            this.$bvModal.show('send-message-profile');
+            this.showSendMessageModal = true;
         },
         closeSendMessageModal() {
-            this.$bvModal.hide('send-message');
+            this.showSendMessageModal = false;
         },
         reportUser() {
-            this.$bvModal.show('report-user');
+            this.$showReportUserModal = true;
         },
         closeReportUserModal() {
-            this.$bvModal.hide('report-user');
+            this.showReportUserModal = false;
         },
         blockUser() {
             if (confirm(this.$t('block-user-confirmation', {user: this.userProfile.username}))) {
