@@ -12,7 +12,6 @@ import bugReportStore from './modules/bugReportStore.js';
 import rewardStore from './modules/rewardStore.js';
 import messageStore from './modules/messageStore.js';
 import groupsStore from './modules/groupsStore.js';
-import toastService from '../services/toastService';
 import axios from 'axios';
 
 Vue.use(Vuex);
@@ -35,17 +34,30 @@ export default new Vuex.Store({
         //Errors and response
         responseMessage: {},
         errors: [],
+        toasts: [],
     },
     mutations: {
         //Errors and response
         setErrorMessages(state, response) {
             state.errors = response;
         },
+        addToast(state, toast) {
+            // @ts-ignore
+            state.toasts.push(toast);
+        },
+        clearToast(state, title) {
+            // @ts-ignore
+            const index = state.toasts.findIndex(toast => toast.title === title);
+            state.toasts.splice(index, 1);
+        },
     },
     getters: {
         //Errors and response
         getErrorMessages: state => {
             return state.errors;
+        },
+        getToasts: state => {
+            return state.toasts;
         },
     },
     actions: {
@@ -65,25 +77,21 @@ export default new Vuex.Store({
                 commit('message/setHasMessages', response.data.hasMessages);
             });
         },
-        sendFeedback: ({dispatch}, feedback) => {
+        sendFeedback: ({commit}, feedback) => {
             axios.post('/feedback', feedback).then(response => {
-                dispatch('sendToasts', response.data.message);
+                commit('addToast', response.data.message);
             })
         },
         /**
          * Send a toast by calling:
-         * dispatch('sendToasts', response.data.message, {root:true});
+         * commit('addToast', response.data.message, {root:true});
          * where 'response.data.message' is an object with one or multiple messages.
          * In the JsonResponse, name the response message 'success', 'danger' or 'info' 
          * to get corresponding themes and titles.
          * 
-         * @param {Object} messages 
          */
-        sendToasts(_, messages) {
-            Object.entries(messages).forEach(msg => {
-                const [key, value] = msg;
-                toastService.$emit('message', {message: value, key: key})
-            });
+        sendToasts: ({commit}, message) => {
+            commit('addToast', message);
         },
     },
 });

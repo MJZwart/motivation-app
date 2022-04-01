@@ -26,7 +26,7 @@ class MessageController extends Controller
         /** @var User */
         $user = Auth::user();
         if($user->isBlocked($request['recipient_id'])){
-            return new JsonResponse(['message' => ['You are unable to send messages to this user.']], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse(['message' => ['error' => 'You are unable to send messages to this user.']], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         $validated = $request->validated();
         $validated['sender_id'] = $user->id;
@@ -38,7 +38,7 @@ class MessageController extends Controller
         $message = Message::create($validated);
         $message->conversation->touch();
 
-        return new JsonResponse(['message' => ['success' => ['Message sent.']], 'data' => ConversationOverviewResource::collection(
+        return new JsonResponse(['message' => ['success' => 'Message sent.'], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
     }
 
@@ -73,7 +73,7 @@ class MessageController extends Controller
         /** @var User */
         $user = Auth::user()->id;
         $this->makeMessageInvisibleToUser($message, $user->id);
-        return new JsonResponse(['message' => ['success' => ['Message deleted.']], 'data' => ConversationOverviewResource::collection(
+        return new JsonResponse(['message' => ['success' => 'Message deleted.'], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
     }
 
@@ -85,7 +85,7 @@ class MessageController extends Controller
             'blocked_user_id' => $blockedUser->id,
         ]);
         $this->makeConversationInvisible($user, $blockedUser);
-        return new JsonResponse(['message' => ['success' => ['User blocked.']], 'data' => ConversationOverviewResource::collection(
+        return new JsonResponse(['message' => ['success' => 'User blocked.'], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
     }
 

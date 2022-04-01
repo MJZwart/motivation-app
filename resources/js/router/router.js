@@ -121,7 +121,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (to.meta && to.meta.requiresAdmin && !store.getters['admin/isAdmin']) {
-        store.dispatch('sendToasts', {'error': 'You are not authorized to view this page'});
+        store.commit('addToast', {'error': 'You are not authorized to view this page'});
         return next({path: '/dashboard'});
     }
     

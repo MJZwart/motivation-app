@@ -72,9 +72,9 @@ export default {
                 return Promise.resolve();
             });
         },
-        sendNotification: ({dispatch}, notification) => {
+        sendNotification: ({commit}, notification) => {
             axios.post('/notifications/all', notification).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
             });
         },
         fetchConversation: ({commit}, id) => {
@@ -85,29 +85,29 @@ export default {
         },
 
         //Balancing
-        updateExpPoints: ({dispatch, commit}, experiencePoints) => {
+        updateExpPoints: ({commit}, experiencePoints) => {
             axios.put('/admin/experience_points', experiencePoints).then(response => {
                 commit('setExperiencePoints', response.data.data);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
             });
         },
-        addNewLevel: ({dispatch, commit}, newLevel) => {
+        addNewLevel: ({commit}, newLevel) => {
             return axios.post('/admin/experience_points', newLevel).then(response => {
                 commit('setExperiencePoints', response.data.data);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },
-        updateCharExpGain: ({dispatch, commit}, charExpGain) => {
+        updateCharExpGain: ({commit}, charExpGain) => {
             axios.put('/admin/character_exp_gain', charExpGain).then(response => {
                 commit('setCharExpGain', response.data.data);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
             });
         },
-        updateVillageExpGain: ({commit, dispatch}, villageExpGain) => {
+        updateVillageExpGain: ({commit}, villageExpGain) => {
             axios.put('/admin/village_exp_gain', villageExpGain).then(response => {
                 commit('setVillageExpGain', response.data.data);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
             });
         },
     },

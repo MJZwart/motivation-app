@@ -19,9 +19,9 @@ export default {
         },
     },
     actions: {
-        sendRequest: ({dispatch}, friendId) => {
+        sendRequest: ({commit}, friendId) => {
             return axios.post('/friend/request/' + friendId).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },
@@ -31,28 +31,28 @@ export default {
                 return Promise.resolve();
             });
         },
-        acceptRequest: ({commit, dispatch}, requestId) => {
+        acceptRequest: ({commit}, requestId) => {
             axios.post('/friend/request/' + requestId + '/accept').then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('user/setUser', response.data.user, {root:true});
                 commit('setRequests', response.data.requests);
             });
         },
-        denyRequest: ({commit, dispatch}, requestId) => {
+        denyRequest: ({commit}, requestId) => {
             axios.post('/friend/request/' + requestId + '/deny').then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('setRequests', response.data.requests);
             });
         },
-        removeRequest: ({commit, dispatch}, requestId) => {
+        removeRequest: ({commit}, requestId) => {
             axios.delete('/friend/request/' + requestId).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('setRequests', response.data.requests);
             });
         },
-        removeFriend: ({commit, dispatch}, friendId) => {
+        removeFriend: ({commit}, friendId) => {
             axios.delete('/friend/remove/' + friendId).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('user/setUser', response.data.user, {root:true});
             });
         },

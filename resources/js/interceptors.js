@@ -73,6 +73,6 @@ axios.interceptors.response.use(
  * @param {String} toastMessage 
  */
 function sendErrorToast(toastMessage) {
-    let toastObject = {'error': toastMessage};
-    store.dispatch('sendToasts', toastObject)
+    let toastObject = {'error' : toastMessage};
+    store.commit('addToast', toastObject);
 }

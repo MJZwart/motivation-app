@@ -33,16 +33,16 @@ export default {
         },
     },
     actions: {
-        newAchievement: ({commit, dispatch}, achievement) => {
+        newAchievement: ({commit}, achievement) => {
             return axios.post('/achievements', achievement).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });
         },
-        editAchievement: ({commit, dispatch}, achievement) => {
+        editAchievement: ({commit}, achievement) => {
             return axios.put('/achievements/' + achievement.id, achievement).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
                 return Promise.resolve();
             });

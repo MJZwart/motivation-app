@@ -13,13 +13,12 @@ import store from './store/store';
 import router from './router/router';
 
 //Import BootstrapVue
-import {BootstrapVue, BootstrapVueIcons, ToastPlugin} from 'bootstrap-vue';
+import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css';
 Vue.use(BootstrapVueIcons);
 Vue.use(BootstrapVue, {
     BButton: {variant: 'primary'},
 });
-Vue.use(ToastPlugin);
 
 //Import vue-i18n translations
 import VueI18n from 'vue-i18n';
@@ -27,14 +26,10 @@ Vue.use(VueI18n);
 
 import i18n from './i18n';
 
-import toastService from './services/toastService';
-const app = new Vue({
+new Vue({
     i18n,
     el: '#app',
     store,
     router,
     render: h => h(App),
 });
-
-// @ts-ignore
-toastService.$app = app;

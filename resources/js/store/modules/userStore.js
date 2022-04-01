@@ -72,15 +72,15 @@ export default {
         },
 
         //New user
-        register: ({dispatch}, user) => {
+        register: ({commit}, user) => {
             axios.post('/register', user).then(response => {
                 router.push('/login').catch(() => { });
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
             });
         },
-        confirmRegister: ({commit, dispatch}, user) => {
+        confirmRegister: ({commit}, user) => {
             axios.post('/register/confirm', user).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('setUser', response.data.user);
                 router.push('/').catch(() => {});
             });
@@ -103,28 +103,28 @@ export default {
             });
         },
 
-        updatePassword: ({dispatch}, passwords) => {
+        updatePassword: ({commit, dispatch}, passwords) => {
             axios.put('/user/settings/password', passwords).then(response => {
                 dispatch('logout');
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
             });
         },
-        updateEmail: ({commit, dispatch}, email) => {
+        updateEmail: ({commit}, email) => {
             axios.put('/user/settings/email', email).then(response => {
                 commit('setUser', response.data.user);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
             });
         },
-        updateSettings: ({commit, dispatch}, settings) => {
+        updateSettings: ({commit}, settings) => {
             axios.put('/user/settings', settings).then(response => {
                 commit('setUser', response.data.user);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
             });
         },
-        changeRewardType: ({commit, dispatch}, user) => {
+        changeRewardType: ({commit}, user) => {
             return axios.put('/user/settings/rewards', user).then(response => {
                 commit('setUser', response.data.user);
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('reward/setRewardObj', response.data.activeReward, {root:true});
                 return Promise.resolve();
             });
@@ -136,16 +136,16 @@ export default {
             });
         },
 
-        reportUser: ({dispatch}, [user, report]) => {
+        reportUser: ({commit}, [user, report]) => {
             return axios.post('/user/' + user.id + '/report', report).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },
 
-        blockUser: ({dispatch, commit}, userId) => {
+        blockUser: ({commit}, userId) => {
             return axios.put('/user/' + userId + '/block').then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('message/setConversations', response.data.data, {root:true});
                 return Promise.resolve();
             });

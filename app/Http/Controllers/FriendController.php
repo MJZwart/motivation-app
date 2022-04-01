@@ -27,7 +27,7 @@ class FriendController extends Controller
         $inverseFriendship = Friend::where('user_id', $friend->friend_id)->where('friend_id', Auth::user()->id)->first();
         $friend->delete();
         $inverseFriendship->delete();
-        return new JsonResponse(['message' => ['info' => ['Friend removed.']], 
+        return new JsonResponse(['message' => ['info' => 'Friend removed.'], 
             'user' => new UserResource(Auth::user())], 
             Response::HTTP_OK);
     }
@@ -37,14 +37,14 @@ class FriendController extends Controller
      */
     public function sendFriendRequest(User $user):JsonResponse{
         if(Friend::where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()){
-            return new JsonResponse(['errors' => ['error' => ['You\'ve already sent a friend request to this user']]], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse(['errors' => ['error' => 'You\'ve already sent a friend request to this user']], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         Friend::create(['user_id' => Auth::user()->id, 'friend_id' => $user->id]);
         Notification::create([
             'user_id' => $user->id,
             'title' => 'New friend request!',
             'text' => 'You have a new friend request from '.Auth::user()->username.'. Would you like to accept?']);
-        return new JsonResponse(['message' => ['success' => ['Friend request successfully sent.']]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => 'Friend request successfully sent.']], Response::HTTP_OK);
     }
 
     /**
@@ -61,7 +61,7 @@ class FriendController extends Controller
         AchievementHandler::checkForAchievement('FRIENDS', $friend->friend);
 
         $requests = $this->fetchRequests();
-        return new JsonResponse(['message' => ['success' => ['Friend request accepted. You are now friends.']], 
+        return new JsonResponse(['message' => ['success' => 'Friend request accepted. You are now friends.'], 
             'user' => new UserResource(Auth::user()),
             'requests' => $requests], 
             Response::HTTP_OK);
@@ -74,7 +74,7 @@ class FriendController extends Controller
     public function denyFriendRequest(Friend $friend){
         $friend->delete();
         $requests = $this->fetchRequests();
-        return new JsonResponse(['message' => ['info' => ['Friend request denied.']], 
+        return new JsonResponse(['message' => ['info' => 'Friend request denied.'], 
             'requests' => $requests], 
             Response::HTTP_OK);
     }
@@ -82,7 +82,7 @@ class FriendController extends Controller
     public function removeFriendRequest(Friend $friend) {
         $friend->delete();
         $requests = $this->fetchRequests();
-        return new JsonResponse(['message' => ['info' => ['Friend request cancelled.']], 
+        return new JsonResponse(['message' => ['info' => 'Friend request cancelled.'], 
             'requests' => $requests], 
             Response::HTTP_OK);
     }
