@@ -4,7 +4,7 @@
             :items="user.reports"
             :fields="reportedUserDetailsFields"
             class="reported-user-details-table"
-            :options="['striped']"
+            :options="['table-striped']"
         >
             <template #actions>
                 <b-button @click="sendMessageToReportedUser()">place holder message</b-button>

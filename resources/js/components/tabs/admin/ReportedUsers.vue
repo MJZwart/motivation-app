@@ -5,7 +5,7 @@
         <BTable
             :items="reportedUsers"
             :fields="reportedUserFields"
-            :options="['striped']"
+            :options="['table-striped']"
         >
             <template #details="row">
                 <b-button @click="showReportedUserDetails(row)">placeholder details</b-button>
