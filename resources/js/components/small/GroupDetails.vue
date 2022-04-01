@@ -1,42 +1,42 @@
 <template>
     <div class="details">
-        <b-row>
-            <b-col sm="2"><b>{{ $t('founded') }}:</b></b-col>
-            <b-col>{{group.time_created}}</b-col>
-        </b-row>
-        <b-row>
-            <b-col sm="2"><b>{{ $t('admin') }}:</b></b-col>
-            <b-col>
+        <div class="row">
+            <div class="col-sm-2"><b>{{ $t('founded') }}:</b></div>
+            <div class="col">{{group.time_created}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"><b>{{ $t('admin') }}:</b></div>
+            <div class="col">
                 <router-link :to="{ name: 'profile', params: { id: group.admin.id}}">
                     {{group.admin.username}}
                 </router-link>
-            </b-col>
-        </b-row>
-        <b-row v-if="isJoinGroupVisible">
-            <b-col>
+            </div>
+        </div>
+        <div v-if="isJoinGroupVisible" class="row">
+            <div class="col">
                 <b-button type="button" @click="joinGroup()">{{$t('join-group')}}</b-button>
-            </b-col>
-        </b-row>
-        <b-row v-else>
-            <b-col v-if="isUserAdmin">
+            </div>
+        </div>
+        <div v-else class="row">
+            <div v-if="isUserAdmin" class="col">
                 <b-button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</b-button>
-            </b-col>
+            </div>
 
-            <b-col v-else>
+            <div v-else class="col">
                 <b-button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</b-button>
-            </b-col>
-        </b-row>
+            </div>
+        </div>
         <hr />
-        <b-row>
-            <b-col sm="2"><b>{{group.members.length}} {{ $t('members') }}:</b></b-col>
-            <b-col>
-                <b-row v-for="member in group.members" :key="member.id">
-                    <b-col sm="3">{{member.username}}</b-col>
-                    <b-col sm="2">{{member.rank}}</b-col>
-                    <b-col sm="3">Joined: {{member.joined}}</b-col>
-                </b-row>
-            </b-col>
-        </b-row>
+        <div class="row">
+            <div class="col-sm-2"><b>{{group.members.length}} {{ $t('members') }}:</b></div>
+            <div class="col">
+                <div v-for="member in group.members" :key="member.id" class="row">
+                    <div class="col-sm-3">{{member.username}}</div>
+                    <div class="col-sm-2">{{member.rank}}</div>
+                    <div class="col-sm-5">Joined: {{member.joined}}</div>
+                </div>
+            </div>
+        </div>
         
     </div>
 </template>

@@ -22,7 +22,7 @@
             <BModal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
             </BModal>
-            <BModal :show="showGroupDetailsModal" :footer="false" :title="groupDetailsTitle" @close="closeGroupDetails">
+            <BModal class="l" :show="showGroupDetailsModal" :footer="false" :title="groupDetailsTitle" @close="closeGroupDetails">
                 <GroupDetails :group="groupDetailsItem" :user="user" @close="closeGroupDetails" @reloadGroups="load" />
             </BModal>
         </div>
