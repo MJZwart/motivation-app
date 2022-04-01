@@ -1,9 +1,11 @@
 <template>
     <div>
-        <b-modal id="first-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
-            <template #modal-title>
-                <h2>{{ $t('welcome') }}</h2>
-                <p class="silent mb-0">{{ $t('not-yet-done') }}</p>
+        <BModal :show="showFirstModal" :footer="false" :header="false">
+            <template #header>
+                <div class="modal-header d-block">
+                    <h4>{{ $t('welcome') }}</h4>
+                    <p class="silent mb-0">{{ $t('not-yet-done') }}</p>
+                </div>
             </template>
             <div>
                 <b-form-group
@@ -41,11 +43,13 @@
                 <b-button block @click="nextModal()">{{ $t('next') }}</b-button>
                 <b-button block variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
             </div>
-        </b-modal>
-        <b-modal id="second-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
-            <template #modal-title>
-                <h2>{{ $t('little-more') }}</h2>
-                <p class="silent mb-0">{{ $t('pick-example-tasks') }}</p>
+        </BModal>
+        <BModal :show="showSecondModal" :footer="false" :header="false">
+            <template #header>
+                <div class="modal-header d-block">
+                    <h4>{{ $t('little-more') }}</h4>
+                    <p class="silent mb-0">{{ $t('pick-example-tasks') }}</p>
+                </div>
             </template>
             <div>
                 <b-form-group
@@ -72,15 +76,16 @@
                     <b-button class="ml-auto" variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
                 </div>
             </div>
-        </b-modal>
+        </BModal>
     </div>
 </template>
 
 <script>
 import BaseFormError from '../components/BaseFormError.vue';
 import {mapGetters} from 'vuex';
+import BModal from '../components/bootstrap/BModal.vue';
 export default {
-    components: {BaseFormError},
+    components: {BaseFormError, BModal},
     mounted () {
         this.$store.dispatch('clearErrors');
         this.$store.dispatch('task/fetchExampleTasks');
@@ -93,18 +98,20 @@ export default {
                 tasks: [],
                 reward_object_name: null,
             },
+            showFirstModal: false,
+            showSecondModal: false,
         }
     },
     methods: {
         nextModal() {
             if (this.checkInput()) {
-                this.$bvModal.hide('first-modal');
-                this.$bvModal.show('second-modal');
+                this.showFirstModal = false;
+                this.showSecondModal = true;
             }
         },
         startFirstModal() {
-            this.$bvModal.show('first-modal');
-            this.$bvModal.hide('second-modal');
+            this.showFirstModal = true;
+            this.$showSecondModal = false;
         },
         confirmSettings() {
             this.$store.dispatch('user/confirmRegister', this.user);

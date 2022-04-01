@@ -19,12 +19,12 @@
                     {{ $t('no-groups-found') }}
                 </template>
             </BTable>
-            <b-modal id="create-group" hide-footer :title="$t('create-group')">
+            <BModal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
-            </b-modal>
-            <b-modal id="show-group-details" hide-footer :title="groupDetailsTitle">
+            </BModal>
+            <BModal :show="showGroupDetailsModal" :footer="false" :title="groupDetailsTitle" @close="closeGroupDetails">
                 <GroupDetails :group="groupDetailsItem" :user="user" @close="closeGroupDetails" @reloadGroups="load" />
-            </b-modal>
+            </BModal>
         </div>
     </div>
 </template>
@@ -36,8 +36,9 @@ import GroupDetails from '../../small/GroupDetails.vue';
 import {mapGetters} from 'vuex';
 import Loading from '../../Loading.vue';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../../../constants/groupConstants.js';
+import BModal from '../../bootstrap/BModal.vue';
 export default {
-    components: {CreateGroup, GroupDetails, Loading, BTable},
+    components: {CreateGroup, GroupDetails, Loading, BModal, BTable},
     computed: {
         ...mapGetters({
             myGroups: 'groups/getMyGroups',
@@ -60,6 +61,8 @@ export default {
             loading: true,
             groupFields: null,
             chosen: '',
+            showCreateGroupModal: false,
+            showGroupDetailsModal: false,
             groupDetailsItem: null,
             groupDetailsTitle: null,
         }
@@ -85,18 +88,18 @@ export default {
         },
         createGroup() {
             this.$store.dispatch('clearErrors');
-            this.$bvModal.show('create-group');
+            this.showCreateGroupModal = true;
         },
         closeCreateGroup() {
-            this.$bvModal.hide('create-group');
+            this.showCreateGroupModal = false;
         },
         showGroupsDetails(group) {
             this.groupDetailsItem = group;
             this.groupDetailsTitle = group.name;
-            this.$bvModal.show('show-group-details');
+            this.showGroupDetailsModal = true;
         },
         closeGroupDetails() {
-            this.$bvModal.hide('show-group-details');
+            this.showGroupDetailsModal = false;
         },
     },
 }

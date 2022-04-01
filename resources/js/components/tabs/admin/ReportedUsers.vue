@@ -11,20 +11,27 @@
                 <b-button @click="showReportedUserDetails(row)">placeholder details</b-button>
             </template>
         </BTable>
-        <b-modal id="show-reported-user-details" size="lg" hide-footer :title="reportedUserDetailsTitle">
+        <BModal 
+            :show="showReportedUserDetailsModal" 
+            :footer="false" 
+            :title="reportedUserDetailsTitle" 
+            class="l"
+            @close="closeReportedUserDetails">
             <ReportedUserDetails :user="reportedUserDetails" :index="reportedUserIndex" />
-        </b-modal>
+            <!-- Ugly af -->
+        </BModal>
     </div>
 </template>
 
 <script>
 import BTable from '../../bootstrap/BTable.vue';
+import BModal from '../../bootstrap/BModal.vue';
 import {mapGetters} from 'vuex';
 import ReportedUserDetails from './components/ReportedUserDetails.vue';
 import {REPORTED_USER_FIELDS} from '../../../constants/reportedUserConstants.js';
 export default {
     components: {
-        ReportedUserDetails, BTable,
+        ReportedUserDetails, BTable, BModal,
     },
     data() {
         return {
@@ -32,6 +39,7 @@ export default {
             reportedUserIndex: null,
             reportedUserFields: REPORTED_USER_FIELDS,
             reportedUserDetailsTitle: null,
+            showReportedUserDetailsModal: false,
         }
     },
     computed: {
@@ -44,7 +52,10 @@ export default {
             this.reportedUserDetails = item;
             this.reportedUserIndex = index;
             this.reportedUserDetailsTitle = item.username;
-            this.$bvModal.show('show-reported-user-details');
+            this.showReportedUserDetailsModal = true;
+        },
+        closeReportedUserDetails() {
+            this.showReportedUserDetailsModal = false;
         },
     },
 }

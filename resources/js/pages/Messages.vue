@@ -69,9 +69,9 @@
                 </b-row>
             </b-container>
             
-            <b-modal id="report-user" hide-footer hide-header>
+            <BModal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userToReport" :conversation_id="conversationToReport" @close="closeReportUserModal" />
-            </b-modal>
+            </BModal>
         </div>
     </div>
 </template>
@@ -82,6 +82,7 @@ import {mapGetters} from 'vuex';
 import Message from '../components/small/Message.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
+import BModal from '../components/bootstrap/BModal.vue';
 
 export default {
     components: {
@@ -89,6 +90,7 @@ export default {
         Message,
         ReportUser,
         Loading,
+        BModal,
     },
     data() {
         return {
@@ -99,6 +101,7 @@ export default {
             userToReport: {},
             conversationToReport: '',
             loading: true,
+            showReportUserModal: false,
         }
     },
     mounted() {
@@ -175,10 +178,10 @@ export default {
         reportUser(conversation) {
             this.userToReport = conversation.recipient;
             this.conversationToReport = conversation.conversation_id;
-            this.$bvModal.show('report-user');
+            this.showReportUserModal = true;
         },
         closeReportUserModal() {
-            this.$bvModal.hide('report-user');
+            this.$showReportUserModal = false;
             this.userToReport = {};
             this.conversationToReport = '';
         },

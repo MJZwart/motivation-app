@@ -32,9 +32,9 @@
                 </template>
             </BTable>
         </div>
-        <b-modal id="send-message-search" hide-footer hide-header>
+        <BModal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
             <SendMessage :user="userToMessage" @close="closeSendMessageModal" />
-        </b-modal>
+        </BModal>
     </div>
 </template>
 
@@ -44,9 +44,10 @@ import BTable from '../../../bootstrap/BTable.vue';
 import {mapGetters} from 'vuex';
 import {SEARCH_RESULTS_FIELDS} from '../../../../constants/userConstants.js';
 import SendMessage from '../../../modals/SendMessage.vue';
+import BModal from '../../../bootstrap/BModal.vue';
 export default {
     components: {
-        SendMessage, BTable,
+        SendMessage, BModal, BTable,
     },
     data() {
         return {
@@ -55,6 +56,7 @@ export default {
             },
             searchResultsFields: SEARCH_RESULTS_FIELDS,
             userToMessage: null,
+            showSendMessageModal: false,
         }
     },
     methods: {
@@ -77,10 +79,10 @@ export default {
         },
         sendMessage(user) {
             this.userToMessage = user;
-            this.$bvModal.show('send-message-search');
+            this.showSendMessageModal= true;
         },
         closeSendMessageModal() {
-            this.$bvModal.hide('send-message-search');
+            this.showSendMessageModal = false;
         },
     },
     computed: {

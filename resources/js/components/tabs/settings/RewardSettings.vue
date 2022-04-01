@@ -100,9 +100,9 @@
         </div>
 
         
-        <b-modal id="edit-reward-name" hide-footer :title="$t('edit-reward-name')">
+        <BModal :show="showEditRewardNameModal" :footer="false" :title="$t('edit-reward-name')" @close="closeEditReward">
             <EditRewardObjectName :rewardObj="rewardToEdit" :type="rewardType" @close="closeEditReward" />
-        </b-modal>
+        </BModal>
     </div>
 </template>
 
@@ -113,8 +113,9 @@ import BaseFormError from '../../BaseFormError.vue';
 import Loading from '../../Loading.vue';
 import EditRewardObjectName from '../../modals/EditRewardObjectName.vue';
 import BTable from '../../bootstrap/BTable.vue';
+import BModal from '../../bootstrap/BModal.vue';
 export default {
-    components: {BaseFormError, Loading, EditRewardObjectName, BTable},
+    components: {BaseFormError, Loading, EditRewardObjectName, BModal, BTable},
     data() {
         return {
             rewardSetting: {
@@ -126,6 +127,7 @@ export default {
             loading: true,
             rewardToEdit: null,
             rewardType: null,
+            showEditRewardNameModal: false,
         }
     },
     computed: {
@@ -188,10 +190,10 @@ export default {
             this.$store.dispatch('clearErrors');
             this.rewardToEdit = instance;
             this.rewardType = instance.type.toUpperCase()
-            this.$bvModal.show('edit-reward-name');
+            this.showEditRewardNameModal = true;
         },
         closeEditReward() {
-            this.$bvModal.hide('edit-reward-name');
+            this.showEditRewardNameModal = false;
             this.load();
         },
         activateReward(instance) {
