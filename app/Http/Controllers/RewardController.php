@@ -18,7 +18,7 @@ class RewardController extends Controller
     public function updateRewardObj(Request $request){
         $activeReward = RewardObjectHandler::updateActiveReward($request['type'], $request['id'], $request['name']);
         return new JsonResponse([
-            'message' => ['success' => ['You have changed the name.']], 
+            'message' => ['success' => 'You have changed the name.'], 
             'rewardObj' => $activeReward]);
     }
 
@@ -52,11 +52,11 @@ class RewardController extends Controller
         RewardObjectHandler::toggleActiveRewardObject($request['rewardType'], $user, $request['id']);
         if($request['rewardType'] != $user->rewards)
             $user->update(['rewards' => $request['rewardType']]);
-        return new JsonResponse(['message' => ['success' => ['You have activated '.$request['name']]], 'user' => new UserResource(Auth::user())]);
+        return new JsonResponse(['message' => ['success' => 'You have activated '.$request['name']], 'user' => new UserResource(Auth::user())]);
     }
 
     public function deleteInstance(Request $request) {
         RewardObjectHandler::deleteRewardObject($request['rewardType'], $request['id']);
-        return new JsonResponse(['message' => ['success' => ['You have deleted '.$request['name']]]]);
+        return new JsonResponse(['message' => ['success' => 'You have deleted '.$request['name']]]);
     }
 }

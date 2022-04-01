@@ -6,13 +6,13 @@
         <div v-else>
             <h5>{{ $t('manage-rewards') }}</h5>
             <div>
-                <b-table
+                <BTable
                     :items="rewardItems"
                     :fields="rewardFields">
-                    <template #cell(active)="item">
+                    <template #active="item">
                         {{ item.item.active ? 'Yes' : 'No' }}
                     </template>
-                    <template #cell(actions)="item">
+                    <template #actions="item">
                         <b-icon-pencil-square :id="'edit-item-' + item.index" class="icon" @click="showEditReward(item.item)" />
                         <b-tooltip :target="'edit-item-' + item.index">
                             {{ $t('change-name') }}
@@ -34,7 +34,7 @@
                             {{ $t('delete') }}
                         </b-tooltip>
                     </template>
-                </b-table>
+                </BTable>
             </div>
             
             <h5>{{ $t('change-reward-settings') }}</h5>
@@ -112,9 +112,10 @@ import {REWARD_TYPES, REWARD_FIELDS} from '../../../constants/rewardConstants';
 import BaseFormError from '../../BaseFormError.vue';
 import Loading from '../../Loading.vue';
 import EditRewardObjectName from '../../modals/EditRewardObjectName.vue';
+import BTable from '../../bootstrap/BTable.vue';
 import BModal from '../../bootstrap/BModal.vue';
 export default {
-    components: {BaseFormError, Loading, EditRewardObjectName, BModal},
+    components: {BaseFormError, Loading, EditRewardObjectName, BModal, BTable},
     data() {
         return {
             rewardSetting: {

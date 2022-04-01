@@ -114,7 +114,7 @@ class LevelHandler {
                 $returnMessage->$key = (array)$message;
             }
         }
-        $returnMessage->success = ['Task completed.'];
+        $returnMessage->success = 'Task completed.';
         $returnValue = new \stdClass();
         if($type == 'CHARACTER') {
             $returnValue->activeReward = $activeReward; //Add the newly levelled character on the return value

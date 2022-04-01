@@ -42,27 +42,27 @@ export default {
                 return Promise.resolve();
             });
         },
-        createGroup: ({dispatch}, group) => {
+        createGroup: ({commit}, group) => {
             return axios.post('/groups', group).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },
-        deleteGroup: ({dispatch}, group) => {
+        deleteGroup: ({commit}, group) => {
             return axios.delete(`/groups/${group.id}`).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             })
         },
-        joinGroup: ({dispatch}, group) => {
+        joinGroup: ({commit}, group) => {
             return axios.post(`/groups/join/${group.id}`).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             })
         },
-        leaveGroup: ({dispatch}, group) => {
+        leaveGroup: ({commit}, group) => {
             return axios.post(`/groups/leave/${group.id}`).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             })
         },

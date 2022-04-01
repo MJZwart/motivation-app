@@ -18,16 +18,16 @@ export default {
         },
     },
     actions: {
-        updateBugReport: ({commit, dispatch}, bugReport) => {
+        updateBugReport: ({commit}, bugReport) => {
             return axios.put('/bugreport/' + bugReport.id, bugReport).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('setBugReports', response.data.data);
                 return Promise.resolve();
             });
         },
-        storeBugReport: ({dispatch}, bugReport) => {
+        storeBugReport: ({commit}, bugReport) => {
             return axios.post('/bugreport', bugReport).then(response => {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 return Promise.resolve();
             });
         },

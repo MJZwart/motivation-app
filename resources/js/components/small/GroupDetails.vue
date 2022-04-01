@@ -69,15 +69,22 @@ export default {
         joinGroup() {
             this.$store.dispatch('groups/joinGroup', this.group).then(() => {
                 this.$emit('reloadGroups');
+                this.$emit('close');
             });
         },
         deleteGroup() {
             if (confirm(this.$t('delete-group-confirm', {group: this.group.name})))
-                this.$store.dispatch('groups/deleteGroup', this.group).then(() => this.$emit('reloadGroups'));
+                this.$store.dispatch('groups/deleteGroup', this.group).then(() => {
+                    this.$emit('reloadGroups');
+                    this.$emit('close');
+                });
         },
         leaveGroup() {
             if (confirm(this.$t('leave-group-confirm', {group: this.group.name})))
-                this.$store.dispatch('groups/leaveGroup', this.group).then(() => this.$emit('reloadGroups'));
+                this.$store.dispatch('groups/leaveGroup', this.group).then(() => {
+                    this.$emit('reloadGroups');
+                    this.$emit('close');
+                });
         },
     },
 }
