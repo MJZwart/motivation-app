@@ -1,6 +1,6 @@
 <template>
     <div class="w-80 center">
-        <BTabs class="tab-card" vertical card :options="['pills']">
+        <BTabs vertical card :options="['pills']">
             <BTab :title="$t('account-settings')" active>
                 <AccountSettings />
             </BTab>

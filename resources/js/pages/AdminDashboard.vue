@@ -1,7 +1,7 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <BTabs v-else class="tab-card" card vertical :options="['pills']">
+        <BTabs v-else card vertical :options="['pills']">
             <BTab title="Achievements">
                 <achievements />
             </BTab>

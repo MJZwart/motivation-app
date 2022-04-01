@@ -141,7 +141,6 @@ import BTabs from '../../bootstrap/BTabs.vue';
 import BTab from '../../bootstrap/BTab.vue';
 
 export default {
-    // components: {GeneralFormError, BaseFormError, Loading},
     components: {GeneralFormError, BaseFormError, Loading, BTabs, BTab},
     mounted() {
         if (this.experience_points && this.character_exp_gain && this.village_exp_gain) {
