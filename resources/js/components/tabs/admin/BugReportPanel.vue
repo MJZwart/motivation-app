@@ -7,7 +7,7 @@
             :fields="bugSortables"
             :sort="currentSort"
             :sortAsc="!currentSortDesc"
-            :options="['table-hober', 'table-sm', 'table-responsive']"
+            :options="['table-hover', 'table-sm', 'table-responsive', 'table-striped']"
             class="font-sm">
             <template #severity="data">
                 <span class="severity">{{ data.item.severity }}</span>
