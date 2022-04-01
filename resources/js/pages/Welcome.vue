@@ -47,7 +47,7 @@
         <BModal :show="showSecondModal" :footer="false" :header="false">
             <template #header>
                 <div class="modal-header d-block">
-                    <h2>{{ $t('little-more') }}</h2>
+                    <h4>{{ $t('little-more') }}</h4>
                     <p class="silent mb-0">{{ $t('pick-example-tasks') }}</p>
                 </div>
             </template>
