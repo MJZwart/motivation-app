@@ -2,8 +2,8 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
-            <b-tabs>
-                <b-tab :title="$t('exp-points')">
+            <BTabs>
+                <BTab :title="$t('exp-points')">
                     <b-row>
                         <b-col>
                             <!-- 
@@ -64,11 +64,11 @@
                             </table>
                         </b-col>
                     </b-row>
-                </b-tab>
+                </BTab>
                 <!-- 
                     The tab for Character Exp gain
                  -->
-                <b-tab :title="$t('char-exp-gain')">
+                <BTab :title="$t('char-exp-gain')">
                     <general-form-error />
                     <div class="d-flex">
                         <b-button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</b-button>
@@ -92,11 +92,11 @@
                             </tr>
                         </tbody>
                     </table>
-                </b-tab>
+                </BTab>
                 <!-- 
                     The tab for Village Exp gain
                  -->
-                <b-tab :title="$t('vill-exp-gain')">  
+                <BTab :title="$t('vill-exp-gain')">  
                     <general-form-error />              
                     <div class="d-flex">
                         <b-button class="ml-auto m-2" @click="updateVillageExpGain">{{ $t('update-vill-exp-gain') }}</b-button>
@@ -120,8 +120,8 @@
                             </tr>
                         </tbody>
                     </table>
-                </b-tab>
-            </b-tabs>
+                </BTab>
+            </BTabs>
         </div>
     </div>
 </template>
@@ -137,9 +137,11 @@ import GeneralFormError from '../../GeneralFormError.vue';
 import Vue from 'vue';
 import BaseFormError from '../../BaseFormError.vue';
 import Loading from '../../Loading.vue';
+import BTabs from '../../bootstrap/BTabs.vue';
+import BTab from '../../bootstrap/BTab.vue';
 
 export default {
-    components: {GeneralFormError, BaseFormError, Loading},
+    components: {GeneralFormError, BaseFormError, Loading, BTabs, BTab},
     mounted() {
         if (this.experience_points && this.character_exp_gain && this.village_exp_gain) {
             this.experiencePoints = Vue.util.extend([], this.experience_points);
