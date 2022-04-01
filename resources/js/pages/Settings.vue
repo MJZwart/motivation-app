@@ -1,18 +1,18 @@
 <template>
     <div class="w-80 center">
-        <b-tabs card pills vertical>
-            <b-tab :title="$t('account-settings')" active>
+        <BTabs class="tab-card" vertical card :options="['pills']">
+            <BTab :title="$t('account-settings')" active>
                 <AccountSettings />
-            </b-tab>
+            </BTab>
 
-            <b-tab :title="$t('profile-settings')">
+            <BTab :title="$t('profile-settings')">
                 <ProfileSettings />
-            </b-tab>
+            </BTab>
 
-            <b-tab :title="$t('reward-settings')">
+            <BTab :title="$t('reward-settings')">
                 <RewardSettings />
-            </b-tab>
-        </b-tabs>
+            </BTab>
+        </BTabs>
     </div>
 </template>
 
@@ -21,8 +21,9 @@
 import ProfileSettings from '../components/tabs/settings/ProfileSettings.vue';
 import RewardSettings from '../components/tabs/settings/RewardSettings.vue';
 import AccountSettings from '../components/tabs/settings/AccountSettings.vue';
-
+import BTabs from '../components/bootstrap/BTabs.vue';
+import BTab from '../components/bootstrap/BTab.vue';
 export default {
-    components: {ProfileSettings, RewardSettings, AccountSettings},
+    components: {ProfileSettings, RewardSettings, AccountSettings, BTabs, BTab},
 }
 </script>

@@ -1,23 +1,25 @@
 <template>
     <div>
-        <b-tabs vertical pills card>
-            <b-tab :title="$t('groups')">
+        <BTabs vertical card :options="['pills']">
+            <BTab :title="$t('groups')">
                 <Groups/>
-            </b-tab>
-            <b-tab :title="$t('friends')">
+            </BTab>
+            <BTab :title="$t('friends')">
                 <Friends />
-            </b-tab>
-        </b-tabs>
+            </BTab>
+        </BTabs>
     </div>
 </template>
 
 <script>
 import Groups from '../components/tabs/social/Groups.vue';
 import Friends from '../components/tabs/social/Friends.vue';
+import BTabs from '../components/bootstrap/BTabs.vue';
+import BTab from '../components/bootstrap/BTab.vue';
 
 export default {
     components: {
-        Groups, Friends,
+        Groups, Friends, BTabs, BTab,
     },
 }
 </script>

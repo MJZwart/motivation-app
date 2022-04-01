@@ -1,23 +1,23 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <b-tabs v-else card pills vertical>
-            <b-tab title="Achievements">
+        <BTabs v-else class="tab-card" card vertical :options="['pills']">
+            <BTab title="Achievements">
                 <achievements />
-            </b-tab>
-            <b-tab title="Bug reports">
+            </BTab>
+            <BTab title="Bug reports">
                 <bug-report-panel />
-            </b-tab>
-            <b-tab title="Send notification">
+            </BTab>
+            <BTab title="Send notification">
                 <send-notifications />
-            </b-tab>
-            <b-tab title="Balancing">
+            </BTab>
+            <BTab title="Balancing">
                 <balancing />
-            </b-tab>
-            <b-tab title="Reported Users">
+            </BTab>
+            <BTab title="Reported Users">
                 <reported-users />
-            </b-tab>
-        </b-tabs>
+            </BTab>
+        </BTabs>
     </div>
 </template>
 
@@ -29,10 +29,12 @@ import SendNotifications from '../components/tabs/admin/SendNotifications.vue';
 import Balancing from '../components/tabs/admin/Balancing.vue';
 import Loading from '../components/Loading.vue';
 import ReportedUsers from '../components/tabs/admin/ReportedUsers.vue';
+import BTabs from '../components/bootstrap/BTabs.vue';
+import BTab from '../components/bootstrap/BTab.vue';
 
 export default {
     components: {
-        Achievements, BugReportPanel, SendNotifications, Balancing, ReportedUsers, Loading,
+        Achievements, BugReportPanel, SendNotifications, Balancing, ReportedUsers, Loading, BTab, BTabs,
     },
     mounted() {
         this.$store.dispatch('admin/getAdminDashboard').then(() => this.loading = false);
