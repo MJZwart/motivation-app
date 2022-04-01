@@ -2,26 +2,26 @@
     <div>
         <h3>{{ $t('bug-report-panel-title') }}</h3>
 
-        <b-table
+        <BTable
             :items="bugReports"
             :fields="bugSortables"
-            :sort-by.sync="currentSort"
-            :sort-desc.sync="currentSortDesc"
-            hover small responsive
+            :sort="currentSort"
+            :sortAsc="!currentSortDesc"
+            :options="['table-hober', 'table-sm', 'table-responsive']"
             class="font-sm">
-            <template #cell(severity)="data">
+            <template #severity="data">
                 <span class="severity">{{ data.item.severity }}</span>
             </template>
-            <template #cell(status)="data">
+            <template #status="data">
                 {{ parseStatus(data.item.status) }}
             </template>
-            <template #cell(actions)="data">
+            <template #actions="data">
                 <b-icon-pencil-square 
                     class="icon medium"
                     @click="editBugReport(data.item)" /> 
                 <b-icon-envelope class="icon medium" @click="sendMessageToBugReportAuthor(data.item.user_id)" /> 
             </template>
-        </b-table>
+        </BTable>
 
         <b-modal id="edit-bug-report" hide-footer :title="$t('edit-bug-report')">
             <edit-bug-report :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
@@ -35,6 +35,7 @@
 
 
 <script>
+import BTable from '../../bootstrap/BTable.vue';
 import {BUG_SORTABLES, BUG_DEFAULTS, BUG_STATUS} from '../../../constants/bugConstants';
 import {mapGetters} from 'vuex';
 import EditBugReport from '../../modals/EditBugReport.vue';
@@ -43,6 +44,7 @@ export default {
     components: {
         EditBugReport,
         SendMessage,
+        BTable,
     },
     computed: {
         ...mapGetters({

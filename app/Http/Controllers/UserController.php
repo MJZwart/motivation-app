@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\UserProfileResource;
+use App\Http\Resources\StrippedUserResource;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -119,7 +120,7 @@ class UserController extends Controller
      * Returns a list of users that qualify
      */
     public function searchUser(Request $request){
-        return UserProfileResource::collection(User::where('username', 'like', '%'.$request['userSearch'].'%')->get());
+        return StrippedUserResource::collection(User::where('username', 'like', '%'.$request['userSearch'].'%')->get());
     }
 
     

@@ -9,15 +9,14 @@
         <!-- The search results -->
         <div v-if="searchResults && searchResults[0]">
             <h3>{{ $t('search-results') }}:</h3>
-            <b-table
+            <BTable
                 :items="searchResults"
                 :fields="searchResultsFields"
-                small hover
-            >
-                <template #cell(username)="item">
+                :options="['table-sm', 'table-striped', 'table-hover']">
+                <template #username="item">
                     <router-link :to="{ name: 'profile', params: { id: item.item.id}}">{{item.item.username}}</router-link>
                 </template>
-                <template #cell(actions)="item">
+                <template #actions="item">
                     <b-icon-envelope 
                         :id="'send-message-to-user-' + item.index" 
                         class="icon small" 
@@ -31,7 +30,7 @@
                         <b-tooltip :target="'send-friend-request-' + item.index">{{ $t('send-friend-request') }}</b-tooltip>
                     </span>
                 </template>
-            </b-table>
+            </BTable>
         </div>
         <b-modal id="send-message-search" hide-footer hide-header>
             <SendMessage :user="userToMessage" @close="closeSendMessageModal" />
@@ -41,24 +40,22 @@
 
 
 <script>
+import BTable from '../../../bootstrap/BTable.vue';
 import {mapGetters} from 'vuex';
 import {SEARCH_RESULTS_FIELDS} from '../../../../constants/userConstants.js';
 import SendMessage from '../../../modals/SendMessage.vue';
 export default {
     components: {
-        SendMessage,
+        SendMessage, BTable,
     },
     data() {
         return {
             data: {
                 userSearch: '',
             },
-            searchResultsFields: null,
+            searchResultsFields: SEARCH_RESULTS_FIELDS,
             userToMessage: null,
         }
-    },
-    mounted() {
-        this.searchResultsFields = SEARCH_RESULTS_FIELDS;
     },
     methods: {
         /** Searches for a user by their username, case-insensitive and includes all that contains the search params */

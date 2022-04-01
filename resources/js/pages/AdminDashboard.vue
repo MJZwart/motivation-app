@@ -11,7 +11,7 @@
             <b-tab title="Send notification">
                 <send-notifications />
             </b-tab>
-            <b-tab active title="Balancing">
+            <b-tab title="Balancing">
                 <balancing />
             </b-tab>
             <b-tab title="Reported Users">

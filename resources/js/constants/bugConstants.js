@@ -12,17 +12,17 @@ export const BUG_TYPES = [
     {text: 'Other', value: 'OTHER'}];
 
 export const BUG_SORTABLES = [
-    {text: 'Time Created', key: 'time_created', sortable: true},
-    {text: 'Title', key: 'title', sortable: true},
-    {text: 'Page', key: 'page', sortable: true},
-    {text: 'Type', key: 'type', sortable: true},
-    {text: 'Severity', key: 'severity', sortable: true},
-    {text: 'User ID', key: 'user_id'},
-    {text: 'Status', key: 'status', sortable: true},
-    {text: 'Image', key: 'image'},
-    {text: 'Comment', key: 'comment'},
-    {text: 'Admin comment', key: 'admin_comment'},
-    {text: 'Actions', key: 'actions'},
+    {label: 'Time Created', key: 'time_created', sortable: true},
+    {label: 'Title', key: 'title', sortable: true},
+    {label: 'Page', key: 'page', sortable: true},
+    {label: 'Type', key: 'type', sortable: true},
+    {label: 'Severity', key: 'severity', sortable: true},
+    {label: 'User ID', key: 'user_id'},
+    {label: 'Status', key: 'status', sortable: true},
+    {label: 'Image', key: 'image'},
+    {label: 'Comment', key: 'comment'},
+    {label: 'Admin comment', key: 'admin_comment'},
+    {label: 'Actions', key: 'actions'},
 ];
 
 export const BUG_STATUS = [
