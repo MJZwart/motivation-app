@@ -20,7 +20,6 @@ export default {
     actions: {
         storeTask: ({commit}, task) => {
             return axios.post('/tasks', task).then(response => {
-                // commit('addToast', response.data.message, {root:true});
                 commit('addToast', response.data.message, {root:true});
                 commit('taskList/setTaskLists', response.data.data, {root:true});
                 return Promise.resolve();

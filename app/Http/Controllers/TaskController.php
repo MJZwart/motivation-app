@@ -25,7 +25,6 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
-        // return new JsonResponse(['message' => ['success' => ["Task successfully created."]], 'data' => $taskLists], Response::HTTP_OK);
         return new JsonResponse(['message' => ['success' => "Task successfully created."], 'data' => $taskLists], Response::HTTP_OK);
     }
 
