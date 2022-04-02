@@ -1,77 +1,106 @@
 <template>
     <div>
-        <b-navbar v-if="!authenticated" type="dark" sticky class="box-shadow">
-            <b-navbar-nav>
-                <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
-            </b-navbar-nav>
-            <b-navbar-nav class="ml-auto">
-                <b-nav-item to="/login">{{ $t('login') }}</b-nav-item>
-                <b-nav-item to="/register">{{ $t('register') }}</b-nav-item>
-            </b-navbar-nav>
-        </b-navbar>
+        <nav v-if="!authenticated" class="navbar box-shadow sticky-top navbar-dark navbar-expand">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <router-link to="/" exact-path class="nav-link">{{ $t('home') }}</router-link>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <router-link to="/login" class="nav-link">{{ $t('login') }}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/register" class="nav-link">{{ $t('register') }}</router-link>
+                </li>
+            </ul>
+        </nav>
 
-        <b-navbar v-if="authenticated" toggleable="md" type="dark" sticky class="box-shadow">
-            <b-navbar-nav>
-                <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
-                <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
-                <b-nav-item to="/bugreport">{{ $t('report-bug') }}</b-nav-item>
-                <b-nav-item to="/social">{{$t('social')}}</b-nav-item>
-            </b-navbar-nav>
+        <nav v-if="authenticated" class="navbar box-shadow sticky-top navbar-dark navbar-expand-md">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <router-link to="/" class="nav-link">{{ $t('home') }}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/overview" class="nav-link">{{ $t('overview') }}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/bugreport" class="nav-link">{{ $t('report-bug') }}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/social" class="nav-link">{{$t('social')}}</router-link>
+                </li>
+            </ul>
 
-            <b-navbar-toggle target="nav-collapse" />
-            <b-collapse id="nav-collapse" v-model="isOpen" is-nav>
+            <!-- <button type="button" aria-label="Toggle navigation" class="navbar-toggler collapsed" 
+                    aria-expanded="false" aria-controls="nav-collapse" style="overflow-nachor: none;" @click="isOpen = !isOpen">
+                <span class="navbar-toggler-icon" />
+            </button>
+            <div id="nav-collapse" class="navbar-collapse collapse" :style="{'display:none': !isOpen}"> -->
 
-                <b-navbar-nav v-if="admin">
-                    <b-nav-item to="/admindashboard">{{ $t('admin') }}</b-nav-item>
-                </b-navbar-nav>
+            <ul v-if="admin" class="navbar-nav">
+                <li class="nav-item">
+                    <router-link to="/admindashboard" class="nav-link">{{ $t('admin') }}</router-link>
+                </li>
+            </ul>
 
-                <b-navbar-nav class="ml-auto toggled">
-                    <b-nav-item to="/messages">
-                        <div class="toggled-nav">
-                            Messages
-                        </div>
-                        <div class="full-nav">
-                            <b-iconstack class="icon-nav-stack">
-                                <b-icon-envelope class="icon-nav" /> 
-                                <b-icon-dot v-if="hasMessages" font-scale="3" 
-                                            class="icon-dot-red" shift-h="-2" shift-v="7" />
-                            </b-iconstack>
-                        </div>
+            <div class="navbar-nav ml-auto">
+                <router-link to="/messages" class="nav-link">
+                    <!-- <div class="toggled-nav">
+                        Messages
+                    </div> -->
+                    <!-- <div class="full-nav"> -->
+                    <b-iconstack class="icon-nav-stack">
+                        <b-icon-envelope class="icon-nav" /> 
+                        <b-icon-dot v-if="hasMessages" font-scale="3" 
+                                    class="icon-dot-red" shift-h="-2" shift-v="7" />
+                    </b-iconstack>
+                    <!-- </div> -->
+                </router-link>
+                <router-link to="/notifications" class="nav-link">
+                    <!-- <div class="toggled-nav">
+                        Notifications
+                    </div> -->
+                    <!-- <div class="full-nav"> -->
+                    <b-iconstack class="icon-nav-stack">
+                        <b-icon-bell class="icon-nav" />
+                        <b-icon-dot v-if="hasNotifications" font-scale="3" 
+                                    class="icon-dot-red" shift-h="-2" shift-v="7" />
+                    </b-iconstack>
+                    <!-- </div> -->
+                </router-link>
+                <!-- <div class="toggled-nav">
+                    <b-nav-item :to="{ name: 'profile', params: { id: user.id}}">
+                        {{ $t('profile') }}
                     </b-nav-item>
-                    <b-nav-item to="/notifications">
-                        <div class="toggled-nav">
-                            Notifications
-                        </div>
-                        <div class="full-nav">
-                            <b-iconstack class="icon-nav-stack">
-                                <b-icon-bell class="icon-nav" />
-                                <b-icon-dot v-if="hasNotifications" font-scale="3" 
-                                            class="icon-dot-red" shift-h="-2" shift-v="7" />
-                            </b-iconstack>
-                        </div>
-                    </b-nav-item>
-                    <b-nav-item>
-                        <div class="toggled-nav">
-                            <b-nav-item :to="{ name: 'profile', params: { id: user.id}}">
-                                {{ $t('profile') }}
-                            </b-nav-item>
-                            <b-nav-item to="/settings">{{ $t('settings') }}</b-nav-item>
-                            <b-nav-item @click="logout">{{ $t('logout') }}</b-nav-item>
-                        </div>
-                        <!-- TODO When closing the navbar, you catch glimpse of the original design -->
-                        <div class="full-nav">
-                            <b-dropdown id="user-dropdown" :text=user.username variant="primary" class="nav-text" offset="-5">
-                                <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">
-                                    {{ $t('profile') }}
-                                </b-dropdown-item>
-                                <b-dropdown-item to="/settings">{{ $t('settings') }}</b-dropdown-item>
-                                <b-dropdown-item @click="logout">{{ $t('logout') }}</b-dropdown-item>
-                            </b-dropdown>
-                        </div>
-                    </b-nav-item>
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
+                    <b-nav-item to="/settings">{{ $t('settings') }}</b-nav-item>
+                    <b-nav-item @click="logout">{{ $t('logout') }}</b-nav-item>
+                </div> -->
+                <!-- TODO When closing the navbar, you catch glimpse of the original design -->
+                <!-- <div class="full-nav"> -->
+                <!-- <button @click="dropdownMenuOpen = !dropdownMenuOpen">{{user.username}}</button>
+                <div v-if="dropdownMenuOpen" class="dropdown-menu" :class="{'show': dropdownMenuOpen}"> -->
+                <li class="nav-item">
+                    <router-link :to="{ name: 'profile', params: { id: user.id}}" class="nav-link">
+                        {{ $t('profile') }}
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/settings" class="nav-link">{{ $t('settings') }}</router-link>
+                </li>
+                <a class="nav-link" @click="logout">{{ $t('logout') }}</a>
+                <!-- </div> -->
+                <!-- <b-dropdown id="user-dropdown" :text="user.username" variant="primary" class="nav-text" offset="-5">
+                    <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">
+                        {{ $t('profile') }}
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/settings">{{ $t('settings') }}</b-dropdown-item>
+                    <b-dropdown-item @click="logout">{{ $t('logout') }}</b-dropdown-item>
+                </b-dropdown> -->
+                <!-- </div> -->
+            </div>
+            <!-- </div> -->
+        </nav>
     </div>
 </template>
 
@@ -81,7 +110,8 @@ import {mapGetters} from 'vuex';
 export default {
     data() {
         return {
-            isOpen: false,
+            // isOpen: false,
+            // dropdownMenuOpen: false,
         }
     },
     computed: {
@@ -138,6 +168,9 @@ export default {
     .btn-primary{
         color: rgba(255, 255, 255, 0.5) !important;
     }
+}
+.dropdown-menu {
+
 }
 @media (max-width:767px){   
     .toggled-nav{

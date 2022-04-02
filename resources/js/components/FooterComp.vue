@@ -5,14 +5,21 @@
             <div class="col-8" />
             <div class="col">
                 <p class="silent">{{ $t('footer-text') }}</p>
-                <b-navbar-nav class="ml-auto">
-                    <b-nav-item class="silent" to="/faq">{{ $t('faq') }}</b-nav-item>
-                    <b-nav-item class="silent" href="https://github.com/MJZwart/motivation-app#roadmap" target="_blank">
+                <div class="flex-col">
+                    <router-link class="silent mb-1" to="/faq">{{ $t('faq') }}</router-link>
+                    <a class="silent mb-1" href="https://github.com/MJZwart/motivation-app#roadmap" target="_blank">
                         {{ $t('roadmap') }}
-                    </b-nav-item>
-                    <b-nav-item class="silent" to="/feedback">{{ $t('feedback') }}</b-nav-item>
-                </b-navbar-nav>
+                    </a>
+                    <router-link class="silent mb-1" to="/feedback">{{ $t('feedback') }}</router-link>
+                </div>
             </div>
         </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+.flex-col{
+    flex-direction: column;
+    display: flex;
+}
+</style>
