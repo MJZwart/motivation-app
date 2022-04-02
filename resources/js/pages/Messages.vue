@@ -3,9 +3,9 @@
         <Loading v-if="loading" />
         <div v-else>
             <h3>{{ $t('messages') }}</h3>
-            <b-container class="message-page">
-                <b-row>
-                    <b-col class="conversations">
+            <div class="container message-page">
+                <div class="row">
+                    <div class="conversations col">
                         <h5>{{ $t('conversations') }}</h5>
                         <div v-for="(conversation, index) in conversations" :key="conversation.id" 
                              :class="['conversation', 'clickable', activeConversation.id == conversation.id ? 'active': '']"
@@ -21,8 +21,8 @@
                             </p>
                             <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
                         </div>
-                    </b-col>
-                    <b-col v-if="activeConversation" cols="8" class="m-1">
+                    </div>
+                    <div v-if="activeConversation" class="col-8 m-1">
                         <h5 class="d-flex">{{ $t('conversation-with') }}&nbsp;
                             <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
                                 {{activeConversation.recipient.username}}
@@ -65,9 +65,9 @@
                                  :message="message" @deleteMessage="deleteMessage"
                         />
                         
-                    </b-col>
-                </b-row>
-            </b-container>
+                    </div>
+                </div>
+            </div>
             
             <BModal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userToReport" :conversation_id="conversationToReport" @close="closeReportUserModal" />

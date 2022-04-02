@@ -1,6 +1,6 @@
 <template>
-    <b-row>
-        <b-col>
+    <div class="row">
+        <div class="col">
             <Summary :title="$t('incoming-friend-requests')">
                 <ul class="no-list-style">
                     <div v-if="requests.incoming[0]">
@@ -22,8 +22,8 @@
                     <p v-else>{{ $t('no-incoming-friend-requests') }}</p>
                 </ul>
             </Summary>
-        </b-col>
-        <b-col>
+        </div>
+        <div class="col">
             <Summary :title="$t('outgoing-friend-requests')">
                 <ul class="no-list-style">
                     <div v-if="requests.outgoing[0]">
@@ -40,8 +40,8 @@
                     <p v-else>{{ $t('no-outgoing-friend-requests') }}</p>
                 </ul>
             </Summary>
-        </b-col>
-    </b-row>
+        </div>
+    </div>
 </template>
 
 <script>

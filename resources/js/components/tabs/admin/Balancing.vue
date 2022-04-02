@@ -4,8 +4,8 @@
         <div v-else>
             <BTabs>
                 <BTab :title="$t('exp-points')">
-                    <b-row>
-                        <b-col>
+                    <div class="row">
+                        <div class="col">
                             <!-- 
                                 Button to update the changed experience points in the table
                              -->
@@ -41,11 +41,11 @@
                                 </b-form-group>
                                 <b-button @click="addNewLevel">{{ $t('add-level') }}</b-button>
                             </div>
-                        </b-col>
+                        </div>
                         <!-- 
                             The Experience points table
                          -->
-                        <b-col>
+                        <div class="col">
                             <table class="table table-sm table-striped">
                                 <thead>
                                     <tr>
@@ -62,8 +62,8 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </b-col>
-                    </b-row>
+                        </div>
+                    </div>
                 </BTab>
                 <!-- 
                     The tab for Character Exp gain

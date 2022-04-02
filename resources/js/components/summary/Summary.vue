@@ -1,16 +1,18 @@
 <template>
     <div>
-        <b-card :class="'summary-card ' + headerVariant">
-            <template #header>
+        <div :class="'card summary-card ' + headerVariant">
+            <div class="card-header">
                 <slot name="header">
                     {{title}}
                 </slot>
-            </template>
-            <slot />
-            <template v-if="footer" #footer>
+            </div>
+            <div class="card-body">
+                <slot />
+            </div>
+            <div v-if="footer" class="card-footer">
                 <slot name="footer" class="summary-card-footer" />
-            </template>
-        </b-card>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -36,7 +38,6 @@ export default {
 <style lang="scss" scoped>
 @import '../../../assets/scss/variables';
 .summary-card {
-
     .card-header {
         color: white;
         background-color: $primary;
