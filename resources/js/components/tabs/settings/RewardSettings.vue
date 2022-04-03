@@ -39,9 +39,8 @@
             
             <h5>{{ $t('change-reward-settings') }}</h5>
             <!-- Pick a reward type -->
-            <b-form-group
-                :label="$t('which-reward-type')"
-                label-for="rewards">
+            <div class="form-group">
+                <label for="rewards">{{$t('which-reward-type')}}</label>
                 <b-form-radio-group 
                     v-model="rewardSetting.rewards"
                     name="rewards" 
@@ -50,13 +49,11 @@
                     <base-form-error name="rewards" /> 
                 </b-form-radio-group>
                 <hr />
-            </b-form-group>
+            </div>
         
             <!-- If the user clicks 'Character' -->
-            <b-form-group
-                v-if="rewardSetting.rewards == 'CHARACTER'"
-                :label="$t('activate-or-new')"
-                label-for="character-option">
+            <div v-if="rewardSetting.rewards == 'CHARACTER'" class="form-group">
+                <label for="character-option">{{$t('activate-or-new')}}</label>
                 <b-form-radio-group 
                     v-model="rewardSetting.keepOldInstance" 
                     name="character-option" 
@@ -65,13 +62,11 @@
                     <base-form-error name="keepOldInstance" /> 
                 </b-form-radio-group>
                 <hr />
-            </b-form-group>
+            </div>
 
             <!-- Or if the user clicks 'Village' -->
-            <b-form-group
-                v-if="rewardSetting.rewards == 'VILLAGE'"
-                :label="$t('activate-or-new-village')"
-                label-for="village-option">
+            <div v-if="rewardSetting.rewards == 'VILLAGE'" class="form-group">
+                <label for="village-option">{{$t('activate-or-new-village')}}</label>
                 <b-form-radio-group 
                     v-model="rewardSetting.keepOldInstance"
                     name="village-option" 
@@ -80,22 +75,21 @@
                     <base-form-error name="keepOldInstance" /> 
                 </b-form-radio-group>
                 <hr />
-            </b-form-group>
+            </div>
 
             <!-- If the user wants to create a new instance -->
-            <b-form-group
-                v-if="isNewInstance"
-                :label="rewardTypeName"
-                label-for="new-object-name">
+            <div v-if="isNewInstance" class="form-group">
+                <label for="new-object-name">{{rewardTypeName}}</label>
                 <p class="silent">{{ $t('change-name-later') }}</p>
-                <b-form-input 
+                <input 
                     id="new-object-name" 
                     v-model="rewardSetting.new_object_name"
+                    class="form-control"
                     type="text" 
                     name="new-object-name" 
                     :placeholder="rewardTypeName"   />
                 <base-form-error name="new_object_name" /> 
-            </b-form-group>
+            </div>
             <b-button block @click="confirmRewardsSettings()">{{ $t('save-settings') }}</b-button>
         </div>
 

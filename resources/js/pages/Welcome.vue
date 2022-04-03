@@ -8,9 +8,8 @@
                 </div>
             </template>
             <div>
-                <b-form-group
-                    :label="$t('rewards-type')"
-                    label-for="rewards-type">
+                <div class="form-group">
+                    <label for="rewards-type">{{$t('rewards-type')}}</label>
                     <b-form-text class="text-muted mb-2">{{ $t('which-reward-type') }}</b-form-text>
                     <b-form-radio-group :checked="user.rewardsType">
                         <b-form-radio v-model="user.rewardsType" type="radio" 
@@ -27,19 +26,19 @@
                         </b-form-radio>
                     </b-form-radio-group>
                     <base-form-error name="rewards-type" /> 
-                </b-form-group>
-                <b-form-group v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
-                              :label="parsedLabelName"
-                              label-for="reward_object_name"
-                              :description="$t('change-name-later')">
-                    <b-form-input 
+                </div>
+                <div v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'" class="form-group">
+                    <label for="reward_object_name">{{parsedLabelName}}</label>
+                    <input 
                         id="reward_object_name" 
                         v-model="user.reward_object_name"
+                        class="form-control"
                         type="text" 
                         name="reward_object_name" 
                         :placeholder="parsedLabelName"  />
+                    <small class="form-text text-muted">{{$t('change-name-later')}}</small>
                     <base-form-error name="reward-object_name" /> 
-                </b-form-group>
+                </div>
                 <b-button block @click="nextModal()">{{ $t('next') }}</b-button>
                 <b-button block variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
             </div>
@@ -52,9 +51,8 @@
                 </div>
             </template>
             <div>
-                <b-form-group
-                    :label="$t('example-tasks')"
-                    label-for="example-tasks">
+                <div class="form-group">
+                    <label for="example-tasks">{{$t('example-tasks')}}</label>
                     <div class="examples-slot">
                         <b-form-checkbox 
                             v-for="task in exampleTasks"
@@ -69,7 +67,7 @@
                         </b-form-checkbox>
                     </div>
                     
-                </b-form-group>
+                </div>
                 <div class="d-flex">
                     <b-button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</b-button>
                     <b-button @click="confirmSettings()">{{ $t('submit') }}</b-button>

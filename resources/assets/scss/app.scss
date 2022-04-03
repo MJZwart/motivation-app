@@ -197,6 +197,9 @@ button {
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15 ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
+    color: $primary-text;
+    background-color: $primary;
+    border-color: $primary;
 
 }
 button.primary {

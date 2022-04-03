@@ -2,26 +2,24 @@
     <div>
         <h5>{{ reportTitle }}</h5>
         <b-form @submit.prevent="reportUser">
-            <b-form-group
-                :label="$t('report-reason')" 
-                label-for="reason">
+            <div class="form-group">
+                <label for="reason">{{$t('report-reason')}}</label>
                 <b-form-select
                     id="reason"
                     v-model="report.reason"
                     name="reason"
                     :options="reportReasons" />
                 <base-form-error name="reason" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('report-comment')" 
-                label-for="comment">
+            </div>
+            <div class="form-group">
+                <label for="comment">{{$t('report-comment')}}</label>
                 <b-form-textarea 
                     id="comment" 
                     v-model="report.comment"
                     name="comment" 
                     :placeholder="$t('comment')"  />
                 <base-form-error name="comment" /> 
-            </b-form-group>
+            </div>
             <b-button type="submit" block>{{ $t('report-user') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
         </b-form>

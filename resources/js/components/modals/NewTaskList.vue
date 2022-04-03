@@ -1,17 +1,17 @@
 <template>
     <div>
         <b-form @submit.prevent="submitTaskList">
-            <b-form-group
-                :label="$t('task-list-name')" 
-                label-for="name">
-                <b-form-input 
+            <div class="form-group">
+                <label for="name">{{$t('task-list-name')}}</label>
+                <input 
                     id="name" 
                     v-model="taskList.name"
+                    class="form-control"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
-            </b-form-group>
+            </div>
             <b-button type="submit" block>Create new task list</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
         </b-form>

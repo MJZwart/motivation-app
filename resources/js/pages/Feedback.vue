@@ -7,36 +7,33 @@
         <b>{{ $t('feedback-accessibility-header') }}</b>
         <p>{{ $t('feedback-accessibility') }}</p>
         <b-form @submit.prevent="sendFeedback">
-            <b-form-group
-                :label="$t('type')"
-                label-for="type" >
+            <div class="form-group">
+                <label for="type">{{$t('type')}}</label>
                 <b-form-select
                     id="type" 
                     v-model="feedback.type" 
                     name="type"
                     :options="feedbackTypes" />
                 <BaseFormError name="type" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('feedback')"
-                label-for="feedback">
+            </div>
+            <div class="form-group">
+                <label for="feedback">{{$t('feedback')}}</label>
                 <b-form-textarea
                     id="feedback" 
                     v-model="feedback.text" 
                     rows="4"
                     name="feedback" />
                 <BaseFormError name="feedback" /> 
-            </b-form-group>
-            <b-form-group
-                v-if="!user"
-                :label="$t('email')"
-                label-for="email">
-                <b-form-input
+            </div>
+            <div v-if="!user" class="form-group">
+                <label for="email">{{$t('email')}}</label>
+                <input
                     id="email" 
                     v-model="feedback.email" 
+                    class="form-control"
                     name="email" />
                 <BaseFormError name="email" /> 
-            </b-form-group>
+            </div>
             <b-button type="submit">Send feedback</b-button>
         </b-form>
     </div>

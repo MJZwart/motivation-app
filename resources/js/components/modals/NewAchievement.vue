@@ -1,31 +1,30 @@
 <template>
     <div>
         <b-form @submit.prevent="submitAchievement">
-            <b-form-group
-                :label="$t('achievement-name')" 
-                label-for="name">
-                <b-form-input 
+            <div class="form-group">
+                <label for="name">{{$t('achievement-name')}}</label>
+                <input 
                     id="name" 
                     v-model="achievement.name"
+                    class="form-control"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('achievement-description')" 
-                label-for="description">
-                <b-form-input 
+            </div>
+            <div class="form-group">
+                <label for="description">{{$t('achievement-description')}}</label>
+                <input 
                     id="description" 
                     v-model="achievement.description"
+                    class="form-control"
                     type="text" 
                     name="description" 
                     :placeholder="$t('description')"  />
                 <base-form-error name="description" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('trigger-type')" 
-                label-for="type">
+            </div>
+            <div class="form-group">
+                <label for="type">{{$t('trigger-type')}}</label>
                 <b-select 
                     id="type" 
                     v-model="achievement.trigger_type"
@@ -33,23 +32,22 @@
                     value-field="trigger_type"
                     text-field="trigger_type" />
                 <base-form-error name="trigger_type" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('trigger-amount')" 
-                label-for="trigger_amount">
-                <b-form-input 
+            </div>
+            <div class="form-group">
+                <label for="trigger_amount">{{$t('trigger-amount')}}</label>
+                <input 
                     id="trigger_amount" 
                     v-model="achievement.trigger_amount"
+                    class="form-control"
                     type="number" 
                     name="trigger_amount" 
                     :placeholder="$t('amount')"  />
                 <base-form-error name="trigger_amount" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('trigger-description')" 
-                label-for="trigger-description">
+            </div>
+            <div class="form-group">
+                <label for="trigger-description">{{$t('trigger-description')}}</label>
                 <p v-if="achievement.trigger_type" id="trigger-description">{{triggerDescription}}</p>
-            </b-form-group>
+            </div>
             <b-button type="submit" block>{{ $t('create-new-achievement') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
         </b-form>

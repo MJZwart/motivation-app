@@ -3,26 +3,25 @@
         <h3>{{ $t('send-notification-to-users') }}</h3>
         <div>
             <b-form @submit.prevent="sendNotification">
-                <b-form-group
-                    :label="$t('title')" 
-                    label-for="title">
-                    <b-form-input 
+                <div class="form-group">
+                    <label for="title">{$t('title'){}}</label>
+                    <input 
                         id="title" 
                         v-model="notification.title" 
+                        class="form-control"
                         type="text" 
                         name="title" 
                         :placeholder="$t('title')" />
-                </b-form-group>
-                <b-form-group
-                    :label="$t('text')" 
-                    label-for="text">
+                </div>
+                <div class="form-group">
+                    <label for="text">{{$t('text')}}</label>
                     <b-form-textarea 
                         id="text" 
                         v-model="notification.text" 
                         rows="5"
                         type="text" 
                         name="text"/>
-                </b-form-group>
+                </div>
 
                 <b-button type="submit" block>{{ $t('send-notification') }}</b-button>
             </b-form>

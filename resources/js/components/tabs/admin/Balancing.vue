@@ -17,28 +17,28 @@
                              -->
                             <div class="m-1">
                                 <h5>{{$t('add-new-level')}}</h5>
-                                <b-form-group
-                                    :label="$t('level')" 
-                                    label-for="level">
-                                    <b-form-input  
+                                <div class="form-group">
+                                    <label for="level">{{$t('level')}}</label>
+                                    <input  
                                         id="level" 
                                         v-model="newLevel.level"
+                                        class="form-control"
                                         type="number" 
                                         name="level" 
                                         :placeholder="$t('level')"  />
                                     <base-form-error name="level" /> 
-                                </b-form-group>
-                                <b-form-group
-                                    :label="$t('points')" 
-                                    label-for="points">
-                                    <b-form-input  
+                                </div>
+                                <div class="form-group">
+                                    <label for="points">{{$t('points')}}</label>
+                                    <input  
                                         id="points" 
                                         v-model="newLevel.experience_points"
+                                        class="form-control"
                                         type="number" 
                                         name="points" 
                                         :placeholder="$t('points')"  />
                                     <base-form-error name="experience_points" /> 
-                                </b-form-group>
+                                </div>
                                 <b-button @click="addNewLevel">{{ $t('add-level') }}</b-button>
                             </div>
                         </div>

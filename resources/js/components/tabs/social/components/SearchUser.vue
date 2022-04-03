@@ -2,7 +2,12 @@
     <div>
         <!-- The search bar -->
         <form class="navbar-search mb-3">
-            <b-form-input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
+            <input 
+                v-model="data.userSearch" 
+                class="form-control"
+                type="search" 
+                :placeholder="$t('search-user')" 
+                aria-label="Search user" />
             <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
         </form>
 
