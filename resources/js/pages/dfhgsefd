@@ -1,0 +1,6 @@
+
+            <div class="form-group">
+                <label for="">{{$t('')}}</label>
+                
+                    
+                    <option v-for="(option, index) in " :key="index" :value="option.value">{{option.text}}</option>
