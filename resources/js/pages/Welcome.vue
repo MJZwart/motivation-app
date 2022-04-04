@@ -10,7 +10,7 @@
             <div>
                 <div class="form-group">
                     <label for="rewards-type">{{$t('rewards-type')}}</label>
-                    <b-form-text class="text-muted mb-2">{{ $t('which-reward-type') }}</b-form-text>
+                    <small class="form-text text-muted mb-2">{{ $t('which-reward-type') }}</small>
                     <b-form-radio-group :checked="user.rewardsType">
                         <b-form-radio v-model="user.rewardsType" type="radio" 
                                       class="input-override" value="NONE" name="rewards-type">
@@ -32,7 +32,6 @@
                     <input 
                         id="reward_object_name" 
                         v-model="user.reward_object_name"
-                        class="form-control"
                         type="text" 
                         name="reward_object_name" 
                         :placeholder="parsedLabelName"  />

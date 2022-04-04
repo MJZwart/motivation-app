@@ -4,7 +4,6 @@
         <form class="navbar-search mb-3">
             <input 
                 v-model="data.userSearch" 
-                class="form-control"
                 type="search" 
                 :placeholder="$t('search-user')" 
                 aria-label="Search user" />

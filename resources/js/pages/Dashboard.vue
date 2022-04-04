@@ -157,7 +157,7 @@ export default {
             this.showDeleteTaskListConfirmModal = true;
         },
         closeDeleteTaskList() {
-            this.showDeleteTaskListConfirmModal = true;
+            this.showDeleteTaskListConfirmModal = false;
         },
     },
     computed: {

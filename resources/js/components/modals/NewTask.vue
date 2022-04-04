@@ -1,12 +1,11 @@
 <template>
     <div>
-        <b-form @submit.prevent="submitTask">
+        <form @submit.prevent="submitTask">
             <div class="form-group">
                 <label for="name">{{$t('task-name')}}</label>
                 <input 
                     id="name" 
                     v-model="task.name"
-                    class="form-control"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')" />
@@ -17,18 +16,18 @@
                 <input  
                     id="description" 
                     v-model="task.description"
-                    class="form-control"
                     type="text" 
                     name="description" 
                     :placeholder="$t('description')"  />
             </div>
             <div class="form-group">
                 <label for="type">{{$t('type')}}</label>
-                <b-form-select
+                <select
                     id="type"
                     v-model="task.type"
-                    name="type"
-                    :options="taskTypes" />
+                    name="type">
+                    <option v-for="(type, index) in taskTypes" :key="index" :value="type.value">{{type.text}}</option>
+                </select>
                 <base-form-error name="type" /> 
             </div>
             <div class="form-group">
@@ -36,7 +35,6 @@
                 <input 
                     id="difficulty"
                     v-model="task.difficulty"
-                    class="form-control"
                     type="range"
                     name="difficulty"
                     min="1"
@@ -46,11 +44,12 @@
             </div>
             <div class="form-group">
                 <label for="repeatable">{{$t('repeatable')}}</label>
-                <b-form-select
+                <select
                     id="repeatable"
                     v-model="task.repeatable"
-                    name="repeatable"
-                    :options="repeatables" />
+                    name="repeatable">
+                    <option v-for="(option, index) in repeatables" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <base-form-error name="repeatable" /> 
             </div>
             <div class="form-group">
@@ -59,7 +58,7 @@
             </div>
             <b-button type="submit" block>{{ $t('create-new-task') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 

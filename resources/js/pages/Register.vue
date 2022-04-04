@@ -7,7 +7,6 @@
                 <input 
                     id="username"  
                     v-model="register.username"
-                    class="form-control"
                     type="text" 
                     name="username" 
                     :placeholder="$t('username')" />
@@ -18,7 +17,6 @@
                 <input 
                     id="email" 
                     v-model="register.email"
-                    class="form-control"
                     type="text" 
                     name="email" 
                     :placeholder="$t('email')"  />
@@ -29,7 +27,6 @@
                 <input 
                     id="password"  
                     v-model="register.password"
-                    class="form-control"
                     type="password" 
                     name="password" 
                     :placeholder="$t('password')" />
@@ -40,7 +37,6 @@
                 <input 
                     id="password_confirmation" 
                     v-model="register.password_confirmation" 
-                    class="form-control"
                     type="password" 
                     name="password_confirmation" 
                     :placeholder="$t('repeat-password')" />

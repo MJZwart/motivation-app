@@ -41,39 +41,43 @@
             <!-- Pick a reward type -->
             <div class="form-group">
                 <label for="rewards">{{$t('which-reward-type')}}</label>
-                <b-form-radio-group 
-                    v-model="rewardSetting.rewards"
-                    name="rewards" 
-                    stacked
-                    :options="rewardTypes">
-                    <base-form-error name="rewards" /> 
-                </b-form-radio-group>
+                <div v-for="(type, index) in rewardTypes" :key="index">
+                    <input :id="type.value" v-model="rewardSetting.rewards" name="rewards" type="radio" :value="type.value" />
+                    <label :for="type.value">{{type.text}}</label>
+                </div>
+                <base-form-error name="rewards" /> 
                 <hr />
             </div>
         
             <!-- If the user clicks 'Character' -->
             <div v-if="rewardSetting.rewards == 'CHARACTER'" class="form-group">
                 <label for="character-option">{{$t('activate-or-new')}}</label>
-                <b-form-radio-group 
-                    v-model="rewardSetting.keepOldInstance" 
-                    name="character-option" 
-                    :options="characterOptions"
-                    stacked>
+                <div v-for="(option, index) in characterOptions" :key="index">
+                    <input 
+                        :id="option.value + 'char'" 
+                        v-model="rewardSetting.keepOldInstance" 
+                        name="character-option" 
+                        type="radio" 
+                        :value="option.value" />
+                    <label :for="option.value + 'char'">{{option.text}}</label>
                     <base-form-error name="keepOldInstance" /> 
-                </b-form-radio-group>
+                </div>
                 <hr />
             </div>
 
             <!-- Or if the user clicks 'Village' -->
             <div v-if="rewardSetting.rewards == 'VILLAGE'" class="form-group">
                 <label for="village-option">{{$t('activate-or-new-village')}}</label>
-                <b-form-radio-group 
-                    v-model="rewardSetting.keepOldInstance"
-                    name="village-option" 
-                    :options="villageOptions"
-                    stacked >
+                <div v-for="(option, index) in villageOptions" :key="index">
+                    <input 
+                        :id="option.value + 'vill'" 
+                        v-model="rewardSetting.keepOldInstance" 
+                        name="village-option" 
+                        type="radio" 
+                        :value="option.value" />
+                    <label :for="option.value + 'vill'">{{option.text}}</label>
                     <base-form-error name="keepOldInstance" /> 
-                </b-form-radio-group>
+                </div>
                 <hr />
             </div>
 
@@ -84,7 +88,6 @@
                 <input 
                     id="new-object-name" 
                     v-model="rewardSetting.new_object_name"
-                    class="form-control"
                     type="text" 
                     name="new-object-name" 
                     :placeholder="rewardTypeName"   />

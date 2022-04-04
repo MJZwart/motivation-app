@@ -37,7 +37,7 @@ class FriendController extends Controller
      */
     public function sendFriendRequest(User $user):JsonResponse{
         if(Friend::where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()){
-            return new JsonResponse(['errors' => ['error' => 'You\'ve already sent a friend request to this user']], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse(['message' => 'You\'ve already sent a friend request to this user'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         Friend::create(['user_id' => Auth::user()->id, 'friend_id' => $user->id]);
         Notification::create([

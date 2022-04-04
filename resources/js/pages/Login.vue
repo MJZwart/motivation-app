@@ -7,7 +7,6 @@
                 <input 
                     id="username" 
                     v-model="login.username" 
-                    class="form-control"
                     type="text" 
                     :placeholder="$t('username')" />
                 <base-form-error name="username" /> 
@@ -17,7 +16,6 @@
                 <input  
                     id="password" 
                     v-model="login.password"
-                    class="form-control"
                     type="password" 
                     name="password" 
                     :placeholder="$t('password')" />

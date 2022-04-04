@@ -1,12 +1,11 @@
 <template>
     <div v-if="editedTaskList">
-        <b-form @submit.prevent="updateTaskList">
+        <form @submit.prevent="updateTaskList">
             <div class="form-group">
                 <label for="name">{{$t('task-list-name')}}</label>
                 <input 
                     id="name" 
                     v-model="editedTaskList.name"
-                    class="form-control"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
@@ -15,7 +14,7 @@
             <b-button type="submit" block>{{ $t('update-task-list') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
             <base-form-error name="error" /> 
-        </b-form>
+        </form>
     </div>
 </template>
 

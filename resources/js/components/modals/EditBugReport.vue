@@ -1,25 +1,27 @@
 <template>
     <div v-if="bugReportToEdit">
-        <b-form @submit.prevent="updateBugReport">
+        <form @submit.prevent="updateBugReport">
             <div class="form-group">
                 <label for="type">{{$t('type')}}</label>
-                <b-form-select
+                <select
                     id="type" 
                     v-model="bugReportToEdit.type" 
                     name="type"
-                    :options="bugTypes"
-                    :placeholder="bugReportToEdit.type" />
+                    :placeholder="bugReportToEdit.type">
+                    <option v-for="(option, index) in bugTypes" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <small class="form-text text-muted">{{$t('bug-type-desc')}}</small>
                 <base-form-error name="type" /> 
             </div>
             <div class="form-group">
                 <label for="severity">{{$t('severity')}}</label>
-                <b-form-select
+                <select
                     id="severity" 
                     v-model="bugReportToEdit.severity"
                     name="severity" 
-                    :options="bugSeverity"
-                    :placeholder="bugReportToEdit.severity" />
+                    :placeholder="bugReportToEdit.severity">
+                    <option v-for="(option, index) in bugSeverity" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
                 <base-form-error name="severity" /> 
             </div>
@@ -28,7 +30,6 @@
                 <input 
                     id="admin-comment" 
                     v-model="bugReportToEdit.admin_comment"
-                    class="form-control"
                     type="text" 
                     name="admin_comment" 
                     :placeholder="bugReportToEdit.admin_comment" />
@@ -37,19 +38,20 @@
             </div>
             <div class="form-group">
                 <label for="status">{{$t('status')}}</label>
-                <b-form-select
+                <select
                     id="status" 
                     v-model="bugReportToEdit.status"
                     type="text" 
                     name="status" 
-                    :options="bugStatus"
-                    :placeholder="bugReportToEdit.status" />
+                    :placeholder="bugReportToEdit.status">
+                    <option v-for="(option, index) in bugStatus" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <small class="form-text text-muted">{{$t('bug-status-desc')}}</small>
                 <base-form-error name="status" /> 
             </div>
             <b-button type="submit" block>{{$t('update-bug-report')}}</b-button>
             <b-button type="button" block @click="close">{{$t('cancel')}}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 

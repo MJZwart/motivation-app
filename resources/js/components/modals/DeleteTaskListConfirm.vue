@@ -1,6 +1,6 @@
 <template>
     <div v-if="taskListToDelete">
-        <b-form @submit.prevent="deleteTaskList">
+        <form @submit.prevent="deleteTaskList">
             <p>{{ $t('are-you-sure-delete') }} {{taskListToDelete.name}}</p>
             <div v-if="taskListHasTasks" class="form-group">
                 <p>
@@ -9,20 +9,20 @@
                 </p>
             
                 <div class="form-group">
-                    <b-form-select 
+                    <select 
                         id="deleteOption" 
                         v-model="deleteOption">
                         <option value="delete" selected>{{ $t('delete') }}</option>
                         <option v-for="option in taskLists" :key="option.key" :value="option.id">
                             {{ $t('merge-with') }} {{option.name}}
                         </option>
-                    </b-form-select>
+                    </select>
                 </div>
             </div>
             <b-button type="submit" block>{{ $t('delete-task-list-confirm') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
             <base-form-error name="error" /> 
-        </b-form>
+        </form>
     </div>
 </template>
 

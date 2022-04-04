@@ -1,19 +1,20 @@
 <template>
     <div>
         <h5>{{ reportTitle }}</h5>
-        <b-form @submit.prevent="reportUser">
+        <form @submit.prevent="reportUser">
             <div class="form-group">
                 <label for="reason">{{$t('report-reason')}}</label>
-                <b-form-select
+                <select
                     id="reason"
                     v-model="report.reason"
-                    name="reason"
-                    :options="reportReasons" />
+                    name="reason">
+                    <option v-for="(option, index) in reportReasons" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <base-form-error name="reason" /> 
             </div>
             <div class="form-group">
                 <label for="comment">{{$t('report-comment')}}</label>
-                <b-form-textarea 
+                <textarea 
                     id="comment" 
                     v-model="report.comment"
                     name="comment" 
@@ -22,7 +23,7 @@
             </div>
             <b-button type="submit" block>{{ $t('report-user') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 

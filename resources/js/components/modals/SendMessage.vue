@@ -1,10 +1,10 @@
 <template>
     <div>
         <h5>{{ sendMessageTitle }}</h5>
-        <b-form @submit.prevent="sendMessage">
+        <form @submit.prevent="sendMessage">
             <div class="form-group">
                 <label for="message">{{$t('message')}}</label>
-                <b-form-textarea 
+                <textarea 
                     id="message" 
                     v-model="message.message"
                     name="message" 
@@ -14,7 +14,7 @@
             </div>
             <b-button type="submit" block>{{ $t('send-message') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 

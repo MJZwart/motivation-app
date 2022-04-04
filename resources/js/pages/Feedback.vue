@@ -6,19 +6,20 @@
         <p>{{ $t('feedback-features') }}</p>
         <b>{{ $t('feedback-accessibility-header') }}</b>
         <p>{{ $t('feedback-accessibility') }}</p>
-        <b-form @submit.prevent="sendFeedback">
+        <form @submit.prevent="sendFeedback">
             <div class="form-group">
                 <label for="type">{{$t('type')}}</label>
-                <b-form-select
+                <select
                     id="type" 
                     v-model="feedback.type" 
-                    name="type"
-                    :options="feedbackTypes" />
+                    name="type">
+                    <option v-for="(option, index) in feedbackTypes" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <BaseFormError name="type" /> 
             </div>
             <div class="form-group">
                 <label for="feedback">{{$t('feedback')}}</label>
-                <b-form-textarea
+                <textarea
                     id="feedback" 
                     v-model="feedback.text" 
                     rows="4"
@@ -30,12 +31,11 @@
                 <input
                     id="email" 
                     v-model="feedback.email" 
-                    class="form-control"
                     name="email" />
                 <BaseFormError name="email" /> 
             </div>
             <b-button type="submit">Send feedback</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 

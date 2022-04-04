@@ -2,13 +2,12 @@
     <div class="w-60 center">
         <h2>{{ $t('submit-bug-report') }}</h2>
 
-        <b-form @submit.prevent="submitBugReport">
+        <form @submit.prevent="submitBugReport">
             <div class="form-group">
                 <label for="title">{{$t('title')}}</label>
                 <input 
                     id="title" 
                     v-model="bugReport.title" 
-                    class="form-control"
                     type="text" 
                     name="title" 
                     :placeholder="$t('title')" />
@@ -19,7 +18,6 @@
                 <input 
                     id="page" 
                     v-model="bugReport.page" 
-                    class="form-control"
                     type="text" 
                     name="page" 
                     :placeholder="$t('page')" />
@@ -28,21 +26,23 @@
             </div>
             <div class="form-group">
                 <label for="type">{{$t('type')}}</label>
-                <b-form-select
+                <select
                     id="type"
                     v-model="bugReport.type"
-                    name="type" 
-                    :options="bugTypes" />
+                    name="type">
+                    <option v-for="(option, index) in bugTypes" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <small class="form-text text-muted">{{$t('bug-type-desc')}}</small>
                 <base-form-error name="type" />
             </div>
             <div class="form-group">
                 <label for="severity">{{$t('severity')}}</label>
-                <b-form-select
+                <select
                     id="severity"
                     v-model="bugReport.severity"
-                    name="severity"
-                    :options="bugSeverity" />
+                    name="severity">
+                    <option v-for="(option, index) in bugSeverity" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
                 <base-form-error name="severity" />
             </div>
@@ -51,7 +51,6 @@
                 <input 
                     id="image-link" 
                     v-model="bugReport.image_link" 
-                    class="form-control"
                     type="text" 
                     name="image_link" 
                     :placeholder="$t('image-link')" />
@@ -60,7 +59,7 @@
             </div>
             <div class="form-group">
                 <label for="comment">{{$t('comment')}}</label>
-                <b-form-textarea 
+                <textarea 
                     id="comment" 
                     v-model="bugReport.comment"
                     type="text" 
@@ -71,7 +70,7 @@
                 <base-form-error name="comment" />
             </div>
             <b-button type="submit" block>{{ $t('submit-bug-report') }}</b-button>
-        </b-form> 
+        </form> 
     </div>
 </template>
 

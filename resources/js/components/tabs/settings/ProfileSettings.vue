@@ -1,35 +1,32 @@
 <template>
     <div>
-        <b-form v-if="!loading" @submit.prevent="submitSettings">
+        <form v-if="!loading" @submit.prevent="submitSettings">
             <h4>{{ $t('profile-settings') }}</h4>
-            <b-form-group>
-                <b-form-checkbox
+            <div class="form-group">
+                <input
                     id="show_reward"
                     v-model="settings.show_reward"
-                    name="show_reward"
-                    switch>
-                    {{ $t('show-reward-on-profile') }}
-                </b-form-checkbox>
+                    type="checkbox"
+                    name="show_reward" />
+                <label for="show_reward">{{ $t('show-reward-on-profile') }}</label>
                 <base-form-error name="show_reward" /> 
-                <b-form-checkbox
+                <input
                     id="show_achievements"
                     v-model="settings.show_achievements"
-                    name="show_achievements"
-                    switch>
-                    {{ $t('show-achievements-on-profile') }}
-                </b-form-checkbox>
+                    type="checkbox"
+                    name="show_achievements" />
+                <label for="show_achievements">{{ $t('show-achievements-on-profile') }}</label>
                 <base-form-error name="show_achievements" /> 
-                <b-form-checkbox
+                <input
                     id="show_friends"
                     v-model="settings.show_friends"
-                    name="show_friends"
-                    switch>
-                    {{ $t('show-friends-on-profile') }}
-                </b-form-checkbox>
+                    type="checkbox"
+                    name="show_friends" />
+                <label for="show_friends">{{ $t('show-friends-on-profile') }}</label>
                 <base-form-error name="show_friends" /> 
-            </b-form-group>
+            </div>
             <b-button type="submit" block>{{ $t('save-profile-settings') }}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 

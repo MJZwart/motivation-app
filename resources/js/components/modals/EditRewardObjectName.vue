@@ -1,12 +1,11 @@
 <template>
     <div v-if="rewardObj">
-        <b-form @submit.prevent="updateRewardObj">
+        <form @submit.prevent="updateRewardObj">
             <div class="form-group">
                 <label for="name">{{parsedLabelName}}</label>
                 <input 
                     id="name" 
                     v-model="editedRewardObj.name"
-                    class="form-control"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
@@ -15,7 +14,7 @@
             <b-button type="submit" block>{{ $t('update-reward-name') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
             <base-form-error name="error" /> 
-        </b-form>
+        </form>
     </div>
 </template>
 

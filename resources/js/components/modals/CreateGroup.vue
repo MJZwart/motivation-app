@@ -1,12 +1,11 @@
 <template>
     <div>
-        <b-form @submit.prevent="createGroup">
+        <form @submit.prevent="createGroup">
             <div class="form-group">
                 <label for="name">{{$t('name')}}</label>
                 <input
                     id="name"
                     v-model="groupToCreate.name"
-                    class="form-control"
                     name="name"
                     :placeholder="$t('name')" />
                 <small class="form-text text-muted">{{$t('group-name-desc')}}</small>
@@ -14,7 +13,7 @@
             </div>
             <div class="form-group">
                 <label for="description">{{$t('group-desc')}}</label>
-                <b-form-textarea
+                <textarea
                     id="description"
                     v-model="groupToCreate.description"
                     name="description"
@@ -23,17 +22,18 @@
                 <base-form-error name="description" /> 
             </div>
             <div class="form-group">
-                <label for="public-checkbox">{{$t('group-public-checkbox')}}</label>
-                <b-form-checkbox
+                <input
                     id="public-checkbox"
                     v-model="groupToCreate.is_public"
+                    type="checkbox"
                     name="public-checkbox" />
+                <label for="public-checkbox">{{$t('group-public-checkbox')}}</label>
                 <small class="form-text text-muted">{{$t('group-public-checkbox-desc')}}</small>
                 <base-form-error name="public-checkbox" /> 
             </div>
             <b-button type="submit" block>{{$t('create-group')}}</b-button>
             <b-button type="button" block @click="close">{{$t('cancel')}}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 

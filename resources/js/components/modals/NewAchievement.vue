@@ -1,12 +1,11 @@
 <template>
     <div>
-        <b-form @submit.prevent="submitAchievement">
+        <form @submit.prevent="submitAchievement">
             <div class="form-group">
                 <label for="name">{{$t('achievement-name')}}</label>
                 <input 
                     id="name" 
                     v-model="achievement.name"
-                    class="form-control"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
@@ -17,7 +16,6 @@
                 <input 
                     id="description" 
                     v-model="achievement.description"
-                    class="form-control"
                     type="text" 
                     name="description" 
                     :placeholder="$t('description')"  />
@@ -25,12 +23,15 @@
             </div>
             <div class="form-group">
                 <label for="type">{{$t('trigger-type')}}</label>
-                <b-select 
+                <select 
                     id="type" 
                     v-model="achievement.trigger_type"
-                    :options="achievementTriggers"
                     value-field="trigger_type"
-                    text-field="trigger_type" />
+                    text-field="trigger_type">
+                    <option v-for="(option, index) in achievementTriggers" :key="index" :value="option.value">
+                        {{option.text}}
+                    </option>
+                </select>
                 <base-form-error name="trigger_type" /> 
             </div>
             <div class="form-group">
@@ -38,7 +39,6 @@
                 <input 
                     id="trigger_amount" 
                     v-model="achievement.trigger_amount"
-                    class="form-control"
                     type="number" 
                     name="trigger_amount" 
                     :placeholder="$t('amount')"  />
@@ -50,7 +50,7 @@
             </div>
             <b-button type="submit" block>{{ $t('create-new-achievement') }}</b-button>
             <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 

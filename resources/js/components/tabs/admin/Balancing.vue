@@ -22,7 +22,6 @@
                                     <input  
                                         id="level" 
                                         v-model="newLevel.level"
-                                        class="form-control"
                                         type="number" 
                                         name="level" 
                                         :placeholder="$t('level')"  />
@@ -33,7 +32,6 @@
                                     <input  
                                         id="points" 
                                         v-model="newLevel.experience_points"
-                                        class="form-control"
                                         type="number" 
                                         name="points" 
                                         :placeholder="$t('points')"  />
@@ -199,7 +197,7 @@ export default {
 <style lang="scss">
 .points-col {
     width:10rem;
-    .form-control {
+    input {
         width:8rem !important;
     }
 }

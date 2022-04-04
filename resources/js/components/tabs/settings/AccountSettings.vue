@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-form v-if="!loading" @submit.prevent="submitPasswordSettings">
+        <form v-if="!loading" @submit.prevent="submitPasswordSettings">
             <h4>{{ $t('change-password') }}</h4>
             <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
             <div class="form-group">
@@ -8,7 +8,6 @@
                 <input 
                     id="old_password" 
                     v-model="passwordSettings.old_password"
-                    class="form-control"
                     type="password" 
                     name="old_password" 
                     :placeholder="$t('old-password')"  />
@@ -19,7 +18,6 @@
                 <input 
                     id="password" 
                     v-model="passwordSettings.password"
-                    class="form-control"
                     type="password" 
                     name="password" 
                     :placeholder="$t('new-password')"  />
@@ -30,18 +28,17 @@
                 <input 
                     id="password_confirmation" 
                     v-model="passwordSettings.password_confirmation"
-                    class="form-control"
                     type="password" 
                     name="password_confirmation" 
                     :placeholder="$t('repeat-password')"  />
                 <base-form-error name="password_confirmation" /> 
             </div>
             <b-button type="submit" block>{{ $t('update-password') }}</b-button>
-        </b-form>
+        </form>
 
         <hr />
 
-        <b-form v-if="!loading" @submit.prevent="submitEmailSettings">
+        <form v-if="!loading" @submit.prevent="submitEmailSettings">
             <h4>{{ $t('change-email') }}</h4>
             <div class="form-group">
                 <label for="email">{{$t('change-email')}}</label>
@@ -49,14 +46,13 @@
                 <input 
                     id="email" 
                     v-model="emailSettings.email"
-                    class="form-control"
                     type="text" 
                     name="email" 
                     :placeholder="$t('email')"  />
                 <base-form-error name="email" /> 
             </div>
             <b-button type="submit" block>{{ $t('update-email') }}</b-button>
-        </b-form>
+        </form>
     </div>
 </template>
 
