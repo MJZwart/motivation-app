@@ -34,7 +34,7 @@
                     name="email" />
                 <BaseFormError name="email" /> 
             </div>
-            <b-button type="submit">Send feedback</b-button>
+            <button type="submit">Send feedback</button>
         </form>
     </div>
 </template>

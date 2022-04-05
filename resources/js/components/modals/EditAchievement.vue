@@ -48,8 +48,8 @@
                 <label for="trigger-description">{{$t('trigger-description')}}</label>
                 <p v-if="achievementToEdit.trigger_type" id="trigger-description">{{triggerDescription}}</p>
             </div>
-            <b-button type="submit" block>{{ $t('edit-achievement') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <button type="submit" class="block">{{ $t('edit-achievement') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

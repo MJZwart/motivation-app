@@ -11,20 +11,33 @@
                 <div class="form-group">
                     <label for="rewards-type">{{$t('rewards-type')}}</label>
                     <small class="form-text text-muted mb-2">{{ $t('which-reward-type') }}</small>
-                    <b-form-radio-group :checked="user.rewardsType">
-                        <b-form-radio v-model="user.rewardsType" type="radio" 
-                                      class="input-override" value="NONE" name="rewards-type">
-                            <p class="radio-label">{{ $t('no-rewards') }}</p>
-                        </b-form-radio>
-                        <b-form-radio v-model="user.rewardsType" type="radio" 
-                                      class="input-override" value="CHARACTER" name="rewards-type">
-                            <p class="radio-label">{{ $t('character-reward') }}</p>
-                        </b-form-radio>
-                        <b-form-radio v-model="user.rewardsType" type="radio" 
-                                      class="input-override" value="VILLAGE" name="rewards-type">
-                            <p class="radio-label">{{ $t('village-reward') }}</p>
-                        </b-form-radio>
-                    </b-form-radio-group>
+                    <div>
+                        <input 
+                            id="NONE" 
+                            v-model="user.rewardsType" 
+                            name="rewards-type" 
+                            type="radio" 
+                            value="NONE" />
+                        <label for="NONE">{{ $t('no-rewards') }}</label>
+                    </div>
+                    <div>
+                        <input 
+                            id="CHARACTER" 
+                            v-model="user.rewardsType" 
+                            name="rewards-type" 
+                            type="radio" 
+                            value="CHARACTER" />
+                        <label for="CHARACTER">{{ $t('character-reward') }}</label>
+                    </div>
+                    <div>
+                        <input 
+                            id="VILLAGE" 
+                            v-model="user.rewardsType" 
+                            name="rewards-type" 
+                            type="radio" 
+                            value="VILLAGE" />
+                        <label for="VILLAGE">{{ $t('village-reward') }}</label>
+                    </div>
                     <base-form-error name="rewards-type" /> 
                 </div>
                 <div v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'" class="form-group">
@@ -53,17 +66,28 @@
                 <div class="form-group">
                     <label for="example-tasks">{{$t('example-tasks')}}</label>
                     <div class="examples-slot">
-                        <b-form-checkbox 
-                            v-for="task in exampleTasks"
-                            :key="task.id"
+                        <div v-for="(task, index) in exampleTasks" :key="index">
+                            <input
+                                :id="task.id"
+                                v-model="user.tasks"
+                                type="checkbox"
+                                name="example-tasks"
+                                :value="task.id" />
+                            <label class="task-title label-override" :for="task.id">{{task.name}}</label>
+                            <small class="form-text text-muted task-description label-override">{{task.description}}</small>
+                            <base-form-error name="public-checkbox" /> 
+                        </div>
+                        <!-- <b-form-checkbox 
+                           
+                           
                             v-model="user.tasks"
                             :value="task.id" 
                             name="example-tasks">
-                            <p class="task-title d-flex label-override">
+                            <p>
                                 {{task.name}}
                             </p>
-                            <p class="task-description label-override">{{task.description}}</p>
-                        </b-form-checkbox>
+                            <p class="">{{task.description}}</p>
+                        </b-form-checkbox> -->
                     </div>
                     
                 </div>

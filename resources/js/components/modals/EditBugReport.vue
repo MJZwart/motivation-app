@@ -49,8 +49,8 @@
                 <small class="form-text text-muted">{{$t('bug-status-desc')}}</small>
                 <base-form-error name="status" /> 
             </div>
-            <b-button type="submit" block>{{$t('update-bug-report')}}</b-button>
-            <b-button type="button" block @click="close">{{$t('cancel')}}</b-button>
+            <button type="submit" class="block">{{$t('update-bug-report')}}</button>
+            <button type="button" class="block" @click="close">{{$t('cancel')}}</button>
         </form>
     </div>
 </template>

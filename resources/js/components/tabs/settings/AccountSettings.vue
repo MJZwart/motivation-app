@@ -33,7 +33,7 @@
                     :placeholder="$t('repeat-password')"  />
                 <base-form-error name="password_confirmation" /> 
             </div>
-            <b-button type="submit" block>{{ $t('update-password') }}</b-button>
+            <button type="submit" class="block">{{ $t('update-password') }}</button>
         </form>
 
         <hr />
@@ -51,7 +51,7 @@
                     :placeholder="$t('email')"  />
                 <base-form-error name="email" /> 
             </div>
-            <b-button type="submit" block>{{ $t('update-email') }}</b-button>
+            <button type="submit" class="block">{{ $t('update-email') }}</button>
         </form>
     </div>
 </template>

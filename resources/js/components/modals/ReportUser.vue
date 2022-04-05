@@ -21,8 +21,8 @@
                     :placeholder="$t('comment')"  />
                 <base-form-error name="comment" /> 
             </div>
-            <b-button type="submit" block>{{ $t('report-user') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <button type="submit" class="block">{{ $t('report-user') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

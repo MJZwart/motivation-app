@@ -9,7 +9,7 @@
                             <!-- 
                                 Button to update the changed experience points in the table
                              -->
-                            <b-button class="mt-4" @click="updateExpPoints">{{ $t('update-exp-points') }}</b-button>
+                            <button class="mt-4" @click="updateExpPoints">{{ $t('update-exp-points') }}</button>
                             <general-form-error />
                             <hr />
                             <!-- 
@@ -37,7 +37,7 @@
                                         :placeholder="$t('points')"  />
                                     <base-form-error name="experience_points" /> 
                                 </div>
-                                <b-button @click="addNewLevel">{{ $t('add-level') }}</b-button>
+                                <button @click="addNewLevel">{{ $t('add-level') }}</button>
                             </div>
                         </div>
                         <!-- 
@@ -69,7 +69,7 @@
                 <BTab :title="$t('char-exp-gain')">
                     <general-form-error />
                     <div class="d-flex">
-                        <b-button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</b-button>
+                        <button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</button>
                     </div>
                     <table class="table table-sm table-striped">
                         <thead>
@@ -97,7 +97,7 @@
                 <BTab :title="$t('vill-exp-gain')">  
                     <general-form-error />              
                     <div class="d-flex">
-                        <b-button class="ml-auto m-2" @click="updateVillageExpGain">{{ $t('update-vill-exp-gain') }}</b-button>
+                        <button class="ml-auto m-2" @click="updateVillageExpGain">{{ $t('update-vill-exp-gain') }}</button>
                     </div>
                     <table class="table table-sm table-striped">
                         <thead>

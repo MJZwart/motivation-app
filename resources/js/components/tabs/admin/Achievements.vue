@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3>{{ $t('manage-achievements') }}</h3>
-        <b-button block @click="showNewAchievement">{{ $t('add-new-achievement') }}</b-button>
+        <button class="block" @click="showNewAchievement">{{ $t('add-new-achievement') }}</button>
 
         <BTable
             :items="achievements"

@@ -56,8 +56,8 @@
                 <p v-if="editedTask.taskList">{{ $t('task-list') }}: {{editedTask.taskList}}</p>
                 <p v-if="editedTask.superTask">{{ $t('subtask-of') }}: {{editedTask.superTask}}</p>
             </div>
-            <b-button type="submit" block>{{ $t('edit-task') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <button type="submit" class="block">{{ $t('edit-task') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

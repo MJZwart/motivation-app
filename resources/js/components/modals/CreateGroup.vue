@@ -31,8 +31,8 @@
                 <small class="form-text text-muted">{{$t('group-public-checkbox-desc')}}</small>
                 <base-form-error name="public-checkbox" /> 
             </div>
-            <b-button type="submit" block>{{$t('create-group')}}</b-button>
-            <b-button type="button" block @click="close">{{$t('cancel')}}</b-button>
+            <button type="submit" class="block">{{$t('create-group')}}</button>
+            <button type="button" class="block" @click="close">{{$t('cancel')}}</button>
         </form>
     </div>
 </template>

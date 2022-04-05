@@ -1,12 +1,10 @@
 <template v-if="errorMsg">
-    <b-form-invalid-feedback :state="false">{{ errorMsg }}</b-form-invalid-feedback>
+    <div class="d-block invalid-feedback">{{ errorMsg }}</div>
 </template>
 
 <script>
-import {BFormInvalidFeedback} from 'bootstrap-vue';
 import {mapGetters} from 'vuex';
 export default {
-    components: {BFormInvalidFeedback},
     props: {
         name: {type: String, required: true},
     },

@@ -4,7 +4,7 @@
         <div>
             <form @submit.prevent="sendNotification">
                 <div class="form-group">
-                    <label for="title">{$t('title'){}}</label>
+                    <label for="title">{{$t('title')}}</label>
                     <input 
                         id="title" 
                         v-model="notification.title" 
@@ -22,7 +22,7 @@
                         name="text"/>
                 </div>
 
-                <b-button type="submit" block>{{ $t('send-notification') }}</b-button>
+                <button type="submit" class="block">{{ $t('send-notification') }}</button>
             </form>
         </div>
     </div>

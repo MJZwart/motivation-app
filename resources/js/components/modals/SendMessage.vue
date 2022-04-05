@@ -12,8 +12,8 @@
                     :placeholder="$t('send-message-placeholder')"  />
                 <base-form-error name="message" /> 
             </div>
-            <b-button type="submit" block>{{ $t('send-message') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <button type="submit" class="block">{{ $t('send-message') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

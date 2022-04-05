@@ -69,7 +69,7 @@
                 <small class="form-text text-muted">{{$t('bug-comment-desc')}}</small>
                 <base-form-error name="comment" />
             </div>
-            <b-button type="submit" block>{{ $t('submit-bug-report') }}</b-button>
+            <button type="submit" class="block">{{ $t('submit-bug-report') }}</button>
         </form> 
     </div>
 </template>

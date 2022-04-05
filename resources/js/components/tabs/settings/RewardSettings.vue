@@ -93,7 +93,7 @@
                     :placeholder="rewardTypeName"   />
                 <base-form-error name="new_object_name" /> 
             </div>
-            <b-button block @click="confirmRewardsSettings()">{{ $t('save-settings') }}</b-button>
+            <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
 
         

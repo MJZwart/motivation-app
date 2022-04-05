@@ -11,8 +11,8 @@
                     :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
             </div>
-            <b-button type="submit" block>Create new task list</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            <button type="submit" class="block">Create new task list</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>
