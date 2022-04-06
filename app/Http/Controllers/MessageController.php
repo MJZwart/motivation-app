@@ -71,7 +71,7 @@ class MessageController extends Controller
 
     public function deleteMessage(Message $message) {
         /** @var User */
-        $user = Auth::user()->id;
+        $user = Auth::user();
         $this->makeMessageInvisibleToUser($message, $user->id);
         return new JsonResponse(['message' => ['success' => ['Message deleted.']], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
