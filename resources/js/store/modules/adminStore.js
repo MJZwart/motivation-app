@@ -9,6 +9,8 @@ export default {
         experiencePoints: null,
         charExpGain: null,
         villageExpGain: null,
+        reportedUsers: null,
+        conversation: null,
     },
     mutations: {
         setExperiencePoints(state, experiencePoints) {
@@ -19,6 +21,12 @@ export default {
         },
         setVillageExpGain(state, villageExpGain) {
             state.villageExpGain = villageExpGain;
+        },
+        setReportedUsers(state, reportedUsers) {
+            state.reportedUsers = reportedUsers;
+        },
+        setConversation(state, conversation) {
+            state.conversation = conversation;
         },
     },
     getters: {
@@ -41,6 +49,12 @@ export default {
                 'village_exp_gain': state.villageExpGain,
             }
         },
+        getReportedUsers: state => {
+            return state.reportedUsers;
+        },
+        getConversation: state => {
+            return state.conversation;
+        },
     },
     actions: {
         checkAdmin: () => {
@@ -54,12 +68,19 @@ export default {
                 commit('setExperiencePoints', response.data.balancing.experience_points);
                 commit('setCharExpGain', response.data.balancing.character_exp_gain);
                 commit('setVillageExpGain', response.data.balancing.village_exp_gain);
+                commit('setReportedUsers', response.data.reportedUsers);
                 return Promise.resolve();
             });
         },
         sendNotification: ({dispatch}, notification) => {
             axios.post('/notifications/all', notification).then(response => {
                 dispatch('sendToasts', response.data.message, {root:true});
+            });
+        },
+        fetchConversation: ({commit}, id) => {
+            return axios.get(`/admin/conversation/${id}`).then(response => {
+                commit('setConversation', response.data.data);
+                return Promise.resolve();
             });
         },
 

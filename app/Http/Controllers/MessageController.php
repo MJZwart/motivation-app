@@ -73,7 +73,7 @@ class MessageController extends Controller
 
     public function deleteMessage(Request $request, Message $message) {
         /** @var User */
-        $user = Auth::user()->id;
+        $user = Auth::user();
         $this->makeMessageInvisibleToUser($message, $user->id);
         ActionTrackingHandler::handleAction($request, 'DELETE_MESSAGE', 'Deleting message');
         return new JsonResponse(['message' => ['success' => ['Message deleted.']], 'data' => ConversationOverviewResource::collection(
