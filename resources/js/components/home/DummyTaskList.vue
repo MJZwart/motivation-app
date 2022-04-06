@@ -5,14 +5,16 @@
                 <span class="d-flex">
                     {{taskList.name}}
                     <span class="ml-auto">
-                        <b-icon-pencil-square 
-                            :id="'edit-task-list-' + taskList.id"
-                            class="icon white small" />
-                        <b-tooltip :target="'edit-task-list-' + taskList.id">{{ $t('edit-task-list') }}</b-tooltip>
-                        <b-icon-trash 
-                            :id="'delete-task-list-' + taskList.id"
-                            class="icon white small" />
-                        <b-tooltip :target="'delete-task-list-' + taskList.id">{{ $t('delete-task-list') }}</b-tooltip>
+                        <Tooltip :text="$t('edit-task-list')">
+                            <b-icon-pencil-square 
+                                :id="'edit-task-list-' + taskList.id"
+                                class="icon white small" />
+                        </Tooltip>
+                        <Tooltip :text="$t('delete-task-list')">
+                            <b-icon-trash 
+                                :id="'delete-task-list-' + taskList.id"
+                                class="icon white small" />
+                        </Tooltip>
                     </span>
                 </span>
             </template>
@@ -26,11 +28,12 @@
             </slot>
             <template #footer>           
                 <button class="block clear bottom-radius p-0" variant="outline">
-                    <b-icon-plus-square-fill 
-                        :id="'add-new-task-' + taskList.id" 
-                        class="icon large green m-0 wide" 
-                    />
-                    <b-tooltip :target="'add-new-task-' + taskList.id">{{ $t('add-new-task') }}</b-tooltip>
+                    <Tooltip :text="$t('add-new-task')">
+                        <b-icon-plus-square-fill 
+                            :id="'add-new-task-' + taskList.id" 
+                            class="icon large green m-0 wide" 
+                        />
+                    </Tooltip>
                 </button>
             </template>
         </Summary>
@@ -39,10 +42,11 @@
 
 
 <script>
+import Tooltip from '../bootstrap/Tooltip.vue';
 import Task from './DummyTask.vue';
 import Summary from '../summary/Summary.vue';
 export default {
-    components: {Task, Summary},
+    components: {Task, Summary, Tooltip},
     props: {
         taskList: {
             /** @type {import('resources/types/task').TaskList} */

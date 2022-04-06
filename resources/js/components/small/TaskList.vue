@@ -5,16 +5,18 @@
                 <span class="d-flex">
                     {{taskList.name}}
                     <span class="ml-auto">
-                        <b-icon-pencil-square 
-                            :id="'edit-task-list-' + taskList.id"
-                            class="icon white small"
-                            @click="editTaskList()" />
-                        <b-tooltip :target="'edit-task-list-' + taskList.id">{{ $t('edit-task-list') }}</b-tooltip>
-                        <b-icon-trash 
-                            :id="'delete-task-list-' + taskList.id"
-                            class="icon white small"
-                            @click="deleteTaskList()" />
-                        <b-tooltip :target="'delete-task-list-' + taskList.id">{{ $t('delete-task-list') }}</b-tooltip>
+                        <Tooltip :text="$t('edit-task-list')">
+                            <b-icon-pencil-square 
+                                :id="'edit-task-list-' + taskList.id"
+                                class="icon white small"
+                                @click="editTaskList()" />
+                        </Tooltip>
+                        <Tooltip :text="$t('delete-task-list')">
+                            <b-icon-trash 
+                                :id="'delete-task-list-' + taskList.id"
+                                class="icon white small"
+                                @click="deleteTaskList()" />
+                        </Tooltip>
                     </span>
                 </span>
             </template>
@@ -30,11 +32,12 @@
             </slot>
             <template #footer>           
                 <button class="block clear bottom-radius p-0" @click="openNewTask(null)">
-                    <b-icon-plus-square-fill 
-                        :id="'add-new-task-' + taskList.id" 
-                        class="icon large green m-0 wide" 
-                    />
-                    <b-tooltip :target="'add-new-task-' + taskList.id">{{ $t('add-new-task') }}</b-tooltip>
+                    <Tooltip :text="$t('add-new-task')">
+                        <b-icon-plus-square-fill 
+                            :id="'add-new-task-' + taskList.id" 
+                            class="icon large green m-0 wide" 
+                        />
+                    </Tooltip>
                 </button>
             </template>
         </Summary>

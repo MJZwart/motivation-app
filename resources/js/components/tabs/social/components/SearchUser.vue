@@ -21,17 +21,19 @@
                     <router-link :to="{ name: 'profile', params: { id: item.item.id}}">{{item.item.username}}</router-link>
                 </template>
                 <template #actions="item">
-                    <b-icon-envelope 
-                        :id="'send-message-to-user-' + item.index" 
-                        class="icon small" 
-                        @click="sendMessage(item.item)" /> 
-                    <b-tooltip :target="'send-message-to-user-' + item.index">{{ $t('send-message') }}</b-tooltip>
-                    <span v-if="!isConnection(item.item.id)">
-                        <b-icon-person-plus-fill 
-                            :id="'send-friend-request-' + item.index"
+                    <Tooltip :text="$t('send-message')">
+                        <b-icon-envelope 
+                            :id="'send-message-to-user-' + item.index" 
                             class="icon small" 
-                            @click="sendFriendRequest(item.item.id)" />
-                        <b-tooltip :target="'send-friend-request-' + item.index">{{ $t('send-friend-request') }}</b-tooltip>
+                            @click="sendMessage(item.item)" /> 
+                    </Tooltip>
+                    <span v-if="!isConnection(item.item.id)">
+                        <Tooltip :text="$t('send-friend-request')">
+                            <b-icon-person-plus-fill 
+                                :id="'send-friend-request-' + item.index"
+                                class="icon small" 
+                                @click="sendFriendRequest(item.item.id)" />
+                        </Tooltip>
                     </span>
                 </template>
             </BTable>
@@ -44,6 +46,7 @@
 
 
 <script>
+import Tooltip from '../../../bootstrap/Tooltip.vue';
 import BTable from '../../../bootstrap/BTable.vue';
 import {mapGetters} from 'vuex';
 import {SEARCH_RESULTS_FIELDS} from '../../../../constants/userConstants.js';
@@ -51,7 +54,7 @@ import SendMessage from '../../../modals/SendMessage.vue';
 import BModal from '../../../bootstrap/BModal.vue';
 export default {
     components: {
-        SendMessage, BModal, BTable,
+        SendMessage, BModal, BTable, Tooltip,
     },
     data() {
         return {

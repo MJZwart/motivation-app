@@ -4,15 +4,20 @@
             <ul v-if="user.friends.length > 0" class="mb-1 no-list-style">
                 <li v-for="(friend, index) in user.friends" :key="index">
                     <span v-if="manage">
-                        <b-icon-person-x-fill :id="'remove-friend-' + index" class="icon small" @click="removeFriend(friend)" />
-                        <b-tooltip :target="'remove-friend-' + index">{{ $t('remove-friend') }}</b-tooltip>
+                        <Tooltip :text="$t('remove-friend')">
+                            <b-icon-person-x-fill 
+                                :id="'remove-friend-' + index" 
+                                class="icon small" 
+                                @click="removeFriend(friend)" />
+                        </Tooltip>
                     </span>
                     <span v-if="message">
-                        <b-icon-envelope 
-                            :id="'send-message-to-friend-' + index" 
-                            class="icon small" 
-                            @click="sendMessage(friend)" /> 
-                        <b-tooltip :target="'send-message-to-friend-' + index">{{ $t('send-message') }}</b-tooltip>
+                        <Tooltip :text="$t('send-message')">
+                            <b-icon-envelope 
+                                :id="'send-message-to-friend-' + index" 
+                                class="icon small" 
+                                @click="sendMessage(friend)" /> 
+                        </Tooltip>
                     </span>
                     <router-link :to="{ name: 'profile', params: { id: friend.id}}">
                         {{friend.username}}
@@ -29,6 +34,7 @@
 
 
 <script>
+import Tooltip from '../bootstrap/Tooltip.vue';
 import {mapGetters} from 'vuex';
 import SendMessage from '../modals/SendMessage.vue';
 import Summary from './Summary.vue';
@@ -36,7 +42,7 @@ import BModal from '../bootstrap/BModal.vue';
 
 export default {
     components: {
-        SendMessage, Summary, BModal,
+        SendMessage, Summary, BModal, Tooltip,
     },
     props: {
         manage: {

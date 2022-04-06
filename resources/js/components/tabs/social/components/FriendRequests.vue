@@ -5,16 +5,18 @@
                 <ul class="no-list-style">
                     <div v-if="requests.incoming[0]">
                         <li v-for="(request, index) in requests.incoming" :key="index">
-                            <b-icon-check-square 
-                                :id="'accept-friend-request-' + index" 
-                                class="icon small green" 
-                                @click="acceptFriendRequest(request.friendship_id)" />
-                            <b-tooltip :target="'accept-friend-request-' + index">{{ $t('accept-friend-request') }}</b-tooltip>
-                            <b-icon-x-square 
-                                :id="'deny-friend-request-' + index" 
-                                class="icon small red" 
-                                @click="denyFriendRequest(request.friendship_id)" />
-                            <b-tooltip :target="'deny-friend-request-' + index">{{ $t('deny-friend-request') }}</b-tooltip>
+                            <Tooltip :text="$t('accept-friend-request')">
+                                <b-icon-check-square 
+                                    :id="'accept-friend-request-' + index" 
+                                    class="icon small green" 
+                                    @click="acceptFriendRequest(request.friendship_id)" />
+                            </Tooltip>
+                            <Tooltip :text="$t('deny-friend-request')">
+                                <b-icon-x-square 
+                                    :id="'deny-friend-request-' + index" 
+                                    class="icon small red" 
+                                    @click="denyFriendRequest(request.friendship_id)" />
+                            </Tooltip>
                             {{request.friend}}
                         </li>
                     </div>
@@ -28,11 +30,12 @@
                 <ul class="no-list-style">
                     <div v-if="requests.outgoing[0]">
                         <li v-for="(request, index) in requests.outgoing" :key="index">
-                            <b-icon-x-square 
-                                :id="'cancel-friend-request-' + index" 
-                                class="icon small red" 
-                                @click="removeFriendRequest(request.friendship_id)" />
-                            <b-tooltip :target="'cancel-friend-request-' + index">{{ $t('cancel-friend-request') }}</b-tooltip>
+                            <Tooltip :text="$t('cancel-friend-request')">
+                                <b-icon-x-square 
+                                    :id="'cancel-friend-request-' + index" 
+                                    class="icon small red" 
+                                    @click="removeFriendRequest(request.friendship_id)" />
+                            </Tooltip>
                             {{request.friend}}
                         </li>
                     </div>
@@ -45,11 +48,12 @@
 </template>
 
 <script>
+import Tooltip from '../../../bootstrap/Tooltip.vue';
 import {mapGetters} from 'vuex';
 import Summary from '../../../summary/Summary.vue';
 export default {
     components: {
-        Summary,
+        Summary, Tooltip,
     },
     data() {
         return {

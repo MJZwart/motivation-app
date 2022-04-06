@@ -5,16 +5,20 @@
             <div class="right-column">
                 <h2>{{userProfile.username}}</h2>
                 <div v-if="notLoggedUser" class="d-flex">
-                    <b-icon-envelope id="message-user" class="icon small" @click="sendMessage" />
-                    <b-tooltip target="message-user">{{ $t('message-user') }}</b-tooltip>
+                    <Tooltip :text="$t('message-user')">
+                        <b-icon-envelope id="message-user" class="icon small" @click="sendMessage" />
+                    </Tooltip>
                     <span v-if="!isConnection">
-                        <b-icon-person-plus-fill id="send-friend-request" class="icon small" @click="sendFriendRequest" />
-                        <b-tooltip target="send-friend-request">{{ $t('send-friend-request') }}</b-tooltip>
+                        <Tooltip :text="$t('send-friend-request')">
+                            <b-icon-person-plus-fill id="send-friend-request" class="icon small" @click="sendFriendRequest" />
+                        </Tooltip>
                     </span>
-                    <b-icon-dash-circle id="block-user" class="icon small red" @click="blockUser" />
-                    <b-tooltip target="block-user">{{ $t('block-user') }}</b-tooltip>
-                    <b-icon-exclamation-circle id="report-user" class="icon small red" @click="reportUser" />
-                    <b-tooltip target="report-user">{{ $t('report-user') }}</b-tooltip>
+                    <Tooltip :text="$t('block-user')">
+                        <b-icon-dash-circle id="block-user" class="icon small red" @click="blockUser" />
+                    </Tooltip>
+                    <Tooltip :text="$t('report-user')">
+                        <b-icon-exclamation-circle id="report-user" class="icon small red" @click="reportUser" />
+                    </Tooltip>
                 </div>
                 <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
                 <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" />
@@ -38,6 +42,7 @@
 
 
 <script>
+import Tooltip from '../components/bootstrap/Tooltip.vue';
 import {mapGetters} from 'vuex';
 import AchievementsCard from '../components/summary/AchievementsCard.vue';
 import RewardCard from '../components/summary/RewardCard.vue';
@@ -48,7 +53,7 @@ import FriendsCard from '../components/summary/FriendsCard.vue';
 import BModal from '../components/bootstrap/BModal.vue';
 
 export default {
-    components: {RewardCard, AchievementsCard, ReportUser, Loading, FriendsCard, SendMessage, BModal},
+    components: {RewardCard, AchievementsCard, ReportUser, Loading, FriendsCard, SendMessage, BModal, Tooltip},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();

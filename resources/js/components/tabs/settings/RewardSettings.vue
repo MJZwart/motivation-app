@@ -13,26 +13,26 @@
                         {{ item.item.active ? 'Yes' : 'No' }}
                     </template>
                     <template #actions="item">
-                        <b-icon-pencil-square :id="'edit-item-' + item.index" class="icon" @click="showEditReward(item.item)" />
-                        <b-tooltip :target="'edit-item-' + item.index">
-                            {{ $t('change-name') }}
-                        </b-tooltip>
-                        <b-icon-play-circle 
-                            v-if="!item.item.active" 
-                            :id="'activate-item-' + item.index" 
-                            class="icon" 
-                            @click="activateReward(item.item)" />
-                        <b-tooltip v-if="!item.item.active" :target="'activate-item-' + item.index">
-                            {{ $t('activate') }}
-                        </b-tooltip>
-                        <b-icon-trash
-                            v-if="!item.item.active" 
-                            :id="'delete-item-' + item.index"
-                            class="icon small red"
-                            @click="deleteItem(item.item)" />
-                        <b-tooltip v-if="!item.item.active"  :target="'delete-item-' + item.index">
-                            {{ $t('delete') }}
-                        </b-tooltip>
+                        <Tooltip :text="$t('change-name')">
+                            <b-icon-pencil-square 
+                                :id="'edit-item-' + item.index" 
+                                class="icon" 
+                                @click="showEditReward(item.item)" />
+                        </Tooltip>
+                        <Tooltip v-if="!item.item.active"  :text="$t('activate')">
+                            <b-icon-play-circle 
+                                v-if="!item.item.active" 
+                                :id="'activate-item-' + item.index" 
+                                class="icon" 
+                                @click="activateReward(item.item)" />
+                        </Tooltip>
+                        <Tooltip v-if="!item.item.active"  :text="$t('delete')">
+                            <b-icon-trash
+                                v-if="!item.item.active" 
+                                :id="'delete-item-' + item.index"
+                                class="icon small red"
+                                @click="deleteItem(item.item)" />
+                        </Tooltip>
                     </template>
                 </BTable>
             </div>
@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import Tooltip from '../../bootstrap/Tooltip.vue';
 import {mapGetters} from 'vuex';
 import {REWARD_TYPES, REWARD_FIELDS} from '../../../constants/rewardConstants';
 import BaseFormError from '../../BaseFormError.vue';
@@ -112,7 +113,7 @@ import EditRewardObjectName from '../../modals/EditRewardObjectName.vue';
 import BTable from '../../bootstrap/BTable.vue';
 import BModal from '../../bootstrap/BModal.vue';
 export default {
-    components: {BaseFormError, Loading, EditRewardObjectName, BModal, BTable},
+    components: {BaseFormError, Loading, EditRewardObjectName, BModal, BTable, Tooltip},
     data() {
         return {
             rewardSetting: {
