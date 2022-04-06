@@ -25,13 +25,13 @@
                 </template>
             </slot>
             <template #footer>           
-                <b-button block variant="outline" class="bottom-radius p-0">
+                <button class="block clear bottom-radius p-0" variant="outline">
                     <b-icon-plus-square-fill 
                         :id="'add-new-task-' + taskList.id" 
                         class="icon large green m-0 wide" 
                     />
                     <b-tooltip :target="'add-new-task-' + taskList.id">{{ $t('add-new-task') }}</b-tooltip>
-                </b-button>
+                </button>
             </template>
         </Summary>
     </div>

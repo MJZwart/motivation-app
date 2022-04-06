@@ -14,16 +14,16 @@
         </div>
         <div v-if="isJoinGroupVisible" class="row">
             <div class="col">
-                <b-button type="button" @click="joinGroup()">{{$t('join-group')}}</b-button>
+                <button type="button" @click="joinGroup()">{{$t('join-group')}}</button>
             </div>
         </div>
         <div v-else class="row">
             <div v-if="isUserAdmin" class="col">
-                <b-button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</b-button>
+                <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
             </div>
 
             <div v-else class="col">
-                <b-button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</b-button>
+                <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>
             </div>
         </div>
         <hr />

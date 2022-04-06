@@ -35,7 +35,9 @@
             </div>
         </div>
         <div class="d-flex">
-            <b-button class="large-button center mt-3" to="/register">{{ $t('create-account-today') }}</b-button>
+            <button class="large-button center mt-3">
+                <router-link to="/register" class="primary-text no-hover">{{ $t('create-account-today') }}</router-link>
+            </button>
         </div>
     </div>
 </template>

@@ -9,7 +9,7 @@
                             <!-- 
                                 Button to update the changed experience points in the table
                              -->
-                            <b-button class="mt-4" @click="updateExpPoints">{{ $t('update-exp-points') }}</b-button>
+                            <button class="mt-4" @click="updateExpPoints">{{ $t('update-exp-points') }}</button>
                             <general-form-error />
                             <hr />
                             <!-- 
@@ -17,29 +17,27 @@
                              -->
                             <div class="m-1">
                                 <h5>{{$t('add-new-level')}}</h5>
-                                <b-form-group
-                                    :label="$t('level')" 
-                                    label-for="level">
-                                    <b-form-input  
+                                <div class="form-group">
+                                    <label for="level">{{$t('level')}}</label>
+                                    <input  
                                         id="level" 
                                         v-model="newLevel.level"
                                         type="number" 
                                         name="level" 
                                         :placeholder="$t('level')"  />
                                     <base-form-error name="level" /> 
-                                </b-form-group>
-                                <b-form-group
-                                    :label="$t('points')" 
-                                    label-for="points">
-                                    <b-form-input  
+                                </div>
+                                <div class="form-group">
+                                    <label for="points">{{$t('points')}}</label>
+                                    <input  
                                         id="points" 
                                         v-model="newLevel.experience_points"
                                         type="number" 
                                         name="points" 
                                         :placeholder="$t('points')"  />
                                     <base-form-error name="experience_points" /> 
-                                </b-form-group>
-                                <b-button @click="addNewLevel">{{ $t('add-level') }}</b-button>
+                                </div>
+                                <button @click="addNewLevel">{{ $t('add-level') }}</button>
                             </div>
                         </div>
                         <!-- 
@@ -71,7 +69,7 @@
                 <BTab :title="$t('char-exp-gain')">
                     <general-form-error />
                     <div class="d-flex">
-                        <b-button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</b-button>
+                        <button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</button>
                     </div>
                     <table class="table table-sm table-striped">
                         <thead>
@@ -99,7 +97,7 @@
                 <BTab :title="$t('vill-exp-gain')">  
                     <general-form-error />              
                     <div class="d-flex">
-                        <b-button class="ml-auto m-2" @click="updateVillageExpGain">{{ $t('update-vill-exp-gain') }}</b-button>
+                        <button class="ml-auto m-2" @click="updateVillageExpGain">{{ $t('update-vill-exp-gain') }}</button>
                     </div>
                     <table class="table table-sm table-striped">
                         <thead>
@@ -199,7 +197,7 @@ export default {
 <style lang="scss">
 .points-col {
     width:10rem;
-    .form-control {
+    input {
         width:8rem !important;
     }
 }

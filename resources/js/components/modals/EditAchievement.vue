@@ -1,58 +1,56 @@
 <template>
     <div v-if="achievementToEdit">
-        <b-form @submit.prevent="updateAchievement">
-            <b-form-group
-                :label="$t('achievement-name')" 
-                label-for="name">
-                <b-form-input  
+        <form @submit.prevent="updateAchievement">
+            <div class="form-group">
+                <label for="name">{{$t('achievement-name')}}</label>
+                <input  
                     id="name" 
                     v-model="achievementToEdit.name"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('achievement-description')" 
-                label-for="description">
-                <b-form-input  
+            </div>
+            <div class="form-group">
+                <label for="description">{{$t('achievement-description')}}</label>
+                <input  
                     id="description" 
                     v-model="achievementToEdit.description"
                     type="text" 
                     name="description" 
                     :placeholder="$t('description')"  />
                 <base-form-error name="description" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('trigger-type')" 
-                label-for="type">
-                <b-select 
+            </div>
+            <div class="form-group">
+                <label for="type">{{$t('trigger-type')}}</label>
+                <select 
                     id="type" 
                     v-model="achievementToEdit.trigger_type"
-                    :options="achievementTriggers"
                     value-field="trigger_type"
-                    text-field="trigger_type" />
+                    text-field="trigger_type">
+                    <option v-for="(option, index) in achievementTriggers" :key="index" :value="option.value">
+                        {{option.text}}
+                    </option>
+                </select>
                 <base-form-error name="trigger_type" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('trigger-amount')" 
-                label-for="trigger_amount">
-                <b-form-input  
+            </div>
+            <div class="form-group">
+                <label for="trigger_amount">{{$t('trigger-amount')}}</label>
+                <input  
                     id="trigger_amount" 
                     v-model="achievementToEdit.trigger_amount"
                     type="number" 
                     name="trigger_amount" 
                     :placeholder="$t('amount')"  />
                 <base-form-error name="trigger_amount" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('trigger-description')" 
-                label-for="trigger-description">
+            </div>
+            <div class="form-group">
+                <label for="trigger-description">{{$t('trigger-description')}}</label>
                 <p v-if="achievementToEdit.trigger_type" id="trigger-description">{{triggerDescription}}</p>
-            </b-form-group>
-            <b-button type="submit" block>{{ $t('edit-achievement') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </b-form>
+            </div>
+            <button type="submit" class="block">{{ $t('edit-achievement') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+        </form>
     </div>
 </template>
 

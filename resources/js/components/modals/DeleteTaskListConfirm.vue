@@ -1,28 +1,28 @@
 <template>
     <div v-if="taskListToDelete">
-        <b-form @submit.prevent="deleteTaskList">
+        <form @submit.prevent="deleteTaskList">
             <p>{{ $t('are-you-sure-delete') }} {{taskListToDelete.name}}</p>
-            <b-form-group v-if="taskListHasTasks">
+            <div v-if="taskListHasTasks" class="form-group">
                 <p>
                     <!-- TODO fix the | -->
                     {{ $tc('task-list-has-tasks', [taskListTasks.length]) }} 
                 </p>
             
-                <b-form-group>
-                    <b-form-select 
+                <div class="form-group">
+                    <select 
                         id="deleteOption" 
                         v-model="deleteOption">
                         <option value="delete" selected>{{ $t('delete') }}</option>
                         <option v-for="option in taskLists" :key="option.key" :value="option.id">
                             {{ $t('merge-with') }} {{option.name}}
                         </option>
-                    </b-form-select>
-                </b-form-group>
-            </b-form-group>
-            <b-button type="submit" block>{{ $t('delete-task-list-confirm') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="block">{{ $t('delete-task-list-confirm') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
             <base-form-error name="error" /> 
-        </b-form>
+        </form>
     </div>
 </template>
 

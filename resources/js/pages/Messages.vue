@@ -28,38 +28,45 @@
                                 {{activeConversation.recipient.username}}
                             </router-link>
                             <span class="ml-auto">
-                                <b-dropdown no-caret right variant="link">
-                                    <template #button-content>
-                                        <b-icon-three-dots-vertical class="icon" />
-                                    </template>
-                                    <b-dropdown-item :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
-                                        {{ $t('go-to-profile') }}
-                                    </b-dropdown-item>
-                                    <b-dropdown-item @click="addFriend(activeConversation.recipient)">
-                                        {{ $t('add-friend') }}
-                                    </b-dropdown-item>
-                                    <b-dropdown-item @click="blockUser(activeConversation.recipient)">
-                                        {{ $t('block-user') }}
-                                    </b-dropdown-item>
-                                    <b-dropdown-item @click="reportUser(activeConversation)">
-                                        {{ $t('report') }}
-                                    </b-dropdown-item>
-                                </b-dropdown>
+                                <Dropdown>
+                                    <section class="option">
+                                        <button>
+                                            <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
+                                                {{ $t('go-to-profile') }}
+                                            </router-link>
+                                        </button>
+                                    </section>
+                                    <section class="option">
+                                        <button @click="addFriend(activeConversation.recipient)">
+                                            {{ $t('add-friend') }}
+                                        </button>
+                                    </section>
+                                    <section class="option">
+                                        <button @click="blockUser(activeConversation.recipient)">
+                                            {{ $t('block-user') }}
+                                        </button>
+                                    </section>
+                                    <section class="option">
+                                        <button @click="reportUser(activeConversation)">
+                                            {{ $t('report') }}
+                                        </button>
+                                    </section>
+                                </Dropdown>
                             </span>
                         </h5>
                         <div class="new-message mb-3">
-                            <b-form @submit.prevent="sendMessage">
-                                <b-form-group>
-                                    <b-form-textarea 
+                            <form @submit.prevent="sendMessage">
+                                <div class="form-group">
+                                    <textarea 
                                         id="message" 
                                         v-model="message.message"
                                         name="message" 
                                         rows=3
                                         :placeholder="$t('type-your-reply')" />
                                     <base-form-error name="message" /> 
-                                </b-form-group>
-                                <b-button type="submit" block>{{ $t('send-reply') }}</b-button>
-                            </b-form>
+                                </div>
+                                <button type="submit" class="block">{{ $t('send-reply') }}</button>
+                            </form>
                         </div>
                         <message v-for="message in activeConversation.messages" :key="message.id"
                                  :message="message" @deleteMessage="deleteMessage"
@@ -83,6 +90,7 @@ import Message from '../components/small/Message.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
 import BModal from '../components/bootstrap/BModal.vue';
+import Dropdown from '../components/bootstrap/Dropdown.vue';
 
 export default {
     components: {
@@ -91,6 +99,7 @@ export default {
         ReportUser,
         Loading,
         BModal,
+        Dropdown,
     },
     data() {
         return {
@@ -181,7 +190,7 @@ export default {
             this.showReportUserModal = true;
         },
         closeReportUserModal() {
-            this.$showReportUserModal = false;
+            this.showReportUserModal = false;
             this.userToReport = {};
             this.conversationToReport = '';
         },

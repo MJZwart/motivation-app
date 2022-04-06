@@ -15,7 +15,7 @@
                             v-on:deleteTaskList="showDeleteTaskList" />
                     </template>
                     <div class="task-list">
-                        <b-button type="button" block @click="showNewTaskList">{{ $t('create-new-task-list') }}</b-button>
+                        <button type="button" class="block" @click="showNewTaskList">{{ $t('create-new-task-list') }}</button>
                     </div>
                 </div>
 
@@ -157,7 +157,7 @@ export default {
             this.showDeleteTaskListConfirmModal = true;
         },
         closeDeleteTaskList() {
-            this.showDeleteTaskListConfirmModal = true;
+            this.showDeleteTaskListConfirmModal = false;
         },
     },
     computed: {

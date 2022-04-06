@@ -1,41 +1,38 @@
 <template>
     <div>
-        <b-form @submit.prevent="submitTask">
-            <b-form-group 
-                :label="$t('task-name')" 
-                label-for="name">
-                <b-form-input 
+        <form @submit.prevent="submitTask">
+            <div class="form-group">
+                <label for="name">{{$t('task-name')}}</label>
+                <input 
                     id="name" 
                     v-model="task.name"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')" />
                 <base-form-error name="name" /> 
-            </b-form-group >
-            <b-form-group
-                :label="$t('description-optional')" 
-                label-for="description">
-                <b-form-input  
+            </div>
+            <div class="form-group">
+                <label for="description">{{$t('description-optional')}}</label>
+                <input  
                     id="description" 
                     v-model="task.description"
                     type="text" 
                     name="description" 
                     :placeholder="$t('description')"  />
-            </b-form-group>
-            <b-form-group
-                :label="$t('type')" 
-                label-for="type">
-                <b-form-select
+            </div>
+            <div class="form-group">
+                <label for="type">{{$t('type')}}</label>
+                <select
                     id="type"
                     v-model="task.type"
-                    name="type"
-                    :options="taskTypes" />
+                    name="type">
+                    <option v-for="(type, index) in taskTypes" :key="index" :value="type.value">{{type.text}}</option>
+                </select>
                 <base-form-error name="type" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('difficulty')+': '+task.difficulty+'/5'"
-                label-for="difficulty">
-                <b-form-input 
+            </div>
+            <div class="form-group">
+                <label for="difficulty">{{$t('difficulty')+': '+task.difficulty+'/5'}}</label>
+                <input 
                     id="difficulty"
                     v-model="task.difficulty"
                     type="range"
@@ -44,24 +41,24 @@
                     max="5"
                     value="3" />
                 <base-form-error name="difficulty" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('repeatable')" 
-                label-for="repeatable">
-                <b-form-select
+            </div>
+            <div class="form-group">
+                <label for="repeatable">{{$t('repeatable')}}</label>
+                <select
                     id="repeatable"
                     v-model="task.repeatable"
-                    name="repeatable"
-                    :options="repeatables" />
+                    name="repeatable">
+                    <option v-for="(option, index) in repeatables" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <base-form-error name="repeatable" /> 
-            </b-form-group>
-            <b-form-group>
+            </div>
+            <div class="form-group">
                 <p v-if="taskList">{{ $t('task-list') }}: {{taskList.name}}</p>
                 <p v-if="superTask">{{ $t('subtask-of') }}: {{superTask.name}}</p>
-            </b-form-group>
-            <b-button type="submit" block>{{ $t('create-new-task') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </b-form>
+            </div>
+            <button type="submit" class="block">{{ $t('create-new-task') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+        </form>
     </div>
 </template>
 

@@ -7,12 +7,12 @@
             :options="['table-striped']"
         >
             <template #actions>
-                <b-button @click="sendMessageToReportedUser()">place holder message</b-button>
+                <button @click="sendMessageToReportedUser()">place holder message</button>
             </template>
             <template #conversation="row">
                 <p>{{row.item.conversation}}</p>
                 <template v-if="row.item.conversation">
-                    <b-button @click="showConversation(row.item.conversation)"> placeholder show conversation</b-button>
+                    <button @click="showConversation(row.item.conversation)"> placeholder show conversation</button>
                 </template>
             </template>
         </BTable>

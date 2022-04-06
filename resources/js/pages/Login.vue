@@ -1,31 +1,29 @@
 <template>
     <div class="w-40 center">
         <h2>{{ $t('login') }}</h2>
-        <b-form @submit.prevent="submitLogin">
-            <b-form-group
-                :label="$t('username')"
-                label-for="username">
-                <b-form-input 
+        <form @submit.prevent="submitLogin">
+            <div class="form-group">
+                <label label-for="username">{{$t('username')}}</label>
+                <input 
                     id="username" 
                     v-model="login.username" 
                     type="text" 
-                    :placeholder="$t('username')"  />
+                    :placeholder="$t('username')" />
                 <base-form-error name="username" /> 
-            </b-form-group>
-            <b-form-group 
-                :label="$t('password')"
-                label-for="password">
-                <b-form-input  
+            </div>
+            <div class="form-group">
+                <label label-for="password">{{$t('password')}}</label>
+                <input  
                     id="password" 
                     v-model="login.password"
                     type="password" 
                     name="password" 
                     :placeholder="$t('password')" />
                 <base-form-error name="password" /> 
-            </b-form-group>
-            <b-button type="submit" block>{{ $t('login') }}</b-button>
+            </div>
+            <button type="submit" class="block">{{ $t('login') }}</button>
             <base-form-error name="error" /> 
-        </b-form> 
+        </form> 
     </div>
 </template>
 

@@ -8,7 +8,7 @@
             :options="['table-striped']"
         >
             <template #details="row">
-                <b-button @click="showReportedUserDetails(row)">placeholder details</b-button>
+                <button @click="showReportedUserDetails(row)">placeholder details</button>
             </template>
         </BTable>
         <BModal 

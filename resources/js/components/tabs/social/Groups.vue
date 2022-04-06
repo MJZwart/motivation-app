@@ -3,10 +3,10 @@
         <Loading v-if="loading" />
         <div v-else>
             <span class="d-flex">
-                <b-button type="button" class="m-1" @click="showMyGroups">{{ $t('my-groups') }}</b-button>
-                <b-button type="button" class="m-1" @click="showAllGroups">{{ $t('all-groups') }}</b-button>
+                <button type="button" class="m-1" @click="showMyGroups">{{ $t('my-groups') }}</button>
+                <button type="button" class="m-1" @click="showAllGroups">{{ $t('all-groups') }}</button>
                 <b-input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
-                <b-button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</b-button>
+                <button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</button>
             </span>
             <BTable
                 :items="filteredAllGroups"
