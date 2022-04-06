@@ -5,7 +5,7 @@
             <span class="d-flex">
                 <button type="button" class="m-1" @click="showMyGroups">{{ $t('my-groups') }}</button>
                 <button type="button" class="m-1" @click="showAllGroups">{{ $t('all-groups') }}</button>
-                <b-input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
+                <input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</button>
             </span>
             <BTable

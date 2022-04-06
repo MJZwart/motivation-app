@@ -2,6 +2,7 @@
     <div>
         <p class="task-title d-flex">
             <Tooltip :text="$t('complete-task')">
+                <FaIcon icon="fa-pen-to-square" />
                 <b-icon-check-square
                     :id="'complete-task-' + task.id"
                     class="icon small green"

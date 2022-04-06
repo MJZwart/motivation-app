@@ -46,10 +46,11 @@
 
 
 <script>
+import Tooltip from '../bootstrap/Tooltip.vue';
 import Task from './Task.vue';
 import Summary from '../summary/Summary.vue';
 export default {
-    components: {Task, Summary},
+    components: {Task, Summary, Tooltip},
     props: {
         taskList: {
             /** @type {import('resources/types/task').TaskList} */

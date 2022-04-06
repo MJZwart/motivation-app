@@ -20,6 +20,11 @@ Vue.use(BootstrapVue, {
     BButton: {variant: 'primary'},
 });
 
+//Font-awesome icons
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+Vue.component('FaIcon', FontAwesomeIcon);
+
 //Import vue-i18n translations
 import VueI18n from 'vue-i18n';
 Vue.use(VueI18n);
