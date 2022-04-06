@@ -51,8 +51,8 @@
                     <small class="form-text text-muted">{{$t('change-name-later')}}</small>
                     <base-form-error name="reward-object_name" /> 
                 </div>
-                <b-button block @click="nextModal()">{{ $t('next') }}</b-button>
-                <b-button block variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
+                <button class="block" @click="nextModal()">{{ $t('next') }}</button>
+                <button class="block" variant="danger" @click="logout()">{{ $t('logout')}}</button>
             </div>
         </BModal>
         <BModal :show="showSecondModal" :footer="false" :header="false">
@@ -92,9 +92,9 @@
                     
                 </div>
                 <div class="d-flex">
-                    <b-button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</b-button>
-                    <b-button @click="confirmSettings()">{{ $t('submit') }}</b-button>
-                    <b-button class="ml-auto" variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
+                    <button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</button>
+                    <button @click="confirmSettings()">{{ $t('submit') }}</button>
+                    <button class="ml-auto red" @click="logout()">{{ $t('logout')}}</button>
                 </div>
             </div>
         </BModal>

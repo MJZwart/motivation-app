@@ -65,7 +65,7 @@
                                         :placeholder="$t('type-your-reply')" />
                                     <base-form-error name="message" /> 
                                 </div>
-                                <b-button type="submit" block>{{ $t('send-reply') }}</b-button>
+                                <button type="submit" class="block">{{ $t('send-reply') }}</button>
                             </form>
                         </div>
                         <message v-for="message in activeConversation.messages" :key="message.id"

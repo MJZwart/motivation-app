@@ -218,6 +218,10 @@ button.clear {
     border: none;
 }
 
+.button.red {
+    background-color: $red;
+}
+
 .primary-text {
     color: $primary-text;
 }
