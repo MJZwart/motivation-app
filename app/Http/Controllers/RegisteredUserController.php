@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\AchievementHandler;
+use App\Helpers\ActionTrackingHandler;
 
 class RegisteredUserController extends Controller
 {
@@ -25,6 +26,7 @@ class RegisteredUserController extends Controller
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
+        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Deleting '.$request['rewardType'].' '.$request['id']);
         $successMessage = "You have successfully registered. You can now login with your chosen username.";
         return new JsonResponse(['message' => ['sucess' => [$successMessage]]], Response::HTTP_OK);
     }
@@ -64,6 +66,7 @@ class RegisteredUserController extends Controller
         $user->first_login = false;
         $user->save();
         $successMessage = "You have successfully set up your account.";
+        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'User finishes first login');
         return new JsonResponse(['message' => ['success' => [$successMessage]], 'user' => new UserResource(Auth::user())]);
     }
 
