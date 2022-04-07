@@ -6,6 +6,7 @@
                 <div class="task-lists">
                     <template v-for="(list, index) in taskLists" :key="index">
                         <task-list 
+                           
                             :taskList="list" 
                             class="task-list"
                             v-on:newTask="showNewTask"

@@ -53,7 +53,6 @@ export default defineConfig(({command}) => {
                 'vue',
                 'portal-vue',
                 'axios',
-                'bootstrap-vue',
                 'vue-i18n',
                 'vuex',
                 'vue-router',

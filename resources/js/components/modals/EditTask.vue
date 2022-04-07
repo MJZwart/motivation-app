@@ -38,8 +38,7 @@
                     type="range"
                     name="difficulty"
                     min="1"
-                    max="5"
-                    value="3" />
+                    max="5" />
                 <base-form-error name="difficulty" /> 
             </div>
             <div class="form-group">

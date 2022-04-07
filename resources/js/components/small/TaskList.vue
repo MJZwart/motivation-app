@@ -23,7 +23,7 @@
             <slot>
                 <template v-for="(task, index) in taskList.tasks" :key="task.id">
                     <Task 
-                        
+                       
                         :task="task" 
                         :class="taskClass(index)"
                         v-on:newTask="openNewTask"
