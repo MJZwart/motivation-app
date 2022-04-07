@@ -32,9 +32,9 @@ export default {
                 return Promise.resolve();
             });
         },
-        deleteNotification: ({commit, dispatch}, notificationId) => {
+        deleteNotification: ({commit}, notificationId) => {
             axios.delete('/notifications/' + notificationId).then(function(response) {
-                dispatch('sendToasts', response.data.message, {root:true});
+                commit('addToast', response.data.message, {root:true});
                 commit('setNotifications', response.data.data);
             });
         },

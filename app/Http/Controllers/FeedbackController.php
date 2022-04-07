@@ -14,6 +14,6 @@ class FeedbackController extends Controller
         $validated = $request->validated();
         Feedback::create($validated);
         ActionTrackingHandler::handleAction($request, 'FEEDBACK', 'Feedback sent');
-        return new JsonResponse(['message' => ['success' => ['Thank you for your feedback. We will contact you if we have any further questions or remarks.']]]);
+        return new JsonResponse(['message' => ['success' => 'Thank you for your feedback. We will contact you if we have any further questions or remarks.']]);
     }
 }

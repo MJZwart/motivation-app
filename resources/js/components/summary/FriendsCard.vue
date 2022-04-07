@@ -4,15 +4,20 @@
             <ul v-if="user.friends.length > 0" class="mb-1 no-list-style">
                 <li v-for="(friend, index) in user.friends" :key="index">
                     <span v-if="manage">
-                        <b-icon-person-x-fill :id="'remove-friend-' + index" class="icon small" @click="removeFriend(friend)" />
-                        <b-tooltip :target="'remove-friend-' + index">{{ $t('remove-friend') }}</b-tooltip>
+                        <Tooltip :text="$t('remove-friend')">
+                            <FaIcon 
+                                icon="fa-solid fa-user-plus"
+                                class="icon small"
+                                @click="removeFriend(friend)" />
+                        </Tooltip>
                     </span>
                     <span v-if="message">
-                        <b-icon-envelope 
-                            :id="'send-message-to-friend-' + index" 
-                            class="icon small" 
-                            @click="sendMessage(friend)" /> 
-                        <b-tooltip :target="'send-message-to-friend-' + index">{{ $t('send-message') }}</b-tooltip>
+                        <Tooltip :text="$t('send-message')">
+                            <FaIcon 
+                                icon="fa-solid fa-envelope"
+                                class="icon small"
+                                @click="sendMessage(friend)" />
+                        </Tooltip>
                     </span>
                     <router-link :to="{ name: 'profile', params: { id: friend.id}}">
                         {{friend.username}}
@@ -21,21 +26,23 @@
             </ul>
             <p v-else class="mb-1">{{ $t('no-friends') }}</p>
         </Summary>
-        <b-modal id="send-message" hide-footer hide-header>
+        <BModal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
             <SendMessage :user="friendToMessage" @close="closeSendMessageModal" />
-        </b-modal>
+        </BModal>
     </div>
 </template>
 
 
 <script>
+import Tooltip from '../bootstrap/Tooltip.vue';
 import {mapGetters} from 'vuex';
 import SendMessage from '../modals/SendMessage.vue';
 import Summary from './Summary.vue';
+import BModal from '../bootstrap/BModal.vue';
 
 export default {
     components: {
-        SendMessage, Summary,
+        SendMessage, Summary, BModal, Tooltip,
     },
     props: {
         manage: {
@@ -50,6 +57,7 @@ export default {
     data() {
         return {
             friendToMessage: null,
+            showSendMessageModal: false,
         }
     },
     methods: {
@@ -60,10 +68,10 @@ export default {
         },
         sendMessage(friend) {
             this.friendToMessage = friend;
-            this.$bvModal.show('send-message');
+            this.showSendMessageModal = true;
         },
         closeSendMessageModal() {
-            this.$bvModal.hide('send-message');
+            this.showSendMessageModal = false;
         },
     },
     computed: {

@@ -2,39 +2,61 @@
     <div>
         <h3>this is a placeholder title</h3>
         
-        <b-table
+        <BTable
             :items="reportedUsers"
             :fields="reportedUserFields"
-            class="reported-user-table"
-            striped
+            :options="['table-striped']"
         >
-            <template #cell(details)="row">
-                <b-button @click="row.toggleDetails">placeholder details</b-button>
+            <template #details="row">
+                <button @click="showReportedUserDetails(row)">placeholder details</button>
             </template>
-            <template #row-details="row">
-                <ReportedUserDetails :user="row.item" :index="row.index"/>
-            </template>
-        </b-table>
+        </BTable>
+        <BModal 
+            :show="showReportedUserDetailsModal" 
+            :footer="false" 
+            :title="reportedUserDetailsTitle" 
+            class="l"
+            @close="closeReportedUserDetails">
+            <ReportedUserDetails :user="reportedUserDetails" :index="reportedUserIndex" />
+            <!-- Ugly af -->
+        </BModal>
     </div>
 </template>
 
 <script>
+import BTable from '../../bootstrap/BTable.vue';
+import BModal from '../../bootstrap/BModal.vue';
 import {mapGetters} from 'vuex';
 import ReportedUserDetails from './components/ReportedUserDetails.vue';
 import {REPORTED_USER_FIELDS} from '../../../constants/reportedUserConstants.js';
 export default {
     components: {
-        ReportedUserDetails,
+        ReportedUserDetails, BTable, BModal,
+    },
+    data() {
+        return {
+            reportedUserDetails: null,
+            reportedUserIndex: null,
+            reportedUserFields: REPORTED_USER_FIELDS,
+            reportedUserDetailsTitle: null,
+            showReportedUserDetailsModal: false,
+        }
     },
     computed: {
         ...mapGetters({
             reportedUsers: 'admin/getReportedUsers',
         }),
     },
-    data() {
-        return {
-            reportedUserFields: REPORTED_USER_FIELDS,
-        }
+    methods: {
+        showReportedUserDetails({item, index}) {
+            this.reportedUserDetails = item;
+            this.reportedUserIndex = index;
+            this.reportedUserDetailsTitle = item.username;
+            this.showReportedUserDetailsModal = true;
+        },
+        closeReportedUserDetails() {
+            this.showReportedUserDetailsModal = false;
+        },
     },
 }
 </script>

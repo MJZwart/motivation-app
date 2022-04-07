@@ -1,21 +1,20 @@
 <template>
     <div>
         <h5>{{ sendMessageTitle }}</h5>
-        <b-form @submit.prevent="sendMessage">
-            <b-form-group
-                :label="$t('message')" 
-                label-for="message">
-                <b-form-textarea 
+        <form @submit.prevent="sendMessage">
+            <div class="form-group">
+                <label for="message">{{$t('message')}}</label>
+                <textarea 
                     id="message" 
                     v-model="message.message"
                     name="message" 
                     rows=3
                     :placeholder="$t('send-message-placeholder')"  />
                 <base-form-error name="message" /> 
-            </b-form-group>
-            <b-button type="submit" block>{{ $t('send-message') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
-        </b-form>
+            </div>
+            <button type="submit" class="block">{{ $t('send-message') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+        </form>
     </div>
 </template>
 

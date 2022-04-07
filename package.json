@@ -5,7 +5,6 @@
         "build": "vite build",
         "dev": "npm run development",
         "prod": "npm run production",
-        "preinstall": "npx npm-force-resolutions",
         "lint": "eslint \"resources/js/**/*.{js,vue}\" --fix --cache"
     },
     "devDependencies": {
@@ -33,17 +32,15 @@
     "dependencies": {
         "@vitejs/plugin-vue": "^2.2.4",
         "@vue/compat": "^3.2.31",
-        "bootstrap": "^4.6.1",
-        "bootstrap-vue": "^2.21.2",
-        "bootstrap-vue-editable-table": "^0.1.2-beta.4",
+        "@fortawesome/fontawesome-svg-core": "^6.1.1",
+        "@fortawesome/free-regular-svg-icons": "^6.1.1",
+        "@fortawesome/free-solid-svg-icons": "^6.1.1",
+        "@fortawesome/vue-fontawesome": "^2.0.6",
         "portal-vue": "^2.1.7",
         "prettier": "^2.5.1",
         "vue": "^3.1.0",
         "vue-i18n": "^8.27.0",
         "vue-router": "^4.0.14",
         "vuex": "^4.0.2"
-    },
-    "resolutions": {
-        "ansi-regex": "5.0.1"
     }
 }

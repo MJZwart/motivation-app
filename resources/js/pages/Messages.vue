@@ -3,82 +3,85 @@
         <Loading v-if="loading" />
         <div v-else>
             <h3>{{ $t('messages') }}</h3>
-            <b-container class="message-page">
+            <div class="container message-page">
                 <div v-if="emptyInbox">
                     {{ $t('no-messages') }}
                 </div>
-                <div v-else>
-                    <b-row>
-                        <b-col class="conversations">
-                            <h5>{{ $t('conversations') }}</h5>
-                            <div>
-                                <div v-for="(conversation, index) in conversations" :key="conversation.id" 
-                                     :class="getConversationClass(conversation.id)"
-                                     @click="switchActiveConversation(index)">
-                                    <span class="d-flex">
-                                        <h6 class="mt-1 ml-2">{{conversation.recipient.username}}</h6>
-                                        <span v-if="hasUnreadMessages(conversation)" class="ml-auto">
-                                            <strong>{{ $t('unread') }}</strong>
-                                        </span>
-                                    </span>
-                                    <p><strong>{{getSender(conversation.last_message)}}</strong>
-                                        {{limitMessage(conversation.last_message.message)}}
-                                    </p>
-                                    <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
-                                </div> 
-                            </div>
-                        </b-col>
-                        <b-col v-if="activeConversation" cols="8" class="m-1">
-                            <h5 class="d-flex">{{ $t('conversation-with') }}&nbsp;
-                                <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
-                                    {{activeConversation.recipient.username}}
-                                </router-link>
-                                <span class="ml-auto">
-                                    <b-dropdown no-caret right variant="link">
-                                        <template #button-content>
-                                            <b-icon-three-dots-vertical class="icon" />
-                                        </template>
-                                        <b-dropdown-item :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
-                                            {{ $t('go-to-profile') }}
-                                        </b-dropdown-item>
-                                        <b-dropdown-item @click="addFriend(activeConversation.recipient)">
-                                            {{ $t('add-friend') }}
-                                        </b-dropdown-item>
-                                        <b-dropdown-item @click="blockUser(activeConversation.recipient)">
-                                            {{ $t('block-user') }}
-                                        </b-dropdown-item>
-                                        <b-dropdown-item @click="reportUser(activeConversation)">
-                                            {{ $t('report') }}
-                                        </b-dropdown-item>
-                                    </b-dropdown>
+                <div v-else class="row">
+                    <div class="conversations col">
+                        <h5>{{ $t('conversations') }}</h5>
+                        <div v-for="(conversation, index) in conversations" :key="conversation.id" 
+                             :class="['conversation', 'clickable', activeConversation.id == conversation.id ? 'active': '']"
+                             @click="switchActiveConversation(index)">
+                            <span class="d-flex">
+                                <h6 class="mt-1 ml-2">{{conversation.recipient.username}}</h6>
+                                <span v-if="hasUnreadMessages(conversation)" class="ml-auto">
+                                    <strong>{{ $t('unread') }}</strong>
                                 </span>
-                            </h5>
-                            <div class="new-message mb-3">
-                                <b-form @submit.prevent="sendMessage">
-                                    <b-form-group>
-                                        <b-form-textarea 
-                                            id="message" 
-                                            v-model="message.message"
-                                            name="message" 
-                                            rows=3
-                                            :placeholder="$t('type-your-reply')" />
-                                        <base-form-error name="message" /> 
-                                    </b-form-group>
-                                    <b-button type="submit" block>{{ $t('send-reply') }}</b-button>
-                                </b-form>
-                            </div>
-                            <message v-for="message in activeConversation.messages" :key="message.id"
-                                     :message="message" @deleteMessage="deleteMessage"
-                            />
-                            
-                        </b-col>
-                    </b-row>
+                            </span>
+                            <p><strong>{{getSender(conversation.last_message)}}</strong>
+                                {{limitMessage(conversation.last_message.message)}}
+                            </p>
+                            <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
+                        </div>
+                    </div>
+                    <div v-if="activeConversation" class="col-8 m-1">
+                        <h5 class="d-flex">{{ $t('conversation-with') }}&nbsp;
+                            <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
+                                {{activeConversation.recipient.username}}
+                            </router-link>
+                            <span class="ml-auto">
+                                <Dropdown>
+                                    <section class="option">
+                                        <button>
+                                            <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
+                                                {{ $t('go-to-profile') }}
+                                            </router-link>
+                                        </button>
+                                    </section>
+                                    <section class="option">
+                                        <button @click="addFriend(activeConversation.recipient)">
+                                            {{ $t('add-friend') }}
+                                        </button>
+                                    </section>
+                                    <section class="option">
+                                        <button @click="blockUser(activeConversation.recipient)">
+                                            {{ $t('block-user') }}
+                                        </button>
+                                    </section>
+                                    <section class="option">
+                                        <button @click="reportUser(activeConversation)">
+                                            {{ $t('report') }}
+                                        </button>
+                                    </section>
+                                </Dropdown>
+                            </span>
+                        </h5>
+                        <div class="new-message mb-3">
+                            <form @submit.prevent="sendMessage">
+                                <div class="form-group">
+                                    <textarea 
+                                        id="message" 
+                                        v-model="message.message"
+                                        name="message" 
+                                        rows=3
+                                        :placeholder="$t('type-your-reply')" />
+                                    <base-form-error name="message" /> 
+                                </div>
+                                <button type="submit" class="block">{{ $t('send-reply') }}</button>
+                            </form>
+                        </div>
+                        <message v-for="message in activeConversation.messages" :key="message.id"
+                                 :message="message" @deleteMessage="deleteMessage"
+                        />
+                        
+                    </div>
                 </div>
-            </b-container>
+            </div>
             
-            <b-modal id="report-user" hide-footer hide-header>
+            <BModal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userToReport" :conversation_id="conversationToReport" @close="closeReportUserModal" />
-            </b-modal>
+            </BModal>
         </div>
     </div>
 </template>
@@ -89,6 +92,8 @@ import {mapGetters} from 'vuex';
 import Message from '../components/small/Message.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
+import BModal from '../components/bootstrap/BModal.vue';
+import Dropdown from '../components/bootstrap/Dropdown.vue';
 
 export default {
     components: {
@@ -96,6 +101,8 @@ export default {
         Message,
         ReportUser,
         Loading,
+        BModal,
+        Dropdown,
     },
     data() {
         return {
@@ -107,6 +114,7 @@ export default {
             conversationToReport: '',
             loading: true,
             emptyInbox: true,
+            showReportUserModal: false,
         }
     },
     mounted() {
@@ -194,10 +202,10 @@ export default {
         reportUser(conversation) {
             this.userToReport = conversation.recipient;
             this.conversationToReport = conversation.conversation_id;
-            this.$bvModal.show('report-user');
+            this.showReportUserModal = true;
         },
         closeReportUserModal() {
-            this.$bvModal.hide('report-user');
+            this.showReportUserModal = false;
             this.userToReport = {};
             this.conversationToReport = '';
         },

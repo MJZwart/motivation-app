@@ -52,7 +52,7 @@ class AdminController extends Controller
         $experiencePoints = ExperiencePoint::get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
         return new JsonResponse(
-            ['message' => ['success' => ['Experience points updated']], 'data' => $experiencePoints], 
+            ['message' => ['success' => 'Experience points updated'], 'data' => $experiencePoints], 
             Response::HTTP_OK);
     }
 
@@ -62,7 +62,7 @@ class AdminController extends Controller
         $experiencePoints = ExperiencePoint::get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
         return new JsonResponse(
-            ['message' => ['success' => ['Level added']], 'data' => $experiencePoints], 
+            ['message' => ['success' => 'Level added'], 'data' => $experiencePoints], 
             Response::HTTP_OK);
     }
 
@@ -72,7 +72,7 @@ class AdminController extends Controller
         $characterExpGain = DB::table('character_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
         return new JsonResponse(
-            ['message' => ['success' => ['Character experience balancing updated']], 'data' => $characterExpGain], 
+            ['message' => ['success' => 'Character experience balancing updated'], 'data' => $characterExpGain], 
             Response::HTTP_OK);
     }
 
@@ -82,7 +82,7 @@ class AdminController extends Controller
         $villageExpGain = DB::table('village_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
         return new JsonResponse(
-            ['message' => ['success' => ['Village experience balancing updated']], 'data' => $villageExpGain], 
+            ['message' => ['success' => 'Village experience balancing updated'], 'data' => $villageExpGain], 
             Response::HTTP_OK);
     }
     

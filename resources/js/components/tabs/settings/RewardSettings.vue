@@ -6,114 +6,112 @@
         <div v-else>
             <h5>{{ $t('manage-rewards') }}</h5>
             <div>
-                <b-table
+                <BTable
                     :items="rewardItems"
                     :fields="rewardFields">
-                    <template #cell(active)="item">
+                    <template #active="item">
                         {{ item.item.active ? 'Yes' : 'No' }}
                     </template>
-                    <template #cell(actions)="item">
-                        <b-icon-pencil-square :id="'edit-item-' + item.index" class="icon" @click="showEditReward(item.item)" />
-                        <b-tooltip :target="'edit-item-' + item.index">
-                            {{ $t('change-name') }}
-                        </b-tooltip>
-                        <b-icon-play-circle 
-                            v-if="!item.item.active" 
-                            :id="'activate-item-' + item.index" 
-                            class="icon" 
-                            @click="activateReward(item.item)" />
-                        <b-tooltip v-if="!item.item.active" :target="'activate-item-' + item.index">
-                            {{ $t('activate') }}
-                        </b-tooltip>
-                        <b-icon-trash
-                            v-if="!item.item.active" 
-                            :id="'delete-item-' + item.index"
-                            class="icon small red"
-                            @click="deleteItem(item.item)" />
-                        <b-tooltip v-if="!item.item.active"  :target="'delete-item-' + item.index">
-                            {{ $t('delete') }}
-                        </b-tooltip>
+                    <template #actions="item">
+                        <Tooltip :text="$t('change-name')">
+                            <FaIcon 
+                                icon="fa-regular fa-pen-to-square"
+                                class="icon"
+                                @click="showEditReward(item.item)" />
+                        </Tooltip>
+                        <Tooltip v-if="!item.item.active"  :text="$t('activate')">
+                            <FaIcon 
+                                icon="fa-regular fa-play-circle"
+                                class="icon"
+                                @click="activateReward(item.item)" />
+                        </Tooltip>
+                        <Tooltip v-if="!item.item.active"  :text="$t('delete')">
+                            <FaIcon 
+                                icon="fa-solid fa-trash"
+                                class="icon small red"
+                                @click="deleteItem(item.item)" />
+                        </Tooltip>
                     </template>
-                </b-table>
+                </BTable>
             </div>
             
             <h5>{{ $t('change-reward-settings') }}</h5>
             <!-- Pick a reward type -->
-            <b-form-group
-                :label="$t('which-reward-type')"
-                label-for="rewards">
-                <b-form-radio-group 
-                    v-model="rewardSetting.rewards"
-                    name="rewards" 
-                    stacked
-                    :options="rewardTypes">
-                    <base-form-error name="rewards" /> 
-                </b-form-radio-group>
+            <div class="form-group">
+                <label for="rewards">{{$t('which-reward-type')}}</label>
+                <div v-for="(type, index) in rewardTypes" :key="index">
+                    <input :id="type.value" v-model="rewardSetting.rewards" name="rewards" type="radio" :value="type.value" />
+                    <label :for="type.value">{{type.text}}</label>
+                </div>
+                <base-form-error name="rewards" /> 
                 <hr />
-            </b-form-group>
+            </div>
         
             <!-- If the user clicks 'Character' -->
-            <b-form-group
-                v-if="rewardSetting.rewards == 'CHARACTER'"
-                :label="$t('activate-or-new')"
-                label-for="character-option">
-                <b-form-radio-group 
-                    v-model="rewardSetting.keepOldInstance" 
-                    name="character-option" 
-                    :options="characterOptions"
-                    stacked>
+            <div v-if="rewardSetting.rewards == 'CHARACTER'" class="form-group">
+                <label for="character-option">{{$t('activate-or-new')}}</label>
+                <div v-for="(option, index) in characterOptions" :key="index">
+                    <input 
+                        :id="option.value + 'char'" 
+                        v-model="rewardSetting.keepOldInstance" 
+                        name="character-option" 
+                        type="radio" 
+                        :value="option.value" />
+                    <label :for="option.value + 'char'">{{option.text}}</label>
                     <base-form-error name="keepOldInstance" /> 
-                </b-form-radio-group>
+                </div>
                 <hr />
-            </b-form-group>
+            </div>
 
             <!-- Or if the user clicks 'Village' -->
-            <b-form-group
-                v-if="rewardSetting.rewards == 'VILLAGE'"
-                :label="$t('activate-or-new-village')"
-                label-for="village-option">
-                <b-form-radio-group 
-                    v-model="rewardSetting.keepOldInstance"
-                    name="village-option" 
-                    :options="villageOptions"
-                    stacked >
+            <div v-if="rewardSetting.rewards == 'VILLAGE'" class="form-group">
+                <label for="village-option">{{$t('activate-or-new-village')}}</label>
+                <div v-for="(option, index) in villageOptions" :key="index">
+                    <input 
+                        :id="option.value + 'vill'" 
+                        v-model="rewardSetting.keepOldInstance" 
+                        name="village-option" 
+                        type="radio" 
+                        :value="option.value" />
+                    <label :for="option.value + 'vill'">{{option.text}}</label>
                     <base-form-error name="keepOldInstance" /> 
-                </b-form-radio-group>
+                </div>
                 <hr />
-            </b-form-group>
+            </div>
 
             <!-- If the user wants to create a new instance -->
-            <b-form-group
-                v-if="isNewInstance"
-                :label="rewardTypeName"
-                label-for="new-object-name">
+            <div v-if="isNewInstance" class="form-group">
+                <label for="new-object-name">{{rewardTypeName}}</label>
                 <p class="silent">{{ $t('change-name-later') }}</p>
-                <b-form-input 
+                <input 
                     id="new-object-name" 
                     v-model="rewardSetting.new_object_name"
                     type="text" 
                     name="new-object-name" 
                     :placeholder="rewardTypeName"   />
                 <base-form-error name="new_object_name" /> 
-            </b-form-group>
-            <b-button block @click="confirmRewardsSettings()">{{ $t('save-settings') }}</b-button>
+            </div>
+            <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
 
         
-        <b-modal id="edit-reward-name" hide-footer :title="$t('edit-reward-name')">
+        <BModal :show="showEditRewardNameModal" :footer="false" :title="$t('edit-reward-name')" @close="closeEditReward">
             <EditRewardObjectName :rewardObj="rewardToEdit" :type="rewardType" @close="closeEditReward" />
-        </b-modal>
+        </BModal>
     </div>
 </template>
 
 <script>
+import Tooltip from '../../bootstrap/Tooltip.vue';
 import {mapGetters} from 'vuex';
 import {REWARD_TYPES, REWARD_FIELDS} from '../../../constants/rewardConstants';
 import BaseFormError from '../../BaseFormError.vue';
 import Loading from '../../Loading.vue';
 import EditRewardObjectName from '../../modals/EditRewardObjectName.vue';
+import BTable from '../../bootstrap/BTable.vue';
+import BModal from '../../bootstrap/BModal.vue';
 export default {
-    components: {BaseFormError, Loading, EditRewardObjectName},
+    components: {BaseFormError, Loading, EditRewardObjectName, BModal, BTable, Tooltip},
     data() {
         return {
             rewardSetting: {
@@ -125,6 +123,7 @@ export default {
             loading: true,
             rewardToEdit: null,
             rewardType: null,
+            showEditRewardNameModal: false,
         }
     },
     computed: {
@@ -187,10 +186,10 @@ export default {
             this.$store.dispatch('clearErrors');
             this.rewardToEdit = instance;
             this.rewardType = instance.type.toUpperCase()
-            this.$bvModal.show('edit-reward-name');
+            this.showEditRewardNameModal = true;
         },
         closeEditReward() {
-            this.$bvModal.hide('edit-reward-name');
+            this.showEditRewardNameModal = false;
             this.load();
         },
         activateReward(instance) {

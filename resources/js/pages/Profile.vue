@@ -5,16 +5,32 @@
             <div class="right-column">
                 <h2>{{userProfile.username}}</h2>
                 <div v-if="notLoggedUser" class="d-flex">
-                    <b-icon-envelope id="message-user" class="icon small" @click="sendMessage" />
-                    <b-tooltip target="message-user">{{ $t('message-user') }}</b-tooltip>
-                    <span v-if="!isConnection">
-                        <b-icon-person-plus-fill id="send-friend-request" class="icon small" @click="sendFriendRequest" />
-                        <b-tooltip target="send-friend-request">{{ $t('send-friend-request') }}</b-tooltip>
-                    </span>
-                    <b-icon-dash-circle id="block-user" class="icon small red" @click="blockUser" />
-                    <b-tooltip target="block-user">{{ $t('block-user') }}</b-tooltip>
-                    <b-icon-exclamation-circle id="report-user" class="icon small red" @click="reportUser" />
-                    <b-tooltip target="report-user">{{ $t('report-user') }}</b-tooltip>
+                    <Tooltip :text="$t('message-user')">
+                        <FaIcon 
+                            icon="fa-solid fa-envelope"
+                            class="icon small"
+                            @click="sendMessage" />
+                    </Tooltip>
+                    <!-- <span v-if="!isConnection"> -->
+                        <Tooltip :text="$t('send-friend-request')">
+                            <FaIcon 
+                                icon="fa-solid fa-user-plus"
+                                class="icon small"
+                                @click="sendFriendRequest" />
+                        </Tooltip>
+                    <!-- </span> -->
+                    <Tooltip :text="$t('block-user')">
+                        <FaIcon 
+                            icon="fa-solid fa-ban"
+                            class="icon small red"
+                            @click="blockUser" />
+                    </Tooltip>
+                    <Tooltip :text="$t('report-user')">
+                        <FaIcon 
+                            icon="fa-regular fa-flag"
+                            class="icon small red"
+                            @click="reportUser" />
+                    </Tooltip>
                 </div>
                 <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
                 <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" />
@@ -25,12 +41,12 @@
                             :rewardType="userProfile.rewardObj.rewardType" />
                 <FriendsCard :manage="false" :message="false" />
             </div>
-            <b-modal id="send-message-profile" hide-footer hide-header>
+            <BModal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />
-            </b-modal>
-            <b-modal id="report-user" hide-footer hide-header>
+            </BModal>
+            <BModal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userProfile" @close="closeReportUserModal" />
-            </b-modal>
+            </BModal>
         </div>
 
     </div>
@@ -38,6 +54,7 @@
 
 
 <script>
+import Tooltip from '../components/bootstrap/Tooltip.vue';
 import {mapGetters} from 'vuex';
 import AchievementsCard from '../components/summary/AchievementsCard.vue';
 import RewardCard from '../components/summary/RewardCard.vue';
@@ -45,9 +62,10 @@ import SendMessage from '../components/modals/SendMessage.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
 import FriendsCard from '../components/summary/FriendsCard.vue';
+import BModal from '../components/bootstrap/BModal.vue';
 
 export default {
-    components: {RewardCard, AchievementsCard, ReportUser, Loading, FriendsCard, SendMessage},
+    components: {RewardCard, AchievementsCard, ReportUser, Loading, FriendsCard, SendMessage, BModal, Tooltip},
     beforeRouteUpdate(to, from, next) {
         this.$store.dispatch('user/getUserProfile', to.params.id);
         next();
@@ -55,6 +73,8 @@ export default {
     data() {
         return {
             loading: true,
+            showSendMessageModal: false,
+            showReportUserModal: false,
         }
     },
     mounted() {
@@ -83,16 +103,16 @@ export default {
             this.$store.dispatch('friend/sendRequest', this.$route.params.id);
         },
         sendMessage() {
-            this.$bvModal.show('send-message-profile');
+            this.showSendMessageModal = true;
         },
         closeSendMessageModal() {
-            this.$bvModal.hide('send-message');
+            this.showSendMessageModal = false;
         },
         reportUser() {
-            this.$bvModal.show('report-user');
+            this.$showReportUserModal = true;
         },
         closeReportUserModal() {
-            this.$bvModal.hide('report-user');
+            this.showReportUserModal = false;
         },
         blockUser() {
             if (confirm(this.$t('block-user-confirmation', {user: this.userProfile.username}))) {

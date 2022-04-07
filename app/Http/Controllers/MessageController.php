@@ -27,7 +27,7 @@ class MessageController extends Controller
         /** @var User */
         $user = Auth::user();
         if($user->isBlocked($request['recipient_id'])){
-            return new JsonResponse(['message' => ['You are unable to send messages to this user.']], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse(['message' => ['error' => 'You are unable to send messages to this user.']], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         $validated = $request->validated();
         $validated['sender_id'] = $user->id;
@@ -40,7 +40,7 @@ class MessageController extends Controller
         $message->conversation->touch();
         ActionTrackingHandler::handleAction($request, 'STORE_MESSAGE', 'Sending message');
 
-        return new JsonResponse(['message' => ['success' => ['Message sent.']], 'data' => ConversationOverviewResource::collection(
+        return new JsonResponse(['message' => ['success' => 'Message sent.'], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
     }
 
@@ -76,7 +76,7 @@ class MessageController extends Controller
         $user = Auth::user();
         $this->makeMessageInvisibleToUser($message, $user->id);
         ActionTrackingHandler::handleAction($request, 'DELETE_MESSAGE', 'Deleting message');
-        return new JsonResponse(['message' => ['success' => ['Message deleted.']], 'data' => ConversationOverviewResource::collection(
+        return new JsonResponse(['message' => ['success' => 'Message deleted.'], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
     }
 
@@ -89,7 +89,7 @@ class MessageController extends Controller
         ]);
         $this->makeConversationInvisible($user, $blockedUser);
         ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user '.$blockedUser->username);
-        return new JsonResponse(['message' => ['success' => ['User blocked.']], 'data' => ConversationOverviewResource::collection(
+        return new JsonResponse(['message' => ['success' => 'User blocked.'], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
     }
 

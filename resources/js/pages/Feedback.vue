@@ -6,39 +6,36 @@
         <p>{{ $t('feedback-features') }}</p>
         <b>{{ $t('feedback-accessibility-header') }}</b>
         <p>{{ $t('feedback-accessibility') }}</p>
-        <b-form @submit.prevent="sendFeedback">
-            <b-form-group
-                :label="$t('type')"
-                label-for="type" >
-                <b-form-select
+        <form @submit.prevent="sendFeedback">
+            <div class="form-group">
+                <label for="type">{{$t('type')}}</label>
+                <select
                     id="type" 
                     v-model="feedback.type" 
-                    name="type"
-                    :options="feedbackTypes" />
+                    name="type">
+                    <option v-for="(option, index) in feedbackTypes" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <BaseFormError name="type" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('feedback')"
-                label-for="feedback">
-                <b-form-textarea
+            </div>
+            <div class="form-group">
+                <label for="feedback">{{$t('feedback')}}</label>
+                <textarea
                     id="feedback" 
                     v-model="feedback.text" 
                     rows="4"
                     name="feedback" />
                 <BaseFormError name="feedback" /> 
-            </b-form-group>
-            <b-form-group
-                v-if="!auth"
-                :label="$t('email')"
-                label-for="email">
-                <b-form-input
+            </div>
+            <div v-if="!auth" class="form-group">
+                <label for="email">{{$t('email')}}</label>
+                <input
                     id="email" 
                     v-model="feedback.email" 
                     name="email" />
                 <BaseFormError name="email" /> 
-            </b-form-group>
-            <b-button type="submit">Send feedback</b-button>
-        </b-form>
+            </div>
+            <button type="submit">Send feedback</button>
+        </form>
     </div>
 </template>
 

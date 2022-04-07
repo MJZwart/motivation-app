@@ -28,7 +28,7 @@ class RegisteredUserController extends Controller
         User::create($validated);
         ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Deleting '.$request['rewardType'].' '.$request['id']);
         $successMessage = "You have successfully registered. You can now login with your chosen username.";
-        return new JsonResponse(['message' => ['sucess' => [$successMessage]]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['sucess' => $successMessage]], Response::HTTP_OK);
     }
 
     /**
@@ -67,7 +67,7 @@ class RegisteredUserController extends Controller
         $user->save();
         $successMessage = "You have successfully set up your account.";
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'User finishes first login');
-        return new JsonResponse(['message' => ['success' => [$successMessage]], 'user' => new UserResource(Auth::user())]);
+        return new JsonResponse(['message' => ['success' => $successMessage], 'user' => new UserResource(Auth::user())]);
     }
 
     /**

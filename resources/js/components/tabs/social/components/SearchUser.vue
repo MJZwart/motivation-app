@@ -2,63 +2,73 @@
     <div>
         <!-- The search bar -->
         <form class="navbar-search mb-3">
-            <b-form-input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
-            <b-button type="submit" @click="searchUser">{{ $t('search') }}</b-button>
+            <input 
+                v-model="data.userSearch" 
+                type="search" 
+                :placeholder="$t('search-user')" 
+                aria-label="Search user" />
+            <button type="submit" @click="searchUser">{{ $t('search') }}</button>
         </form>
 
         <!-- The search results -->
         <div v-if="searchResults && searchResults[0]">
             <h3>{{ $t('search-results') }}:</h3>
-            <b-table
+            <BTable
                 :items="searchResults"
                 :fields="searchResultsFields"
-                small hover
-            >
-                <template #cell(username)="item">
+                :options="['table-sm', 'table-striped', 'table-hover']">
+                <template #username="item">
                     <router-link :to="{ name: 'profile', params: { id: item.item.id}}">{{item.item.username}}</router-link>
                 </template>
-                <template #cell(actions)="item">
-                    <b-icon-envelope 
-                        :id="'send-message-to-user-' + item.index" 
-                        class="icon small" 
-                        @click="sendMessage(item.item)" /> 
-                    <b-tooltip :target="'send-message-to-user-' + item.index">{{ $t('send-message') }}</b-tooltip>
+                <template #actions="item">
+                    <Tooltip :text="$t('send-message')">
+                        <FaIcon 
+                            icon="fa-solid fa-envelope"
+                            class="icon small"
+                            @click="sendMessage(item.item)" />
+                    </Tooltip>
                     <span v-if="!isConnection(item.item.id)">
-                        <b-icon-person-plus-fill 
-                            :id="'send-friend-request-' + item.index"
-                            class="icon small" 
-                            @click="sendFriendRequest(item.item.id)" />
-                        <b-tooltip :target="'send-friend-request-' + item.index">{{ $t('send-friend-request') }}</b-tooltip>
+                        <Tooltip :text="$t('send-friend-request')">
+                            <FaIcon 
+                                icon="fa-solid fa-envelope"
+                                class="icon small"
+                                @click="sendMessage(item.item)" />
+                            <FaIcon 
+                                icon="fa-solid fa-user-plus"
+                                class="icon small"
+                                @click="sendFriendRequest(item.item.id)" />
+                        </Tooltip>
                     </span>
                 </template>
-            </b-table>
+            </BTable>
         </div>
-        <b-modal id="send-message-search" hide-footer hide-header>
+        <BModal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
             <SendMessage :user="userToMessage" @close="closeSendMessageModal" />
-        </b-modal>
+        </BModal>
     </div>
 </template>
 
 
 <script>
+import Tooltip from '../../../bootstrap/Tooltip.vue';
+import BTable from '../../../bootstrap/BTable.vue';
 import {mapGetters} from 'vuex';
 import {SEARCH_RESULTS_FIELDS} from '../../../../constants/userConstants.js';
 import SendMessage from '../../../modals/SendMessage.vue';
+import BModal from '../../../bootstrap/BModal.vue';
 export default {
     components: {
-        SendMessage,
+        SendMessage, BModal, BTable, Tooltip,
     },
     data() {
         return {
             data: {
                 userSearch: '',
             },
-            searchResultsFields: null,
+            searchResultsFields: SEARCH_RESULTS_FIELDS,
             userToMessage: null,
+            showSendMessageModal: false,
         }
-    },
-    mounted() {
-        this.searchResultsFields = SEARCH_RESULTS_FIELDS;
     },
     methods: {
         /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
@@ -80,10 +90,10 @@ export default {
         },
         sendMessage(user) {
             this.userToMessage = user;
-            this.$bvModal.show('send-message-search');
+            this.showSendMessageModal= true;
         },
         closeSendMessageModal() {
-            this.$bvModal.hide('send-message-search');
+            this.showSendMessageModal = false;
         },
     },
     computed: {

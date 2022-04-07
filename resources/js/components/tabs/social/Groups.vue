@@ -3,43 +3,42 @@
         <Loading v-if="loading" />
         <div v-else>
             <span class="d-flex">
-                <b-button type="button" class="m-1" @click="showMyGroups">{{ $t('my-groups') }}</b-button>
-                <b-button type="button" class="m-1" @click="showAllGroups">{{ $t('all-groups') }}</b-button>
-                <b-input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
-                <b-button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</b-button>
+                <button type="button" class="m-1" @click="showMyGroups">{{ $t('my-groups') }}</button>
+                <button type="button" class="m-1" @click="showAllGroups">{{ $t('all-groups') }}</button>
+                <input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
+                <button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</button>
             </span>
-            <b-table
+            <BTable
                 :items="filteredAllGroups"
                 :fields="groupFields"
-                class="groups-table"
-                striped
-                show-empty
-            >
+                :options="['table-striped']">
+                <template #details="row">
+                    <button class="primary" @click="showGroupsDetails(row.item)">{{ $t('show-details') }}</button>
+                </template>
                 <template #empty>
                     {{ $t('no-groups-found') }}
                 </template>
-                <template #cell(details)="row">
-                    <b-button @click="row.toggleDetails">{{ $t('show-details') }}</b-button>
-                </template>
-                <template #row-details="row">
-                    <GroupDetails :group="row.item" :user="user" @reloadGroups="load" />
-                </template>
-            </b-table>
-            <b-modal id="create-group" hide-footer :title="$t('create-group')">
+            </BTable>
+            <BModal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
-            </b-modal>
+            </BModal>
+            <BModal class="l" :show="showGroupDetailsModal" :footer="false" :title="groupDetailsTitle" @close="closeGroupDetails">
+                <GroupDetails :group="groupDetailsItem" :user="user" @close="closeGroupDetails" @reloadGroups="load" />
+            </BModal>
         </div>
     </div>
 </template>
 
 <script>
+import BTable from '../../bootstrap/BTable.vue';
 import CreateGroup from '../../modals/CreateGroup.vue'
 import GroupDetails from '../../small/GroupDetails.vue';
 import {mapGetters} from 'vuex';
 import Loading from '../../Loading.vue';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../../../constants/groupConstants.js';
+import BModal from '../../bootstrap/BModal.vue';
 export default {
-    components: {CreateGroup, GroupDetails, Loading},
+    components: {CreateGroup, GroupDetails, Loading, BModal, BTable},
     computed: {
         ...mapGetters({
             myGroups: 'groups/getMyGroups',
@@ -62,6 +61,10 @@ export default {
             loading: true,
             groupFields: null,
             chosen: '',
+            showCreateGroupModal: false,
+            showGroupDetailsModal: false,
+            groupDetailsItem: null,
+            groupDetailsTitle: null,
         }
     },
     methods: {
@@ -85,10 +88,18 @@ export default {
         },
         createGroup() {
             this.$store.dispatch('clearErrors');
-            this.$bvModal.show('create-group');
+            this.showCreateGroupModal = true;
         },
         closeCreateGroup() {
-            this.$bvModal.hide('create-group');
+            this.showCreateGroupModal = false;
+        },
+        showGroupsDetails(group) {
+            this.groupDetailsItem = group;
+            this.groupDetailsTitle = group.name;
+            this.showGroupDetailsModal = true;
+        },
+        closeGroupDetails() {
+            this.showGroupDetailsModal = false;
         },
     },
 }

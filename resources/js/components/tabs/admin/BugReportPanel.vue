@@ -2,47 +2,59 @@
     <div>
         <h3>{{ $t('bug-report-panel-title') }}</h3>
 
-        <b-table
+        <BTable
             :items="bugReports"
             :fields="bugSortables"
-            :sort-by.sync="currentSort"
-            :sort-desc.sync="currentSortDesc"
-            hover small responsive
+            :sort="currentSort"
+            :sortAsc="!currentSortDesc"
+            :options="['table-hover', 'table-sm', 'table-responsive', 'table-striped']"
             class="font-sm">
-            <template #cell(severity)="data">
+            <template #severity="data">
                 <span class="severity">{{ data.item.severity }}</span>
             </template>
-            <template #cell(status)="data">
+            <template #status="data">
                 {{ parseStatus(data.item.status) }}
             </template>
-            <template #cell(actions)="data">
-                <b-icon-pencil-square 
+            <template #actions="data">
+                <FaIcon 
+                    icon="fa-regular fa-pen-to-square"
                     class="icon medium"
-                    @click="editBugReport(data.item)" /> 
-                <b-icon-envelope class="icon medium" @click="sendMessageToBugReportAuthor(data.item.user_id)" /> 
+                    @click="editBugReport(data.item)" />
+                <FaIcon 
+                    icon="fa-solid fa-envelope"
+                    class="icon medium"
+                    @click="sendMessageToBugReportAuthor(data.item.user_id)" />
             </template>
-        </b-table>
+        </BTable>
 
-        <b-modal id="edit-bug-report" hide-footer :title="$t('edit-bug-report')">
+        <BModal :show="showEditBugReportModal" :footer="false" :title="$t('edit-bug-report')" @close="closeEditBugReport">
             <edit-bug-report :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
-        </b-modal>
-        <b-modal id="send-message-to-bug-report-author" hide-footer :title="$t('send-message-to-bug-report-author')">
+        </BModal>
+        <BModal 
+            :show="showSendMessageModal" 
+            :footer="false" 
+            :title="$t('send-message-to-bug-report-author')" 
+            @close="closeSendMessageToBugReportAuthor">
             <send-message :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor"/>
-        </b-modal>
+        </BModal>
 
     </div>
 </template>
 
 
 <script>
+import BTable from '../../bootstrap/BTable.vue';
 import {BUG_SORTABLES, BUG_DEFAULTS, BUG_STATUS} from '../../../constants/bugConstants';
 import {mapGetters} from 'vuex';
 import EditBugReport from '../../modals/EditBugReport.vue';
 import SendMessage from '../../modals/SendMessage.vue';
+import BModal from '../../bootstrap/BModal.vue';
 export default {
     components: {
         EditBugReport,
         SendMessage,
+        BModal,
+        BTable,
     },
     computed: {
         ...mapGetters({
@@ -56,24 +68,26 @@ export default {
             currentSortDesc: true,
             bugReportToEdit: null,
             bugReportAuthor: null,
+            showEditBugReportModal: false,
+            showSendMessageModal: false,
         }
     },    
     methods: {
         sendMessageToBugReportAuthor(authorId) {
             this.$store.dispatch('clearErrors');
             this.bugReportAuthor = {id: authorId};
-            this.$bvModal.show('send-message-to-bug-report-author');
+            this.showSendMessageModal = true;
         },
         closeSendMessageToBugReportAuthor() {
-            this.$bvModal.hide('send-message-to-bug-report-author');
+            this.showSendMessageModal = false;
         },
         editBugReport(bugReport) {
             this.$store.dispatch('clearErrors');
             this.bugReportToEdit = bugReport;
-            this.$bvModal.show('edit-bug-report');
+            this.showEditBugReportModal = true;
         },
         closeEditBugReport() {
-            this.$bvModal.hide('edit-bug-report');
+            this.showEditBugReportModal = false;
         },
         parseStatus(status) {
             return BUG_STATUS.find(element => element.value == status).text;
