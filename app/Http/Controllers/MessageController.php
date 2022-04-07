@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActionTrackingHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -37,6 +38,7 @@ class MessageController extends Controller
 
         $message = Message::create($validated);
         $message->conversation->touch();
+        ActionTrackingHandler::handleAction($request, 'STORE_MESSAGE', 'Sending message');
 
         return new JsonResponse(['message' => ['success' => ['Message sent.']], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
@@ -69,15 +71,16 @@ class MessageController extends Controller
         }
     }
 
-    public function deleteMessage(Message $message) {
+    public function deleteMessage(Request $request, Message $message) {
         /** @var User */
-        $user = Auth::user()->id;
+        $user = Auth::user();
         $this->makeMessageInvisibleToUser($message, $user->id);
+        ActionTrackingHandler::handleAction($request, 'DELETE_MESSAGE', 'Deleting message');
         return new JsonResponse(['message' => ['success' => ['Message deleted.']], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
     }
 
-    public function blockUser(User $blockedUser) {
+    public function blockUser(Request $request, User $blockedUser) {
         /** @var User */
         $user = Auth::user();
         DB::table('blocklist')->insertOrIgnore([
@@ -85,6 +88,7 @@ class MessageController extends Controller
             'blocked_user_id' => $blockedUser->id,
         ]);
         $this->makeConversationInvisible($user, $blockedUser);
+        ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user '.$blockedUser->username);
         return new JsonResponse(['message' => ['success' => ['User blocked.']], 'data' => ConversationOverviewResource::collection(
             $user->getVisibleConversations())], Response::HTTP_OK);
     }

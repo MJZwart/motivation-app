@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActionTrackingHandler;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\Groups_Users;
@@ -37,29 +38,33 @@ class GroupsController extends Controller
 
         $group = Group::create($validated);
         $group->users()->attach(Auth::user()->id, ['rank' => 'admin']);
+        ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group '.$group->name);
         
         return new JsonResponse(['message' => ['success' => ["Your group \"{$validated['name']}\" has been created."]]], Response::HTTP_OK);
     }
 
-    public function destroy(Group $group): JsonResponse{
+    public function destroy(Request $request, Group $group): JsonResponse{
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an admin of the group you are trying to delete."], Response::HTTP_BAD_REQUEST);
         $group->users()->detach();
         $group->delete();
+        ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group '.$group->name);
         return new JsonResponse(['message' => ['success' => ["Your group \"{$group->name}\" has been deleted!"]]], Response::HTTP_OK);
         
     }
 
-    public function join(Group $group): JsonResponse{
+    public function join(Request $request, Group $group): JsonResponse{
         $user = Auth::user();
         $users = $group->users();
         if ($users->find($user)) 
             return new JsonResponse(['message' => "You are already a member of this group."], Response::HTTP_BAD_REQUEST);
         $users->attach($user);
+        
+        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', $user->username.' joined group '.$group->name);
         return new JsonResponse(['message' => ['success' => ["You successfully joined the group \"{$group->name}\"."]]], Response::HTTP_OK);
     }
 
-    public function leave(Group $group): JsonResponse{
+    public function leave(Request $request, Group $group): JsonResponse{
         /** @var User */
         $user = Auth::user();
         $users = $group->users();
@@ -70,6 +75,7 @@ class GroupsController extends Controller
         if ($group->isAdminById($user->id))
             return new JsonResponse(['message' => "You cannot leave a group where you are an admin."], Response::HTTP_BAD_REQUEST);
         $users->detach($user);
+        ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', $user->username.' left group '.$group->name);
         return new JsonResponse(['message' => ['success' => ["You have successfully left the group \"{$group->name}\"."]]], Response::HTTP_OK);
     }
 }
