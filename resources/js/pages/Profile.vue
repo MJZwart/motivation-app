@@ -6,18 +6,30 @@
                 <h2>{{userProfile.username}}</h2>
                 <div v-if="notLoggedUser" class="d-flex">
                     <Tooltip :text="$t('message-user')">
-                        <b-icon-envelope id="message-user" class="icon small" @click="sendMessage" />
+                        <FaIcon 
+                            icon="fa-solid fa-envelope"
+                            class="icon small"
+                            @click="sendMessage" />
                     </Tooltip>
-                    <span v-if="!isConnection">
+                    <!-- <span v-if="!isConnection"> -->
                         <Tooltip :text="$t('send-friend-request')">
-                            <b-icon-person-plus-fill id="send-friend-request" class="icon small" @click="sendFriendRequest" />
+                            <FaIcon 
+                                icon="fa-solid fa-user-plus"
+                                class="icon small"
+                                @click="sendFriendRequest" />
                         </Tooltip>
-                    </span>
+                    <!-- </span> -->
                     <Tooltip :text="$t('block-user')">
-                        <b-icon-dash-circle id="block-user" class="icon small red" @click="blockUser" />
+                        <FaIcon 
+                            icon="fa-solid fa-ban"
+                            class="icon small red"
+                            @click="blockUser" />
                     </Tooltip>
                     <Tooltip :text="$t('report-user')">
-                        <b-icon-exclamation-circle id="report-user" class="icon small red" @click="reportUser" />
+                        <FaIcon 
+                            icon="fa-regular fa-flag"
+                            class="icon small red"
+                            @click="reportUser" />
                     </Tooltip>
                 </div>
                 <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>

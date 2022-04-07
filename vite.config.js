@@ -51,7 +51,6 @@ export default defineConfig(({command}) => {
                 'vue-i18n',
                 'vuex',
                 'vue-router',
-                'bootstrap-vue-editable-table',
             ],
         },
 

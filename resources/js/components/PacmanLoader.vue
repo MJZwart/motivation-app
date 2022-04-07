@@ -6,9 +6,6 @@
         <div class="v-pacman v-pacman4" v-bind:style="[spinnerStyle,animationStyle,spinnerDelay4]">x</div>
         <div class="v-pacman v-pacman5" v-bind:style="[spinnerStyle,animationStyle,spinnerDelay5]">x</div>
     </div>
-    <!-- <div class="d-flex justify-content-center">
-        <b-spinner variant="primary" label="Loading..." />
-    </div> -->
 </template>
 
 <script>

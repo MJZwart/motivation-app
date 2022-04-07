@@ -50,11 +50,17 @@
                         Messages
                     </div> -->
                     <!-- <div class="full-nav"> -->
-                    <b-iconstack class="icon-nav-stack">
-                        <b-icon-envelope class="icon-nav" /> 
-                        <b-icon-dot v-if="hasMessages" font-scale="3" 
-                                    class="icon-dot-red" shift-h="-2" shift-v="7" />
-                    </b-iconstack>
+                    <FaIconLayers class="mr-3">
+                        <FaIcon 
+                            icon="fa-solid fa-envelope" 
+                            class="icon-nav" 
+                            size="2xl" />
+                        <FaIcon 
+                            v-if="hasMessages" 
+                            icon="fa-solid fa-circle" 
+                            class="icon-dot-red" 
+                            style="left: 22px; top: -20px;" />
+                    </FaIconLayers>
                     <!-- </div> -->
                 </router-link>
                 <router-link to="/notifications" class="nav-link">
@@ -62,11 +68,18 @@
                         Notifications
                     </div> -->
                     <!-- <div class="full-nav"> -->
-                    <b-iconstack class="icon-nav-stack">
-                        <b-icon-bell class="icon-nav" />
-                        <b-icon-dot v-if="hasNotifications" font-scale="3" 
-                                    class="icon-dot-red" shift-h="-2" shift-v="7" />
-                    </b-iconstack>
+                        
+                    <FaIconLayers class="mr-3">
+                        <FaIcon 
+                            icon="fa-regular fa-bell" 
+                            class="icon-nav" 
+                            size="2xl" />
+                        <FaIcon 
+                            v-if="hasNotifications" 
+                            icon="fa-solid fa-circle" 
+                            class="icon-dot-red" 
+                            style="left: 22px; top: -20px;" />
+                    </FaIconLayers>
                     <!-- </div> -->
                 </router-link>
                 <!-- <div class="toggled-nav">
@@ -80,24 +93,23 @@
                 <!-- <div class="full-nav"> -->
                 <!-- <button @click="dropdownMenuOpen = !dropdownMenuOpen">{{user.username}}</button>
                 <div v-if="dropdownMenuOpen" class="dropdown-menu" :class="{'show': dropdownMenuOpen}"> -->
-                <li class="nav-item">
-                    <router-link :to="{ name: 'profile', params: { id: user.id}}" class="nav-link">
-                        {{ $t('profile') }}
-                    </router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/settings" class="nav-link">{{ $t('settings') }}</router-link>
-                </li>
-                <a class="nav-link" @click="logout">{{ $t('logout') }}</a>
-                <!-- </div> -->
-                <!-- <b-dropdown id="user-dropdown" :text="user.username" variant="primary" class="nav-text" offset="-5">
-                    <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">
-                        {{ $t('profile') }}
-                    </b-dropdown-item>
-                    <b-dropdown-item to="/settings">{{ $t('settings') }}</b-dropdown-item>
-                    <b-dropdown-item @click="logout">{{ $t('logout') }}</b-dropdown-item>
-                </b-dropdown> -->
-                <!-- </div> -->
+                <Dropdown color="white">
+                    <section class="option">
+                        <li class="nav-item">
+                            <router-link :to="{ name: 'profile', params: { id: user.id}}" class="nav-link">
+                                {{ $t('profile') }}
+                            </router-link>
+                        </li>
+                    </section>
+                    <section class="option">
+                        <li class="nav-item">
+                            <router-link to="/settings" class="nav-link">{{ $t('settings') }}</router-link>
+                        </li>
+                    </section>
+                    <section class="option">
+                        <a class="nav-link" @click="logout">{{ $t('logout') }}</a>
+                    </section>
+                </Dropdown>
             </div>
             <!-- </div> -->
         </nav>
@@ -107,7 +119,11 @@
 
 <script>
 import {mapGetters} from 'vuex';
+import Dropdown from './bootstrap/Dropdown.vue';
 export default {
+    components: {
+        Dropdown,
+    },
     data() {
         return {
             // isOpen: false,

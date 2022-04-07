@@ -6,7 +6,10 @@
                     {{notification.title}}
                     <span class="ml-auto">
                         <span v-if="!notification.read">{{ $t('new') }} </span>
-                        <b-icon-trash class="red pointer" @click="deleteNotification()" />
+                        <FaIcon 
+                            icon="fa-solid fa-trash"
+                            class="icon small red"
+                            @click="deleteNotification()" />
                     </span>
                 </span>
             </template>

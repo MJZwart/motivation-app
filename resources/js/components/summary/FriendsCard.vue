@@ -5,18 +5,18 @@
                 <li v-for="(friend, index) in user.friends" :key="index">
                     <span v-if="manage">
                         <Tooltip :text="$t('remove-friend')">
-                            <b-icon-person-x-fill 
-                                :id="'remove-friend-' + index" 
-                                class="icon small" 
+                            <FaIcon 
+                                icon="fa-solid fa-user-plus"
+                                class="icon small"
                                 @click="removeFriend(friend)" />
                         </Tooltip>
                     </span>
                     <span v-if="message">
                         <Tooltip :text="$t('send-message')">
-                            <b-icon-envelope 
-                                :id="'send-message-to-friend-' + index" 
-                                class="icon small" 
-                                @click="sendMessage(friend)" /> 
+                            <FaIcon 
+                                icon="fa-solid fa-envelope"
+                                class="icon small"
+                                @click="sendMessage(friend)" />
                         </Tooltip>
                     </span>
                     <router-link :to="{ name: 'profile', params: { id: friend.id}}">

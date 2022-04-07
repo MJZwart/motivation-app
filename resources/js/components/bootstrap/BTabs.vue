@@ -77,7 +77,6 @@ export default {
 .tabs{
     margin-right: 0;
     margin-left: 0;
-    cursor: pointer;
     list-style: none;
 
     .tabs-header{
@@ -90,6 +89,7 @@ export default {
             border-top-right-radius: 0.25rem;
             display: block;
             padding: 0.5rem 1rem;
+            cursor:pointer;
         }
         .active-tab{
             color: #495057;

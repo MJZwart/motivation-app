@@ -6,15 +6,15 @@
                     <div v-if="requests.incoming[0]">
                         <li v-for="(request, index) in requests.incoming" :key="index">
                             <Tooltip :text="$t('accept-friend-request')">
-                                <b-icon-check-square 
-                                    :id="'accept-friend-request-' + index" 
-                                    class="icon small green" 
+                                <FaIcon 
+                                    icon="fa-regular fa-square-check"
+                                    class="icon small green"
                                     @click="acceptFriendRequest(request.friendship_id)" />
                             </Tooltip>
                             <Tooltip :text="$t('deny-friend-request')">
-                                <b-icon-x-square 
-                                    :id="'deny-friend-request-' + index" 
-                                    class="icon small red" 
+                                <FaIcon 
+                                    icon="fa-regular fa-rectangle-xmark"
+                                    class="icon small red"
                                     @click="denyFriendRequest(request.friendship_id)" />
                             </Tooltip>
                             {{request.friend}}
@@ -31,9 +31,9 @@
                     <div v-if="requests.outgoing[0]">
                         <li v-for="(request, index) in requests.outgoing" :key="index">
                             <Tooltip :text="$t('cancel-friend-request')">
-                                <b-icon-x-square 
-                                    :id="'cancel-friend-request-' + index" 
-                                    class="icon small red" 
+                                <FaIcon 
+                                    icon="fa-regular fa-rectangle-xmark"
+                                    class="icon small red"
                                     @click="removeFriendRequest(request.friendship_id)" />
                             </Tooltip>
                             {{request.friend}}

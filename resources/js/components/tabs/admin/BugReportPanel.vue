@@ -16,10 +16,14 @@
                 {{ parseStatus(data.item.status) }}
             </template>
             <template #actions="data">
-                <b-icon-pencil-square 
+                <FaIcon 
+                    icon="fa-regular fa-pen-to-square"
                     class="icon medium"
-                    @click="editBugReport(data.item)" /> 
-                <b-icon-envelope class="icon medium" @click="sendMessageToBugReportAuthor(data.item.user_id)" /> 
+                    @click="editBugReport(data.item)" />
+                <FaIcon 
+                    icon="fa-solid fa-envelope"
+                    class="icon medium"
+                    @click="sendMessageToBugReportAuthor(data.item.user_id)" />
             </template>
         </BTable>
 

@@ -38,7 +38,7 @@ export default {
   border-radius: 4px;
 
   width: max-content;
-  bottom: 100%;
+  bottom: 130%;
   left:50%; 
   transform:translateX(-50%);
 

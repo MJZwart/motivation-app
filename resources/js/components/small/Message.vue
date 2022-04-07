@@ -5,8 +5,9 @@
         <p class="mb-0">{{getSender}} {{message.message}}</p>
         <p class="silent d-flex">
             {{message.created_at}}
-            <span v-if="showActionButtons" class="ml-auto">                
-                <b-icon-trash
+            <span v-if="showActionButtons" class="ml-auto"> 
+                <FaIcon 
+                    icon="fa-solid fa-trash"
                     class="icon small red"
                     @click="deleteMessage()" />
             </span>

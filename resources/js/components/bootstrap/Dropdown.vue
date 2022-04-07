@@ -4,7 +4,7 @@
             {{menuTitle}}
         </button>
 
-        <div class="iconWrapper">
+        <div class="iconWrapper" :class="color">
             <div class="bar1" :class="{'bar1--open': isOpen}" />
             <div class="bar2" :class="{'bar2--open': isOpen}" />
             <div class="bar3" :class="{'bar3--open': isOpen}" />
@@ -21,6 +21,10 @@
 export default {
     props: {
         menuTitle: {
+            type: String,
+            required: false,
+        },
+        color: {
             type: String,
             required: false,
         },
@@ -76,10 +80,9 @@ export default {
     border-radius: 4px;
     position: absolute;
     top: 0;
-    right: 45px;
     display: flex;
     align-items: center;
-    padding: 0 70px 0 20px;
+    padding: 0 20px 0 20px;
     margin: 0;
     line-height: 1;
     width: 100%;
@@ -91,6 +94,12 @@ export default {
 
   .dropDownMenuButton--dark {
     color: #eee;
+  }
+  .iconWrapper.white .bar1, .iconWrapper.white .bar2, .iconWrapper.white .bar3 {
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .iconWrapper.white .bar1--open, .iconWrapper.white .bar3--open {
+    background: $red;
   }
 
   .iconWrapper {

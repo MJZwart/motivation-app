@@ -12,18 +12,50 @@ import store from './store/store';
 //Import router
 import router from './router/router';
 
-//Import BootstrapVue
-import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue';
-import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css';
-Vue.use(BootstrapVueIcons);
-Vue.use(BootstrapVue, {
-    BButton: {variant: 'primary'},
-});
-
 //Font-awesome icons
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {FontAwesomeIcon, FontAwesomeLayers} from '@fortawesome/vue-fontawesome';
 Vue.component('FaIcon', FontAwesomeIcon);
+Vue.component('FaIconLayers', FontAwesomeLayers);
+
+import {library} from '@fortawesome/fontawesome-svg-core';
+//Regular icons
+import {
+    faPenToSquare, 
+    faFlag, 
+    faBell, 
+    faSquareCheck,
+    faCirclePlay,
+    faRectangleXmark,
+} from '@fortawesome/free-regular-svg-icons';
+//Solid icons
+import {
+    faTrash, 
+    faSquarePlus, 
+    faBan, 
+    faPlus,
+    faEnvelope, 
+    faEnvelopeOpen,
+    faCircle,
+    faArrowTurnUp,
+    faUserPlus,
+} from '@fortawesome/free-solid-svg-icons';
+library.add(
+    faPenToSquare, 
+    faTrash, 
+    faEnvelope, 
+    faSquarePlus, 
+    faBan, 
+    faFlag, 
+    faBell, 
+    faSquareCheck, 
+    faPlus,
+    faEnvelopeOpen,
+    faCircle,
+    faArrowTurnUp,
+    faUserPlus,
+    faCirclePlay,
+    faRectangleXmark,
+);
 
 //Import vue-i18n translations
 import VueI18n from 'vue-i18n';

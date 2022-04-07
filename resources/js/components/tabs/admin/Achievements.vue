@@ -11,7 +11,10 @@
             :options="['table-sm', 'table-striped', 'table-hover']"
             class="font-sm">
             <template #actions="row">
-                <b-icon-pencil-square class="icon small" @click="showEditAchievement(row.item)" />
+                <FaIcon 
+                    icon="fa-regular fa-pen-to-square"
+                    class="icon small"
+                    @click="showEditAchievement(row.item)" />
             </template>
         </BTable>
 

@@ -77,17 +77,6 @@
                             <small class="form-text text-muted task-description label-override">{{task.description}}</small>
                             <base-form-error name="public-checkbox" /> 
                         </div>
-                        <!-- <b-form-checkbox 
-                           
-                           
-                            v-model="user.tasks"
-                            :value="task.id" 
-                            name="example-tasks">
-                            <p>
-                                {{task.name}}
-                            </p>
-                            <p class="">{{task.description}}</p>
-                        </b-form-checkbox> -->
                     </div>
                     
                 </div>

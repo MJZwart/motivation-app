@@ -6,14 +6,14 @@
                     {{taskList.name}}
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')">
-                            <b-icon-pencil-square 
-                                :id="'edit-task-list-' + taskList.id"
+                            <FaIcon 
+                                icon="fa-regular fa-pen-to-square"
                                 class="icon white small" />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')">
-                            <b-icon-trash 
-                                :id="'delete-task-list-' + taskList.id"
-                                class="icon white small" />
+                            <FaIcon 
+                                icon="fa-solid fa-trash"
+                                class="icon small white" />
                         </Tooltip>
                     </span>
                 </span>
@@ -29,10 +29,9 @@
             <template #footer>           
                 <button class="block clear bottom-radius p-0" variant="outline">
                     <Tooltip :text="$t('add-new-task')">
-                        <b-icon-plus-square-fill 
-                            :id="'add-new-task-' + taskList.id" 
-                            class="icon large green m-0 wide" 
-                        />
+                        <FaIcon 
+                            icon="fa-solid fa-square-plus"
+                            class="icon large green m-0 wide" />
                     </Tooltip>
                 </button>
             </template>
