@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div :class="'card summary-card ' + headerVariant">
+        <div class="card summary-card" :class="headerVariant">
             <div class="card-header">
                 <slot name="header">
                     {{title}}
@@ -26,6 +26,7 @@ export default {
         headerVariant: {
             type:String,
             required: false,
+            default: '',
         },
         footer: {
             type: Boolean,

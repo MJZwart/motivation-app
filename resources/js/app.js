@@ -17,7 +17,7 @@ import router from './router/router';
         
 import './bootstrap';
 import './interceptors';
-// import '../assets/scss/app.scss';
+import '../assets/scss/app.scss';
         
 import {createApp} from 'vue';
 import App from './App.vue';
