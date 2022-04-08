@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+// import Vue from 'vue';
+import {createStore} from 'vuex';
 
 import taskListStore from './modules/taskListStore.js';
 import taskStore from './modules/taskStore.js';
@@ -14,9 +14,9 @@ import messageStore from './modules/messageStore.js';
 import groupsStore from './modules/groupsStore.js';
 import axios from 'axios';
 
-Vue.use(Vuex);
+// Vue.use(Vuex);
 
-export default new Vuex.Store({
+export const store = createStore({
     modules: {
         taskList: taskListStore,
         task: taskStore,

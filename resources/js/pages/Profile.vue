@@ -7,27 +7,27 @@
                 <div v-if="notLoggedUser" class="d-flex">
                     <Tooltip :text="$t('message-user')">
                         <FaIcon 
-                            icon="fa-solid fa-envelope"
+                            icon="envelope"
                             class="icon small"
                             @click="sendMessage" />
                     </Tooltip>
                     <!-- <span v-if="!isConnection"> -->
                         <Tooltip :text="$t('send-friend-request')">
                             <FaIcon 
-                                icon="fa-solid fa-user-plus"
+                                icon="user-plus"
                                 class="icon small"
                                 @click="sendFriendRequest" />
                         </Tooltip>
                     <!-- </span> -->
                     <Tooltip :text="$t('block-user')">
                         <FaIcon 
-                            icon="fa-solid fa-ban"
+                            icon="ban"
                             class="icon small red"
                             @click="blockUser" />
                     </Tooltip>
                     <Tooltip :text="$t('report-user')">
                         <FaIcon 
-                            icon="fa-regular fa-flag"
+                            :icon="['far', 'flag']"
                             class="icon small red"
                             @click="reportUser" />
                     </Tooltip>

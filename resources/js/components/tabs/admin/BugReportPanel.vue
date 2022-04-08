@@ -17,11 +17,11 @@
             </template>
             <template #actions="data">
                 <FaIcon 
-                    icon="fa-regular fa-pen-to-square"
+                    :icon="['far', 'pen-to-square']"
                     class="icon medium"
                     @click="editBugReport(data.item)" />
                 <FaIcon 
-                    icon="fa-solid fa-envelope"
+                    icon="envelope"
                     class="icon medium"
                     @click="sendMessageToBugReportAuthor(data.item.user_id)" />
             </template>

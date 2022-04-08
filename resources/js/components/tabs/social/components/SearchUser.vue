@@ -23,18 +23,18 @@
                 <template #actions="item">
                     <Tooltip :text="$t('send-message')">
                         <FaIcon 
-                            icon="fa-solid fa-envelope"
+                            icon="envelope"
                             class="icon small"
                             @click="sendMessage(item.item)" />
                     </Tooltip>
                     <span v-if="!isConnection(item.item.id)">
                         <Tooltip :text="$t('send-friend-request')">
                             <FaIcon 
-                                icon="fa-solid fa-envelope"
+                                icon="envelope"
                                 class="icon small"
                                 @click="sendMessage(item.item)" />
                             <FaIcon 
-                                icon="fa-solid fa-user-plus"
+                                icon="user-plus"
                                 class="icon small"
                                 @click="sendFriendRequest(item.item.id)" />
                         </Tooltip>

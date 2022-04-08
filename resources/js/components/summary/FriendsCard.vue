@@ -6,7 +6,7 @@
                     <span v-if="manage">
                         <Tooltip :text="$t('remove-friend')">
                             <FaIcon 
-                                icon="fa-solid fa-user-plus"
+                                icon="user-plus"
                                 class="icon small"
                                 @click="removeFriend(friend)" />
                         </Tooltip>
@@ -14,7 +14,7 @@
                     <span v-if="message">
                         <Tooltip :text="$t('send-message')">
                             <FaIcon 
-                                icon="fa-solid fa-envelope"
+                                icon="envelope"
                                 class="icon small"
                                 @click="sendMessage(friend)" />
                         </Tooltip>

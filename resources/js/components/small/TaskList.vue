@@ -7,13 +7,13 @@
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')">
                             <FaIcon 
-                                icon="fa-regular fa-pen-to-square"
+                                :icon="['far', 'pen-to-square']"
                                 class="icon white small"
                                 @click="editTaskList()" />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')">
                             <FaIcon 
-                                icon="fa-solid fa-trash"
+                                icon="trash"
                                 class="icon small white"
                                 @click="deleteTaskList(task)" />
                         </Tooltip>
@@ -34,7 +34,7 @@
                 <button class="block clear bottom-radius p-0" @click="openNewTask(null)">
                     <Tooltip :text="$t('add-new-task')">
                         <FaIcon 
-                            icon="fa-solid fa-square-plus"
+                            icon="square-plus"
                             class="icon large green m-0 wide" />
                     </Tooltip>
                 </button>

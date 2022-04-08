@@ -12,7 +12,7 @@
             class="font-sm">
             <template #actions="row">
                 <FaIcon 
-                    icon="fa-regular fa-pen-to-square"
+                    :icon="['far', 'pen-to-square']"
                     class="icon small"
                     @click="showEditAchievement(row.item)" />
             </template>

@@ -15,19 +15,19 @@
                     <template #actions="item">
                         <Tooltip :text="$t('change-name')">
                             <FaIcon 
-                                icon="fa-regular fa-pen-to-square"
+                                :icon="['far', 'pen-to-square']"
                                 class="icon"
                                 @click="showEditReward(item.item)" />
                         </Tooltip>
                         <Tooltip v-if="!item.item.active"  :text="$t('activate')">
                             <FaIcon 
-                                icon="fa-regular fa-play-circle"
+                                :icon="['far', 'play-circle']"
                                 class="icon"
                                 @click="activateReward(item.item)" />
                         </Tooltip>
                         <Tooltip v-if="!item.item.active"  :text="$t('delete')">
                             <FaIcon 
-                                icon="fa-solid fa-trash"
+                                icon="trash"
                                 class="icon small red"
                                 @click="deleteItem(item.item)" />
                         </Tooltip>

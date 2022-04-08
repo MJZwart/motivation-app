@@ -1,6 +1,6 @@
 import axios from 'axios';
 import router from './router/router.js';
-import store from './store/store.js';
+import {store} from './store/store.js';
 
 // @ts-ignore
 window.axios = axios;

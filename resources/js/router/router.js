@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import store from '../store/store';
+// import Vue from 'vue';
+import {createRouter, createWebHistory} from 'vue-router';
+import {store} from '../store/store';
 
 import Home from '../pages/Home.vue';
 import Dashboard from '../pages/Dashboard.vue';
@@ -19,7 +19,7 @@ import Faq from '../pages/Faq.vue';
 import Feedback from '../pages/Feedback.vue';
 // import Test from '../pages/Test.vue';
 
-Vue.use(VueRouter);
+// Vue.use(VueRouter);
 
 let routes = [
     {
@@ -99,7 +99,8 @@ let routes = [
 
 ];
 
-const router = new VueRouter({
+const router = createRouter({
+    history: createWebHistory(),
     routes,
 });
 
@@ -128,7 +129,6 @@ router.beforeEach((to, from, next) => {
     if (store.getters['user/authenticated']) {
         store.dispatch('hasUnread');
     }
-    
     next();
 });
 

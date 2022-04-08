@@ -52,12 +52,12 @@
                     <!-- <div class="full-nav"> -->
                     <FaIconLayers class="mr-3">
                         <FaIcon 
-                            icon="fa-solid fa-envelope" 
+                            icon="envelope" 
                             class="icon-nav" 
                             size="2xl" />
                         <FaIcon 
                             v-if="hasMessages" 
-                            icon="fa-solid fa-circle" 
+                            icon="circle" 
                             class="icon-dot-red" 
                             style="left: 22px; top: -20px;" />
                     </FaIconLayers>
@@ -71,12 +71,12 @@
                         
                     <FaIconLayers class="mr-3">
                         <FaIcon 
-                            icon="fa-regular fa-bell" 
+                            :icon="['far', 'bell']" 
                             class="icon-nav" 
                             size="2xl" />
                         <FaIcon 
                             v-if="hasNotifications" 
-                            icon="fa-solid fa-circle" 
+                            icon="circle" 
                             class="icon-dot-red" 
                             style="left: 22px; top: -20px;" />
                     </FaIconLayers>

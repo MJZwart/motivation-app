@@ -1,24 +1,4 @@
 // import Vue from 'vue';
-// import './interceptors';
-// import '../assets/scss/app.scss';
-
-// //Main pages
-// import App from './App.vue';
-
-
-// //Import BootstrapVue
-// import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css';
-// Vue.use(BootstrapVueIcons);
-// Vue.use(BootstrapVue, {
-//     BButton: {variant: 'primary'},
-// });
-// Vue.use(ToastPlugin);
-    
-// //Import vue-i18n translations
-// import VueI18n from 'vue-i18n';
-// Vue.use(VueI18n);
-    
-// import i18n from './i18n';
     
 // import toastService from './services/toastService';
 // const app = new Vue({
@@ -29,25 +9,29 @@
 //     render: h => h(App),
 // });
         
-// // @ts-ignore
-// toastService.$app = app;
-        
 // //Import store
-import store from './store/store';
+import {store} from './store/store';
         
 // //Import router
 import router from './router/router';
         
 import './bootstrap';
+import './interceptors';
+// import '../assets/scss/app.scss';
         
 import {createApp} from 'vue';
 import App from './App.vue';
         
 const app = createApp(App);
-app.mount('#app');
         
 app.use(store);
 app.use(router);
+
+
+//Import vue-i18n translations
+import i18n from './i18n';
+app.use(i18n);
+
 
 
 //Font-awesome icons
@@ -95,9 +79,4 @@ library.add(
     faRectangleXmark,
 );
 
-
-//Import vue-i18n translations
-import VueI18n from 'vue-i18n';
-app.use(VueI18n);
-
-import i18n from './i18n';
+app.mount('#app');

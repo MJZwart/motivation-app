@@ -7,7 +7,7 @@
                     <span class="ml-auto">
                         <span v-if="!notification.read">{{ $t('new') }} </span>
                         <FaIcon 
-                            icon="fa-solid fa-trash"
+                            icon="trash"
                             class="icon small red"
                             @click="deleteNotification()" />
                     </span>

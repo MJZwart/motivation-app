@@ -7,7 +7,7 @@
             {{message.created_at}}
             <span v-if="showActionButtons" class="ml-auto"> 
                 <FaIcon 
-                    icon="fa-solid fa-trash"
+                    icon="trash"
                     class="icon small red"
                     @click="deleteMessage()" />
             </span>

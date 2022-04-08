@@ -7,13 +7,13 @@
                         <li v-for="(request, index) in requests.incoming" :key="index">
                             <Tooltip :text="$t('accept-friend-request')">
                                 <FaIcon 
-                                    icon="fa-regular fa-square-check"
+                                    :icon="['far', 'square-check']"
                                     class="icon small green"
                                     @click="acceptFriendRequest(request.friendship_id)" />
                             </Tooltip>
                             <Tooltip :text="$t('deny-friend-request')">
                                 <FaIcon 
-                                    icon="fa-regular fa-rectangle-xmark"
+                                    :icon="['far', 'rectangle-xmark']"
                                     class="icon small red"
                                     @click="denyFriendRequest(request.friendship_id)" />
                             </Tooltip>
@@ -32,7 +32,7 @@
                         <li v-for="(request, index) in requests.outgoing" :key="index">
                             <Tooltip :text="$t('cancel-friend-request')">
                                 <FaIcon 
-                                    icon="fa-regular fa-rectangle-xmark"
+                                    :icon="['far', 'rectangle-xmark']"
                                     class="icon small red"
                                     @click="removeFriendRequest(request.friendship_id)" />
                             </Tooltip>

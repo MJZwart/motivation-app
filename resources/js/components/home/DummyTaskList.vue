@@ -7,12 +7,12 @@
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')">
                             <FaIcon 
-                                icon="fa-regular fa-pen-to-square"
+                                :icon="['far', 'pen-to-square']"
                                 class="icon white small" />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')">
                             <FaIcon 
-                                icon="fa-solid fa-trash"
+                                icon="trash"
                                 class="icon small white" />
                         </Tooltip>
                     </span>
@@ -30,7 +30,7 @@
                 <button class="block clear bottom-radius p-0" variant="outline">
                     <Tooltip :text="$t('add-new-task')">
                         <FaIcon 
-                            icon="fa-solid fa-square-plus"
+                            icon="square-plus"
                             class="icon large green m-0 wide" />
                     </Tooltip>
                 </button>
