@@ -60,6 +60,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/scss/variables';
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -103,6 +104,38 @@ export default {
 
 .modal-default-button {
   float: right;
+}
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid $border-color;
+    border-top-left-radius: calc(0.3rem - 1px);
+    border-top-right-radius: calc(0.3rem - 1px);
+    .modal-title {
+        line-height: 1.5;
+        font-size: 1.25rem;
+        margin: 0;
+    }
+    .close {
+        padding: 1rem;
+        margin: -1rem -1rem -1rem auto;
+        background-color: transparent;
+        border: 0;
+        color: black;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 0.5;
+    }
+}
+
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
 }
 
 /*

@@ -11,6 +11,7 @@
 
 body {
     background-color: $background;
+    margin: 0;
 }
 
 .content {
@@ -37,6 +38,16 @@ h1, h2, h3, h4, h5, h6 {
     color: inherit;
 }
 
+.card-deck {
+    display: flex;
+    flex-flow: row wrap;
+
+    .card {
+        margin-left: 1rem;
+        flex: 1 0 0%;
+    }
+}
+
 .card {
     position: relative;
     display: flex;
@@ -47,11 +58,17 @@ h1, h2, h3, h4, h5, h6 {
     background-clip: border-box;
     border: 1px solid $border-color;
     border-radius: 0.25rem;
+    p {
+        margin-top: 0;
+    }
 
+    .card-body {
+        padding: 1rem;
+    }
     .card-header {
         padding: 0.75rem 1.25rem;
         margin-bottom: 0;
-        background-color: $background-darker;
+        background-color: rgba(0,0,0,.03);
         border-bottom: 1px solid $border-color;
     }
     .card-header:first-child {
@@ -68,14 +85,13 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 1rem;
 }
 
-.navbar {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 1rem;
+
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1071;
 }
+
 
 //Unconfirmed
 
@@ -247,13 +263,13 @@ button {
     font-weight: 400;
     text-align: center;
     vertical-align: middle;
-    margin: 3px;
-    border: 1px solid transparent;
+    margin-bottom: 5px;
     background-color: transparent;
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0.25rem;
+    cursor: pointer;
     transition: color 0.15s ease-in-out, background-color 0.15 ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
     color: $primary-text;
@@ -282,6 +298,7 @@ button.clear {
 
 .primary-text {
     color: $primary-text;
+    text-decoration: none;
 }
 .no-hover:hover {
     color: inherit;

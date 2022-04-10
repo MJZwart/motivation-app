@@ -2,6 +2,16 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
+            <div class="card col-2">
+                <button @click="currentTabComponent = 'Groups'">{{$t('exp-points')}}</button>
+                <button @click="currentTabComponent = 'Friends'">{{$t('char-exp-gain')}}</button>
+                <button @click="currentTabComponent = 'Friends'">{{$t('vill-exp-gain')}}</button>
+            </div>
+            <keep-alive class="col-10">
+                <component :is="currentTabComponent" />
+            </keep-alive>
+            <!-- Tabs -->
+            <!-- Content -->
             <BTabs>
                 <BTab :title="$t('exp-points')">
                     <div class="row">

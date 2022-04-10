@@ -1,25 +1,27 @@
 <template>
-    <div>
-        <BTabs vertical card :options="['pills']">
-            <BTab :title="$t('groups')">
-                <Groups/>
-            </BTab>
-            <BTab :title="$t('friends')">
-                <Friends />
-            </BTab>
-        </BTabs>
+    <div class="row">
+        <div class="card col-2">
+            <button @click="currentTabComponent = 'Groups'">{{ $t('groups') }}</button>
+            <button @click="currentTabComponent = 'Friends'">{{ $t('friends') }}</button>
+        </div>
+        <keep-alive class="col-10">
+            <component :is="currentTabComponent" />
+        </keep-alive>
     </div>
 </template>
 
 <script>
 import Groups from '../components/tabs/social/Groups.vue';
 import Friends from '../components/tabs/social/Friends.vue';
-import BTabs from '../components/bootstrap/BTabs.vue';
-import BTab from '../components/bootstrap/BTab.vue';
 
 export default {
     components: {
-        Groups, Friends, BTabs, BTab,
+        Groups, Friends, 
+    },
+    data() {
+        return {
+            currentTabComponent: 'Groups',
+        }
     },
 }
 </script>

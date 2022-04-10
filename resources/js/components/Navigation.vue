@@ -1,56 +1,26 @@
 <template>
-    <div>
-        <nav v-if="!authenticated" class="navbar box-shadow sticky-top navbar-dark navbar-expand">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <router-link to="/" exact-path class="nav-link">{{ $t('home') }}</router-link>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <router-link to="/login" class="nav-link">{{ $t('login') }}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/register" class="nav-link">{{ $t('register') }}</router-link>
-                </li>
-            </ul>
+    <div class="sticky-top">
+        <nav v-if="!authenticated" class="navbar box-shadow">
+            <router-link to="/" exact-path>{{ $t('home') }}</router-link>
+            <div class="ml-auto">
+                <router-link to="/login">{{ $t('login') }}</router-link>
+                <router-link to="/register">{{ $t('register') }}</router-link>
+            </div>
         </nav>
 
-        <nav v-if="authenticated" class="navbar box-shadow sticky-top navbar-dark navbar-expand-md">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <router-link to="/" class="nav-link">{{ $t('home') }}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/overview" class="nav-link">{{ $t('overview') }}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/bugreport" class="nav-link">{{ $t('report-bug') }}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/social" class="nav-link">{{$t('social')}}</router-link>
-                </li>
-            </ul>
+        <nav v-if="authenticated" class="navbar box-shadow">
+            <router-link to="/">{{ $t('home') }}</router-link>
+            <router-link to="/overview">{{ $t('overview') }}</router-link>
+            <router-link to="/bugreport">{{ $t('report-bug') }}</router-link>
+            <router-link to="/social">{{$t('social')}}</router-link>
 
-            <!-- <button type="button" aria-label="Toggle navigation" class="navbar-toggler collapsed" 
-                    aria-expanded="false" aria-controls="nav-collapse" style="overflow-nachor: none;" @click="isOpen = !isOpen">
-                <span class="navbar-toggler-icon" />
-            </button>
-            <div id="nav-collapse" class="navbar-collapse collapse" :style="{'display:none': !isOpen}"> -->
+            <div v-if="admin">
+                <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
+            </div>
 
-            <ul v-if="admin" class="navbar-nav">
-                <li class="nav-item">
-                    <router-link to="/admindashboard" class="nav-link">{{ $t('admin') }}</router-link>
-                </li>
-            </ul>
-
-            <div class="navbar-nav ml-auto">
-                <router-link to="/messages" class="nav-link">
-                    <!-- <div class="toggled-nav">
-                        Messages
-                    </div> -->
-                    <!-- <div class="full-nav"> -->
-                    <FaIconLayers class="mr-3">
+            <div class="ml-auto">
+                <router-link to="/messages">
+                    <FaIconLayers class="mr-3 nav-icon-layers">
                         <FaIcon 
                             icon="envelope" 
                             class="icon-nav" 
@@ -58,18 +28,12 @@
                         <FaIcon 
                             v-if="hasMessages" 
                             icon="circle" 
-                            class="icon-dot-red" 
+                            class="red" 
                             style="left: 22px; top: -20px;" />
                     </FaIconLayers>
-                    <!-- </div> -->
                 </router-link>
-                <router-link to="/notifications" class="nav-link">
-                    <!-- <div class="toggled-nav">
-                        Notifications
-                    </div> -->
-                    <!-- <div class="full-nav"> -->
-                        
-                    <FaIconLayers class="mr-3">
+                <router-link to="/notifications">
+                    <FaIconLayers class="mr-3 nav-icon-layers">
                         <FaIcon 
                             :icon="['far', 'bell']" 
                             class="icon-nav" 
@@ -77,41 +41,24 @@
                         <FaIcon 
                             v-if="hasNotifications" 
                             icon="circle" 
-                            class="icon-dot-red" 
-                            style="left: 22px; top: -20px;" />
+                            class="red" 
+                            style="left: 17px; top: -20px;" />
                     </FaIconLayers>
-                    <!-- </div> -->
                 </router-link>
-                <!-- <div class="toggled-nav">
-                    <b-nav-item :to="{ name: 'profile', params: { id: user.id}}">
-                        {{ $t('profile') }}
-                    </b-nav-item>
-                    <b-nav-item to="/settings">{{ $t('settings') }}</b-nav-item>
-                    <b-nav-item @click="logout">{{ $t('logout') }}</b-nav-item>
-                </div> -->
-                <!-- TODO When closing the navbar, you catch glimpse of the original design -->
-                <!-- <div class="full-nav"> -->
-                <!-- <button @click="dropdownMenuOpen = !dropdownMenuOpen">{{user.username}}</button>
-                <div v-if="dropdownMenuOpen" class="dropdown-menu" :class="{'show': dropdownMenuOpen}"> -->
                 <Dropdown color="white">
                     <section class="option">
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'profile', params: { id: user.id}}" class="nav-link">
-                                {{ $t('profile') }}
-                            </router-link>
-                        </li>
+                        <router-link :to="{ name: 'profile', params: { id: user.id}}">
+                            {{ $t('profile') }}
+                        </router-link>
                     </section>
                     <section class="option">
-                        <li class="nav-item">
-                            <router-link to="/settings" class="nav-link">{{ $t('settings') }}</router-link>
-                        </li>
+                        <router-link to="/settings">{{ $t('settings') }}</router-link>
                     </section>
                     <section class="option">
-                        <a class="nav-link" @click="logout">{{ $t('logout') }}</a>
+                        <a @click="logout">{{ $t('logout') }}</a>
                     </section>
                 </Dropdown>
             </div>
-            <!-- </div> -->
         </nav>
     </div>
 </template>
@@ -152,70 +99,85 @@ export default {
 @import '../../assets/scss/variables';
 .navbar{
     background-color: $primary;
-    li {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+        a{
+            margin-right: 1rem;
+            color: $nav-text;
+            text-decoration: none;
+        }
         a.router-link-active{
             font-weight:600;
         }
-    }
+        section, a {
+            display: inline-block;
+        }
+        section a {
+            color: $primary;
+        }
+        .nav-icon-layers {
+            vertical-align: 0.5rem;
+        }
 }
 .box-shadow {
     box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
 }
 .icon-nav{
-    color: rgba(255, 255, 255, 0.5);
+    color: $nav-text;
 }
-.router-link-exact-active .icon-nav{
-    color:rgba(255, 255, 255, 0.75);
-}
-.icon-nav-stack{
-    margin-top:5px;
-    margin-right:25px;
-}
-.icon-dot-red{
-    color:$warning;
-}
-.toggled-nav{
-    display: none;
-}
-.full-nav{
-    display: block;   
-}
-.nav-text{
-    .btn-primary{
-        color: rgba(255, 255, 255, 0.5) !important;
-    }
-}
-.dropdown-menu {
+// .router-link-exact-active .icon-nav{
+//     color:rgba(255, 255, 255, 0.75);
+// }
+// .icon-nav-stack{
+//     margin-top:5px;
+//     margin-right:25px;
+// }
+// .icon-dot-red{
+//     color:$warning;
+// }
+// .toggled-nav{
+//     display: none;
+// }
+// .full-nav{
+//     display: block;   
+// }
+// .nav-text{
+//     .btn-primary{
+//         color: rgba(255, 255, 255, 0.5) !important;
+//     }
+// }
+// .dropdown-menu {
 
-}
-@media (max-width:767px){   
-    .toggled-nav{
-        display: block;
-    }
-    .full-nav{
-        display: none;
-    }
-    .navbar{
-        .navbar-nav{
-            flex-direction: row;
-                .nav-item{
-                    margin-right: 0.8rem;
-                }
-            }
-        .toggled {
-            flex-direction: column;
-        }
-    }
-}
+// }
+// @media (max-width:767px){   
+//     .toggled-nav{
+//         display: block;
+//     }
+//     .full-nav{
+//         display: none;
+//     }
+//     .navbar{
+//         .navbar-nav{
+//             flex-direction: row;
+//                 .nav-item{
+//                     margin-right: 0.8rem;
+//                 }
+//             }
+//         .toggled {
+//             flex-direction: column;
+//         }
+//     }
+// }
 
-@media (max-width: 425px){
-    .nav-item{
-        margin-right: 0.5rem;
-    }
-    .navbar{
-        .toggled {
-            flex-direction: column;
-        }
-    }
-}
+// @media (max-width: 425px){
+//     .nav-item{
+//         margin-right: 0.5rem;
+//     }
+//     .navbar{
+//         .toggled {
+//             flex-direction: column;
+//         }
+//     }
+// }
 </style>

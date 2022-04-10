@@ -1,10 +1,23 @@
 @import 'variables';
-.ml-auto {
-    margin-left: auto;
-}
 
 .d-flex {
     display:flex;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.clear-a a{
+    text-decoration: none;
+}
+.primary-text a{
+    color: $primary;
+}
+
+a {
+    cursor: pointer;
+}
+ul {
+    margin-block-start: 0;
 }
 
 .row {
@@ -77,4 +90,32 @@
 .col-12 {
     flex: 0 0 100%;
     max-width: 100%;
+}
+
+.display-1 {
+    font-size: 5rem;
+}
+.display-2 {
+    font-size: 4.5rem;
+}
+.display-3 {
+    font-size: 4rem;
+}
+.display-4 {
+    font-size: 3.5rem;
+}
+.display-5 {
+    font-size: 3rem;
+}
+.display-6 {
+    font-size: 2.5rem;
+}
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6  {
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
 }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <Summary :title="$t('friends')">
-            <ul v-if="user.friends.length > 0" class="mb-1 no-list-style">
+            <ul v-if="user.friends.length > 0" class="mb-1 no-list-style clear-a primary-text">
                 <li v-for="(friend, index) in user.friends" :key="index">
                     <span v-if="manage">
                         <Tooltip :text="$t('remove-friend')">

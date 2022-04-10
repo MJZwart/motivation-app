@@ -1,7 +1,9 @@
 <template>
     <div class="tooltip-container">
-        <slot />
-        <div class="tooltip">
+        <div @mouseover="showTooltip = true" @mouseleave="showTooltip = false">
+            <slot />
+        </div>
+        <div v-show="showTooltip" class="tooltip">
             <span class="text">
                 {{text}}
             </span>
@@ -17,49 +19,53 @@ export default {
             required: true,
         },
     },
+    data() {
+        return {
+            showTooltip: false,
+        }
+    },
+    methods: {
+        showHover() {
+            console.log('yes');
+        },
+    },
 }
 </script>
 
 <style lang="scss" scoped>
 .tooltip-container { 
-  position: relative;
-  display: inline-block;
-}
-
-.tooltip-container:hover .tooltip{
-  opacity: 0.9;
-
+    position: relative;
+    display: inline-block;
 }
 
 .tooltip { 
-  color: #ffffff;
-  text-align: center;
-  padding: 5px 10px;
-  border-radius: 4px;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 4px;
 
-  width: max-content;
-  bottom: 130%;
-  left:50%; 
-  transform:translateX(-50%);
+    bottom: 130%;
+    left:50%; 
+    transform:translateX(-50%);
+    width: max-content;
+    opacity: 0.9;
+    padding: 5px 10px;
+    transition: opacity 0.5s;
 
-  opacity: 0;
-  transition: opacity 0.5s;
+    position: absolute;
+    z-index: 1;
 
-  position: absolute;
-  z-index: 1;
-
-  background: #000000;
+    background: #000000;
 }
 
 .text::after {
-  content: " ";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #000000 transparent transparent transparent;
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000000 transparent transparent transparent;
 
 }
 </style>

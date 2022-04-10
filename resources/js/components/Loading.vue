@@ -1,5 +1,5 @@
 <template>
-    <div class="v-spinner d-flex justify-content-center">
+    <div class="d-flex justify-content-center">
         <div class="v-pulse v-pulse1" v-bind:style="[spinnerStyle,spinnerDelay1]" />
         <div class="v-pulse v-pulse2" v-bind:style="[spinnerStyle,spinnerDelay2]" />
         <div class="v-pulse v-pulse3" v-bind:style="[spinnerStyle,spinnerDelay3]" />

@@ -204,6 +204,8 @@ export default {
     background: white;
     padding: 5px 10px;
     animation: menu 0.3s ease forwards;
+    display: flex;
+    flex-direction: column;
 
     .menuArrow {
       width: 20px;
