@@ -102,6 +102,7 @@ export default {
     display: flex;
     align-items: center;
     padding: 0.5rem 1rem;
+    height: 50px;
         a{
             margin-right: 1rem;
             color: $nav-text;

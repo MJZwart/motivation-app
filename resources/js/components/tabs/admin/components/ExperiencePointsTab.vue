@@ -63,10 +63,10 @@
 import {mapGetters} from 'vuex';
 import {
     EXPERIENCE_POINTS_FIELDS, 
-} from '../../../constants/balancingConstants.js';
-import GeneralFormError from '../../GeneralFormError.vue';
+} from '../../../../constants/balancingConstants.js';
+import GeneralFormError from '../../../GeneralFormError.vue';
 import Vue from 'vue';
-import BaseFormError from '../../BaseFormError.vue';
+import BaseFormError from '../../../BaseFormError.vue';
 export default {
     components: {GeneralFormError, BaseFormError},
     mounted() {

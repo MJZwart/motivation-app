@@ -1,23 +1,43 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <BTabs v-else card vertical :options="['pills']">
-            <BTab title="Achievements">
-                <achievements />
-            </BTab>
-            <BTab title="Bug reports">
-                <bug-report-panel />
-            </BTab>
-            <BTab title="Send notification">
-                <send-notifications />
-            </BTab>
-            <BTab title="Balancing">
-                <balancing />
-            </BTab>
-            <BTab title="Reported Users">
-                <reported-users />
-            </BTab>
-        </BTabs>
+        <div v-else class="row">
+            <div class="tabs col-2">
+                <button 
+                    :class="activeTab('Achievements')" 
+                    class="tab-item"
+                    @click="currentTabComponent = 'Achievements'">
+                    {{$t('achievements')}}
+                </button>
+                <button 
+                    :class="activeTab('BugReportPanel')" 
+                    class="tab-item"
+                    @click="currentTabComponent = 'BugReportPanel'">
+                    {{$t('bug-reports')}}
+                </button>
+                <button 
+                    :class="activeTab('SendNotifications')" 
+                    class="tab-item"
+                    @click="currentTabComponent = 'SendNotifications'">
+                    {{$t('send-notification')}}
+                </button>
+                <button 
+                    :class="activeTab('Balancing')" 
+                    class="tab-item"
+                    @click="currentTabComponent = 'Balancing'">
+                    {{$t('balancing')}}
+                </button>
+                <button 
+                    :class="activeTab('ReportedUsers')" 
+                    class="tab-item"
+                    @click="currentTabComponent = 'ReportedUsers'">
+                    {{$t('reported-users')}}
+                </button>
+            </div>
+            <keep-alive class="col-10">
+                <component :is="currentTabComponent" />
+            </keep-alive>
+        </div>
     </div>
 </template>
 
@@ -29,12 +49,10 @@ import SendNotifications from '../components/tabs/admin/SendNotifications.vue';
 import Balancing from '../components/tabs/admin/Balancing.vue';
 import Loading from '../components/Loading.vue';
 import ReportedUsers from '../components/tabs/admin/ReportedUsers.vue';
-import BTabs from '../components/bootstrap/BTabs.vue';
-import BTab from '../components/bootstrap/BTab.vue';
 
 export default {
     components: {
-        Achievements, BugReportPanel, SendNotifications, Balancing, ReportedUsers, Loading, BTab, BTabs,
+        Achievements, BugReportPanel, SendNotifications, Balancing, ReportedUsers, Loading,
     },
     mounted() {
         this.$store.dispatch('admin/getAdminDashboard').then(() => this.loading = false);
@@ -42,8 +60,14 @@ export default {
     data() {
         return {
             loading: true,
+            currentTabComponent: 'Achievements',
         }
     },
-
+    methods: {
+        activeTab(component) {
+            if (component == this.currentTabComponent) return 'active-tab';
+            return 'tab';
+        },
+    },
 }
 </script>

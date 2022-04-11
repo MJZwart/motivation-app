@@ -1,8 +1,18 @@
 <template>
     <div class="row">
-        <div class="card col-2">
-            <button @click="currentTabComponent = 'Groups'">{{ $t('groups') }}</button>
-            <button @click="currentTabComponent = 'Friends'">{{ $t('friends') }}</button>
+        <div class="tabs col-2">
+            <button 
+                :class="activeTab('Groups')" 
+                class="tab-item"
+                @click="currentTabComponent = 'Groups'">
+                {{ $t('groups') }}
+            </button>
+            <button 
+                :class="activeTab('Friends')" 
+                class="tab-item"
+                @click="currentTabComponent = 'Friends'">
+                {{ $t('friends') }}
+            </button>
         </div>
         <keep-alive class="col-10">
             <component :is="currentTabComponent" />
@@ -22,6 +32,12 @@ export default {
         return {
             currentTabComponent: 'Groups',
         }
+    },
+    methods: {
+        activeTab(component) {
+            if (component == this.currentTabComponent) return 'active-tab';
+            return 'tab';
+        },
     },
 }
 </script>
