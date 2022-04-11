@@ -21,7 +21,7 @@
 
 <script>
 import BaseFormError from '../BaseFormError.vue';
-import Vue from 'vue';
+import {shallowRef} from 'vue';
 
 export default {
     components: {
@@ -41,7 +41,7 @@ export default {
         }
     },
     mounted() {
-        this.taskList ? this.editedTaskList = Vue.util.extend({}, this.taskList) : this.editedTaskList = {};
+        this.taskList ? this.editedTaskList = shallowRef(this.taskList) : this.editedTaskList = {};
     },
     methods: {
         updateTaskList() {

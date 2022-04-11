@@ -21,7 +21,7 @@
 
 <script>
 import BaseFormError from '../BaseFormError.vue';
-import Vue from 'vue';
+import {shallowRef} from 'vue';
 export default {
     components: {BaseFormError},
     props: {
@@ -40,7 +40,7 @@ export default {
         }
     },
     mounted() {
-        this.rewardObj ? this.editedRewardObj = Vue.util.extend({}, this.rewardObj) : this.editedRewardObj = {};
+        this.rewardObj ? this.editedRewardObj = shallowRef(this.rewardObj) : this.editedRewardObj = {};
     },
     methods: {
         updateRewardObj() {

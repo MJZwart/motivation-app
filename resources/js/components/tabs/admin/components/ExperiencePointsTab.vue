@@ -65,13 +65,13 @@ import {
     EXPERIENCE_POINTS_FIELDS, 
 } from '../../../../constants/balancingConstants.js';
 import GeneralFormError from '../../../GeneralFormError.vue';
-import Vue from 'vue';
+import {shallowRef} from 'vue';
 import BaseFormError from '../../../BaseFormError.vue';
 export default {
     components: {GeneralFormError, BaseFormError},
     mounted() {
         if (this.experience_points) {
-            this.experiencePoints = Vue.util.extend([], this.experience_points);
+            this.experiencePoints = shallowRef(this.experience_points);
             this.loading = false;
         }
     },
@@ -98,7 +98,7 @@ export default {
         addNewLevel() {
             this.clearErrors();
             this.$store.dispatch('admin/addNewLevel', this.newLevel).then(() => {
-                this.experiencePoints = Vue.util.extend([], this.experience_points);
+                this.experiencePoints = shallowRef(this.experience_points);
             });
         },
         clearErrors() {

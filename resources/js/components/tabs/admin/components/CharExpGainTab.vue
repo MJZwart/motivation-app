@@ -35,14 +35,14 @@ import {
     CHARACTER_EXP_GAIN_FIELDS, 
 } from '../../../../constants/balancingConstants.js';
 import GeneralFormError from '../../../GeneralFormError.vue';
-import Vue from 'vue';
+import {shallowRef} from 'vue';
 import Loading from '../../../Loading.vue';
 
 export default {
     components: {GeneralFormError, Loading},
     mounted() {
         if (this.character_exp_gain) {
-            this.characterExpGain = Vue.util.extend([], this.character_exp_gain);
+            this.characterExpGain = shallowRef(this.character_exp_gain);
         }
     },
     data() {

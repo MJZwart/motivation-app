@@ -65,7 +65,7 @@
 <script>
 import BaseFormError from '../BaseFormError.vue';
 import {TASK_TYPES, REPEATABLES} from '../../constants/taskConstants';
-import Vue from 'vue';
+import {shallowRef} from 'vue';
 
 export default {
     components: {BaseFormError},
@@ -85,7 +85,7 @@ export default {
         }
     },
     mounted() {
-        this.task ? this.editedTask = Vue.util.extend({}, this.task) : this.editedTask = {};
+        this.task ? this.editedTask = shallowRef(this.task) : this.editedTask = {};
     },
     methods: {
         updateTask() {

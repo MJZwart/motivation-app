@@ -35,14 +35,14 @@ import {
     VILLAGE_EXP_GAIN_FIELDS,
 } from '../../../../constants/balancingConstants.js';
 import GeneralFormError from '../../../GeneralFormError.vue';
-import Vue from 'vue';
+import {shallowRef} from 'vue';
 import Loading from '../../../Loading.vue';
 
 export default {
     components: {GeneralFormError, Loading},
     mounted() {
         if (this.village_exp_gain) {
-            this.villageExpGain = Vue.util.extend([], this.village_exp_gain);
+            this.villageExpGain = shallowRef(this.village_exp_gain);
         }
     },
     data() {

@@ -22,15 +22,7 @@ export default defineConfig(({command}) => {
         },
         plugins: [
             ViteRequireContext(),
-            vue({
-                template: {
-                    compilerOptions: {
-                        compatConfig: {
-                            MODE: 2,
-                        },
-                    },
-                },
-            }),
+            vue(),
         ],
         server: {
             port: 3000,
@@ -38,7 +30,6 @@ export default defineConfig(({command}) => {
         resolve: {
             alias: {
                 '@': '/js',
-                'vue': '@vue/compat',
             },
         },
         css: {
@@ -51,11 +42,14 @@ export default defineConfig(({command}) => {
         optimizeDeps: {
             include: [
                 'vue',
-                'portal-vue',
                 'axios',
                 'vue-i18n',
                 'vuex',
                 'vue-router',
+                '@fortawesome/vue-fontawesome',
+                '@fortawesome/fontawesome-svg-core',
+                '@fortawesome/free-regular-svg-icons',
+                '@fortawesome/free-solid-svg-icons',
             ],
         },
 

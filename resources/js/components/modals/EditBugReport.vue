@@ -58,7 +58,7 @@
 
 <script>
 import BaseFormError from '../BaseFormError.vue';
-import Vue from 'vue';
+import {shallowRef} from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '../../constants/bugConstants';
 
 export default {
@@ -71,7 +71,7 @@ export default {
     },
     mounted() {
         if (this.bugReport) {
-            this.bugReportToEdit = Vue.util.extend({}, this.bugReport);
+            this.bugReportToEdit = shallowRef(this.bugReport);
         }
     },
     data() {

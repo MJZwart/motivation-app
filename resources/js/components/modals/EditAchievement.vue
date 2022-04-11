@@ -58,7 +58,7 @@
 <script>
 import BaseFormError from '../BaseFormError.vue';
 import {mapGetters} from 'vuex';
-import Vue from 'vue';
+import {shallowRef} from 'vue';
 export default {
     props: {
         achievement: {
@@ -68,7 +68,7 @@ export default {
         },
     },
     mounted() {
-        this.achievementToEdit = Vue.util.extend({}, this.achievement);
+        this.achievementToEdit = shallowRef(this.achievement);
     },
     components: {
         BaseFormError,
