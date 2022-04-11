@@ -56,56 +56,47 @@
                 <p v-if="superTask">{{ $t('subtask-of') }}: {{superTask.name}}</p>
             </div>
             <button type="submit" class="block">{{ $t('create-new-task') }}</button>
-            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block" @click="emit('close')">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>
 
 
-<script>
-import BaseFormError from '../BaseFormError.vue';
-import {TASK_TYPES, REPEATABLES} from '../../constants/taskConstants';
+<script setup>
+import BaseFormError from '@/components/BaseFormError.vue';
+import {TASK_TYPES, REPEATABLES} from '@/constants/taskConstants';
+import {reactive} from 'vue';
+import {useTaskStore} from '@/store/modules/taskStore';
 
-export default {
-    components: {
-        BaseFormError,
+const taskStore = useTaskStore();
+
+const props = defineProps({
+    taskList: {
+        /** @type {import('../../../types/task').TaskList} */
+        type: Object,
+        required: true,
     },
-    props: {
-        taskList: {
-            /** @type {import('../../../types/task').TaskList} */
-            type: Object,
-            required: true,
-        },
-        superTask: {
-            /** @type {import('../../../types/task').Task} */
-            type: Object,
-            required: false,
-        },
+    superTask: {
+        /** @type {import('../../../types/task').Task} */
+        type: Object,
+        required: false,
     },
-    data() {
-        return {
-            /** @type {import('../../../types/task').Task} */
-            task: {
-                difficulty: 3,
-                type: 'GENERIC',
-                repeatable: 'NONE',
-            },
-            taskTypes: TASK_TYPES,
-            repeatables: REPEATABLES,
-        }
-    },
-    methods: {
-        submitTask() {
-            this.task.super_task_id = this.superTask ? this.superTask.id : null;
-            this.task.task_list_id = this.taskList.id || null;
-            var self = this;
-            this.$store.dispatch('task/storeTask', this.task).then(function() {
-                self.close();
-            });
-        },
-        close() {
-            this.$emit('close');
-        },
-    },
+})
+const emit = defineEmits(['close'])
+const taskTypes = TASK_TYPES;
+const repeatables = REPEATABLES;
+
+const task = reactive({
+    difficulty: 3,
+    type: 'GENERIC',
+    repeatable: 'NONE',
+});
+
+function submitTask() {
+    task.value.super_task_id = props.superTask ? props.superTask.id : null;
+    task.value.task_list_id = props.taskList.id || null;
+    this.$store.dispatch('task/storeTask', task).then(function() {
+        emit('close')
+    });
 }
 </script>

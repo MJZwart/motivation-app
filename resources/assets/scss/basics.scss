@@ -119,3 +119,21 @@ ul {
     font-size: 1.25rem;
     font-weight: 300;
 }
+
+.d-block{
+    display: block !important;
+}
+label {
+    font-weight:500;
+}
+label.option-label{
+    font-weight: 400;
+}
+.text-muted {
+    color: $text-muted;
+}
+small {
+    font-weight: 300;
+    font-size:medium;
+    display: block;
+}

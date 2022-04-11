@@ -3,7 +3,7 @@
         <BModal :show="showFirstModal" :footer="false" :header="false">
             <template #header>
                 <div class="modal-header d-block">
-                    <h4>{{ $t('welcome') }}</h4>
+                    <h5 class="modal-title">{{ $t('welcome') }}</h5>
                     <p class="silent mb-0">{{ $t('not-yet-done') }}</p>
                 </div>
             </template>
@@ -18,7 +18,7 @@
                             name="rewards-type" 
                             type="radio" 
                             value="NONE" />
-                        <label for="NONE">{{ $t('no-rewards') }}</label>
+                        <label for="NONE" class="option-label">{{ $t('no-rewards') }}</label>
                     </div>
                     <div>
                         <input 
@@ -27,7 +27,7 @@
                             name="rewards-type" 
                             type="radio" 
                             value="CHARACTER" />
-                        <label for="CHARACTER">{{ $t('character-reward') }}</label>
+                        <label for="CHARACTER" class="option-label">{{ $t('character-reward') }}</label>
                     </div>
                     <div>
                         <input 
@@ -36,7 +36,7 @@
                             name="rewards-type" 
                             type="radio" 
                             value="VILLAGE" />
-                        <label for="VILLAGE">{{ $t('village-reward') }}</label>
+                        <label for="VILLAGE" class="option-label">{{ $t('village-reward') }}</label>
                     </div>
                     <base-form-error name="rewards-type" /> 
                 </div>
@@ -83,7 +83,7 @@
                 <div class="d-flex">
                     <button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</button>
                     <button @click="confirmSettings()">{{ $t('submit') }}</button>
-                    <button class="ml-auto red" @click="logout()">{{ $t('logout')}}</button>
+                    <button class="ml-auto button-red" @click="logout()">{{ $t('logout')}}</button>
                 </div>
             </div>
         </BModal>
@@ -94,11 +94,13 @@
 import BaseFormError from '../components/BaseFormError.vue';
 import {mapGetters} from 'vuex';
 import BModal from '../components/bootstrap/BModal.vue';
+import {useTaskStore} from '@/store/modules/newTaskStore';
 export default {
     components: {BaseFormError, BModal},
     mounted () {
         this.$store.dispatch('clearErrors');
-        this.$store.dispatch('task/fetchExampleTasks');
+        // this.$store.dispatch('task/fetchExampleTasks');
+        useTaskStore.fetchExampleTasks();
         this.startFirstModal();
     },
     data() {

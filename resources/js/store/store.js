@@ -1,3 +1,4 @@
+// @ts-nocheck
 // import Vue from 'vue';
 import {createStore} from 'vuex';
 
@@ -42,11 +43,9 @@ export const store = createStore({
             state.errors = response;
         },
         addToast(state, toast) {
-            // @ts-ignore
             state.toasts.push(toast);
         },
         clearToast(state, title) {
-            // @ts-ignore
             const index = state.toasts.findIndex(toast => toast.title === title);
             state.toasts.splice(index, 1);
         },
@@ -61,37 +60,50 @@ export const store = createStore({
         },
     },
     actions: {
-        clearErrors({commit}) {
-            commit('setErrorMessages', []);
-        },
-        getDashboard: ({commit}) => {
-            return axios.get('/dashboard').then(response => {
-                commit('taskList/setTaskLists', response.data.taskLists, {root:true});
-                commit('reward/setRewardObj', response.data.rewardObj, {root:true});
-                return Promise.resolve();
-            });
-        },
-        hasUnread: ({commit}) => {
-            axios.get('/unread').then(function(response) {
-                commit('notification/setHasNotifications', response.data.hasNotifications);
-                commit('message/setHasMessages', response.data.hasMessages);
-            });
-        },
-        sendFeedback: ({commit}, feedback) => {
-            axios.post('/feedback', feedback).then(response => {
-                commit('addToast', response.data.message);
-            })
-        },
+    },
+});
+
+import {defineStore} from 'pinia';
+
+import {useTasklistStore} from './taskListStore.js';
+
+export const useMainStore = defineStore('main', {
+    state: () => {
+        return {
+            //Errors and response
+            responseMessage: {},
+            errors: [],
+            toasts: [],
+        }
+    },
+    actions: {
         /**
          * Send a toast by calling:
-         * commit('addToast', response.data.message, {root:true});
+         * useMainStore.addToast(toastObject)
          * where 'response.data.message' is an object with one or multiple messages.
-         * In the JsonResponse, name the response message 'success', 'danger' or 'info' 
+         * In the JsonResponse, name the message key 'success', 'danger' or 'info' 
          * to get corresponding themes and titles.
-         * 
          */
-        sendToasts: ({commit}, message) => {
-            commit('addToast', message);
+        addToast(toast) {
+            this.toasts.push(toast);
+        },
+        clearErrors() {
+            this.errors = [];
+        },
+        async getDashboard() {
+            const data = await axios.get('/dashboard')
+            const tasklistStore = useTasklistStore();
+            tasklistStore.taskLists = data.taskLists;
+                commit('reward/setRewardObj', response.data.rewardObj, {root:true});
+        },
+        async hasUnread() {
+            const data = await axios.get('/unread')
+                commit('notification/setHasNotifications', response.data.hasNotifications);
+                commit('message/setHasMessages', response.data.hasMessages);
+        },
+        async sendFeedback(feedback) {
+            const data = await axios.post('/feedback', feedback)
+            this.addToast(data.message);
         },
     },
 });

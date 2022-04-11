@@ -128,8 +128,9 @@ button.clear {
     border: none;
 }
 
-button.red {
+.button-red {
     background-color: $red;
+    border-color: $red;
 }
 .tabs {
     border-right: 1px solid $border-color;

@@ -27,7 +27,7 @@
                     v-model="groupToCreate.is_public"
                     type="checkbox"
                     name="public-checkbox" />
-                <label for="public-checkbox">{{$t('group-public-checkbox')}}</label>
+                <label for="public-checkbox" class="option-label">{{$t('group-public-checkbox')}}</label>
                 <small class="form-text text-muted">{{$t('group-public-checkbox-desc')}}</small>
                 <base-form-error name="public-checkbox" /> 
             </div>

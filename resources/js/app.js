@@ -2,18 +2,19 @@ import './bootstrap';
 import './interceptors';
 import '../assets/scss/app.scss';
       
-// //Import store
-import {store} from './store/store';
-        
-// //Import router
-import router from './router/router';
-        
 import {createApp} from 'vue';
 import App from './App.vue';
-        
+
 const app = createApp(App);
-        
+
+//Import store
+import {store} from './store/store';
+import {createPinia} from 'pinia';
+app.use(createPinia());
 app.use(store);
+
+//Import router
+import router from './router/router';
 app.use(router);
 
 //Import vue-i18n translations
