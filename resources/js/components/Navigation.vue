@@ -23,8 +23,7 @@
                     <FaIconLayers class="mr-3 nav-icon-layers">
                         <FaIcon 
                             icon="envelope" 
-                            class="icon-nav" 
-                            size="2xl" />
+                            class="icon-nav icon-2xl" />
                         <FaIcon 
                             v-if="hasMessages" 
                             icon="circle" 
@@ -36,8 +35,7 @@
                     <FaIconLayers class="mr-3 nav-icon-layers">
                         <FaIcon 
                             :icon="['far', 'bell']" 
-                            class="icon-nav" 
-                            size="2xl" />
+                            class="icon-nav icon-2xl" />
                         <FaIcon 
                             v-if="hasNotifications" 
                             icon="circle" 
