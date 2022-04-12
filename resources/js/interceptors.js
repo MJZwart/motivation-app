@@ -2,6 +2,11 @@ import axios from 'axios';
 import router from './router/router.js';
 import {store} from './store/store.js';
 
+import {useMainStore} from './store/store';
+import {useUserStore} from './store/userStore';
+const mainStore = useMainStore();
+const userStore = useUserStore();
+
 // @ts-ignore
 window.axios = axios;
 
@@ -37,6 +42,7 @@ axios.interceptors.response.use(
              */
             case 401:
                 if (router.currentRoute.name !== 'login') {
+                    userStore.logout();
                     store.dispatch('user/logout', false);
                 }
                 sendErrorToast('You are not logged in');

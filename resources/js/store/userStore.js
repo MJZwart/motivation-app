@@ -2,8 +2,11 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
 import {useMainStore} from './store';
+import router from '../router/router';
+import { useRewardStore } from './rewardStore';
+import { useMessageStore } from './messageStore';
 
-export const useRewardStore = defineStore('reward', {
+export const useUserStore = defineStore('reward', {
     state: () => {
         return {
             user: JSON.parse(localStorage.getItem('user')) || {},
@@ -13,142 +16,100 @@ export const useRewardStore = defineStore('reward', {
             searchResults: null,
         }
     },
-    mutations: {
-        setAuthenticated(state, value) {
-            state.authenticated = value;
-            localStorage.setItem('authenticated', value);
-        },
-        setUser(state, value) {
-            state.user = value;
-            localStorage.setItem('user', JSON.stringify(value));
-        },
-        setUserProfile(state, value) {
-            state.userProfile = value;
-        },
-        setUserStats(state, value) {
-            state.userStats = value;
-        },
-        setSearchResults(state, value) {
-            state.searchResults = value;
-        },
-    },
-    getters: {
-        authenticated: state => {
-            return state.authenticated;
-        },
-        getUser: state => {
-            return state.user;
-        },
-        getUserProfile: state => {
-            return state.userProfile;
-        },
-        getUserStats: state => {
-            return state.userStats;
-        },
-        getSearchResults: state => {
-            return state.searchResults;
-        },
-    },
     actions: {
         //User authentication
-        login: ({commit}, user) => {
+        async login(user) {
             //axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
-            axios.get('http://localhost:8000/sanctum/csrf-cookie').then(_ => {
-                axios.post('/login', user).then(response => {
-                    commit('setUser', response.data.user);
-                    commit('setAuthenticated', true);
-                    router.push('/').catch(() => {});
-                });
+            await axios.get('http://localhost:8000/sanctum/csrf-cookie')
+            const data = await axios.post('/login', user)
+            this.setUser(data.data, true);
+            router.push('/').catch(() => {});
+        },
+        async logout() {
+            await axios.post('/logout');
+            this.setUser({}, false);
+            router.push('/').catch(() => {
+                router.go();
             });
         },
-        logout({commit}) {
-            axios.post('/logout').then(() => {
-                commit('setUser', {});
-                commit('setAuthenticated', false);
-                router.push('/').catch(() => {
-                    router.go();
-                });
-            });
+        setUser(user, auth) {
+            this.user = user;
+            this.authenticated = auth;
+            localStorage.setItem('authenticated', true);
+            localStorage.setItem('user', JSON.stringify(user));
         },
 
         //New user
-        register: ({commit}, user) => {
-            axios.post('/register', user).then(response => {
-                router.push('/login').catch(() => { });
-                commit('addToast', response.data.message, {root:true});
-            });
+        async register(user) {
+            const data = await axios.post('/register', user)
+            router.push('/login').catch(() => { });
+            this.addToast(data.message);
         },
-        confirmRegister: ({commit}, user) => {
-            axios.post('/register/confirm', user).then(response => {
-                commit('addToast', response.data.message, {root:true});
-                commit('setUser', response.data.user);
-                router.push('/').catch(() => {});
-            });
+        async confirmRegister(user) {
+            const data = await axios.post('/register/confirm', user)
+            this.addToast(data.message);
+            this.user = data.user;
+            router.push('/').catch(() => {});
         },
 
         //Public user profile
-        getUserProfile: ({commit}, userId) => {
-            return axios.get('/profile/' + userId).then(response => {
-                commit('setUserProfile', response.data.data);
-                return Promise.resolve();
-            });
+        async getUserProfile(userId) {
+            const data = await  axios.get('/profile/' + userId)
+            this.userProfile = data.data;
         },
 
-        getOverview: ({commit}) => {
-            return axios.get('/overview').then(response => {
-                commit('setUserStats', response.data.stats);
+        async getOverview() {
+            const data = await  axios.get('/overview')
+            this.userStats = data.stats;
                 commit('achievement/setAchievements', response.data.achievements, {root:true});
-                commit('reward/setRewardObj', response.data.rewardObj, {root:true});
-                return Promise.resolve();
-            });
+            const rewardStore = useRewardStore();
+            rewardStore.rewardObj = data.rewardObj;
         },
 
-        updatePassword: ({commit, dispatch}, passwords) => {
-            axios.put('/user/settings/password', passwords).then(response => {
-                dispatch('logout');
-                commit('addToast', response.data.message, {root:true});
-            });
+        async updatePassword(passwords) {
+            const data = await axios.put('/user/settings/password', passwords)
+            this.logout();
+            this.addToast(data.message);
         },
-        updateEmail: ({commit}, email) => {
-            axios.put('/user/settings/email', email).then(response => {
-                commit('setUser', response.data.user);
-                commit('addToast', response.data.message, {root:true});
-            });
+        async updateEmail(email) {
+            const data = await axios.put('/user/settings/email', email)
+            this.user = data.user;
+            this.addToast(data.message);
         },
-        updateSettings: ({commit}, settings) => {
-            axios.put('/user/settings', settings).then(response => {
-                commit('setUser', response.data.user);
-                commit('addToast', response.data.message, {root:true});
-            });
+        async updateSettings(settings) {
+            const data = await axios.put('/user/settings', settings)
+            this.user = data.user;
+            this.addToast(data.message);
         },
-        changeRewardType: ({commit}, user) => {
-            return axios.put('/user/settings/rewards', user).then(response => {
-                commit('setUser', response.data.user);
-                commit('addToast', response.data.message, {root:true});
-                commit('reward/setRewardObj', response.data.activeReward, {root:true});
-                return Promise.resolve();
-            });
+        async changeRewardType(user) {
+            const data = await  axios.put('/user/settings/rewards', user)
+            this.user  = data.user;
+            this.addToast(data.message);
+            const rewardStore = useRewardStore();
+            rewardStore.rewardObj = data.activeReward;
         },
 
-        searchUser: ({commit}, searchValue) => {
-            axios.post('/search', searchValue).then(response => {
-                commit('setSearchResults', response.data.data);
-            });
+        async searchUser(searchValue) {
+            const data = await axios.post('/search', searchValue)
+            this.searchResults = data.data;
         },
 
-        reportUser: ({commit}, [user, report]) => {
-            return axios.post('/user/' + user.id + '/report', report).then(response => {
-                commit('addToast', response.data.message, {root:true});
-                return Promise.resolve();
-            });
+        async reportUser([user, report]) {
+            const data = await  axios.post('/user/' + user.id + '/report', report)
+            this.addToast(data.message);
         },
 
-        blockUser: ({commit}, userId) => {
-            return axios.put('/user/' + userId + '/block').then(response => {
-                commit('addToast', response.data.message, {root:true});
+        async blockUser(userId) {
+            const data = await axios.put('/user/' + userId + '/block')
+            this.addToast(data.message);
+            const messageStore = useMessageStore();
+            
                 commit('message/setConversations', response.data.data, {root:true});
                 return Promise.resolve();
-            });
+        },
+        addToast(toast) {
+            const mainStore = useMainStore();
+            mainStore.addToast(toast);
         },
     },
 });
