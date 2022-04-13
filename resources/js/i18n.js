@@ -1,6 +1,6 @@
 // @ts-nocheck
 import {createI18n} from 'vue-i18n';
-import en from '../lang/en.json'
+import en from '../lang/en.json';
 // import en from '../lang/en.js';
 
 export default createI18n({

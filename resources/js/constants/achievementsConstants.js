@@ -9,4 +9,4 @@ export const ACHIEVEMENT_FIELDS = [
 
 export const ACHIEVEMENT_DEFAULTS = {
     currentSort: 'trigger',
-}
+};

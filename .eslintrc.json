@@ -41,7 +41,7 @@
          */
         "vue/component-definition-name-casing": ["error", "PascalCase"],
         "vue/html-indent": [
-            "error",
+            "warn",
             4,
             {
                 "attribute": 1,
@@ -64,7 +64,7 @@
         ],
         "vue/singleline-html-element-content-newline": "off",
         "vue/attributes-order": [
-            "error",
+            "warn",
             {
                 // Not sure about the order here, will need to test more with this
                 "order": [

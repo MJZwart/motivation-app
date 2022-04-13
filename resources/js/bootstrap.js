@@ -1,6 +1,6 @@
 // @ts-nocheck
 // window._ = require('lodash');
-import axios from 'axios'
+import axios from 'axios';
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

@@ -12,18 +12,18 @@ export const useMessageStore = defineStore('reward', {
     },
     actions: {
         async getConversations() {
-            const data = await axios.get('/conversations')
+            const data = await axios.get('/conversations');
             this.conversations = data.data;
         },
 
         async sendMessage(message) {
-            const data = await  axios.post('/message', message)
+            const data = await  axios.post('/message', message);
             this.conversations = data.data;
             this.addToast(data.message);
         },
 
         async deleteMessage(messageId) {
-            const data = await  axios.delete('/message/' + messageId)
+            const data = await  axios.delete('/message/' + messageId);
             this.conversations = data.data;
             this.addToast(data.message);
         },
@@ -38,4 +38,4 @@ export const useMessageStore = defineStore('reward', {
         },
 
     },
-})
+});
