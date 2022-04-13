@@ -40,43 +40,75 @@
                 </button>
             </template>
         </Summary>
+
+        <Modal :show="showNewTaskModal" :footer="false" :title="$t('new-task')" @close="closeNewTask">
+            <NewTask :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
+        </Modal>
+        <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
+            <EditTask :task="taskToEdit" @close="closeEditTask" />
+        </Modal>
     </div>
 </template>
 
 
-<script>
+<script setup>
 import Tooltip from '../bootstrap/Tooltip.vue';
 import Task from './Task.vue';
 import Summary from '../summary/Summary.vue';
-export default {
-    components: {Task, Summary, Tooltip},
-    props: {
-        taskList: {
-            /** @type {import('resources/types/task').TaskList} */
-            type: Object,
-            required: true,
-        },
+import {defineProps, reactive, ref} from 'vue';
+import {useMainStore} from '@/store/store';
+import NewTask from '../modals/NewTask.vue';
+import EditTask from '../modals/EditTask.vue';
+
+const props = defineProps({
+    taskList: {
+        /** @type {import('resources/types/task').TaskList} */
+        type: Object,
+        required: true,
     },
-    methods: {
-        /** @param {import('resources/types/task').Task} */
-        openNewTask(superTask) {
-            this.$emit('newTask', superTask, this.taskList);
-        },
-        /** @param {import('resources/types/task').Task} */
-        editTask(task) {
-            this.$emit('editTask', task);
-        },
-        editTaskList() {
-            this.$emit('editTaskList', this.taskList);
-        },
-        deleteTaskList() {
-            this.$emit('deleteTaskList', this.taskList);
-        },
-        taskClass(index) {
-            return index == this.taskList.tasks.length -1 ? 'task-last' : 'task';
-        },
-    },
+});
+
+/** @type {import('../../types/task').Task | null} */
+const superTask = reactive({});
+/** @type {import('../../types/task').Task | null} */
+const taskToEdit = reactive({});
+
+const showNewTaskModal = ref(false);
+const showEditTaskModal = ref(false);
+
+const mainStore = useMainStore();
+
+function openNewTask(superTaskToSet) {
+    mainStore.clearErrors();
+    superTask.value = superTaskToSet;
+    showNewTaskModal.value = true;
 }
+function closeNewTask() {
+    showNewTaskModal.value = false;
+}
+
+/** Shows and hides the modal to edit a given task
+ * @param {import('../../types/task').Task} task
+ */
+function editTask(task) {
+    mainStore.clearErrors();
+    taskToEdit.value = task;
+    showEditTaskModal.value = true;
+}
+function closeEditTask() {
+    showEditTaskModal.value = false;
+}
+
+function editTaskList() {
+    this.$emit('editTaskList', this.taskList);
+}
+function deleteTaskList() {
+    this.$emit('deleteTaskList', this.taskList);
+}
+function taskClass(index) {
+    return index == props.taskList.tasks.length -1 ? 'task-last' : 'task';
+}
+
 </script>
 
 <style lang="scss">

@@ -94,13 +94,11 @@
 import BaseFormError from '../components/BaseFormError.vue';
 import {mapGetters} from 'vuex';
 import BModal from '../components/bootstrap/BModal.vue';
-import {useTaskStore} from '@/store/modules/newTaskStore';
 export default {
     components: {BaseFormError, BModal},
     mounted () {
         this.$store.dispatch('clearErrors');
-        // this.$store.dispatch('task/fetchExampleTasks');
-        useTaskStore.fetchExampleTasks();
+        this.$store.dispatch('task/fetchExampleTasks');
         this.startFirstModal();
     },
     data() {

@@ -66,9 +66,11 @@
 import BaseFormError from '@/components/BaseFormError.vue';
 import {TASK_TYPES, REPEATABLES} from '@/constants/taskConstants';
 import {reactive} from 'vue';
-import {useTaskStore} from '@/store/modules/taskStore';
+import {useTaskStore} from '@/store/taskStore';
+// import {useStore} from 'vuex';
 
 const taskStore = useTaskStore();
+// const store = useStore();
 
 const props = defineProps({
     taskList: {
@@ -92,11 +94,10 @@ const task = reactive({
     repeatable: 'NONE',
 });
 
-function submitTask() {
-    task.value.super_task_id = props.superTask ? props.superTask.id : null;
-    task.value.task_list_id = props.taskList.id || null;
-    this.$store.dispatch('task/storeTask', task).then(function() {
-        emit('close')
-    });
+async function submitTask() {
+    task.super_task_id = props.superTask ? props.superTask.id : null;
+    task.task_list_id = props.taskList.id || null;
+    await taskStore.storeTask(task);
+    emit('close');
 }
 </script>

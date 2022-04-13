@@ -26,58 +26,48 @@
             </ul>
             <p v-else class="mb-1">{{ $t('no-friends') }}</p>
         </Summary>
-        <BModal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
+        <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
             <SendMessage :user="friendToMessage" @close="closeSendMessageModal" />
-        </BModal>
+        </Modal>
     </div>
 </template>
 
 
-<script>
+<script setup>
 import Tooltip from '../bootstrap/Tooltip.vue';
-import {mapGetters} from 'vuex';
 import SendMessage from '../modals/SendMessage.vue';
 import Summary from './Summary.vue';
-import BModal from '../bootstrap/BModal.vue';
+import {defineProps, computed, ref} from 'vue';
+import {useUserStore} from '@/store/userStore';
 
-export default {
-    components: {
-        SendMessage, Summary, BModal, Tooltip,
+const userStore = useUserStore();
+
+const user = computed(() => userStore.user);
+
+defineProps({
+    manage: {
+        type: Boolean,
+        required: true,
     },
-    props: {
-        manage: {
-            type: Boolean,
-            required: true,
-        },
-        message: {
-            type: Boolean,
-            required: true,
-        },
+    message: {
+        type: Boolean,
+        required: true,
     },
-    data() {
-        return {
-            friendToMessage: null,
-            showSendMessageModal: false,
-        }
-    },
-    methods: {
-        removeFriend(friend) {
-            if (confirm('Are you sure you wish to remove ' + friend.username + ' as friend?')) {
-                this.$store.dispatch('friend/removeFriend', friend.friendship_id);
-            }
-        },
-        sendMessage(friend) {
-            this.friendToMessage = friend;
-            this.showSendMessageModal = true;
-        },
-        closeSendMessageModal() {
-            this.showSendMessageModal = false;
-        },
-    },
-    computed: {
-        ...mapGetters({
-            user: 'user/getUser',
-        }),
-    },
+});
+
+const friendToMessage = ref(false);
+const showSendMessageModal = ref(false);
+function sendMessage(friend) {
+    friendToMessage.value = friend;
+    showSendMessageModal.value = true;
+}
+function closeSendMessageModal() {
+    showSendMessageModal.value = false;
+}
+
+function removeFriend(friend) {
+    if (confirm('Are you sure you wish to remove ' + friend.username + ' as friend?')) {
+        this.$store.dispatch('friend/removeFriend', friend.friendship_id);
+    }
 }
 </script>

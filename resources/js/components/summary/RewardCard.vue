@@ -27,41 +27,32 @@
 </template>
 
 
-<script>
+<script setup>
 import ProgressBar from '../bootstrap/ProgressBar.vue';
 import Summary from './Summary.vue';
-export default {
-    props: {
-        reward: {
-            /** @type {import('resources/types/reward').Reward} */
-            type: Object,
-            required: true,
-        },
-        rewardType: {
-            type: String,
-            required: true,
-        },
+
+const props = defineProps({
+    reward: {
+        /** @type {import('resources/types/reward').Reward} */
+        type: Object,
+        required: true,
     },
-    components: {Summary, ProgressBar},
-    data() {
-        return {
-            /** @type {import('resources/types/reward').Reward} */
-            rewardToEdit: null,
-        }
+    rewardType: {
+        type: String,
+        required: true,
     },
-    methods: {
-        /**
-         * Calculates the experience needed to level up, in order to display the bar correctly
-         * There must be a better way than this
-         * @param {Number} level
-         */
-        experienceToLevel(level) {
-            const index = this.reward.exp_to_level.findIndex(item => item.level == level);
-            if (index >= 0) {
-                return this.reward.exp_to_level[index].experience_points;
-            }
-        },
-    },
+});
+/**
+ * Calculates the experience needed to level up, in order to display the bar correctly
+ * There must be a better way than this
+ * @param {Number} level
+ */
+function experienceToLevel(level) {
+    // console.log()
+    const index = props.reward.exp_to_level.findIndex(item => item.level == level);
+    if (index >= 0) {
+        return props.reward.exp_to_level[index].experience_points;
+    }
 }
 </script>
 

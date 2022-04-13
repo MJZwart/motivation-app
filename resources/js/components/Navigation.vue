@@ -62,33 +62,23 @@
 </template>
 
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
 import Dropdown from './bootstrap/Dropdown.vue';
-export default {
-    components: {
-        Dropdown,
-    },
-    data() {
-        return {
-            // isOpen: false,
-            // dropdownMenuOpen: false,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            authenticated: 'user/authenticated',
-            user: 'user/getUser',
-            hasNotifications: 'notification/getHasNotifications',
-            hasMessages: 'message/getHasMessages',
-            admin: 'admin/isAdmin',
-        }),
-    },
-    methods: {
-        logout() {
-            this.$store.dispatch('user/logout');
-        },
-    },
+import {useUserStore} from '@/store/userStore';
+import {useMessageStore} from '@/store/messageStore';
+import {computed} from 'vue';
+
+const userStore = useUserStore();
+const messageStore = useMessageStore();
+
+const authenticated = computed(() => userStore.authenticated);
+const user = computed(() => userStore.user);
+const hasNotifications = computed(() => messageStore.hasNotifications);
+const hasMessages = computed(() => messageStore.hasMessage);
+const admin = computed(() => userStore.isAdmin);
+
+function logout() {
+    userStore.logout();
 }
 </script>
 
@@ -125,58 +115,4 @@ export default {
 .icon-nav{
     color: $nav-text;
 }
-// .router-link-exact-active .icon-nav{
-//     color:rgba(255, 255, 255, 0.75);
-// }
-// .icon-nav-stack{
-//     margin-top:5px;
-//     margin-right:25px;
-// }
-// .icon-dot-red{
-//     color:$warning;
-// }
-// .toggled-nav{
-//     display: none;
-// }
-// .full-nav{
-//     display: block;   
-// }
-// .nav-text{
-//     .btn-primary{
-//         color: rgba(255, 255, 255, 0.5) !important;
-//     }
-// }
-// .dropdown-menu {
-
-// }
-// @media (max-width:767px){   
-//     .toggled-nav{
-//         display: block;
-//     }
-//     .full-nav{
-//         display: none;
-//     }
-//     .navbar{
-//         .navbar-nav{
-//             flex-direction: row;
-//                 .nav-item{
-//                     margin-right: 0.8rem;
-//                 }
-//             }
-//         .toggled {
-//             flex-direction: column;
-//         }
-//     }
-// }
-
-// @media (max-width: 425px){
-//     .nav-item{
-//         margin-right: 0.5rem;
-//     }
-//     .navbar{
-//         .toggled {
-//             flex-direction: column;
-//         }
-//     }
-// }
 </style>

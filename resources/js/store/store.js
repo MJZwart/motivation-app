@@ -65,7 +65,8 @@ export const store = createStore({
 
 import {defineStore} from 'pinia';
 
-import {useTasklistStore} from './taskListStore.js';
+import {useRewardStore} from './rewardStore.js';
+import {useTaskStore} from './taskStore.js';
 
 export const useMainStore = defineStore('main', {
     state: () => {
@@ -91,22 +92,20 @@ export const useMainStore = defineStore('main', {
             this.errors = [];
         },
         async getDashboard() {
-            const data = await axios.get('/dashboard');
-            const tasklistStore = useTasklistStore();
-            tasklistStore.taskLists = data.taskLists;
-            commit('reward/setRewardObj', response.data.rewardObj, {root:true});
-        },
-        async hasUnread() {
-            const data = await axios.get('/unread');
-            commit('notification/setHasNotifications', response.data.hasNotifications);
-            commit('message/setHasMessages', response.data.hasMessages);
+            const {data} = await axios.get('/dashboard');
+            const taskStore = useTaskStore();
+            taskStore.taskLists = data.taskLists;
+            const rewardStore = useRewardStore();
+            rewardStore.rewardObj = data.rewardObj;
         },
         async sendFeedback(feedback) {
             const data = await axios.post('/feedback', feedback);
+            console.log(data);
             this.addToast(data.message);
         },
         async storeBugReport(bugReport) {
             const data = await axios.post('/bugreport', bugReport);
+            console.log(data);
             this.addToast(data.message);
         },
     },

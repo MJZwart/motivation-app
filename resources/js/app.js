@@ -27,4 +27,10 @@ app.component('FaIcon', FontAwesomeIcon);
 app.component('FaIconLayers', FontAwesomeLayers);
 import './icons.js';
 
+//Global imports
+import BaseFormError from './components/BaseFormError.vue';
+app.component('BaseFormError', BaseFormError);
+import BModal from './components/bootstrap/BModal.vue';
+app.component('Modal', BModal);
+
 app.mount('#app');

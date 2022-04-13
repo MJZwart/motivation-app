@@ -27,9 +27,9 @@ export const useUserStore = defineStore('user', {
         async login(user) {
             //axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
             await axios.get('http://localhost:8000/sanctum/csrf-cookie');
-            const data = await axios.post('/login', user);
-            this.setUser(data.data, true);
-            router.push('/').catch(() => {});
+            const {data} = await axios.post('/login', user);
+            this.setUser(data.user, true);
+            router.push('/dashboard').catch(() => {});
         },
         async logout() {
             await axios.post('/logout');
@@ -41,18 +41,20 @@ export const useUserStore = defineStore('user', {
         setUser(user, auth) {
             this.user = user;
             this.authenticated = auth;
-            localStorage.setItem('authenticated', true);
+            localStorage.setItem('authenticated', auth);
             localStorage.setItem('user', JSON.stringify(user));
         },
 
         //New user
         async register(user) {
-            const data = await axios.post('/register', user);
+            const {data} = await axios.post('/register', user);
+            console.log(data);
             router.push('/login').catch(() => { });
             this.addToast(data.message);
         },
         async confirmRegister(user) {
-            const data = await axios.post('/register/confirm', user);
+            const {data} = await axios.post('/register/confirm', user);
+            console.log(data);
             this.addToast(data.message);
             this.user = data.user;
             router.push('/').catch(() => {});
@@ -60,12 +62,14 @@ export const useUserStore = defineStore('user', {
 
         //Public user profile
         async getUserProfile(userId) {
-            const data = await  axios.get('/profile/' + userId);
+            const {data} = await  axios.get('/profile/' + userId);
+            console.log(data);
             this.userProfile = data.data;
         },
 
         async getOverview() {
-            const data = await  axios.get('/overview');
+            const {data} = await  axios.get('/overview');
+            console.log(data);
             this.userStats = data.stats;
             const achievementStore = useAchievementStore();
             achievementStore.achievementsByUser = data.achievements;
@@ -74,22 +78,26 @@ export const useUserStore = defineStore('user', {
         },
 
         async updatePassword(passwords) {
-            const data = await axios.put('/user/settings/password', passwords);
+            const {data} = await axios.put('/user/settings/password', passwords);
+            console.log(data);
             this.logout();
             this.addToast(data.message);
         },
         async updateEmail(email) {
-            const data = await axios.put('/user/settings/email', email);
+            const {data} = await axios.put('/user/settings/email', email);
+            console.log(data);
             this.user = data.user;
             this.addToast(data.message);
         },
         async updateSettings(settings) {
-            const data = await axios.put('/user/settings', settings);
+            const {data} = await axios.put('/user/settings', settings);
+            console.log(data);
             this.user = data.user;
             this.addToast(data.message);
         },
         async changeRewardType(user) {
-            const data = await  axios.put('/user/settings/rewards', user);
+            const {data} = await  axios.put('/user/settings/rewards', user);
+            console.log(data);
             this.user  = data.user;
             this.addToast(data.message);
             const rewardStore = useRewardStore();
@@ -97,17 +105,20 @@ export const useUserStore = defineStore('user', {
         },
 
         async searchUser(searchValue) {
-            const data = await axios.post('/search', searchValue);
+            const {data} = await axios.post('/search', searchValue);
+            console.log(data);
             this.searchResults = data.data;
         },
 
         async reportUser([user, report]) {
-            const data = await  axios.post('/user/' + user.id + '/report', report);
+            const {data} = await  axios.post('/user/' + user.id + '/report', report);
+            console.log(data);
             this.addToast(data.message);
         },
 
         async blockUser(userId) {
-            const data = await axios.put('/user/' + userId + '/block');
+            const {data} = await axios.put('/user/' + userId + '/block');
+            console.log(data);
             this.addToast(data.message);
             const messageStore = useMessageStore();
             messageStore.conversations = data.data;

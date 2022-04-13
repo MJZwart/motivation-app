@@ -34,7 +34,8 @@ export const useAdminStore = defineStore('admin', {
             axios.get('/isadmin');
         },
         async getAdminDashboard() {
-            const data = await axios.get('/admin/dashboard');
+            const {data} = await axios.get('/admin/dashboard');
+            console.log(data);
             const achievementStore = useAchievementStore();
             achievementStore.achievements = data.achievements;
             achievementStore.achievementTriggers = data.achievementTriggers;
@@ -45,37 +46,44 @@ export const useAdminStore = defineStore('admin', {
             this.reportedUsers = data.reportedUsers;
         },
         async sendNotification(notification) {
-            const data = await axios.post('/notifications/all', notification);
+            const {data} = await axios.post('/notifications/all', notification);
+            console.log(data);
             this.addToast(data.message);
         },
         async fetchConversation(id) {
-            const data = await axios.get(`/admin/conversation/${id}`);
+            const {data} = await axios.get(`/admin/conversation/${id}`);
+            console.log(data);
             this.conversation = data.data;
         },
         async updateBugReport(bugReport) {
-            const data = await axios.put('/bugreport/' + bugReport.id, bugReport);
+            const {data} = await axios.put('/bugreport/' + bugReport.id, bugReport);
+            console.log(data);
             this.bugReports = data.data;
             this.addToast(data.message);
         },
 
         //Balancing
         async updateExpPoints(experiencePoints) {
-            const data = await axios.put('/admin/experience_points', experiencePoints);
+            const {data} = await axios.put('/admin/experience_points', experiencePoints);
+            console.log(data);
             this.experiencePoints = data.data;
             this.addToast(data.message);
         },
         async addNewLevel(newLevel) {
-            const data = await axios.post('/admin/experience_points', newLevel);
+            const {data} = await axios.post('/admin/experience_points', newLevel);
+            console.log(data);
             this.experiencePoints = data.data;
             this.addToast(data.message);
         },
         async updateCharExpGain(charExpGain) {
-            const data = await axios.put('/admin/character_exp_gain', charExpGain);
+            const {data} = await axios.put('/admin/character_exp_gain', charExpGain);
+            console.log(data);
             this.charExpGain = data.data;
             this.addToast(data.message);
         },
         async updateVillageExpGain(villageExpGain) {
-            const data = await axios.put('/admin/village_exp_gain', villageExpGain);
+            const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
+            console.log(data);
             this.villageExpGain = data.data;
             this.addToast(data.message);
         },

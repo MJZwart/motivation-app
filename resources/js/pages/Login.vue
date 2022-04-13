@@ -28,25 +28,18 @@
 </template>
 
 
-<script>
-import BaseFormError from '../components/BaseFormError.vue';
+<script setup>
+import {useUserStore} from '@/store/userStore';
+import {reactive} from 'vue';
 
-export default {
-    components: {
-        BaseFormError,
-    },
-    data() {
-        return {
-            login: {
-                username: '',
-                password: '',
-            },
-        }
-    },
-    methods: {
-        submitLogin() {
-            this.$store.dispatch('user/login', this.login, {root:true});
-        },
-    },
+const login = reactive({
+    username: '',
+    password: '',
+});
+
+const userStore = useUserStore();
+
+function submitLogin() {
+    userStore.login(login);
 }
 </script>

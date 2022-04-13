@@ -1,11 +1,13 @@
+/* eslint-disable max-lines-per-function */
 import axios from 'axios';
 import router from './router/router.js';
-import {store} from './store/store.js';
+// import {store} from './store/store.js';
 
 import {useMainStore} from './store/store';
 import {useUserStore} from './store/userStore';
-const mainStore = useMainStore();
-const userStore = useUserStore();
+
+// import {useStore} from 'vuex';
+// const store = useStore();
 
 // @ts-ignore
 window.axios = axios;
@@ -28,7 +30,6 @@ axios.interceptors.response.use(
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
         
-
         // refresh token reply should stay silent
         if (error.request.responseURL.indexOf('get_user_by_token') > -1) {
             return Promise.reject(error);
@@ -41,9 +42,11 @@ axios.interceptors.response.use(
              * This means that probably our token has expired and we need to get a new one.
              */
             case 401:
+                // @ts-ignore
                 if (router.currentRoute.name !== 'login') {
+                    const userStore = useUserStore();
                     userStore.logout();
-                    store.dispatch('user/logout', false);
+                    // store.dispatch('user/logout', false);
                 }
                 sendErrorToast('You are not logged in');
                 return Promise.reject(error);
@@ -53,6 +56,7 @@ axios.interceptors.response.use(
              * router will already redirect them, this is backup.
              */
             case 403:
+                // @ts-ignore
                 if (router.currentRoute.name !== 'login') {
                     router.push('/dashboard');
                 }
@@ -66,7 +70,10 @@ axios.interceptors.response.use(
             case 400:
             case 422:
                 sendErrorToast(error.response.data.message);
-                store.commit('setErrorMessages', error.response.data.errors);
+                // eslint-disable-next-line no-case-declarations
+                const mainStore = useMainStore();
+                mainStore.errors = error.response.data.errors;
+                // store.commit('setErrorMessages', error.response.data.errors);
                 return Promise.reject(error);
             default:
                 return Promise.reject(error);
@@ -79,6 +86,8 @@ axios.interceptors.response.use(
  * @param {String} toastMessage 
  */
 function sendErrorToast(toastMessage) {
+    const mainStore = useMainStore();
     let toastObject = {'error' : toastMessage};
-    store.commit('addToast', toastObject);
+    mainStore.addToast(toastObject);
+    // store.commit('addToast', toastObject);
 }
