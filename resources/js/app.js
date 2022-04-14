@@ -32,5 +32,7 @@ import BaseFormError from './components/BaseFormError.vue';
 app.component('BaseFormError', BaseFormError);
 import BModal from './components/bootstrap/BModal.vue';
 app.component('Modal', BModal);
+import Tooltip from './components/bootstrap/Tooltip.vue';
+app.component('Tooltip', Tooltip);
 
 app.mount('#app');

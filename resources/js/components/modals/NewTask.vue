@@ -67,10 +67,9 @@ import BaseFormError from '@/components/BaseFormError.vue';
 import {TASK_TYPES, REPEATABLES} from '@/constants/taskConstants';
 import {reactive} from 'vue';
 import {useTaskStore} from '@/store/taskStore';
-// import {useStore} from 'vuex';
 
-const taskStore = useTaskStore();
-// const store = useStore();
+const taskTypes = TASK_TYPES;
+const repeatables = REPEATABLES;
 
 const props = defineProps({
     taskList: {
@@ -83,10 +82,8 @@ const props = defineProps({
         type: Object,
         required: false,
     },
-})
+});
 const emit = defineEmits(['close'])
-const taskTypes = TASK_TYPES;
-const repeatables = REPEATABLES;
 
 const task = reactive({
     difficulty: 3,
@@ -94,6 +91,7 @@ const task = reactive({
     repeatable: 'NONE',
 });
 
+const taskStore = useTaskStore();
 async function submitTask() {
     task.super_task_id = props.superTask ? props.superTask.id : null;
     task.task_list_id = props.taskList.id || null;

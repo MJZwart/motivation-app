@@ -62,43 +62,45 @@
 </template>
 
 
-<script>
-import Tooltip from '../bootstrap/Tooltip.vue';
-export default {
-    components: {Tooltip},
-    props: {
-        task: {
-            /** @type {import('resources/types/task').Task} */
-            type: Object,
-            required: true,
-        },
+<script setup>
+import {defineProps, defineEmits} from 'vue';
+import {useTaskStore} from '@/store/taskStore';
+import {useI18n} from 'vue-i18n'
+
+const {t} = useI18n() // use as global scope
+
+const props = defineProps({
+    task: {
+        /** @type {import('resources/types/task').Task} */
+        type: Object,
+        required: true,
     },
-    methods: {
-        /** @param {import('resources/types/task').Task} task */
-        openNewTask(task) {
-            this.$emit('newTask', task);
-        },
-        /** @param {import('resources/types/task').Task} task */
-        editTask(task) {
-            this.$emit('editTask', task);
-        },
-        /** @param {import('resources/types/task').Task} task */
-        deleteTask(task) {
-            const confirmationText = this.$t('confirmation-delete-task', [task.name]);
-            if (confirm(confirmationText)) {
-                this.$store.dispatch('task/deleteTask', task);
-            }
-        },
-        /** @param {import('resources/types/task').Task} task */
-        completeTask(task) {
-            if (task.tasks.length > 0) {
-                if (confirm(this.$t('complete-sub-task-confirmation'))) {
-                    this.$store.dispatch('task/completeTask', task);
-                }
-            } else {
-                this.$store.dispatch('task/completeTask', task);
-            }
-        },
-    },
+});
+
+const emit = defineEmits(['newTask', 'editTask']);
+
+/** @param {import('resources/types/task').Task} task */
+function openNewTask(task) {
+    console.log(task);
+    emit('newTask', task);
+}
+/** @param {import('resources/types/task').Task} task */
+function editTask(task) {
+    emit('editTask', task);
+}
+
+const taskStore = useTaskStore();
+/** @param {import('resources/types/task').Task} task */
+function deleteTask(task) {
+    const confirmationText = t('confirmation-delete-task', [task.name]);
+    if (confirm(confirmationText)) {
+        taskStore.deleteTask(task);
+    }
+}
+/** @param {import('resources/types/task').Task} task */
+function completeTask(task) {
+    if (task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
+        return;
+    taskStore.completeTask(task);
 }
 </script>

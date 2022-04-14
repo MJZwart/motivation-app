@@ -42,7 +42,7 @@
         </Summary>
 
         <Modal :show="showNewTaskModal" :footer="false" :title="$t('new-task')" @close="closeNewTask">
-            <NewTask :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
+            <NewTask :superTask="superTask.value" :taskList="taskList" @close="closeNewTask" />
         </Modal>
         <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
             <EditTask :task="taskToEdit" @close="closeEditTask" />
@@ -79,6 +79,7 @@ const showEditTaskModal = ref(false);
 const mainStore = useMainStore();
 
 function openNewTask(superTaskToSet) {
+    console.log(superTaskToSet);
     mainStore.clearErrors();
     superTask.value = superTaskToSet;
     showNewTaskModal.value = true;
