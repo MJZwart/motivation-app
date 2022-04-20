@@ -6,68 +6,76 @@
                 <button 
                     :class="activeTab('Achievements')" 
                     class="tab-item"
-                    @click="currentTabComponent = 'Achievements'">
+                    @click="switchTab('Achievements')">
                     {{$t('achievements')}}
                 </button>
                 <button 
                     :class="activeTab('BugReportPanel')" 
                     class="tab-item"
-                    @click="currentTabComponent = 'BugReportPanel'">
+                    @click="switchTab('BugReportPanel')">
                     {{$t('bug-reports')}}
                 </button>
                 <button 
                     :class="activeTab('SendNotifications')" 
                     class="tab-item"
-                    @click="currentTabComponent = 'SendNotifications'">
+                    @click="switchTab('SendNotifications')">
                     {{$t('send-notification')}}
                 </button>
                 <button 
                     :class="activeTab('Balancing')" 
                     class="tab-item"
-                    @click="currentTabComponent = 'Balancing'">
+                    @click="switchTab('Balancing')">
                     {{$t('balancing')}}
                 </button>
                 <button 
                     :class="activeTab('ReportedUsers')" 
                     class="tab-item"
-                    @click="currentTabComponent = 'ReportedUsers'">
+                    @click="switchTab('ReportedUsers')">
                     {{$t('reported-users')}}
                 </button>
             </div>
-            <keep-alive class="col-10">
+            <KeepAlive class="col-10">
                 <component :is="currentTabComponent" />
-            </keep-alive>
+            </KeepAlive>
         </div>
     </div>
 </template>
 
 
-<script>
+<script setup>
 import Achievements from '../components/tabs/admin/Achievements.vue';
 import BugReportPanel from '../components/tabs/admin/BugReportPanel.vue';
 import SendNotifications from '../components/tabs/admin/SendNotifications.vue';
 import Balancing from '../components/tabs/admin/Balancing.vue';
 import Loading from '../components/Loading.vue';
 import ReportedUsers from '../components/tabs/admin/ReportedUsers.vue';
+import {shallowRef, onMounted, ref} from 'vue';
+import {useAdminStore} from '@/store/adminStore';
 
-export default {
-    components: {
-        Achievements, BugReportPanel, SendNotifications, Balancing, ReportedUsers, Loading,
-    },
-    mounted() {
-        this.$store.dispatch('admin/getAdminDashboard').then(() => this.loading = false);
-    },
-    data() {
-        return {
-            loading: true,
-            currentTabComponent: 'Achievements',
-        }
-    },
-    methods: {
-        activeTab(component) {
-            if (component == this.currentTabComponent) return 'active-tab';
-            return 'tab';
-        },
-    },
+const loading = ref(true);
+const adminStore = useAdminStore();
+
+onMounted(async() => {
+    await adminStore.getAdminDashboard();
+    loading.value = false;
+});
+
+const componentNames = {
+    'Achievements': Achievements,
+    'BugReportPanel': BugReportPanel,
+    'SendNotifications': SendNotifications,
+    'Balancing': Balancing,
+    'ReportedUsers': ReportedUsers,
+}
+const activeComponent = ref('Achievements');
+
+const currentTabComponent = shallowRef(componentNames[activeComponent.value]);
+function activeTab(component) {
+    if (component == activeComponent.value) return 'active-tab';
+    return 'tab';
+}
+function switchTab(component) {
+    currentTabComponent.value = componentNames[component];
+    activeComponent.value = component;
 }
 </script>

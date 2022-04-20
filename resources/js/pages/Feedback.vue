@@ -39,37 +39,27 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {reactive, computed} from 'vue';
 import BaseFormError from '../components/BaseFormError.vue';
 import {FEEDBACK_TYPES} from '../constants/feedbackConstants.js';
-export default {
-    components: {BaseFormError},
-    data() {
-        return {
-            feedback: {
-                type: 'FEEDBACK',
-            },
-            feedbackTypes: FEEDBACK_TYPES,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            conversations: 'message/getConversations',
-            user: 'user/getUser',
-            auth: 'user/authenticated',
-        }),
-    },
-    mounted() {
-        // console.log(auth);
-    },
-    methods: {
-        sendFeedback() {
-            if (this.user) {
-                this.feedback.user_id = this.user.id;
-            }
-            this.$store.dispatch('sendFeedback', this.feedback);
-        },
-    },
+import {useMainStore} from '@/store/store';
+import {useUserStore} from '@/store/userStore';
+const mainStore = useMainStore();
+const userStore = useUserStore();
+
+const feedback = reactive({
+    type: 'FEEDBACK',
+});
+const feedbackTypes = FEEDBACK_TYPES;
+
+const user = computed(() => userStore.user);
+const auth = computed(() => userStore.authenticated);
+
+async function sendFeedback() {
+    if (user.value) {
+        feedback.user_id = user.value.id;
+    }
+    mainStore.sendFeedback(feedback);
 }
 </script>

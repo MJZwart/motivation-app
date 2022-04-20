@@ -18,6 +18,11 @@ axios.defaults.baseURL = '/api/';
 axios.interceptors.response.use(
     
     function (response) {
+        if (response.status == 200) {
+            if (response.data.message) {
+                sendToast(response.data.message, 'success');
+            }
+        }
         // Any status code that lie within the range of 2xx cause this function to trigger
         // do nothing, return response
         return response;
@@ -48,7 +53,7 @@ axios.interceptors.response.use(
                     userStore.logout();
                     // store.dispatch('user/logout', false);
                 }
-                sendErrorToast('You are not logged in');
+                sendToast('You are not logged in', 'error');
                 return Promise.reject(error);
             /** 
              * User tries to perform an action they are not authorized for, such as
@@ -60,7 +65,7 @@ axios.interceptors.response.use(
                 if (router.currentRoute.name !== 'login') {
                     router.push('/dashboard');
                 }
-                sendErrorToast('You are not authorized for this action');
+                sendToast('You are not authorized for this action', 'error');
                 return Promise.reject(error);
             /**
              * In case of a 400 (Bad Request) the user tried to perform an invalid action 
@@ -69,7 +74,7 @@ axios.interceptors.response.use(
              */
             case 400:
             case 422:
-                sendErrorToast(error.response.data.message);
+                sendToast(error.response.data.message, 'error');
                 // eslint-disable-next-line no-case-declarations
                 const mainStore = useMainStore();
                 mainStore.errors = error.response.data.errors;
@@ -84,10 +89,12 @@ axios.interceptors.response.use(
 /**
  * Sends a toast with the type of 'danger'
  * @param {String} toastMessage 
+ * @param {String} type 
  */
-function sendErrorToast(toastMessage) {
+function sendToast(toastMessage, type) {
     const mainStore = useMainStore();
-    let toastObject = {'error' : toastMessage};
-    mainStore.addToast(toastObject);
-    // store.commit('addToast', toastObject);
+    if (type == 'error')
+        mainStore.addToast({'error' : toastMessage});
+    else if (type == 'success')
+        mainStore.addToast(toastMessage);
 }

@@ -6,13 +6,10 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
-export default {
-    computed: {
-        ...mapGetters({
-            responseMessage: 'getErrorMessages',
-        }),
-    },
-}
+<script setup>
+import {computed} from 'vue';
+import {useMainStore} from '@/store/store';
+const mainStore = useMainStore();
+// eslint-disable-next-line no-unused-vars
+const responseMessage = computed(() => mainStore.errors);
 </script>

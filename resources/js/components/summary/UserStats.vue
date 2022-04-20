@@ -8,15 +8,12 @@
     </Summary>
 </template>
 
-<script>
+<script setup>
 import Summary from './Summary.vue';
-export default {
-    components: {Summary},
-    props: {
-        userStats: {
-            type: Object,
-            required: true,
-        },
+defineProps({
+    userStats: {
+        type: Object,
+        required: true,
     },
-}
+});
 </script>

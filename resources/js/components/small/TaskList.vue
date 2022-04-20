@@ -68,6 +68,8 @@ const props = defineProps({
     },
 });
 
+const emit = defineEmits(['editTaskList', 'deleteTaskList']);
+
 /** @type {import('../../types/task').Task | null} */
 const superTask = reactive({});
 /** @type {import('../../types/task').Task | null} */
@@ -79,7 +81,6 @@ const showEditTaskModal = ref(false);
 const mainStore = useMainStore();
 
 function openNewTask(superTaskToSet) {
-    console.log(superTaskToSet);
     mainStore.clearErrors();
     superTask.value = superTaskToSet;
     showNewTaskModal.value = true;
@@ -101,10 +102,10 @@ function closeEditTask() {
 }
 
 function editTaskList() {
-    this.$emit('editTaskList', this.taskList);
+    emit('editTaskList', props.taskList);
 }
 function deleteTaskList() {
-    this.$emit('deleteTaskList', this.taskList);
+    emit('deleteTaskList', props.taskList);
 }
 function taskClass(index) {
     return index == props.taskList.tasks.length -1 ? 'task-last' : 'task';

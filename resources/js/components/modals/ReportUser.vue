@@ -27,43 +27,38 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import {computed, ref} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
 import {REPORT_REASONS} from '../../constants/reportUserConstants';
-export default {
-    data() {
-        return {
-            reportReasons: REPORT_REASONS,
-            report: {reason: null, comment: null},
-        }
+import {useUserStore} from '@/store/userStore';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+const userStore = useUserStore();
+
+const emit = defineEmits(['close']);
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true,
     },
-    props: {
-        user: {
-            type: Object,
-            required: true,
-        },
-        conversation_id: {
-            type: String,
-            required: false,
-        },
+    conversation_id: {
+        type: String,
+        required: false,
     },
-    components: {BaseFormError},
-    methods: {
-        reportUser() {
-            if (this.conversation_id) this.report.conversation_id = this.conversation_id;
-            this.$store.dispatch('user/reportUser', [this.user, this.report]).then(() => {
-                this.close();
-            });
-        },
-        close() {
-            this.$emit('close');
-        },
-    },
-    computed: {
-        reportTitle() {
-            return this.$t('report-user-name', {user: this.user.username});
-        },
-    },
-    
+});
+
+const reportTitle = computed(() => t('report-user-name', {user: props.user.username}));
+
+const reportReasons = REPORT_REASONS;
+const report = ref({reason: null, comment: null});
+
+async function reportUser() {
+    if (props.conversation_id) report.value.conversation_id = props.conversation_id;
+    await userStore.reportUser([props.user, report.value])
+    close();
+}
+function close() {
+    emit('close');
 }
 </script>

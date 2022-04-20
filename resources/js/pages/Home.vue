@@ -46,29 +46,19 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import TaskList from '../components/home/DummyTaskList.vue';
 import Character from '../components/summary/RewardCard.vue';
 import {DUMMY_TASK_LIST, DUMMY_CHARACTER} from '../constants/dummyConstants.js';
-export default {
-    components: {
-        TaskList, Character,
-    },
-    data() {
-        return {
-            dummyList: DUMMY_TASK_LIST,
-            dummyCharacter: DUMMY_CHARACTER,
-        }
-    },
-    computed: {
-        appTitle() {
-            return this.$t('home-welcome-to', [this.$t('app-name')]);
-        },
-        appLead() {
-            return this.$t('home-introduction');
-        },
-    },
-}
+import {computed} from 'vue';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+
+const dummyList = DUMMY_TASK_LIST;
+const dummyCharacter = DUMMY_CHARACTER;
+
+const appTitle = computed(() => t('home-welcome-to', [t('app-name')]));
+const appLead = computed(() => t('home-introduction'));
 </script>
 
 <style scoped>

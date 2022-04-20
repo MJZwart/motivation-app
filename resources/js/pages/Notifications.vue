@@ -9,25 +9,19 @@
 </template>
 
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {ref, computed} from 'vue';
 import NotificationBlock from '../components/small/NotificationBlock.vue';
 import Loading from '../components/Loading.vue';
+import {onMounted} from 'vue';
+import {useMessageStore} from '@/store/messageStore';
 
-export default {
-    components: {NotificationBlock, Loading},
-    data() {
-        return {
-            loading: true,
-        }
-    },
-    mounted() {
-        this.$store.dispatch('notification/getNotifications').then(() => this.loading = false);
-    },
-    computed: {
-        ...mapGetters({
-            notifications: 'notification/getNotifications',
-        }),
-    },
-}
+const loading = ref(true);
+const messageStore = useMessageStore();
+const notifications = computed(() => messageStore.notifications);
+
+onMounted(async() => {
+    await messageStore.getNotifications();
+    loading.value = false;
+});
 </script>

@@ -16,24 +16,22 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        title: {
-            type: String,
-            required: false,
-        },
-        headerVariant: {
-            type:String,
-            required: false,
-            default: '',
-        },
-        footer: {
-            type: Boolean,
-            required: false,
-        },
+<script setup>
+defineProps({
+    title: {
+        type: String,
+        required: false,
     },
-}
+    headerVariant: {
+        type:String,
+        required: false,
+        default: '',
+    },
+    footer: {
+        type: Boolean,
+        required: false,
+    },
+});
 </script>
 
 <style lang="scss" scoped>

@@ -38,7 +38,7 @@
                             value="VILLAGE" />
                         <label for="VILLAGE" class="option-label">{{ $t('village-reward') }}</label>
                     </div>
-                    <base-form-error name="rewards-type" /> 
+                    <BaseFormError name="rewards-type" /> 
                 </div>
                 <div v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'" class="form-group">
                     <label for="reward_object_name">{{parsedLabelName}}</label>
@@ -49,7 +49,7 @@
                         name="reward_object_name" 
                         :placeholder="parsedLabelName"  />
                     <small class="form-text text-muted">{{$t('change-name-later')}}</small>
-                    <base-form-error name="reward-object_name" /> 
+                    <BaseFormError name="reward_object_name" /> 
                 </div>
                 <button class="block" @click="nextModal()">{{ $t('next') }}</button>
                 <button class="block" variant="danger" @click="logout()">{{ $t('logout')}}</button>
@@ -90,71 +90,71 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import BaseFormError from '../components/BaseFormError.vue';
-import {mapGetters} from 'vuex';
+import {computed, reactive, ref, onMounted} from 'vue';
 import BModal from '../components/bootstrap/BModal.vue';
-export default {
-    components: {BaseFormError, BModal},
-    mounted () {
-        this.$store.dispatch('clearErrors');
-        this.$store.dispatch('task/fetchExampleTasks');
-        this.startFirstModal();
-    },
-    data() {
-        return {
-            user: {
-                rewardsType: 'NONE',
-                tasks: [],
-                reward_object_name: null,
-            },
-            showFirstModal: false,
-            showSecondModal: false,
-        }
-    },
-    methods: {
-        nextModal() {
-            if (this.checkInput()) {
-                this.showFirstModal = false;
-                this.showSecondModal = true;
-            }
-        },
-        startFirstModal() {
-            this.showFirstModal = true;
-            this.$showSecondModal = false;
-        },
-        confirmSettings() {
-            this.$store.dispatch('user/confirmRegister', this.user);
-        },
-        checkInput() {
-            if (this.user.rewardsType == 'CHARACTER' && !this.user.reward_object_name) {
-                this.$store.commit('setErrorMessages', {'reward_object_name': ['No character name given.']});
-                return false;
-            } else if (this.user.rewardsType == 'VILLAGE' && !this.user.reward_object_name) {
-                this.$store.commit('setErrorMessages', {'reward_object_name': ['No village name given.']});
-            } else {
-                this.$store.dispatch('clearErrors');
-                return true;
-            }
-        },
-        logout() {
-            this.$store.dispatch('user/logout');
-        },
-    },
-    computed: {
-        ...mapGetters({
-            exampleTasks: 'task/getExampleTasks',
-        }),
-        parsedLabelName() {
-            if (this.user.rewardsType == 'CHARACTER') {
-                return this.$t('character-name');
-            } else if (this.user.rewardsType == 'VILLAGE') {
-                return this.$t('village-name');
-            } else {
-                return null;
-            }
-        },
-    },
+import {useMainStore} from '@/store/store';
+import {useTaskStore} from '@/store/taskStore';
+import {useUserStore} from '@/store/userStore';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+
+const mainStore = useMainStore();
+const taskStore = useTaskStore();
+const userStore = useUserStore();
+
+onMounted(() => {
+    mainStore.clearErrors();
+    taskStore.fetchExampleTasks();
+    startFirstModal();
+});
+
+const user = reactive({
+    rewardsType: 'NONE',
+    tasks: [],
+    reward_object_name: null,
+});
+const showFirstModal = ref(false);
+const showSecondModal = ref(false);
+const exampleTasks = computed (() => taskStore.exampleTasks);
+
+const parsedLabelName = computed(() => {
+    if (user.rewardsType == 'CHARACTER') {
+        return t('character-name');
+    } else if (user.rewardsType == 'VILLAGE') {
+        return t('village-name');
+    } else {
+        return null;
+    }
+});
+
+function startFirstModal() {
+    showFirstModal.value = true;
+    showSecondModal.value = false;
+}
+function nextModal() {
+    if (checkInput()) {
+        showFirstModal.value = false;
+        showSecondModal.value = true;
+    }
+}
+function confirmSettings() {
+    userStore.confirmRegister(user);
+}
+function checkInput() {
+    if (user.rewardsType == 'CHARACTER' && !user.reward_object_name) {
+        mainStore.setErrorMessages({'reward_object_name': ['No character name given.']});
+        return false;
+    } else if (user.rewardsType == 'VILLAGE' && !user.reward_object_name) {
+        mainStore.setErrorMessages({'reward_object_name': ['No village name given.']});
+    } else {
+        mainStore.clearErrors();
+        return true;
+    }
+}
+function logout() {
+    userStore.logout();
 }
 </script>
 

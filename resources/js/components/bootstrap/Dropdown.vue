@@ -17,48 +17,41 @@
     </section>
 </template>
 
-<script>
-export default {
-    props: {
-        menuTitle: {
-            type: String,
-            required: false,
-        },
-        color: {
-            type: String,
-            required: false,
-        },
+<script setup>
+import {ref} from 'vue';
+defineProps({
+    menuTitle: {
+        type: String,
+        required: false,
     },
-    data() {
-        return {
-            isOpen: false,
-        }
+    color: {
+        type: String,
+        required: false,
     },
-    methods: {
-        openClose() { 
-            var _this = this
-            const closeListerner = e => {
-                if (this.catchOutsideClick(e, _this.$refs.menu ))
-                    window.removeEventListener('click', closeListerner) , _this.isOpen = false
-            }
+});
+const isOpen = ref(false);
+const menu = ref(null);
+function openClose() { 
+    const closeListener = e => {
+        if (catchOutsideClick(e, menu.value ))
+            window.removeEventListener('click', closeListener) , isOpen.value = false
+    }
 
-            window.addEventListener('click', closeListerner)
-            this.isOpen = !this.isOpen;
-        },
-        catchOutsideClick(event, dropdown)  {
-            // When user clicks menu — do nothing
-            if (dropdown == event.target)
-                return false
+    window.addEventListener('click', closeListener)
+    isOpen.value = !isOpen.value;
+}
+function catchOutsideClick(event, dropdown)  {
+    // When user clicks menu — do nothing
+    if (dropdown == event.target)
+        return false
 
-            // When user clicks outside of the menu — close the menu
-            if (this.isOpen && dropdown != event.target)
-                return true
-        },
-    },
+    // When user clicks outside of the menu — close the menu
+    if (isOpen.value && dropdown != event.target)
+        return true
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../../../assets/scss/variables';
 .dropDownMenuWrapper {
   position: relative;
@@ -225,7 +218,7 @@ export default {
       border: none;
     }
 
-    .option {
+    section.option {
       width: 100%;
       border-bottom: 1px solid #eee;
       padding: 4px 0;
@@ -245,6 +238,9 @@ export default {
         padding: 0;
         outline: none;
         cursor: pointer;
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: inherit;
       }
 
     }

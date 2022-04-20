@@ -62,40 +62,36 @@
 </template>
 
 
-<script>
+<script setup>
 import BaseFormError from '../BaseFormError.vue';
 import {TASK_TYPES, REPEATABLES} from '../../constants/taskConstants';
-import {shallowRef} from 'vue';
+import {ref, onMounted} from 'vue';
+import {useTaskStore} from '@/store/taskStore';
 
-export default {
-    components: {BaseFormError},
-    props: {
-        task: {
-            /** @type {import('../../../types/task').Task} */
-            type: Object,
-            required: true,
-        },
+/** @type {import('../../../types/task').Task} */
+const editedTask = ref({});
+const taskTypes = TASK_TYPES;
+const repeatables = REPEATABLES;
+
+const prop = defineProps({
+    task: {
+        /** @type {import('../../../types/task').Task} */
+        type: Object,
+        required: true,
     },
-    data() {
-        return {
-            /** @type {import('../../../types/task').Task} */
-            editedTask: {},
-            taskTypes: TASK_TYPES,
-            repeatables: REPEATABLES,
-        }
-    },
-    mounted() {
-        this.task ? this.editedTask = shallowRef(this.task) : this.editedTask = {};
-    },
-    methods: {
-        updateTask() {
-            this.$store.dispatch('task/updateTask', this.editedTask).then(() => {
-                this.close();
-            });
-        },
-        close() {
-            this.$emit('close');
-        },
-    },
+});
+const emit = defineEmits(['close']);
+onMounted(() => {
+    editedTask.value = prop.task ? prop.task.value : {};
+});
+
+const taskStore = useTaskStore();
+
+async function updateTask() {
+    await taskStore.updateTask(editedTask);
+    this.close();
+}
+function close() {
+    emit('close');
 }
 </script>

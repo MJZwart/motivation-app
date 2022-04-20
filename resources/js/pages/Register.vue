@@ -48,28 +48,24 @@
 </template>
 
 
-<script>
+<script setup>
+import {reactive} from 'vue';
 import BaseFormError from '../components/BaseFormError.vue';
+import {useUserStore} from '@/store/userStore';
+import {useMainStore} from '@/store/store';
 
-export default {
-    components: {
-        BaseFormError,
-    },
-    data() {
-        return {
-            register: {
-                username: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-            },
-        }
-    },
-    methods: {
-        submitRegister() {
-            this.$store.dispatch('user/register', this.register);
-        },
-    },
-    
+const mainStore = useMainStore();
+const userStore = useUserStore();
+
+const register = reactive({
+    username: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+
+});
+function submitRegister() {
+    mainStore.clearErrors();
+    userStore.register(register);
 }
 </script>

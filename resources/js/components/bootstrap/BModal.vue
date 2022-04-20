@@ -34,29 +34,27 @@
     </Transition>
 </template>
 
-<script>
-export default {
-    props: {
-        show: {
-            type: Boolean,
-            required: true,
-        },
-        title: {
-            type: String,
-            required: false,
-        },
-        footer: {
-            type: Boolean,
-            required: false,
-            default: true,
-        },
-        header: {
-            type: Boolean,
-            required: false,
-            default: true,
-        },
+<script setup>
+defineProps({
+    show: {
+        type: Boolean,
+        required: true,
     },
-}
+    title: {
+        type: String,
+        required: false,
+    },
+    footer: {
+        type: Boolean,
+        required: false,
+        default: true,
+    },
+    header: {
+        type: Boolean,
+        required: false,
+        default: true,
+    },
+});
 </script>
 
 <style lang="scss">

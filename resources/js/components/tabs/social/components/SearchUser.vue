@@ -49,61 +49,55 @@
 </template>
 
 
-<script>
+<script setup>
 import Tooltip from '../../../bootstrap/Tooltip.vue';
 import BTable from '../../../bootstrap/BTable.vue';
-import {mapGetters} from 'vuex';
+import {ref, computed} from 'vue';
 import {SEARCH_RESULTS_FIELDS} from '../../../../constants/userConstants.js';
 import SendMessage from '../../../modals/SendMessage.vue';
 import BModal from '../../../bootstrap/BModal.vue';
-export default {
-    components: {
-        SendMessage, BModal, BTable, Tooltip,
-    },
-    data() {
-        return {
-            data: {
-                userSearch: '',
-            },
-            searchResultsFields: SEARCH_RESULTS_FIELDS,
-            userToMessage: null,
-            showSendMessageModal: false,
-        }
-    },
-    methods: {
-        /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
-        searchUser() {
-            this.$store.dispatch('user/searchUser', this.data);
-        },
-        /** Checks if a given user (by id) is already friends with the logged in user or a request is already sent */
-        isConnection(id) {
-            const ids = [];
-            ids.push(...this.requests.outgoing.map(request => request.id));
-            ids.push(...this.requests.incoming.map(request => request.id));
-            ids.push(...this.user.friends.map(friend => friend.id));
-            return ids.includes(id);
-        },
-        sendFriendRequest(id) {
-            this.$store.dispatch('friend/sendRequest', id).then(() => {
-                this.$emit('reload');
-            });
-        },
-        sendMessage(user) {
-            this.userToMessage = user;
-            this.showSendMessageModal= true;
-        },
-        closeSendMessageModal() {
-            this.showSendMessageModal = false;
-        },
-    },
-    computed: {
-        ...mapGetters({
-            searchResults: 'user/getSearchResults',
-            user: 'user/getUser',
-            requests: 'friend/getRequests',
-        }),
-    },
+import {useUserStore} from '@/store/userStore';
+import {useFriendStore} from '@/store/friendStore';
+const userStore = useUserStore();
+const friendStore = useFriendStore();
+
+const emit = defineEmits(['reload']);
+
+const data = ref({
+    userSearch: '',
+});
+const searchResultsFields = SEARCH_RESULTS_FIELDS;
+const userToMessage = ref({});
+const showSendMessageModal = ref(false);
+            
+/** Searches for a user by their username, case-insensitive and includes all that contains the search params */
+function searchUser() {
+    userStore.searchUser(data.value);
+    //TODO BUG this reloads the page
 }
+/** Checks if a given user (by id) is already friends with the logged in user or a request is already sent */
+function isConnection(id) {
+    const ids = [];
+    ids.push(...requests.value.outgoing.map(request => request.id));
+    ids.push(...requests.value.incoming.map(request => request.id));
+    ids.push(...user.value.friends.map(friend => friend.id));
+    return ids.includes(id);
+}
+async function sendFriendRequest(id) {
+    await friendStore.sendRequest(id);
+    emit('reload');
+}
+function sendMessage(user) {
+    userToMessage.value = user;
+    showSendMessageModal.value = true;
+}
+function closeSendMessageModal() {
+    showSendMessageModal.value = false;
+}
+
+const searchResults = computed(() => userStore.searchResults);
+const user = computed(() => userStore.user);
+const requests = computed(() => friendStore.requests);
 </script>
 
 

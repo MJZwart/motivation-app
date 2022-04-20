@@ -91,22 +91,22 @@ function logout() {
     align-items: center;
     padding: 0.5rem 1rem;
     height: 50px;
-        a{
-            margin-right: 1rem;
-            color: $nav-text;
-            text-decoration: none;
-        }
-        a.router-link-active{
-            font-weight:600;
-        }
-        section, a {
-            display: inline-block;
-        }
-        section a {
-            color: $primary;
-        }
-        .nav-icon-layers {
-            vertical-align: 0.5rem;
+    a{
+        margin-right: 1rem;
+        color: $nav-text;
+        text-decoration: none;
+    }
+    a.router-link-active{
+        font-weight:600;
+    }
+    section, a {
+        display: inline-block;
+    }
+    section a {
+        color: $primary;
+    }
+    .nav-icon-layers {
+        vertical-align: 0.5rem;
         }
 }
 .box-shadow {

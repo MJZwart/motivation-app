@@ -4,19 +4,19 @@
             <button
                 :class="activeTab('AccountSettings')" 
                 class="tab-item"
-                @click="currentTabComponent = 'AccountSettings'">
+                @click="switchTab('AccountSettings')">
                 {{$t('account-settings')}}
             </button>
             <button 
                 :class="activeTab('ProfileSettings')" 
                 class="tab-item"
-                @click="currentTabComponent = 'ProfileSettings'">
+                @click="switchTab('ProfileSettings')">
                 {{$t('profile-settings')}}
             </button>
             <button 
                 :class="activeTab('RewardSettings')" 
                 class="tab-item"
-                @click="currentTabComponent = 'RewardSettings'">
+                @click="switchTab('RewardSettings')">
                 {{$t('reward-settings')}}
             </button>
         </div>
@@ -27,22 +27,26 @@
 </template>
 
 
-<script>
+<script setup>
 import ProfileSettings from '../components/tabs/settings/ProfileSettings.vue';
 import RewardSettings from '../components/tabs/settings/RewardSettings.vue';
 import AccountSettings from '../components/tabs/settings/AccountSettings.vue';
-export default {
-    components: {ProfileSettings, RewardSettings, AccountSettings},
-    data() {
-        return {
-            currentTabComponent: 'AccountSettings',
-        }
-    },
-    methods: {
-        activeTab(component) {
-            if (component == this.currentTabComponent) return 'active-tab';
-            return 'tab';
-        },
-    },
+import {shallowRef, ref} from 'vue';
+
+const componentNames = {
+    'AccountSettings': AccountSettings,
+    'RewardSettings': RewardSettings,
+    'ProfileSettings': ProfileSettings,
+}
+const activeComponent = ref('AccountSettings');
+
+const currentTabComponent = shallowRef(componentNames[activeComponent.value]);
+function activeTab(component) {
+    if (component == currentTabComponent.value) return 'active-tab';
+    return 'tab';
+}
+function switchTab(component) {
+    currentTabComponent.value = componentNames[component];
+    activeComponent.value = component;
 }
 </script>

@@ -15,48 +15,50 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        toast: {
-            type: Object,
-            required: true,
-        },
+<script setup>
+import {computed, onMounted} from 'vue';
+import {useMainStore} from '@/store/store';
+
+const mainStore = useMainStore();
+
+onMounted(() => {
+    setTimeout(() => {
+        dismissToast();
+    }, 5000);
+});
+
+const props = defineProps({
+    toast: {
+        type: Object,
+        required: true,
     },
-    created() {
-        setTimeout(() => {
-            this.dismissToast();
-        }, 5000);
-    },
-    methods: {
-        dismissToast() {
-            this.$store.commit('clearToast', this.toast.title);
-        },
-        getToastMessage(toast) {
-            if (Array.isArray(toast)) return toast[0];
-            return toast;
-        },
-    },
-    computed: {
-        toastTitle() {
-            switch (this.toastType) {
-                case 'error':
-                    return 'Error';
-                case 'success':
-                    return 'Success';
-                case 'info':
-                default:
-                    return 'Info';
-            }
-        },
-        toastType() {
-            for (const item of Object.keys(this.toast)) {
-                if (item == 'success' || item == 'error' || item == 'info') return item;
-            }
-            return 'info';
-        },
-    },
+});
+
+function dismissToast() {
+    mainStore.clearToast(props.toast.title);
 }
+function getToastMessage(toast) {
+    if (Array.isArray(toast)) return toast[0];
+    return toast;
+}
+
+const toastType = computed(() => {
+    for (const item of Object.keys(props.toast)) {
+        if (item == 'success' || item == 'error' || item == 'info') return item;
+    }
+    return 'info';
+});
+const toastTitle = computed(() => {
+    switch (toastType.value) {
+        case 'error':
+            return 'Error';
+        case 'success':
+            return 'Success';
+        case 'info':
+        default:
+            return 'Info';
+    }
+});
 </script>
 
 <style lang="scss" scoped>

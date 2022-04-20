@@ -53,9 +53,9 @@
 </template>
 
 
-<script>
+<script setup>
 import Tooltip from '../components/bootstrap/Tooltip.vue';
-import {mapGetters} from 'vuex';
+import {onMounted, ref, computed} from 'vue';
 import AchievementsCard from '../components/summary/AchievementsCard.vue';
 import RewardCard from '../components/summary/RewardCard.vue';
 import SendMessage from '../components/modals/SendMessage.vue';
@@ -63,63 +63,65 @@ import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
 import FriendsCard from '../components/summary/FriendsCard.vue';
 import BModal from '../components/bootstrap/BModal.vue';
+import axios from 'axios';
+import {useRoute} from 'vue-router';
+import {useUserStore} from '@/store/userStore';
+import {useFriendStore} from '@/store/friendStore';
 
-export default {
-    components: {RewardCard, AchievementsCard, ReportUser, Loading, FriendsCard, SendMessage, BModal, Tooltip},
-    beforeRouteUpdate(to, from, next) {
-        this.$store.dispatch('user/getUserProfile', to.params.id);
-        next();
-    },
-    data() {
-        return {
-            loading: true,
-            showSendMessageModal: false,
-            showReportUserModal: false,
-        }
-    },
-    mounted() {
-        this.$store.dispatch('user/getUserProfile', this.$route.params.id).then(() => this.loading = false);
-    },
-    computed: {
-        ...mapGetters({
-            userProfile: 'user/getUserProfile',
-            user: 'user/getUser',
-            requests: 'friend/getRequests',
-        }),
-        isConnection() {
-            const ids = [];
-            ids.push(...this.requests.outgoing.map(request => request.id));
-            ids.push(...this.requests.incoming.map(request => request.id));
-            ids.push(...this.user.friends.map(friend => friend.id));
-            return ids.includes(this.userProfile.id);
-        },
-        /** Checked if this user profile is not the user currently logged in, so you can't send a request to yourself */
-        notLoggedUser() {
-            return this.$route.params.id != this.user.id;
-        },
-    },
-    methods: {
-        sendFriendRequest() {
-            this.$store.dispatch('friend/sendRequest', this.$route.params.id);
-        },
-        sendMessage() {
-            this.showSendMessageModal = true;
-        },
-        closeSendMessageModal() {
-            this.showSendMessageModal = false;
-        },
-        reportUser() {
-            this.$showReportUserModal = true;
-        },
-        closeReportUserModal() {
-            this.showReportUserModal = false;
-        },
-        blockUser() {
-            if (confirm(this.$t('block-user-confirmation', {user: this.userProfile.username}))) {
-                this.$store.dispatch('user/blockUser');
-            }
-        },
-    },
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+const route = useRoute();
+const userStore = useUserStore();
+const friendStore = useFriendStore();
+
+const userProfile = ref({});
+onMounted(async() => {
+    await getUserProfile();
+    loading.value = false;
+});
+const loading = ref(true);
+const showSendMessageModal = ref(false);
+const showReportUserModal = ref(false);
+
+const user = computed(() => userStore.user);
+const requests = computed(() => friendStore.requests);
+
+// eslint-disable-next-line no-unused-vars
+const isConnection = computed(() => {
+    const ids = [];
+    ids.push(...requests.value.outgoing.map(request => request.id));
+    ids.push(...requests.value.incoming.map(request => request.id));
+    ids.push(...user.value.friends.map(friend => friend.id));
+    return ids.includes(userProfile.value.id);
+});
+/** Checked if this user profile is not the user currently logged in, so you can't send a request to yourself */
+const notLoggedUser = computed(() => {
+    return route.params.id != user.value.id;
+});
+
+async function getUserProfile() {
+    const {data} = await axios.get('/profile/' + route.params.id);
+    userProfile.value = data.data;
+}
+function sendFriendRequest() {
+    friendStore.sendRequest(route.params.id);
+}
+function sendMessage() {
+    showSendMessageModal.value = true;
+}
+function closeSendMessageModal() {
+    showSendMessageModal.value = false;
+}
+function reportUser() {
+    showReportUserModal.value = true;
+}
+function closeReportUserModal() {
+    showReportUserModal.value = false;
+}
+function blockUser() {
+    if (confirm(t('block-user-confirmation', {user: userProfile.value.username}))) {
+        userStore.blockUser(route.params.id);
+    }
 }
 </script>
 

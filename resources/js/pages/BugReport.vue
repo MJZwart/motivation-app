@@ -11,7 +11,7 @@
                     type="text" 
                     name="title" 
                     :placeholder="$t('title')" />
-                <base-form-error name="title" />
+                <BaseFormError name="title" />
             </div>
             <div class="form-group">
                 <label for="page">{{$t('page')}}</label>
@@ -22,7 +22,7 @@
                     name="page" 
                     :placeholder="$t('page')" />
                 <small class="form-text text-muted">{{$t('page-desc')}}</small>
-                <base-form-error name="page" />
+                <BaseFormError name="page" />
             </div>
             <div class="form-group">
                 <label for="type">{{$t('type')}}</label>
@@ -33,7 +33,7 @@
                     <option v-for="(option, index) in bugTypes" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-type-desc')}}</small>
-                <base-form-error name="type" />
+                <BaseFormError name="type" />
             </div>
             <div class="form-group">
                 <label for="severity">{{$t('severity')}}</label>
@@ -44,7 +44,7 @@
                     <option v-for="(option, index) in bugSeverity" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
-                <base-form-error name="severity" />
+                <BaseFormError name="severity" />
             </div>
             <div class="form-group">
                 <label for="image-link">{{$t('image-link')}}</label>
@@ -75,41 +75,31 @@
 </template>
 
 
-<script>
+<script setup>
 import BaseFormError from '../components/BaseFormError.vue';
 import {BUG_TYPES, BUG_SEVERITY} from '../constants/bugConstants';
+import {reactive} from 'vue';
+import {useMainStore} from '@/store/store';
+const mainStore = useMainStore();
+const initialData = {
+    title: '',
+    page: '',
+    type: 'OTHER',
+    severity: 1,
+    image_link: '',
+    comment: '',
+};
 
-export default {
-    components: {BaseFormError},
-    data() {
-        return {
-            bugReport: {
-                title: '',
-                page: '',
-                type: 'OTHER',
-                severity: 1,
-                image_link: '',
-                comment: '',
-            },
-            bugTypes: BUG_TYPES,
-            bugSeverity: BUG_SEVERITY,
-        }
-    },
-    methods: {
-        submitBugReport() {
-            this.$store.dispatch('bugReport/storeBugReport', this.bugReport).then(() => {
-                this.clearInputFields();
-            })
-        },
-        clearInputFields() {
-            this.bugReport.title='';
-            this.bugReport.page='';
-            this.bugReport.type='OTHER';
-            this.bugReport.severity=1;
-            this.bugReport.image_link='';
-            this.bugReport.comment='';
-        },
-    },
-    
+const bugReport = reactive({...initialData});
+const bugTypes = BUG_TYPES;
+const bugSeverity = BUG_SEVERITY;
+
+async function submitBugReport() {
+    await mainStore.storeBugReport(bugReport);
+    resetForm();
+}
+
+function resetForm() {
+    Object.assign(bugReport, initialData);
 }
 </script>

@@ -7,17 +7,14 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import Toast from './Toast.vue';
-import {mapGetters} from 'vuex';
-export default {
-    components: {Toast},
-    computed: {
-        ...mapGetters({
-            toasts: 'getToasts',
-        }),
-    },
-}
+import {computed} from 'vue';
+
+import {useMainStore} from '@/store/store';
+const mainStore = useMainStore();
+
+const toasts = computed(() => mainStore.toasts);
 </script>
 
 <style lang="scss" scoped>

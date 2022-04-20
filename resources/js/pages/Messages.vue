@@ -33,11 +33,9 @@
                             <span class="ml-auto">
                                 <Dropdown>
                                     <section class="option">
-                                        <button>
-                                            <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
-                                                {{ $t('go-to-profile') }}
-                                            </router-link>
-                                        </button>
+                                        <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
+                                            {{ $t('go-to-profile') }}
+                                        </router-link>
                                     </section>
                                     <section class="option">
                                         <button @click="addFriend(activeConversation.recipient)">
@@ -66,12 +64,12 @@
                                         name="message" 
                                         rows=3
                                         :placeholder="$t('type-your-reply')" />
-                                    <base-form-error name="message" /> 
+                                    <BaseFormError name="message" /> 
                                 </div>
                                 <button type="submit" class="block">{{ $t('send-reply') }}</button>
                             </form>
                         </div>
-                        <message v-for="message in activeConversation.messages" :key="message.id"
+                        <Message v-for="message in activeConversation.messages" :key="message.id"
                                  :message="message" @deleteMessage="deleteMessage"
                         />
                         
@@ -86,130 +84,119 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import BaseFormError from '../components/BaseFormError.vue';
-import {mapGetters} from 'vuex';
+import {computed, ref, reactive, onMounted} from 'vue';
 import Message from '../components/small/Message.vue';
 import ReportUser from '../components/modals/ReportUser.vue';
 import Loading from '../components/Loading.vue';
 import BModal from '../components/bootstrap/BModal.vue';
 import Dropdown from '../components/bootstrap/Dropdown.vue';
 
-export default {
-    components: {
-        BaseFormError,
-        Message,
-        ReportUser,
-        Loading,
-        BModal,
-        Dropdown,
-    },
-    data() {
-        return {
-            activeConversation: null,
-            message: {
-                message: '',
-            },
-            userToReport: {},
-            conversationToReport: '',
-            loading: true,
-            emptyInbox: true,
-            showReportUserModal: false,
-        }
-    },
-    mounted() {
-        this.load();
-    },
-    computed: {
-        ...mapGetters({
-            conversations: 'message/getConversations',
-        }),
-    },
-    methods: {
-        load() {
-            this.$store.dispatch('message/getConversations').then(() => {
-                if (this.conversations && this.conversations[0]) {
-                    this.markAsRead(this.conversations[0]);
-                    this.resetConversation();
-                    this.emptyInbox = false;
-                } else
-                    this.emptyInbox = true;
-                this.loading = false;
-            });
-        },
-        resetConversation() {
-            if (this.conversations && this.conversations[0]) {
-                this.activeConversation = this.conversations[0];
-                this.emptyInbox = false;
-            } else 
-                this.emptyInbox = true;
-        },
-        switchActiveConversation(key) {
-            this.activeConversation = this.conversations[key];
-            this.markAsRead(this.conversations[key]);
-        },
-        sendMessage() {
-            this.message.conversation_id = this.activeConversation.conversation_id;
-            this.message.recipient_id = this.activeConversation.recipient.id;
-            this.$store.dispatch('message/sendMessage', this.message).then(() => {
-                this.message.message = '';
-                this.resetConversation();
-            });
-        },
-        getSender(message) {
-            return message.sent_by_user ? this.$t('you')+': ' : message.sender.username + ': ';
-        },
-        getConversationClass(conversationId) {
-            return ['conversation', 'clickable', this.activeConversation.id == conversationId ? 'active': '']
-        },
-        async markAsRead(conversation) {
-            if (this.hasUnreadMessages(conversation)) {
-                this.$store.dispatch('message/markConversationRead', conversation.id);
-                setTimeout(() => {
-                    conversation.messages.forEach(message => {
-                        message.read = true;
-                    })}, 3000);
-            }
-        },
-        hasUnreadMessages(conversation) {
-            return conversation.messages.some(message => message.read == false);
-        },
-        limitMessage(message) {
-            if (message.length > 100) {
-                return message.slice(0, 100) + '...';
-            } else {
-                return message;
-            }
-            
-        },
-        deleteMessage(message) {
-            if (confirm(this.$t('confirmation-delete-message'))) {
-                this.$store.dispatch('message/deleteMessage', message.id).then(() => {
-                    this.resetConversation();
-                });
-            }
-        },
-        addFriend(user) {
-            this.$store.dispatch('friend/sendRequest', user.id);
-        },
-        blockUser(user) {
-            if (confirm(this.$t('block-user-confirmation', {user: user.username}))) {
-                this.$store.dispatch('user/blockUser', user.id).then(() => {
-                    this.resetConversation();
-                });
-            }
-        },
-        reportUser(conversation) {
-            this.userToReport = conversation.recipient;
-            this.conversationToReport = conversation.conversation_id;
-            this.showReportUserModal = true;
-        },
-        closeReportUserModal() {
-            this.showReportUserModal = false;
-            this.userToReport = {};
-            this.conversationToReport = '';
-        },
-    },
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+
+import {useMessageStore} from '@/store/messageStore';
+const messageStore = useMessageStore();
+import {useUserStore} from '@/store/userStore';
+const userStore = useUserStore();
+import {useFriendStore} from '@/store/friendStore';
+const friendStore = useFriendStore();
+
+onMounted(() => {
+    load();
+});
+
+const activeConversation = ref({});
+const message = reactive({
+    message: '',
+});
+const userToReport = reactive({});
+const conversationToReport = reactive({});
+const loading = ref(true);
+const emptyInbox = ref(true);
+const showReportUserModal = ref(false);
+
+const conversations = computed(() => messageStore.conversations);
+
+async function load() {
+    await messageStore.getConversations();
+    resetConversation();
+    if (conversations.value && conversations.value[0])
+        markAsRead(conversations.value[0]);
+    loading.value = false;
+}
+function resetConversation() {
+    if (conversations.value && conversations.value[0]) {
+        activeConversation.value = conversations.value[0];
+        emptyInbox.value = false;
+    } else 
+        emptyInbox.value = true;
+}
+function switchActiveConversation(key) {
+    activeConversation.value = conversations.value[key];
+    markAsRead(conversations.value[key]);
+}
+async function sendMessage() {
+    message.conversation_id = activeConversation.value.conversation_id;
+    message.recipient_id = activeConversation.value.recipient.id;
+    await messageStore.sendMessage(message)
+    message.message = '';
+    resetConversation();
+}
+function getSender(message) {
+    return message.sent_by_user ? t('you')+': ' : message.sender.username + ': ';
+}
+// eslint-disable-next-line no-unused-vars
+function getConversationClass(conversationId) {
+    return ['conversation', 'clickable', activeConversation.value.id == conversationId ? 'active': '']
+}
+async function markAsRead(conversation) {
+    if (hasUnreadMessages(conversation)) {
+        messageStore.markConversationRead(conversation.id);
+        setTimeout(() => {
+            conversation.messages.forEach(message => {
+                message.read = true;
+            })}, 3000);
+    }
+}
+function hasUnreadMessages(conversation) {
+    if (conversations.value && conversations.value[0])
+        return conversation.messages.some(message => message.read == false);
+    return false;
+}
+function limitMessage(message) {
+    if (message.length > 100) {
+        return message.slice(0, 100) + '...';
+    } else {
+        return message;
+    }
+    
+}
+async function deleteMessage(message) {
+    if (confirm(t('confirmation-delete-message'))) {
+        await messageStore.deleteMessage(message.id)
+        resetConversation();
+    }
+}
+function addFriend(user) {
+    friendStore.sendRequest(user.id);
+}
+async function blockUser(user) {
+    if (confirm(t('block-user-confirmation', {user: user.username}))) {
+        await userStore.blockUser(user.id)
+        resetConversation();
+    }
+}
+function reportUser(conversation) {
+    userToReport.value = conversation.recipient;
+    conversationToReport.value = conversation.conversation_id;
+    showReportUserModal.value = true;
+}
+function closeReportUserModal() {
+    showReportUserModal.value = false;
+    userToReport.value = {};
+    conversationToReport.value = '';
 }
 </script>
 

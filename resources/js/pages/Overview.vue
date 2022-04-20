@@ -10,30 +10,28 @@
 </template>
 
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
 import AchievementsCard from '../components/summary/AchievementsCard.vue';
 import RewardCard from '../components/summary/RewardCard.vue';
 import Loading from '../components/Loading.vue';
 import UserStats from '../components/summary/UserStats.vue';
-export default {
-    components: {RewardCard, AchievementsCard, Loading, UserStats},
-    data() {
-        return {
-            loading: true,
-        }
-    },
-    mounted() {
-        this.$store.dispatch('user/getOverview').then(() => this.loading = false);
-    },
-    computed: {
-        ...mapGetters({
-            rewardObj: 'reward/getRewardObj',
-            user: 'user/getUser',
-            achievements: 'achievement/getAchievementsByUser',
-            userStats: 'user/getUserStats',
-        }),
-    },
-    
-}
+import {computed, onMounted, ref} from 'vue';
+import {useUserStore} from '@/store/userStore';
+import {useRewardStore} from '@/store/rewardStore';
+import {useAchievementStore} from '@/store/achievementStore';
+
+const userStore = useUserStore();
+const rewardStore = useRewardStore();
+const achievementStore = useAchievementStore();
+
+const loading = ref(true);
+
+onMounted(async() => {
+    await userStore.getOverview()
+    loading.value = false;
+});
+
+const rewardObj = computed(() => rewardStore.rewardObj);
+const achievements = computed(() => achievementStore.achievementsByUser);
+const userStats = computed(() => userStore.userStats);
 </script>

@@ -69,7 +69,7 @@ import {useI18n} from 'vue-i18n'
 
 const {t} = useI18n() // use as global scope
 
-const props = defineProps({
+defineProps({
     task: {
         /** @type {import('resources/types/task').Task} */
         type: Object,
@@ -81,7 +81,6 @@ const emit = defineEmits(['newTask', 'editTask']);
 
 /** @param {import('resources/types/task').Task} task */
 function openNewTask(task) {
-    console.log(task);
     emit('newTask', task);
 }
 /** @param {import('resources/types/task').Task} task */

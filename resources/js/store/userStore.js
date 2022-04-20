@@ -1,7 +1,6 @@
 // @ts-nocheck
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {useMainStore} from './store';
 import router from '../router/router';
 import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
@@ -28,7 +27,7 @@ export const useUserStore = defineStore('user', {
             //axios.get('http://localhost:8000/sanctum/csrf-cookie').then(csrfResponse => {
             await axios.get('http://localhost:8000/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
-            this.setUser(data.user, true);
+            this.setUser(data.user);
             router.push('/dashboard').catch(() => {});
         },
         async logout() {
@@ -38,7 +37,7 @@ export const useUserStore = defineStore('user', {
                 router.go();
             });
         },
-        setUser(user, auth) {
+        setUser(user, auth = true) {
             this.user = user;
             this.authenticated = auth;
             localStorage.setItem('authenticated', auth);
@@ -47,29 +46,23 @@ export const useUserStore = defineStore('user', {
 
         //New user
         async register(user) {
-            const {data} = await axios.post('/register', user);
-            console.log(data);
+            await axios.post('/register', user);
             router.push('/login').catch(() => { });
-            this.addToast(data.message);
         },
         async confirmRegister(user) {
             const {data} = await axios.post('/register/confirm', user);
-            console.log(data);
-            this.addToast(data.message);
-            this.user = data.user;
+            this.setUser(data.user);
             router.push('/').catch(() => {});
         },
 
         //Public user profile
         async getUserProfile(userId) {
             const {data} = await  axios.get('/profile/' + userId);
-            console.log(data);
             this.userProfile = data.data;
         },
 
         async getOverview() {
             const {data} = await  axios.get('/overview');
-            console.log(data);
             this.userStats = data.stats;
             const achievementStore = useAchievementStore();
             achievementStore.achievementsByUser = data.achievements;
@@ -78,54 +71,37 @@ export const useUserStore = defineStore('user', {
         },
 
         async updatePassword(passwords) {
-            const {data} = await axios.put('/user/settings/password', passwords);
-            console.log(data);
+            await axios.put('/user/settings/password', passwords);
             this.logout();
-            this.addToast(data.message);
         },
         async updateEmail(email) {
             const {data} = await axios.put('/user/settings/email', email);
-            console.log(data);
-            this.user = data.user;
-            this.addToast(data.message);
+            this.setUser(data.user);
         },
         async updateSettings(settings) {
             const {data} = await axios.put('/user/settings', settings);
-            console.log(data);
-            this.user = data.user;
-            this.addToast(data.message);
+            this.setUser(data.user);
         },
         async changeRewardType(user) {
             const {data} = await  axios.put('/user/settings/rewards', user);
-            console.log(data);
-            this.user  = data.user;
-            this.addToast(data.message);
+            this.setUser(data.user);
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.activeReward;
         },
 
         async searchUser(searchValue) {
             const {data} = await axios.post('/search', searchValue);
-            console.log(data);
             this.searchResults = data.data;
         },
 
         async reportUser([user, report]) {
-            const {data} = await  axios.post('/user/' + user.id + '/report', report);
-            console.log(data);
-            this.addToast(data.message);
+            await  axios.post('/user/' + user.id + '/report', report);
         },
 
         async blockUser(userId) {
             const {data} = await axios.put('/user/' + userId + '/block');
-            console.log(data);
-            this.addToast(data.message);
             const messageStore = useMessageStore();
             messageStore.conversations = data.data;
-        },
-        addToast(toast) {
-            const mainStore = useMainStore();
-            mainStore.addToast(toast);
         },
     },
 });

@@ -85,135 +85,36 @@ const showDeleteTaskListConfirmModal = ref(false);
 
 /** Shows and hides the modal to create a new task list */
 function showNewTaskList() {
-    this.$store.dispatch('clearErrors');
-    this.showNewTaskListModal = true;
+    mainStore.clearErrors();
+    showNewTaskListModal.value = true;
 }
 function closeNewTaskList() {
-    this.showNewTaskListModal = false;
+    showNewTaskListModal.value = false;
 }
 
 /** Shows and hides the modal to edit a given task list
  * @param {import('../../types/task').TaskList} taskList
  */
 function showEditTaskList(taskList) {
-    this.$store.dispatch('clearErrors');
-    this.taskListToEdit = taskList;
-    this.showEditTaskListModal = true;
+    mainStore.clearErrors();
+    taskListToEdit.value = taskList;
+    showEditTaskListModal.value = true;
 }
 function closeEditTaskList() {
-    this.showEditTaskListModal = false;
+    showEditTaskListModal.value = false;
 }
 
 /** Shows and hides the modal to confirm deleting a task list
  * @param {import('../../types/task').TaskList} taskList
  */
 function showDeleteTaskList(taskList) {
-    this.$store.dispatch('clearErrors');
-    this.taskListToDelete = taskList;
-    this.showDeleteTaskListConfirmModal = true;
+    mainStore.clearErrors();
+    taskListToDelete.value = taskList;
+    showDeleteTaskListConfirmModal.value = true;
 }
 function closeDeleteTaskList() {
-    this.showDeleteTaskListConfirmModal = false;
+    showDeleteTaskListConfirmModal.value = false;
 }
-
-
-// components: { 
-//     TaskList, 
-//     NewTask, 
-//     EditTask, 
-//     NewTaskList, 
-//     EditTaskList, 
-//     DeleteTaskListConfirm, 
-//     RewardCard,
-//     FriendsCard,
-//     Loading,
-//     BModal},
-// data() {
-//     return {
-//         /** @type {import('../../types/task').Task | null} */
-//         superTask: null,
-//         /** @type {import('../../types/task').Task | null} */
-//         taskToEdit: null,
-//         /** @type {import('../../types/task').TaskList | null} */
-//         taskList: null,
-//         /** @type {import('../../types/task').TaskList | null} */
-//         taskListToEdit: null,
-//         /** @type {import('../../types/task').TaskList | null} */
-//         taskListToDelete: null,
-//         loading: true,
-//         showNewTaskModal: false,
-//         showEditTaskModal: false,
-//         showNewTaskListModal: false,
-//         showEditTaskListModal: false,
-//         showDeleteTaskListConfirmModal: false,
-//     }
-// },
-// methods: {
-//     /** Shows and hides the modal to create a new task. 
-//      * @param {import('../../types/task').Task} superTask 
-//      * @param {import('../../types/task').TaskList} taskList
-//      */
-//     showNewTask(superTask, taskList) {
-//         this.$store.dispatch('clearErrors');
-//         this.superTask = superTask;
-//         this.taskList = taskList;
-//         this.showNewTaskModal = true;
-//     },
-//     closeNewTask() {
-//         this.showNewTaskModal = false;
-//     },
-
-//     /** Shows and hides the modal to edit a given task
-//      * @param {import('../../types/task').Task} task
-//      */
-//     showEditTask(task) {
-//         this.$store.dispatch('clearErrors');
-//         this.taskToEdit = task;
-//         this.showEditTaskModal = true;
-//     },
-//     closeEditTask() {
-//         this.showEditTaskModal = false;
-//     },
-
-//     /** Shows and hides the modal to create a new task list */
-//     showNewTaskList() {
-//         this.$store.dispatch('clearErrors');
-//         this.showNewTaskListModal = true;
-//     },
-//     closeNewTaskList() {
-//         this.showNewTaskListModal = false;
-//     },
-
-//     /** Shows and hides the modal to edit a given task list
-//      * @param {import('../../types/task').TaskList} taskList
-//      */
-//     showEditTaskList(taskList) {
-//         this.$store.dispatch('clearErrors');
-//         this.taskListToEdit = taskList;
-//         this.showEditTaskListModal = true;
-//     },
-//     closeEditTaskList() {
-//         this.showEditTaskListModal = false;
-//     },
-
-//     /** Shows and hides the modal to confirm deleting a task list
-//      * @param {import('../../types/task').TaskList} taskList
-//      */
-//     showDeleteTaskList(taskList) {
-//         this.$store.dispatch('clearErrors');
-//         this.taskListToDelete = taskList;
-//         this.showDeleteTaskListConfirmModal = true;
-//     },
-//     closeDeleteTaskList() {
-//         this.showDeleteTaskListConfirmModal = false;
-//     },
-// },
-// computed: {
-//     ...mapGetters({
-//         taskLists: 'taskList/getTaskLists',
-//         rewardObj: 'reward/getRewardObj',
-//     }),
-// },
     
 </script>
 

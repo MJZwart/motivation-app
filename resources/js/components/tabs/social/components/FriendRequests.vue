@@ -47,44 +47,31 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import Tooltip from '../../../bootstrap/Tooltip.vue';
-import {mapGetters} from 'vuex';
+import {computed} from 'vue';
 import Summary from '../../../summary/Summary.vue';
-export default {
-    components: {
-        Summary, Tooltip,
-    },
-    data() {
-        return {
-            outgoingRequests: true,
-            incomingRequests: true,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            requests: 'friend/getRequests',
-        }),
-    },
-    methods: {
-        /**
-         * @param {Number} requestId
-         */
-        removeFriendRequest(requestId) {
-            this.$store.dispatch('friend/removeRequest', requestId);
-        },
-        /**
-         * @param {Number} requestId
-         */
-        denyFriendRequest(requestId) {
-            this.$store.dispatch('friend/denyRequest', requestId);
-        },
-        /**
-         * @param {Number} requestId
-         */
-        acceptFriendRequest(requestId) {
-            this.$store.dispatch('friend/acceptRequest', requestId);
-        },
-    },
+import {useFriendStore} from '@/store/friendStore';
+const friendStore = useFriendStore();
+
+const requests = computed(() => friendStore.requests);
+
+/**
+ * @param {Number} requestId
+ */
+function removeFriendRequest(requestId) {
+    useFriendStore.removeRequest(requestId);
+}
+/**
+ * @param {Number} requestId
+ */
+function denyFriendRequest(requestId) {
+    useFriendStore.denyRequest(requestId);
+}
+/**
+ * @param {Number} requestId
+ */
+function acceptFriendRequest(requestId) {
+    useFriendStore.acceptRequest(requestId);
 }
 </script>

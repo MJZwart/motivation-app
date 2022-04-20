@@ -85,8 +85,15 @@ export const useMainStore = defineStore('main', {
          * In the JsonResponse, name the message key 'success', 'danger' or 'info' 
          * to get corresponding themes and titles.
          */
+        setErrorMessages(errorMessages) {
+            this.errors = errorMessages;
+        },
         addToast(toast) {
             this.toasts.push(toast);
+        },
+        clearToast(title) {
+            const index = this.toasts.findIndex(toast => toast.title === title);
+            this.toasts.splice(index, 1);
         },
         clearErrors() {
             this.errors = [];
@@ -99,14 +106,10 @@ export const useMainStore = defineStore('main', {
             rewardStore.rewardObj = data.rewardObj;
         },
         async sendFeedback(feedback) {
-            const data = await axios.post('/feedback', feedback);
-            console.log(data);
-            this.addToast(data.message);
+            await axios.post('/feedback', feedback);
         },
         async storeBugReport(bugReport) {
-            const data = await axios.post('/bugreport', bugReport);
-            console.log(data);
-            this.addToast(data.message);
+            await axios.post('/bugreport', bugReport);
         },
     },
 });

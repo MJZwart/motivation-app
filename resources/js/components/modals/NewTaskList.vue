@@ -18,30 +18,22 @@
 </template>
 
 
-<script>
+<script setup>
+import {ref} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
-export default {
-    components: {
-        BaseFormError,
-    },
-    data() {
-        return {
-            /** @type {import('resources/types/task').TaskList} */
-            taskList: {},
-        }
-    },
-    methods: {
-        submitTaskList() {
-            var self = this;
-            this.$store.dispatch('taskList/storeTaskList', this.taskList).then(function() {
-                self.close();
-            });
+import {useTaskStore} from '@/store/taskStore';
+const taskStore = useTaskStore();
+const emit = defineEmits(['close']);
 
-        },
-        close() {
-            this.taskList = {},
-            this.$emit('close');
-        },
-    },
+/** @type {import('resources/types/task').TaskList} */
+const taskList = ref({});
+
+async function submitTaskList() {
+    await taskStore.storeTaskList(taskList.value);
+    close();
+}
+function close() {
+    taskList.value = {};
+    emit('close');
 }
 </script>

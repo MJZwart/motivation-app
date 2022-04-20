@@ -6,52 +6,46 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        color: { 
-            type: String,
-            default: '#1D3354',
-        },
-        size: {
-            type: String,
-            default: '15px',
-        },
-        margin: {
-            type: String,
-            default: '2px',
-        },
-        radius: {
-            type: String,
-            default: '100%',
-        },
+<script setup>
+const props = defineProps({
+    color: { 
+        type: String,
+        default: '#1D3354',
     },
-    data () {
-        return {
-            spinnerStyle: {
-                backgroundColor: this.color,
-                width: this.size,
-                height: this.size,
-                margin: this.margin,
-                borderRadius: this.radius,
-                display: 'inline-block',
-                animationName: 'v-pulseStretchDelay',
-                animationDuration: '0.75s',
-                animationIterationCount: 'infinite',
-                animationTimingFunction: 'cubic-bezier(.2,.68,.18,1.08)',
-                animationFillMode: 'both',
-            },
-            spinnerDelay1: {
-                animationDelay: '0.12s',
-            },
-            spinnerDelay2: {
-                animationDelay: '0.24s',
-            },
-            spinnerDelay3: {
-                animationDelay: '0.36s',
-            },
-        }
+    size: {
+        type: String,
+        default: '15px',
     },
+    margin: {
+        type: String,
+        default: '2px',
+    },
+    radius: {
+        type: String,
+        default: '100%',
+    },
+});
+const spinnerStyle = {
+    backgroundColor: props.color,
+    width: props.size,
+    height: props.size,
+    margin: props.margin,
+    borderRadius: props.radius,
+    display: 'inline-block',
+    animationName: 'v-pulseStretchDelay',
+    animationDuration: '0.75s',
+    animationIterationCount: 'infinite',
+    animationTimingFunction: 'cubic-bezier(.2,.68,.18,1.08)',
+    animationFillMode: 'both',
+};
+const spinnerDelay1 = {
+    animationDelay: '0.12s',
+}
+const spinnerDelay2 = {
+    animationDelay: '0.24s',
+}
+const spinnerDelay3 = {
+    animationDelay: '0.36s',
 }
 </script>
 
