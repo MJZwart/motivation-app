@@ -24,11 +24,6 @@ export default {
             showTooltip: false,
         }
     },
-    methods: {
-        showHover() {
-            console.log('yes');
-        },
-    },
 }
 </script>
 
