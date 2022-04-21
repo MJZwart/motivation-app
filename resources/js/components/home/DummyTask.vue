@@ -55,16 +55,21 @@
 </template>
 
 
-<script>
+<script setup>
 import Tooltip from '../bootstrap/Tooltip.vue';
-export default {
-    components: {Tooltip},
-    props: {
-        task: {
-            /** @type {import('resources/types/task').Task} */
-            type: Object,
-            required: true,
-        },
+
+defineProps({
+    task: {
+        type: Object,
+        required: true,
     },
-}
+});
+// const props = defineProps({
+//     /** @type {import('resources/types/task').Task} */
+//     task: {
+//         type: Object,
+//         required: true,
+//     },
+// });
+
 </script>

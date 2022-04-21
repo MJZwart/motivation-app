@@ -40,25 +40,24 @@
 </template>
 
 
-<script>
+<script setup>
+
 import Tooltip from '../bootstrap/Tooltip.vue';
 import Task from './DummyTask.vue';
 import Summary from '../summary/Summary.vue';
-export default {
-    components: {Task, Summary, Tooltip},
-    props: {
-        taskList: {
-            /** @type {import('resources/types/task').TaskList} */
-            type: Object,
-            required: true,
-        },
+
+const props = defineProps({
+    taskList: {
+        type: Object,
+        required: true,
     },
-    methods: {
-        taskClass(index) {
-            return index == this.taskList.tasks.length -1 ? 'task-last' : 'task';
-        },
-    },
-}
+});
+
+function taskClass(/** @type {number} */ index) {
+    return index == props.taskList.tasks.length -1 ? 'task-last' : 'task';
+};
+
+
 </script>
 
 <style lang="scss">

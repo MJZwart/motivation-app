@@ -37,30 +37,35 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import BaseFormError from '../BaseFormError.vue';
-export default {
-    components: {BaseFormError},
-    data() {
-        return {
-            groupToCreate: {
-                name: '',
-                description: '',
-                is_public: false,
-            },
-        }
-    },
-    methods: {
-        createGroup() {
-            this.$store.dispatch('groups/createGroup', this.groupToCreate).then(() => {
-                this.$emit('reloadGroups');
-                this.close();
-            });
-        },
-        close() {
-            this.groupToCreate = {};
-            this.$emit('close');
-        },
-    },
-}
+import {useGroupStore} from '@/store/groupStore.js';
+
+const groupStore = useGroupStore();
+
+let groupToCreate = {
+    name: '',
+    description: '',
+    is_public: false,
+};
+
+const emit = defineEmits([
+    'reloadGroups',
+    'close',
+]);
+
+async function createGroup() {
+    await groupStore.createGroup(groupToCreate);
+    emit('reloadGroups');
+    close();
+};
+
+function close() {
+    groupToCreate = {
+        name: '',
+        description: '',
+        is_public: false,
+    };
+    emit('close');
+};
 </script>
