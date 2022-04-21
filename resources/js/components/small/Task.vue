@@ -63,7 +63,6 @@
 
 
 <script setup>
-import {defineProps, defineEmits} from 'vue';
 import {useTaskStore} from '@/store/taskStore';
 import {useI18n} from 'vue-i18n'
 
