@@ -19,52 +19,47 @@
 </template>
 
 
-<script>
+<script setup>
 import BaseFormError from '../BaseFormError.vue';
-import {shallowRef} from 'vue';
-export default {
-    components: {BaseFormError},
-    props: {
-        rewardObj: {
-            type: Object,
-            required: true,
-        },
-        type: {
-            type: String,
-            required: true,
-        },
+import {shallowRef, onMounted, ref, computed} from 'vue';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+import {useRewardStore} from '/js/store/rewardStore';
+
+const props = defineProps({
+    rewardObj: {
+        type: Object,
+        required: true,
     },
-    data() {
-        return {
-            editedRewardObj: {},
-        }
+    type: {
+        type: String,
+        required: true,
     },
-    mounted() {
-        this.rewardObj ? this.editedRewardObj = shallowRef(this.rewardObj) : this.editedRewardObj = {};
-    },
-    methods: {
-        updateRewardObj() {
-            var self = this;
-            this.editedRewardObj.type = this.type;
-            this.$store.dispatch('reward/updateRewardObjName', this.editedRewardObj).then(function() {
-                self.close();
-            });
-        },
-        close() {
-            this.editedRewardObj = {},
-            this.$emit('close');
-        },
-    },
-    computed: {
-        parsedLabelName() {
-            if (this.type == 'CHARACTER') {
-                return this.$t('character-name');
-            } else if (this.type == 'VILLAGE') {
-                return this.$t('village-name');
-            } else {
-                return null;
-            }
-        },
-    },
+});
+const emit = defineEmits(['close']);
+
+onMounted(() => props.rewardObj ? editedRewardObj.value = shallowRef(props.rewardObj) : editedRewardObj.value = {});
+
+const editedRewardObj = ref({});
+
+async function updateRewardObj() {
+    editedRewardObj.value.type = props.type;
+    await useRewardStore.updateRewardObjName(editedRewardObj);
+    close();
 }
+function close() {
+    editedRewardObj.value = {},
+    emit('close');
+}
+
+const parsedLabelName = computed(() => {
+    if (props.type == 'CHARACTER') {
+        return t('character-name');
+    } else if (props.type == 'VILLAGE') {
+        return t('village-name');
+    } else {
+        return null;
+    }
+});
+
 </script>

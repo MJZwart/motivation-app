@@ -29,20 +29,17 @@
 </template>
 
 
-<script>
-export default {
-    data() {
-        return {
-            /** @type {import('resources/types/notification').Notification} */
-            notification: {},
-        }
-    },
-    methods: {
-        /** Sends notification to all members */
-        sendNotification() {
-            this.$store.dispatch('admin/sendNotification', this.notification);
-        },
-    },
-    
+<script setup>
+import {ref} from 'vue';
+import {useAdminStore} from '/js/store/adminStore';
+const adminStore = useAdminStore();
+
+/** @type {import('resources/types/notification').Notification} */
+const notification = ref({});
+
+/** Sends notification to all members */
+function sendNotification() {
+    adminStore.sendNotification(notification.value);
 }
+
 </script>

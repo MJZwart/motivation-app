@@ -59,17 +59,10 @@
 import Tooltip from '../bootstrap/Tooltip.vue';
 
 defineProps({
+    /** @type {import('resources/types/task').Task} */
     task: {
         type: Object,
         required: true,
     },
 });
-// const props = defineProps({
-//     /** @type {import('resources/types/task').Task} */
-//     task: {
-//         type: Object,
-//         required: true,
-//     },
-// });
-
 </script>

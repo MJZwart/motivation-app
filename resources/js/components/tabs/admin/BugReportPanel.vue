@@ -28,70 +28,59 @@
         </BTable>
 
         <BModal :show="showEditBugReportModal" :footer="false" :title="$t('edit-bug-report')" @close="closeEditBugReport">
-            <edit-bug-report :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
+            <EditBugReport :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
         </BModal>
         <BModal 
             :show="showSendMessageModal" 
             :footer="false" 
             :title="$t('send-message-to-bug-report-author')" 
             @close="closeSendMessageToBugReportAuthor">
-            <send-message :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor"/>
+            <SendMessage :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor"/>
         </BModal>
 
     </div>
 </template>
 
 
-<script>
+<script setup>
 import BTable from '../../bootstrap/BTable.vue';
 import {BUG_SORTABLES, BUG_DEFAULTS, BUG_STATUS} from '../../../constants/bugConstants';
-import {mapGetters} from 'vuex';
+import {ref, computed} from 'vue';
 import EditBugReport from '../../modals/EditBugReport.vue';
 import SendMessage from '../../modals/SendMessage.vue';
 import BModal from '../../bootstrap/BModal.vue';
-export default {
-    components: {
-        EditBugReport,
-        SendMessage,
-        BModal,
-        BTable,
-    },
-    computed: {
-        ...mapGetters({
-            bugReports: 'bugReport/getBugReports',
-        }),
-    },
-    data() {
-        return {
-            currentSort: BUG_DEFAULTS.currentSort,
-            bugSortables: BUG_SORTABLES,
-            currentSortDesc: true,
-            bugReportToEdit: null,
-            bugReportAuthor: null,
-            showEditBugReportModal: false,
-            showSendMessageModal: false,
-        }
-    },    
-    methods: {
-        sendMessageToBugReportAuthor(authorId) {
-            this.$store.dispatch('clearErrors');
-            this.bugReportAuthor = {id: authorId};
-            this.showSendMessageModal = true;
-        },
-        closeSendMessageToBugReportAuthor() {
-            this.showSendMessageModal = false;
-        },
-        editBugReport(bugReport) {
-            this.$store.dispatch('clearErrors');
-            this.bugReportToEdit = bugReport;
-            this.showEditBugReportModal = true;
-        },
-        closeEditBugReport() {
-            this.showEditBugReportModal = false;
-        },
-        parseStatus(status) {
-            return BUG_STATUS.find(element => element.value == status).text;
-        },
-    },
+import {useMainStore} from '/js/store/store';
+import {useAdminStore} from '/js/store/adminStore';
+const mainStore = useMainStore();
+const adminStore = useAdminStore();
+
+const bugReports = computed(() => adminStore.bugReports);
+
+const currentSort = ref(BUG_DEFAULTS.currentSort);
+const bugSortables = BUG_SORTABLES;
+const currentSortDesc = ref(true);
+const bugReportToEdit = ref(null);
+const bugReportAuthor = ref(null);
+const showEditBugReportModal = ref(false);
+const showSendMessageModal = ref(false);
+
+function sendMessageToBugReportAuthor(authorId) {
+    mainStore.clearErrors();
+    bugReportAuthor.value = {id: authorId};
+    showSendMessageModal.value = true;
+}
+function closeSendMessageToBugReportAuthor() {
+    showSendMessageModal.value = false;
+}
+function editBugReport(bugReport) {
+    mainStore.clearErrors();
+    bugReportToEdit.value = bugReport;
+    showEditBugReportModal.value = true;
+}
+function closeEditBugReport() {
+    showEditBugReportModal.value = false;
+}
+function parseStatus(status) {
+    return BUG_STATUS.find(element => element.value == status).text;
 }
 </script>

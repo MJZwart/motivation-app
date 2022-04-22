@@ -101,125 +101,113 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import Tooltip from '../../bootstrap/Tooltip.vue';
-import {mapGetters} from 'vuex';
+import {onMounted, ref, computed} from 'vue';
 import {REWARD_TYPES, REWARD_FIELDS} from '../../../constants/rewardConstants';
 import BaseFormError from '../../BaseFormError.vue';
 import Loading from '../../Loading.vue';
 import EditRewardObjectName from '../../modals/EditRewardObjectName.vue';
 import BTable from '../../bootstrap/BTable.vue';
 import BModal from '../../bootstrap/BModal.vue';
-export default {
-    components: {BaseFormError, Loading, EditRewardObjectName, BModal, BTable, Tooltip},
-    data() {
-        return {
-            rewardSetting: {
-                rewards: null,
-                keepOldInstance: null,
-            },
-            rewardTypes: REWARD_TYPES,
-            rewardFields: REWARD_FIELDS,
-            loading: true,
-            rewardToEdit: null,
-            rewardType: null,
-            showEditRewardNameModal: false,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            user: 'user/getUser',
-            characters: 'reward/getCharacters',
-            villages: 'reward/getVillages',
-        }),
-        rewardTypeName() {
-            return this.rewardSetting.rewards == 'VILLAGE' ? this.$t('village-name') : this.$t('character-name');
-        },
-        isNewInstance() {
-            if (this.rewardSetting.rewards == 'NONE') return false;
-            return this.rewardSetting.keepOldInstance == 'NEW';
-        },
-        characterOptions() {
-            let options = [];
-            for (const character of this.characters) {
-                options.push({
-                    value: character.id, 
-                    text: 'Activate ' + character.name + this.displayActive(character), 
-                    disabled: character.active});
-            }
-            options.push({text: 'Make a new character', value: 'NEW'});
-            return options;
-        },
-        villageOptions() {
-            let options = [];
-            for (const village of this.villages) {
-                options.push({
-                    value: village.id, 
-                    text: 'Activate ' + village.name + this.displayActive(village), 
-                    disabled: village.active});
-            }
-            options.push({text: 'Make a new village', value: 'NEW'});
-            return options;
-        },
-        rewardItems() {
-            let rewardItems = [];
-            for (const character of this.characters) {
-                character.type = 'Character';
-                rewardItems.push(character);
-            }
-            for (const village of this.villages) {
-                village.type = 'Village';
-                rewardItems.push(village);
-            }
-            return rewardItems;
-        },
-    },
-    methods: {
-        confirmRewardsSettings() {
-            this.$store.dispatch('user/changeRewardType', this.rewardSetting).then(() => {
-                this.rewardSetting.keepOldInstance = null;
-                this.rewardSetting.new_object_name = null;
-                this.load();
-            });
-        },
-        showEditReward(instance) {
-            this.$store.dispatch('clearErrors');
-            this.rewardToEdit = instance;
-            this.rewardType = instance.type.toUpperCase()
-            this.showEditRewardNameModal = true;
-        },
-        closeEditReward() {
-            this.showEditRewardNameModal = false;
-            this.load();
-        },
-        activateReward(instance) {
-            this.$store.dispatch('reward/activateInstance', instance).then(() => {
-                this.load();
-            });
-        },
-        isActiveInstance(instance) {
-            return instance.active;
-        },
-        displayActive(instance) {
-            return instance.active ? ' (' + this.$t('currently-active') + ')' : ''; 
-        },
-        deleteItem(instance) {
-            if (confirm(this.$t('confirm-delete-instance', {name: instance.name, type: instance.type.toLowerCase()}))) {
-                this.$store.dispatch('reward/deleteInstance', instance).then(() => {
-                    this.load();
-                });
-            }
-        },
-        load() {
-            this.$store.dispatch('clearErrors');
-            this.$store.dispatch('reward/fetchAllRewardInstances').then(() => {
-                this.rewardSetting.rewards = this.user.rewards;
-                this.loading = false;
-            });
-        },
-    },
-    mounted() {
-        this.load();
-    },
+import {useUserStore} from '/js/store/userStore';
+const userStore = useUserStore();
+import {useRewardStore} from '/js/store/rewardStore';
+const rewardStore = useRewardStore();
+import {useMainStore} from '/js/store/store';
+const mainStore = useMainStore();
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+
+onMounted(() => load());
+
+const rewardSetting = ref({
+    rewards: null,
+    keepOldInstance: null,
+})
+const rewardTypes = REWARD_TYPES;
+const rewardFields = REWARD_FIELDS;
+const loading = ref(true);
+const rewardToEdit = ref(null);
+const rewardType = ref(null);
+const showEditRewardNameModal = ref(false);
+const user = computed(() => userStore.user);
+const characters = computed(() => rewardStore.characters);
+const villages = computed(() => rewardStore.villages);
+
+const rewardTypeName = computed(() => 
+    rewardSetting.value.rewards == 'VILLAGE' ? t('village-name') : t('character-name'));
+const isNewInstance = computed(() => {
+    if (rewardSetting.value.rewards == 'NONE') return false;
+    return rewardSetting.value.keepOldInstance == 'NEW';
+});
+const characterOptions = computed(() => {
+    let options = [];
+    for (const character of characters.value) {
+        options.push({
+            value: character.id, 
+            text: 'Activate ' + character.name + displayActive(character), 
+            disabled: character.active});
+    }
+    options.push({text: 'Make a new character', value: 'NEW'});
+    return options;
+});
+const villageOptions = computed(() => {
+    let options = [];
+    for (const village of villages.value) {
+        options.push({
+            value: village.id, 
+            text: 'Activate ' + village.name + displayActive(village), 
+            disabled: village.active});
+    }
+    options.push({text: 'Make a new village', value: 'NEW'});
+    return options;
+});
+const rewardItems = computed(() => {
+    let rewardItems = [];
+    for (const character of characters.value) {
+        character.type = 'Character';
+        rewardItems.push(character);
+    }
+    for (const village of villages.value) {
+        village.type = 'Village';
+        rewardItems.push(village);
+    }
+    return rewardItems;
+});
+async function confirmRewardsSettings() {
+    await rewardStore.changeRewardType(rewardSetting.value)
+    rewardSetting.value.keepOldInstance = null;
+    rewardSetting.value.new_object_name = null;
+    load();
+}
+function showEditReward(instance) {
+    mainStore.clearErrors();
+    rewardToEdit.value = instance;
+    rewardType.value = instance.type.toUpperCase()
+    showEditRewardNameModal.value = true;
+}
+function closeEditReward() {
+    showEditRewardNameModal.value = false;
+    load();
+}
+async function activateReward(instance) {
+    await rewardStore.activateInstance(instance)
+    load();
+}
+function displayActive(instance) {
+    return instance.active ? ' (' + t('currently-active') + ')' : ''; 
+}
+async function deleteItem(instance) {
+    if (confirm(t('confirm-delete-instance', {name: instance.name, type: instance.type.toLowerCase()}))) {
+        await rewardStore.deleteInstance(instance);
+        load();
+    }
+}
+async function load() {
+    mainStore.clearErrors();
+    await rewardStore.fetchAllRewardInstances();
+    rewardSetting.value.rewards = user.value.rewards;
+    loading.value = false;
 }
 </script>

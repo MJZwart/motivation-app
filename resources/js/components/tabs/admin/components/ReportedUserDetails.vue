@@ -30,54 +30,46 @@
 </template>
 
 
-<script>
+<script setup>
+import {ref} from 'vue';
 import {REPORTED_USER_DETAILS_FIELDS} from '../../../../constants/reportedUserConstants.js';
 import SendMessage from '../../../modals/SendMessage.vue';
 import ShowConversationModal from './ShowConversationModal.vue';
 import BModal from '../../../bootstrap/BModal.vue';
 import BTable from '../../../bootstrap/BTable.vue';
-export default {
-    components: {
-        SendMessage,
-        ShowConversationModal,
-        BModal,
-        BTable,
+import {useMainStore} from '/js/store/store';
+const mainStore = useMainStore();
+
+defineProps({
+    user: {
+        type: Object,
+        required: true,
     },
-    props: {
-        user: {
-            type: Object,
-            required: true,
-        },
-        index: {
-            type: Number,
-            reqired: true,
-        },
+    index: {
+        type: Number,
+        reqired: true,
     },
-    data() {
-        return {
-            reportedUserDetailsFields: REPORTED_USER_DETAILS_FIELDS,
-            conversationToShow: null,
-            showSendMessageModal: false,
-            showConversationModal: false,
-        }
-    },
-    methods: {
-        sendMessageToReportedUser() {
-            this.$store.dispatch('clearErrors');
-            this.showSendMessageModal = true;
-        },
-        closeSendMessageToReportedUser() {
-            this.showSendMessageModal = false;
-        },
-        showConversation(conversationId) {
-            this.$store.dispatch('clearErrors');
-            this.conversationToShow = conversationId;
-            this.showConversationModal = true;
-        },
-        closeShowConversation() {
-            this.conversationToShow = null;
-            this.showConversationModal = false;
-        },
-    },
+});
+
+const reportedUserDetailsFields = REPORTED_USER_DETAILS_FIELDS;
+const conversationToShow = ref(null);
+const showSendMessageModal = ref(false);
+const showConversationModal = ref(false);
+
+function sendMessageToReportedUser() {
+    mainStore.clearErrors();
+    showSendMessageModal.value = true;
+}
+function closeSendMessageToReportedUser() {
+    showSendMessageModal.value = false;
+}
+function showConversation(conversationId) {
+    mainStore.clearErrors();
+    conversationToShow.value = conversationId;
+    showConversationModal.value = true;
+}
+function closeShowConversation() {
+    conversationToShow.value = null;
+    showConversationModal.value = false;
 }
 </script>

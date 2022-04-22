@@ -56,39 +56,29 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {onMounted, ref, computed} from 'vue';
 import BaseFormError from '../../BaseFormError.vue';
+import {useUserStore} from '/js/store/userStore';
+const userStore = useUserStore();
 
-export default {
-    components: {BaseFormError},
-    mounted() {
-        this.setupSettings();
-    },
-    data() {
-        return {
-            emailSettings: {},
-            passwordSettings: {},
-            loading: true,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            user: 'user/getUser',
-        }),
-    },
-    methods: {
-        /** Sets up the form with the user settings */
-        setupSettings() {
-            this.emailSettings.email = this.user.email;
-            this.loading = false;
-        },
-        submitPasswordSettings() {
-            this.$store.dispatch('user/updatePassword', this.passwordSettings);
-        },
-        submitEmailSettings() {
-            this.$store.dispatch('user/updateEmail', this.emailSettings);
-        },
-    },
+onMounted(() => setupSettings());
+
+const emailSettings = ref({});
+const passwordSettings = ref({});
+const loading = ref(true);
+
+const user = computed(() => userStore.user);
+
+/** Sets up the form with the user settings */
+function setupSettings() {
+    emailSettings.value.email = user.value.email;
+    loading.value = false;
+}
+function submitPasswordSettings() {
+    userStore.updatePassword(passwordSettings.value);
+}
+function submitEmailSettings() {
+    userStore.updateEmail(emailSettings.value);
 }
 </script>

@@ -59,51 +59,35 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
-import {
-    EXPERIENCE_POINTS_FIELDS, 
-} from '../../../../constants/balancingConstants.js';
+<script setup>
 import GeneralFormError from '../../../GeneralFormError.vue';
-import {shallowRef} from 'vue';
+import {shallowRef, onMounted, computed, ref} from 'vue';
 import BaseFormError from '../../../BaseFormError.vue';
-export default {
-    components: {GeneralFormError, BaseFormError},
-    mounted() {
-        if (this.experience_points) {
-            this.experiencePoints = shallowRef(this.experience_points);
-            this.loading = false;
-        }
-    },
-    data() {
-        return {
-            experiencePoints: null,
-            experiencePointsFields: EXPERIENCE_POINTS_FIELDS,
-            newLevel: {},
-        }
-    },
-    computed: {
-        ...mapGetters({
-            experience_points: 'admin/getExperiencePoints',
-            character_exp_gain: 'admin/getCharExpGain',
-            village_exp_gain: 'admin/getVillageExpGain',
-        }),
-    },
+import {useAdminStore} from '/js/store/adminStore';
+import {useMainStore} from '/js/store/store';
+const adminStore = useAdminStore();
+const mainStore = useMainStore();
 
-    methods: {
-        updateExpPoints() {
-            this.clearErrors();
-            this.$store.dispatch('admin/updateExpPoints', this.experiencePoints);
-        },
-        addNewLevel() {
-            this.clearErrors();
-            this.$store.dispatch('admin/addNewLevel', this.newLevel).then(() => {
-                this.experiencePoints = shallowRef(this.experience_points);
-            });
-        },
-        clearErrors() {
-            this.$store.dispatch('clearErrors');
-        },
-    },
+onMounted(() => {
+    experiencePoints.value = shallowRef(experience_points.value).value;
+});
+
+const experiencePoints = ref(null);
+const newLevel = ref({});
+
+const experience_points = computed(() => adminStore.experiencePoints);
+
+
+function updateExpPoints() {
+    clearErrors();
+    adminStore.updateExpPoints(experiencePoints.value);
+}
+async function addNewLevel() {
+    clearErrors();
+    await adminStore.addNewLevel(newLevel.value);
+    experiencePoints.value = shallowRef(experience_points).value;
+}
+function clearErrors() {
+    mainStore.clearErrors();
 }
 </script>

@@ -11,20 +11,15 @@
     </div>    
 </template>
 
-<script>
-export default {
-    props: {
-        text: {
-            type: String,
-            required: true,
-        },
+<script setup>
+import {ref} from 'vue';
+defineProps({
+    text: {
+        type: String,
+        required: true,
     },
-    data() {
-        return {
-            showTooltip: false,
-        }
-    },
-}
+});
+const showTooltip = ref(false);
 </script>
 
 <style lang="scss" scoped>

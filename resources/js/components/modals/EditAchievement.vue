@@ -28,8 +28,8 @@
                     v-model="achievementToEdit.trigger_type"
                     value-field="trigger_type"
                     text-field="trigger_type">
-                    <option v-for="(option, index) in achievementTriggers" :key="index" :value="option.value">
-                        {{option.text}}
+                    <option v-for="(option, index) in achievementTriggers" :key="index" :value="option.trigger_type">
+                        {{option.trigger_type}}
                     </option>
                 </select>
                 <base-form-error name="trigger_type" /> 
@@ -55,55 +55,44 @@
 </template>
 
 
-<script>
+<script setup>
 import BaseFormError from '../BaseFormError.vue';
-import {mapGetters} from 'vuex';
-import {shallowRef} from 'vue';
-export default {
-    props: {
-        achievement: {
-            /** @type {import('resources/types/achievement').Achievement} */
-            type: Object,
-            required: true,
-        },
-    },
-    mounted() {
-        this.achievementToEdit = shallowRef(this.achievement);
-    },
-    components: {
-        BaseFormError,
-    },
-    data() {
-        return {
-            /** @type {import('resources/types/achievement').Achievement} */
-            achievementToEdit: {
-                
-            },
-        }
-    },
-    methods: {
-        updateAchievement() {
-            this.$store.dispatch('achievement/editAchievement', this.achievementToEdit).then(() => {
-                this.close();
-            });
+import {onMounted, computed, ref} from 'vue';
+import {useAchievementStore} from '/js/store/achievementStore';
+const achievementStore = useAchievementStore();
 
-        },
-        close() {
-            this.achievementToEdit = {},
-            this.$emit('close');
-        },
+const props = defineProps({
+    achievement: {
+        /** @type {import('resources/types/achievement').Achievement} */
+        type: Object,
+        required: true,
     },
-    computed: {
-        ...mapGetters({
-            achievementTriggers: 'achievement/getAchievementTriggers',
-        }),
-        /** Parses the achievement description from the type (eg Made {0} friends) and the amount */
-        triggerDescription() {
-            const plural = this.achievement.trigger_amount > 1 ? 's' : '';
-            let desc = this.achievementTriggers.find(item => item.trigger_type === this.achievement.trigger_type);
-            desc = desc.trigger_description.replace('%d', this.achievement.trigger_amount);
-            return desc.replace('%s', plural);
-        },
-    },
+});
+
+const emit = defineEmits(['close']);
+
+onMounted(() => {
+    achievementToEdit.value = props.achievement;
+});
+
+/** @type {import('resources/types/achievement').Achievement} */
+const achievementToEdit = ref({});
+const achievementTriggers = computed(() => achievementStore.achievementTriggers);
+
+async function updateAchievement() {
+    await achievementStore.editAchievement(achievementToEdit.value)
+    close();
 }
+function close() {
+    achievementToEdit.value = {},
+    emit('close');
+}
+
+/** Parses the achievement description from the type (eg Made {0} friends) and the amount */
+const triggerDescription = computed(() => {
+    const plural = props.achievement.trigger_amount > 1 ? 's' : '';
+    let desc = achievementTriggers.value.find(item => item.trigger_type === props.achievement.trigger_type);
+    desc = desc.trigger_description.replace('%d', props.achievement.trigger_amount);
+    return desc.replace('%s', plural);
+});
 </script>

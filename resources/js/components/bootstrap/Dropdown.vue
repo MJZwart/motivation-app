@@ -36,16 +36,13 @@ function openClose() {
         if (catchOutsideClick(e, menu.value ))
             window.removeEventListener('click', closeListener) , isOpen.value = false
     }
-
     window.addEventListener('click', closeListener)
     isOpen.value = !isOpen.value;
 }
 function catchOutsideClick(event, dropdown)  {
-    // When user clicks menu — do nothing
+    // Prevent closing on clicking menu
     if (dropdown == event.target)
         return false
-
-    // When user clicks outside of the menu — close the menu
     if (isOpen.value && dropdown != event.target)
         return true
 }

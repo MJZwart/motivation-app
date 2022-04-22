@@ -4,19 +4,19 @@
             <button
                 :class="activeTab('ExperiencePoints')" 
                 class="tab-item"
-                @click="currentTabComponent = 'ExperiencePoints'">
+                @click="switchTab('ExperiencePoints')">
                 {{$t('exp-points')}}
             </button>
             <button 
                 :class="activeTab('CharExpGain')" 
                 class="tab-item"
-                @click="currentTabComponent = 'CharExpGain'">
+                @click="switchTab('CharExpGain')">
                 {{$t('char-exp-gain')}}
             </button>
             <button 
                 :class="activeTab('VillExpGain')" 
                 class="tab-item"
-                @click="currentTabComponent = 'VillExpGain'">
+                @click="switchTab('VillExpGain')">
                 {{$t('vill-exp-gain')}}
             </button>
         </div>
@@ -26,27 +26,27 @@
     </div>
 </template>
 
-<script>
-import GeneralFormError from '../../GeneralFormError.vue';
-import BaseFormError from '../../BaseFormError.vue';
+<script setup>
+import {ref, shallowRef} from 'vue';
 import ExperiencePoints from './components/ExperiencePointsTab.vue';
 import CharExpGain from './components/CharExpGainTab.vue';
 import VillExpGain from './components/VillExpGainTab.vue';
 
-export default {
-    components: {GeneralFormError, BaseFormError, ExperiencePoints, CharExpGain, VillExpGain},
-    data() {
-        return {
-            newLevel: {},
-            currentTabComponent: 'ExperiencePoints',
-        }
-    },
-    methods: {
-        activeTab(component) {
-            if (component == this.currentTabComponent) return 'active-tab';
-            return 'tab';
-        },
-    },
+const componentNames = {
+    'ExperiencePoints': ExperiencePoints,
+    'CharExpGain': CharExpGain,
+    'VillExpGain': VillExpGain,
+}
+const activeComponent = ref('ExperiencePoints');
+
+const currentTabComponent = shallowRef(componentNames[activeComponent.value]);
+function activeTab(component) {
+    if (component == activeComponent.value) return 'active-tab';
+    return 'tab';
+}
+function switchTab(component) {
+    currentTabComponent.value = componentNames[component];
+    activeComponent.value = component;
 }
 </script>
 

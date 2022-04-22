@@ -23,40 +23,30 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import BTable from '../../bootstrap/BTable.vue';
 import BModal from '../../bootstrap/BModal.vue';
-import {mapGetters} from 'vuex';
+import {ref, computed} from 'vue';
 import ReportedUserDetails from './components/ReportedUserDetails.vue';
 import {REPORTED_USER_FIELDS} from '../../../constants/reportedUserConstants.js';
-export default {
-    components: {
-        ReportedUserDetails, BTable, BModal,
-    },
-    data() {
-        return {
-            reportedUserDetails: null,
-            reportedUserIndex: null,
-            reportedUserFields: REPORTED_USER_FIELDS,
-            reportedUserDetailsTitle: null,
-            showReportedUserDetailsModal: false,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            reportedUsers: 'admin/getReportedUsers',
-        }),
-    },
-    methods: {
-        showReportedUserDetails({item, index}) {
-            this.reportedUserDetails = item;
-            this.reportedUserIndex = index;
-            this.reportedUserDetailsTitle = item.username;
-            this.showReportedUserDetailsModal = true;
-        },
-        closeReportedUserDetails() {
-            this.showReportedUserDetailsModal = false;
-        },
-    },
+import {useAdminStore} from '/js/store/adminStore';
+const adminStore = useAdminStore();
+
+const reportedUserDetails = ref(null);
+const reportedUserIndex = ref(null);
+const reportedUserFields = ref(REPORTED_USER_FIELDS);
+const reportedUserDetailsTitle = ref(null);
+const showReportedUserDetailsModal = ref(false);
+
+const reportedUsers = computed(() => adminStore.reportedUsers);
+
+function showReportedUserDetails({item, index}) {
+    reportedUserDetails.value = item;
+    reportedUserIndex.value = index;
+    reportedUserDetailsTitle.value = item.username;
+    showReportedUserDetailsModal.value = true;
+}
+function closeReportedUserDetails() {
+    showReportedUserDetailsModal.value = false;
 }
 </script>

@@ -29,42 +29,32 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {onMounted, computed, ref, shallowRef} from 'vue';
 import {
     CHARACTER_EXP_GAIN_FIELDS, 
 } from '../../../../constants/balancingConstants.js';
 import GeneralFormError from '../../../GeneralFormError.vue';
-import {shallowRef} from 'vue';
 import Loading from '../../../Loading.vue';
+import {useAdminStore} from '/js/store/adminStore';
+import {useMainStore} from '/js/store/store';
+const adminStore = useAdminStore();
+const mainStore = useMainStore();
 
-export default {
-    components: {GeneralFormError, Loading},
-    mounted() {
-        if (this.character_exp_gain) {
-            this.characterExpGain = shallowRef(this.character_exp_gain);
-        }
-    },
-    data() {
-        return {
-            characterExpGain: null,
-            characterExpGainFields: CHARACTER_EXP_GAIN_FIELDS,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            character_exp_gain: 'admin/getCharExpGain',
-        }),
-    },
+onMounted(() => {
+    characterExpGain.value = shallowRef(character_exp_gain).value;
+}); 
 
-    methods: {
-        updateCharExpGain() {
-            this.clearErrors();
-            this.$store.dispatch('admin/updateCharExpGain', this.characterExpGain);
-        },
-        clearErrors() {
-            this.$store.dispatch('clearErrors');
-        },
-    },
+const characterExpGain = ref(null);
+const characterExpGainFields = CHARACTER_EXP_GAIN_FIELDS;
+
+const character_exp_gain = computed(() => adminStore.charExpGain);
+
+function updateCharExpGain() {
+    clearErrors();
+    adminStore.updateCharExpGain(characterExpGain.value);
+}
+function clearErrors() {
+    mainStore.clearErrors();
 }
 </script>

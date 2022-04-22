@@ -10,24 +10,21 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        value: {
-            type: Number,
-            required: true,
-        },
-        max: {
-            type: Number,
-            required: true,
-        },
+<script setup>
+import {computed} from 'vue';
+const props = defineProps({
+    value: {
+        type: Number,
+        required: true,
     },
-    computed: {
-        widthValue() {
-            return {width: (100 * this.value) / this.max +'%'};
-        },
+    max: {
+        type: Number,
+        required: true,
     },
-}
+});
+const widthValue = computed(() => {
+    return {width: (100 * props.value) / props.max + '%'}
+});
 </script>
 
 <style lang="scss" scoped>

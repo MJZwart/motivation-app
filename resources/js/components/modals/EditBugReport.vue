@@ -56,49 +56,45 @@
 </template>
 
 
-<script>
+<script setup>
 import BaseFormError from '../BaseFormError.vue';
-import {shallowRef} from 'vue';
+import {shallowRef, onMounted, ref} from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '../../constants/bugConstants';
+import {useAdminStore} from '/js/store/adminStore';
+import {useMessageStore} from '/js/store/messageStore';
+const adminStore = useAdminStore();
+const messageStore = useMessageStore();
 
-export default {
-    components: {BaseFormError},
-    props: {
-        bugReport: {
-            type: Object,
-            required: true,
-        },
+const props = defineProps({
+    bugReport: {
+        type: Object,
+        required: true,
     },
-    mounted() {
-        if (this.bugReport) {
-            this.bugReportToEdit = shallowRef(this.bugReport);
-        }
-    },
-    data() {
-        return {
-            bugReportToEdit: {},
-            bugTypes: BUG_TYPES,
-            bugSeverity: BUG_SEVERITY,
-            bugStatus: BUG_STATUS,
-            message: {
-                message: 'Your bug report has been resolved!',
-            },
-        }
-    },
-    methods: {
-        updateBugReport() {
-            this.$store.dispatch('bugReport/updateBugReport', this.bugReportToEdit).then(() => {
-                if (this.bugReportToEdit.status == 3) {
-                    this.message.recipient_id = this.bugReportToEdit.user_id;
-                    this.$store.dispatch('message/sendMessage', this.message);
-                }
-                this.close();
-            })
-        },
-        close() {
-            this.bugReportToEdit = {};
-            this.$emit('close');
-        },
-    },
+});
+const emit = defineEmits(['close']);
+
+onMounted(() => {
+    bugReportToEdit.value = shallowRef(props.bugReport).value;
+});
+
+const bugReportToEdit = ref({});
+const bugTypes = BUG_TYPES;
+const bugSeverity = BUG_SEVERITY;
+const bugStatus = BUG_STATUS;
+
+async function updateBugReport() {
+    await adminStore.updateBugReport(bugReportToEdit.value)
+    if (bugReportToEdit.value.status == 3) {
+        const message = {
+            message: 'Your bug report has been resolved!',
+            recipient_id: bugReportToEdit.value.user_id,
+        };
+        messageStore.sendMessage(message);
+    }
+    close();
+}
+function close() {
+    bugReportToEdit.value = {};
+    emit('close');
 }
 </script>

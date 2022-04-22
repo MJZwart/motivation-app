@@ -38,34 +38,34 @@
 </template>
 
 <script setup>
+import {reactive} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
 import {useGroupStore} from '@/store/groupStore.js';
-
 const groupStore = useGroupStore();
-
-let groupToCreate = {
-    name: '',
-    description: '',
-    is_public: false,
-};
 
 const emit = defineEmits([
     'reloadGroups',
     'close',
 ]);
 
+const initialData = {
+    name: '',
+    description: '',
+    is_public: false,
+}
+
+const groupToCreate = reactive({...initialData});
+
 async function createGroup() {
     await groupStore.createGroup(groupToCreate);
     emit('reloadGroups');
     close();
-};
-
+}
 function close() {
-    groupToCreate = {
-        name: '',
-        description: '',
-        is_public: false,
-    };
+    resetForm();
     emit('close');
-};
+}
+function resetForm() {
+    Object.assign(groupToCreate, initialData);
+}
 </script>

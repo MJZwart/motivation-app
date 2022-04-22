@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th v-for="(field, index) in fields" :key="index">
-                    <slot v-bind="field" :name="headSlotName">
+                    <slot v-bind="field" :name="'head'">
                         <span v-if="field.sortable" class="clickable block" @click="toggleSort(field.key)">
                             {{ field.label }} 
                             <FaIcon 
@@ -39,86 +39,78 @@
     </table>
 </template>
 
-<script>
-export default {
-    props: {
-        items: {
-            type: Array,
-            required: true,
-        },
-        fields: {
-            type: Array,
-            required: true,
-        },
-        options: {
-            type: Array,
-            required: false,
-        },
-        sort: {
-            type: String,
-            required: false,
-        },
-        sortAsc: {
-            type: Boolean,
-            required: false,
-            default: true,
-        },
+<script setup>
+import {ref, computed, onMounted} from 'vue';
+const props = defineProps({
+    items: {
+        type: Array,
+        required: true,
     },
-    data() {
-        return {
-            currentSortDir: null,
-            currentSort: null,
-        }
+    fields: {
+        type: Array,
+        required: true,
     },
-    mounted() {
-        if (this.fields)
-            this.currentSort = this.sort ? this.sort : this.fields[0].key;
-        this.currentSortDir = this.sortAsc ? 'asc' : 'desc';
+    options: {
+        type: Array,
+        required: false,
     },
-    computed: {
-        className() {
-            let className = 'table ';
-            if (this.options) {
-                this.options.forEach(element => {
-                    className += ' ' + element;
-                });
-            }
-            return className;
-        },
-        sortedItems() {
-            return this.sortItems();
-        },
-        headSlotName() {
-            return this.$slots['head()'] ? 'head()' : 'head';
-        },
+    sort: {
+        type: String,
+        required: false,
     },
-    methods: {
-        toggleSort(key) {
-            key == this.currentSort ? this.toggleDir() : this.currentSort = key;
-            this.sortItems();
-        },
-        toggleDir() {
-            this.currentSortDir = this.currentSortDir == 'asc' ? 'desc' : 'asc';
-        },
-        sortItems() {
-            return this.items.slice().sort(this.compareValues(this.currentSort, this.currentSortDir));
-        },
-        compareValues(key, order = 'asc') {
-            // eslint-disable-next-line complexity
-            return function innerSort(a, b) {
-                if (!Object.prototype.hasOwnProperty.call(a, key) || !Object.prototype.hasOwnProperty.call(b, key))
-                    return 0;
+    sortAsc: {
+        type: Boolean,
+        required: false,
+        default: true,
+    },
+});
 
-                const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
-                const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
+onMounted(() => {
+    if (props.fields)
+        currentSort.value = props.sort ? props.sort : props.fields[0].key;
+    currentSortDir.value = props.sortAsc ? 'asc' : 'desc';
+});
 
-                let comparison = 0;
-                if (varA > varB) comparison = 1;
-                else if (varA < varB) comparison = -1;
+const currentSortDir = ref('');
+const currentSort = ref('');
 
-                return ((order === 'desc') ? (comparison * -1) : comparison);
-            };
-        },
-    },
+const className = computed(() => {
+    let className = 'table ';
+    if (props.options) {
+        props.options.forEach(element => {
+            className += ' ' + element;
+        });
+    }
+    return className;
+});
+const sortedItems = computed(() => {
+    return sortItems();
+});
+
+function toggleSort(key) {
+    key == currentSort.value ? toggleDir() : currentSort.value = key;
+    sortItems();
+}
+function toggleDir() {
+    currentSortDir.value = currentSortDir.value == 'asc' ? 'desc' : 'asc';
+}
+function sortItems() {
+    return props.items.slice().sort(compareValues(currentSort.value, currentSortDir.value));
+}
+function compareValues(key, order = 'asc') {
+    // eslint-disable-next-line complexity
+    return function innerSort(a, b) {
+        if (!Object.prototype.hasOwnProperty.call(a, key) || !Object.prototype.hasOwnProperty.call(b, key))
+            return 0;
+
+        const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
+        const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
+
+        let comparison = 0;
+        if (varA > varB) comparison = 1;
+        else if (varA < varB) comparison = -1;
+
+        return ((order === 'desc') ? (comparison * -1) : comparison);
+    };
 }
 </script>

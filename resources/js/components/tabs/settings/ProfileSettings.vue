@@ -30,36 +30,28 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {onMounted, computed, ref} from 'vue';
 import BaseFormError from '../../BaseFormError.vue';
-export default {
-    components: {BaseFormError},
-    mounted() {
-        this.setupSettings();
-    },
-    data() {
-        return {
-            settings: {},
-            loading: true,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            user: 'user/getUser',
-        }),
-    },
-    methods: {
-        /** Sets up the form with the user settings */
-        setupSettings() {
-            this.settings.show_achievements = this.user.show_achievements;
-            this.settings.show_reward = this.user.show_reward;
-            this.settings.show_friends = this.user.show_friends;
-            this.loading = false;
-        },
-        submitSettings() {
-            this.$store.dispatch('user/updateSettings', this.settings);
-        },
-    },
+import {useUserStore} from '/js/store/userStore';
+const userStore = useUserStore();
+
+onMounted(() => setupSettings()); 
+
+const settings = ref({});
+const loading = ref(true);
+
+const user = computed(() => userStore.user);
+
+/** Sets up the form with the user settings */
+function setupSettings() {
+    settings.value.show_achievements = user.value.show_achievements;
+    settings.value.show_reward = user.value.show_reward;
+    settings.value.show_friends = user.value.show_friends;
+    loading.value = false;
 }
+function submitSettings() {
+    userStore.updateSettings(settings.value);
+}
+
 </script>

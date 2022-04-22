@@ -55,44 +55,34 @@
 </template>
 
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {computed, ref} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
-export default {
-    components: {
-        BaseFormError,
-    },
-    data() {
-        return {
-            /** @type {import('resources/types/achievement').Achievement} */
-            achievement: {
-                trigger_amount: 0,
-            },
-        }
-    },
-    methods: {
-        submitAchievement() {
-            this.achievement.trigger_amount = parseInt(this.achievement.trigger_amount);
-            this.$store.dispatch('achievement/newAchievement', this.achievement).then(() => {
-                this.close();
-            });
-        },
-        close() {
-            this.achievement = {trigger_amount: 0},
-            this.$emit('close');
-        },
-    },
-    computed: {
-        ...mapGetters({
-            achievementTriggers: 'achievement/getAchievementTriggers',
-        }),
-        /** Parses the achievement description from the type (eg Made {0} friends) and the amount */
-        triggerDescription() {
-            const plural = this.achievement.trigger_amount > 1 ? 's' : '';
-            let desc = this.achievementTriggers.find(item => item.trigger_type === this.achievement.trigger_type);
-            desc = desc.trigger_description.replace('%d', this.achievement.trigger_amount);
-            return desc.replace('%s', plural);
-        },
-    },
+import {useAchievementStore} from '/js/store/achievementStore';
+const achievementStore = useAchievementStore();
+
+const emit = defineEmits(['close']);
+
+/** @type {import('resources/types/achievement').Achievement} */
+const achievement = ref({
+    trigger_amount: 0,
+});
+
+async function submitAchievement() {
+    achievement.value.trigger_amount = parseInt(achievement.value.trigger_amount);
+    await achievementStore.newAchievement(achievement)
+    close();
 }
+function close() {
+    achievement.value = {trigger_amount: 0},
+    emit('close');
+}
+const achievementTriggers = computed(() => achievementStore.getAchievementTriggers());
+/** Parses the achievement description from the type (eg Made {0} friends) and the amount */
+const triggerDescription = computed(() => {
+    const plural = achievement.value.trigger_amount > 1 ? 's' : '';
+    let desc = achievementTriggers.value.find(item => item.trigger_type === achievement.value.trigger_type);
+    desc = desc.trigger_description.replace('%d', achievement.value.trigger_amount);
+    return desc.replace('%s', plural);
+});
 </script>

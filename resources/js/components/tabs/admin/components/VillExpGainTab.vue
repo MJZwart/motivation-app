@@ -29,42 +29,30 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
 import {
     VILLAGE_EXP_GAIN_FIELDS,
 } from '../../../../constants/balancingConstants.js';
 import GeneralFormError from '../../../GeneralFormError.vue';
-import {shallowRef} from 'vue';
+import {shallowRef, computed, onMounted, ref} from 'vue';
 import Loading from '../../../Loading.vue';
+import {useAdminStore} from '/js/store/adminStore';
+import {useMainStore} from '/js/store/store';
+const adminStore = useAdminStore();
+const mainStore = useMainStore();
 
-export default {
-    components: {GeneralFormError, Loading},
-    mounted() {
-        if (this.village_exp_gain) {
-            this.villageExpGain = shallowRef(this.village_exp_gain);
-        }
-    },
-    data() {
-        return {
-            villageExpGain: null,
-            villageExpGainFields: VILLAGE_EXP_GAIN_FIELDS,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            village_exp_gain: 'admin/getVillageExpGain',
-        }),
-    },
+onMounted(() => villageExpGain.value = shallowRef(village_exp_gain).value);
 
-    methods: {
-        updateVillageExpGain() {
-            this.clearErrors();
-            this.$store.dispatch('admin/updateVillageExpGain', this.villageExpGain);
-        },
-        clearErrors() {
-            this.$store.dispatch('clearErrors');
-        },
-    },
+const villageExpGain = ref(null);
+const villageExpGainFields = VILLAGE_EXP_GAIN_FIELDS;
+
+const village_exp_gain = computed(() => adminStore.getVillageExpGain);
+
+function updateVillageExpGain() {
+    clearErrors();
+    adminStore.updateVillageExpGain(villageExpGain.value);
+}
+function clearErrors() {
+    mainStore.clearErrors();
 }
 </script>

@@ -41,51 +41,51 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        group: {
-            type: Object,
-            required: true,
-        },
-        user: {
-            type: Object,
-            required: true,
-        },
+<script setup>
+import {computed} from 'vue';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+import {useGroupStore} from '/js/store/groupStore';
+const groupStore = useGroupStore();
+
+const props = defineProps({
+    group: {
+        type: Object,
+        required: true,
     },
-    computed: {
-        isJoinGroupVisible() {
-            let $isVisible = true;
-            for (const member of this.group.members) {
-                if (member.id == this.user.id) $isVisible = false;
-            }
-            return $isVisible;
-        },
-        isUserAdmin() {
-            return this.group.admin.id == this.user.id;
-        },
+    user: {
+        type: Object,
+        required: true,
     },
-    methods: {
-        joinGroup() {
-            this.$store.dispatch('groups/joinGroup', this.group).then(() => {
-                this.$emit('reloadGroups');
-                this.$emit('close');
-            });
-        },
-        deleteGroup() {
-            if (confirm(this.$t('delete-group-confirm', {group: this.group.name})))
-                this.$store.dispatch('groups/deleteGroup', this.group).then(() => {
-                    this.$emit('reloadGroups');
-                    this.$emit('close');
-                });
-        },
-        leaveGroup() {
-            if (confirm(this.$t('leave-group-confirm', {group: this.group.name})))
-                this.$store.dispatch('groups/leaveGroup', this.group).then(() => {
-                    this.$emit('reloadGroups');
-                    this.$emit('close');
-                });
-        },
-    },
+});
+const emit = defineEmits(['close', 'reloadGroups']);
+
+const isJoinGroupVisible = computed(() => {
+    let $isVisible = true;
+    for (const member of props.group.members) {
+        if (member.id == props.user.id) $isVisible = false;
+    }
+    return $isVisible;
+});
+const isUserAdmin = computed(() => {
+    return props.group.admin.id == props.user.id;
+});
+
+async function joinGroup() {
+    await groupStore.joinGroup(props.group)
+    emit('reloadGroups');
+    emit('close');
+}
+async function deleteGroup() {
+    if (confirm(t('delete-group-confirm', {group: props.group.name})))
+        await groupStore.deleteGroup(props.group)
+    emit('reloadGroups');
+    emit('close');
+}
+async function leaveGroup() {
+    if (confirm(t('leave-group-confirm', {group: props.group.name})))
+        await groupStore.leaveGroup(props.group)
+    emit('reloadGroups');
+    emit('close');
 }
 </script>

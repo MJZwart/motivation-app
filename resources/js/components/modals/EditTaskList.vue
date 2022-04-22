@@ -19,42 +19,33 @@
 </template>
 
 
-<script>
+<script setup>
+import {onMounted, ref} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
 import {shallowRef} from 'vue';
+import {useTaskStore} from '/js/store/taskStore';
+const taskStore = useTaskStore();
 
-export default {
-    components: {
-        BaseFormError,
+const props = defineProps({
+    taskList: {
+        /** @type {import('../../../types/task').TaskList} */
+        type: Object,
+        required: true,
     },
-    props: {
-        taskList: {
-            /** @type {import('../../../types/task').TaskList} */
-            type: Object,
-            required: true,
-        },
-    },
-    data() {
-        return {
-            /** @type {import('../../../types/task').TaskList} */
-            editedTaskList: {},
-        }
-    },
-    mounted() {
-        this.taskList ? this.editedTaskList = shallowRef(this.taskList) : this.editedTaskList = {};
-    },
-    methods: {
-        updateTaskList() {
-            var self = this;
-            this.$store.dispatch('taskList/updateTaskList', this.editedTaskList).then(function() {
-                self.close();
-            });
+});
+const emit = defineEmits(['close']);
 
-        },
-        close() {
-            this.editedTaskList = {},
-            this.$emit('close');
-        },
-    },
+onMounted(() => editedTaskList.value = props.taskList ? shallowRef(props.taskList).value : {});
+
+/** @type {import('../../../types/task').TaskList} */
+const editedTaskList = ref({});
+
+async function updateTaskList() {
+    await taskStore.updateTaskList(editedTaskList.value)
+    close();
+}
+function close() {
+    editedTaskList.value = {},
+    emit('close');
 }
 </script>

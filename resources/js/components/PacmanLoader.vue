@@ -8,86 +8,79 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        loading: {
-            type: Boolean,
-            default: true,
-        },
-        color: { 
-            type: String,
-            default: '#1D3354',
-        },
-        size: {
-            type: String,
-            default: '25px',
-        },
-        margin: {
-            type: String,
-            default: '2px',
-        },
-        radius: {
-            type: String,
-            default: '100%',
-        },
+<script setup>
+import {computed} from 'vue';
+const props = defineProps({
+    loading: {
+        type: Boolean,
+        default: true,
     },
-    data () {
-        return {
-            spinnerDelay2: {
-                animationDelay: '0.25s',
-            },
-            spinnerDelay3: {
-                animationDelay: '0.50s',
-            },
-            spinnerDelay4: {
-                animationDelay: '0.75s',
-            },
-            spinnerDelay5: {
-                animationDelay: '1s',
-            },
-        }
+    color: { 
+        type: String,
+        default: '#1D3354',
     },
-    computed: {
-        spinnerStyle () {
-            return {
-                backgroundColor: this.color,
-                width: this.size,
-                height: this.size,
-                margin: this.margin,
-                borderRadius: this.radius,
-            }
-        },
-        spinnerStyle1 () {
-            const border1 = this.size + ' solid transparent';
-            const border2 = this.size + ' solid ' + this.color;
-            return {
-                width: 0,
-                height: 0,
-                borderTop: border2,
-                borderRight: border1,
-                borderBottom: border2,
-                borderLeft: border2,
-                borderRadius: this.size,
-            }
-        },
-        animationStyle () {
-            return {
-                width: '10px',
-                height: '10px',
-                transform: 'translate(0, '+ -parseFloat(this.size)/4 + 'px)',
-                position: 'absolute',
-                top: '25px',
-                left: '100px',
-                animationName: 'v-pacmanStretchDelay',
-                animationDuration: '1s',
-                animationIterationCount: 'infinite',
-                animationTimingFunction: 'linear',
-                animationFillMode: 'both',
-            }
-        },
+    size: {
+        type: String,
+        default: '25px',
     },
+    margin: {
+        type: String,
+        default: '2px',
+    },
+    radius: {
+        type: String,
+        default: '100%',
+    },
+});
+const spinnerDelay2 = {
+    animationDelay: '0.25s',
 }
+const spinnerDelay3 = {
+    animationDelay: '0.50s',
+}
+const spinnerDelay4 = {
+    animationDelay: '0.75s',
+}
+const spinnerDelay5 = {
+    animationDelay: '1s',
+}
+const spinnerStyle = computed(() => {
+    return {
+        backgroundColor: props.color,
+        width: props.size,
+        height: props.size,
+        margin: props.margin,
+        borderRadius: props.radius,
+    }
+});
+const spinnerStyle1 = computed(() => {
+    const border1 = props.size + ' solid transparent';
+    const border2 = props.size + ' solid ' + props.color;
+    return {
+        width: 0,
+        height: 0,
+        borderTop: border2,
+        borderRight: border1,
+        borderBottom: border2,
+        borderLeft: border2,
+        borderRadius: props.size,
+    }
+});
+const animationStyle = computed(() => {
+    return {
+        width: '10px',
+        height: '10px',
+        transform: 'translate(0, '+ -parseFloat(props.size)/4 + 'px)',
+        position: 'absolute',
+        top: '25px',
+        left: '100px',
+        animationName: 'v-pacmanStretchDelay',
+        animationDuration: '1s',
+        animationIterationCount: 'infinite',
+        animationTimingFunction: 'linear',
+        animationFillMode: 'both',
+    }
+});
 </script>
 
 <style>

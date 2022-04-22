@@ -18,50 +18,38 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import {computed, ref} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
+import {useMessageStore} from '/js/store/messageStore';
+const messageStore = useMessageStore();
 
-export default {
-    components: {
-        BaseFormError,
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true,
     },
-    props: {
-        user: {
-            type: Object,
-            required: true,
-        },
-        conversation: {
-            type: Object,
-            required: false,
-        },
+    conversation: {
+        type: Object,
+        required: false,
     },
-    data() {
-        return {
-            message: {
-                message: '',
-            },
-        }
-    },
+});
+const emit = defineEmits(['close']);
 
-    methods: {
-        close() {
-            this.$emit('close');
-        },
-        sendMessage() {
-            this.message.recipient_id = this.user.id;
-            if (this.conversation) {
-                this.message.conversation_id = this.conversation.conversation_id;
-            }
-            this.$store.dispatch('message/sendMessage', this.message).then(() => {
-                this.$emit('close');
-            });
-        },
-    },
-    computed: {
-        sendMessageTitle() {
-            return 'Send message to ' + this.user.username;
-        },
-    },
+const message = ref({
+    message: '',
+});
 
+function close() {
+    emit('close');
 }
+async function sendMessage() {
+    message.value.recipient_id = props.user.id;
+    if (props.conversation) {
+        message.value.conversation_id = props.conversation.conversation_id;
+    }
+    await messageStore.sendMessage(message.value)
+    emit('close');
+}
+const sendMessageTitle = computed(() => 'Send message to ' + props.user.username);
 </script>
