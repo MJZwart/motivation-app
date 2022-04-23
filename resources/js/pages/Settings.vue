@@ -42,7 +42,7 @@ const activeComponent = ref('AccountSettings');
 
 const currentTabComponent = shallowRef(componentNames[activeComponent.value]);
 function activeTab(component) {
-    if (component == currentTabComponent.value) return 'active-tab';
+    if (component == activeComponent.value) return 'active-tab';
     return 'tab';
 }
 function switchTab(component) {

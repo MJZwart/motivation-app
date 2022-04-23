@@ -55,7 +55,7 @@
 import Tooltip from '../bootstrap/Tooltip.vue';
 import Task from './Task.vue';
 import Summary from '../summary/Summary.vue';
-import {defineProps, reactive, ref} from 'vue';
+import {reactive, ref} from 'vue';
 import {useMainStore} from '@/store/store';
 import NewTask from '../modals/NewTask.vue';
 import EditTask from '../modals/EditTask.vue';

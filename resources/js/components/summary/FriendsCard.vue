@@ -37,7 +37,7 @@
 import Tooltip from '../bootstrap/Tooltip.vue';
 import SendMessage from '../modals/SendMessage.vue';
 import Summary from './Summary.vue';
-import {defineProps, computed, ref} from 'vue';
+import {computed, ref} from 'vue';
 import {useUserStore} from '@/store/userStore';
 
 const userStore = useUserStore();

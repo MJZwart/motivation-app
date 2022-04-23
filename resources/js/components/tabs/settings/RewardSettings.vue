@@ -176,7 +176,7 @@ const rewardItems = computed(() => {
     return rewardItems;
 });
 async function confirmRewardsSettings() {
-    await rewardStore.changeRewardType(rewardSetting.value)
+    await userStore.changeRewardType(rewardSetting.value)
     rewardSetting.value.keepOldInstance = null;
     rewardSetting.value.new_object_name = null;
     load();

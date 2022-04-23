@@ -41,12 +41,14 @@ import {useMainStore} from '/js/store/store';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
-onMounted(() => villageExpGain.value = shallowRef(village_exp_gain).value);
+onMounted(() => {
+    villageExpGain.value = shallowRef(village_exp_gain).value;
+});
 
 const villageExpGain = ref(null);
 const villageExpGainFields = VILLAGE_EXP_GAIN_FIELDS;
 
-const village_exp_gain = computed(() => adminStore.getVillageExpGain);
+const village_exp_gain = computed(() => adminStore.villageExpGain);
 
 function updateVillageExpGain() {
     clearErrors();
