@@ -2,30 +2,26 @@
     <div>
         <h2>{{ $t('notifications') }}</h2>
         <Loading v-if="loading" />
-        <notification-block v-for="notification in notifications" v-else  :key="notification.id" :notification="notification" />
+        <div v-else>
+            <notification-block v-for="notification in notifications" :key="notification.id" :notification="notification" />
+        </div>
     </div>
 </template>
 
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {ref, computed} from 'vue';
 import NotificationBlock from '../components/small/NotificationBlock.vue';
 import Loading from '../components/Loading.vue';
+import {onMounted} from 'vue';
+import {useMessageStore} from '@/store/messageStore';
 
-export default {
-    components: {NotificationBlock, Loading},
-    data() {
-        return {
-            loading: true,
-        }
-    },
-    mounted() {
-        this.$store.dispatch('notification/getNotifications').then(() => this.loading = false);
-    },
-    computed: {
-        ...mapGetters({
-            notifications: 'notification/getNotifications',
-        }),
-    },
-}
+const loading = ref(true);
+const messageStore = useMessageStore();
+const notifications = computed(() => messageStore.notifications);
+
+onMounted(async() => {
+    await messageStore.getNotifications();
+    loading.value = false;
+});
 </script>

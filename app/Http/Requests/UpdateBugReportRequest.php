@@ -30,6 +30,7 @@ class UpdateBugReportRequest extends FormRequest
             'severity' => 'required|integer|min:1|max:5',
             'admin_comment' => 'nullable|string',
             'status' => 'required|integer|min:0|max:3',
+            'title' => 'required|string',
         ];
     }
 

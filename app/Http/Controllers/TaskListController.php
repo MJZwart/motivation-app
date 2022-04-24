@@ -28,7 +28,7 @@ class TaskListController extends Controller
         ActionTrackingHandler::handleAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: '.$validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return new JsonResponse(['message' => ['success' => ['Task list successfully created.']], 'data' => $taskLists], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => 'Task list successfully created.'], 'data' => $taskLists], Response::HTTP_OK);
     }
 
     /**
@@ -43,7 +43,7 @@ class TaskListController extends Controller
         ActionTrackingHandler::handleAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: '.$validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return new JsonResponse(['message' => ['success' => ["Task list updated."]], 'data' => $taskLists], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => "Task list updated."], 'data' => $taskLists], Response::HTTP_OK);
     }
 
     /**
@@ -58,10 +58,10 @@ class TaskListController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: '.$tasklist->name);
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => ['info' => ["Task list deleted."]], 'data' => $taskLists], Response::HTTP_OK);
+            return new JsonResponse(['message' => ['success' => "Task list deleted."], 'data' => $taskLists], Response::HTTP_OK);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: '.$tasklist->name, 'Not authorized');
-            return new JsonResponse(['errors' => ['error' => ["You are not authorized to delete this task list"]]], Response::HTTP_FORBIDDEN);
+            return new JsonResponse(['errors' => ['error' => "You are not authorized to delete this task list"]], Response::HTTP_FORBIDDEN);
         }
     }
 

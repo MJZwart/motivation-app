@@ -31,7 +31,7 @@ class FriendController extends Controller
         $inverseFriendship->delete();
         
         ActionTrackingHandler::handleAction($request, 'DELETE_FRIEND', 'Friendship removed');
-        return new JsonResponse(['message' => ['info' => ['Friend removed.']], 
+        return new JsonResponse(['message' => ['info' => 'Friend removed.'], 
             'user' => new UserResource(Auth::user())], 
             Response::HTTP_OK);
     }
@@ -41,7 +41,7 @@ class FriendController extends Controller
      */
     public function sendFriendRequest(Request $request, User $user):JsonResponse{
         if(Friend::where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()){
-            return new JsonResponse(['errors' => ['error' => ['You\'ve already sent a friend request to this user']]], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse(['message' => 'You\'ve already sent a friend request to this user'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         Friend::create(['user_id' => Auth::user()->id, 'friend_id' => $user->id]);
         Notification::create([
@@ -49,7 +49,7 @@ class FriendController extends Controller
             'title' => 'New friend request!',
             'text' => 'You have a new friend request from '.Auth::user()->username.'. Would you like to accept?']);
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request sent to '.$user->username);
-        return new JsonResponse(['message' => ['success' => ['Friend request successfully sent.']]], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => 'Friend request successfully sent.']], Response::HTTP_OK);
     }
 
     /**
@@ -67,7 +67,7 @@ class FriendController extends Controller
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request accepted');
 
         $requests = $this->fetchRequests();
-        return new JsonResponse(['message' => ['success' => ['Friend request accepted. You are now friends.']], 
+        return new JsonResponse(['message' => ['success' => 'Friend request accepted. You are now friends.'], 
             'user' => new UserResource(Auth::user()),
             'requests' => $requests], 
             Response::HTTP_OK);
@@ -81,7 +81,7 @@ class FriendController extends Controller
         $friend->delete();
         $requests = $this->fetchRequests();
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request denied');
-        return new JsonResponse(['message' => ['info' => ['Friend request denied.']], 
+        return new JsonResponse(['message' => ['info' => 'Friend request denied.'], 
             'requests' => $requests], 
             Response::HTTP_OK);
     }
@@ -90,7 +90,7 @@ class FriendController extends Controller
         $friend->delete();
         $requests = $this->fetchRequests();
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request cancelled');
-        return new JsonResponse(['message' => ['info' => ['Friend request cancelled.']], 
+        return new JsonResponse(['message' => ['info' => 'Friend request cancelled.'], 
             'requests' => $requests], 
             Response::HTTP_OK);
     }

@@ -1,74 +1,72 @@
 <template>
     <div>
         <h3>{{ $t('manage-achievements') }}</h3>
-        <b-button block @click="showNewAchievement">{{ $t('add-new-achievement') }}</b-button>
+        <button class="block" @click="showNewAchievement">{{ $t('add-new-achievement') }}</button>
 
-        <b-table
+        <BTable
             :items="achievements"
             :fields="achievementFields"
-            :sort-by.sync="currentSort"
-            :sort-desc.sync="currentSortDesc"
-            hover small
+            :sort="currentSort"
+            :sortAsc="currentSortAsc"
+            :options="['table-sm', 'table-striped', 'table-hover']"
             class="font-sm">
-            <template #cell(actions)="data">
-                <!-- <b-icon-trash-fill class="icon small" /> -->
-                <b-icon-pencil-square class="icon small" @click="showEditAchievement(data.item)" />
+            <template #actions="row">
+                <FaIcon 
+                    :icon="['far', 'pen-to-square']"
+                    class="icon small"
+                    @click="showEditAchievement(row.item)" />
             </template>
-        </b-table>
+        </BTable>
 
-        <b-modal id="new-achievement" hide-footer :title="$t('new-achievement')">
-            <new-achievement @close="closeNewAchievement"/>
-        </b-modal>
-        <b-modal id="edit-achievement" hide-footer :title="$t('edit-achievement')">
-            <edit-achievement :achievement="achievementToEdit" @close="closeEditAchievement"/>
-        </b-modal>
+        <BModal :show="showNewAchievementModal" :footer="false" :title="$t('new-achievement')" @close="closeNewAchievement">
+            <NewAchievement @close="closeNewAchievement"/>
+        </BModal>
+        <BModal :show="showEditAchievementModal" :footer="false" :title="$t('edit-achievement')" @close="closeEditAchievement">
+            <EditAchievement :achievement="achievementToEdit" @close="closeEditAchievement"/>
+        </BModal>
     </div>
 </template>
 
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {ref, computed} from 'vue';
+import BTable from '../../bootstrap/BTable.vue';
 import EditAchievement from '../../modals/EditAchievement.vue';
 import NewAchievement from '../../modals/NewAchievement.vue';
 import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '../../../constants/achievementsConstants.js';
+import BModal from '../../bootstrap/BModal.vue';
+import {useAchievementStore} from '/js/store/achievementStore';
+import {useMainStore} from '/js/store/store';
+const achievementStore = useAchievementStore();
+const mainStore = useMainStore();
 
-export default {
-    components: {NewAchievement, EditAchievement},
-    data() {
-        return {
-            /** @type {import('../../types/achievement').Achievement | null} */
-            achievementToEdit: null,
-            achievementFields: ACHIEVEMENT_FIELDS,
-            currentSort: ACHIEVEMENT_DEFAULTS.currentSort,
-            currentSortDesc: false,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            achievements: 'achievement/getAchievements',
-        }),
-    },
-    methods: {
-        /** Shows and hides the modal to create a new achievement */
-        showNewAchievement() {
-            this.$store.dispatch('clearErrors');
-            this.$bvModal.show('new-achievement');
-        },
-        closeNewAchievement() {
-            this.$bvModal.hide('new-achievement');
-        },
-        /** Shows and hides the modal to edit a given achievement
-         * @param {import('../../types/achievement').Achievement} achievement
-         */
-        showEditAchievement(achievement) {
-            this.$store.dispatch('clearErrors');
-            this.achievementToEdit = achievement;
-            this.$bvModal.show('edit-achievement');
-        },
-        closeEditAchievement() {
-            this.$bvModal.hide('edit-achievement');
-        },
-    },
-    
+/** @type {import('../../types/achievement').Achievement | null} */
+const achievementToEdit = ref(null);
+const achievementFields = ACHIEVEMENT_FIELDS;
+const currentSort = ref(ACHIEVEMENT_DEFAULTS.currentSort);
+const currentSortAsc = ref(true);
+const showNewAchievementModal = ref(false);
+const showEditAchievementModal = ref(false);
+
+const achievements = computed(() => achievementStore.achievements);
+
+/** Shows and hides the modal to create a new achievement */
+function showNewAchievement() {
+    mainStore.clearErrors();
+    showNewAchievementModal.value = true;
+}
+function closeNewAchievement() {
+    showNewAchievementModal.value = false;
+}
+/** Shows and hides the modal to edit a given achievement
+ * @param {import('../../types/achievement').Achievement} achievement
+ */
+function showEditAchievement(achievement) {
+    mainStore.clearErrors();
+    achievementToEdit.value = achievement;
+    showEditAchievementModal.value = true;
+}
+function closeEditAchievement() {
+    showEditAchievementModal.value = false;
 }
 </script>

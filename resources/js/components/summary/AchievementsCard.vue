@@ -17,27 +17,22 @@
 </template>
 
 
-<script>
+<script setup>
 import Summary from './Summary.vue';
-export default {
-    components: {
-        Summary,
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+defineProps({
+    achievements: {
+        type: Array,
+        required: false,
     },
-    props: {
-        achievements: {
-            type: Array,
-            required: false,
-        },
-    },
-    methods: {
-        /**
-         * @param {import('resources/types/achievement').Achievement} achievement
-         * @return {string}
-         */
-        achievementSummary(achievement) {
-            return achievement.description+' '+achievement.trigger_description+' '
-            +this.$t('earned-on')+': '+achievement.pivot.earned;
-        },
-    },
+});
+/**
+ * @param {import('resources/types/achievement').Achievement} achievement
+ * @return {string}
+ */
+function achievementSummary(achievement) {
+    return achievement.description+' '+achievement.trigger_description+' '
+    + t('earned-on')+': '+achievement.pivot.earned;
 }
 </script>

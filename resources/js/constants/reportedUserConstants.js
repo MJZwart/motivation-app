@@ -18,7 +18,7 @@ export const REPORTED_USER_FIELDS = [
         label: 'Details',
         key: 'details',
     },
-]
+];
 
 export const REPORTED_USER_DETAILS_FIELDS = [
     {
@@ -50,4 +50,4 @@ export const REPORTED_USER_DETAILS_FIELDS = [
     },
 
 
-]
+];

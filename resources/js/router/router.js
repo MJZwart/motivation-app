@@ -1,6 +1,7 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import store from '../store/store';
+// import Vue from 'vue';
+import {createRouter, createWebHistory} from 'vue-router';
+import {useMainStore} from '../store/store';
+import {useMessageStore} from '../store/messageStore';
 
 import Home from '../pages/Home.vue';
 import Dashboard from '../pages/Dashboard.vue';
@@ -17,9 +18,10 @@ import Messages from '../pages/Messages.vue';
 import Social from '../pages/Social.vue';
 import Faq from '../pages/Faq.vue';
 import Feedback from '../pages/Feedback.vue';
+import {useUserStore} from '../store/userStore';
 // import Test from '../pages/Test.vue';
 
-Vue.use(VueRouter);
+// Vue.use(VueRouter);
 
 let routes = [
     {
@@ -99,36 +101,40 @@ let routes = [
 
 ];
 
-const router = new VueRouter({
+const router = createRouter({
+    history: createWebHistory(),
     routes,
 });
 
 
 // eslint-disable-next-line complexity
 router.beforeEach((to, from, next) => {
-    store.dispatch('clearErrors');
+    const messageStore = useMessageStore();
+    const mainStore = useMainStore();
+    const userStore = useUserStore();
+    mainStore.clearErrors();
+    console.log(userStore.user);
 
-    if (to.path == '/' && store.getters['user/authenticated']) {
+    if (to.path == '/' && userStore.authenticated) {
         return next({path: '/dashboard'});
     }
 
-    if (to.path != '/welcome' && store.getters['user/getUser'].first) {
+    if (to.path != '/welcome' && userStore.user.first) {
         return next({path: '/welcome'});
     }
 
-    if (to.meta && to.meta.requiresAuth && !store.getters['user/authenticated']) {
+    if (to.meta && to.meta.requiresAuth && !userStore.authenticated) {
         return next({path: '/login'});
     }
 
-    if (to.meta && to.meta.requiresAdmin && !store.getters['admin/isAdmin']) {
-        store.dispatch('sendToasts', {'error': 'You are not authorized to view this page'});
+    if (to.meta && to.meta.requiresAdmin && !userStore.isAdmin) {
+        mainStore.addToast({'error': 'You are not authorized to view this page'});
         return next({path: '/dashboard'});
     }
     
-    if (store.getters['user/authenticated']) {
-        store.dispatch('hasUnread');
+    if (userStore.authenticated) {
+        messageStore.hasUnread();
     }
-    
     next();
 });
 

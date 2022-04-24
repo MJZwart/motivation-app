@@ -25,7 +25,7 @@ class AuthenticationController extends Controller
         }
         $errorMessage = 'Username or password is incorrect.';
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in '.$request['username'], 'Invalid login');
-        return new JsonResponse(['message' => [$errorMessage], 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
+        return new JsonResponse(['message' => $errorMessage, 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
 
     }
 

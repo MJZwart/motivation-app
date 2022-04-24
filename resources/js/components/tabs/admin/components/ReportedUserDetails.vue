@@ -1,75 +1,75 @@
 <template>
     <div>
-        <b-table
+        <BTable
             :items="user.reports"
             :fields="reportedUserDetailsFields"
             class="reported-user-details-table"
-            striped
+            :options="['table-striped']"
         >
-            <template #cell(actions)>
-                <b-button @click="sendMessageToReportedUser()">place holder message</b-button>
+            <template #actions>
+                <button @click="sendMessageToReportedUser()">place holder message</button>
             </template>
-            <template #cell(conversation)="row">
+            <template #conversation="row">
                 <p>{{row.item.conversation}}</p>
                 <template v-if="row.item.conversation">
-                    <b-button @click="showConversation(row.item.conversation)"> placeholder show conversation</b-button>
+                    <button @click="showConversation(row.item.conversation)"> placeholder show conversation</button>
                 </template>
             </template>
-        </b-table>
+        </BTable>
 
-        <b-modal :id="`send-message-to-reported-user-${index}`" hide-footer :title="'placeholer title'">
-            <SendMessage :user="user" @close="closeSendMessageToReportedUser()"/>
-        </b-modal>
-        <b-modal :id="`show-conversation-${index}`"
-                 hide-footer :title="`placeholder title conversation ${conversationToShow}:`">
-            <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation()"/>
-        </b-modal>
+        <BModal :show="showSendMessageModal" :footer="false" :title="'placeholer title'" @close="closeSendMessageToReportedUser">
+            <SendMessage :user="user" @close="closeSendMessageToReportedUser"/>
+        </BModal>
+        <BModal :show="showConversationModal"
+                :footer="false" 
+                :title="`placeholder title conversation ${conversationToShow}:`" 
+                @close="closeShowConversation">
+            <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation"/>
+        </BModal>
     </div>
 </template>
 
 
-<script>
+<script setup>
+import {ref} from 'vue';
 import {REPORTED_USER_DETAILS_FIELDS} from '../../../../constants/reportedUserConstants.js';
 import SendMessage from '../../../modals/SendMessage.vue';
 import ShowConversationModal from './ShowConversationModal.vue';
-export default {
-    components: {
-        SendMessage,
-        ShowConversationModal,
+import BModal from '../../../bootstrap/BModal.vue';
+import BTable from '../../../bootstrap/BTable.vue';
+import {useMainStore} from '/js/store/store';
+const mainStore = useMainStore();
+
+defineProps({
+    user: {
+        type: Object,
+        required: true,
     },
-    props: {
-        user: {
-            type: Object,
-            required: true,
-        },
-        index: {
-            type: Number,
-            reqired: true,
-        },
+    index: {
+        type: Number,
+        reqired: true,
     },
-    data() {
-        return {
-            reportedUserDetailsFields: REPORTED_USER_DETAILS_FIELDS,
-            conversationToShow: null,
-        }
-    },
-    methods: {
-        sendMessageToReportedUser() {
-            this.$store.dispatch('clearErrors');
-            this.$bvModal.show(`send-message-to-reported-user-${this.index}`);
-        },
-        closeSendMessageToReportedUser() {
-            this.$bvModal.hide(`send-message-to-reported-user-${this.index}`);
-        },
-        showConversation(conversationId) {
-            this.$store.dispatch('clearErrors');
-            this.conversationToShow = conversationId;
-            this.$bvModal.show(`show-conversation-${this.index}`);
-        },
-        closeShowConversation() {
-            this.conversationToShow = null;
-            this.$bvModal.hide(`show-conversation-${this.index}`);
-        },
-    },
+});
+
+const reportedUserDetailsFields = REPORTED_USER_DETAILS_FIELDS;
+const conversationToShow = ref(null);
+const showSendMessageModal = ref(false);
+const showConversationModal = ref(false);
+
+function sendMessageToReportedUser() {
+    mainStore.clearErrors();
+    showSendMessageModal.value = true;
+}
+function closeSendMessageToReportedUser() {
+    showSendMessageModal.value = false;
+}
+function showConversation(conversationId) {
+    mainStore.clearErrors();
+    conversationToShow.value = conversationId;
+    showConversationModal.value = true;
+}
+function closeShowConversation() {
+    conversationToShow.value = null;
+    showConversationModal.value = false;
 }
 </script>

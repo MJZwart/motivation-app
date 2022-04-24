@@ -14,6 +14,7 @@
         "noImplicitThis": true,
         "alwaysStrict": true,
         "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         "checkJs": true,
         "baseUrl": ".",
         "paths": {
@@ -23,8 +24,10 @@
             // "helpers/*": ["./resources/helpers/*"],
             "services/*": ["./resources/services/*"],
             "pages/*": ["./resources/pages/*"],
-            "types/*": ["./types/*"]
-        }
+            "types/*": ["./types/*"],
+            "@/*": ["./resources/js/*"]
+        },
+        "jsx": "preserve"
     },
     "typeAcquisition": {
         "include": ["jest"]

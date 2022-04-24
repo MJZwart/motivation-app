@@ -162,6 +162,7 @@
     "bug-image-link-desc": "If you have a screenshot of the bug, please upload it on a site like imgur and post the link here.",
     "bug-comment-desc": "What can you tell us about the bug? What were you doing? What did you expect to happen? What actually happened?",
     "report-bug": "Report a bug",
+    "bug-reports": "Bug reports",
     "submit-bug-report": "Submit bug report",
     "admin-comment": "Admin Comment",
     "bug-admin-comment-desc": "Add a comment only admins can see",
@@ -169,6 +170,9 @@
     "bug-status-desc": "Status of the bug report",
     "reported-by": "Reported by",
     "time": "Time",
+
+    "balancing": "Balancing",
+    "reported-users": "Reported users",
     
 
     "manage-achievements": "Manage achievements",

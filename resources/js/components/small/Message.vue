@@ -5,8 +5,9 @@
         <p class="mb-0">{{getSender}} {{message.message}}</p>
         <p class="silent d-flex">
             {{message.created_at}}
-            <span v-if="showActionButtons" class="ml-auto">                
-                <b-icon-trash
+            <span v-if="showActionButtons" class="ml-auto"> 
+                <FaIcon 
+                    icon="trash"
                     class="icon small red"
                     @click="deleteMessage()" />
             </span>
@@ -14,29 +15,24 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import {computed, ref} from 'vue';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
 
-export default {
-    props: {
-        message: {
-            type: Object,
-            required: true,
-        },
+const props = defineProps({
+    message: {
+        type: Object,
+        required: true,
     },
-    data() {
-        return {
-            showActionButtons: false,
-        }
-    },
-    computed: {
-        getSender() {
-            return this.message.sent_by_user ? this.$t('you')+': ' : this.message.sender.username + ': ';
-        },
-    },
-    methods: {
-        deleteMessage() {
-            this.$emit('deleteMessage', this.message);
-        },
-    },
+});
+const emit = defineEmits(['deleteMessage'])
+
+const showActionButtons = ref(false);
+
+const getSender = computed(() => props.message.sent_by_user ? t('you')+': ' : props.message.sender.username + ': ');
+
+function deleteMessage() {
+    emit('deleteMessage', props.message);
 }
 </script>

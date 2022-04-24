@@ -1,84 +1,70 @@
 <template>
     <div v-if="taskListToDelete">
-        <b-form @submit.prevent="deleteTaskList">
+        <form @submit.prevent="deleteTaskList">
             <p>{{ $t('are-you-sure-delete') }} {{taskListToDelete.name}}</p>
-            <b-form-group v-if="taskListHasTasks">
+            <div v-if="taskListHasTasks" class="form-group">
                 <p>
                     <!-- TODO fix the | -->
-                    {{ $tc('task-list-has-tasks', [taskListTasks.length]) }} 
+                    {{ $t('task-list-has-tasks', [taskListTasks.length]) }} 
                 </p>
             
-                <b-form-group>
-                    <b-form-select 
+                <div class="form-group">
+                    <select 
                         id="deleteOption" 
                         v-model="deleteOption">
                         <option value="delete" selected>{{ $t('delete') }}</option>
                         <option v-for="option in taskLists" :key="option.key" :value="option.id">
                             {{ $t('merge-with') }} {{option.name}}
                         </option>
-                    </b-form-select>
-                </b-form-group>
-            </b-form-group>
-            <b-button type="submit" block>{{ $t('delete-task-list-confirm') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="block">{{ $t('delete-task-list-confirm') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
             <base-form-error name="error" /> 
-        </b-form>
+        </form>
     </div>
 </template>
 
 
-<script>
+<script setup>
+import {onMounted, computed, ref} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
+import {useTaskStore} from '@/store/taskStore';
+const taskStore = useTaskStore();
 
-export default {
-    components: {
-        BaseFormError,
+const prop = defineProps({
+    taskList: {
+        /** @type {import('resources/types/task').TaskList} */
+        type: Object,
+        required: true,
     },
-    props: {
-        taskList: {
-            /** @type {import('resources/types/task').TaskList} */
-            type: Object,
-            required: true,
-        },
-    },
-    mounted() {
-        this.taskListToDelete = this.taskList;
-    },
-    data() {
-        return {
-            /** @type {import('resources/types/task').TaskList} */
-            taskListToDelete: null,
-            deleteOption: 'delete',
-        }
-    },
-    computed: {
-        taskListHasTasks() {
-            return !!this.taskListToDelete && !!this.taskListToDelete.tasks[0];
-        },
-        taskListTasks() {
-            return this.taskListToDelete.tasks;
-        },
-        //Gets all the other existing taskLists, without the one the user is trying to delete
-        taskLists() {
-            let taskLists = this.$store.getters['taskList/getTaskLists'];
-            return taskLists.filter(item => item != this.taskListToDelete);
-        },
-    },
-    methods: {
-        /** If the user chooses to merge existing tasks into another tasklist, merge those first, then delete the list. */
-        deleteTaskList() {
-            if (this.deleteOption != 'delete') {
-                const data = {taskListId : this.deleteOption, tasks: this.taskListTasks};
-                this.$store.dispatch('taskList/mergeTasks', data);
-            }
-            this.$store.dispatch('taskList/deleteTaskList', this.taskListToDelete).then(() => {
-                this.close();
-            });
-        },
-        close() {
-            this.taskListToDelete = null;
-            this.$emit('close');
-        },
-    },
+});
+const emit = defineEmits(['close']);
+
+onMounted(() => {
+    taskListToDelete.value = prop.taskList;
+});
+
+/** @type {import('resources/types/task').TaskList} */
+const taskListToDelete = ref();
+const deleteOption = ref('delete');
+
+const taskListHasTasks = computed(() => !!taskListToDelete.value && !!taskListToDelete.value.tasks[0]);
+const taskListTasks = computed(() => taskListToDelete.value.tasks);
+//Gets all the other existing taskLists, without the one the user is trying to delete
+const taskLists = computed(() =>  taskStore.taskLists.filter(item => item != taskListToDelete.value));
+/** If the user chooses to merge existing tasks into another tasklist, merge those first, then delete the list. */
+async function deleteTaskList() {
+    if (deleteOption.value != 'delete') {
+        const data = {taskListId : deleteOption.value, tasks: taskListTasks.value};
+        await taskStore.mergeTasks(data);
+    }
+    await taskStore.deleteTaskList(taskListToDelete.value);
+    close();
+}
+function close() {
+    taskListToDelete.value = null;
+    emit('close');
 }
 </script>

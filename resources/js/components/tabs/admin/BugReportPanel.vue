@@ -2,82 +2,85 @@
     <div>
         <h3>{{ $t('bug-report-panel-title') }}</h3>
 
-        <b-table
+        <BTable
             :items="bugReports"
             :fields="bugSortables"
-            :sort-by.sync="currentSort"
-            :sort-desc.sync="currentSortDesc"
-            hover small responsive
+            :sort="currentSort"
+            :sortAsc="!currentSortDesc"
+            :options="['table-hover', 'table-sm', 'table-responsive', 'table-striped']"
             class="font-sm">
-            <template #cell(severity)="data">
+            <template #severity="data">
                 <span class="severity">{{ data.item.severity }}</span>
             </template>
-            <template #cell(status)="data">
+            <template #status="data">
                 {{ parseStatus(data.item.status) }}
             </template>
-            <template #cell(actions)="data">
-                <b-icon-pencil-square 
+            <template #actions="data">
+                <FaIcon 
+                    :icon="['far', 'pen-to-square']"
                     class="icon medium"
-                    @click="editBugReport(data.item)" /> 
-                <b-icon-envelope class="icon medium" @click="sendMessageToBugReportAuthor(data.item.user_id)" /> 
+                    @click="editBugReport(data.item)" />
+                <FaIcon 
+                    icon="envelope"
+                    class="icon medium"
+                    @click="sendMessageToBugReportAuthor(data.item.user_id)" />
             </template>
-        </b-table>
+        </BTable>
 
-        <b-modal id="edit-bug-report" hide-footer :title="$t('edit-bug-report')">
-            <edit-bug-report :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
-        </b-modal>
-        <b-modal id="send-message-to-bug-report-author" hide-footer :title="$t('send-message-to-bug-report-author')">
-            <send-message :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor"/>
-        </b-modal>
+        <BModal :show="showEditBugReportModal" :footer="false" :title="$t('edit-bug-report')" @close="closeEditBugReport">
+            <EditBugReport :bugReport="bugReportToEdit" @close="closeEditBugReport"/>
+        </BModal>
+        <BModal 
+            :show="showSendMessageModal" 
+            :footer="false" 
+            :title="$t('send-message-to-bug-report-author')" 
+            @close="closeSendMessageToBugReportAuthor">
+            <SendMessage :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor"/>
+        </BModal>
 
     </div>
 </template>
 
 
-<script>
+<script setup>
+import BTable from '../../bootstrap/BTable.vue';
 import {BUG_SORTABLES, BUG_DEFAULTS, BUG_STATUS} from '../../../constants/bugConstants';
-import {mapGetters} from 'vuex';
+import {ref, computed} from 'vue';
 import EditBugReport from '../../modals/EditBugReport.vue';
 import SendMessage from '../../modals/SendMessage.vue';
-export default {
-    components: {
-        EditBugReport,
-        SendMessage,
-    },
-    computed: {
-        ...mapGetters({
-            bugReports: 'bugReport/getBugReports',
-        }),
-    },
-    data() {
-        return {
-            currentSort: BUG_DEFAULTS.currentSort,
-            bugSortables: BUG_SORTABLES,
-            currentSortDesc: true,
-            bugReportToEdit: null,
-            bugReportAuthor: null,
-        }
-    },    
-    methods: {
-        sendMessageToBugReportAuthor(authorId) {
-            this.$store.dispatch('clearErrors');
-            this.bugReportAuthor = {id: authorId};
-            this.$bvModal.show('send-message-to-bug-report-author');
-        },
-        closeSendMessageToBugReportAuthor() {
-            this.$bvModal.hide('send-message-to-bug-report-author');
-        },
-        editBugReport(bugReport) {
-            this.$store.dispatch('clearErrors');
-            this.bugReportToEdit = bugReport;
-            this.$bvModal.show('edit-bug-report');
-        },
-        closeEditBugReport() {
-            this.$bvModal.hide('edit-bug-report');
-        },
-        parseStatus(status) {
-            return BUG_STATUS.find(element => element.value == status).text;
-        },
-    },
+import BModal from '../../bootstrap/BModal.vue';
+import {useMainStore} from '/js/store/store';
+import {useAdminStore} from '/js/store/adminStore';
+const mainStore = useMainStore();
+const adminStore = useAdminStore();
+
+const bugReports = computed(() => adminStore.bugReports);
+
+const currentSort = ref(BUG_DEFAULTS.currentSort);
+const bugSortables = BUG_SORTABLES;
+const currentSortDesc = ref(true);
+const bugReportToEdit = ref(null);
+const bugReportAuthor = ref(null);
+const showEditBugReportModal = ref(false);
+const showSendMessageModal = ref(false);
+
+function sendMessageToBugReportAuthor(authorId) {
+    mainStore.clearErrors();
+    bugReportAuthor.value = {id: authorId};
+    showSendMessageModal.value = true;
+}
+function closeSendMessageToBugReportAuthor() {
+    showSendMessageModal.value = false;
+}
+function editBugReport(bugReport) {
+    mainStore.clearErrors();
+    bugReportToEdit.value = bugReport;
+    showEditBugReportModal.value = true;
+}
+function closeEditBugReport() {
+    showEditBugReportModal.value = false;
+}
+function parseStatus(status) {
+    return BUG_STATUS.find(element => element.value == status).text;
 }
 </script>
