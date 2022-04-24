@@ -9,7 +9,8 @@
 </template>
 
 
-<script setup>
+<script setup>// @ts-nocheck
+
 import {ref, computed} from 'vue';
 import NotificationBlock from '../components/small/NotificationBlock.vue';
 import Loading from '../components/Loading.vue';
@@ -18,10 +19,16 @@ import {useMessageStore} from '@/store/messageStore';
 
 const loading = ref(true);
 const messageStore = useMessageStore();
-const notifications = computed(() => messageStore.notifications);
+const notifications = computed(() => sortedNotifications());
 
 onMounted(async() => {
     await messageStore.getNotifications();
     loading.value = false;
 });
+
+function sortedNotifications(){
+    let notifications = messageStore.notifications;
+    if (!notifications) return notifications;
+    return notifications.sort((a,b) => Date.parse(b.created_at) - Date.parse(a.created_at));
+}
 </script>
