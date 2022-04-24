@@ -176,7 +176,6 @@ export default {
 
     'bug-report-panel-title': 'Manage bug reports',
     'edit-bug-report': 'Edit bug report',
-    'send-message-to-bug-report-author': 'Send a message to the author of this bug report:',
     'update-bug-report': 'Update',
     'sort-by': 'Sort by',
     'reverse-order': 'Click again to reverse order',
