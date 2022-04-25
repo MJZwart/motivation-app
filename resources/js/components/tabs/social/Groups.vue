@@ -22,8 +22,8 @@
             <BModal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
             </BModal>
-            <BModal class="l" :show="showGroupDetailsModal" :footer="false" 
-                    :title="groupDetailsTitle.value" @close="closeGroupDetails">
+            <BModal class="xl" :show="showGroupDetailsModal" :footer="false" 
+                    :title="groupDetailsTitle" @close="closeGroupDetails">
                 <GroupDetails :group="groupDetailsItem" :user="user" @close="closeGroupDetails" @reloadGroups="load" />
             </BModal>
         </div>
@@ -32,8 +32,8 @@
 
 <script setup>
 import BTable from '../../bootstrap/BTable.vue';
-import CreateGroup from '../../modals/CreateGroup.vue'
-import GroupDetails from '../../small/GroupDetails.vue';
+import CreateGroup from './components/CreateGroup.vue'
+import GroupDetails from './components/GroupDetails.vue';
 import {computed, ref, onMounted} from 'vue';
 import Loading from '../../Loading.vue';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../../../constants/groupConstants.js';

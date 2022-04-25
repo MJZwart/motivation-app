@@ -89,3 +89,9 @@ async function leaveGroup() {
     emit('close');
 }
 </script>
+
+<style lang="scss" scoped>
+.details{
+    margin: 0px 15px 0px 15px;
+}
+</style>
