@@ -20,6 +20,9 @@ body {
 p {
     margin-left:5px;
 }
+label, b {
+    font-weight: 500;
+}
 
 .footer {
     background-color: $background-darker;

@@ -19,13 +19,13 @@
                     {{ $t('no-groups-found') }}
                 </template>
             </BTable>
-            <BModal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
+            <Modal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
-            </BModal>
-            <BModal class="xl" :show="showGroupDetailsModal" :footer="false" 
-                    :title="groupDetailsTitle" @close="closeGroupDetails">
+            </Modal>
+            <Modal class="xl" :show="showGroupDetailsModal" :footer="false" 
+                   :title="groupDetailsTitle" @close="closeGroupDetails">
                 <GroupDetails :group="groupDetailsItem" :user="user" @close="closeGroupDetails" @reloadGroups="load" />
-            </BModal>
+            </Modal>
         </div>
     </div>
 </template>
@@ -34,10 +34,9 @@
 import BTable from '../../bootstrap/BTable.vue';
 import CreateGroup from './components/CreateGroup.vue'
 import GroupDetails from './components/GroupDetails.vue';
-import {computed, ref, onMounted} from 'vue';
+import {computed, ref, onMounted, watch} from 'vue';
 import Loading from '../../Loading.vue';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '../../../constants/groupConstants.js';
-import BModal from '../../bootstrap/BModal.vue';
 import {useGroupStore} from '@/store/groupStore';
 import {useUserStore} from '@/store/userStore';
 import {useMainStore} from '@/store/store';
@@ -64,7 +63,7 @@ const chosen = ref('');
 const showCreateGroupModal = ref(false);
 const showGroupDetailsModal = ref(false);
 const groupDetailsItem = ref({});
-const groupDetailsTitle = ref({});
+const groupDetailsTitle = ref('');
 
 async function load() {
     await groupStore.fetchGroupsDashboard();
@@ -91,6 +90,8 @@ function closeCreateGroup() {
     showCreateGroupModal.value = false;
 }
 function showGroupsDetails(group) {
+    console.log(group);
+    console.log(myGroups.value[group]);
     groupDetailsItem.value = group;
     groupDetailsTitle.value = group.name;
     showGroupDetailsModal.value = true;
@@ -98,6 +99,16 @@ function showGroupsDetails(group) {
 function closeGroupDetails() {
     showGroupDetailsModal.value = false;
 }
+watch(
+    () => groupStore.myGroups,
+    () => {
+        if (chosen.value == 'MY')
+            chosenGroups.value = myGroups.value;
+        else if (chosen.value == 'ALL')
+            chosenGroups.value = allGroups.value;
+        console.log(groupDetailsItem.value)
+    },
+);
 </script>
 
 <style lang="scss" scoped>

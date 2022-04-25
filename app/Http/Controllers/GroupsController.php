@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Groups_Users;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\DeleteGroupRequest;
+use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
 use App\Http\Resources\GroupResource;
@@ -77,5 +78,14 @@ class GroupsController extends Controller
         $users->detach($user);
         ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', $user->username.' left group '.$group->name);
         return new JsonResponse(['message' => ['success' => "You have successfully left the group \"{$group->name}\"."]], Response::HTTP_OK);
+    }
+
+    public function update(Group $group, UpdateGroupsRequest $request) {
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an admin of the group you are trying to update."], Response::HTTP_BAD_REQUEST);
+        $validated = $request->validated();
+        $group->update($validated);
+        $myGroups = MyGroupResource::collection(Auth::user()->groups);
+        return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
     }
 }

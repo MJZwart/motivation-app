@@ -228,6 +228,7 @@
     "add-level": "Add level",
     "points": "Points",
     "search-by-level": "Search by level",
+    "manage-group": "Manage group",
     
     "exp-points": "Experience points",
     "char-exp-gain": "Character XP gain",
@@ -242,6 +243,8 @@
     "submit": "Submit",
     "delete": "Delete",
     "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
 
     "welcome": "Welcome",
     "little-more": "Just a little more",
