@@ -33,7 +33,7 @@
         <BModal 
             :show="showSendMessageModal" 
             :footer="false" 
-            :title="$t('send-message-to-bug-report-author')" 
+            :header="false"
             @close="closeSendMessageToBugReportAuthor">
             <SendMessage :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor"/>
         </BModal>
