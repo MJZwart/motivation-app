@@ -1,43 +1,51 @@
 <template>
     <div class="details">
         <div class="row">
-            <div class="col-sm-2"><b>{{ $t('founded') }}:</b></div>
-            <div class="col">{{group.time_created}}</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2"><b>{{ $t('admin') }}:</b></div>
-            <div class="col">
-                <router-link :to="{ name: 'profile', params: { id: group.admin.id}}">
-                    {{group.admin.username}}
-                </router-link>
+            <div class="col-8">
+                <div class="row mb-1">
+                    <div class="col-2"><b>{{ $t('admin') }}: </b></div>
+                    <div class="col-4">
+                        <router-link :to="{ name: 'profile', params: { id: group.admin.id}}">
+                            {{group.admin.username}}
+                        </router-link>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-2"><b>{{ $t('founded') }}: </b></div>
+                    <div class="col-4">{{group.time_created}}</div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-2"><b>{{ $t('members') }}:</b></div>
+                    <div class="col-4">{{group.members.length}}</div>
+                </div>
             </div>
-        </div>
-        <div v-if="isJoinGroupVisible" class="row">
-            <div class="col">
-                <button type="button" @click="joinGroup()">{{$t('join-group')}}</button>
-            </div>
-        </div>
-        <div v-else class="row">
-            <div v-if="isUserAdmin" class="col">
-                <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
-            </div>
-
-            <div v-else class="col">
-                <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-sm-2"><b>{{group.members.length}} {{ $t('members') }}:</b></div>
-            <div class="col">
-                <div v-for="member in group.members" :key="member.id" class="row">
-                    <div class="col-sm-3">{{member.username}}</div>
-                    <div class="col-sm-2">{{member.rank}}</div>
-                    <div class="col-sm-5">Joined: {{member.joined}}</div>
+            <div class="col-3">
+                <div v-if="isJoinGroupVisible" class="row">
+                    <button type="button" @click="joinGroup()">{{$t('join-group')}}</button>
+                </div>
+                <div v-else class="row">
+                    <div v-if="isUserAdmin">
+                        <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
+                    </div>
+                    <div v-else>
+                        <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>
+                    </div>
                 </div>
             </div>
         </div>
-        
+        <hr />
+        <div class="row ml-0">
+            <b class="mb-3">{{ $t('member-list') }}</b>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div v-for="member in group.members" :key="member.id" class="row">
+                    <div class="col-2">{{member.username}}</div>
+                    <div class="col-2">{{member.rank}}</div>
+                    <div class="col-5">Joined: {{member.joined}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -92,6 +100,8 @@ async function leaveGroup() {
 
 <style lang="scss" scoped>
 .details{
+    // display: flex;
+    // flex-wrap: wrap;
     margin: 0px 15px 0px 15px;
 }
 </style>
