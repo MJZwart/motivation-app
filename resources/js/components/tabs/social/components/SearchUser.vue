@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- The search bar -->
-        <form class="navbar-search mb-3">
+        <form class="navbar-search mb-3" @submit.prevent>
             <input 
                 v-model="data.userSearch" 
                 type="search" 
@@ -29,10 +29,6 @@
                     </Tooltip>
                     <span v-if="!isConnection(item.item.id)">
                         <Tooltip :text="$t('send-friend-request')">
-                            <FaIcon 
-                                icon="envelope"
-                                class="icon small"
-                                @click="sendMessage(item.item)" />
                             <FaIcon 
                                 icon="user-plus"
                                 class="icon small"
@@ -73,13 +69,14 @@ const showSendMessageModal = ref(false);
 /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
 function searchUser() {
     userStore.searchUser(data.value);
-    //TODO BUG this reloads the page
 }
 /** Checks if a given user (by id) is already friends with the logged in user or a request is already sent */
 function isConnection(id) {
     const ids = [];
-    ids.push(...requests.value.outgoing.map(request => request.id));
-    ids.push(...requests.value.incoming.map(request => request.id));
+    if (requests.value) {
+        ids.push(...requests.value.outgoing.map(request => request.id));
+        ids.push(...requests.value.incoming.map(request => request.id));
+    }
     ids.push(...user.value.friends.map(friend => friend.id));
     return ids.includes(id);
 }
