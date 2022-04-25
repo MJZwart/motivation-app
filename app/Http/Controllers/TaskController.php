@@ -52,7 +52,7 @@ class TaskController extends Controller
             return new JsonResponse(['message' => ['info' => "Task deleted."], 'data' => $taskLists], Response::HTTP_OK);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: '.$task->name, 'Not authorized');
-            return new JsonResponse(['errors' => ['error' => "You are not authorized to delete this task"]], Response::HTTP_FORBIDDEN);
+            return new JsonResponse(['message' => "You are not authorized to delete this task"], Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -82,7 +82,7 @@ class TaskController extends Controller
             }
         } else {
             ActionTrackingHandler::handleAction($request, 'COMPLETE_TASK', 'Completing task named: '.$task->name, 'Not authorized');
-            return new JsonResponse(['errors' => ['error' => "You are not authorized to complete this task"]], Response::HTTP_FORBIDDEN);
+            return new JsonResponse(['message' => "You are not authorized to complete this task"], Response::HTTP_FORBIDDEN);
         }
     }
 

@@ -27,7 +27,7 @@ class MessageController extends Controller
         /** @var User */
         $user = Auth::user();
         if($user->isBlocked($request['recipient_id'])){
-            return new JsonResponse(['message' => ['error' => 'You are unable to send messages to this user.']], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse(['message' => 'You are unable to send messages to this user.'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         $validated = $request->validated();
         $validated['sender_id'] = $user->id;

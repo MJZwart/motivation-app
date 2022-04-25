@@ -45,7 +45,7 @@ class UserController extends Controller
      */
     public function isAdmin() {
         if(!Auth::user()->admin){
-            return new JsonResponse(['errors' => ['error' => "You are not admin."]], Response::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['message' => "You are not admin."], Response::HTTP_UNAUTHORIZED);
         }
     }
 

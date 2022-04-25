@@ -21,8 +21,6 @@ import Feedback from '../pages/Feedback.vue';
 import {useUserStore} from '../store/userStore';
 // import Test from '../pages/Test.vue';
 
-// Vue.use(VueRouter);
-
 let routes = [
     {
         path: '/',
@@ -113,7 +111,6 @@ router.beforeEach((to, from, next) => {
     const mainStore = useMainStore();
     const userStore = useUserStore();
     mainStore.clearErrors();
-    console.log(userStore.user);
 
     if (to.path == '/' && userStore.authenticated) {
         return next({path: '/dashboard'});
