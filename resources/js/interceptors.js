@@ -1,13 +1,9 @@
 /* eslint-disable max-lines-per-function */
 import axios from 'axios';
 import router from './router/router.js';
-// import {store} from './store/store.js';
 
 import {useMainStore} from './store/store';
 import {useUserStore} from './store/userStore';
-
-// import {useStore} from 'vuex';
-// const store = useStore();
 
 // @ts-ignore
 window.axios = axios;
