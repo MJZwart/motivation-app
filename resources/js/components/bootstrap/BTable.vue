@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             <tr v-for="(item, index) in sortedItems" :key="index">
-                <td v-for="(field, index) in fields" :key="index">
+                <td v-for="(field, idx) in fields" :key="idx">
                     <slot v-bind="{item, index}" :name="field.key">
                         {{item[field.key]}}
                     </slot>

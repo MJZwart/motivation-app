@@ -7,6 +7,7 @@ export const useGroupStore = defineStore('group', {
         return {
             myGroups: [],
             allGroups: [],
+            groupToManage: {},
         }
     },
     actions: {
@@ -38,6 +39,9 @@ export const useGroupStore = defineStore('group', {
         async updateGroup(group) {
             const {data} = await axios.put(`/groups/edit/${group.id}`, group);
             this.myGroups = data.groups.my;
+        },
+        setGroupToManage(group) {
+            this.groupToManage = group;
         },
     },
 });

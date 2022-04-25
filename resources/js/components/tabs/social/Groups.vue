@@ -90,8 +90,6 @@ function closeCreateGroup() {
     showCreateGroupModal.value = false;
 }
 function showGroupsDetails(group) {
-    console.log(group);
-    console.log(myGroups.value[group]);
     groupDetailsItem.value = group;
     groupDetailsTitle.value = group.name;
     showGroupDetailsModal.value = true;
@@ -106,9 +104,16 @@ watch(
             chosenGroups.value = myGroups.value;
         else if (chosen.value == 'ALL')
             chosenGroups.value = allGroups.value;
-        console.log(groupDetailsItem.value)
+        reloadGroupDetailsItem();
     },
 );
+function reloadGroupDetailsItem() { 
+    if (Object.keys(chosenGroups.value).length === 0) return;
+    const currentItem = groupDetailsItem.value;
+    const reloadedGroup = chosenGroups.value.find(item => item.id == currentItem.id);
+    groupDetailsItem.value = reloadedGroup;
+    groupDetailsTitle.value = reloadedGroup.name;
+}
 </script>
 
 <style lang="scss" scoped>

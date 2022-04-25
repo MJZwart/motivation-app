@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h5>{{ group.name }}</h5>
         <div v-if="group">
             <form @submit.prevent="editGroup">
                 <label for="edit-name-comp">Name</label>
@@ -68,7 +67,6 @@ const props = defineProps({
         required: true,
     },
 });
-console.log(props.group);
 function save(item) {
     item.id = props.group.id;
     groupStore.updateGroup(item);
