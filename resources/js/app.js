@@ -8,10 +8,8 @@ import App from './App.vue';
 const app = createApp(App);
 
 //Import store
-import {store} from './store/store';
 import {createPinia} from 'pinia';
 app.use(createPinia());
-app.use(store);
 
 //Import router
 import router from './router/router';
