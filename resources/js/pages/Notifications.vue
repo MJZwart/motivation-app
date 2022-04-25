@@ -19,16 +19,10 @@ import {useMessageStore} from '@/store/messageStore';
 
 const loading = ref(true);
 const messageStore = useMessageStore();
-const notifications = computed(() => sortedNotifications());
+const notifications = computed(() => messageStore.notifications);
 
 onMounted(async() => {
     await messageStore.getNotifications();
     loading.value = false;
 });
-
-function sortedNotifications(){
-    let notifications = messageStore.notifications;
-    if (!notifications) return notifications;
-    return notifications.sort((a,b) => Date.parse(b.created_at) - Date.parse(a.created_at));
-}
 </script>
