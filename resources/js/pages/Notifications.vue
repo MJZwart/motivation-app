@@ -9,7 +9,8 @@
 </template>
 
 
-<script setup>
+<script setup>// @ts-nocheck
+
 import {ref, computed} from 'vue';
 import NotificationBlock from '../components/small/NotificationBlock.vue';
 import Loading from '../components/Loading.vue';
