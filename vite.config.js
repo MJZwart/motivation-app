@@ -44,7 +44,6 @@ export default defineConfig(({command}) => {
                 'vue',
                 'axios',
                 'vue-i18n',
-                'vuex',
                 'vue-router',
                 '@fortawesome/vue-fontawesome',
                 '@fortawesome/fontawesome-svg-core',

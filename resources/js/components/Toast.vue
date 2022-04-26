@@ -110,6 +110,7 @@ const toastTitle = computed(() => {
         border: none;
         cursor: pointer;
         background: none;
+        color: $primary;
     } 
     button:hover {
         background: #e7e7e7;
