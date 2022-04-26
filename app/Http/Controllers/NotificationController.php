@@ -37,7 +37,7 @@ class NotificationController extends Controller
             return new JsonResponse(['message' => ['success' => 'Notification deleted.'], 'data' => NotificationResource::collection(Auth::user()->notifications)], Response::HTTP_OK); 
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
-            return new JsonResponse(['errors' => ['error' => 'You are not authorized to do this.']], Response::HTTP_FORBIDDEN); 
+            return new JsonResponse(['message' => 'You are not authorized to do this.'], Response::HTTP_FORBIDDEN); 
         }
     }
 

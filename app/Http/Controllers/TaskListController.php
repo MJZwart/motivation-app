@@ -61,7 +61,7 @@ class TaskListController extends Controller
             return new JsonResponse(['message' => ['success' => "Task list deleted."], 'data' => $taskLists], Response::HTTP_OK);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: '.$tasklist->name, 'Not authorized');
-            return new JsonResponse(['errors' => ['error' => "You are not authorized to delete this task list"]], Response::HTTP_FORBIDDEN);
+            return new JsonResponse(['message' => "You are not authorized to delete this task list"], Response::HTTP_FORBIDDEN);
         }
     }
 
