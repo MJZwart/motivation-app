@@ -22,7 +22,6 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
-import {shallowRef} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 const taskStore = useTaskStore();
 
@@ -35,7 +34,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 
-onMounted(() => editedTaskList.value = props.taskList ? shallowRef(props.taskList).value : {});
+onMounted(() => editedTaskList.value = props.taskList ? Object.assign({}, props.taskList) : {});
 
 /** @type {import('../../../types/task').TaskList} */
 const editedTaskList = ref({});

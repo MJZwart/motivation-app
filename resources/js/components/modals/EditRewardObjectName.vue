@@ -21,10 +21,11 @@
 
 <script setup>
 import BaseFormError from '../BaseFormError.vue';
-import {shallowRef, onMounted, ref, computed} from 'vue';
+import {onMounted, ref, computed} from 'vue';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 import {useRewardStore} from '/js/store/rewardStore';
+const rewardStore = useRewardStore();
 
 const props = defineProps({
     rewardObj: {
@@ -38,13 +39,13 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 
-onMounted(() => props.rewardObj ? editedRewardObj.value = shallowRef(props.rewardObj) : editedRewardObj.value = {});
+onMounted(() => editedRewardObj.value = props.rewardObj ? Object.assign({}, props.rewardObj) : {});
 
 const editedRewardObj = ref({});
 
 async function updateRewardObj() {
     editedRewardObj.value.type = props.type;
-    await useRewardStore.updateRewardObjName(editedRewardObj);
+    await rewardStore.updateRewardObjName(editedRewardObj.value);
     close();
 }
 function close() {

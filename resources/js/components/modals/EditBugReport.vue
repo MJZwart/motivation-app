@@ -58,7 +58,7 @@
 
 <script setup>
 import BaseFormError from '../BaseFormError.vue';
-import {shallowRef, onMounted, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '../../constants/bugConstants';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMessageStore} from '/js/store/messageStore';
@@ -74,7 +74,7 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 onMounted(() => {
-    bugReportToEdit.value = shallowRef(props.bugReport).value;
+    bugReportToEdit.value = Object.assign({}, props.bugReport);
 });
 
 const bugReportToEdit = ref({});

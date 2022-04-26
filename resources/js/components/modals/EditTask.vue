@@ -73,7 +73,7 @@ const editedTask = ref({});
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
 
-const prop = defineProps({
+const props = defineProps({
     task: {
         /** @type {import('../../../types/task').Task} */
         type: Object,
@@ -82,14 +82,14 @@ const prop = defineProps({
 });
 const emit = defineEmits(['close']);
 onMounted(() => {
-    editedTask.value = prop.task ? prop.task.value : {};
+    editedTask.value = props.task ? Object.assign({}, props.task.value) : {};
 });
 
 const taskStore = useTaskStore();
 
 async function updateTask() {
-    await taskStore.updateTask(editedTask);
-    this.close();
+    await taskStore.updateTask(editedTask.value);
+    close();
 }
 function close() {
     emit('close');

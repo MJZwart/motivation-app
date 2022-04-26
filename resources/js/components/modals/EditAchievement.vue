@@ -72,7 +72,7 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 onMounted(() => {
-    achievementToEdit.value = props.achievement;
+    achievementToEdit.value = Object.assign({}, props.achievement);
 });
 
 /** @type {import('resources/types/achievement').Achievement} */
