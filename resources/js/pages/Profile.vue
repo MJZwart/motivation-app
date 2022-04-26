@@ -11,14 +11,14 @@
                             class="icon small"
                             @click="sendMessage" />
                     </Tooltip>
-                    <!-- <span v-if="!isConnection"> -->
+                    <span v-if="!isConnection">
                         <Tooltip :text="$t('send-friend-request')">
                             <FaIcon 
                                 icon="user-plus"
                                 class="icon small"
                                 @click="sendFriendRequest" />
                         </Tooltip>
-                    <!-- </span> -->
+                    </span>
                     <Tooltip :text="$t('block-user')">
                         <FaIcon 
                             icon="ban"
@@ -39,7 +39,7 @@
                 <RewardCard v-if="userProfile.rewardObj" class="summary-tab" 
                             :reward="userProfile.rewardObj" :userReward="false" 
                             :rewardType="userProfile.rewardObj.rewardType" />
-                <FriendsCard :manage="false" :message="false" />
+                <FriendsCard :manage="false" :message="false" :friends="userProfile.friends" />
             </div>
             <BModal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />
@@ -55,7 +55,7 @@
 
 <script setup>
 import Tooltip from '../components/bootstrap/Tooltip.vue';
-import {onMounted, ref, computed} from 'vue';
+import {onMounted, ref, computed, watch} from 'vue';
 import AchievementsCard from '../components/summary/AchievementsCard.vue';
 import RewardCard from '../components/summary/RewardCard.vue';
 import SendMessage from '../components/modals/SendMessage.vue';
@@ -89,9 +89,14 @@ const requests = computed(() => friendStore.requests);
 // eslint-disable-next-line no-unused-vars
 const isConnection = computed(() => {
     const ids = [];
-    ids.push(...requests.value.outgoing.map(request => request.id));
-    ids.push(...requests.value.incoming.map(request => request.id));
-    ids.push(...user.value.friends.map(friend => friend.id));
+    if (requests.value) {
+        if (requests.value.outgoing)
+            ids.push(...requests.value.outgoing.map(request => request.id));
+        if (requests.value.incoming)
+            ids.push(...requests.value.incoming.map(request => request.id));
+    }
+    if (user.value.friends)
+        ids.push(...user.value.friends.map(friend => friend.id));
     return ids.includes(userProfile.value.id);
 });
 /** Checked if this user profile is not the user currently logged in, so you can't send a request to yourself */
@@ -100,8 +105,11 @@ const notLoggedUser = computed(() => {
 });
 
 async function getUserProfile() {
+    if (!route.params.id) return;
+    loading.value = true;
     const {data} = await axios.get('/profile/' + route.params.id);
     userProfile.value = data.data;
+    loading.value = false;
 }
 function sendFriendRequest() {
     friendStore.sendRequest(route.params.id);
@@ -123,6 +131,12 @@ function blockUser() {
         userStore.blockUser(route.params.id);
     }
 }
+watch(
+    () => route.params.id,
+    () => {
+        if (route.params.id) getUserProfile()
+    },
+);
 </script>
 
 
