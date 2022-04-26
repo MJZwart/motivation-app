@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue';
+import {computed, watch, ref} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
@@ -75,6 +75,7 @@ const props = defineProps({
     },
 });
 
+console.log(props.group)
 const emit = defineEmits(['close', 'reloadGroups']);
 
 const isJoinGroupVisible = computed(() => {
@@ -112,6 +113,10 @@ function manageGroup() {
 function closeManageGroup() {
     showManageGroupModal.value = false;
 }
+watch(
+    () => props.group,
+    () => console.log('updated'),
+);
 </script>
 
 <style lang="scss" scoped>
