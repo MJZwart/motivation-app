@@ -12,29 +12,25 @@
 </template>
 
 
-<script>
+<script setup>
 import Loading from '../../Loading.vue';
 import FriendsCard from '../../summary/FriendsCard.vue';
 import FriendRequests from './components/FriendRequests.vue';
 import SearchUser from './components/SearchUser.vue';
-export default {
-    components: {
-        Loading, FriendsCard, FriendRequests, SearchUser,
-    },
-    mounted() {
-        this.load();
-    },
-    data() {
-        return {
-            loading: true,
-        }
-    },
-    methods: {
-        load() {
-            this.loading = true;
-            this.$store.dispatch('friend/getRequests').then(() => this.loading = false);
-        },
-    },
+import {onMounted, ref} from 'vue';
+import {useFriendStore} from '@/store/friendStore';
 
+const friendStore = useFriendStore();
+
+onMounted(() => {
+    load();
+});
+
+const loading = ref(true);
+
+async function load() {
+    loading.value = true;
+    await friendStore.getRequests();
+    loading.value = false;
 }
 </script>

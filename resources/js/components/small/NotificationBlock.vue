@@ -6,7 +6,10 @@
                     {{notification.title}}
                     <span class="ml-auto">
                         <span v-if="!notification.read">{{ $t('new') }} </span>
-                        <b-icon-trash class="red pointer" @click="deleteNotification()" />
+                        <FaIcon 
+                            icon="trash"
+                            class="icon small red"
+                            @click="deleteNotification()" />
                     </span>
                 </span>
             </template>
@@ -19,24 +22,26 @@
 </template>
 
 
-<script>
+<script setup>
 import Summary from '../summary/Summary.vue';
-export default {
-    components: {Summary},
-    props: {
-        notification: {
-            /** @type {import('resources/types/notification').Notification} */
-            type: Object,
-            required: true,
-        },
+import {useI18n} from 'vue-i18n'
+import {useMessageStore} from '@/store/messageStore';
+
+const {t} = useI18n() // use as global scope
+const messageStore = useMessageStore();
+
+const prop = defineProps({
+    notification: {
+        /** @type {import('resources/types/notification').Notification} */
+        type: Object,
+        required: true,
     },
-    methods: {
-        deleteNotification() {
-            if (confirm(this.$t('delete-notification-confirmation'))) {
-                this.$store.dispatch('notification/deleteNotification', this.notification.id);
-            }
-        },
-    },
+});
+
+function deleteNotification() {
+    if (confirm(t('delete-notification-confirmation'))) {
+        messageStore.deleteNotification(prop.notification.id);
+    }
 }
 </script>
 

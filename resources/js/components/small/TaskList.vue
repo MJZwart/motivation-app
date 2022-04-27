@@ -5,23 +5,24 @@
                 <span class="d-flex">
                     {{taskList.name}}
                     <span class="ml-auto">
-                        <b-icon-pencil-square 
-                            :id="'edit-task-list-' + taskList.id"
-                            class="icon white small"
-                            @click="editTaskList()" />
-                        <b-tooltip :target="'edit-task-list-' + taskList.id">{{ $t('edit-task-list') }}</b-tooltip>
-                        <b-icon-trash 
-                            :id="'delete-task-list-' + taskList.id"
-                            class="icon white small"
-                            @click="deleteTaskList()" />
-                        <b-tooltip :target="'delete-task-list-' + taskList.id">{{ $t('delete-task-list') }}</b-tooltip>
+                        <Tooltip :text="$t('edit-task-list')">
+                            <FaIcon 
+                                :icon="['far', 'pen-to-square']"
+                                class="icon white small"
+                                @click="editTaskList()" />
+                        </Tooltip>
+                        <Tooltip :text="$t('delete-task-list')">
+                            <FaIcon 
+                                icon="trash"
+                                class="icon small white"
+                                @click="deleteTaskList(task)" />
+                        </Tooltip>
                     </span>
                 </span>
             </template>
             <slot>
-                <template v-for="(task, index) in taskList.tasks">
+                <template v-for="(task, index) in taskList.tasks" :key="task.id">
                     <Task 
-                        :key="task.id" 
                         :task="task" 
                         :class="taskClass(index)"
                         v-on:newTask="openNewTask"
@@ -29,51 +30,86 @@
                 </template>
             </slot>
             <template #footer>           
-                <b-button block variant="outline" class="bottom-radius p-0" @click="openNewTask(null)">
-                    <b-icon-plus-square-fill 
-                        :id="'add-new-task-' + taskList.id" 
-                        class="icon large green m-0 wide" 
-                    />
-                    <b-tooltip :target="'add-new-task-' + taskList.id">{{ $t('add-new-task') }}</b-tooltip>
-                </b-button>
+                <button class="block clear bottom-radius p-0" @click="openNewTask(null)">
+                    <Tooltip :text="$t('add-new-task')">
+                        <FaIcon 
+                            icon="square-plus"
+                            class="icon large green m-0 wide" />
+                    </Tooltip>
+                </button>
             </template>
         </Summary>
+
+        <Modal :show="showNewTaskModal" :footer="false" :title="$t('new-task')" @close="closeNewTask">
+            <NewTask :superTask="superTask.value" :taskList="taskList" @close="closeNewTask" />
+        </Modal>
+        <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
+            <EditTask :task="taskToEdit" @close="closeEditTask" />
+        </Modal>
     </div>
 </template>
 
 
-<script>
+<script setup>
+import Tooltip from '../bootstrap/Tooltip.vue';
 import Task from './Task.vue';
 import Summary from '../summary/Summary.vue';
-export default {
-    components: {Task, Summary},
-    props: {
-        taskList: {
-            /** @type {import('resources/types/task').TaskList} */
-            type: Object,
-            required: true,
-        },
+import {reactive, ref} from 'vue';
+import {useMainStore} from '@/store/store';
+import NewTask from '../modals/NewTask.vue';
+import EditTask from '../modals/EditTask.vue';
+
+const props = defineProps({
+    taskList: {
+        /** @type {import('resources/types/task').TaskList} */
+        type: Object,
+        required: true,
     },
-    methods: {
-        /** @param {import('resources/types/task').Task} */
-        openNewTask(superTask) {
-            this.$emit('newTask', superTask, this.taskList);
-        },
-        /** @param {import('resources/types/task').Task} */
-        editTask(task) {
-            this.$emit('editTask', task);
-        },
-        editTaskList() {
-            this.$emit('editTaskList', this.taskList);
-        },
-        deleteTaskList() {
-            this.$emit('deleteTaskList', this.taskList);
-        },
-        taskClass(index) {
-            return index == this.taskList.tasks.length -1 ? 'task-last' : 'task';
-        },
-    },
+});
+
+const emit = defineEmits(['editTaskList', 'deleteTaskList']);
+
+/** @type {import('../../types/task').Task | null} */
+const superTask = reactive({});
+/** @type {import('../../types/task').Task | null} */
+const taskToEdit = reactive({});
+
+const showNewTaskModal = ref(false);
+const showEditTaskModal = ref(false);
+
+const mainStore = useMainStore();
+
+function openNewTask(superTaskToSet) {
+    mainStore.clearErrors();
+    superTask.value = superTaskToSet;
+    showNewTaskModal.value = true;
 }
+function closeNewTask() {
+    showNewTaskModal.value = false;
+}
+
+/** Shows and hides the modal to edit a given task
+ * @param {import('../../types/task').Task} task
+ */
+function editTask(task) {
+    mainStore.clearErrors();
+    taskToEdit.value = task;
+    showEditTaskModal.value = true;
+}
+function closeEditTask() {
+    showEditTaskModal.value = false;
+}
+
+function editTaskList() {
+    emit('editTaskList', props.taskList);
+}
+function deleteTaskList() {
+    emit('deleteTaskList', props.taskList);
+}
+function taskClass(index) {
+    return index == props.taskList.tasks.length -1 ? 'task-last' : 'task';
+}
+
 </script>
 
 <style lang="scss">

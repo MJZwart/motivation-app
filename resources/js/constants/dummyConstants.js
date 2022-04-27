@@ -21,7 +21,7 @@ export const DUMMY_TASK_LIST = {
             description: 'Shopping list is on the counter. Don\'t forget the bread!',
         },
     ],
-}
+};
 
 export const DUMMY_CHARACTER = {
     name: 'Dummy thicc', 
@@ -44,4 +44,4 @@ export const DUMMY_CHARACTER = {
         {id: 3, level: 4, experience_points: 1800},
         {id: 4, level: 5, experience_points: 2100},
     ],
-}
+};

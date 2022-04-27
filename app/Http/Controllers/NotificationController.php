@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActionTrackingHandler;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use App\Http\Resources\NotificationResource;
 use App\Http\Requests\SendNotificationRequest;
+use Carbon\Carbon;
 
 class NotificationController extends Controller
 {
@@ -21,19 +23,21 @@ class NotificationController extends Controller
      * Returns a user's notifications. Marks all unread as read
      */
     public function show(){
-        $notifications = Auth::user()->notifications;
+        $notifications = Auth::user()->notifications()->latest()->get();
         $response = new JsonResponse(['data' => NotificationResource::collection($notifications)], Response::HTTP_OK); 
             //Creates the response before marking as read, so the notifications sent are still marked as unread.
         $this->markAsRead($notifications);
         return $response;
     }
 
-    public function destroy(Notification $notification){
+    public function destroy(Request $request, Notification $notification){
         if($notification->user_id == Auth::user()->id){
             $notification->delete();
-            return new JsonResponse(['message' => ['success' => ['Notification deleted.']], 'data' => NotificationResource::collection(Auth::user()->notifications)], Response::HTTP_OK); 
+            ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
+            return new JsonResponse(['message' => ['success' => 'Notification deleted.'], 'data' => NotificationResource::collection(Auth::user()->notifications)], Response::HTTP_OK); 
         } else {
-            return new JsonResponse(['errors' => ['error' => ['You are not authorized to do this.']]], Response::HTTP_FORBIDDEN); 
+            ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
+            return new JsonResponse(['message' => 'You are not authorized to do this.'], Response::HTTP_FORBIDDEN); 
         }
     }
 
@@ -60,6 +64,6 @@ class NotificationController extends Controller
             'title' => $validated['title'],
             'text' => $validated['text']]);
         }
-        return new JsonResponse(['message' => ['success' => ['Notification sent.']]]);
+        return new JsonResponse(['message' => ['success' => 'Notification sent.']]);
     }
 }

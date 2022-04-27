@@ -1,71 +1,66 @@
 <template>
     <div v-if="rewardObj">
-        <b-form @submit.prevent="updateRewardObj">
-            <b-form-group
-                :label="parsedLabelName" 
-                label-for="name">
-                <b-form-input 
+        <form @submit.prevent="updateRewardObj">
+            <div class="form-group">
+                <label for="name">{{parsedLabelName}}</label>
+                <input 
                     id="name" 
                     v-model="editedRewardObj.name"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
-            </b-form-group>
-            <b-button type="submit" block>{{ $t('update-reward-name') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            </div>
+            <button type="submit" class="block">{{ $t('update-reward-name') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
             <base-form-error name="error" /> 
-        </b-form>
+        </form>
     </div>
 </template>
 
 
-<script>
+<script setup>
 import BaseFormError from '../BaseFormError.vue';
-import Vue from 'vue';
-export default {
-    components: {BaseFormError},
-    props: {
-        rewardObj: {
-            type: Object,
-            required: true,
-        },
-        type: {
-            type: String,
-            required: true,
-        },
+import {onMounted, ref, computed} from 'vue';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+import {useRewardStore} from '/js/store/rewardStore';
+const rewardStore = useRewardStore();
+
+const props = defineProps({
+    rewardObj: {
+        type: Object,
+        required: true,
     },
-    data() {
-        return {
-            editedRewardObj: {},
-        }
+    type: {
+        type: String,
+        required: true,
     },
-    mounted() {
-        this.rewardObj ? this.editedRewardObj = Vue.util.extend({}, this.rewardObj) : this.editedRewardObj = {};
-    },
-    methods: {
-        updateRewardObj() {
-            var self = this;
-            this.editedRewardObj.type = this.type;
-            this.$store.dispatch('reward/updateRewardObjName', this.editedRewardObj).then(function() {
-                self.close();
-            });
-        },
-        close() {
-            this.editedRewardObj = {},
-            this.$emit('close');
-        },
-    },
-    computed: {
-        parsedLabelName() {
-            if (this.type == 'CHARACTER') {
-                return this.$t('character-name');
-            } else if (this.type == 'VILLAGE') {
-                return this.$t('village-name');
-            } else {
-                return null;
-            }
-        },
-    },
+});
+const emit = defineEmits(['close']);
+
+onMounted(() => editedRewardObj.value = props.rewardObj ? Object.assign({}, props.rewardObj) : {});
+
+const editedRewardObj = ref({});
+
+async function updateRewardObj() {
+    editedRewardObj.value.type = props.type;
+    await rewardStore.updateRewardObjName(editedRewardObj.value);
+    close();
 }
+function close() {
+    editedRewardObj.value = {},
+    emit('close');
+}
+
+const parsedLabelName = computed(() => {
+    if (props.type == 'CHARACTER') {
+        return t('character-name');
+    } else if (props.type == 'VILLAGE') {
+        return t('village-name');
+    } else {
+        return null;
+    }
+});
+
 </script>

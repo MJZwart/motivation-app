@@ -1,20 +1,22 @@
 <template>
-    <b-row>
-        <b-col>
+    <div class="row">
+        <div class="col">
             <Summary :title="$t('incoming-friend-requests')">
                 <ul class="no-list-style">
                     <div v-if="requests.incoming[0]">
                         <li v-for="(request, index) in requests.incoming" :key="index">
-                            <b-icon-check-square 
-                                :id="'accept-friend-request-' + index" 
-                                class="icon small green" 
-                                @click="acceptFriendRequest(request.friendship_id)" />
-                            <b-tooltip :target="'accept-friend-request-' + index">{{ $t('accept-friend-request') }}</b-tooltip>
-                            <b-icon-x-square 
-                                :id="'deny-friend-request-' + index" 
-                                class="icon small red" 
-                                @click="denyFriendRequest(request.friendship_id)" />
-                            <b-tooltip :target="'deny-friend-request-' + index">{{ $t('deny-friend-request') }}</b-tooltip>
+                            <Tooltip :text="$t('accept-friend-request')">
+                                <FaIcon 
+                                    :icon="['far', 'square-check']"
+                                    class="icon small green"
+                                    @click="acceptFriendRequest(request.friendship_id)" />
+                            </Tooltip>
+                            <Tooltip :text="$t('deny-friend-request')">
+                                <FaIcon 
+                                    :icon="['far', 'rectangle-xmark']"
+                                    class="icon small red"
+                                    @click="denyFriendRequest(request.friendship_id)" />
+                            </Tooltip>
                             {{request.friend}}
                         </li>
                     </div>
@@ -22,17 +24,18 @@
                     <p v-else>{{ $t('no-incoming-friend-requests') }}</p>
                 </ul>
             </Summary>
-        </b-col>
-        <b-col>
+        </div>
+        <div class="col">
             <Summary :title="$t('outgoing-friend-requests')">
                 <ul class="no-list-style">
                     <div v-if="requests.outgoing[0]">
                         <li v-for="(request, index) in requests.outgoing" :key="index">
-                            <b-icon-x-square 
-                                :id="'cancel-friend-request-' + index" 
-                                class="icon small red" 
-                                @click="removeFriendRequest(request.friendship_id)" />
-                            <b-tooltip :target="'cancel-friend-request-' + index">{{ $t('cancel-friend-request') }}</b-tooltip>
+                            <Tooltip :text="$t('cancel-friend-request')">
+                                <FaIcon 
+                                    :icon="['far', 'rectangle-xmark']"
+                                    class="icon small red"
+                                    @click="removeFriendRequest(request.friendship_id)" />
+                            </Tooltip>
                             {{request.friend}}
                         </li>
                     </div>
@@ -40,47 +43,35 @@
                     <p v-else>{{ $t('no-outgoing-friend-requests') }}</p>
                 </ul>
             </Summary>
-        </b-col>
-    </b-row>
+        </div>
+    </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import Tooltip from '../../../bootstrap/Tooltip.vue';
+import {computed} from 'vue';
 import Summary from '../../../summary/Summary.vue';
-export default {
-    components: {
-        Summary,
-    },
-    data() {
-        return {
-            outgoingRequests: true,
-            incomingRequests: true,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            requests: 'friend/getRequests',
-        }),
-    },
-    methods: {
-        /**
-         * @param {Number} requestId
-         */
-        removeFriendRequest(requestId) {
-            this.$store.dispatch('friend/removeRequest', requestId);
-        },
-        /**
-         * @param {Number} requestId
-         */
-        denyFriendRequest(requestId) {
-            this.$store.dispatch('friend/denyRequest', requestId);
-        },
-        /**
-         * @param {Number} requestId
-         */
-        acceptFriendRequest(requestId) {
-            this.$store.dispatch('friend/acceptRequest', requestId);
-        },
-    },
+import {useFriendStore} from '@/store/friendStore';
+const friendStore = useFriendStore();
+
+const requests = computed(() => friendStore.requests);
+
+/**
+ * @param {Number} requestId
+ */
+function removeFriendRequest(requestId) {
+    useFriendStore.removeRequest(requestId);
+}
+/**
+ * @param {Number} requestId
+ */
+function denyFriendRequest(requestId) {
+    useFriendStore.denyRequest(requestId);
+}
+/**
+ * @param {Number} requestId
+ */
+function acceptFriendRequest(requestId) {
+    useFriendStore.acceptRequest(requestId);
 }
 </script>

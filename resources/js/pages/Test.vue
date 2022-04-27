@@ -2,12 +2,11 @@
     <div />
 </template>
 
-<script>
-export default {
-    mounted () {
-        this.$store.dispatch('test');
-    },
-}
+<script setup>
+import {onMounted} from 'vue';
+import {useMainStore} from '/js/store/store';
+const mainStore = useMainStore();
+onMounted(() => mainStore.test());
 </script>
 
 <style>

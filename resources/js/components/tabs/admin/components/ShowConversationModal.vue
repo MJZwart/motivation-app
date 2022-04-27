@@ -8,32 +8,26 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {computed, onMounted, ref} from 'vue';
 import ShowMessage from './ShowMessage.vue';
 import Loading from '../../../Loading.vue'
-export default {
-    components: {
-        ShowMessage, Loading,
+import {useAdminStore} from '/js/store/adminStore';
+const adminStore = useAdminStore();
+
+const props = defineProps({
+    conversationId: {
+        type: Number,
+        required: true,
     },
-    props: {
-        conversationId: {
-            type: Number,
-            required: true,
-        },
-    },
-    computed: {
-        ...mapGetters({
-            conversation: 'admin/getConversation',
-        }),
-    },
-    data() {
-        return {
-            loading: true,
-        }
-    },
-    mounted() {
-        this.$store.dispatch('admin/fetchConversation', this.conversationId).then(() => this.loading = false);
-    },
-}
+});
+
+onMounted(async() => {
+    await adminStore.fetchConversation(props.conversationId)
+    loading.value = false;
+});
+
+const loading = ref(true);
+
+const conversation = computed(() => adminStore.conversation);
 </script>

@@ -1,43 +1,42 @@
 <template>
     <div class="details">
-        <b-row>
-            <b-col sm="2"><b>{{ $t('founded') }}:</b></b-col>
-            <b-col>{{group.time_created}}</b-col>
-        </b-row>
-        <b-row>
-            <b-col sm="2"><b>{{ $t('admin') }}:</b></b-col>
-            <b-col>
+        <div class="row">
+            <div class="col-sm-2"><b>{{ $t('founded') }}:</b></div>
+            <div class="col">{{group.time_created}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"><b>{{ $t('admin') }}:</b></div>
+            <div class="col">
                 <router-link :to="{ name: 'profile', params: { id: group.admin.id}}">
                     {{group.admin.username}}
                 </router-link>
-            </b-col>
-        </b-row>
-        <b-row v-if="isJoinGroupVisible">
-            <b-col>
-                <b-button type="button" @click="joinGroup()">{{$t('join-group')}}</b-button>
-            </b-col>
-        </b-row>
-        <b-row v-else>
-            <b-col v-if="isUserAdmin">
-                <b-button @click="deleteGroup()">{{ $t('delete-group') }}</b-button>
-                <b-button class="ml-1" @click="manageGroup()">{{ $t('manage-group') }}</b-button>
-            </b-col>
+            </div>
+        </div>
+        <div v-if="isJoinGroupVisible" class="row">
+            <div class="col">
+                <button type="button" @click="joinGroup()">{{$t('join-group')}}</button>
+            </div>
+        </div>
+        <div v-else class="row">
+            <div v-if="isUserAdmin" class="col">
+                <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
+            </div>
 
-            <b-col v-else>
-                <b-button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</b-button>
-            </b-col>
-        </b-row>
+            <div v-else class="col">
+                <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>
+            </div>
+        </div>
         <hr />
-        <b-row>
-            <b-col sm="2"><b>{{group.members.length}} {{ $t('members') }}:</b></b-col>
-            <b-col>
-                <b-row v-for="member in group.members" :key="member.id">
-                    <b-col sm="3">{{member.username}}</b-col>
-                    <b-col sm="2">{{member.rank}}</b-col>
-                    <b-col sm="3">Joined: {{member.joined}}</b-col>
-                </b-row>
-            </b-col>
-        </b-row>
+        <div class="row">
+            <div class="col-sm-2"><b>{{group.members.length}} {{ $t('members') }}:</b></div>
+            <div class="col">
+                <div v-for="member in group.members" :key="member.id" class="row">
+                    <div class="col-sm-3">{{member.username}}</div>
+                    <div class="col-sm-2">{{member.rank}}</div>
+                    <div class="col-sm-5">Joined: {{member.joined}}</div>
+                </div>
+            </div>
+        </div>
         
         <b-modal :id='`manage-group-modal-${group.id}`' hide-footer hide-header>
             <ManageGroupModal :key="group.id" :index="index" @close="closeManageGroup" />
@@ -46,65 +45,51 @@
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
-import ManageGroupModal from './ManageGroupModal.vue';
-export default {
-    components: {ManageGroupModal},
-    props: {
-        group: {
-            type: Object,
-            required: true,
-        },
-        user: {
-            type: Object,
-            required: true,
-        },
-        index: {
-            type: Number,
-            required: true,
-        },
+<script setup>
+import {computed} from 'vue';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+import {useGroupStore} from '/js/store/groupStore';
+const groupStore = useGroupStore();
+
+const props = defineProps({
+    group: {
+        type: Object,
+        required: true,
     },
-    computed: {
-        ...mapGetters({
-            myGroups: 'groups/getMyGroups',
-        }),
-        isJoinGroupVisible() {
-            let $isVisible = true;
-            for (const member of this.group.members) {
-                if (member.id == this.user.id) $isVisible = false;
-            }
-            return $isVisible;
-        },
-        isUserAdmin() {
-            return this.group.admin.id == this.user.id;
-        },
+    user: {
+        type: Object,
+        required: true,
     },
-    // data() {
-    //     return {
-    //         group: this.myGroups[index],
-    //     }
-    // },
-    methods: {
-        joinGroup() {
-            this.$store.dispatch('groups/joinGroup', this.group).then(() => {
-                this.$emit('reloadGroups');
-            });
-        },
-        deleteGroup() {
-            if (confirm(this.$t('delete-group-confirm', {group: this.group.name})))
-                this.$store.dispatch('groups/deleteGroup', this.group).then(() => this.$emit('reloadGroups'));
-        },
-        leaveGroup() {
-            if (confirm(this.$t('leave-group-confirm', {group: this.group.name})))
-                this.$store.dispatch('groups/leaveGroup', this.group).then(() => this.$emit('reloadGroups'));
-        },
-        manageGroup() {
-            this.$bvModal.show(`manage-group-modal-${this.group.id}`);
-        },
-        closeManageGroup() {
-            this.$bvModal.hide(`manage-group-modal-${this.group.id}`);
-        },
-    },
+});
+const emit = defineEmits(['close', 'reloadGroups']);
+
+const isJoinGroupVisible = computed(() => {
+    let $isVisible = true;
+    for (const member of props.group.members) {
+        if (member.id == props.user.id) $isVisible = false;
+    }
+    return $isVisible;
+});
+const isUserAdmin = computed(() => {
+    return props.group.admin.id == props.user.id;
+});
+
+async function joinGroup() {
+    await groupStore.joinGroup(props.group)
+    emit('reloadGroups');
+    emit('close');
+}
+async function deleteGroup() {
+    if (confirm(t('delete-group-confirm', {group: props.group.name})))
+        await groupStore.deleteGroup(props.group)
+    emit('reloadGroups');
+    emit('close');
+}
+async function leaveGroup() {
+    if (confirm(t('leave-group-confirm', {group: props.group.name})))
+        await groupStore.leaveGroup(props.group)
+    emit('reloadGroups');
+    emit('close');
 }
 </script>

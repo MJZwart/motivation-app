@@ -1,61 +1,50 @@
 <template>
     <div v-if="editedTaskList">
-        <b-form @submit.prevent="updateTaskList">
-            <b-form-group
-                :label="$t('task-list-name')" 
-                label-for="name">
-                <b-form-input 
+        <form @submit.prevent="updateTaskList">
+            <div class="form-group">
+                <label for="name">{{$t('task-list-name')}}</label>
+                <input 
                     id="name" 
                     v-model="editedTaskList.name"
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
                 <base-form-error name="name" /> 
-            </b-form-group>
-            <b-button type="submit" block>{{ $t('update-task-list') }}</b-button>
-            <b-button type="button" block @click="close">{{ $t('cancel') }}</b-button>
+            </div>
+            <button type="submit" class="block">{{ $t('update-task-list') }}</button>
+            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
             <base-form-error name="error" /> 
-        </b-form>
+        </form>
     </div>
 </template>
 
 
-<script>
+<script setup>
+import {onMounted, ref} from 'vue';
 import BaseFormError from '../BaseFormError.vue';
-import Vue from 'vue';
+import {useTaskStore} from '/js/store/taskStore';
+const taskStore = useTaskStore();
 
-export default {
-    components: {
-        BaseFormError,
+const props = defineProps({
+    taskList: {
+        /** @type {import('../../../types/task').TaskList} */
+        type: Object,
+        required: true,
     },
-    props: {
-        taskList: {
-            /** @type {import('../../../types/task').TaskList} */
-            type: Object,
-            required: true,
-        },
-    },
-    data() {
-        return {
-            /** @type {import('../../../types/task').TaskList} */
-            editedTaskList: {},
-        }
-    },
-    mounted() {
-        this.taskList ? this.editedTaskList = Vue.util.extend({}, this.taskList) : this.editedTaskList = {};
-    },
-    methods: {
-        updateTaskList() {
-            var self = this;
-            this.$store.dispatch('taskList/updateTaskList', this.editedTaskList).then(function() {
-                self.close();
-            });
+});
+const emit = defineEmits(['close']);
 
-        },
-        close() {
-            this.editedTaskList = {},
-            this.$emit('close');
-        },
-    },
+onMounted(() => editedTaskList.value = props.taskList ? Object.assign({}, props.taskList) : {});
+
+/** @type {import('../../../types/task').TaskList} */
+const editedTaskList = ref({});
+
+async function updateTaskList() {
+    await taskStore.updateTaskList(editedTaskList.value)
+    close();
+}
+function close() {
+    editedTaskList.value = {},
+    emit('close');
 }
 </script>

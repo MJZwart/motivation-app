@@ -1,20 +1,15 @@
 <template>
     <div>
-        <b-form-invalid-feedback v-for="error in responseMessage" :key="error.index" :state="false">
+        <div v-for="error in responseMessage" :key="error.index" class="d-block invalid-feedback">
             {{ error[0] }}
-        </b-form-invalid-feedback>
+        </div>
     </div>
 </template>
 
-<script>
-import {BFormInvalidFeedback} from 'bootstrap-vue';
-import {mapGetters} from 'vuex';
-export default {
-    components: {BFormInvalidFeedback},
-    computed: {
-        ...mapGetters({
-            responseMessage: 'getErrorMessages',
-        }),
-    },
-}
+<script setup>
+import {computed} from 'vue';
+import {useMainStore} from '@/store/store';
+const mainStore = useMainStore();
+// eslint-disable-next-line no-unused-vars
+const responseMessage = computed(() => mainStore.errors);
 </script>

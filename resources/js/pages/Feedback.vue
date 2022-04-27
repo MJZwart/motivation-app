@@ -6,69 +6,60 @@
         <p>{{ $t('feedback-features') }}</p>
         <b>{{ $t('feedback-accessibility-header') }}</b>
         <p>{{ $t('feedback-accessibility') }}</p>
-        <b-form @submit.prevent="sendFeedback">
-            <b-form-group
-                :label="$t('type')"
-                label-for="type" >
-                <b-form-select
+        <form @submit.prevent="sendFeedback">
+            <div class="form-group">
+                <label for="type">{{$t('type')}}</label>
+                <select
                     id="type" 
                     v-model="feedback.type" 
-                    name="type"
-                    :options="feedbackTypes" />
+                    name="type">
+                    <option v-for="(option, index) in feedbackTypes" :key="index" :value="option.value">{{option.text}}</option>
+                </select>
                 <BaseFormError name="type" /> 
-            </b-form-group>
-            <b-form-group
-                :label="$t('feedback')"
-                label-for="feedback">
-                <b-form-textarea
+            </div>
+            <div class="form-group">
+                <label for="feedback">{{$t('feedback')}}</label>
+                <textarea
                     id="feedback" 
                     v-model="feedback.text" 
                     rows="4"
                     name="feedback" />
                 <BaseFormError name="feedback" /> 
-            </b-form-group>
-            <b-form-group
-                v-if="!user"
-                :label="$t('email')"
-                label-for="email">
-                <b-form-input
+            </div>
+            <div v-if="!auth" class="form-group">
+                <label for="email">{{$t('email')}}</label>
+                <input
                     id="email" 
                     v-model="feedback.email" 
                     name="email" />
                 <BaseFormError name="email" /> 
-            </b-form-group>
-            <b-button type="submit">Send feedback</b-button>
-        </b-form>
+            </div>
+            <button type="submit">Send feedback</button>
+        </form>
     </div>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {reactive, computed} from 'vue';
 import BaseFormError from '../components/BaseFormError.vue';
 import {FEEDBACK_TYPES} from '../constants/feedbackConstants.js';
-export default {
-    components: {BaseFormError},
-    data() {
-        return {
-            feedback: {
-                type: 'FEEDBACK',
-            },
-            feedbackTypes: FEEDBACK_TYPES,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            conversations: 'message/getConversations',
-            user: 'user/getUser',
-        }),
-    },
-    methods: {
-        sendFeedback() {
-            if (this.user) {
-                this.feedback.user_id = this.user.id;
-            }
-            this.$store.dispatch('sendFeedback', this.feedback);
-        },
-    },
+import {useMainStore} from '@/store/store';
+import {useUserStore} from '@/store/userStore';
+const mainStore = useMainStore();
+const userStore = useUserStore();
+
+const feedback = reactive({
+    type: 'FEEDBACK',
+});
+const feedbackTypes = FEEDBACK_TYPES;
+
+const user = computed(() => userStore.user);
+const auth = computed(() => userStore.authenticated);
+
+async function sendFeedback() {
+    if (user.value) {
+        feedback.user_id = user.value.id;
+    }
+    mainStore.sendFeedback(feedback);
 }
 </script>

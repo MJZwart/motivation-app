@@ -4,18 +4,15 @@
         <div v-else>
             <div class="home-grid">
                 <div class="task-lists">
-                    <template v-for="(list, index) in taskLists">
-                        <task-list 
-                            :key="index" 
+                    <template v-for="(list, index) in taskLists" :key="index">
+                        <TaskList 
                             :taskList="list" 
                             class="task-list"
-                            v-on:newTask="showNewTask"
-                            v-on:editTask="showEditTask"
                             v-on:editTaskList="showEditTaskList"
                             v-on:deleteTaskList="showDeleteTaskList" />
                     </template>
                     <div class="task-list">
-                        <b-button type="button" block @click="showNewTaskList">{{ $t('create-new-task-list') }}</b-button>
+                        <button type="button" class="block" @click="showNewTaskList">{{ $t('create-new-task-list') }}</button>
                     </div>
                 </div>
 
@@ -27,136 +24,98 @@
                 </div>
             </div>
 
-            <b-modal id="new-task" hide-footer :title="$t('new-task')">
-                <new-task :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
-            </b-modal>
-            <b-modal id="edit-task" hide-footer :title="$t('edit-task')">
-                <edit-task :task="taskToEdit"  @close="closeEditTask"/>
-            </b-modal>
-            <b-modal id="new-task-list" hide-footer :title="$t('new-task-list')">
+            <BModal :show="showNewTaskListModal" :footer="false" :title="$t('new-task-list')" @close="closeNewTaskList">
                 <new-task-list @close="closeNewTaskList" />
-            </b-modal>
-            <b-modal id="edit-task-list" hide-footer :title="$t('edit-task-list')">
+            </BModal>
+            <BModal :show="showEditTaskListModal" :footer="false" :title="$t('edit-task-list')" @close="closeEditTaskList">
                 <edit-task-list :taskList="taskListToEdit" @close="closeEditTaskList" />
-            </b-modal>
-            <b-modal id="delete-task-list-confirm" hide-footer :title="$t('delete-task-list-confirm')">
-                <delete-task-list-confirm :taskList="taskListToDelete" @close="closeDeleteTaskList" />
-            </b-modal>
+            </BModal>
+            <BModal 
+                :show="showDeleteTaskListConfirmModal" 
+                :footer="false" 
+                :title="$t('delete-task-list-confirm')" 
+                @close="closeDeleteTaskList">
+                <DeleteTaskListConfirm :taskList="taskListToDelete" @close="closeDeleteTaskList" />
+            </BModal>
         
         </div>
     </div>
 </template>
 
 
-<script>
-import {mapGetters} from 'vuex';
-import NewTask from '../components/modals/NewTask.vue';
+<script setup>
 import TaskList from '../components/small/TaskList.vue';
-import EditTask from '../components/modals/EditTask.vue';
 import NewTaskList from '../components/modals/NewTaskList.vue';
 import EditTaskList from '../components/modals/EditTaskList.vue';
 import DeleteTaskListConfirm from '../components/modals/DeleteTaskListConfirm.vue';
 import RewardCard from '../components/summary/RewardCard.vue';
 import FriendsCard from '../components/summary/FriendsCard.vue';
 import Loading from '../components/Loading.vue';
-export default {
-    components: { 
-        TaskList, 
-        NewTask, 
-        EditTask, 
-        NewTaskList, 
-        EditTaskList, 
-        DeleteTaskListConfirm, 
-        RewardCard,
-        FriendsCard,
-        Loading},
-    data() {
-        return {
-            /** @type {import('../../types/task').Task | null} */
-            superTask: null,
-            /** @type {import('../../types/task').Task | null} */
-            taskToEdit: null,
-            /** @type {import('../../types/task').TaskList | null} */
-            taskList: null,
-            /** @type {import('../../types/task').TaskList | null} */
-            taskListToEdit: null,
-            /** @type {import('../../types/task').TaskList | null} */
-            taskListToDelete: null,
-            loading: true,
-        }
-    },
-    mounted() {
-        //Fetches all dashboard data and stores it in the store
-        this.$store.dispatch('getDashboard').then(() => this.loading = false);
-    },
-    methods: {
-        /** Shows and hides the modal to create a new task. 
-         * @param {import('../../types/task').Task} superTask 
-         * @param {import('../../types/task').TaskList} taskList
-         */
-        showNewTask(superTask, taskList) {
-            this.$store.dispatch('clearErrors');
-            this.superTask = superTask;
-            this.taskList = taskList;
-            this.$bvModal.show('new-task');
-        },
-        closeNewTask() {
-            this.$bvModal.hide('new-task');
-        },
+import BModal from '../components/bootstrap/BModal.vue';
+import {useMainStore} from '@/store/store';
+import {onBeforeMount, ref, computed} from 'vue';
+import {useTaskStore} from '@/store/taskStore';
+import {useRewardStore} from '@/store/rewardStore';
 
-        /** Shows and hides the modal to edit a given task
-         * @param {import('../../types/task').Task} task
-         */
-        showEditTask(task) {
-            this.$store.dispatch('clearErrors');
-            this.taskToEdit = task;
-            this.$bvModal.show('edit-task');
-        },
-        closeEditTask() {
-            this.$bvModal.hide('edit-task');
-        },
+const mainStore = useMainStore();
+const taskStore = useTaskStore();
+const rewardStore = useRewardStore();
 
-        /** Shows and hides the modal to create a new task list */
-        showNewTaskList() {
-            this.$store.dispatch('clearErrors');
-            this.$bvModal.show('new-task-list');
-        },
-        closeNewTaskList() {
-            this.$bvModal.hide('new-task-list');
-        },
+const loading = ref(true);
 
-        /** Shows and hides the modal to edit a given task list
-         * @param {import('../../types/task').TaskList} taskList
-         */
-        showEditTaskList(taskList) {
-            this.$store.dispatch('clearErrors');
-            this.taskListToEdit = taskList;
-            this.$bvModal.show('edit-task-list');
-        },
-        closeEditTaskList() {
-            this.$bvModal.hide('edit-task-list');
-        },
+const taskLists = computed(() => taskStore.taskLists);
+const rewardObj = computed(() => rewardStore.rewardObj);
 
-        /** Shows and hides the modal to confirm deleting a task list
-         * @param {import('../../types/task').TaskList} taskList
-         */
-        showDeleteTaskList(taskList) {
-            this.$store.dispatch('clearErrors');
-            this.taskListToDelete = taskList;
-            this.$bvModal.show('delete-task-list-confirm');
-        },
-        closeDeleteTaskList() {
-            this.$bvModal.hide('delete-task-list-confirm');
-        },
-    },
-    computed: {
-        ...mapGetters({
-            taskLists: 'taskList/getTaskLists',
-            rewardObj: 'reward/getRewardObj',
-        }),
-    },
-    
+onBeforeMount(async () => {
+    //Fetches all dashboard data and stores it in the store
+    await mainStore.getDashboard();
+    loading.value = false;
+});
+
+/** @type {import('../../types/task').TaskList | null} */
+const taskListToEdit = ref();
+/** @type {import('../../types/task').TaskList | null} */
+const taskListToDelete = ref();
+// /** @type {import('../../types/task').TaskList | null} */
+// const taskList = reactive({});
+
+const showNewTaskListModal = ref(false);
+const showEditTaskListModal = ref(false);
+const showDeleteTaskListConfirmModal = ref(false);
+
+/** Shows and hides the modal to create a new task list */
+function showNewTaskList() {
+    mainStore.clearErrors();
+    showNewTaskListModal.value = true;
 }
+function closeNewTaskList() {
+    showNewTaskListModal.value = false;
+}
+
+/** Shows and hides the modal to edit a given task list
+ * @param {import('../../types/task').TaskList} taskList
+ */
+function showEditTaskList(taskList) {
+    mainStore.clearErrors();
+    taskListToEdit.value = taskList;
+    showEditTaskListModal.value = true;
+}
+function closeEditTaskList() {
+    showEditTaskListModal.value = false;
+}
+
+/** Shows and hides the modal to confirm deleting a task list
+ * @param {import('../../types/task').TaskList} taskList
+ */
+function showDeleteTaskList(taskList) {
+    mainStore.clearErrors();
+    taskListToDelete.value = taskList;
+    showDeleteTaskListConfirmModal.value = true;
+}
+function closeDeleteTaskList() {
+    showDeleteTaskListConfirmModal.value = false;
+}
+    
 </script>
 
 <style lang="scss">

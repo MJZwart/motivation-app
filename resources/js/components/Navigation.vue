@@ -1,103 +1,84 @@
 <template>
-    <div>
-        <b-navbar v-if="!authenticated" type="dark" sticky class="box-shadow">
-            <b-navbar-nav>
-                <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
-            </b-navbar-nav>
-            <b-navbar-nav class="ml-auto">
-                <b-nav-item to="/login">{{ $t('login') }}</b-nav-item>
-                <b-nav-item to="/register">{{ $t('register') }}</b-nav-item>
-            </b-navbar-nav>
-        </b-navbar>
+    <div class="sticky-top">
+        <nav v-if="!authenticated" class="navbar box-shadow">
+            <router-link to="/" exact-path>{{ $t('home') }}</router-link>
+            <div class="ml-auto">
+                <router-link to="/login">{{ $t('login') }}</router-link>
+                <router-link to="/register">{{ $t('register') }}</router-link>
+            </div>
+        </nav>
 
-        <b-navbar v-if="authenticated" toggleable="md" type="dark" sticky class="box-shadow">
-            <b-navbar-nav>
-                <b-nav-item to="/" exact>{{ $t('home') }}</b-nav-item>
-                <b-nav-item to="/overview">{{ $t('overview') }}</b-nav-item>
-                <b-nav-item to="/bugreport">{{ $t('report-bug') }}</b-nav-item>
-                <b-nav-item to="/social">{{$t('social')}}</b-nav-item>
-            </b-navbar-nav>
+        <nav v-if="authenticated" class="navbar box-shadow">
+            <router-link to="/">{{ $t('home') }}</router-link>
+            <router-link to="/overview">{{ $t('overview') }}</router-link>
+            <router-link to="/bugreport">{{ $t('report-bug') }}</router-link>
+            <router-link to="/social">{{$t('social')}}</router-link>
 
-            <b-navbar-toggle target="nav-collapse" />
-            <b-collapse id="nav-collapse" v-model="isOpen" is-nav>
+            <div v-if="admin">
+                <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
+            </div>
 
-                <b-navbar-nav v-if="admin">
-                    <b-nav-item to="/admindashboard">{{ $t('admin') }}</b-nav-item>
-                </b-navbar-nav>
-
-                <b-navbar-nav class="ml-auto toggled">
-                    <b-nav-item to="/messages">
-                        <div class="toggled-nav">
-                            Messages
-                        </div>
-                        <div class="full-nav">
-                            <b-iconstack class="icon-nav-stack">
-                                <b-icon-envelope class="icon-nav" /> 
-                                <b-icon-dot v-if="hasMessages" font-scale="3" 
-                                            class="icon-dot-red" shift-h="-2" shift-v="7" />
-                            </b-iconstack>
-                        </div>
-                    </b-nav-item>
-                    <b-nav-item to="/notifications">
-                        <div class="toggled-nav">
-                            Notifications
-                        </div>
-                        <div class="full-nav">
-                            <b-iconstack class="icon-nav-stack">
-                                <b-icon-bell class="icon-nav" />
-                                <b-icon-dot v-if="hasNotifications" font-scale="3" 
-                                            class="icon-dot-red" shift-h="-2" shift-v="7" />
-                            </b-iconstack>
-                        </div>
-                    </b-nav-item>
-                    <b-nav-item>
-                        <div class="toggled-nav">
-                            <b-nav-item :to="{ name: 'profile', params: { id: user.id}}">
-                                {{ $t('profile') }}
-                            </b-nav-item>
-                            <b-nav-item to="/settings">{{ $t('settings') }}</b-nav-item>
-                            <b-nav-item @click="logout">{{ $t('logout') }}</b-nav-item>
-                        </div>
-                        <!-- TODO When closing the navbar, you catch glimpse of the original design -->
-                        <div class="full-nav">
-                            <b-dropdown id="user-dropdown" :text=user.username variant="primary" class="nav-text" offset="-5">
-                                <b-dropdown-item :to="{ name: 'profile', params: { id: user.id}}">
-                                    {{ $t('profile') }}
-                                </b-dropdown-item>
-                                <b-dropdown-item to="/settings">{{ $t('settings') }}</b-dropdown-item>
-                                <b-dropdown-item @click="logout">{{ $t('logout') }}</b-dropdown-item>
-                            </b-dropdown>
-                        </div>
-                    </b-nav-item>
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
+            <div class="ml-auto">
+                <router-link to="/messages">
+                    <FaIconLayers class="mr-3 nav-icon-layers">
+                        <FaIcon 
+                            icon="envelope" 
+                            class="icon-nav icon-2xl" />
+                        <FaIcon 
+                            v-if="hasMessages" 
+                            icon="circle" 
+                            class="red" 
+                            style="left: 22px; top: -20px;" />
+                    </FaIconLayers>
+                </router-link>
+                <router-link to="/notifications">
+                    <FaIconLayers class="mr-3 nav-icon-layers">
+                        <FaIcon 
+                            :icon="['far', 'bell']" 
+                            class="icon-nav icon-2xl" />
+                        <FaIcon 
+                            v-if="hasNotifications" 
+                            icon="circle" 
+                            class="red" 
+                            style="left: 17px; top: -20px;" />
+                    </FaIconLayers>
+                </router-link>
+                <Dropdown color="white">
+                    <section class="option">
+                        <router-link :to="{ name: 'profile', params: { id: user.id}}">
+                            {{ $t('profile') }}
+                        </router-link>
+                    </section>
+                    <section class="option">
+                        <router-link to="/settings">{{ $t('settings') }}</router-link>
+                    </section>
+                    <section class="option">
+                        <a @click="logout">{{ $t('logout') }}</a>
+                    </section>
+                </Dropdown>
+            </div>
+        </nav>
     </div>
 </template>
 
 
-<script>
-import {mapGetters} from 'vuex';
-export default {
-    data() {
-        return {
-            isOpen: false,
-        }
-    },
-    computed: {
-        ...mapGetters({
-            authenticated: 'user/authenticated',
-            user: 'user/getUser',
-            hasNotifications: 'notification/getHasNotifications',
-            hasMessages: 'message/getHasMessages',
-            admin: 'admin/isAdmin',
-        }),
-    },
-    methods: {
-        logout() {
-            this.$store.dispatch('user/logout');
-        },
-    },
+<script setup>
+import Dropdown from './bootstrap/Dropdown.vue';
+import {useUserStore} from '@/store/userStore';
+import {useMessageStore} from '@/store/messageStore';
+import {computed} from 'vue';
+
+const userStore = useUserStore();
+const messageStore = useMessageStore();
+
+const authenticated = computed(() => userStore.authenticated);
+const user = computed(() => userStore.user);
+const hasNotifications = computed(() => messageStore.hasNotifications);
+const hasMessages = computed(() => messageStore.hasMessage);
+const admin = computed(() => userStore.isAdmin);
+
+function logout() {
+    userStore.logout();
 }
 </script>
 
@@ -106,67 +87,32 @@ export default {
 @import '../../assets/scss/variables';
 .navbar{
     background-color: $primary;
-    li {
-        a.router-link-active{
-            font-weight:600;
-        }
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    height: 50px;
+    a{
+        margin-right: 1rem;
+        color: $nav-text;
+        text-decoration: none;
     }
+    a.router-link-active{
+        font-weight:600;
+    }
+    section, a {
+        display: inline-block;
+    }
+    section a {
+        color: $primary;
+    }
+    .nav-icon-layers {
+        vertical-align: 0.5rem;
+        }
 }
 .box-shadow {
     box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
 }
 .icon-nav{
-    color: rgba(255, 255, 255, 0.5);
-}
-.router-link-exact-active .icon-nav{
-    color:rgba(255, 255, 255, 0.75);
-}
-.icon-nav-stack{
-    margin-top:5px;
-    margin-right:25px;
-}
-.icon-dot-red{
-    color:$warning;
-}
-.toggled-nav{
-    display: none;
-}
-.full-nav{
-    display: block;   
-}
-.nav-text{
-    .btn-primary{
-        color: rgba(255, 255, 255, 0.5) !important;
-    }
-}
-@media (max-width:767px){   
-    .toggled-nav{
-        display: block;
-    }
-    .full-nav{
-        display: none;
-    }
-    .navbar{
-        .navbar-nav{
-            flex-direction: row;
-                .nav-item{
-                    margin-right: 0.8rem;
-                }
-            }
-        .toggled {
-            flex-direction: column;
-        }
-    }
-}
-
-@media (max-width: 425px){
-    .nav-item{
-        margin-right: 0.5rem;
-    }
-    .navbar{
-        .toggled {
-            flex-direction: column;
-        }
-    }
+    color: $nav-text;
 }
 </style>

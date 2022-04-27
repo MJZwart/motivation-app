@@ -1,19 +1,16 @@
 <template>
     <div>
-        <navigation />
+        <Navigation />
         <div class="content">
             <router-view />
         </div>
-        <footer-comp />
+        <FooterComp />
+        <Toasts />
     </div>
 </template>
 
-<script>
+<script setup>
 import Navigation from './components/Navigation.vue';
 import FooterComp from './components/FooterComp.vue';
-
-export default {
-    components: {Navigation, FooterComp},
-    
-};
+import Toasts from './components/Toasts.vue';
 </script>

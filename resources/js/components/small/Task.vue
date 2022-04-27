@@ -1,28 +1,32 @@
 <template>
     <div>
         <p class="task-title d-flex">
-            <b-icon-check-square
-                :id="'complete-task-' + task.id"
-                class="icon small green"
-                @click="completeTask(task)" />
-            <b-tooltip :target="'complete-task-' + task.id">{{ $t('complete-task') }}</b-tooltip>
+            <Tooltip :text="$t('complete-task')">
+                <FaIcon 
+                    :icon="['far', 'square-check']"
+                    class="icon small green"
+                    @click="completeTask(task)" />
+            </Tooltip>
             {{task.name}}             
             <span class="ml-auto">
-                <b-icon-plus-square-fill
-                    :id="'new-sub-task-' + task.id"
-                    class="icon small green"
-                    @click="openNewTask(task)" />
-                <b-tooltip :target="'new-sub-task-' + task.id">{{ $t('new-sub-task') }}</b-tooltip>
-                <b-icon-pencil-square 
-                    :id="'edit-task-' + task.id"
-                    class="icon small"
-                    @click="editTask(task)" />
-                <b-tooltip :target="'edit-task-' + task.id">{{ $t('edit-task') }}</b-tooltip>
-                <b-icon-trash 
-                    :id="'delete-task-' + task.id"
-                    class="icon small red"
-                    @click="deleteTask(task)" />
-                <b-tooltip :target="'delete-task-' + task.id">{{ $t('delete-task') }}</b-tooltip>
+                <Tooltip :text="$t('new-sub-task')">
+                    <FaIcon 
+                        icon="square-plus"
+                        class="icon small green"
+                        @click="openNewTask(task)" />
+                </Tooltip>
+                <Tooltip :text="$t('edit-task')">
+                    <FaIcon 
+                        :icon="['far', 'pen-to-square']"
+                        class="icon small"
+                        @click="editTask(task)" />
+                </Tooltip>
+                <Tooltip :text="$t('delete-task')">
+                    <FaIcon 
+                        icon="trash"
+                        class="icon small red"
+                        @click="deleteTask(task)" />
+                </Tooltip>
             </span>
             
         </p>
@@ -31,23 +35,26 @@
 
         <div v-for="subTask in task.tasks" :key="subTask.id" class="sub-task">
             <p class="task-title d-flex">
-                <b-icon-arrow-return-right />
-                <b-icon-check-square
-                    :id="'complete-sub-task-' + subTask.id"
-                    class="icon small green"
-                    @click="completeTask(subTask)" />
-                <b-tooltip :target="'complete-sub-task-' + subTask.id">{{ $t('complete-sub-task') }}</b-tooltip>
+                <FaIcon icon="arrow-turn-up" rotation="90" />
+                <Tooltip :text="$t('complete-sub-task')">
+                    <FaIcon 
+                        :icon="['far', 'square-check']"
+                        class="icon small green"
+                        @click="completeTask(subTask)" />
+                </Tooltip>
                 {{subTask.name}}
-                <b-icon-pencil-square 
-                    :id="'edit-sub-task-' + subTask.id"
-                    class="icon small ml-auto"
-                    @click="editTask(subTask)" />
-                <b-tooltip :target="'edit-sub-task-' + subTask.id">{{ $t('edit-sub-task') }}</b-tooltip>
-                <b-icon-trash
-                    :id="'delete-sub-task-' + subTask.id"
-                    class="icon small red"
-                    @click="deleteTask(subTask)" />
-                <b-tooltip :target="'delete-sub-task-' + subTask.id">{{ $t('delete-sub-task') }}</b-tooltip>
+                <Tooltip :text="$t('edit-sub-task')" class="ml-auto">
+                    <FaIcon 
+                        :icon="['far', 'pen-to-square']"
+                        class="icon small"
+                        @click="editTask(subTask)" />
+                </Tooltip>
+                <Tooltip :text="$t('delete-sub-task')">
+                    <FaIcon 
+                        icon="trash"
+                        class="icon small red"
+                        @click="deleteTask(subTask)" />
+                </Tooltip>
             </p>
             <p class="task-description">{{subTask.description}}</p>
         </div>
@@ -55,41 +62,43 @@
 </template>
 
 
-<script>
-export default {
-    props: {
-        task: {
-            /** @type {import('resources/types/task').Task} */
-            type: Object,
-            required: true,
-        },
+<script setup>
+import {useTaskStore} from '@/store/taskStore';
+import {useI18n} from 'vue-i18n'
+
+const {t} = useI18n() // use as global scope
+
+defineProps({
+    task: {
+        /** @type {import('resources/types/task').Task} */
+        type: Object,
+        required: true,
     },
-    methods: {
-        /** @param {import('resources/types/task').Task} task */
-        openNewTask(task) {
-            this.$emit('newTask', task);
-        },
-        /** @param {import('resources/types/task').Task} task */
-        editTask(task) {
-            this.$emit('editTask', task);
-        },
-        /** @param {import('resources/types/task').Task} task */
-        deleteTask(task) {
-            const confirmationText = this.$t('confirmation-delete-task', [task.name]);
-            if (confirm(confirmationText)) {
-                this.$store.dispatch('task/deleteTask', task);
-            }
-        },
-        /** @param {import('resources/types/task').Task} task */
-        completeTask(task) {
-            if (task.tasks.length > 0) {
-                if (confirm(this.$t('complete-sub-task-confirmation'))) {
-                    this.$store.dispatch('task/completeTask', task);
-                }
-            } else {
-                this.$store.dispatch('task/completeTask', task);
-            }
-        },
-    },
+});
+
+const emit = defineEmits(['newTask', 'editTask']);
+
+/** @param {import('resources/types/task').Task} task */
+function openNewTask(task) {
+    emit('newTask', task);
+}
+/** @param {import('resources/types/task').Task} task */
+function editTask(task) {
+    emit('editTask', task);
+}
+
+const taskStore = useTaskStore();
+/** @param {import('resources/types/task').Task} task */
+function deleteTask(task) {
+    const confirmationText = t('confirmation-delete-task', [task.name]);
+    if (confirm(confirmationText)) {
+        taskStore.deleteTask(task);
+    }
+}
+/** @param {import('resources/types/task').Task} task */
+function completeTask(task) {
+    if (task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
+        return;
+    taskStore.completeTask(task);
 }
 </script>

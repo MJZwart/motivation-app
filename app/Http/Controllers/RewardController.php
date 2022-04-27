@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActionTrackingHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,9 @@ class RewardController extends Controller
 {
     public function updateRewardObj(Request $request){
         $activeReward = RewardObjectHandler::updateActiveReward($request['type'], $request['id'], $request['name']);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_INSTANCE', 'Updating '.$request['type'].' with new name '.$request['name']);
         return new JsonResponse([
-            'message' => ['success' => ['You have changed the name.']], 
+            'message' => ['success' => 'You have changed the name.'], 
             'rewardObj' => $activeReward]);
     }
 
@@ -50,13 +52,16 @@ class RewardController extends Controller
         /** @var User */
         $user = Auth::user();
         RewardObjectHandler::toggleActiveRewardObject($request['rewardType'], $user, $request['id']);
+        ActionTrackingHandler::handleAction($request, 'ACTIVATE_INSTANCE', 'Activating '.$request['rewardType'].' '.$request['id']);
         if($request['rewardType'] != $user->rewards)
             $user->update(['rewards' => $request['rewardType']]);
-        return new JsonResponse(['message' => ['success' => ['You have activated '.$request['name']]], 'user' => new UserResource(Auth::user())]);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating reward type to '.$request['rewardType']);
+        return new JsonResponse(['message' => ['success' => 'You have activated '.$request['name']], 'user' => new UserResource(Auth::user())]);
     }
 
     public function deleteInstance(Request $request) {
         RewardObjectHandler::deleteRewardObject($request['rewardType'], $request['id']);
-        return new JsonResponse(['message' => ['success' => ['You have deleted '.$request['name']]]]);
+        ActionTrackingHandler::handleAction($request, 'DELETE_INSTANCE', 'Deleting '.$request['rewardType'].' '.$request['id']);
+        return new JsonResponse(['message' => ['success' => 'You have deleted '.$request['name']]]);
     }
 }

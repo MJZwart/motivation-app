@@ -1,42 +1,42 @@
 <template>
     <div>
-        <b-card :class="'summary-card ' + headerVariant">
-            <template #header>
+        <div class="card summary-card" :class="headerVariant">
+            <div class="card-header">
                 <slot name="header">
                     {{title}}
                 </slot>
-            </template>
-            <slot />
-            <template v-if="footer" #footer>
+            </div>
+            <div class="card-body">
+                <slot />
+            </div>
+            <div v-if="footer" class="card-footer">
                 <slot name="footer" class="summary-card-footer" />
-            </template>
-        </b-card>
+            </div>
+        </div>
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        title: {
-            type: String,
-            required: false,
-        },
-        headerVariant: {
-            type:String,
-            required: false,
-        },
-        footer: {
-            type: Boolean,
-            required: false,
-        },
+<script setup>
+defineProps({
+    title: {
+        type: String,
+        required: false,
     },
-}
+    headerVariant: {
+        type:String,
+        required: false,
+        default: '',
+    },
+    footer: {
+        type: Boolean,
+        required: false,
+    },
+});
 </script>
 
 <style lang="scss" scoped>
 @import '../../../assets/scss/variables';
 .summary-card {
-
     .card-header {
         color: white;
         background-color: $primary;

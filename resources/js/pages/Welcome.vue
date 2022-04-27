@@ -1,143 +1,160 @@
 <template>
     <div>
-        <b-modal id="first-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
-            <template #modal-title>
-                <h2>{{ $t('welcome') }}</h2>
-                <p class="silent mb-0">{{ $t('not-yet-done') }}</p>
+        <BModal :show="showFirstModal" :footer="false" :header="false">
+            <template #header>
+                <div class="modal-header d-block">
+                    <h5 class="modal-title">{{ $t('welcome') }}</h5>
+                    <p class="silent mb-0">{{ $t('not-yet-done') }}</p>
+                </div>
             </template>
             <div>
-                <b-form-group
-                    :label="$t('rewards-type')"
-                    label-for="rewards-type">
-                    <b-form-text class="text-muted mb-2">{{ $t('which-reward-type') }}</b-form-text>
-                    <b-form-radio-group :checked="user.rewardsType">
-                        <b-form-radio v-model="user.rewardsType" type="radio" 
-                                      class="input-override" value="NONE" name="rewards-type">
-                            <p class="radio-label">{{ $t('no-rewards') }}</p>
-                        </b-form-radio>
-                        <b-form-radio v-model="user.rewardsType" type="radio" 
-                                      class="input-override" value="CHARACTER" name="rewards-type">
-                            <p class="radio-label">{{ $t('character-reward') }}</p>
-                        </b-form-radio>
-                        <b-form-radio v-model="user.rewardsType" type="radio" 
-                                      class="input-override" value="VILLAGE" name="rewards-type">
-                            <p class="radio-label">{{ $t('village-reward') }}</p>
-                        </b-form-radio>
-                    </b-form-radio-group>
-                    <base-form-error name="rewards-type" /> 
-                </b-form-group>
-                <b-form-group v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
-                              :label="parsedLabelName"
-                              label-for="reward_object_name"
-                              :description="$t('change-name-later')">
-                    <b-form-input 
+                <div class="form-group">
+                    <label for="rewards-type">{{$t('rewards-type')}}</label>
+                    <small class="form-text text-muted mb-2">{{ $t('which-reward-type') }}</small>
+                    <div>
+                        <input 
+                            id="NONE" 
+                            v-model="user.rewardsType" 
+                            name="rewards-type" 
+                            type="radio" 
+                            value="NONE" />
+                        <label for="NONE" class="option-label">{{ $t('no-rewards') }}</label>
+                    </div>
+                    <div>
+                        <input 
+                            id="CHARACTER" 
+                            v-model="user.rewardsType" 
+                            name="rewards-type" 
+                            type="radio" 
+                            value="CHARACTER" />
+                        <label for="CHARACTER" class="option-label">{{ $t('character-reward') }}</label>
+                    </div>
+                    <div>
+                        <input 
+                            id="VILLAGE" 
+                            v-model="user.rewardsType" 
+                            name="rewards-type" 
+                            type="radio" 
+                            value="VILLAGE" />
+                        <label for="VILLAGE" class="option-label">{{ $t('village-reward') }}</label>
+                    </div>
+                    <BaseFormError name="rewards-type" /> 
+                </div>
+                <div v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'" class="form-group">
+                    <label for="reward_object_name">{{parsedLabelName}}</label>
+                    <input 
                         id="reward_object_name" 
                         v-model="user.reward_object_name"
                         type="text" 
                         name="reward_object_name" 
                         :placeholder="parsedLabelName"  />
-                    <base-form-error name="reward-object_name" /> 
-                </b-form-group>
-                <b-button block @click="nextModal()">{{ $t('next') }}</b-button>
-                <b-button block variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
+                    <small class="form-text text-muted">{{$t('change-name-later')}}</small>
+                    <BaseFormError name="reward_object_name" /> 
+                </div>
+                <button class="block" @click="nextModal()">{{ $t('next') }}</button>
+                <button class="block" variant="danger" @click="logout()">{{ $t('logout')}}</button>
             </div>
-        </b-modal>
-        <b-modal id="second-modal" hide-footer hide-header-close no-close-on-backdrop no-close-on-esc>
-            <template #modal-title>
-                <h2>{{ $t('little-more') }}</h2>
-                <p class="silent mb-0">{{ $t('pick-example-tasks') }}</p>
+        </BModal>
+        <BModal :show="showSecondModal" :footer="false" :header="false">
+            <template #header>
+                <div class="modal-header d-block">
+                    <h4>{{ $t('little-more') }}</h4>
+                    <p class="silent mb-0">{{ $t('pick-example-tasks') }}</p>
+                </div>
             </template>
             <div>
-                <b-form-group
-                    :label="$t('example-tasks')"
-                    label-for="example-tasks">
+                <div class="form-group">
+                    <label for="example-tasks">{{$t('example-tasks')}}</label>
                     <div class="examples-slot">
-                        <b-form-checkbox 
-                            v-for="task in exampleTasks"
-                            :key="task.id"
-                            v-model="user.tasks"
-                            :value="task.id" 
-                            name="example-tasks">
-                            <p class="task-title d-flex label-override">
-                                {{task.name}}
-                            </p>
-                            <p class="task-description label-override">{{task.description}}</p>
-                        </b-form-checkbox>
+                        <div v-for="(task, index) in exampleTasks" :key="index">
+                            <input
+                                :id="task.id"
+                                v-model="user.tasks"
+                                type="checkbox"
+                                name="example-tasks"
+                                :value="task.id" />
+                            <label class="task-title label-override" :for="task.id">{{task.name}}</label>
+                            <small class="form-text text-muted task-description label-override">{{task.description}}</small>
+                            <base-form-error name="public-checkbox" /> 
+                        </div>
                     </div>
                     
-                </b-form-group>
+                </div>
                 <div class="d-flex">
-                    <b-button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</b-button>
-                    <b-button @click="confirmSettings()">{{ $t('submit') }}</b-button>
-                    <b-button class="ml-auto" variant="danger" @click="logout()">{{ $t('logout')}}</b-button>
+                    <button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</button>
+                    <button @click="confirmSettings()">{{ $t('submit') }}</button>
+                    <button class="ml-auto button-red" @click="logout()">{{ $t('logout')}}</button>
                 </div>
             </div>
-        </b-modal>
+        </BModal>
     </div>
 </template>
 
-<script>
+<script setup>
 import BaseFormError from '../components/BaseFormError.vue';
-import {mapGetters} from 'vuex';
-export default {
-    components: {BaseFormError},
-    mounted () {
-        this.$store.dispatch('clearErrors');
-        this.$store.dispatch('task/fetchExampleTasks');
-        this.startFirstModal();
-    },
-    data() {
-        return {
-            user: {
-                rewardsType: 'NONE',
-                tasks: [],
-                reward_object_name: null,
-            },
-        }
-    },
-    methods: {
-        nextModal() {
-            if (this.checkInput()) {
-                this.$bvModal.hide('first-modal');
-                this.$bvModal.show('second-modal');
-            }
-        },
-        startFirstModal() {
-            this.$bvModal.show('first-modal');
-            this.$bvModal.hide('second-modal');
-        },
-        confirmSettings() {
-            this.$store.dispatch('user/confirmRegister', this.user);
-        },
-        checkInput() {
-            if (this.user.rewardsType == 'CHARACTER' && !this.user.reward_object_name) {
-                this.$store.commit('setErrorMessages', {'reward_object_name': ['No character name given.']});
-                return false;
-            } else if (this.user.rewardsType == 'VILLAGE' && !this.user.reward_object_name) {
-                this.$store.commit('setErrorMessages', {'reward_object_name': ['No village name given.']});
-            } else {
-                this.$store.dispatch('clearErrors');
-                return true;
-            }
-        },
-        logout() {
-            this.$store.dispatch('user/logout');
-        },
-    },
-    computed: {
-        ...mapGetters({
-            exampleTasks: 'task/getExampleTasks',
-        }),
-        parsedLabelName() {
-            if (this.user.rewardsType == 'CHARACTER') {
-                return this.$t('character-name');
-            } else if (this.user.rewardsType == 'VILLAGE') {
-                return this.$t('village-name');
-            } else {
-                return null;
-            }
-        },
-    },
+import {computed, reactive, ref, onMounted} from 'vue';
+import BModal from '../components/bootstrap/BModal.vue';
+import {useMainStore} from '@/store/store';
+import {useTaskStore} from '@/store/taskStore';
+import {useUserStore} from '@/store/userStore';
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
+
+const mainStore = useMainStore();
+const taskStore = useTaskStore();
+const userStore = useUserStore();
+
+onMounted(() => {
+    mainStore.clearErrors();
+    taskStore.fetchExampleTasks();
+    startFirstModal();
+});
+
+const user = reactive({
+    rewardsType: 'NONE',
+    tasks: [],
+    reward_object_name: null,
+});
+const showFirstModal = ref(false);
+const showSecondModal = ref(false);
+const exampleTasks = computed (() => taskStore.exampleTasks);
+
+const parsedLabelName = computed(() => {
+    if (user.rewardsType == 'CHARACTER') {
+        return t('character-name');
+    } else if (user.rewardsType == 'VILLAGE') {
+        return t('village-name');
+    } else {
+        return null;
+    }
+});
+
+function startFirstModal() {
+    showFirstModal.value = true;
+    showSecondModal.value = false;
+}
+function nextModal() {
+    if (checkInput()) {
+        showFirstModal.value = false;
+        showSecondModal.value = true;
+    }
+}
+function confirmSettings() {
+    userStore.confirmRegister(user);
+}
+function checkInput() {
+    if (user.rewardsType == 'CHARACTER' && !user.reward_object_name) {
+        mainStore.setErrorMessages({'reward_object_name': ['No character name given.']});
+        return false;
+    } else if (user.rewardsType == 'VILLAGE' && !user.reward_object_name) {
+        mainStore.setErrorMessages({'reward_object_name': ['No village name given.']});
+    } else {
+        mainStore.clearErrors();
+        return true;
+    }
+}
+function logout() {
+    userStore.logout();
 }
 </script>
 

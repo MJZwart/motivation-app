@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActionTrackingHandler;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
 use App\Http\Resources\AchievementResource;
@@ -19,8 +20,9 @@ class AchievementController extends Controller
         $validated = $request->validated();
         $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
         Achievement::create($validated);
+        ActionTrackingHandler::handleAction($request, 'STORE_ACHIEVEMENT', 'Created new achievement: '.$validated['name']);
 
-        return new JsonResponse(['message' => ['success' => ["Achievement added."]], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => "Achievement added."], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
     }
 
     /**
@@ -45,8 +47,9 @@ class AchievementController extends Controller
         $validated = $request->validated();
         $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
         $achievement->update($validated);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_ACHIEVEMENT', 'Updated achievement: '.$validated['name']);
 
-        return new JsonResponse(['message' => ['success' => ["Achievement updated."]], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => "Achievement updated."], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
     }
 
     public function destroy(Achievement $achievement){

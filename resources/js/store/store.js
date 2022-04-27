@@ -1,89 +1,51 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-
-import taskListStore from './modules/taskListStore.js';
-import taskStore from './modules/taskStore.js';
-import userStore from './modules/userStore.js';
-import friendStore from './modules/friendStore.js';
-import notificationStore from './modules/notificationStore.js';
-import achievementStore from './modules/achievementStore.js';
-import adminStore from './modules/adminStore.js';
-import bugReportStore from './modules/bugReportStore.js';
-import rewardStore from './modules/rewardStore.js';
-import messageStore from './modules/messageStore.js';
-import groupsStore from './modules/groupsStore.js';
-import toastService from '../services/toastService';
+// @ts-nocheck
 import axios from 'axios';
+import {defineStore} from 'pinia';
+import {useRewardStore} from './rewardStore.js';
+import {useTaskStore} from './taskStore.js';
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-    modules: {
-        taskList: taskListStore,
-        task: taskStore,
-        user: userStore,
-        friend: friendStore,
-        notification: notificationStore,
-        achievement: achievementStore,
-        admin: adminStore,
-        bugReport: bugReportStore,
-        reward: rewardStore,
-        message: messageStore,
-        groups: groupsStore,
-    },
-    state: {
-        //Errors and response
-        responseMessage: {},
-        errors: [],
-    },
-    mutations: {
-        //Errors and response
-        setErrorMessages(state, response) {
-            state.errors = response;
-        },
-    },
-    getters: {
-        //Errors and response
-        getErrorMessages: state => {
-            return state.errors;
-        },
+export const useMainStore = defineStore('main', {
+    state: () => {
+        return {
+            //Errors and response
+            responseMessage: {},
+            errors: [],
+            toasts: [],
+        };
     },
     actions: {
-        clearErrors({commit}) {
-            commit('setErrorMessages', []);
-        },
-        getDashboard: ({commit}) => {
-            return axios.get('/dashboard').then(response => {
-                commit('taskList/setTaskLists', response.data.taskLists, {root:true});
-                commit('reward/setRewardObj', response.data.rewardObj, {root:true});
-                return Promise.resolve();
-            });
-        },
-        hasUnread: ({commit}) => {
-            axios.get('/unread').then(function(response) {
-                commit('notification/setHasNotifications', response.data.hasNotifications);
-                commit('message/setHasMessages', response.data.hasMessages);
-            });
-        },
-        sendFeedback: ({dispatch}, feedback) => {
-            axios.post('/feedback', feedback).then(response => {
-                dispatch('sendToasts', response.data.message);
-            })
-        },
         /**
          * Send a toast by calling:
-         * dispatch('sendToasts', response.data.message, {root:true});
+         * useMainStore.addToast(toastObject)
          * where 'response.data.message' is an object with one or multiple messages.
-         * In the JsonResponse, name the response message 'success', 'danger' or 'info' 
+         * In the JsonResponse, name the message key 'success', 'danger' or 'info' 
          * to get corresponding themes and titles.
-         * 
-         * @param {Object} messages 
          */
-        sendToasts(_, messages) {
-            Object.entries(messages).forEach(msg => {
-                const [key, value] = msg;
-                toastService.$emit('message', {message: value, key: key})
-            });
+        setErrorMessages(errorMessages) {
+            this.errors = errorMessages;
+        },
+        addToast(toast) {
+            this.toasts.push(toast);
+        },
+        clearToast(title) {
+            const index = this.toasts.findIndex(toast => toast.title === title);
+            this.toasts.splice(index, 1);
+        },
+        clearErrors() {
+            this.errors = [];
+        },
+        async getDashboard() {
+            const {data} = await axios.get('/dashboard');
+            const taskStore = useTaskStore();
+            taskStore.taskLists = data.taskLists;
+            const rewardStore = useRewardStore();
+            rewardStore.rewardObj = data.rewardObj;
+        },
+        async sendFeedback(feedback) {
+            await axios.post('/feedback', feedback);
+        },
+        async storeBugReport(bugReport) {
+            await axios.post('/bugreport', bugReport);
         },
     },
 });
