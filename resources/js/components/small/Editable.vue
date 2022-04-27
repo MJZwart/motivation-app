@@ -2,70 +2,89 @@
     <div>
         <div v-if="!edit">
             {{item}}
-            <b-icon-pencil-square
-                :id="'edit-item-' + index"
-                class="icon small"
-                @click="edit = true" />
-            <b-tooltip :target="'edit-item-' + index">{{ $t('edit') }}</b-tooltip>
+            <Tooltip :text="$t('edit')">
+                <FaIcon 
+                    :id="'edit-item-' + index"
+                    :icon="['far', 'pen-to-square']"
+                    class="icon small"
+                    @click="edit = true" />
+            </Tooltip>
         </div>
         <div v-else>
-            <b-form-input
+            <input
+                v-if="props.type == 'input'"
                 :id="name"
                 v-model="itemToEdit"
                 :name="name" />
-            <base-form-error :name="name" /> 
+            <textarea
+                v-if="props.type == 'textarea'"
+                :id="name"
+                v-model="itemToEdit"
+                :name="name"
+                :rows="rows" />
+            <BaseFormError :name="name" /> 
 
-            <b-icon-check-square
-                :id="'save-' + index"
-                class="icon small green"
-                @click="save" />
-            <b-tooltip :target="'save-' + index">{{ $t('save') }}</b-tooltip>
+            <Tooltip :text="$t('save')">
+                <FaIcon 
+                    :id="'save-' + index"
+                    :icon="['far', 'square-check']"
+                    class="icon small green"
+                    @click="save" />
+            </Tooltip>
 
-            <b-icon-x
-                :id="'cancel-' + index"
-                class="icon small red"
-                @click="cancel" />
-            <b-tooltip :target="'cancel-' + index">{{ $t('cancel') }}</b-tooltip>
+            <Tooltip :text="$t('cancel')">
+                <FaIcon 
+                    :id="'cancel-' + index"
+                    :icon="['far', 'rectangle-xmark']"
+                    class="icon small red"
+                    @click="cancel" />
+            </Tooltip>
         </div>
     </div>    
 </template>
 
-<script>
-import BaseFormError from '../BaseFormError.vue';
-export default {
-    components: {BaseFormError},
-    props: {
-        item: {
-            type: String,
-            required: true,
-        },
-        index: {
-            type: Number,
-            required: true,
-        },
-        name: {
-            type: String,
-            required: true,
-        },
+<script setup>
+import {onMounted, ref} from 'vue';
+const props = defineProps({
+    item: {
+        type: String,
+        required: true,
     },
-    data() {
-        return {
-            edit: false,
-            itemToEdit: null,
-        }
+    index: {
+        type: Number,
+        required: true,
     },
-    mounted() {
-        this.itemToEdit = this.item;
+    name: {
+        type: String,
+        required: true,
     },
-    methods: {
-        save() {
-            this.$emit('save', {[this.name]: this.itemToEdit});
-            this.cancel();
-        },
-        cancel() {
-            this.itemToEdit = this.item;
-            this.edit = false;
-        },
+    type: {
+        type: String,
+        required: false,
+        default: 'input',
     },
+    rows: {
+        type: Number,
+        required: false,
+        default: 3,
+    },
+});
+const emit = defineEmits(['save']);
+
+const edit = ref(false);
+const itemToEdit = ref('');
+
+onMounted(() => setValue());
+
+function save() {
+    emit('save', {[props.name]: itemToEdit.value});
+    cancel();
+}
+function cancel() {
+    setValue();
+    edit.value = false;
+}
+function setValue() {
+    itemToEdit.value = props.item
 }
 </script>

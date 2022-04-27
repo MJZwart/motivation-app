@@ -39,7 +39,7 @@
 
 <script setup>
 import {reactive} from 'vue';
-import BaseFormError from '../BaseFormError.vue';
+import BaseFormError from '../../../BaseFormError.vue';
 import {useGroupStore} from '@/store/groupStore.js';
 const groupStore = useGroupStore();
 

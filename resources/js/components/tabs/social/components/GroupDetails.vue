@@ -1,52 +1,64 @@
 <template>
-    <div class="details">
-        <div class="row">
-            <div class="col-sm-2"><b>{{ $t('founded') }}:</b></div>
-            <div class="col">{{group.time_created}}</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2"><b>{{ $t('admin') }}:</b></div>
-            <div class="col">
-                <router-link :to="{ name: 'profile', params: { id: group.admin.id}}">
-                    {{group.admin.username}}
-                </router-link>
+    <div>
+        <div class="details">
+            <div class="row">
+                <div class="col-8">
+                    <div class="row mb-1">
+                        <div class="col-2"><b>{{ $t('admin') }}: </b></div>
+                        <div class="col-4">
+                            <router-link :to="{ name: 'profile', params: { id: group.admin.id}}">
+                                {{group.admin.username}}
+                            </router-link>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-2"><b>{{ $t('founded') }}: </b></div>
+                        <div class="col-4">{{group.time_created}}</div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-2"><b>{{ $t('members') }}:</b></div>
+                        <div class="col-4">{{group.members.length}}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div v-if="isJoinGroupVisible" class="row">
+                        <button type="button" @click="joinGroup()">{{$t('join-group')}}</button>
+                    </div>
+                    <div v-else class="row">
+                        <div v-if="isUserAdmin">
+                            <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
+                            <button type="button" @click="manageGroup()">{{ $t('manage-group') }}</button>
+                        </div>
+                        <div v-else>
+                            <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div v-if="isJoinGroupVisible" class="row">
-            <div class="col">
-                <button type="button" @click="joinGroup()">{{$t('join-group')}}</button>
+            <hr />
+            <div class="row ml-0">
+                <b class="mb-3">{{ $t('member-list') }}</b>
             </div>
-        </div>
-        <div v-else class="row">
-            <div v-if="isUserAdmin" class="col">
-                <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
-            </div>
-
-            <div v-else class="col">
-                <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-sm-2"><b>{{group.members.length}} {{ $t('members') }}:</b></div>
-            <div class="col">
-                <div v-for="member in group.members" :key="member.id" class="row">
-                    <div class="col-sm-3">{{member.username}}</div>
-                    <div class="col-sm-2">{{member.rank}}</div>
-                    <div class="col-sm-5">Joined: {{member.joined}}</div>
+            <div class="row">
+                <div class="col">
+                    <div v-for="member in group.members" :key="member.id" class="row">
+                        <div class="col-2">{{member.username}}</div>
+                        <div class="col-2">{{member.rank}}</div>
+                        <div class="col-5">Joined: {{member.joined}}</div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <b-modal :id='`manage-group-modal-${group.id}`' hide-footer hide-header>
-            <ManageGroupModal :key="group.id" :index="index" @close="closeManageGroup" />
-        </b-modal>
-
+        <Modal class="xl" :show="showManageGroupModal" :footer="false" 
+               :title="group.name" @close="closeManageGroup">
+            <ManageGroupModal :group="group" />
+        </Modal>
     </div>
 </template>
 
 <script setup>
-import {computed} from 'vue';
+import {computed, ref} from 'vue';
+import ManageGroupModal from './ManageGroupModal.vue';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 import {useGroupStore} from '/js/store/groupStore';
@@ -62,6 +74,7 @@ const props = defineProps({
         required: true,
     },
 });
+
 const emit = defineEmits(['close', 'reloadGroups']);
 
 const isJoinGroupVisible = computed(() => {
@@ -71,6 +84,7 @@ const isJoinGroupVisible = computed(() => {
     }
     return $isVisible;
 });
+const showManageGroupModal = ref(false);
 const isUserAdmin = computed(() => {
     return props.group.admin.id == props.user.id;
 });
@@ -92,4 +106,18 @@ async function leaveGroup() {
     emit('reloadGroups');
     emit('close');
 }
+function manageGroup() {
+    showManageGroupModal.value = true;
+}
+function closeManageGroup() {
+    showManageGroupModal.value = false;
+}
 </script>
+
+<style lang="scss" scoped>
+.details{
+    // display: flex;
+    // flex-wrap: wrap;
+    margin: 0px 15px 0px 15px;
+}
+</style>

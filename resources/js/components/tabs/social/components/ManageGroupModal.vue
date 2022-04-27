@@ -1,46 +1,54 @@
 <template>
     <div>
-        <h5>{{ myGroups[index].name }}</h5>
-        <div v-if="myGroups[index]">
-            <b-form @submit.prevent="editGroup">
+        <div v-if="group">
+            <form @submit.prevent="editGroup">
                 <label for="edit-name-comp">Name</label>
                 <Editable 
                     id="edit-name-comp" 
-                    :key="myGroups[index].name" 
+                    :key="group.name" 
                     class="ml-1 mb-2"
-                    :item="myGroups[index].name" 
+                    :item="group.name" 
                     :index="1" 
                     :name="'name'" 
                     @save="save" />
                 
                 <label for="edit-description-comp">Description</label>
-                <EditableTextarea 
+                <Editable 
                     id="edit-description-comp"
-                    :key="myGroups[index].description"
+                    :key="group.description"
                     class="ml-1 mb-2"
-                    :item="myGroups[index].description" 
+                    :item="group.description" 
                     :index="2" 
                     :name="'description'" 
+                    :type="'textarea'"
                     :rows="3" 
                     @save="save" />
 
-                <b-button class="m-1" @click="togglePublic">
-                    {{myGroups[index].is_public ? 'Set to private' : 'Make public' }}
-                </b-button>
+                <button class="m-1" @click="togglePublic">
+                    {{group.is_public ? 'Set to private' : 'Make public' }}
+                </button>
                 <!-- TODO turn this into a 'turn off button' -->
-            </b-form>
+            </form>
         </div>
         <!-- Manage users -->
         <div>
             <label for="">Members</label>
-            <div v-for="member in myGroups[index].members" :key="member.id" class="d-flex hover">
+            <div v-for="member in group.members" :key="member.id" class="d-flex hover">
                 <!-- TODO make a table -->
                 {{member.username}}
                 <span class="ml-auto">
-                    <b-icon-envelope
-                        class="small icon" />
-                    <b-icon-x
-                        class="small icon red" />
+                    <Tooltip :text="$t('send-message')">
+                        <FaIcon 
+                            icon="envelope"
+                            class="icon small"
+                            @click="sendMessage" />
+                    </Tooltip>
+                    <Tooltip :text="$t('kick')">
+                        <FaIcon 
+                            :icon="['far', 'rectangle-xmark']"
+                            class="icon small red"
+                            @click="kick" />
+                    </Tooltip>
 
                 </span>
             </div>
@@ -48,34 +56,32 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import Editable from '../../../small/Editable.vue';
-import EditableTextarea from '../../../small/EditableTextarea.vue';
-import {mapGetters} from 'vuex';
-export default {
-    components: {Editable, EditableTextarea},
-    props: {
-        index: {
-            type: Number,
-            required: true,
-        },
+import {useGroupStore} from '/js/store/groupStore';
+const groupStore = useGroupStore();
+
+const props = defineProps({
+    group: {
+        type: Object,
+        required: true,
     },
-    computed: {
-        ...mapGetters({
-            myGroups: 'groups/getMyGroups',
-        }),
-    },
-    methods: {
-        save(item) {
-            item.id = this.myGroups[this.index].id;
-            this.$store.dispatch('groups/updateGroup', item);
-        },
-        togglePublic() {
-            const group = {};
-            group.is_public = !this.myGroups[this.index].is_public;
-            group.id = this.myGroups[this.index].id;
-            this.$store.dispatch('groups/updateGroup', group);
-        },
-    },
+});
+function save(item) {
+    item.id = props.group.id;
+    groupStore.updateGroup(item);
+}
+function togglePublic() {
+    const group = {};
+    group.is_public = !props.group.is_public;
+    group.id = props.group.id;
+    groupStore.updateGroup(group);
+}
+
+function kick() {
+    console.log('kick');
+}
+function sendMessage() {
+    console.log('message');
 }
 </script>
