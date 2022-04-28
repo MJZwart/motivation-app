@@ -43,5 +43,9 @@ export const useGroupStore = defineStore('group', {
         setGroupToManage(group) {
             this.groupToManage = group;
         },
+        async removeGroupMember(user, group) {
+            const {data} = await axios.post(`/groups/kick/${group.id}`, user);
+            this.myGroups = data.groups.my;
+        },
     },
 });

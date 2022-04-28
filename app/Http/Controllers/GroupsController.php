@@ -88,4 +88,11 @@ class GroupsController extends Controller
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
         return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
     }
+
+    public function removeUserFromGroup(Group $group, Request $request) {
+        //Validate that a user is in the request
+        //Validate that the auth user is the group admin
+        //Error message if the user is not admin
+        //Error if user to kick isn't part of the group
+    }
 }

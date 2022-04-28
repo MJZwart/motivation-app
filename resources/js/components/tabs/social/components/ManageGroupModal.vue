@@ -60,6 +60,8 @@
 import Editable from '../../../small/Editable.vue';
 import {useGroupStore} from '/js/store/groupStore';
 const groupStore = useGroupStore();
+import {useI18n} from 'vue-i18n'
+const {t} = useI18n() // use as global scope
 
 const props = defineProps({
     group: {
@@ -78,8 +80,10 @@ function togglePublic() {
     groupStore.updateGroup(group);
 }
 
-function kick() {
-    console.log('kick');
+function kick(user) {
+    //Confirm
+    if (confirm(t('confirm-kick-from-group')))
+        groupStore.removeGroupMember(user, props.group);
 }
 function sendMessage() {
     console.log('message');
