@@ -10,6 +10,7 @@
                     <a class="silent mb-1" href="https://github.com/MJZwart/motivation-app#roadmap" target="_blank">
                         {{ $t('roadmap') }}
                     </a>
+                    <router-link class="silent mb-1" to="/bugreport">{{ $t('report-bug') }}</router-link>
                     <router-link class="silent mb-1" to="/feedback">{{ $t('feedback') }}</router-link>
                 </div>
             </div>
