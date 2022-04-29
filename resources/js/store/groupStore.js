@@ -35,5 +35,13 @@ export const useGroupStore = defineStore('group', {
         async leaveGroup(group) {
             await axios.post(`/groups/leave/${group.id}`);
         },
+        async updateGroup(group) {
+            const {data} = await axios.put(`/groups/edit/${group.id}`, group);
+            this.myGroups = data.groups.my;
+        },
+        async removeGroupMember(user, group) {
+            const {data} = await axios.post(`/groups/kick/${group.id}`, user);
+            this.myGroups = data.groups.my;
+        },
     },
 });

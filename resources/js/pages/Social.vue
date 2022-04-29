@@ -15,7 +15,7 @@
             </button>
         </div>
         <KeepAlive class="col-10">
-            <component :is="currentTabComponent" />
+            <component :is="currentTabComponent" :key="activeComponent.value" />
         </KeepAlive>
     </div>
 </template>

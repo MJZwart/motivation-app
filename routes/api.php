@@ -96,6 +96,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/groups', GroupsController::class)->only([
         'store', 'destroy', 'show',
     ]);
+    Route::put('/groups/edit/{group}', [GroupsController::class, 'update']);
+    Route::post('/groups/kick/{group}', [GroupsController::class, 'removeUserFromGroup']);
+
     Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
 
     Route::get('/unread', [UserController::class, 'hasUnread']);

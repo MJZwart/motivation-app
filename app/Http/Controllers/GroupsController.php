@@ -8,8 +8,10 @@ use App\Models\User;
 use App\Models\Groups_Users;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\DeleteGroupRequest;
+use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
+use App\Http\Requests\RemoveUserFromGroupRequest;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +32,7 @@ class GroupsController extends Controller
             $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
             return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
         }
-        return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_FORBIDDEN);
+        return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
     }
 
     public function store(StoreGroupRequest $request): JsonResponse{
@@ -77,5 +79,24 @@ class GroupsController extends Controller
         $users->detach($user);
         ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', $user->username.' left group '.$group->name);
         return new JsonResponse(['message' => ['success' => "You have successfully left the group \"{$group->name}\"."]], Response::HTTP_OK);
+    }
+
+    public function update(Group $group, UpdateGroupsRequest $request) {
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an admin of the group you are trying to update."], Response::HTTP_BAD_REQUEST);
+        $validated = $request->validated();
+        $group->update($validated);
+        $myGroups = MyGroupResource::collection(Auth::user()->groups);
+        return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
+    }
+
+    public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request) {
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an admin of the group you are trying to manage."], Response::HTTP_BAD_REQUEST);
+        if (!$group->hasMember($request['id']))
+            return new JsonResponse(['message' => "This user is not a member of this group"], Response::HTTP_BAD_REQUEST);
+        $group->removeMemberFromGroup($request['id']);
+        $myGroups = MyGroupResource::collection(Auth::user()->groups);
+        return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
     }
 }
