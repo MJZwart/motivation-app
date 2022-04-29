@@ -12,12 +12,12 @@
         </div>
         <div v-else>
             <input
-                v-if="props.type == 'input'"
+                v-if="type == 'input'"
                 :id="name"
                 v-model="itemToEdit"
                 :name="name" />
             <textarea
-                v-if="props.type == 'textarea'"
+                v-if="type == 'textarea'"
                 :id="name"
                 v-model="itemToEdit"
                 :name="name"

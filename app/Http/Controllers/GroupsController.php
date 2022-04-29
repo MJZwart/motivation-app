@@ -91,8 +91,7 @@ class GroupsController extends Controller
     }
 
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request) {
-        $user = Auth::user();
-        if ($group->getAdmin()->id != $user->id)
+        if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an admin of the group you are trying to manage."], Response::HTTP_BAD_REQUEST);
         if (!$group->hasMember($request['id']))
             return new JsonResponse(['message' => "This user is not a member of this group"], Response::HTTP_BAD_REQUEST);

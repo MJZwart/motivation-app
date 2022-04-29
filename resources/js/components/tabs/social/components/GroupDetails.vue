@@ -116,8 +116,6 @@ function closeManageGroup() {
 
 <style lang="scss" scoped>
 .details{
-    // display: flex;
-    // flex-wrap: wrap;
     margin: 0px 15px 0px 15px;
 }
 </style>

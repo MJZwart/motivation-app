@@ -9,7 +9,7 @@
                     name="name"
                     :placeholder="$t('name')" />
                 <small class="form-text text-muted">{{$t('group-name-desc')}}</small>
-                <base-form-error name="name" /> 
+                <BaseFormError name="name" /> 
             </div>
             <div class="form-group">
                 <label for="description">{{$t('group-desc')}}</label>
@@ -19,7 +19,7 @@
                     name="description"
                     :placeholder="$t('description')" />
                 <small class="form-text text-muted">{{$t('group-description-desc')}}</small>
-                <base-form-error name="description" /> 
+                <BaseFormError name="description" /> 
             </div>
             <div class="form-group">
                 <input
@@ -29,7 +29,7 @@
                     name="public-checkbox" />
                 <label for="public-checkbox" class="option-label">{{$t('group-public-checkbox')}}</label>
                 <small class="form-text text-muted">{{$t('group-public-checkbox-desc')}}</small>
-                <base-form-error name="public-checkbox" /> 
+                <BaseFormError name="public-checkbox" /> 
             </div>
             <button type="submit" class="block">{{$t('create-group')}}</button>
             <button type="button" class="block" @click="close">{{$t('cancel')}}</button>
@@ -39,7 +39,6 @@
 
 <script setup>
 import {reactive} from 'vue';
-import BaseFormError from '../../../BaseFormError.vue';
 import {useGroupStore} from '@/store/groupStore.js';
 const groupStore = useGroupStore();
 
