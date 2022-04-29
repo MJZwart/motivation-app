@@ -3,8 +3,8 @@
         <Loading v-if="loading" />
         <div v-else>
             <span class="d-flex">
-                <button type="button" class="m-1" @click="showMyGroups">{{ $t('my-groups') }}</button>
-                <button type="button" class="m-1" @click="showAllGroups">{{ $t('all-groups') }}</button>
+                <button type="button" class="m-1" @click="chosen = 'MY'">{{ $t('my-groups') }}</button>
+                <button type="button" class="m-1" @click="chosen = 'ALL'">{{ $t('all-groups') }}</button>
                 <input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</button>
             </span>
@@ -46,7 +46,12 @@ const userStore = useUserStore();
 const mainStore = useMainStore();
 
 const user = computed(() => userStore.user);
-const groupFields = ref({});
+const groupFields = computed(() => {
+    if (chosen.value == 'MY') return MY_GROUP_FIELDS;
+    if (chosen.value == 'ALL') return ALL_GROUP_FIELDS;
+    return {};
+});
+ref({});
 
 const loading = ref(true);
 onMounted(() => {
@@ -54,7 +59,6 @@ onMounted(() => {
 });
 async function load() {
     await groupStore.fetchGroupsDashboard();
-    groupFields.value = MY_GROUP_FIELDS;
     chosen.value = 'MY';
     loading.value = false;
 }
@@ -73,14 +77,6 @@ const chosenGroups = computed(() => {
     if (chosen.value == 'ALL') return allGroups.value;
     return {};
 });
-function showMyGroups() {
-    groupFields.value = MY_GROUP_FIELDS;
-    chosen.value = 'MY';
-}
-function showAllGroups() {
-    groupFields.value = ALL_GROUP_FIELDS;
-    chosen.value = 'ALL';
-}
 
 const showCreateGroupModal = ref(false);
 function createGroup() {
