@@ -11,6 +11,7 @@ use App\Http\Requests\DeleteGroupRequest;
 use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
+use App\Http\Requests\RemoveUserFromGroupRequest;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,7 @@ class GroupsController extends Controller
             $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
             return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
         }
-        return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_FORBIDDEN);
+        return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
     }
 
     public function store(StoreGroupRequest $request): JsonResponse{
@@ -89,10 +90,14 @@ class GroupsController extends Controller
         return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
     }
 
-    public function removeUserFromGroup(Group $group, Request $request) {
-        //Validate that a user is in the request
-        //Validate that the auth user is the group admin
-        //Error message if the user is not admin
-        //Error if user to kick isn't part of the group
+    public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request) {
+        $user = Auth::user();
+        if ($group->getAdmin()->id != $user->id)
+            return new JsonResponse(['message' => "You are not an admin of the group you are trying to manage."], Response::HTTP_BAD_REQUEST);
+        if (!$group->hasMember($request['id']))
+            return new JsonResponse(['message' => "This user is not a member of this group"], Response::HTTP_BAD_REQUEST);
+        $group->removeMemberFromGroup($request['id']);
+        $myGroups = MyGroupResource::collection(Auth::user()->groups);
+        return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
     }
 }

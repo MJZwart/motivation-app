@@ -36,32 +36,40 @@
             <div v-for="member in group.members" :key="member.id" class="d-flex hover">
                 <!-- TODO make a table -->
                 {{member.username}}
-                <span class="ml-auto">
+                <span v-if="member.id != user.id" class="ml-auto">
                     <Tooltip :text="$t('send-message')">
                         <FaIcon 
                             icon="envelope"
                             class="icon small"
-                            @click="sendMessage" />
+                            @click="sendMessage(member)" />
                     </Tooltip>
                     <Tooltip :text="$t('kick')">
                         <FaIcon 
                             :icon="['far', 'rectangle-xmark']"
                             class="icon small red"
-                            @click="kick" />
+                            @click="kick(member)" />
                     </Tooltip>
 
                 </span>
             </div>
         </div>
+        
+        <Modal :show="showSendMessageModal" :footer="false" :header="false" class="m-override" @close="closeSendMessageModal">
+            <SendMessage :user="userToMessage" @close="closeSendMessageModal" />
+        </Modal>
     </div>
 </template>
 
 <script setup>
+import {computed, ref} from 'vue';
 import Editable from '../../../small/Editable.vue';
+import SendMessage from '../../../modals/SendMessage.vue';
 import {useGroupStore} from '/js/store/groupStore';
 const groupStore = useGroupStore();
+import {useUserStore} from '/js/store/userStore';
+const userStore = useUserStore();
 import {useI18n} from 'vue-i18n'
-const {t} = useI18n() // use as global scope
+const {t} = useI18n();
 
 const props = defineProps({
     group: {
@@ -69,6 +77,10 @@ const props = defineProps({
         required: true,
     },
 });
+const user = computed(() => userStore.user);
+const showSendMessageModal = ref(false);
+const userToMessage = ref({});
+
 function save(item) {
     item.id = props.group.id;
     groupStore.updateGroup(item);
@@ -81,11 +93,14 @@ function togglePublic() {
 }
 
 function kick(user) {
-    //Confirm
-    if (confirm(t('confirm-kick-from-group')))
-        groupStore.removeGroupMember(user, props.group);
+    if (confirm(t('confirm-kick-from-group', {user: user.username})))
+        groupStore.removeGroupMember({id: user.id}, props.group);
 }
-function sendMessage() {
-    console.log('message');
+function sendMessage(user) {
+    showSendMessageModal.value = true;
+    userToMessage.value = user;
+}
+function closeSendMessageModal() {
+    showSendMessageModal.value = false;
 }
 </script>
