@@ -87,6 +87,7 @@ class GroupsController extends Controller
         $validated = $request->validated();
         $group->update($validated);
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP', $group.' updated.');
         return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
     }
 
@@ -97,6 +98,7 @@ class GroupsController extends Controller
             return new JsonResponse(['message' => "This user is not a member of this group"], Response::HTTP_BAD_REQUEST);
         $group->removeMemberFromGroup($request['id']);
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
+        ActionTrackingHandler::handleAction($request, 'GROUP_USER_KICKED', $group.' kicked user id '.$request['id']);
         return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
     }
 }
