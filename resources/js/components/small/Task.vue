@@ -58,15 +58,22 @@
             </p>
             <p class="task-description">{{subTask.description}}</p>
         </div>
+        
+        <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
+            <EditTask :task="taskToEdit" @close="closeEditTask" />
+        </Modal>
     </div>
 </template>
 
 
 <script setup>
+import {reactive, ref} from 'vue';
+import EditTask from '../modals/EditTask.vue';
 import {useTaskStore} from '@/store/taskStore';
+import {useMainStore} from '@/store/store';
 import {useI18n} from 'vue-i18n'
-
 const {t} = useI18n() // use as global scope
+const mainStore = useMainStore();
 
 defineProps({
     task: {
@@ -76,15 +83,27 @@ defineProps({
     },
 });
 
-const emit = defineEmits(['newTask', 'editTask']);
+const emit = defineEmits(['newTask']);
+
+/** @type {import('../../types/task').Task | null} */
+const taskToEdit = reactive({});
+const showEditTaskModal = ref(false);
 
 /** @param {import('resources/types/task').Task} task */
 function openNewTask(task) {
     emit('newTask', task);
 }
-/** @param {import('resources/types/task').Task} task */
+
+/** Shows and hides the modal to edit a given task
+ * @param {import('../../types/task').Task} task
+ */
 function editTask(task) {
-    emit('editTask', task);
+    mainStore.clearErrors();
+    taskToEdit.value = task;
+    showEditTaskModal.value = true;
+}
+function closeEditTask() {
+    showEditTaskModal.value = false;
 }
 
 const taskStore = useTaskStore();

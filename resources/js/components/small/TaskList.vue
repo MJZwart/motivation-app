@@ -9,13 +9,13 @@
                             <FaIcon 
                                 :icon="['far', 'pen-to-square']"
                                 class="icon white small"
-                                @click="editTaskList()" />
+                                @click="showEditTaskList()" />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')">
                             <FaIcon 
                                 icon="trash"
                                 class="icon small white"
-                                @click="deleteTaskList(task)" />
+                                @click="showDeleteTaskList(task)" />
                         </Tooltip>
                     </span>
                 </span>
@@ -25,8 +25,7 @@
                     <Task 
                         :task="task" 
                         :class="taskClass(index)"
-                        v-on:newTask="openNewTask"
-                        v-on:editTask="editTask" />
+                        v-on:newTask="openNewTask" />
                 </template>
             </slot>
             <template #footer>           
@@ -43,8 +42,15 @@
         <Modal :show="showNewTaskModal" :footer="false" :title="$t('new-task')" @close="closeNewTask">
             <NewTask :superTask="superTask.value" :taskList="taskList" @close="closeNewTask" />
         </Modal>
-        <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
-            <EditTask :task="taskToEdit" @close="closeEditTask" />
+        <Modal :show="showEditTaskListModal" :footer="false" :title="$t('edit-task-list')" @close="closeEditTaskList">
+            <EditTaskList :taskList="taskListToEdit" @close="closeEditTaskList" />
+        </Modal>
+        <Modal 
+            :show="showDeleteTaskListConfirmModal" 
+            :footer="false" 
+            :title="$t('delete-task-list-confirm')" 
+            @close="closeDeleteTaskList">
+            <DeleteTaskListConfirm :taskList="taskListToDelete" @close="closeDeleteTaskList" />
         </Modal>
     </div>
 </template>
@@ -54,10 +60,11 @@
 import Tooltip from '../bootstrap/Tooltip.vue';
 import Task from './Task.vue';
 import Summary from '../summary/Summary.vue';
+import EditTaskList from '../modals/EditTaskList.vue';
+import DeleteTaskListConfirm from '../modals/DeleteTaskListConfirm.vue';
 import {reactive, ref} from 'vue';
 import {useMainStore} from '@/store/store';
 import NewTask from '../modals/NewTask.vue';
-import EditTask from '../modals/EditTask.vue';
 
 const props = defineProps({
     taskList: {
@@ -67,15 +74,16 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['editTaskList', 'deleteTaskList']);
-
 /** @type {import('../../types/task').Task | null} */
 const superTask = reactive({});
-/** @type {import('../../types/task').Task | null} */
-const taskToEdit = reactive({});
-
 const showNewTaskModal = ref(false);
-const showEditTaskModal = ref(false);
+const showEditTaskListModal = ref(false);
+const showDeleteTaskListConfirmModal = ref(false);
+
+/** @type {import('../../types/task').TaskList | null} */
+const taskListToEdit = ref({});
+/** @type {import('../../types/task').TaskList | null} */
+const taskListToDelete = ref({});
 
 const mainStore = useMainStore();
 
@@ -88,28 +96,33 @@ function closeNewTask() {
     showNewTaskModal.value = false;
 }
 
-/** Shows and hides the modal to edit a given task
- * @param {import('../../types/task').Task} task
+/** Shows and hides the modal to edit a given task list
+ * @param {import('../../types/task').TaskList} taskList
  */
-function editTask(task) {
+function showEditTaskList() {
     mainStore.clearErrors();
-    taskToEdit.value = task;
-    showEditTaskModal.value = true;
+    taskListToEdit.value = props.taskList;
+    showEditTaskListModal.value = true;
 }
-function closeEditTask() {
-    showEditTaskModal.value = false;
+function closeEditTaskList() {
+    showEditTaskListModal.value = false;
 }
 
-function editTaskList() {
-    emit('editTaskList', props.taskList);
+/** Shows and hides the modal to confirm deleting a task list
+ * @param {import('../../types/task').TaskList} taskList
+ */
+function showDeleteTaskList() {
+    mainStore.clearErrors();
+    taskListToDelete.value = props.taskList;
+    showDeleteTaskListConfirmModal.value = true;
 }
-function deleteTaskList() {
-    emit('deleteTaskList', props.taskList);
+function closeDeleteTaskList() {
+    showDeleteTaskListConfirmModal.value = false;
 }
+
 function taskClass(index) {
     return index == props.taskList.tasks.length -1 ? 'task-last' : 'task';
 }
-
 </script>
 
 <style lang="scss">
