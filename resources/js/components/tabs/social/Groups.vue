@@ -59,7 +59,6 @@ onMounted(() => {
 });
 async function load() {
     await groupStore.fetchGroupsDashboard();
-    chosen.value = 'MY';
     loading.value = false;
 }
 
@@ -71,7 +70,7 @@ const filteredAllGroups = computed(() => {
 
 const myGroups = computed(() => groupStore.myGroups);
 const allGroups = computed(() => groupStore.allGroups);
-const chosen = ref('');
+const chosen = ref('MY');
 const chosenGroups = computed(() => {
     if (chosen.value == 'MY') return myGroups.value;
     if (chosen.value == 'ALL') return allGroups.value;
