@@ -44,7 +44,7 @@
                         </FaIconLayers>
                     </router-link>
                     <Dropdown color="white">
-                        <section v-if="admin && windowWidth < 450" class="option">
+                        <section v-if="admin && windowWidth < 350" class="option">
                             <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
                         </section>
                         <section v-if="windowWidth < 450" class="option">
