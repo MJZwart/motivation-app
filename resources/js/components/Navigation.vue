@@ -73,9 +73,9 @@
 
 
 <script setup>
-import Dropdown from './bootstrap/Dropdown.vue';
-import {useUserStore} from '@/store/userStore';
-import {useMessageStore} from '@/store/messageStore';
+import Dropdown from '/js/components/global/Dropdown.vue';
+import {useUserStore} from '/js/store/userStore';
+import {useMessageStore} from '/js/store/messageStore';
 import {computed, onMounted, ref} from 'vue';
 
 onMounted(() => window.addEventListener('resize', handleResize));

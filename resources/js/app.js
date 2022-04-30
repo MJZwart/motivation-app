@@ -12,11 +12,11 @@ import {createPinia} from 'pinia';
 app.use(createPinia());
 
 //Import router
-import router from './router/router';
+import router from './router/router.js';
 app.use(router);
 
 //Import vue-i18n translations
-import i18n from './i18n';
+import i18n from './i18n.js';
 app.use(i18n);
 
 //Font-awesome icons
@@ -26,11 +26,13 @@ app.component('FaIconLayers', FontAwesomeLayers);
 import './icons.js';
 
 //Global imports
-import BaseFormError from './components/BaseFormError.vue';
+import BaseFormError from '/js/components/global/BaseFormError.vue';
 app.component('BaseFormError', BaseFormError);
-import BModal from './components/bootstrap/BModal.vue';
-app.component('Modal', BModal);
-import Tooltip from './components/bootstrap/Tooltip.vue';
+import Modal from '/js/components/global/Modal.vue';
+app.component('Modal', Modal);
+import Tooltip from '/js/components/global/Tooltip.vue';
 app.component('Tooltip', Tooltip);
+import Loading from '/js/components/global/Loading.vue';
+app.component('Loading', Loading);
 
 app.mount('#app');

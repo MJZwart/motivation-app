@@ -1,6 +1,6 @@
 <template>
     <div>
-        <BModal :show="showFirstModal" :footer="false" :header="false">
+        <Modal :show="showFirstModal" :footer="false" :header="false">
             <template #header>
                 <div class="modal-header d-block">
                     <h5 class="modal-title">{{ $t('welcome') }}</h5>
@@ -54,8 +54,8 @@
                 <button class="block" @click="nextModal()">{{ $t('next') }}</button>
                 <button class="block" variant="danger" @click="logout()">{{ $t('logout')}}</button>
             </div>
-        </BModal>
-        <BModal :show="showSecondModal" :footer="false" :header="false">
+        </Modal>
+        <Modal :show="showSecondModal" :footer="false" :header="false">
             <template #header>
                 <div class="modal-header d-block">
                     <h4>{{ $t('little-more') }}</h4>
@@ -86,17 +86,15 @@
                     <button class="ml-auto button-red" @click="logout()">{{ $t('logout')}}</button>
                 </div>
             </div>
-        </BModal>
+        </Modal>
     </div>
 </template>
 
 <script setup>
-import BaseFormError from '../components/BaseFormError.vue';
 import {computed, reactive, ref, onMounted} from 'vue';
-import BModal from '../components/bootstrap/BModal.vue';
-import {useMainStore} from '@/store/store';
-import {useTaskStore} from '@/store/taskStore';
-import {useUserStore} from '@/store/userStore';
+import {useMainStore} from '/js/store/store';
+import {useTaskStore} from '/js/store/taskStore';
+import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 

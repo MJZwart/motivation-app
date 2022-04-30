@@ -76,10 +76,9 @@
 
 
 <script setup>
-import BaseFormError from '../components/BaseFormError.vue';
-import {BUG_TYPES, BUG_SEVERITY} from '../constants/bugConstants';
+import {BUG_TYPES, BUG_SEVERITY} from '/js/constants/bugConstants';
 import {reactive} from 'vue';
-import {useMainStore} from '@/store/store';
+import {useMainStore} from '/js/store/store';
 const mainStore = useMainStore();
 const initialData = {
     title: '',
