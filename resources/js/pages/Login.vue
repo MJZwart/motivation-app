@@ -29,7 +29,7 @@
 
 
 <script setup>
-import {useUserStore} from '@/store/userStore';
+import {useUserStore} from '/js/store/userStore';
 import {reactive} from 'vue';
 
 const login = reactive({

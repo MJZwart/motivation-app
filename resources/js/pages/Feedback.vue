@@ -41,10 +41,9 @@
 
 <script setup>
 import {reactive, computed} from 'vue';
-import BaseFormError from '../components/BaseFormError.vue';
-import {FEEDBACK_TYPES} from '../constants/feedbackConstants.js';
-import {useMainStore} from '@/store/store';
-import {useUserStore} from '@/store/userStore';
+import {FEEDBACK_TYPES} from '/js/constants/feedbackConstants.js';
+import {useMainStore} from '/js/store/store';
+import {useUserStore} from '/js/store/userStore';
 const mainStore = useMainStore();
 const userStore = useUserStore();
 

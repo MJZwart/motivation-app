@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import Navigation from './components/Navigation.vue';
-import FooterComp from './components/FooterComp.vue';
-import Toasts from './components/Toasts.vue';
+import Navigation from '/js/components/Navigation.vue';
+import FooterComp from '/js/components/FooterComp.vue';
+import Toasts from '/js/components/global/Toasts.vue';
 </script>

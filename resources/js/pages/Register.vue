@@ -50,9 +50,8 @@
 
 <script setup>
 import {reactive} from 'vue';
-import BaseFormError from '../components/BaseFormError.vue';
-import {useUserStore} from '@/store/userStore';
-import {useMainStore} from '@/store/store';
+import {useUserStore} from '/js/store/userStore';
+import {useMainStore} from '/js/store/store';
 
 const mainStore = useMainStore();
 const userStore = useUserStore();
