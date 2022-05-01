@@ -43,7 +43,7 @@
                     <input :id="type.value" v-model="rewardSetting.rewards" name="rewards" type="radio" :value="type.value" />
                     <label :for="type.value">{{type.text}}</label>
                 </div>
-                <base-form-error name="rewards" /> 
+                <BaseFormError name="rewards" /> 
                 <hr />
             </div>
         
@@ -58,7 +58,7 @@
                         type="radio" 
                         :value="option.value" />
                     <label :for="option.value + 'char'">{{option.text}}</label>
-                    <base-form-error name="keepOldInstance" /> 
+                    <BaseFormError name="keepOldInstance" /> 
                 </div>
                 <hr />
             </div>
@@ -74,7 +74,7 @@
                         type="radio" 
                         :value="option.value" />
                     <label :for="option.value + 'vill'">{{option.text}}</label>
-                    <base-form-error name="keepOldInstance" /> 
+                    <BaseFormError name="keepOldInstance" /> 
                 </div>
                 <hr />
             </div>
@@ -89,7 +89,7 @@
                     type="text" 
                     name="new-object-name" 
                     :placeholder="rewardTypeName"   />
-                <base-form-error name="new_object_name" /> 
+                <BaseFormError name="new_object_name" /> 
             </div>
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>

@@ -2,7 +2,7 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
-            <general-form-error />
+            <GeneralFormError />
             <div class="d-flex">
                 <button class="ml-auto m-2" @click="updateCharExpGain">{{ $t('update-char-exp-gain') }}</button>
             </div>

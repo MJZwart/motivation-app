@@ -55,7 +55,7 @@
                     name="image_link" 
                     :placeholder="$t('image-link')" />
                 <small class="form-text text-muted">{{$t('bug-image-link-desc')}}</small>
-                <base-form-error name="image_link" />
+                <BaseFormError name="image_link" />
             </div>
             <div class="form-group">
                 <label for="comment">{{$t('comment')}}</label>
@@ -67,7 +67,7 @@
                     rows=3
                     :placeholder="$t('comment')" />
                 <small class="form-text text-muted">{{$t('bug-comment-desc')}}</small>
-                <base-form-error name="comment" />
+                <BaseFormError name="comment" />
             </div>
             <button type="submit" class="block">{{ $t('submit-bug-report') }}</button>
         </form> 

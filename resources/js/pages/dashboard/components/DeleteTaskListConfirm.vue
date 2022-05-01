@@ -21,7 +21,7 @@
             </div>
             <button type="submit" class="block">{{ $t('delete-task-list-confirm') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
-            <base-form-error name="error" /> 
+            <BaseFormError name="error" /> 
         </form>
     </div>
 </template>
