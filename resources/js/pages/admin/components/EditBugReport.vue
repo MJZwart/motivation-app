@@ -11,7 +11,7 @@
                     <option v-for="(option, index) in bugTypes" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-type-desc')}}</small>
-                <base-form-error name="type" /> 
+                <BaseFormError name="type" /> 
             </div>
             <div class="form-group">
                 <label for="severity">{{$t('severity')}}</label>
@@ -23,7 +23,7 @@
                     <option v-for="(option, index) in bugSeverity" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
-                <base-form-error name="severity" /> 
+                <BaseFormError name="severity" /> 
             </div>
             <div class="form-group">
                 <label for="admin-comment">{{$t('admin-comment')}}</label>
@@ -34,7 +34,7 @@
                     name="admin_comment" 
                     :placeholder="bugReportToEdit.admin_comment" />
                 <small class="form-text text-muted">{{$t('bug-admin-comment-desc')}}</small>
-                <base-form-error name="admin_comment" /> 
+                <BaseFormError name="admin_comment" /> 
             </div>
             <div class="form-group">
                 <label for="status">{{$t('status')}}</label>
@@ -47,7 +47,7 @@
                     <option v-for="(option, index) in bugStatus" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-status-desc')}}</small>
-                <base-form-error name="status" /> 
+                <BaseFormError name="status" /> 
             </div>
             <button type="submit" class="block">{{$t('update-bug-report')}}</button>
             <button type="button" class="block" @click="close">{{$t('cancel')}}</button>

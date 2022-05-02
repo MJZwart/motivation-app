@@ -9,7 +9,7 @@
                     v-model="login.username" 
                     type="text" 
                     :placeholder="$t('username')" />
-                <base-form-error name="username" /> 
+                <BaseFormError name="username" /> 
             </div>
             <div class="form-group">
                 <label label-for="password">{{$t('password')}}</label>
@@ -19,10 +19,10 @@
                     type="password" 
                     name="password" 
                     :placeholder="$t('password')" />
-                <base-form-error name="password" /> 
+                <BaseFormError name="password" /> 
             </div>
             <button type="submit" class="block">{{ $t('login') }}</button>
-            <base-form-error name="error" /> 
+            <BaseFormError name="error" /> 
         </form> 
     </div>
 </template>

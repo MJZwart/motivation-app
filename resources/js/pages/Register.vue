@@ -10,7 +10,7 @@
                     type="text" 
                     name="username" 
                     :placeholder="$t('username')" />
-                <base-form-error name="username" /> 
+                <BaseFormError name="username" /> 
             </div>
             <div class="form-group">
                 <label for="email">{{$t('email')}}</label>
@@ -20,7 +20,7 @@
                     type="text" 
                     name="email" 
                     :placeholder="$t('email')"  />
-                <base-form-error name="email" /> 
+                <BaseFormError name="email" /> 
             </div>
             <div class="form-group">
                 <label for="password">{{$t('password')}}</label>
@@ -30,7 +30,7 @@
                     type="password" 
                     name="password" 
                     :placeholder="$t('password')" />
-                <base-form-error name="password" /> 
+                <BaseFormError name="password" /> 
             </div>
             <div class="form-group">
                 <label for="password_confirmation">{{$t('repeat-password')}}</label>
@@ -40,7 +40,7 @@
                     type="password" 
                     name="password_confirmation" 
                     :placeholder="$t('repeat-password')" />
-                <base-form-error name="password_confirmation" /> 
+                <BaseFormError name="password_confirmation" /> 
             </div>
             <button type="submit" block>{{ $t('register-new-account') }}</button>
         </form> 

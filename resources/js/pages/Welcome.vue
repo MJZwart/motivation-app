@@ -75,7 +75,7 @@
                                 :value="task.id" />
                             <label class="task-title label-override" :for="task.id">{{task.name}}</label>
                             <small class="form-text text-muted task-description label-override">{{task.description}}</small>
-                            <base-form-error name="public-checkbox" /> 
+                            <BaseFormError name="public-checkbox" /> 
                         </div>
                     </div>
                     

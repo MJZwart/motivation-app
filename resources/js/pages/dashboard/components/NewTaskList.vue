@@ -9,7 +9,7 @@
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
-                <base-form-error name="name" /> 
+                <BaseFormError name="name" /> 
             </div>
             <button type="submit" class="block">Create new task list</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
