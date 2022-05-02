@@ -19,8 +19,8 @@
                     class="ml-1 mb-2"
                     :item="group.description" 
                     :index="2" 
-                    :name="'description'" 
-                    :type="'textarea'"
+                    name="description" 
+                    type="textarea"
                     :rows="3" 
                     @save="save" />
 

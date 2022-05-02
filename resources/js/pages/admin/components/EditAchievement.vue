@@ -1,26 +1,20 @@
 <template>
     <div v-if="achievementToEdit">
         <form @submit.prevent="updateAchievement">
-            <div class="form-group">
-                <label for="name">{{$t('achievement-name')}}</label>
-                <input  
-                    id="name" 
-                    v-model="achievementToEdit.name"
-                    type="text" 
-                    name="name" 
-                    :placeholder="$t('name')"  />
-                <BaseFormError name="name" /> 
-            </div>
-            <div class="form-group">
-                <label for="description">{{$t('achievement-description')}}</label>
-                <input  
-                    id="description" 
-                    v-model="achievementToEdit.description"
-                    type="text" 
-                    name="description" 
-                    :placeholder="$t('description')"  />
-                <BaseFormError name="description" /> 
-            </div>
+            <Input  
+                id="name" 
+                v-model="achievementToEdit.name"
+                type="text" 
+                name="name" 
+                :label="$t('achievement-name')"
+                :placeholder="$t('name')"  />
+            <Input  
+                id="description" 
+                v-model="achievementToEdit.description"
+                type="text" 
+                name="description" 
+                :label="$t('achievement-description')"
+                :placeholder="$t('description')"  />
             <div class="form-group">
                 <label for="type">{{$t('trigger-type')}}</label>
                 <select 
@@ -34,16 +28,13 @@
                 </select>
                 <BaseFormError name="trigger_type" /> 
             </div>
-            <div class="form-group">
-                <label for="trigger_amount">{{$t('trigger-amount')}}</label>
-                <input  
-                    id="trigger_amount" 
-                    v-model="achievementToEdit.trigger_amount"
-                    type="number" 
-                    name="trigger_amount" 
-                    :placeholder="$t('amount')"  />
-                <BaseFormError name="trigger_amount" /> 
-            </div>
+            <Input  
+                id="trigger_amount" 
+                v-model="achievementToEdit.trigger_amount"
+                type="number" 
+                name="trigger_amount" 
+                :label="$t('trigger-amount')"
+                :placeholder="$t('amount')"  />
             <div class="form-group">
                 <label for="trigger-description">{{$t('trigger-description')}}</label>
                 <p v-if="achievementToEdit.trigger_type" id="trigger-description">{{triggerDescription}}</p>

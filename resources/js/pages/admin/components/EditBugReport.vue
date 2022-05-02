@@ -25,17 +25,14 @@
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
                 <BaseFormError name="severity" /> 
             </div>
-            <div class="form-group">
-                <label for="admin-comment">{{$t('admin-comment')}}</label>
-                <input 
-                    id="admin-comment" 
-                    v-model="bugReportToEdit.admin_comment"
-                    type="text" 
-                    name="admin_comment" 
-                    :placeholder="bugReportToEdit.admin_comment" />
-                <small class="form-text text-muted">{{$t('bug-admin-comment-desc')}}</small>
-                <BaseFormError name="admin_comment" /> 
-            </div>
+            <Input 
+                id="admin-comment" 
+                v-model="bugReportToEdit.admin_comment"
+                type="text" 
+                name="admin_comment" 
+                :label="$t('admin-comment')"
+                :placeholder="bugReportToEdit.admin_comment" />
+            <small class="form-text text-muted">{{$t('bug-admin-comment-desc')}}</small>
             <div class="form-group">
                 <label for="status">{{$t('status')}}</label>
                 <select

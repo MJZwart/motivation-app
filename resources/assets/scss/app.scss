@@ -385,7 +385,7 @@ input, textarea {
     border-radius: 0.25rem;
     transition: border 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-input.invalid {
+input.invalid, textarea.invalid {
     border: 1px solid $red;
 }
 input:focus {

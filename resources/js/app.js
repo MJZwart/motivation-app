@@ -51,5 +51,7 @@ import Loading from '/js/components/global/Loading.vue';
 app.component('Loading', Loading);
 import Input from '/js/components/global/Input.vue';
 app.component('Input', Input);
+import Textarea from '/js/components/global/Textarea.vue';
+app.component('Textarea', Textarea);
 
 app.mount('#app');

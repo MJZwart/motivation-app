@@ -25,9 +25,9 @@ class UpdateGroupsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string',
-            'description' => 'nullable|string',
-            'is_public' => 'nullable|boolean',
+            'name' => 'sometimes|string',
+            'description' => 'sometimes|string',
+            'is_public' => 'sometimes|boolean',
         ];
     }
 }

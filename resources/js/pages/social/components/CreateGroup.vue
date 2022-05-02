@@ -1,26 +1,20 @@
 <template>
     <div>
         <form @submit.prevent="createGroup">
-            <div class="form-group">
-                <label for="name">{{$t('name')}}</label>
-                <input
-                    id="name"
-                    v-model="groupToCreate.name"
-                    name="name"
-                    :placeholder="$t('name')" />
-                <small class="form-text text-muted">{{$t('group-name-desc')}}</small>
-                <BaseFormError name="name" /> 
-            </div>
-            <div class="form-group">
-                <label for="description">{{$t('group-desc')}}</label>
-                <textarea
-                    id="description"
-                    v-model="groupToCreate.description"
-                    name="description"
-                    :placeholder="$t('description')" />
-                <small class="form-text text-muted">{{$t('group-description-desc')}}</small>
-                <BaseFormError name="description" /> 
-            </div>
+            <Input
+                id="name"
+                v-model="groupToCreate.name"
+                name="name"
+                :label="$t('name')"
+                :placeholder="$t('name')" />
+            <small class="form-text text-muted">{{$t('group-name-desc')}}</small>
+            <Textarea
+                id="description"
+                v-model="groupToCreate.description"
+                name="description"
+                :label="$t('group-desc')"
+                :placeholder="$t('description')" />
+            <small class="form-text text-muted">{{$t('group-description-desc')}}</small>
             <div class="form-group">
                 <input
                     id="public-checkbox"

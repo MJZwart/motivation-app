@@ -17,23 +17,18 @@
                 </select>
                 <BaseFormError name="type" /> 
             </div>
-            <div class="form-group">
-                <label for="feedback">{{$t('feedback')}}</label>
-                <textarea
-                    id="feedback" 
-                    v-model="feedback.text" 
-                    rows="4"
-                    name="feedback" />
-                <BaseFormError name="feedback" /> 
-            </div>
-            <div v-if="!auth" class="form-group">
-                <label for="email">{{$t('email')}}</label>
-                <input
-                    id="email" 
-                    v-model="feedback.email" 
-                    name="email" />
-                <BaseFormError name="email" /> 
-            </div>
+            <Textarea
+                id="feedback" 
+                v-model="feedback.text" 
+                rows="4"
+                :label="$t('feedback')"
+                name="feedback" />
+            <Input
+                v-if="!auth"
+                id="email" 
+                v-model="feedback.email" 
+                name="email"
+                :label="$t('email')" />
             <button type="submit">Send feedback</button>
         </form>
     </div>

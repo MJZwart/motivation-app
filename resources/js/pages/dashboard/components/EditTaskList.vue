@@ -1,16 +1,13 @@
 <template>
     <div v-if="editedTaskList">
         <form @submit.prevent="updateTaskList">
-            <div class="form-group">
-                <label for="name">{{$t('task-list-name')}}</label>
-                <input 
-                    id="name" 
-                    v-model="editedTaskList.name"
-                    type="text" 
-                    name="name" 
-                    :placeholder="$t('name')"  />
-                <BaseFormError name="name" /> 
-            </div>
+            <Input 
+                id="name" 
+                v-model="editedTaskList.name"
+                type="text" 
+                name="name" 
+                :label="$t('task-list-name')"
+                :placeholder="$t('name')"  />
             <button type="submit" class="block">{{ $t('update-task-list') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
             <BaseFormError name="error" /> 

@@ -3,27 +3,21 @@
         <h2>{{ $t('submit-bug-report') }}</h2>
 
         <form @submit.prevent="submitBugReport">
-            <div class="form-group">
-                <label for="title">{{$t('title')}}</label>
-                <input 
-                    id="title" 
-                    v-model="bugReport.title" 
-                    type="text" 
-                    name="title" 
-                    :placeholder="$t('title')" />
-                <BaseFormError name="title" />
-            </div>
-            <div class="form-group">
-                <label for="page">{{$t('page')}}</label>
-                <input 
-                    id="page" 
-                    v-model="bugReport.page" 
-                    type="text" 
-                    name="page" 
-                    :placeholder="$t('page')" />
-                <small class="form-text text-muted">{{$t('page-desc')}}</small>
-                <BaseFormError name="page" />
-            </div>
+            <Input 
+                id="title" 
+                v-model="bugReport.title" 
+                type="text" 
+                name="title" 
+                :label="$t('title')"
+                :placeholder="$t('title')" />
+            <Input 
+                id="page" 
+                v-model="bugReport.page" 
+                type="text" 
+                name="page" 
+                :label="$t('page')"
+                :placeholder="$t('page')" />
+            <small class="form-text text-muted">{{$t('page-desc')}}</small>
             <div class="form-group">
                 <label for="type">{{$t('type')}}</label>
                 <select
@@ -46,29 +40,23 @@
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
                 <BaseFormError name="severity" />
             </div>
-            <div class="form-group">
-                <label for="image-link">{{$t('image-link')}}</label>
-                <input 
-                    id="image-link" 
-                    v-model="bugReport.image_link" 
-                    type="text" 
-                    name="image_link" 
-                    :placeholder="$t('image-link')" />
-                <small class="form-text text-muted">{{$t('bug-image-link-desc')}}</small>
-                <BaseFormError name="image_link" />
-            </div>
-            <div class="form-group">
-                <label for="comment">{{$t('comment')}}</label>
-                <textarea 
-                    id="comment" 
-                    v-model="bugReport.comment"
-                    type="text" 
-                    name="comment" 
-                    rows=3
-                    :placeholder="$t('comment')" />
-                <small class="form-text text-muted">{{$t('bug-comment-desc')}}</small>
-                <BaseFormError name="comment" />
-            </div>
+            <Input 
+                id="image-link" 
+                v-model="bugReport.image_link" 
+                type="text" 
+                name="image_link" 
+                :label="$t('image-link')"
+                :placeholder="$t('image-link')" />
+            <small class="form-text text-muted">{{$t('bug-image-link-desc')}}</small>
+            <Textarea 
+                id="comment" 
+                v-model="bugReport.comment"
+                type="text" 
+                name="comment" 
+                rows=3
+                :label="$t('comment')"
+                :placeholder="$t('comment')" />
+            <small class="form-text text-muted">{{$t('bug-comment-desc')}}</small>
             <button type="submit" class="block">{{ $t('submit-bug-report') }}</button>
         </form> 
     </div>

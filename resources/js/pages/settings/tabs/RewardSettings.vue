@@ -40,7 +40,12 @@
             <div class="form-group">
                 <label for="rewards">{{$t('which-reward-type')}}</label>
                 <div v-for="(type, index) in rewardTypes" :key="index">
-                    <input :id="type.value" v-model="rewardSetting.rewards" name="rewards" type="radio" :value="type.value" />
+                    <input 
+                        :id="type.value" 
+                        v-model="rewardSetting.rewards" 
+                        name="rewards" 
+                        type="radio" 
+                        :value="type.value" />
                     <label :for="type.value">{{type.text}}</label>
                 </div>
                 <BaseFormError name="rewards" /> 
@@ -80,17 +85,15 @@
             </div>
 
             <!-- If the user wants to create a new instance -->
-            <div v-if="isNewInstance" class="form-group">
-                <label for="new-object-name">{{rewardTypeName}}</label>
-                <p class="silent">{{ $t('change-name-later') }}</p>
-                <input 
-                    id="new-object-name" 
-                    v-model="rewardSetting.new_object_name"
-                    type="text" 
-                    name="new-object-name" 
-                    :placeholder="rewardTypeName"   />
-                <BaseFormError name="new_object_name" /> 
-            </div>
+            <p class="silent">{{ $t('change-name-later') }}</p>
+            <Input  
+                v-if="isNewInstance"
+                id="new-object-name" 
+                v-model="rewardSetting.new_object_name"
+                type="text" 
+                name="new_object_name" 
+                :label="rewardTypeName"
+                :placeholder="rewardTypeName"   />
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
 
