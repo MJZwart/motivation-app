@@ -71,8 +71,8 @@ Before launching the beta version of the site, the following things need to be f
 - [ ] A filled in FAQ page
 - [ ] A privacy policy
 - [ ] Responsive design on every page in terms of placement of components and readable text
-- [ ] A feedback form
-- [ ] All invalid inputs show as red when validation fails
+- [x] A feedback form
+- [x] All invalid inputs show as red when validation fails
 - [x] Tooltips on all buttons and otherwise unclear data
 - [ ] A tutorial or 'help what do I do here' button on every page
 # Users and interaction
