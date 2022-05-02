@@ -1,8 +1,8 @@
 <template>
     <Transition name="modal">
         <div v-if="show" class="modal-mask">
-            <div class="modal-wrapper" @click="$emit('close')">
-                <div class="modal-container" @click.stop="">
+            <div class="modal-wrapper" @mousedown="$emit('close')">
+                <div class="modal-container" @mousedown.stop="">
                     <slot name="header">
                         <div v-if="header" class="modal-header">
                             <h5 class="modal-title">{{title}}</h5>

@@ -16,7 +16,7 @@ axios.interceptors.response.use(
     function (response) {
         if (response.status == 200) {
             if (response.data.message) {
-                sendToast(response.data.message, 'success');
+                sendToast(null, response.data.message, 'success');
             }
         }
         // Any status code that lie within the range of 2xx cause this function to trigger
@@ -49,7 +49,7 @@ axios.interceptors.response.use(
                     userStore.logout();
                     // store.dispatch('user/logout', false);
                 }
-                sendToast('You are not logged in', 'error');
+                sendToast('You are not logged in', null, 'error');
                 return Promise.reject(error);
             /** 
              * User tries to perform an action they are not authorized for, such as
@@ -61,7 +61,7 @@ axios.interceptors.response.use(
                 if (router.currentRoute.name !== 'login') {
                     router.push('/dashboard');
                 }
-                sendToast('You are not authorized for this action', 'error');
+                sendToast('You are not authorized for this action', null, 'error');
                 return Promise.reject(error);
             /**
              * In case of a 400 (Bad Request) the user tried to perform an invalid action 
@@ -70,11 +70,10 @@ axios.interceptors.response.use(
              */
             case 400:
             case 422:
-                sendToast(error.response.data.message, 'error');
+                sendToast(error.response.data.message, null, 'error');
                 // eslint-disable-next-line no-case-declarations
                 const mainStore = useMainStore();
-                mainStore.errors = error.response.data.errors;
-                // store.commit('setErrorMessages', error.response.data.errors);
+                mainStore.setErrorMessages(error.response.data.errors);
                 return Promise.reject(error);
             default:
                 return Promise.reject(error);
@@ -84,13 +83,14 @@ axios.interceptors.response.use(
 
 /**
  * Sends a toast with the type of 'danger'
- * @param {String} toastMessage 
+ * @param {String | null} toastMessage 
+ * @param {import('resources/types/toast.js').Toast | null} toast
  * @param {String} type 
  */
-function sendToast(toastMessage, type) {
+function sendToast(toastMessage, toast, type) {
     const mainStore = useMainStore();
-    if (type == 'error')
+    if (type == 'error' && toastMessage)
         mainStore.addToast({'error' : toastMessage});
-    else if (type == 'success')
-        mainStore.addToast(toastMessage);
+    else if (type == 'success' && toast)
+        mainStore.addToast(toast);
 }
