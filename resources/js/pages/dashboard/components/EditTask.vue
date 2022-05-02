@@ -1,25 +1,20 @@
 <template>
     <div v-if="editedTask">
         <form @submit.prevent="updateTask">
-            <div class="form-group">
-                <label for="name">{{$t('task-name')}}</label>
-                <input 
-                    id="name" 
-                    v-model="editedTask.name"
-                    type="text" 
-                    name="name" 
-                    :placeholder="$t('name')"  />
-                <BaseFormError name="name" /> 
-            </div>
-            <div class="form-group">
-                <label for="description">{{$t('description-optional')}}</label>
-                <input 
-                    id="description" 
-                    v-model="editedTask.description"
-                    type="text" 
-                    name="description" 
-                    :placeholder="$t('description')"  />
-            </div>
+            <Input 
+                id="name" 
+                v-model="editedTask.name"
+                type="text" 
+                name="name" 
+                :label="$t('task-name')"
+                :placeholder="$t('name')"  />
+            <Input 
+                id="description" 
+                v-model="editedTask.description"
+                type="text" 
+                name="description" 
+                :label="$t('description-optional')"
+                :placeholder="$t('description')"  />
             <div class="form-group">
                 <label for="type">{{$t('type')}}</label>
                 <select

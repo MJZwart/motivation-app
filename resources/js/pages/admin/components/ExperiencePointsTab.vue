@@ -12,26 +12,20 @@
                 -->
             <div class="m-1">
                 <h5>{{$t('add-new-level')}}</h5>
-                <div class="form-group">
-                    <label for="level">{{$t('level')}}</label>
-                    <input  
-                        id="level" 
-                        v-model="newLevel.level"
-                        type="number" 
-                        name="level" 
-                        :placeholder="$t('level')"  />
-                    <BaseFormError name="level" /> 
-                </div>
-                <div class="form-group">
-                    <label for="points">{{$t('points')}}</label>
-                    <input  
-                        id="points" 
-                        v-model="newLevel.experience_points"
-                        type="number" 
-                        name="points" 
-                        :placeholder="$t('points')"  />
-                    <BaseFormError name="experience_points" /> 
-                </div>
+                <Input  
+                    id="level" 
+                    v-model="newLevel.level"
+                    type="number" 
+                    name="level" 
+                    :label="$t('level')"
+                    :placeholder="$t('level')"  />
+                <Input  
+                    id="points" 
+                    v-model="newLevel.experience_points"
+                    type="number" 
+                    name="points" 
+                    :label="$t('points')"
+                    :placeholder="$t('points')"  />
                 <button @click="addNewLevel">{{ $t('add-level') }}</button>
             </div>
         </div>

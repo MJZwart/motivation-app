@@ -1,16 +1,13 @@
 <template>
     <div v-if="rewardObj">
         <form @submit.prevent="updateRewardObj">
-            <div class="form-group">
-                <label for="name">{{parsedLabelName}}</label>
-                <input 
-                    id="name" 
-                    v-model="editedRewardObj.name"
-                    type="text" 
-                    name="name" 
-                    :placeholder="$t('name')"  />
-                <BaseFormError name="name" /> 
-            </div>
+            <Input 
+                id="name" 
+                v-model="editedRewardObj.name"
+                type="text" 
+                name="name" 
+                :label="parsedLabelName"
+                :placeholder="$t('name')"  />
             <button type="submit" class="block">{{ $t('update-reward-name') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
             <BaseFormError name="error" /> 

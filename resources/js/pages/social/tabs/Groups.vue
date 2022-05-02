@@ -9,7 +9,11 @@
                 <button type="button" class="m-1" :class="{active: chosen == 'ALL'}" @click="chosen = 'ALL'">
                     {{ $t('all-groups') }}
                 </button>
-                <input v-model="search" class="m-1 filter-input" type="text" :placeholder="$t('group-search-placeholder')"/>
+                <input 
+                    v-model="search" 
+                    class="m-1 filter-input" 
+                    type="text" 
+                    :placeholder="$t('group-search-placeholder')"/>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</button>
             </span>
             <div class="mt-2 mb-1">

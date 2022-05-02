@@ -7,6 +7,21 @@ import App from './App.vue';
 
 const app = createApp(App);
 
+// @ts-ignore
+app.config.errorHandler = (err, vm) => {
+    // eslint-disable-next-line no-console
+    console.log(err);
+    // eslint-disable-next-line no-console
+    console.log(vm);
+}
+// @ts-ignore
+app.config.warnHandler = (err, _, info) => {
+    // eslint-disable-next-line no-console
+    console.log(err);
+    // eslint-disable-next-line no-console
+    console.log(info);
+}
+
 //Import store
 import {createPinia} from 'pinia';
 app.use(createPinia());
@@ -34,5 +49,9 @@ import Tooltip from '/js/components/global/Tooltip.vue';
 app.component('Tooltip', Tooltip);
 import Loading from '/js/components/global/Loading.vue';
 app.component('Loading', Loading);
+import Input from '/js/components/global/Input.vue';
+app.component('Input', Input);
+import Textarea from '/js/components/global/Textarea.vue';
+app.component('Textarea', Textarea);
 
 app.mount('#app');

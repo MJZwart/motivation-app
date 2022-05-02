@@ -12,15 +12,12 @@
                 </select>
                 <BaseFormError name="reason" /> 
             </div>
-            <div class="form-group">
-                <label for="comment">{{$t('report-comment')}}</label>
-                <textarea 
-                    id="comment" 
-                    v-model="report.comment"
-                    name="comment" 
-                    :placeholder="$t('comment')"  />
-                <BaseFormError name="comment" /> 
-            </div>
+            <Textarea 
+                id="comment" 
+                v-model="report.comment"
+                name="comment" 
+                :label="$t('report-comment')"
+                :placeholder="$t('comment')"  />
             <button type="submit" class="block">{{ $t('report-user') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>

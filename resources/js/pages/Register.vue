@@ -2,46 +2,34 @@
     <div class="w-40 center">
         <h2>{{ $t('register') }}</h2>
         <form @submit.prevent="submitRegister">
-            <div class="form-group">
-                <label for="username">{{$t('username')}}</label>
-                <input 
-                    id="username"  
-                    v-model="register.username"
-                    type="text" 
-                    name="username" 
-                    :placeholder="$t('username')" />
-                <BaseFormError name="username" /> 
-            </div>
-            <div class="form-group">
-                <label for="email">{{$t('email')}}</label>
-                <input 
-                    id="email" 
-                    v-model="register.email"
-                    type="text" 
-                    name="email" 
-                    :placeholder="$t('email')"  />
-                <BaseFormError name="email" /> 
-            </div>
-            <div class="form-group">
-                <label for="password">{{$t('password')}}</label>
-                <input 
-                    id="password"  
-                    v-model="register.password"
-                    type="password" 
-                    name="password" 
-                    :placeholder="$t('password')" />
-                <BaseFormError name="password" /> 
-            </div>
-            <div class="form-group">
-                <label for="password_confirmation">{{$t('repeat-password')}}</label>
-                <input 
-                    id="password_confirmation" 
-                    v-model="register.password_confirmation" 
-                    type="password" 
-                    name="password_confirmation" 
-                    :placeholder="$t('repeat-password')" />
-                <BaseFormError name="password_confirmation" /> 
-            </div>
+            <Input 
+                id="username"  
+                v-model="register.username"
+                type="text" 
+                name="username" 
+                :label="$t('username')"
+                :placeholder="$t('username')" />
+            <Input 
+                id="email" 
+                v-model="register.email"
+                type="text" 
+                name="email" 
+                :label="$t('email')"
+                :placeholder="$t('email')"  />
+            <Input 
+                id="password"  
+                v-model="register.password"
+                type="password" 
+                name="password" 
+                :label="$t('password')"
+                :placeholder="$t('password')" />
+            <Input 
+                id="password_confirmation" 
+                v-model="register.password_confirmation" 
+                type="password" 
+                name="password_confirmation" 
+                :label="$t('repeat-password')"
+                :placeholder="$t('repeat-password')" />
             <button type="submit" block>{{ $t('register-new-account') }}</button>
         </form> 
     </div>

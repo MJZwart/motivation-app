@@ -76,6 +76,13 @@ axios.interceptors.response.use(
                 mainStore.errors = error.response.data.errors;
                 // store.commit('setErrorMessages', error.response.data.errors);
                 return Promise.reject(error);
+            /**
+             * In case of a 419 the CSRF token has expired. Force the page to reload to
+             * refresh the token and try again.
+             */
+            // case 419:
+                // location.reload();
+                // return Promise.reject(error);
             default:
                 return Promise.reject(error);
         }

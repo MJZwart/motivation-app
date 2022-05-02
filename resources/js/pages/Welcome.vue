@@ -40,17 +40,15 @@
                     </div>
                     <BaseFormError name="rewards-type" /> 
                 </div>
-                <div v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'" class="form-group">
-                    <label for="reward_object_name">{{parsedLabelName}}</label>
-                    <input 
-                        id="reward_object_name" 
-                        v-model="user.reward_object_name"
-                        type="text" 
-                        name="reward_object_name" 
-                        :placeholder="parsedLabelName"  />
-                    <small class="form-text text-muted">{{$t('change-name-later')}}</small>
-                    <BaseFormError name="reward_object_name" /> 
-                </div>
+                <Input  
+                    v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
+                    id="reward_object_name" 
+                    v-model="user.reward_object_name"
+                    type="text" 
+                    name="reward_object_name" 
+                    :label="parsedLabelName"
+                    :placeholder="parsedLabelName"  />
+                <small class="form-text text-muted mb-3">{{$t('change-name-later')}}</small>
                 <button class="block" @click="nextModal()">{{ $t('next') }}</button>
                 <button class="block" variant="danger" @click="logout()">{{ $t('logout')}}</button>
             </div>

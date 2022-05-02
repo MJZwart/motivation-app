@@ -1,25 +1,20 @@
 <template>
     <div>
         <form @submit.prevent="submitTask">
-            <div class="form-group">
-                <label for="name">{{$t('task-name')}}</label>
-                <input 
-                    id="name" 
-                    v-model="task.name"
-                    type="text" 
-                    name="name" 
-                    :placeholder="$t('name')" />
-                <BaseFormError name="name" /> 
-            </div>
-            <div class="form-group">
-                <label for="description">{{$t('description-optional')}}</label>
-                <input  
-                    id="description" 
-                    v-model="task.description"
-                    type="text" 
-                    name="description" 
-                    :placeholder="$t('description')"  />
-            </div>
+            <Input 
+                id="name" 
+                v-model="task.name"
+                type="text" 
+                name="name" 
+                :label="$t('task-name')"
+                :placeholder="$t('name')" />
+            <Input  
+                id="description" 
+                v-model="task.description"
+                type="text" 
+                name="description" 
+                :label="$t('description-optional')"
+                :placeholder="$t('description')"  />
             <div class="form-group">
                 <label for="type">{{$t('type')}}</label>
                 <select
@@ -30,17 +25,14 @@
                 </select>
                 <BaseFormError name="type" /> 
             </div>
-            <div class="form-group">
-                <label for="difficulty">{{$t('difficulty')+': '+task.difficulty+'/5'}}</label>
-                <input 
-                    id="difficulty"
-                    v-model="task.difficulty"
-                    type="range"
-                    name="difficulty"
-                    min="1"
-                    max="5" />
-                <BaseFormError name="difficulty" /> 
-            </div>
+            <Input 
+                id="difficulty"
+                v-model="task.difficulty"
+                type="range"
+                name="difficulty"
+                :label="$t('difficulty')+': '+task.difficulty+'/5'"
+                min="1"
+                max="5" />
             <div class="form-group">
                 <label for="repeatable">{{$t('repeatable')}}</label>
                 <select

@@ -57,15 +57,12 @@
                         </h5>
                         <div class="new-message mb-3">
                             <form @submit.prevent="sendMessage">
-                                <div class="form-group">
-                                    <textarea 
-                                        id="message" 
-                                        v-model="message.message"
-                                        name="message" 
-                                        rows=3
-                                        :placeholder="$t('type-your-reply')" />
-                                    <BaseFormError name="message" /> 
-                                </div>
+                                <Textarea 
+                                    id="message" 
+                                    v-model="message.message"
+                                    name="message" 
+                                    rows=3
+                                    :placeholder="$t('type-your-reply')" />
                                 <button type="submit" class="block">{{ $t('send-reply') }}</button>
                             </form>
                         </div>
