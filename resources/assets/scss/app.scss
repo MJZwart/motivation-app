@@ -383,10 +383,15 @@ input, textarea {
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-    // transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 input.invalid {
     border: 1px solid $red;
+}
+input:focus {
+    outline: none;
+    border: 1px solid #495057;
+    box-shadow: 0 0.15rem 0.15rem rgb(0 0 0 / 15%);
 }
 
 select {
