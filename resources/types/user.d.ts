@@ -1,3 +1,5 @@
+import { Task } from "./task"
+
 export type User = {
     id: number,
     username: String,
@@ -9,4 +11,9 @@ export type User = {
     show_reward: boolean,
     show_friends: boolean,
     friends: Array,
+}
+
+export type UserStats = {
+    repeatable_most_completed: Task,
+    tasks_completed: Number,
 }

@@ -1,13 +1,16 @@
-// @ts-nocheck
 import axios from 'axios';
 import {defineStore} from 'pinia';
 
 export const useMessageStore = defineStore('message', {
     state: () => {
         return {
+            /** @type Array<import('resources/types/message').Conversation> | null */
             conversations: [],
-            hasMessages: false,
+            /** @type Array<import('resources/types/notification').Notification> | null */
             notifications: null,
+            /** @type Boolean */
+            hasMessages: false,
+            /** @type Boolean */
             hasNotifications: false,
         }
     },
@@ -22,11 +25,17 @@ export const useMessageStore = defineStore('message', {
             this.hasMessages = data.hasMessages;
         },
 
+        /**
+         * @param {import('resources/types/message').Message} message
+         */
         async sendMessage(message) {
             const {data} = await axios.post('/message', message);
             this.conversations = data.data;
         },
 
+        /**
+         * @param {Number} messageId
+         */
         async deleteMessage(messageId) {
             const {data} = await axios.delete('/message/' + messageId);
             this.conversations = data.data;
@@ -35,11 +44,17 @@ export const useMessageStore = defineStore('message', {
             const {data} = await axios.get('/notifications');
             this.notifications = data.data;
         },
+        /**
+         * @param {Number} notificationId
+         */
         async deleteNotification(notificationId) {
             const {data} = await axios.delete('/notifications/' + notificationId);
             this.notifications = data.data;
         },
 
+        /**
+         * @param {Number} conversationId
+         */
         markConversationRead(conversationId) {
             axios.put('/conversation/' + conversationId + '/read');
         },

@@ -8,7 +8,6 @@ export const useMainStore = defineStore('main', {
     state: () => {
         return {
             //Errors and response
-            responseMessage: {},
             /** @type Array<import('resources/types/error.js').Error> */
             errors: [],
             /** @type Array<import('resources/types/toast.js').Toast> */

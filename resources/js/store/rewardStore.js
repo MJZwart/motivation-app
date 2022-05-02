@@ -1,4 +1,3 @@
-// @ts-nocheck
 import axios from 'axios';
 import {defineStore} from 'pinia';
 import {useMainStore} from './store';
@@ -7,8 +6,11 @@ import {useUserStore} from './userStore';
 export const useRewardStore = defineStore('reward', {
     state: () => {
         return {
+            /** @type import('resources/types/reward').Reward | null */
             rewardObj: null,
+            /** @type Array<import('resources/types/reward').Reward> | null */
             villages: null,
+            /** @type Array<import('resources/types/reward').Reward> | null */
             characters: null,
         }
     },
@@ -29,10 +31,16 @@ export const useRewardStore = defineStore('reward', {
             this.villages = data.rewards.villages;
         },
 
+        /**
+         * @param {import('resources/types/reward').Reward} rewardObj
+         */
         async updateRewardObjName (rewardObj) {
             await axios.put('/reward/update', rewardObj);
         },
 
+        /**
+         * @param {import('resources/types/reward').Reward} rewardObj
+         */
         async activateInstance (rewardObj) {
             const {data} = await axios.put('/reward/activate', rewardObj);
             const mainStore = useMainStore();
@@ -41,6 +49,9 @@ export const useRewardStore = defineStore('reward', {
             userStore.user = data.user;
         },
 
+        /**
+         * @param {import('resources/types/reward').Reward} rewardObj
+         */
         async deleteInstance (rewardObj) {
             await axios.put('/reward/delete', rewardObj);
         },

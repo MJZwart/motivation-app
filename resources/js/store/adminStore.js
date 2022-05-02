@@ -1,4 +1,3 @@
-// @ts-nocheck
 import axios from 'axios';
 import {defineStore} from 'pinia';
 import {useAchievementStore} from './achievementStore';
@@ -7,11 +6,17 @@ import {useUserStore} from './userStore';
 export const useAdminStore = defineStore('admin', {
     state: () => {
         return {
+            /** @type Array<import('resources/types/admin').ExperiencePoint> | null */
             experiencePoints: null,
+            /** @type Array<import('resources/types/admin').CharExpGain> | null */
             charExpGain: null,
+            /** @type Array<import('resources/types/admin').VillageExpGain> | null */
             villageExpGain: null,
+            /** @type Array<import('resources/types/admin').ReportedUser> | null */
             reportedUsers: null,
+            /** @type import('resources/types/message').Conversation | null */
             conversation: null,
+            /** @type Array<import('resources/types/bug').BugReport> | null */
             bugReports: null,
         }
     },
@@ -43,31 +48,52 @@ export const useAdminStore = defineStore('admin', {
             this.villageExpGain = data.balancing.village_exp_gain;
             this.reportedUsers = data.reportedUsers;
         },
+        /**
+         * @param {import('resources/types/notification').Notification} notification
+         */
         async sendNotification(notification) {
             await axios.post('/notifications/all', notification);
         },
+        /**
+         * @param {Number} id
+         */
         async fetchConversation(id) {
             const {data} = await axios.get(`/admin/conversation/${id}`);
             this.conversation = data.data;
         },
+        /**
+         * @param {import('resources/types/bug').BugReport} bugReport
+         */
         async updateBugReport(bugReport) {
             const {data} = await axios.put('/bugreport/' + bugReport.id, bugReport);
             this.bugReports = data.data;
         },
 
         //Balancing
+        /**
+         * @param {Array<import('resources/types/admin').ExperiencePoint>} experiencePoints
+         */
         async updateExpPoints(experiencePoints) {
             const {data} = await axios.put('/admin/experience_points', experiencePoints);
             this.experiencePoints = data.data;
         },
+        /**
+         * @param {import('resources/types/admin').ExperiencePoint} newLevel
+         */
         async addNewLevel(newLevel) {
             const {data} = await axios.post('/admin/experience_points', newLevel);
             this.experiencePoints = data.data;
         },
+        /**
+         * @param {import('resources/types/admin').CharExpGain} charExpGain
+         */
         async updateCharExpGain(charExpGain) {
             const {data} = await axios.put('/admin/character_exp_gain', charExpGain);
             this.charExpGain = data.data;
         },
+        /**
+         * @param {import('resources/types/admin').VillageExpGain} villageExpGain
+         */
         async updateVillageExpGain(villageExpGain) {
             const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
             this.villageExpGain = data.data;

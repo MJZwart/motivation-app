@@ -1,4 +1,5 @@
 export type BugReport = {
+    id: Number,
     comment: String,
     image_link: String,
     page: String,
