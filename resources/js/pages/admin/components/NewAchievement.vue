@@ -22,8 +22,8 @@
                     v-model="achievement.trigger_type"
                     value-field="trigger_type"
                     text-field="trigger_type">
-                    <option v-for="(option, index) in achievementTriggers" :key="index" :value="option.value">
-                        {{option.text}}
+                    <option v-for="(option, index) in achievementTriggers" :key="index" :value="option.trigger_type">
+                        {{option.trigger_type}}
                     </option>
                 </select>
                 <BaseFormError name="trigger_type" /> 
@@ -60,14 +60,14 @@ const achievement = ref({
 
 async function submitAchievement() {
     achievement.value.trigger_amount = parseInt(achievement.value.trigger_amount);
-    await achievementStore.newAchievement(achievement)
+    await achievementStore.newAchievement(achievement.value)
     close();
 }
 function close() {
     achievement.value = {trigger_amount: 0},
     emit('close');
 }
-const achievementTriggers = computed(() => achievementStore.getAchievementTriggers());
+const achievementTriggers = computed(() => achievementStore.achievementTriggers);
 /** Parses the achievement description from the type (eg Made {0} friends) and the amount */
 const triggerDescription = computed(() => {
     const plural = achievement.value.trigger_amount > 1 ? 's' : '';

@@ -28,6 +28,7 @@ onMounted(() => {
 });
 
 const props = defineProps({
+    /** @type {import('resources/types/toast').Toast} */
     toast: {
         type: Object,
         required: true,
@@ -35,7 +36,7 @@ const props = defineProps({
 });
 
 function dismissToast() {
-    mainStore.clearToast(props.toast.title);
+    mainStore.clearToast();
 }
 function getToastMessage(toast) {
     if (Array.isArray(toast)) return toast[0];
