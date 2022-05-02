@@ -65,6 +65,8 @@ You are free to fork this git and make your own version, but please give credit 
 
 ## Roadmap
 
+(To see the issues connected to this roadmap, see: https://github.com/MJZwart/motivation-app/blob/development/todo.md)
+
 Before launching the beta version of the site, the following things need to be finished:
 # Content
 - [ ] An actual landing page
