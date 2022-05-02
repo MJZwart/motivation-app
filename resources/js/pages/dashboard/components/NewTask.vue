@@ -23,7 +23,7 @@
                     name="type">
                     <option v-for="(type, index) in taskTypes" :key="index" :value="type.value">{{type.text}}</option>
                 </select>
-                <base-form-error name="type" /> 
+                <BaseFormError name="type" /> 
             </div>
             <Input 
                 id="difficulty"
@@ -41,7 +41,7 @@
                     name="repeatable">
                     <option v-for="(option, index) in repeatables" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
-                <base-form-error name="repeatable" /> 
+                <BaseFormError name="repeatable" /> 
             </div>
             <div class="form-group">
                 <p v-if="taskList">{{ $t('task-list') }}: {{taskList.name}}</p>

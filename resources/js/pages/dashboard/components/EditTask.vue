@@ -9,7 +9,7 @@
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
-                <base-form-error name="name" /> 
+                <BaseFormError name="name" /> 
             </div>
             <div class="form-group">
                 <label for="description">{{$t('description-optional')}}</label>
@@ -28,7 +28,7 @@
                     name="type">
                     <option v-for="(option, index) in taskTypes" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
-                <base-form-error name="type" /> 
+                <BaseFormError name="type" /> 
             </div>
             <div class="form-group">
                 <label for="difficulty">{{'Difficulty: '+editedTask.difficulty+'/5'}}</label>
@@ -39,7 +39,7 @@
                     name="difficulty"
                     min="1"
                     max="5" />
-                <base-form-error name="difficulty" /> 
+                <BaseFormError name="difficulty" /> 
             </div>
             <div class="form-group">
                 <label for="repeatable">{{$t('repeatable')}}</label>
@@ -49,7 +49,7 @@
                     name="repeatable">
                     <option v-for="(option, index) in repeatables" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
-                <base-form-error name="repeatable" /> 
+                <BaseFormError name="repeatable" /> 
             </div>
             <div class="form-group">
                 <p v-if="editedTask.taskList">{{ $t('task-list') }}: {{editedTask.taskList}}</p>

@@ -9,7 +9,7 @@
                     type="text" 
                     name="name" 
                     :placeholder="$t('name')"  />
-                <base-form-error name="name" /> 
+                <BaseFormError name="name" /> 
             </div>
             <div class="form-group">
                 <label for="description">{{$t('achievement-description')}}</label>
@@ -19,7 +19,7 @@
                     type="text" 
                     name="description" 
                     :placeholder="$t('description')"  />
-                <base-form-error name="description" /> 
+                <BaseFormError name="description" /> 
             </div>
             <div class="form-group">
                 <label for="type">{{$t('trigger-type')}}</label>
@@ -32,7 +32,7 @@
                         {{option.text}}
                     </option>
                 </select>
-                <base-form-error name="trigger_type" /> 
+                <BaseFormError name="trigger_type" /> 
             </div>
             <div class="form-group">
                 <label for="trigger_amount">{{$t('trigger-amount')}}</label>
@@ -42,7 +42,7 @@
                     type="number" 
                     name="trigger_amount" 
                     :placeholder="$t('amount')"  />
-                <base-form-error name="trigger_amount" /> 
+                <BaseFormError name="trigger_amount" /> 
             </div>
             <div class="form-group">
                 <label for="trigger-description">{{$t('trigger-description')}}</label>

@@ -9,21 +9,21 @@
                     type="checkbox"
                     name="show_reward" />
                 <label for="show_reward" class="option-label">{{ $t('show-reward-on-profile') }}</label>
-                <base-form-error name="show_reward" /> 
+                <BaseFormError name="show_reward" /> 
                 <input
                     id="show_achievements"
                     v-model="settings.show_achievements"
                     type="checkbox"
                     name="show_achievements" />
                 <label for="show_achievements" class="option-label">{{ $t('show-achievements-on-profile') }}</label>
-                <base-form-error name="show_achievements" /> 
+                <BaseFormError name="show_achievements" /> 
                 <input
                     id="show_friends"
                     v-model="settings.show_friends"
                     type="checkbox"
                     name="show_friends" />
                 <label for="show_friends" class="option-label">{{ $t('show-friends-on-profile') }}</label>
-                <base-form-error name="show_friends" /> 
+                <BaseFormError name="show_friends" /> 
             </div>
             <button type="submit" class="block">{{ $t('save-profile-settings') }}</button>
         </form>

@@ -11,7 +11,7 @@
                     type="password" 
                     name="old_password" 
                     :placeholder="$t('old-password')"  />
-                <base-form-error name="old_password" /> 
+                <BaseFormError name="old_password" /> 
             </div>
             <div class="form-group">
                 <label for="password">{{$t('new-password')}}</label>
@@ -21,7 +21,7 @@
                     type="password" 
                     name="password" 
                     :placeholder="$t('new-password')"  />
-                <base-form-error name="password" /> 
+                <BaseFormError name="password" /> 
             </div>
             <div class="form-group">
                 <label for="password_confirmation">{{$t('repeat-new-password')}}</label>
@@ -31,7 +31,7 @@
                     type="password" 
                     name="password_confirmation" 
                     :placeholder="$t('repeat-password')"  />
-                <base-form-error name="password_confirmation" /> 
+                <BaseFormError name="password_confirmation" /> 
             </div>
             <button type="submit" class="block">{{ $t('update-password') }}</button>
         </form>
@@ -49,7 +49,7 @@
                     type="text" 
                     name="email" 
                     :placeholder="$t('email')"  />
-                <base-form-error name="email" /> 
+                <BaseFormError name="email" /> 
             </div>
             <button type="submit" class="block">{{ $t('update-email') }}</button>
         </form>

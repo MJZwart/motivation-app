@@ -5,7 +5,7 @@
                 Button to update the changed experience points in the table
                 -->
             <button class="mt-4" @click="updateExpPoints">{{ $t('update-exp-points') }}</button>
-            <general-form-error />
+            <GeneralFormError />
             <hr />
             <!-- 
                 Fields to add a new level
@@ -20,7 +20,7 @@
                         type="number" 
                         name="level" 
                         :placeholder="$t('level')"  />
-                    <base-form-error name="level" /> 
+                    <BaseFormError name="level" /> 
                 </div>
                 <div class="form-group">
                     <label for="points">{{$t('points')}}</label>
@@ -30,7 +30,7 @@
                         type="number" 
                         name="points" 
                         :placeholder="$t('points')"  />
-                    <base-form-error name="experience_points" /> 
+                    <BaseFormError name="experience_points" /> 
                 </div>
                 <button @click="addNewLevel">{{ $t('add-level') }}</button>
             </div>

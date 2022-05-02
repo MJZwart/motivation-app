@@ -10,7 +10,7 @@
                     name="reason">
                     <option v-for="(option, index) in reportReasons" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
-                <base-form-error name="reason" /> 
+                <BaseFormError name="reason" /> 
             </div>
             <div class="form-group">
                 <label for="comment">{{$t('report-comment')}}</label>
@@ -19,7 +19,7 @@
                     v-model="report.comment"
                     name="comment" 
                     :placeholder="$t('comment')"  />
-                <base-form-error name="comment" /> 
+                <BaseFormError name="comment" /> 
             </div>
             <button type="submit" class="block">{{ $t('report-user') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
