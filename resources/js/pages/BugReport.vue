@@ -53,7 +53,7 @@
                 v-model="bugReport.comment"
                 type="text" 
                 name="comment" 
-                rows=3
+                :rows="3"
                 :label="$t('comment')"
                 :placeholder="$t('comment')" />
             <small class="form-text text-muted">{{$t('bug-comment-desc')}}</small>

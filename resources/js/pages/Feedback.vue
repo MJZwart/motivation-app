@@ -20,7 +20,7 @@
             <Textarea
                 id="feedback" 
                 v-model="feedback.text" 
-                rows="4"
+                :rows="4"
                 :label="$t('feedback')"
                 name="feedback" />
             <Input

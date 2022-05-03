@@ -8,7 +8,7 @@
                     id="message" 
                     v-model="message.message"
                     name="message" 
-                    rows=3
+                    :rows="3"
                     :placeholder="$t('send-message-placeholder')"  />
                 <BaseFormError name="message" /> 
             </div>

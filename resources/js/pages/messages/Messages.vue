@@ -61,7 +61,7 @@
                                     id="message" 
                                     v-model="message.message"
                                     name="message" 
-                                    rows=3
+                                    :rows="3"
                                     :placeholder="$t('type-your-reply')" />
                                 <button type="submit" class="block">{{ $t('send-reply') }}</button>
                             </form>
