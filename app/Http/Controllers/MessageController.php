@@ -10,6 +10,7 @@ use App\Models\Message;
 use App\Models\Conversation;
 use App\Http\Resources\ConversationOverviewResource;
 use App\Http\Requests\SendMessageRequest;
+use App\Models\BlockedUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -83,7 +84,7 @@ class MessageController extends Controller
     public function blockUser(Request $request, User $blockedUser) {
         /** @var User */
         $user = Auth::user();
-        DB::table('blocklist')->insertOrIgnore([
+        BlockedUser::create([
             'user_id' => $user->id,
             'blocked_user_id' => $blockedUser->id,
         ]);

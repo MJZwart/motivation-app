@@ -222,6 +222,10 @@
     "report": "Report",
 
     "block-user-confirmation": "Are you sure you wish to block {user}?",
+    "blocklist": "Blocklist",
+    "unblock": "Unblock",
+    "no-blocked-users": "You have no users on your blocklist.",
+    "blocked-on": "Blocked on",
 
     "message-user": "Send message to this user",
     "block-user": "Block user",
