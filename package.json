@@ -6,7 +6,7 @@
         "dev": "npm run development",
         "prod": "npm run production",
         "lint": "eslint \"resources/js/**/*.{js,vue}\" --fix --cache",
-        "postinstall": "npm run prod"
+        "postinstall": "npm run build"
     },
     "devDependencies": {
         "@kazupon/vue-i18n-loader": "^0.5.0",
