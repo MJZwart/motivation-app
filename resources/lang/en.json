@@ -173,6 +173,10 @@
 
     "balancing": "Balancing",
     "reported-users": "Reported users",
+    "show-conversation": "Show conversation",
+    "message-reported-user": "Message reported user",
+    "see-conversation": "See conversation",
+    "see-conversation-reporter": "Showing conversation between reported user {reportedUser} and reporter.",
     
 
     "manage-achievements": "Manage achievements",
@@ -261,6 +265,8 @@
     "profile": "Profile",
     "go-to-profile": "Go to profile",
     "logout": "Logout",
+    "yes": "Yes",
+    "no": "No",
 
     "footer-text": "Version 1.0 - MJ Black © 2021.",
     "feedback": "Feedback",
