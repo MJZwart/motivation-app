@@ -20,6 +20,7 @@ import {
     faArrowTurnUp,
     faUserPlus,
     faSort,
+    faLockOpen,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
     faPenToSquare, 
@@ -38,4 +39,5 @@ library.add(
     faCirclePlay,
     faRectangleXmark,
     faSort,
+    faLockOpen,
 );
