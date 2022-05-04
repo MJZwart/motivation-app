@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import ShowMessage from './ShowMessage.vue';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
@@ -22,11 +22,12 @@ const props = defineProps({
 });
 
 onMounted(async() => {
-    await adminStore.fetchConversation(props.conversationId)
+    conversation.value = await adminStore.fetchConversation(props.conversationId)
     loading.value = false;
 });
 
 const loading = ref(true);
 
-const conversation = computed(() => adminStore.conversation);
+/** @type import('resources/types/message').Conversation | null */
+const conversation = ref({});
 </script>

@@ -93,16 +93,16 @@ import {computed, reactive, ref, onMounted} from 'vue';
 import {useMainStore} from '/js/store/store';
 import {useTaskStore} from '/js/store/taskStore';
 import {useUserStore} from '/js/store/userStore';
-import {useI18n} from 'vue-i18n'
-const {t} = useI18n() // use as global scope
+import {useI18n} from 'vue-i18n';
+const {t} = useI18n();
 
 const mainStore = useMainStore();
 const taskStore = useTaskStore();
 const userStore = useUserStore();
 
-onMounted(() => {
+onMounted(async() => {
     mainStore.clearErrors();
-    taskStore.fetchExampleTasks();
+    exampleTasks.value = await taskStore.fetchExampleTasks();
     startFirstModal();
 });
 
@@ -113,7 +113,8 @@ const user = reactive({
 });
 const showFirstModal = ref(false);
 const showSecondModal = ref(false);
-const exampleTasks = computed (() => taskStore.exampleTasks);
+/** @type Array<import('resources/types/task').Task> */
+const exampleTasks = ref([]);
 
 const parsedLabelName = computed(() => {
     if (user.rewardsType == 'CHARACTER') {

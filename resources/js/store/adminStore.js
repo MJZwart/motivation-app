@@ -14,8 +14,6 @@ export const useAdminStore = defineStore('admin', {
             villageExpGain: null,
             /** @type Array<import('resources/types/admin').ReportedUser> | null */
             reportedUsers: null,
-            /** @type import('resources/types/message').Conversation | null */
-            conversation: null,
             /** @type Array<import('resources/types/bug').BugReport> | null */
             bugReports: null,
         }
@@ -56,10 +54,11 @@ export const useAdminStore = defineStore('admin', {
         },
         /**
          * @param {Number} id
+         * @returns import('resources/types/message').Conversation | null
          */
         async fetchConversation(id) {
             const {data} = await axios.get(`/admin/conversation/${id}`);
-            this.conversation = data.data;
+            return data.data;
         },
         /**
          * @param {import('resources/types/bug').BugReport} bugReport

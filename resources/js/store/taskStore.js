@@ -6,16 +6,15 @@ export const useTaskStore = defineStore('task', {
     state: () => {
         return {
             /** @type Array<import('resources/types/task').Task> */
-            exampleTasks: [],
-            /** @type Array<import('resources/types/task').Task> */
             taskLists: [],
         }
     },
     
     actions: {
+        /** @returns Array<import('resources/types/task').Task> */
         async fetchExampleTasks() {
             const {data} = await axios.get('/examples/tasks');
-            this.exampleTasks = data.data;
+            return data.data;
         },
         /**
          * @param {import('resources/types/task').Task} task
