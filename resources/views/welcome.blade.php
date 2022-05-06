@@ -11,7 +11,7 @@
         $manifest = json_decode(file_get_contents(public_path('manifest.json')), true);
         @endphp
         @foreach($manifest as $stuff)
-        echo $stuff;
+            error_log($stuff);
         @endforeach
         @production
 
