@@ -7,7 +7,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;600&display=swap" rel="stylesheet">
         <!-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer> -->
         @php
-        $manifest = json_decode(file_get_contents(public_path('js/manifest.json')), true);
+        $manifest = json_decode(file_get_contents(public_path('manifest.json')), true);
         @endphp
         @production
             @foreach ($manifest['resources/js/app.js']['imports'] as $importName)
