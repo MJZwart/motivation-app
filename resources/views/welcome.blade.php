@@ -10,13 +10,10 @@
         @php
         $manifest = json_decode(file_get_contents(public_path('manifest.json')), true);
         @endphp
-        @foreach($manifest as $stuff)
-            error_log($stuff);
-        @endforeach
         @production
-
-            <link rel="stylesheet" href="/js/{{ $manifest['js/app.js']['css'] }}" />
-
+            @foreach($manifest['js/app.js']['css'] as $url)
+                <link rel="stylesheet" href="/js/{{ $url }}" />
+            @endforeach
         @endproduction
     </head>
     <body>
