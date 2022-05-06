@@ -1,15 +1,20 @@
 #!/usr/bin/env sh
 
 # abort on errors
-set -e
+# set -e
 
+   echo "Running in $APP_ENV"
 # build
 npm run build
 
+   echo "Performing php artisan migrat:fresh --seed"
 php artisan migrate:fresh --seed
 
+   echo "Clear application cache"
+   php artisan cache:clear
+
 # navigate into the build output directory
-cd dist
+# cd dist
 
 # if you are deploying to a custom domain
 # echo 'www.example.com' > CNAME
