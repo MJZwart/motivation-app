@@ -13,6 +13,7 @@ php artisan migrate:fresh --seed
    echo "Clear application cache"
    php artisan cache:clear
 
+   echo "Generating key"
    php artisan key:generate
 
 # navigate into the build output directory
