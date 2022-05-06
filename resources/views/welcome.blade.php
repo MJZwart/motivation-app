@@ -9,7 +9,9 @@
         </script>
         @php
         $manifest = json_decode(file_get_contents(public_path('manifest.json')), true);
-        echo $manifest;
+        @foreach($manifest as $stuff)
+        echo $stuff;
+        @endforeach
         @endphp
         @production
 
