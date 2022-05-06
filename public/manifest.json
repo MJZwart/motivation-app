@@ -3,8 +3,6 @@
     "file": "assets/app.f34c5211.js",
     "src": "js/app.js",
     "isEntry": true,
-    "css": [
-      "assets/app.6cd4b9df.css"
-    ]
+    "css": "assets/app.6cd4b9df.css"
   }
 }
