@@ -5,23 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{env('APP_NAME')}}</title>
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;600&display=swap" rel="stylesheet">
-        <!-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer> -->
+        <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer>
+        </script>
         @php
         $manifest = json_decode(file_get_contents(public_path('manifest.json')), true);
         @endphp
         @production
-            <!-- @foreach ($manifest['js/app.js']['imports'] as $importName)
-                <link rel="modulepreload" href="/js/{{ $manifest['js/app.js']['file'] }}" as="script">
-            @endforeach -->
-            <!-- @foreach ($manifest as $export)
-                @if (isset($export['css']))
-                    @foreach ($export['css'] as $url) -->
+
             <link rel="stylesheet" href="/js/{{ $manifest['js/app.js']['css'] }}" />
-                    <!-- @endforeach
-                @endif
-            @endforeach -->
+
         @endproduction
-        <!-- </script> -->
     </head>
     <body>
         <div id="app"></div>
