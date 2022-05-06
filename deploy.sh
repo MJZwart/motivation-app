@@ -7,14 +7,14 @@
 # build
 npm run build
 
-   echo "Performing php artisan migrat:fresh --seed"
-php artisan migrate:fresh --seed
+echo "Performing php artisan migrate:fresh --force --seed"
+php artisan migrate:fresh --force --seed
 
-   echo "Clear application cache"
-   php artisan cache:clear
+echo "Clear application cache"
+php artisan cache:clear
 
-   echo "Generating key"
-   php artisan key:generate
+# echo "Generating key"
+# php artisan key:generate
 
 # navigate into the build output directory
 # cd dist
