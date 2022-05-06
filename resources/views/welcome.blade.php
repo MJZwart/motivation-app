@@ -12,14 +12,14 @@
         @endphp
         @production
             @foreach($manifest['js/app.js']['css'] as $url)
-                <link rel="stylesheet" href="/js/{{ $url }}" />
+                <link rel="stylesheet" href="{{ $url }}" type="text/css" />
             @endforeach
         @endproduction
     </head>
     <body>
         <div id="app"></div>
         @production
-        <script type="module" src="/js/{{ $manifest['js/app.js']['file'] }}"></script>
+        <script type="module" src="{{ $manifest['js/app.js']['file'] }}" type="text/html"></script>
         @else
         <script type="module" src="http://localhost:3000/@vite/client"></script>
         <script type="module" src="http://localhost:3000/js/app.js"></script>
