@@ -9,6 +9,7 @@
         </script>
         @php
         $manifest = json_decode(file_get_contents(public_path('manifest.json')), true);
+        echo $manifest;
         @endphp
         @production
 
