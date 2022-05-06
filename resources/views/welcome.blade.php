@@ -10,23 +10,23 @@
         $manifest = json_decode(file_get_contents(public_path('manifest.json')), true);
         @endphp
         @production
-            @foreach ($manifest['resources/js/app.js']['imports'] as $importName)
-                <link rel="modulepreload" href="/js/{{ $manifest[$importName]['file'] }}" as="script">
-            @endforeach
-            @foreach ($manifest as $export)
+            <!-- @foreach ($manifest['js/app.js']['imports'] as $importName)
+                <link rel="modulepreload" href="/js/{{ $manifest['js/app.js']['file'] }}" as="script">
+            @endforeach -->
+            <!-- @foreach ($manifest as $export)
                 @if (isset($export['css']))
-                    @foreach ($export['css'] as $url)
-                        <link rel="stylesheet" href="/js/{{ $url }}" />
-                    @endforeach
+                    @foreach ($export['css'] as $url) -->
+            <link rel="stylesheet" href="/js/{{ $manifest['js/app.js']['css'] }}" />
+                    <!-- @endforeach
                 @endif
-            @endforeach
+            @endforeach -->
         @endproduction
         <!-- </script> -->
     </head>
     <body>
         <div id="app"></div>
         @production
-        <script type="module" src="/js/{{ $manifest['resources/js/app.js']['file'] }}"></script>
+        <script type="module" src="/js/{{ $manifest['js/app.js']['file'] }}"></script>
         @else
         <script type="module" src="http://localhost:3000/@vite/client"></script>
         <script type="module" src="http://localhost:3000/js/app.js"></script>
