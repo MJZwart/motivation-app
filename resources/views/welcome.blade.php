@@ -9,10 +9,10 @@
         </script>
         @php
         $manifest = json_decode(file_get_contents(public_path('manifest.json')), true);
+        @endphp
         @foreach($manifest as $stuff)
         echo $stuff;
         @endforeach
-        @endphp
         @production
 
             <link rel="stylesheet" href="/js/{{ $manifest['js/app.js']['css'] }}" />
