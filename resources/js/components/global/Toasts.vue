@@ -19,8 +19,8 @@ const toasts = computed(() => mainStore.toasts);
 
 <style lang="scss" scoped>
 .custom-toasts-wrapper {
-  width: 600px;
-  min-height: 150px;
+  width: 325px;
+  min-height: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,5 +28,10 @@ const toasts = computed(() => mainStore.toasts);
   right: 1rem;
   bottom: 1rem;
   z-index: 1060;
+}
+@media (max-width:350px) {
+  .custom-toasts-wrapper {  
+    width: 200px;
+  }
 }
 </style>

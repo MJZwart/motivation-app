@@ -7,7 +7,7 @@
                 <button @click="dismissToast">X</button>
             </div>
             <div class="text">
-                <p v-for="(toast, index) in Object.values(this.toast)" :key="index">
+                <p v-for="(toast, index) in Object.values(toast)" :key="index">
                     {{getToastMessage(toast)}}
                 </p>
             </div>
@@ -75,7 +75,7 @@ const toastTitle = computed(() => {
 }
 .custom-toast {
     color: #2c3e50;
-    width: 500px;
+    width: 300px;
     min-height: 50px;
     display: flex;
     flex-direction: row;
@@ -89,6 +89,8 @@ const toastTitle = computed(() => {
 
     p {
         font-weight: 100;
+        margin-top: 3px;
+        margin-bottom: 3px;
     } 
     .custom-toast-sidebar {
         width: .5rem;
@@ -103,7 +105,7 @@ const toastTitle = computed(() => {
         box-sizing: border-box;
     } 
     .custom-toast-header {
-        height: 25px;
+        height: 15px;
         margin-bottom: 1rem;
     }
     button {
@@ -112,9 +114,30 @@ const toastTitle = computed(() => {
         cursor: pointer;
         background: none;
         color: $primary;
+        height: fit-content;
+        padding-bottom: 3px;
+        border-radius: 0.2rem;
     } 
-    button:hover {
-        background: #e7e7e7;
+}
+
+@media (max-width:350px) {
+.custom-toast {
+    width: 200px;
+
+    p {
+        font-weight: 100;
+        font-size: small;
+    } 
+    .custom-toast-sidebar {
+        width: .5rem;
     }
+    .custom-toast-content {
+        padding-left: 0.5rem;
+    } 
+    .custom-toast-header {
+        height: 5px;
+    }
+}
+
 }
 </style>

@@ -16,6 +16,7 @@ export default defineConfig(({command}) => {
             assetsInclude: [],
             manifest: true,
             outDir: '../public',
+            emptyOutDir: false,
             rollupOptions: {
                 input: 'resources/js/app.js',
             },
