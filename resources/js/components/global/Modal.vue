@@ -80,7 +80,7 @@ defineProps({
   width: 90%;
   max-width: 500px;
   max-height: 95vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin: 0px auto;
   background-color: #fff;
   border-radius: 0.3rem;
@@ -143,7 +143,7 @@ defineProps({
     position: relative;
     flex: 1 1 auto;
     padding: 1rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 80%;
 }
 
