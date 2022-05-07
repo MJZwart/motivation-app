@@ -29,7 +29,7 @@ export const useUserStore = defineStore('user', {
          * @param {import('resources/types/user').User} user
          */
         async login(user) {
-            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+            await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
             this.setUser(data.user);
             router.push('/dashboard').catch(() => {});
@@ -58,7 +58,7 @@ export const useUserStore = defineStore('user', {
          * @param {import('resources/types/user').User} user
          */
         async register(user) {
-            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+            await axios.get('/sanctum/csrf-cookie');
             await axios.post('/register', user);
             router.push('/login').catch(() => { });
         },

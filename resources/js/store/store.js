@@ -49,14 +49,14 @@ export const useMainStore = defineStore('main', {
          * @param {import('resources/types/bug.js').Feedback} feedback
          */
         async sendFeedback(feedback) {
-            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+            await axios.get('/sanctum/csrf-cookie');
             await axios.post('/feedback', feedback);
         },
         /**
          * @param {import('resources/types/bug.js').BugReport} bugReport
          */
         async storeBugReport(bugReport) {
-            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+            await axios.get('/sanctum/csrf-cookie');
             await axios.post('/bugreport', bugReport);
         },
     },
