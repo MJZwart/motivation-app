@@ -179,6 +179,15 @@ button.clear {
         border-top-right-radius: 0.5rem;
     }
 }
+@media (max-width:600px) {
+    .w-80 {
+        width: 100% !important;
+    }
+    .active-tab.tab-item, .tab.tab-item {
+        font-size: small !important;
+        max-width: 200% !important;
+    }
+}
 
 .icon-2xl {
     font-size: 2em;

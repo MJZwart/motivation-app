@@ -58,6 +58,7 @@ export const useUserStore = defineStore('user', {
          * @param {import('resources/types/user').User} user
          */
         async register(user) {
+            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
             await axios.post('/register', user);
             router.push('/login').catch(() => { });
         },
