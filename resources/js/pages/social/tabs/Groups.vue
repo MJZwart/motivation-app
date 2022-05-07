@@ -2,23 +2,23 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
-            <span class="d-flex">
-                <button type="button" class="m-1" :class="{active: chosen == 'MY'}" @click="chosen = 'MY'">
+            <div class="tabs tabs-horizontal d-flex">
+                <button type="button" class="tab-item m-1" :class="{'active-tab': chosen == 'MY'}" @click="chosen = 'MY'">
                     {{ $t('my-groups') }}
                 </button>
-                <button type="button" class="m-1" :class="{active: chosen == 'ALL'}" @click="chosen = 'ALL'">
+                <button type="button" class="tab-item m-1" :class="{'active-tab': chosen == 'ALL'}" @click="chosen = 'ALL'">
                     {{ $t('all-groups') }}
                 </button>
-                <input 
-                    v-model="search" 
-                    class="m-1 filter-input" 
-                    type="text" 
-                    :placeholder="$t('group-search-placeholder')"/>
-                <button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</button>
-            </span>
+            </div>
+            <input 
+                v-model="search" 
+                class="m-1 filter-input" 
+                type="text" 
+                :placeholder="$t('group-search-placeholder')"/>
             <div class="mt-2 mb-1">
                 <h3 v-if="chosen == 'MY'">Your groups</h3>
                 <h3 v-if="chosen == 'ALL'">All groups</h3>
+                <button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</button>
             </div>
             <Table
                 :items="filteredAllGroups"
@@ -127,9 +127,6 @@ function closeGroupDetails() {
         border-radius: 4px;
         background-color:white;
     }
-}
-.filter-input{
-    width: 50%;
 }
 .active {
     background-color: $primary-dark;

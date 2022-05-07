@@ -34,7 +34,7 @@
                     {{$t('reported-users')}}
                 </button>
             </div>
-            <KeepAlive class="col-10">
+            <KeepAlive class="tab-content col-10">
                 <component :is="currentTabComponent" :key="activeComponent" />
             </KeepAlive>
         </div>
