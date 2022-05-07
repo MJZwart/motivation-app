@@ -1,5 +1,5 @@
 <template>
-    <div class="w-40 center">
+    <div class="w-40-flex center">
         <h2>{{ $t('register') }}</h2>
         <form @submit.prevent="submitRegister">
             <Input 

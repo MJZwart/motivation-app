@@ -42,7 +42,10 @@ const mainStore = useMainStore();
 
 onMounted(() => {
     characterExpGain.value = shallowRef(character_exp_gain).value;
+    loading.value = false;
 }); 
+
+const loading = ref(true);
 
 const characterExpGain = ref(null);
 const characterExpGainFields = CHARACTER_EXP_GAIN_FIELDS;

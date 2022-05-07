@@ -1,5 +1,5 @@
 <template>
-    <div class="w-80 center row">
+    <div class="w-60-flex center row">
         <div class="tabs col-2">
             <button
                 :class="activeTab('AccountSettings')" 
