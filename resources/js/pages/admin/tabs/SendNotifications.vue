@@ -13,7 +13,7 @@
                 <Textarea 
                     id="text" 
                     v-model="notification.text" 
-                    rows="5"
+                    :rows=5
                     :label="$t('text')"
                     name="text"/>
 

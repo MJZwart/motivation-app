@@ -141,5 +141,20 @@ export const useUserStore = defineStore('user', {
             const messageStore = useMessageStore();
             messageStore.conversations = data.data;
         },
+        /**
+         * @returns Array<import('resources/types/user').User>
+         */
+        async getBlocklist() {
+            const {data} = await axios.get('/user/blocklist');
+            return data.blockedUsers;
+        },
+
+        /**
+         * @param {Number} blocklistId 
+         */
+        async unblockUser(blocklistId) {
+            const {data} = await axios.put(`/user/${blocklistId}/unblock`);
+            return data.blockedUsers;
+        },
     },
 });

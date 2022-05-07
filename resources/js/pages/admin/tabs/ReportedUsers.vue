@@ -1,14 +1,21 @@
 <template>
     <div>
-        <h3>this is a placeholder title</h3>
+        <h3>{{ $t('reported-users') }}</h3>
         
         <Table
             :items="reportedUsers"
             :fields="reportedUserFields"
-            :options="['table-striped']"
+            :options="['table-striped', 'page-wide']"
         >
             <template #details="row">
-                <button @click="showReportedUserDetails(row)">placeholder details</button>
+                <Tooltip :text="$t('show-details')">
+                    <FaIcon 
+                        icon="magnifying-glass" 
+                        class="icon"
+                        @click="showReportedUserDetails(row)">
+                        {{ $t('show-details') }}
+                    </FaIcon>                        
+                </Tooltip>
             </template>
         </Table>
         <Modal 
@@ -18,7 +25,6 @@
             class="l"
             @close="closeReportedUserDetails">
             <ReportedUserDetails :user="reportedUserDetails" :index="reportedUserIndex" />
-            <!-- Ugly af -->
         </Modal>
     </div>
 </template>
@@ -27,7 +33,7 @@
 import Table from '/js/components/global/Table.vue';
 import {ref, computed} from 'vue';
 import ReportedUserDetails from './../components/ReportedUserDetails.vue';
-import {REPORTED_USER_FIELDS} from '/js/constants/reportedUserConstants.js';
+import {REPORTED_USER_FIELDS} from '/js/constants/reportUserConstants.js';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
 

@@ -16,14 +16,16 @@
                 {{ parseStatus(data.item.status) }}
             </template>
             <template #actions="data">
-                <FaIcon 
-                    :icon="['far', 'pen-to-square']"
-                    class="icon medium"
-                    @click="editBugReport(data.item)" />
-                <FaIcon 
-                    icon="envelope"
-                    class="icon medium"
-                    @click="sendMessageToBugReportAuthor(data.item.user_id)" />
+                <div style="min-width: 49px">
+                    <FaIcon 
+                        :icon="['far', 'pen-to-square']"
+                        class="icon medium"
+                        @click="editBugReport(data.item)" />
+                    <FaIcon 
+                        icon="envelope"
+                        class="icon medium"
+                        @click="sendMessageToBugReportAuthor(data.item.user_id)" />
+                </div>
             </template>
         </Table>
 

@@ -100,6 +100,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/groups/kick/{group}', [GroupsController::class, 'removeUserFromGroup']);
 
     Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
+    Route::get('/user/blocklist', [UserController::class, 'getBlocklist']);
+    Route::put('/user/{blockedUser}/unblock', [UserController::class, 'unblockUser']);
 
     Route::get('/unread', [UserController::class, 'hasUnread']);
 

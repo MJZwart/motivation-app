@@ -173,6 +173,10 @@
 
     "balancing": "Balancing",
     "reported-users": "Reported users",
+    "show-conversation": "Show conversation",
+    "message-reported-user": "Message reported user",
+    "see-conversation": "See conversation",
+    "see-conversation-reporter": "Showing conversation between reported user {reportedUser} and reporter.",
     
 
     "manage-achievements": "Manage achievements",
@@ -222,6 +226,10 @@
     "report": "Report",
 
     "block-user-confirmation": "Are you sure you wish to block {user}?",
+    "blocklist": "Blocklist",
+    "unblock": "Unblock",
+    "no-blocked-users": "You have no users on your blocklist.",
+    "blocked-on": "Blocked on",
 
     "message-user": "Send message to this user",
     "block-user": "Block user",
@@ -261,6 +269,8 @@
     "profile": "Profile",
     "go-to-profile": "Go to profile",
     "logout": "Logout",
+    "yes": "Yes",
+    "no": "No",
 
     "footer-text": "Version 1.0 - MJ Black © 2021.",
     "feedback": "Feedback",

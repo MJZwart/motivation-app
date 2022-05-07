@@ -13,9 +13,15 @@
                 @click="switchTab('Friends')">
                 {{ $t('friends') }}
             </button>
+            <button 
+                :class="activeTab('Blocklist')" 
+                class="tab-item"
+                @click="switchTab('Blocklist')">
+                {{ $t('blocklist') }}
+            </button>
         </div>
         <KeepAlive class="col-10">
-            <component :is="currentTabComponent" :key="activeComponent.value" />
+            <component :is="currentTabComponent" :key="activeComponent" />
         </KeepAlive>
     </div>
 </template>
@@ -23,11 +29,13 @@
 <script setup>
 import Groups from './tabs/Groups.vue';
 import Friends from './tabs/Friends.vue';
+import Blocklist from './tabs/Blocklist.vue';
 import {shallowRef, ref} from 'vue';
 
 const componentNames = {
     'Groups': Groups,
     'Friends': Friends,
+    'Blocklist': Blocklist,
 }
 const activeComponent = ref('Groups');
 
