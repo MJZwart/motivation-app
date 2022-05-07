@@ -14,8 +14,6 @@ export const useUserStore = defineStore('user', {
             authenticated: JSON.parse(localStorage.getItem('authenticated') || '{}') || false,
             /** @type import('resources/types/user').UserStats | null */
             userStats: null,
-            /** @type Array<import('resources/types/user').User> | null */
-            searchResults: null,
         }
     },
     getters: {
@@ -121,10 +119,11 @@ export const useUserStore = defineStore('user', {
 
         /**
          * @param {String} searchValue
+         * @returns Array<import('resources/types/user').User>
          */
         async searchUser(searchValue) {
             const {data} = await axios.post('/search', searchValue);
-            this.searchResults = data.data;
+            return data.data;
         },
 
         /**
@@ -141,6 +140,21 @@ export const useUserStore = defineStore('user', {
             const {data} = await axios.put('/user/' + userId + '/block');
             const messageStore = useMessageStore();
             messageStore.conversations = data.data;
+        },
+        /**
+         * @returns Array<import('resources/types/user').User>
+         */
+        async getBlocklist() {
+            const {data} = await axios.get('/user/blocklist');
+            return data.blockedUsers;
+        },
+
+        /**
+         * @param {Number} blocklistId 
+         */
+        async unblockUser(blocklistId) {
+            const {data} = await axios.put(`/user/${blocklistId}/unblock`);
+            return data.blockedUsers;
         },
     },
 });
