@@ -8,6 +8,6 @@ module.exports = {
         },
     },
     publicPath: process.env.NODE_ENV === 'production'
-        ? '/motivation-app2'
-        : '/2',
+        ? '/motivation-app'
+        : '/',
 }

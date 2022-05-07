@@ -88,19 +88,19 @@ defineProps({
   transition: all 0.3s ease;
 }
 .modal-mask.s .modal-container {
-    width: 300px;
+    max-width: 300px;
 }
 .modal-mask.m .modal-container {
-    width: 500px;
+    max-width: 500px;
 }
 .modal-mask.l .modal-container {
-    width: 700px;
+    max-width: 700px;
 }
 .modal-mask.xl .modal-container {
-    width: 900px;
+    max-width: 900px;
 }
 .modal-mask.m-override .modal-container {
-    width: 500px !important;
+    max-width: 500px !important;
 }
 
 .modal-header h3 {
