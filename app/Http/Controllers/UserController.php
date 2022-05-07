@@ -18,6 +18,8 @@ use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Http\Requests\StoreReportedUserRequest;
 use App\Helpers\RewardObjectHandler;
+use App\Http\Resources\BlockedUserResource;
+use App\Models\BlockedUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -147,5 +149,16 @@ class UserController extends Controller
         ReportedUser::create($validated);
         ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: '.$user->username);
         return new JsonResponse(['message' => ['success' => 'User reported']]);
+    }
+
+    public function getBlocklist() {
+        $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
+        return new JsonResponse(['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
+    }
+
+    public function unblockUser(BlockedUser $blockedUser) {
+        $blockedUser->delete();
+        $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
+        return new JsonResponse(['message' => ['success' => 'User has been unblocked'], 'blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
 }
