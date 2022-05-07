@@ -21,7 +21,7 @@
                     :index="2" 
                     name="description" 
                     type="textarea"
-                    :rows="3" 
+                    :rows=3
                     @save="save" />
 
                 <button class="m-1" @click="togglePublic">
