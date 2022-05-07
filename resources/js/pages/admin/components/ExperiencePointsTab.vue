@@ -63,6 +63,7 @@ const mainStore = useMainStore();
 
 onMounted(() => {
     experiencePoints.value = shallowRef(experience_points.value).value;
+    loading.value = false;
 });
 
 const experiencePoints = ref(null);
@@ -70,6 +71,7 @@ const newLevel = ref({});
 
 const experience_points = computed(() => adminStore.experiencePoints);
 
+const loading = ref(true);
 
 function updateExpPoints() {
     clearErrors();
