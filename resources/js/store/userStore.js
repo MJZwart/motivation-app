@@ -14,8 +14,6 @@ export const useUserStore = defineStore('user', {
             authenticated: JSON.parse(localStorage.getItem('authenticated') || '{}') || false,
             /** @type import('resources/types/user').UserStats | null */
             userStats: null,
-            /** @type Array<import('resources/types/user').User> | null */
-            searchResults: null,
         }
     },
     getters: {
@@ -121,10 +119,11 @@ export const useUserStore = defineStore('user', {
 
         /**
          * @param {String} searchValue
+         * @returns Array<import('resources/types/user').User>
          */
         async searchUser(searchValue) {
             const {data} = await axios.post('/search', searchValue);
-            this.searchResults = data.data;
+            return data.data;
         },
 
         /**

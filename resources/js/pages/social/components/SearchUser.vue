@@ -64,9 +64,11 @@ const searchResultsFields = SEARCH_RESULTS_FIELDS;
 const userToMessage = ref({});
 const showSendMessageModal = ref(false);
             
+/** @type Array<import('resources/types/user').User> | null */
+const searchResults = ref([]);
 /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
-function searchUser() {
-    userStore.searchUser(data.value);
+async function searchUser() {
+    searchResults.value = await userStore.searchUser(data.value);
 }
 /** Checks if a given user (by id) is already friends with the logged in user or a request is already sent */
 function isConnection(id) {
@@ -90,7 +92,6 @@ function closeSendMessageModal() {
     showSendMessageModal.value = false;
 }
 
-const searchResults = computed(() => userStore.searchResults);
 const user = computed(() => userStore.user);
 const requests = computed(() => friendStore.requests);
 </script>
