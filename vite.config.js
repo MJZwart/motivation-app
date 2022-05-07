@@ -15,8 +15,8 @@ export default defineConfig(({command}) => {
             target: 'es2022',
             assetsInclude: [],
             manifest: true,
-            outDir: '../public',
-            emptyOutDir: false,
+            outDir: '../public/js',
+            emptyOutDir: true,
             rollupOptions: {
                 input: 'resources/js/app.js',
             },
