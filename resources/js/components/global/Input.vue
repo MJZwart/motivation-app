@@ -8,6 +8,8 @@
             :name="name" 
             :value="modelValue"
             :placeholder="placeholder" 
+            :min="min"
+            :max="max"
             @input="$emit('update:modelValue', $event.target.value)"
         />
         <div v-if="errorMsg">
@@ -43,6 +45,14 @@ const props = defineProps({
         required: false,
     },
     label: {
+        type: String,
+        required: false,
+    },
+    min: {
+        type: String,
+        required: false,
+    },
+    max: {
         type: String,
         required: false,
     },
