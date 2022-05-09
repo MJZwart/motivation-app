@@ -31,8 +31,8 @@
                     v-model="groupToCreate.requires_approval"
                     type="checkbox"
                     name="require-approval-checkbox" />
-                <label for="require-approval-checkbox" class="options-label">{{'placeholder'}}</label>
-                <small class="form-text text-muted">{{'placeholder'}}</small>
+                <label for="require-approval-checkbox" class="options-label">{{$t('group-require-approval-checkbox')}}</label>
+                <small class="form-text text-muted">{{$t('group-require-approval-checkbox-desc')}}</small>
                 <BaseFormError name="require-approval-checkbox" />
             </div>
             <button type="submit" class="block">{{$t('create-group')}}</button>
