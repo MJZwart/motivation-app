@@ -128,7 +128,4 @@ function closeGroupDetails() {
         background-color:white;
     }
 }
-.active {
-    background-color: $primary-dark;
-}
 </style>

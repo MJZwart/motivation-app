@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center loader-style">
         <div class="v-pulse v-pulse1" v-bind:style="[spinnerStyle,spinnerDelay1]" />
         <div class="v-pulse v-pulse2" v-bind:style="[spinnerStyle,spinnerDelay2]" />
         <div class="v-pulse v-pulse3" v-bind:style="[spinnerStyle,spinnerDelay3]" />
@@ -8,10 +8,6 @@
 
 <script setup>
 const props = defineProps({
-    color: { 
-        type: String,
-        default: '#1D3354',
-    },
     size: {
         type: String,
         default: '15px',
@@ -26,7 +22,6 @@ const props = defineProps({
     },
 });
 const spinnerStyle = {
-    backgroundColor: props.color,
     width: props.size,
     height: props.size,
     margin: props.margin,
@@ -49,7 +44,11 @@ const spinnerDelay3 = {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '../../../assets/scss/variables.scss';
+.loader-style div {
+    background-color: $primary;
+}
 @-webkit-keyframes v-pulseStretchDelay
 {
     0%,
