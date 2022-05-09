@@ -17,6 +17,7 @@ class GroupFactory extends Factory
             'name' => $this->faker->company(),
             'description' => $this->faker->sentence(),
             'is_public' => $this->faker->boolean(),
+            'requires_approval' => $this->faker->boolean(),
         ];
     }
 }
