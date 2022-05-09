@@ -33,6 +33,12 @@
                     @click="switchTab('ReportedUsers')">
                     {{$t('reported-users')}}
                 </button>
+                <button 
+                    :class="activeTab('Feedback')" 
+                    class="tab-item"
+                    @click="switchTab('Feedback')">
+                    {{$t('feedback')}}
+                </button>
             </div>
             <KeepAlive class="tab-content col-10">
                 <component :is="currentTabComponent" :key="activeComponent" />
@@ -48,6 +54,7 @@ import BugReportPanel from './tabs/BugReportPanel.vue';
 import SendNotifications from './tabs/SendNotifications.vue';
 import Balancing from './tabs/Balancing.vue';
 import ReportedUsers from './tabs/ReportedUsers.vue';
+import Feedback from './tabs/Feedback.vue';
 import {shallowRef, onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
 

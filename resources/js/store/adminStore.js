@@ -97,5 +97,13 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
             this.villageExpGain = data.data;
         },
+        /**
+         * 
+         */
+        async getFeedback() {
+            //TODO
+            const {data} = await axios.get('/admin/feedback');
+            return data.feedback;
+        },
     },
 });
