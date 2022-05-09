@@ -28,6 +28,7 @@ class StoreGroupRequest extends FormRequest
             'name' => 'required|string',
             'description' => 'required|string',
             'is_public' => 'boolean|required',
+            'requires_approval' => 'boolean|required_if:is_public,true',
         ];
     }
 
