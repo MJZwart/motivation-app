@@ -46,7 +46,7 @@ const spinnerDelay3 = {
 
 <style lang="scss">
 @import '../../../assets/scss/variables.scss';
-.loader-style div {
+.loader-style .v-pulse {
     background-color: $primary;
 }
 @-webkit-keyframes v-pulseStretchDelay

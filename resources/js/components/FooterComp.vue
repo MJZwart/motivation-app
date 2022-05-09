@@ -1,5 +1,5 @@
 <template>
-    <div class="footer">
+    <div id="footer">
         <p class="silent">{{ $t('footer-text') }}</p>
         <div class="footer-text">
             <router-link class="silent mb-1" to="/faq">{{ $t('faq') }}</router-link>
