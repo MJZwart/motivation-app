@@ -1,26 +1,26 @@
 import './bootstrap';
 import './interceptors';
 import '../assets/scss/app.scss';
-      
+
 import {createApp} from 'vue';
 import App from './App.vue';
 
 const app = createApp(App);
 
 // @ts-ignore
-app.config.errorHandler = (err, vm) => {
-    // eslint-disable-next-line no-console
-    console.log(err);
-    // eslint-disable-next-line no-console
-    console.log(vm);
-}
-// @ts-ignore
-app.config.warnHandler = (err, _, info) => {
-    // eslint-disable-next-line no-console
-    console.log(err);
-    // eslint-disable-next-line no-console
-    console.log(info);
-}
+// app.config.errorHandler = (err, vm) => {
+//     // eslint-disable-next-line no-console
+//     console.log(err);
+//     // eslint-disable-next-line no-console
+//     console.log(vm);
+// }
+// // @ts-ignore
+// app.config.warnHandler = (err, _, info) => {
+//     // eslint-disable-next-line no-console
+//     console.log(err);
+//     // eslint-disable-next-line no-console
+//     console.log(info);
+// }
 
 //Import store
 import {createPinia} from 'pinia';

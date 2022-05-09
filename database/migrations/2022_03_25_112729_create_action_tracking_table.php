@@ -15,7 +15,7 @@ class CreateActionTrackingTable extends Migration
     {
         Schema::create('action_tracking', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->useCurrent();
             $table->string('user_agent');
             $table->string('ip_address');
             $table->unsignedBigInteger('user_id')->nullable();

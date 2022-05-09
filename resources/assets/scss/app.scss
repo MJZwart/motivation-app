@@ -4,6 +4,11 @@
 // @import '../../../node_modules/bootstrap/scss/bootstrap';
 // @import '../../../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 
+/*
+Cheat sheet
+border-radius: top-left top-right bottom-right bottom-left;
+*/
+
 * {
     box-sizing: border-box;
     font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -12,11 +17,17 @@
 body {
     background-color: $background;
     margin: 0;
-    overflow-x: clip;
+}
+
+#app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .content {
     margin: 20px;
+    overflow-y: auto;
 }
 p {
     margin-left:5px;
@@ -25,8 +36,21 @@ label, b {
     font-weight: 500;
 }
 
-.footer {
+#footer {
     background-color: $background-darker;
+    margin-top: auto;
+    width: 100%;
+    height: 9rem;
+    a{
+        width: fit-content;
+    }
+    .footer-text{
+        margin-top: -20px;
+        position: absolute;
+        right: 10%;
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 //New and copied, can be toned down
@@ -98,7 +122,7 @@ button {
     line-height: 1.5;
     border-radius: calc(0.25rem - 1px);
     cursor: pointer;
-    transition: color 0.15s ease-in-out, background-color 0.15 ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
     color: $primary-text;
     background-color: $primary;
@@ -106,14 +130,15 @@ button {
     border-style: solid;
 }
 button:hover{
-    background-color: $primary-dark;
-    transition: background-color 0.15 ease-in-out, box-shadow 0.15s ease-in-out;
+    background-color: $secondary;
+    border-color: $secondary;
 }
 
 button.primary {
     color: $primary-text;
     background-color: $primary;
     border-color: $primary;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
 
 button.clear {
@@ -141,17 +166,19 @@ button.clear {
         margin-right:-1px;
         display: flex;
         justify-content: flex-end;
+        transition: border 0.25s ease-in-out, border-radius 0.5s ease-in-out;
     }
     .tab-item.active-tab {
         background-color: transparent;
         font-weight: 700;
-        border-radius: 0.5rem;
+        border-radius: 0.5rem 0 0 0.5rem;
         border-color: $border-color $background $border-color $border-color;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
     .tab-item:hover {
         border-color:$border-color $background $border-color $border-color;
+        border-radius: 0.5rem 0 0 0.5rem;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
@@ -168,15 +195,38 @@ button.clear {
     }
     .tab-item.active-tab {
         border-color: $border-color $border-color $background;
+        border-radius: 0 0 0.5rem 0.5rem;
+        border-radius: 0.5rem 0.5rem 0 0;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
     }
     .tab-item:hover {
         border-color:$border-color $border-color $background;
+        border-radius: 0.5rem 0.5rem 0 0;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
+    }
+}
+@media (max-width:600px) {
+    .w-80 {
+        width: 100% !important;
+    }
+    .active-tab.tab-item, .tab.tab-item, .tabs .tab-item {
+        font-size: small !important;
+        max-width: 200% !important;
+        width: 100%;
+        padding-right: 0;
+        
+    }
+    .tabs.col-2 {
+        max-width: 20%;
+    }
+    .tab-content.col-10 {
+        max-width: 80%;
     }
 }
 

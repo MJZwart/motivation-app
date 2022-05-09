@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             <tr v-for="(item, index) in sortedItems" :key="index">
-                <td v-for="(field, idx) in fields" :key="idx">
+                <td v-for="(field, idx) in fields" :key="idx" :data-label="field.label +':  '">
                     <slot v-bind="{item, index}" :name="field.key">
                         {{item[field.key]}}
                     </slot>
@@ -127,6 +127,9 @@ table {
 }
 table tbody tr {
     height: 40px;
+}
+table thead tr th {
+    text-align: start;
 }
 .page-wide{
     width:100%;

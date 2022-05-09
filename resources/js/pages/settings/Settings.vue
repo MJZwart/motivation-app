@@ -20,7 +20,7 @@
                 {{$t('reward-settings')}}
             </button>
         </div>
-        <keep-alive class="col-10">
+        <keep-alive class="tab-content col-10">
             <component :is="currentTabComponent" />
         </keep-alive>
     </div>
