@@ -28,7 +28,7 @@ class StoreGroupRequest extends FormRequest
             'name' => 'required|string',
             'description' => 'required|string',
             'is_public' => 'boolean|required',
-            'requires_approval' => 'boolean|required',
+            'require_approval' => 'boolean|required',
         ];
     }
 
@@ -39,6 +39,7 @@ class StoreGroupRequest extends FormRequest
             'description.required' => 'You have not entered a description.',
             'description.*' => 'You have not entered a valid description.',
             'is_public.*' => 'You have not selected the publicity of your group.',
+            'require_approval.*' => 'You have not selected if an approval is required to join this group.'
         ];
     }
 }

@@ -23,7 +23,7 @@ class GroupResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'is_public' => (boolean) $this->is_public,
-            'requires_approval' => (boolean) $this->requies_approbal,
+            'require_approval' => (boolean) $this->require_approval,
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
         ];

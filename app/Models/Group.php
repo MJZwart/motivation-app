@@ -16,7 +16,7 @@ class Group extends Model
         'name',
         'description',
         'is_public',
-        'requires_approval',
+        'require_approval',
     ];
 
     public function users() {

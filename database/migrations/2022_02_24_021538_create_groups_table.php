@@ -19,7 +19,7 @@ class CreateGroupsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->boolean('is_public');
-            $table->boolean('requires_approval');
+            $table->boolean('require_approval');
         });
     }
 
