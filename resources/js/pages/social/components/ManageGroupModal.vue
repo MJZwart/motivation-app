@@ -99,7 +99,7 @@ function toggleRequireApproval() {
     const group = {};
     group.require_approval = !props.group.require_approval;
     group.id = props.group.id;
-    groupStore.update(group);
+    groupStore.updateGroup(group);
 }
 
 function kick(user) {
