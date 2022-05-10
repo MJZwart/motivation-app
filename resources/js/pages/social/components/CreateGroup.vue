@@ -55,7 +55,7 @@ const initialData = {
     name: '',
     description: '',
     is_public: false,
-    requires_approval: false,
+    require_approval: false,
 }
 
 const groupToCreate = reactive({...initialData});
