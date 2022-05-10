@@ -27,13 +27,15 @@
             </div>
             <div v-if="groupToCreate.is_public" class="form-group">
                 <input
-                    id="require-approval-checkbox"
-                    v-model="groupToCreate.requires_approval"
+                    id="require-application-checkbox"
+                    v-model="groupToCreate.require_application"
                     type="checkbox"
-                    name="require-approval-checkbox" />
-                <label for="require-approval-checkbox" class="options-label">{{$t('group-require-approval-checkbox')}}</label>
-                <small class="form-text text-muted">{{$t('group-require-approval-checkbox-desc')}}</small>
-                <BaseFormError name="require-approval-checkbox" />
+                    name="require-application-checkbox" />
+                <label for="require-application-checkbox" class="options-label">
+                    {{$t('group-require-application-checkbox')}}
+                </label>
+                <small class="form-text text-muted">{{$t('group-require-application-checkbox-desc')}}</small>
+                <BaseFormError name="require-application-checkbox" />
             </div>
             <button type="submit" class="block">{{$t('create-group')}}</button>
             <button type="button" class="block" @click="close">{{$t('cancel')}}</button>
@@ -55,7 +57,7 @@ const initialData = {
     name: '',
     description: '',
     is_public: false,
-    require_approval: false,
+    require_application: false,
 }
 
 const groupToCreate = reactive({...initialData});

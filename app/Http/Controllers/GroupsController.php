@@ -6,6 +6,7 @@ use App\Helpers\ActionTrackingHandler;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\Groups_Users;
+//use App\Models\JoinGroupRequest;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\DeleteGroupRequest;
 use App\Http\Requests\UpdateGroupsRequest;
@@ -68,19 +69,27 @@ class GroupsController extends Controller
         return new JsonResponse(['message' => ['success' => "You successfully joined the group \"{$group->name}\"."]], Response::HTTP_OK);
     }
 
-    public function requestJoin(Request $request, Group $group): JsonResponse{
-        if (!($group->require_approval))
-            return new JsonResponse(['message' => "This group does not need approval to join."], Response::HTTP_BAD_REQUEST);
+    public function apply(Request $request, Group $group): JsonResponse{
+        if (!($group->require_application))
+            return new JsonResponse(['message' => "This group does not require applications to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
         if ($group->users()->find($user))
             return new JsonResponse(['message' => "You are already a member of this group."], Response::HTTP_BAD_REQUEST);
-        $joinRequestUsers = $group->joinRequestUsers();
-        if ($joinRequestUsers->find($user))
-            return new JsonResponse(['message' => "You already have a pending request do join this group."], Response::HTTP_BAD_REQUEST);
-        $joinRequestUsers->attach($user);
+        $applications = $group->applications();
+        if ($applications->find($user))
+            return new JsonResponse(['message' => "You already have a pending application for this group."], Response::HTTP_BAD_REQUEST);
+        $applications->attach($user);
         
-        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP_REQUEST', "{$user->username} requested to join group {$group->name}");
-        return new JsonResponse(['message' => ['success' => "You successfully requested to join the group \"{$group->name}\"."]], Response::HTTP_OK);
+        ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "{$user->username} applied to group {$group->name}");
+        return new JsonResponse(['message' => ['success' => "You successfully applied to the group \"{$group->name}\"."]], Response::HTTP_OK);
+    }
+
+    public function acceptGroupJoinRequest(Request $request, $joinGroupRrequest) {
+        $user = User::find($request->user->id);
+        $group = Group::find($request->group->id);
+        $group->joinRequestUsers()->detach($user);
+        $group->users()->attach($user);
+
     }
 
     public function leave(Request $request, Group $group): JsonResponse{

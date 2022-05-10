@@ -88,8 +88,8 @@ class User extends Authenticatable
             ->withPivot(['joined']);
     }
 
-    public function joinRequestGroups() {
-        return $this->belongsToMany('App\Models\Group', 'join_group_requests')
+    public function applications() {
+        return $this->belongsToMany('App\Models\Group', 'group_applications')
             ->withPivot(['requested']);
     }
     

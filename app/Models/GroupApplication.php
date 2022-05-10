@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class JoinGroupRequest extends Pivot
+class GroupApplication extends Pivot
 {
     use HasFactory;
 

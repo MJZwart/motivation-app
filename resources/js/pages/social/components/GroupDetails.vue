@@ -22,9 +22,9 @@
                 </div>
                 <div class="col-3">
                     <div v-if="isJoinGroupVisible" class="row">
-                        <button v-if="!group.require_approval" type="button" @click="joinGroup()">{{$t('join-group')}}</button>
-                        <button v-if="group.require_approval" type="button" @click="joinGroupRequest()">
-                            {{$t('join-group-request')}}
+                        <button v-if="!group.require_application" type="button" @click="joinGroup()">{{$t('join-group')}}</button>
+                        <button v-if="group.require_application" type="button" @click="applyToGroup()">
+                            {{$t('apply-to-group')}}
                         </button>
                     </div>
                     <div v-else class="row">
@@ -98,8 +98,8 @@ async function joinGroup() {
     emit('close');
 }
 
-async function joinGroupRequest() {
-    await groupStore.joinGroupRequest(props.group);
+async function applyToGroup() {
+    await groupStore.applyToGroup(props.group);
     emit('reloadGroups');
     emit('close');
 }
