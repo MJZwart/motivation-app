@@ -27,6 +27,9 @@
                 <button class="m-1" @click="togglePublic">
                     {{group.is_public ? 'Set to private' : 'Make public' }}
                 </button>
+                <button v-if="group.is_public" class="m-1" @click="toggleRequireApproval">
+                    {{group.requires_approval ? 'Do not require approval' : 'Require approval' }}
+                </button>
                 <!-- TODO turn this into a 'turn off button' -->
             </form>
         </div>
@@ -90,6 +93,13 @@ function togglePublic() {
     group.is_public = !props.group.is_public;
     group.id = props.group.id;
     groupStore.updateGroup(group);
+}
+
+function toggleRequireApproval() {
+    const group = {};
+    group.require_approval = !props.group.require_approval;
+    group.id = props.group.id;
+    groupStore.update(group);
 }
 
 function kick(user) {
