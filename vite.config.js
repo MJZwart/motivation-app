@@ -1,4 +1,3 @@
-// import {createVuePlugin} from 'vite-plugin-vue2';
 import ViteRequireContext from '@originjs/vite-plugin-require-context'
 import vue from '@vitejs/plugin-vue'
 
@@ -22,7 +21,15 @@ export default defineConfig(({command}) => {
         },
         plugins: [
             ViteRequireContext(),
-            vue(),
+            vue({
+                template: {
+                    compilerOptions: {
+                        compatConfig: {
+                            MODE: 2,
+                        },
+                    },
+                },
+            }),
         ],
         server: {
             port: 3000,
@@ -30,6 +37,7 @@ export default defineConfig(({command}) => {
         resolve: {
             alias: {
                 '@': '/js',
+                'vue': '@vue/compat',
             },
         },
         css: {
@@ -56,24 +64,3 @@ export default defineConfig(({command}) => {
         publicDir: 'random_non_existent_folder',
     };
 });
-
-
-// const resolve = {
-//     alias: {
-//         '@': '/js',
-//         'vue': '@vue/compat',
-//     },
-// };
-// const plugins = [
-//     // createVuePlugin(),
-//     ViteRequireContext(),
-//     vue({
-//         template: {
-//             compilerOptions: {
-//                 compatConfig: {
-//                     MODE: 2,
-//                 },
-//             },
-//         },
-//     }),
-// ];
