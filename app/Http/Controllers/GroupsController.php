@@ -56,6 +56,8 @@ class GroupsController extends Controller
     }
 
     public function join(Request $request, Group $group): JsonResponse{
+        if ($group->require_approval)
+            return new JsonResponse(['message' => "This group needs an approval to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
         $users = $group->users();
         if ($users->find($user)) 
