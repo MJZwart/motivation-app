@@ -19,6 +19,8 @@ use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
 use App\Http\Resources\ReportedUserResource;
 use App\Http\Resources\AdminConversationResource;
+use App\Http\Resources\FeedbackResource;
+use App\Models\Feedback;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -89,4 +91,17 @@ class AdminController extends Controller
     public function getConversationById($id) {
         return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
     }
+
+    public function getFeedback() {
+        return new JsonResponse(['feedback' => FeedbackResource::collection(Feedback::get())]);
+    }
+            
+    public function toggleArchiveFeedback(Feedback $feedback) {
+        $feedback->archived = !$feedback->archived;
+        $feedback->save();
+        return new JsonResponse([
+            'message' => ['success' => $feedback->archived ? 'Feedback archived': 'Feedback unarchived'],
+            'feedback' => FeedbackResource::collection(Feedback::get())], 
+            Response::HTTP_OK);
+    }   
 }

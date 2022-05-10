@@ -7,9 +7,8 @@ export const FEEDBACK_TYPES = [
 
 export const FEEDBACK_FIELDS = [
     {
-        label: 'Created', 
-        key: 'created_at',
-        sortable: true,
+        label: 'Actions', 
+        key: 'actions',
     },
     {
         label: 'Type', 
@@ -21,11 +20,21 @@ export const FEEDBACK_FIELDS = [
         key: 'text',
     },
     {
+        label: 'User', 
+        key: 'user',
+    },
+    {
         label: 'Email', 
         key: 'email',
     },
     {
-        label: 'User', 
-        key: 'user',
+        label: 'Created', 
+        key: 'created_at',
+        sortable: true,
+    },
+    {
+        label: 'Archived', 
+        key: 'archived',
+        sortable: true,
     },
 ];

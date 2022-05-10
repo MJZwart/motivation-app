@@ -98,11 +98,18 @@ export const useAdminStore = defineStore('admin', {
             this.villageExpGain = data.data;
         },
         /**
-         * 
+         * @returns Array<import('resources/types/feedback').Feedback>
          */
         async getFeedback() {
-            //TODO
             const {data} = await axios.get('/admin/feedback');
+            return data.feedback;
+        },
+        /**
+         * @param {Number} id
+         * @returns Array<import('resources/types/feedback').Feedback>
+         */
+        async toggleArchiveFeedback(id) {
+            const {data} = await axios.post(`/admin/feedback/archive/${id}`);
             return data.feedback;
         },
     },

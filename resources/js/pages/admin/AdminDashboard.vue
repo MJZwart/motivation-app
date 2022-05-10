@@ -41,7 +41,7 @@
                 </button>
             </div>
             <KeepAlive class="tab-content col-10">
-                <component :is="currentTabComponent" :key="activeComponent" />
+                <component :is="currentTabComponent" :key="tabKey" />
             </KeepAlive>
         </div>
     </div>
@@ -63,25 +63,32 @@ const adminStore = useAdminStore();
 
 onMounted(async() => {
     await adminStore.getAdminDashboard();
+    if (window.location.hash)
+        tabKey.value = window.location.hash.slice(1);
+    else 
+        tabKey.value = 'Achievements';
+    currentTabComponent.value = tabs[tabKey.value];
     loading.value = false;
 });
 
-const componentNames = {
+const tabs = {
     'Achievements': Achievements,
     'BugReportPanel': BugReportPanel,
     'SendNotifications': SendNotifications,
     'Balancing': Balancing,
     'ReportedUsers': ReportedUsers,
+    'Feedback': Feedback,
 }
-const activeComponent = ref('Achievements');
+const tabKey = ref('');
 
-const currentTabComponent = shallowRef(componentNames[activeComponent.value]);
-function activeTab(component) {
-    if (component == activeComponent.value) return 'active-tab';
+const currentTabComponent = shallowRef(tabs[0]);
+function activeTab(key) {
+    if (key == tabKey.value) return 'active-tab';
     return 'tab';
 }
-function switchTab(component) {
-    currentTabComponent.value = componentNames[component];
-    activeComponent.value = component;
+function switchTab(key) {
+    currentTabComponent.value = tabs[key];
+    tabKey.value = key;
+    window.location.hash = key;
 }
 </script>
