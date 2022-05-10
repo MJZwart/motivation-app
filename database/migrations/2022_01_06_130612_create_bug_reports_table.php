@@ -20,10 +20,10 @@ class CreateBugReportsTable extends Migration
             $table->string('page');
             $table->string('type');
             $table->integer('severity');
-            $table->string('image_link')->nullable();
+            $table->text('image_link')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->string('comment');
-            $table->string('admin_comment')->nullable();
+            $table->text('comment');
+            $table->text('admin_comment')->nullable();
             $table->integer('status')->default(0); //0 = reported, 1 = in progress, 2 = done, 3 = resolved
         });
     }

@@ -24,7 +24,7 @@ class StoreFeedbackRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|string',
+            'type' => 'required|string|max:255',
             'text' => 'required|string',
             'email' => 'required_without:user_id|nullable|email',
             'user_id' => 'nullable|exists:users,id',
