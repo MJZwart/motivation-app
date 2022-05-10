@@ -28,7 +28,7 @@
                     {{group.is_public ? 'Set to private' : 'Make public' }}
                 </button>
                 <button v-if="group.is_public" class="m-1" @click="toggleRequireApproval">
-                    {{group.requires_approval ? 'Do not require approval' : 'Require approval' }}
+                    {{group.require_approval ? 'Do not require approval' : 'Require approval' }}
                 </button>
                 <!-- TODO turn this into a 'turn off button' -->
             </form>
