@@ -26,7 +26,7 @@ class SendNotificationRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'text' => 'required|string|max:255',
+            'text' => 'required|string',
         ];
     }
 }
