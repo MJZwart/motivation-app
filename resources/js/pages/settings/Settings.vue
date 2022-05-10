@@ -31,22 +31,31 @@
 import ProfileSettings from './tabs/ProfileSettings.vue';
 import RewardSettings from './tabs/RewardSettings.vue';
 import AccountSettings from './tabs/AccountSettings.vue';
-import {shallowRef, ref} from 'vue';
+import {shallowRef, ref, onMounted} from 'vue';
 
-const componentNames = {
+onMounted(async() => {
+    if (window.location.hash)
+        tabKey.value = window.location.hash.slice(1);
+    else 
+        tabKey.value = 'AccountSettings';
+    currentTabComponent.value = tabs[tabKey.value];
+});
+
+const tabs = {
     'AccountSettings': AccountSettings,
     'RewardSettings': RewardSettings,
     'ProfileSettings': ProfileSettings,
 }
-const activeComponent = ref('AccountSettings');
+const tabKey = ref('');
 
-const currentTabComponent = shallowRef(componentNames[activeComponent.value]);
-function activeTab(component) {
-    if (component == activeComponent.value) return 'active-tab';
+const currentTabComponent = shallowRef(tabs[0]);
+function activeTab(key) {
+    if (key == tabKey.value) return 'active-tab';
     return 'tab';
 }
-function switchTab(component) {
-    currentTabComponent.value = componentNames[component];
-    activeComponent.value = component;
+function switchTab(key) {
+    currentTabComponent.value = tabs[key];
+    tabKey.value = key;
+    window.location.hash = key;
 }
 </script>
