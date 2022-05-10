@@ -87,6 +87,12 @@ class User extends Authenticatable
             ->withPivot(['rank'])
             ->withPivot(['joined']);
     }
+
+    public function joinRequestGroups() {
+        return $this->belongsToMany('App\Models\Group')
+            ->using('App\Models\GroupJoinRequest')
+            ->withPivot(['requested']);
+    }
     
     public function blockedUsers() {
         return $this->belongsToMany('App\Models\User', 'blocklist', 'user_id', 'blocked_user_id')->withPivot('id');;

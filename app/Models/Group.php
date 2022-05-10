@@ -25,6 +25,12 @@ class Group extends Model
             ->withPivot(['joined']);
     }
 
+    public function joinRequestUsers() {
+        return $this->belongsToMany('App\Models\User')
+            ->using('App\Models\GroupJoinRequest')
+            ->withPivot(['requested']);
+    }
+
     public function isAdminById(int $id):bool {
         return $this->users()->find($id)->pivot->rank == 'admin';
     }
