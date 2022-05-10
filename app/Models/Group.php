@@ -26,8 +26,7 @@ class Group extends Model
     }
 
     public function joinRequestUsers() {
-        return $this->belongsToMany('App\Models\User')
-            ->using('App\Models\GroupJoinRequest')
+        return $this->belongsToMany('App\Models\User', 'group_join_requests')
             ->withPivot(['requested']);
     }
 

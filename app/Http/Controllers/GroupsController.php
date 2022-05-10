@@ -79,7 +79,7 @@ class GroupsController extends Controller
             return new JsonResponse(['message' => "You already have a pending request do join this group."], Response::HTTP_BAD_REQUEST);
         $joinRequestUsers->attach($user);
         
-        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP_REQUEST', $user->username.' requested to join group'.$group->name);
+        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP_REQUEST', "{$user->username} requested to join group {$group->name}");
         return new JsonResponse(['message' => ['success' => "You successfully requested to join the group \"{$group->name}\"."]], Response::HTTP_OK);
     }
 

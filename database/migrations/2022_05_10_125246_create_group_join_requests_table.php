@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupJoinRequestTable extends Migration
+class CreateGroupJoinRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateGroupJoinRequestTable extends Migration
      */
     public function up()
     {
-        Schema::create('group_join_request', function (Blueprint $table) {
+        Schema::create('group_join_requests', function (Blueprint $table) {
             $table->id();
             $table->timestamp('requested')->useCurrent();
             $table->foreignId('user_id')->constrained();
@@ -28,6 +28,6 @@ class CreateGroupJoinRequestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_join_request');
+        Schema::dropIfExists('group_join_requests');
     }
 }

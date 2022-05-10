@@ -89,8 +89,7 @@ class User extends Authenticatable
     }
 
     public function joinRequestGroups() {
-        return $this->belongsToMany('App\Models\Group')
-            ->using('App\Models\GroupJoinRequest')
+        return $this->belongsToMany('App\Models\Group', 'join_group_requests')
             ->withPivot(['requested']);
     }
     

@@ -45,6 +45,12 @@ export const useGroupStore = defineStore('group', {
         /**
          * @param {import('resources/types/group').Group} group
          */
+        async joinGroupRequest(group) {
+            await axios.post(`/groups/joinrequest/${group.id}`);
+        },
+        /**
+         * @param {import('resources/types/group').Group} group
+         */
         async leaveGroup(group) {
             await axios.post(`/groups/leave/${group.id}`);
         },
