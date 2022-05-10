@@ -68,6 +68,20 @@ class GroupsController extends Controller
         return new JsonResponse(['message' => ['success' => "You successfully joined the group \"{$group->name}\"."]], Response::HTTP_OK);
     }
 
+    public function requestJoin(Request $request, Group $group): JsonResponse{
+        if (!($group->require_approval))
+            return new JsonResponse(['message' => "This group does not need approval to join."], Response::HTTP_BAD_REQUEST);
+        $user = Auth::user();
+        if ($group->users()->find($user))
+            return new JsonResponse(['message' => "You are already a member of this group."], Response::HTTP_BAD_REQUEST);
+        $joinRequestUsers = $group->joinRequestUsers();
+        if ($joinRequestUsers->find($user))
+            return new JsonResponse(['message' => "You already have a pending request do join this group."], Response::HTTP_BAD_REQUEST);
+        $joinRequestUsers->attach($user);
+        
+        return new JsonResponse(['message' => ['success' => "You successfully requested to join the group \"{$group->name}\"."]], Response::HTTP_OK);
+    }
+
     public function leave(Request $request, Group $group): JsonResponse{
         /** @var User */
         $user = Auth::user();
