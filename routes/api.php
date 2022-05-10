@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
 
     Route::post('/groups/join/{group}', [GroupsController::class, 'join']);
+    Route::post('groups/requestjoin/{group}', [GroupsController::class, 'requestJoin']);
     Route::post('/groups/leave/{group}', [GroupsController::class, 'leave']);
     Route::resource('/groups', GroupsController::class)->only([
         'store', 'destroy', 'show',
