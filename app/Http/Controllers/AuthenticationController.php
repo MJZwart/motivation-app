@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -19,6 +21,13 @@ class AuthenticationController extends Controller
         $credentials = $request->validated();
 
         if(Auth::attempt($credentials)){
+            /** @var User */
+            $user = Auth::user();
+            if (!$user->isActive()){
+                $timeRemaining = Carbon::parse($user->active)->diff(Carbon::now())->format('%H:%I:%S');
+                ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in '.$request['username']);
+                return new JsonResponse(['message' => ['error' => 'You are banned until ' . $user->active .'. Time remaining: ' .$timeRemaining]]);
+            }
             $request->session()->regenerate();
             ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in '.$request['username']);
             return new JsonResponse(['user' => new UserResource(Auth::user())]);

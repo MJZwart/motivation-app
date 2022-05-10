@@ -12,6 +12,7 @@ use App\Helpers\RewardObjectHandler;
 use Illuminate\Support\Facades\DB;
 use App\Models\RepeatableTaskCompleted;
 use App\Models\ReportedUser;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -157,5 +158,16 @@ class User extends Authenticatable
         return $allConversations->filter(function ($value, $key) {
             return $value->getLastMessage();
         });
+    }
+
+    /**
+     * Checks if the user is suspended by matching the 'active' date-time with the current date-time
+     *
+     * @return boolean
+     */
+    public function isActive() {
+        $currentDate = Carbon::now();
+        if ($this->active < $currentDate) return true;
+        else return false;
     }
 }
