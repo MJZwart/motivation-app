@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Http\Requests\BanUserRequest;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
@@ -19,8 +20,11 @@ use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
 use App\Http\Resources\ReportedUserResource;
 use App\Http\Resources\AdminConversationResource;
+use App\Models\BannedUser;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -88,5 +92,30 @@ class AdminController extends Controller
     
     public function getConversationById($id) {
         return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
+    }
+
+    /**
+     * Undocumented function untested
+     *
+     * @param BanUserRequest $request
+     * @param User $user
+     * @return void
+     */
+    public function banUser(BanUserRequest $request, User $user) {
+        $validated = $request->validated();
+        if ($validated['indefinite']) $validated['days'] = 99999;
+        $bannedUntilTime = Carbon::now()->addDays($validated['days']);
+        $user->active = $bannedUntilTime;
+        $user->save();
+        BannedUser::create([
+            'user_id' => $user->id,
+            'reason' => $validated['reason'],
+            'admin_id' => Auth::user()->id,
+            'days' => $validated['days'],
+            'banned_until' => $bannedUntilTime,
+        ]);
+        return new JsonResponse(
+            ['message' => ['success' => 'User banned until '. $bannedUntilTime]],
+            Response::HTTP_OK);
     }
 }
