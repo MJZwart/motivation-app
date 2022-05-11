@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
+use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,8 @@ class GroupsController extends Controller
     }
 
     public function showApplications(Group $group) {
-        return new JsonResponse(['applications' => $group->applications()]);
+        $applications = GroupApplicationResource::collection($group->applications);
+        return new JsonResponse(['applications' => $applications]);
     }
 
     public function store(StoreGroupRequest $request): JsonResponse{

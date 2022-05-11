@@ -8,6 +8,7 @@ export const useGroupStore = defineStore('group', {
             myGroups: [],
             /** @type Array<import('resources/types/group').Group> */
             allGroups: [],
+            applications: [],
         }
     },
     actions: {
@@ -47,6 +48,19 @@ export const useGroupStore = defineStore('group', {
          */
         async applyToGroup(group) {
             await axios.post(`/groups/apply/${group.id}`);
+        },
+        /**
+         * @param {import('resources/types/group').Group} group
+         */
+        async fetchApplications(group) {
+            const {data} = await axios.get(`/groups/applications/show/${group.id}`);
+            this.applications = data.applications;
+        },
+        async rejectApplication(application) {
+            await axios.post(`/groups/applications/reject/${application.id}`);
+        },
+        async acceptApplication(application) {
+            await axios.post(`/groups/applications/accept/${application.id}`);
         },
         /**
          * @param {import('resources/types/group').Group} group

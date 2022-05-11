@@ -1,3 +1,4 @@
+// import {createVuePlugin} from 'vite-plugin-vue2';
 import ViteRequireContext from '@originjs/vite-plugin-require-context'
 import vue from '@vitejs/plugin-vue'
 
@@ -14,22 +15,15 @@ export default defineConfig(({command}) => {
             target: 'es2022',
             assetsInclude: [],
             manifest: true,
-            outDir: 'public/js',
+            outDir: '../public/js',
+            emptyOutDir: true,
             rollupOptions: {
                 input: 'resources/js/app.js',
             },
         },
         plugins: [
             ViteRequireContext(),
-            vue({
-                template: {
-                    compilerOptions: {
-                        compatConfig: {
-                            MODE: 2,
-                        },
-                    },
-                },
-            }),
+            vue(),
         ],
         server: {
             port: 3000,
@@ -37,8 +31,12 @@ export default defineConfig(({command}) => {
         resolve: {
             alias: {
                 '@': '/js',
-                'vue': '@vue/compat',
             },
+        },
+        define: {
+            __VUE_I18N_FULL_INSTALL__: true,
+            __VUE_I18N_LEGACY_API__: false,
+            __INTLIFY_PROD_DEVTOOLS__: false,
         },
         css: {
             preprocessorOptions: {
@@ -57,6 +55,7 @@ export default defineConfig(({command}) => {
                 '@fortawesome/fontawesome-svg-core',
                 '@fortawesome/free-regular-svg-icons',
                 '@fortawesome/free-solid-svg-icons',
+                'pinia',
             ],
         },
 
@@ -64,3 +63,24 @@ export default defineConfig(({command}) => {
         publicDir: 'random_non_existent_folder',
     };
 });
+
+
+// const resolve = {
+//     alias: {
+//         '@': '/js',
+//         'vue': '@vue/compat',
+//     },
+// };
+// const plugins = [
+//     // createVuePlugin(),
+//     ViteRequireContext(),
+//     vue({
+//         template: {
+//             compilerOptions: {
+//                 compatConfig: {
+//                     MODE: 2,
+//                 },
+//             },
+//         },
+//     }),
+// ];

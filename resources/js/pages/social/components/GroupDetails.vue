@@ -31,6 +31,7 @@
                         <div v-if="isUserAdmin">
                             <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
                             <button type="button" @click="manageGroup()">{{ $t('manage-group') }}</button>
+                            <button type="button" @click="manageApplications()">{{'ph-manage-applications'}}</button>
                         </div>
                         <div v-else>
                             <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>
@@ -56,12 +57,17 @@
                :title="group.name" @close="closeManageGroup">
             <ManageGroupModal :group="group" />
         </Modal>
+        <Modal class="xl" :show="showManageApplicationsModal" :footer="false"
+               :title="group.name" @close="closeManageApplications">
+            <ManageApplicationsModal :group="group" />    
+        </Modal>"
     </div>
 </template>
 
 <script setup>
 import {computed, ref} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
+import ManageApplicationsModal from './ManageApplicationsModal.vue';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 import {useGroupStore} from '/js/store/groupStore';
@@ -120,6 +126,13 @@ function manageGroup() {
 }
 function closeManageGroup() {
     showManageGroupModal.value = false;
+}
+const showManageApplicationsModal = ref(false);
+function manageApplications() {
+    showManageApplicationsModal.value = true;
+}
+function closeManageApplications() {
+    showManageApplicationsModal.value = false;
 }
 </script>
 
