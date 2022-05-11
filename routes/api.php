@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/groups/join/{group}', [GroupsController::class, 'join']);
     Route::post('groups/apply/{group}', [GroupsController::class, 'apply']);
+    Route::get('/groups/showapplications/{group}', [GroupsController::class, 'showApplications']);
     Route::post('/groups/leave/{group}', [GroupsController::class, 'leave']);
     Route::resource('/groups', GroupsController::class)->only([
         'store', 'destroy', 'show',

@@ -28,7 +28,7 @@ class UpdateGroupsRequest extends FormRequest
             'name' => 'sometimes|string',
             'description' => 'sometimes|string',
             'is_public' => 'sometimes|boolean',
-            'require_approval' => 'sometimes|boolean',
+            'require_application' => 'sometimes|boolean',
         ];
     }
 }

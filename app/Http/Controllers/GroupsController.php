@@ -6,7 +6,7 @@ use App\Helpers\ActionTrackingHandler;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\Groups_Users;
-//use App\Models\JoinGroupRequest;
+use App\Models\GroupApplication;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\DeleteGroupRequest;
 use App\Http\Requests\UpdateGroupsRequest;
@@ -36,6 +36,10 @@ class GroupsController extends Controller
         return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
     }
 
+    public function showApplications(Group $group) {
+        return new JsonResponse(['applications' => $group->applications()]);
+    }
+
     public function store(StoreGroupRequest $request): JsonResponse{
         $validated = $request->validated();
 
@@ -50,6 +54,7 @@ class GroupsController extends Controller
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an admin of the group you are trying to delete."], Response::HTTP_BAD_REQUEST);
         $group->users()->detach();
+        $group->applications()->detach();
         $group->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group '.$group->name);
         return new JsonResponse(['message' => ['success' => "Your group \"{$group->name}\" has been deleted."]], Response::HTTP_OK);
@@ -57,8 +62,8 @@ class GroupsController extends Controller
     }
 
     public function join(Request $request, Group $group): JsonResponse{
-        if ($group->require_approval)
-            return new JsonResponse(['message' => "This group needs an approval to join."], Response::HTTP_BAD_REQUEST);
+        if ($group->require_application)
+            return new JsonResponse(['message' => "This group needs an application to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
         $users = $group->users();
         if ($users->find($user)) 
@@ -84,10 +89,10 @@ class GroupsController extends Controller
         return new JsonResponse(['message' => ['success' => "You successfully applied to the group \"{$group->name}\"."]], Response::HTTP_OK);
     }
 
-    public function acceptGroupJoinRequest(Request $request, $joinGroupRrequest) {
-        $user = User::find($request->user->id);
-        $group = Group::find($request->group->id);
-        $group->joinRequestUsers()->detach($user);
+    public function acceptGroupApplication(Request $request, GroupApplication $groupApplication) {
+        $user = User::find($groupApplication->user_id);
+        $group = Group::find($groupApplication->group_id);
+        $group->applications()->detach($user);
         $group->users()->attach($user);
 
     }

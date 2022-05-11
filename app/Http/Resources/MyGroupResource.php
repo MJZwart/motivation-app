@@ -21,7 +21,7 @@ class MyGroupResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'is_public' => (boolean) $this->is_public,
-            'require_approval' => (boolean) $this->require_approval,
+            'require_application' => (boolean) $this->require_application,
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
             'rank' => $this->findLoggedUser()->pivot->rank,
