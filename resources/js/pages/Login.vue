@@ -7,7 +7,7 @@
                 v-model="login.username" 
                 name="username"
                 type="text" 
-                :label="$t('password')"
+                :label="$t('username')"
                 :placeholder="$t('username')" />
             <Input  
                 id="password" 
