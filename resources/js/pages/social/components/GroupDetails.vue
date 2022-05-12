@@ -59,7 +59,7 @@
         </Modal>
         <Modal class="xl" :show="showManageApplicationsModal" :footer="false"
                :title="group.name" @close="closeManageApplications">
-            <ManageApplicationsModal :group="group" />    
+            <ManageApplicationsModal :group="group" @reloadGroups="emitReloadGroups()"/>    
         </Modal>"
     </div>
 </template>
@@ -133,6 +133,10 @@ function manageApplications() {
 }
 function closeManageApplications() {
     showManageApplicationsModal.value = false;
+}
+
+function emitReloadGroups() {
+    emit('reloadGroups');
 }
 </script>
 

@@ -17,6 +17,7 @@ use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -38,7 +39,7 @@ class GroupsController extends Controller
     }
 
     public function showApplications(Group $group) {
-        $applications = GroupApplicationResource::collection($group->applications);
+        $applications = GroupApplicationResource::collection(DB::table('group_applications')->where('group_id', $group->id)->get());
         return new JsonResponse(['applications' => $applications]);
     }
 
@@ -91,12 +92,29 @@ class GroupsController extends Controller
         return new JsonResponse(['message' => ['success' => "You successfully applied to the group \"{$group->name}\"."]], Response::HTTP_OK);
     }
 
-    public function acceptGroupApplication(Request $request, GroupApplication $groupApplication) {
-        $user = User::find($groupApplication->user_id);
-        $group = Group::find($groupApplication->group_id);
+    public function acceptGroupApplication(Request $request, $application_id) {
+        $user = User::find(DB::table('group_applications')->find($application_id)->user_id);
+        $group = Group::find(DB::table('group_applications')->find($application_id)->group_id);
+        if (!$group->isaAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
         $group->applications()->detach($user);
         $group->users()->attach($user);
 
+        $admin = Auth::user();
+        ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "{$admin->username} accepted {$user->username}'s group application into {$group->name}.");
+        return new JsonResponse(['message' => "You successfully accepted {$user->username}'s application."], Response::HTTP_OK);
+    }
+
+    public function rejectGroupApplication(Request $request, $application_id) {
+        $user = User::find(DB::table('group_applications')->find($application_id)->user_id);
+        $group = Group::find(DB::table('group_applications')->find($application_id)->group_id);
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $group->applications()->detach($user);
+
+        $admin = Auth::user();
+        ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "{$admin->username} rejected {$user->username}'s group application into {$group->name}.");
+        return new JsonResponse(['message' => "You successfully rejected {$user->username}'s application."], Response::HTTP_OK);
     }
 
     public function leave(Request $request, Group $group): JsonResponse{

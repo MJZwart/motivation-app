@@ -94,8 +94,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/groups/join/{group}', [GroupsController::class, 'join']);
     Route::post('groups/apply/{group}', [GroupsController::class, 'apply']);
     Route::get('/groups/applications/show/{group}', [GroupsController::class, 'showApplications']);
-    Route::post('/groups/applications/reject/{groupApplication}', [GroupsController::class, 'rejectApplication']);
-    Route::post('/groups/applications/accept/{groupApplication}', [GroupsController::class, 'acceptApplication']);
+    Route::post('/groups/applications/reject/{application_id}', [GroupsController::class, 'rejectGroupApplication']);
+    Route::post('/groups/applications/accept/{application_id}', [GroupsController::class, 'acceptGroupApplication']);
     Route::post('/groups/leave/{group}', [GroupsController::class, 'leave']);
     Route::resource('/groups', GroupsController::class)->only([
         'store', 'destroy', 'show',

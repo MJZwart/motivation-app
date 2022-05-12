@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\User;
 
 class GroupApplicationResource extends JsonResource
 {
@@ -18,6 +19,7 @@ class GroupApplicationResource extends JsonResource
             'id' => $this->id,
             'time_applied' => $this->requested,
             'user_id' => $this->user_id,
+            'username' => User::find($this->user_id)->username,
             'group_id' => $this->group_id,
         ];
     }

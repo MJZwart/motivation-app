@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <Loading v-if="loading" />
+    <div v-else>
         <template v-for="application in applications" :key="application.id">
             <p>
-                {{application.user_id}}
+                {{`${application.username}, applied on: ${application.time_applied}`}}
                 <button class="m-1" @click="rejectApplication(application)">
                     {{'reject'}}
                 </button>
@@ -44,6 +45,7 @@ async function rejectApplication(application) {
 
 async function acceptApplication(application) {
     await groupStore.acceptApplication(application);
+    emit('reloadGroups');
     load();
 }
 </script>
