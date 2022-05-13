@@ -92,10 +92,18 @@ class AdminController extends Controller
         return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
     }
 
+    /**
+     * Fetches all existing feedback and returns it in a Resource collection
+     * @return JsonResponse with FeedbackResource collection
+     */
     public function getFeedback() {
         return new JsonResponse(['feedback' => FeedbackResource::collection(Feedback::get())]);
     }
             
+    /**
+     * Toggles the feedback's archive column. True to false and vice versa. Returns the updated collection.
+     * @return JsonResponse with string and FeedbackResource collection
+     */
     public function toggleArchiveFeedback(Feedback $feedback) {
         $feedback->archived = !$feedback->archived;
         $feedback->save();

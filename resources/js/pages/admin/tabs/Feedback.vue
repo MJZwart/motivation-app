@@ -70,6 +70,11 @@ const userToMessage = ref('');
 
 const archived = ref(false);
 
+/**
+ * Opens a modal to send a message to user, and sets the
+ * userToMessage to feed this user into the modal component.
+ * @param {import('resources/types/user').User} user
+ */
 function sendMessageToUser(user) {
     userToMessage.value = user;
     showSendMessageModal.value = true;
@@ -78,6 +83,10 @@ function closeSendMessageModal() {
     showSendMessageModal.value = false;
 }
 
+/**
+ * Sends a request to toggle the archived status of a feedback item
+ * @param {Number} feedbackId
+ */
 async function toggleArchiveFeedback(feedbackId) {
     feedback.value = await adminStore.toggleArchiveFeedback(feedbackId);
 }

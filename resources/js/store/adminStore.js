@@ -98,6 +98,7 @@ export const useAdminStore = defineStore('admin', {
             this.villageExpGain = data.data;
         },
         /**
+         * Fetches all the feedback from back-end
          * @returns Array<import('resources/types/feedback').Feedback>
          */
         async getFeedback() {
@@ -105,6 +106,7 @@ export const useAdminStore = defineStore('admin', {
             return data.feedback;
         },
         /**
+         * Toggles the feedback's archived status
          * @param {Number} id
          * @returns Array<import('resources/types/feedback').Feedback>
          */
