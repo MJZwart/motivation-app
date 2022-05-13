@@ -119,6 +119,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::put('/admin/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);
     Route::get('/admin/conversation/{id}', [AdminController::class, 'getConversationById']);
     Route::post('/admin/experience_points', [AdminController::class, 'addNewLevel']);
+    Route::get('/admin/feedback', [AdminController::class, 'getFeedback']);
+    Route::post('/admin/feedback/archive/{feedback}', [AdminController::class, 'toggleArchiveFeedback']);
 });
 
 // Route::get('/achievements', [AchievementController::class, 'showAll']);
