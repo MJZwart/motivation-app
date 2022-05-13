@@ -25,8 +25,8 @@ class UpdateGroupsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'sometimes|string',
-            'description' => 'sometimes|string',
+            'name' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string|max:255',
             'is_public' => 'sometimes|boolean',
         ];
     }

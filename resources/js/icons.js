@@ -21,7 +21,9 @@ import {
     faUserPlus,
     faSort,
     faMagnifyingGlass,
+    faLock,
     faLockOpen,
+    faBoxArchive,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
     faPenToSquare, 
@@ -41,5 +43,7 @@ library.add(
     faRectangleXmark,
     faSort,
     faMagnifyingGlass,
+    faLock,
     faLockOpen,
+    faBoxArchive,
 );

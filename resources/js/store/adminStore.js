@@ -107,5 +107,22 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.post(`/admin/suspend/${userId}`, suspension);
             this.reportedUsers = data.data;
         },
+        /**
+         * Fetches all the feedback from back-end
+         * @returns Array<import('resources/types/feedback').Feedback>
+         */
+        async getFeedback() {
+            const {data} = await axios.get('/admin/feedback');
+            return data.feedback;
+        },
+        /**
+         * Toggles the feedback's archived status
+         * @param {Number} id
+         * @returns Array<import('resources/types/feedback').Feedback>
+         */
+        async toggleArchiveFeedback(id) {
+            const {data} = await axios.post(`/admin/feedback/archive/${id}`);
+            return data.feedback;
+        },
     },
 });

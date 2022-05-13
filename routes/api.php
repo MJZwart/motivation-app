@@ -109,10 +109,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::post('/user/{user}/report', [UserController::class, 'reportUser']);
 });
 
-// Route::get('/achievements', [AchievementController::class, 'showAll']);
-// Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
-
-
 Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
 Route::post('/feedback', [FeedbackController::class, 'store']);
 

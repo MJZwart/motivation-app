@@ -28,7 +28,7 @@ class UpdateBugReportRequest extends FormRequest
         return [
             'type' => ['required','string', new ValidBugType()],
             'severity' => 'required|integer|min:1|max:5',
-            'admin_comment' => 'nullable|string',
+            'admin_comment' => 'nullable|string|max:255',
             'status' => 'required|integer|min:0|max:3',
             'title' => 'required|string',
         ];

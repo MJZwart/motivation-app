@@ -22,6 +22,8 @@ use App\Http\Resources\ReportedUserResource;
 use App\Http\Resources\AdminConversationResource;
 use App\Models\BannedUser;
 use Carbon\Carbon;
+use App\Http\Resources\FeedbackResource;
+use App\Models\Feedback;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -130,4 +132,25 @@ class AdminController extends Controller
             'data' => $reportedUsers],
             Response::HTTP_OK);
     }
+    
+    /**
+     * Fetches all existing feedback and returns it in a Resource collection
+     * @return JsonResponse with FeedbackResource collection
+     */
+    public function getFeedback() {
+        return new JsonResponse(['feedback' => FeedbackResource::collection(Feedback::get())]);
+    }
+            
+    /**
+     * Toggles the feedback's archive column. True to false and vice versa. Returns the updated collection.
+     * @return JsonResponse with string and FeedbackResource collection
+     */
+    public function toggleArchiveFeedback(Feedback $feedback) {
+        $feedback->archived = !$feedback->archived;
+        $feedback->save();
+        return new JsonResponse([
+            'message' => ['success' => $feedback->archived ? 'Feedback archived': 'Feedback unarchived'],
+            'feedback' => FeedbackResource::collection(Feedback::get())], 
+            Response::HTTP_OK);
+    }   
 }
