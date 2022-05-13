@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -24,9 +25,7 @@ class AuthenticationController extends Controller
             /** @var User */
             $user = Auth::user();
             if (!$user->isActive()){
-                $timeRemaining = Carbon::parse($user->active)->diff(Carbon::now())->format('%H:%I:%S');
-                ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in '.$request['username']);
-                return new JsonResponse(['message' => ['error' => 'You are banned until ' . $user->active .'. Time remaining: ' .$timeRemaining]]);
+                return $this->handleBannedUser($user, $request);
             }
             $request->session()->regenerate();
             ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in '.$request['username']);
@@ -36,6 +35,18 @@ class AuthenticationController extends Controller
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in '.$request['username'], 'Invalid login');
         return new JsonResponse(['message' => $errorMessage, 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
 
+    }
+
+    private function handleBannedUser(User $user, Request $request) {
+        $timeRemaining = Carbon::parse($user->active)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]);
+        ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in '.$request['username']);
+        $activeDate = $user->active;
+        $reason = $user->bannedUser->first()->reason;
+        $errorMessage = 'You are banned until %s. Reason: %s If you wish to dispute your ban, contact one of the admins on our Discord. Time remaining: %s.';
+        return new JsonResponse([
+            'message' => [
+                'error' => sprintf($errorMessage, $activeDate, $reason, $timeRemaining)], 
+            'invalid' => true]);
     }
 
     /**

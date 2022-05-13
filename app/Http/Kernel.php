@@ -44,6 +44,10 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+        'valid-auth' => [
+            'auth',
+            'banned',
+        ],
     ];
 
     /**
@@ -64,5 +68,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\Admin::class,
+        'banned' => \App\Http\Middleware\UserIsNotBanned::class,
     ];
 }

@@ -42,7 +42,7 @@ Route::post('/login', [AuthenticationController::class, 'authenticate']);
 Route::post('/logout', [AuthenticationController::class, 'logout']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['valid-auth']], function () {
     Route::resource('/tasks', TaskController::class)->only([
         'store', 'show', 'update', 'destroy'
     ]);

@@ -175,15 +175,7 @@ class User extends Authenticatable
         if ($this->active < $currentDate) return true;
         else return false;
     }
-
-    /**
-     * Gets the BannedUser instance if it exists. Otherwise return null.
-     */
-    public function getBannedUser() {
-        $bannedUser = $this->bannedUser;
-        return count($bannedUser) > 0 ? $bannedUser : null;
-    }
-
+    
     /**
      * Gets the BannedUser instance if it exists and wraps in a resource. Otherwise return null.
      */

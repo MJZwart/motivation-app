@@ -438,6 +438,11 @@ input:focus {
     border: 1px solid #495057;
     box-shadow: 0 0.15rem 0.15rem rgb(0 0 0 / 15%);
 }
+.invalid-feedback {
+    color: $red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
 
 select {
     display: inline-block;
