@@ -26,7 +26,7 @@ class ConfirmRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'reward_object_name' => [Rule::requiredIf($this->rewardsType != 'NONE'), 'string', 'nullable'],
+            'reward_object_name' => [Rule::requiredIf($this->rewardsType != 'NONE'), 'string', 'nullable', 'max:255'],
             'rewardsType' => [new ValidRewardType()],
         ];
     }
