@@ -28,4 +28,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/conversation/{id}', [AdminController::class, 'getConversationById']);
     Route::post('/experience_points', [AdminController::class, 'addNewLevel']);
     Route::post('/suspend/{user}', [AdminController::class, 'banUser']);
+    Route::get('/feedback', [AdminController::class, 'getFeedback']);
+    Route::post('/feedback/archive/{feedback}', [AdminController::class, 'toggleArchiveFeedback']);
 });
