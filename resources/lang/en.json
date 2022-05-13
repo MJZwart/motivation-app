@@ -181,6 +181,12 @@
     "message-reported-user": "Message reported user",
     "see-conversation": "See conversation",
     "see-conversation-reporter": "Showing conversation between reported user {reportedUser} and reporter.",
+    "suspend-user": "Suspend user",
+    "days" : "Days",
+    "reason": "Reason",
+    "indefinite" : "Indefinite",
+    "banned-by": "Banned by",
+    "banned-until": "Banned until",
     
 
     "manage-achievements": "Manage achievements",

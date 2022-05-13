@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
 use App\Helpers\RewardObjectHandler;
+use App\Http\Resources\BannedUserResource;
 use Illuminate\Support\Facades\DB;
 use App\Models\RepeatableTaskCompleted;
 use App\Models\ReportedUser;
@@ -81,6 +82,10 @@ class User extends Authenticatable
 
     public function notifications(){
         return $this->hasMany('App\Models\Notification');
+    }
+
+    public function bannedUser() {
+        return $this->hasMany('App\Models\BannedUser');
     }
 
     public function groups(){
@@ -169,5 +174,23 @@ class User extends Authenticatable
         $currentDate = Carbon::now();
         if ($this->active < $currentDate) return true;
         else return false;
+    }
+
+    /**
+     * Gets the BannedUser instance if it exists. Otherwise return null.
+     */
+    public function getBannedUser() {
+        $bannedUser = $this->bannedUser;
+        return count($bannedUser) > 0 ? $bannedUser : null;
+    }
+
+    /**
+     * Gets the BannedUser instance if it exists and wraps in a resource. Otherwise return null.
+     */
+    public function getBannedUserResource() {
+        $bannedUser = $this->bannedUser;
+        if (count($bannedUser) < 1)
+            return null;
+        return BannedUserResource::collection($bannedUser);
     }
 }

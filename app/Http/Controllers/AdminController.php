@@ -95,18 +95,22 @@ class AdminController extends Controller
     }
 
     /**
-     * Undocumented function untested
+     * Bans a user: Changes 'active' to current dateTime + the amount of days the user gets banned.
+     * Created a BannedUser to document the suspension of the account, as well as deactivates the
+     * user's account.
      *
      * @param BanUserRequest $request
      * @param User $user
-     * @return void
+     * @return JsonResponse
      */
     public function banUser(BanUserRequest $request, User $user) {
         $validated = $request->validated();
-        if ($validated['indefinite']) $validated['days'] = 99999;
+        if ($validated['indefinite'] == 'true') $validated['days'] = 99999;
+
         $bannedUntilTime = Carbon::now()->addDays($validated['days']);
         $user->active = $bannedUntilTime;
         $user->save();
+
         BannedUser::create([
             'user_id' => $user->id,
             'reason' => $validated['reason'],
@@ -114,8 +118,16 @@ class AdminController extends Controller
             'days' => $validated['days'],
             'banned_until' => $bannedUntilTime,
         ]);
+
+        $reportedUsers = ReportedUserResource::collection(
+            User::get()->filter(function ($user) {
+                return $user->isReported();
+            })
+        );
+
         return new JsonResponse(
-            ['message' => ['success' => 'User banned until '. $bannedUntilTime]],
+            ['message' => ['success' => 'User banned until '. $bannedUntilTime],
+            'data' => $reportedUsers],
             Response::HTTP_OK);
     }
 }

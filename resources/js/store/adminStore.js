@@ -97,5 +97,15 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
             this.villageExpGain = data.data;
         },
+
+        /**
+         * Suspends a user account for x amount of days, or indefinite
+         * @param {Number} userId 
+         * @param {Object} suspension 
+         */
+        async suspendUser(userId, suspension) {
+            const {data} = await axios.post(`/admin/suspend/${userId}`, suspension);
+            this.reportedUsers = data.data;
+        },
     },
 });
