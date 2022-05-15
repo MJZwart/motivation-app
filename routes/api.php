@@ -121,6 +121,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/experience_points', [AdminController::class, 'addNewLevel']);
     Route::get('/admin/feedback', [AdminController::class, 'getFeedback']);
     Route::post('/admin/feedback/archive/{feedback}', [AdminController::class, 'toggleArchiveFeedback']);
+    Route::get('/admin/overview', [AdminController::class, 'getOverview']);
 });
 
 // Route::get('/achievements', [AchievementController::class, 'showAll']);

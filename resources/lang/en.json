@@ -178,6 +178,14 @@
     "see-conversation": "See conversation",
     "see-conversation-reporter": "Showing conversation between reported user {reportedUser} and reporter.",
     
+    "total-users": "Total users",
+    "login-last-24h": "Lgged in last 24 hours",
+    "unarchived-feedback": "Unarchived feedback",
+    "unresolved-bugs": "Unresolved bugs",
+    "new-feedback": "New feedback",
+    "new-bugs": "New bugs",
+    "new-user-reports": "New reported users",
+    "new-users": "New users",
 
     "manage-achievements": "Manage achievements",
     "no-achievements": "No achievements yet.",

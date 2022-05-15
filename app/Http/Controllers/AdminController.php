@@ -112,4 +112,28 @@ class AdminController extends Controller
             'feedback' => FeedbackResource::collection(Feedback::get())], 
             Response::HTTP_OK);
     }   
+
+    /**
+     * Gets an overview of stats related to the website, relevant for admins
+     */
+    public function getOverview() {
+        $totalUsers = 2;
+        $loginLast24 = 3;
+        $newUsers = 8;
+        $unarchivedFeedback = 4;
+        $unresolvedBugs = 5;
+        $newFeedback = 6;
+        $newBugs = 7;
+        $newUserReports = 8;
+        $overview = [
+            'total-users' => $totalUsers, 
+            'new-users' => $newUsers,
+            'login-last-24h' => $loginLast24, 
+            'unarchived-feedback' => $unarchivedFeedback, 
+            'unresolved-bugs' => $unresolvedBugs, 
+            'new-feedback' => $newFeedback, 
+            'new-bugs' => $newBugs, 
+            'new-user-reports' => $newUserReports];
+        return new JsonResponse(['overview' => $overview]);
+    }
 }
