@@ -21,6 +21,7 @@ use App\Http\Resources\ReportedUserResource;
 use App\Http\Resources\AdminConversationResource;
 use App\Http\Resources\FeedbackResource;
 use App\Models\Feedback;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -117,18 +118,20 @@ class AdminController extends Controller
      * Gets an overview of stats related to the website, relevant for admins
      */
     public function getOverview() {
-        $totalUsers = 2;
-        $loginLast24 = 3;
-        $newUsers = 8;
-        $unarchivedFeedback = 4;
-        $unresolvedBugs = 5;
-        $newFeedback = 6;
-        $newBugs = 7;
-        $newUserReports = 8;
+        $yesterday = Carbon::now()->subDay();
+        $lastWeek = Carbon::now()->subWeek();
+        $totalUsers = User::count();
+        $activeUsers = User::where('last_login', '>', $yesterday)->count();
+        $newUsers = User::where('created_at', '>', $lastWeek)->count();
+        $unarchivedFeedback = Feedback::where('archived', false)->count();
+        $unresolvedBugs = BugReport::where('status', '!=', 3)->count();
+        $newFeedback = Feedback::where('created_at', '>', $lastWeek)->count();
+        $newBugs = BugReport::where('created_at', '>', $lastWeek)->count();
+        $newUserReports = ReportedUser::where('created_at', '>', $lastWeek)->count();
         $overview = [
             'total-users' => $totalUsers, 
             'new-users' => $newUsers,
-            'login-last-24h' => $loginLast24, 
+            'active-users' => $activeUsers, 
             'unarchived-feedback' => $unarchivedFeedback, 
             'unresolved-bugs' => $unresolvedBugs, 
             'new-feedback' => $newFeedback, 
