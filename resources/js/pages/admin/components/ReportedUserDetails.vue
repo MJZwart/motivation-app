@@ -57,10 +57,6 @@ defineProps({
         type: Object,
         required: true,
     },
-    index: {
-        type: Number,
-        reqired: true,
-    },
 });
 
 const reportedUserDetailsFields = REPORTED_USER_DETAILS_FIELDS;

@@ -69,12 +69,3 @@ const errorMsg = computed(() => {
     return (errors.value[props.name] || [])[0] || '';
 });
 </script>
-
-<style lang="scss" scoped>
-@import '../../../assets/scss/variables';
-.invalid-feedback {
-    color: $red;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-}
-</style>

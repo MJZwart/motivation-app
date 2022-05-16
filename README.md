@@ -84,7 +84,7 @@ Before launching the beta version of the site, the following things need to be f
 - [ ] Finished groups: invites to private groups, 
 # Admin and back-end
 - [x] Admins able to view and respond to feedback
-- [ ] Admins able to view reported users and perform action: message the user, ban the user
+- [x] Admins able to view reported users and perform action: message the user, ban the user
 - [ ] Tracking of logins (attempts) for security
 - [ ] Worked out good balancing of the rewards (experience points) to start off with, and plenty of levels to gain
 

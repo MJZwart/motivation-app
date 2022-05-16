@@ -1,6 +1,10 @@
 {
     "app-name": "Dumb Bitch Simulator",
-    "faq": "Frequently Asked Questions",
+    "faq": "F.A.Q.",
+    "footer-text": "Version 0.1.2 ALPHA - MJ Black © 2022.",
+    "footer-disclaimer": "This is an alpha version. This website is unfinished and subject to major changes. Join our discord for updates and discuss your ideas for the site.",
+    "discord-link": "https://discord.gg/r3sjMDgyA2",
+
 
     "create-new-task-list": "Create new task list",
     "create-new-task": "Create new task",
@@ -177,6 +181,12 @@
     "message-reported-user": "Message reported user",
     "see-conversation": "See conversation",
     "see-conversation-reporter": "Showing conversation between reported user {reportedUser} and reporter.",
+    "suspend-user": "Suspend user",
+    "days" : "Days",
+    "reason": "Reason",
+    "indefinite" : "Indefinite",
+    "banned-by": "Banned by",
+    "banned-until": "Banned until",
     
     "total-users": "Total users",
     "active-users": "Active users",
@@ -288,7 +298,6 @@
     "yes": "Yes",
     "no": "No",
 
-    "footer-text": "Version 1.0 - MJ Black © 2021.",
     "feedback": "Feedback",
     "feedback-explanation": "Do you have any feedback for us? Features you'd like to suggest, new ideas for content, opinions on the site overall? Please fill in this form and we'll contact you if we have any questions or remarks.",
     "feedback-features-header": "Requesting features",

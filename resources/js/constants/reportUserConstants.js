@@ -22,8 +22,12 @@ export const REPORTED_USER_FIELDS = [
         sortable: true,
     },
     {
-        label: 'Details',
-        key: 'details',
+        label: 'Actions',
+        key: 'actions',
+    },
+    {
+        label: 'Banned',
+        key: 'banned',
     },
 ];
 

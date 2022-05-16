@@ -23,12 +23,14 @@ export const useUserStore = defineStore('user', {
     },
     actions: {
         /**
-         * User authentication
+         * User authentication. If user login is valid but the account is otherwise invalidated, 
+         * instead return info the Login screen.
          * @param {import('resources/types/user').User} user
          */
         async login(user) {
             await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
+            if (data.invalid) return data.message;
             this.setUser(data.user);
             router.push('/dashboard').catch(() => {});
         },
