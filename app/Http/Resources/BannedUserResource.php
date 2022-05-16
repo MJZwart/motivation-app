@@ -30,8 +30,5 @@ class BannedUserResource extends JsonResource
             'past' => Carbon::parse($this->banned_until)->lessThan(Carbon::now()),
             'banned_until_time' => Carbon::parse($this->banned_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW])
         ];
-
-        // Carbon::now()->diffForHumans($this->created_at,[
-            // $this->created_at->diffForHumans(Carbon::now(),[
     }
 }
