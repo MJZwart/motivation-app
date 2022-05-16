@@ -108,6 +108,25 @@ export const useAdminStore = defineStore('admin', {
             this.reportedUsers = data.data;
         },
         /**
+         * Gets all banned users
+         * @returns {Promise<import('resources/types/user').BannedUser[]>}
+         */
+        async getBannedUsers() {
+            const {data} = await axios.get('/admin/bannedusers');
+            return data.banned_users;
+        },
+
+        /**
+         * Ends the suspension of a given user manually.
+         * @param {Number} bannedUserId 
+         * @returns {Promise<import('resources/types/user').BannedUser[]>}
+         */
+        async unban(bannedUserId) {
+            const {data} = await axios.post(`/admin/unban/${bannedUserId}`);
+            return data.banned_users;
+        },
+
+        /**
          * Fetches all the feedback from back-end
          * @returns Array<import('resources/types/feedback').Feedback>
          */

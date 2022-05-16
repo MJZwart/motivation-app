@@ -10,6 +10,7 @@
             :placeholder="placeholder" 
             :min="min"
             :max="max"
+            :disabled="disabled"
             @input="$emit('update:modelValue', $event.target.value)"
         />
         <div v-if="errorMsg">
@@ -55,6 +56,11 @@ const props = defineProps({
     max: {
         type: String,
         required: false,
+    },
+    disabled: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
 });
 defineEmits(['update:modelValue']);

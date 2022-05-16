@@ -20,6 +20,7 @@ use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
 use App\Http\Resources\ReportedUserResource;
 use App\Http\Resources\AdminConversationResource;
+use App\Http\Resources\BannedUserResource;
 use App\Models\BannedUser;
 use Carbon\Carbon;
 use App\Http\Resources\FeedbackResource;
@@ -132,7 +133,20 @@ class AdminController extends Controller
             'data' => $reportedUsers],
             Response::HTTP_OK);
     }
-    
+
+    /**
+     * Gets all banned users
+     *
+     * @return JsonResponse with BannedUserResource collection
+     */
+    public function getBannedUsers() {
+        return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
+    }
+
+    public function unbanUser(BannedUser $bannedUser) {
+        
+    }
+
     /**
      * Fetches all existing feedback and returns it in a Resource collection
      * @return JsonResponse with FeedbackResource collection

@@ -18,11 +18,13 @@ class BannedUserResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'created_at' => $this->created_at->toDateTimeString(),
             'time_since' => $this->created_at->diffForHumans(Carbon::now(),[
                 'syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW,
             ]),
             'updated_at' => $this->updated_at->toDateTimeString(),
+            'user' => new StrippedUserResource($this->user),
             'reason' => $this->reason,
             'days' => $this->days,
             'admin' => new StrippedUserResource($this->admin),

@@ -187,6 +187,10 @@
     "indefinite" : "Indefinite",
     "banned-by": "Banned by",
     "banned-until": "Banned until",
+    "banned-users": "Banned users",
+    "unban": "End ban",
+    "edit-ban": "Edit ban",
+    "end-ban-confirm": "Are you sure you wish to end the suspension of this user?",
     
 
     "manage-achievements": "Manage achievements",
