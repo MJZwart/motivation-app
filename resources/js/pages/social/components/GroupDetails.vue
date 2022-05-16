@@ -31,7 +31,7 @@
                         <div v-if="isUserAdmin">
                             <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
                             <button type="button" @click="manageGroup()">{{ $t('manage-group') }}</button>
-                            <button type="button" @click="manageApplications()">{{'ph-manage-applications'}}</button>
+                            <button type="button" @click="manageApplications()">{{ $t('manage-group-applications') }}</button>
                         </div>
                         <div v-else>
                             <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>

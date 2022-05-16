@@ -5,10 +5,10 @@
             <p>
                 {{`${application.username}, applied on: ${application.applied_at}`}}
                 <button class="m-1" @click="rejectApplication(application)">
-                    {{'reject'}}
+                    {{ $t('reject-group-application') }}
                 </button>
                 <button class="m-1" @click="acceptApplication(application)">
-                    {{'accept'}}
+                    {{ $t('accept-group-application') }}
                 </button>
             </p>
         </template>
