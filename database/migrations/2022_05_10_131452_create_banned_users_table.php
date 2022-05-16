@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFeedbackTable extends Migration
+class CreateBannedUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,20 @@ class CreateFeedbackTable extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
+        Schema::create('banned_users', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('type');
-            $table->longText('text');
-            $table->string('email')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->boolean('archived')->default(false);
+            $table->text('reason');
+            $table->unsignedBigInteger('admin_id')->nullable();
+            $table->integer('days');
+            $table->timestamp('banned_until')->useCurrent();
         });
-        Schema::table('feedback', function (Blueprint $table){
+        Schema::table('banned_users', function (Blueprint $table){
             $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('set null');
+            $table->foreign('admin_id')
                 ->references('id')->on('users')
                 ->onDelete('set null');
         });
@@ -36,6 +39,6 @@ class CreateFeedbackTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('banned_users');
     }
 }

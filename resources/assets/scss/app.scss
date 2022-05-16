@@ -7,6 +7,7 @@
 /*
 Cheat sheet
 border-radius: top-left top-right bottom-right bottom-left;
+margin: top right bottom left;
 */
 
 * {
@@ -34,23 +35,6 @@ p {
 }
 label, b {
     font-weight: 500;
-}
-
-#footer {
-    background-color: $background-darker;
-    margin-top: auto;
-    width: 100%;
-    height: 9rem;
-    a{
-        width: fit-content;
-    }
-    .footer-text{
-        margin-top: -20px;
-        position: absolute;
-        right: 10%;
-        display: flex;
-        flex-direction: column;
-    }
 }
 
 //New and copied, can be toned down
@@ -453,6 +437,11 @@ input:focus {
     outline: none;
     border: 1px solid #495057;
     box-shadow: 0 0.15rem 0.15rem rgb(0 0 0 / 15%);
+}
+.invalid-feedback {
+    color: $red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
 }
 
 select {
