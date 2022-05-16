@@ -24,7 +24,7 @@ class AuthenticationController extends Controller
         if(Auth::attempt($credentials)){
             /** @var User */
             $user = Auth::user();
-            if (!$user->isActive()){
+            if ($user->isBanned()){
                 return $this->handleBannedUser($user, $request);
             }
             $request->session()->regenerate();
@@ -38,14 +38,14 @@ class AuthenticationController extends Controller
     }
 
     private function handleBannedUser(User $user, Request $request) {
-        $timeRemaining = Carbon::parse($user->active)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]);
+        $timeRemaining = Carbon::parse($user->banned_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]);
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in '.$request['username']);
-        $activeDate = $user->active;
+        $bannedUntilDate = $user->banned_until;
         $reason = $user->bannedUser->first()->reason;
         $errorMessage = 'You are banned until %s. Reason: %s If you wish to dispute your ban, contact one of the admins on our Discord. Time remaining: %s.';
         return new JsonResponse([
             'message' => [
-                'error' => sprintf($errorMessage, $activeDate, $reason, $timeRemaining)], 
+                'error' => sprintf($errorMessage, $bannedUntilDate, $reason, $timeRemaining)], 
             'invalid' => true]);
     }
 

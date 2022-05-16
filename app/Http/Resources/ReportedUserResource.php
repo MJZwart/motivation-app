@@ -24,7 +24,7 @@ class ReportedUserResource extends JsonResource
             'last_report_date' => $this->getLatestReport()->value('created_at')->toDateTimeString(),
             'reports' => ReportedUserReportResource::collection($this->getReports()),
             'banned' => $this->getBannedUserResource(),
-            'active' => $this->active,
+            'banned_until' => $this->banned_until,
         ];
     }
 }

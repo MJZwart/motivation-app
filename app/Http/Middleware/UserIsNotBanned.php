@@ -19,7 +19,7 @@ class UserIsNotBanned
     {
         /** @var User */
         $user = Auth::user();
-        if (!$user->isActive()){
+        if ($user->isBanned()){
             return response('Account suspended.', 401);
         }
         return $next($request);

@@ -97,7 +97,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Bans a user: Changes 'active' to current dateTime + the amount of days the user gets banned.
+     * Bans a user: Changes 'banned_until' to current dateTime + the amount of days the user gets banned.
      * Created a BannedUser to document the suspension of the account, as well as deactivates the
      * user's account.
      *
@@ -110,7 +110,7 @@ class AdminController extends Controller
         if ($validated['indefinite'] == 'true') $validated['days'] = 99999;
 
         $bannedUntilTime = Carbon::now()->addDays($validated['days']);
-        $user->active = $bannedUntilTime;
+        $user->banned_until = $bannedUntilTime;
         $user->save();
 
         BannedUser::create([

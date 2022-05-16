@@ -166,13 +166,14 @@ class User extends Authenticatable
     }
 
     /**
-     * Checks if the user is suspended by matching the 'active' date-time with the current date-time
+     * Checks if the user is suspended by matching the 'banned_until' date-time with the current date-time
      *
      * @return boolean
      */
-    public function isActive() {
+    public function isBanned() {
         $currentDate = Carbon::now();
-        if ($this->active < $currentDate) return true;
+        if (!$this->banned_until) return false;
+        if ($this->banned_until < $currentDate) return true;
         else return false;
     }
     
