@@ -3,7 +3,7 @@
     <div v-else>
         <template v-for="application in applications" :key="application.id">
             <p>
-                {{`${application.username}, applied on: ${application.time_applied}`}}
+                {{`${application.username}, applied on: ${application.applied_at}`}}
                 <button class="m-1" @click="rejectApplication(application)">
                     {{'reject'}}
                 </button>
@@ -20,6 +20,7 @@ import {useGroupStore} from '/js/store/groupStore';
 import {ref, onMounted, computed} from 'vue';
 const groupStore = useGroupStore();
 
+const emit = defineEmits(['reloadGroups']);
 const loading = ref(true);
 onMounted(() => {
     load();

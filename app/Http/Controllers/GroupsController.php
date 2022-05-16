@@ -16,6 +16,7 @@ use App\Http\Requests\RemoveUserFromGroupRequest;
 use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -87,25 +88,35 @@ class GroupsController extends Controller
         if ($applications->find($user))
             return new JsonResponse(['message' => "You already have a pending application for this group."], Response::HTTP_BAD_REQUEST);
         $applications->attach($user);
+        Notification::create([
+            'user_id' => $group->getAdmin()->id,
+            'title' => "New group application to {$group->name}.",
+            'text' => "{$user->username} has applied to your group {$group->name}. Head to the details of {$group->name} and click on \"Manage Applications\" to accept or reject the application.",
+        ]);
         
         ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "{$user->username} applied to group {$group->name}");
         return new JsonResponse(['message' => ['success' => "You successfully applied to the group \"{$group->name}\"."]], Response::HTTP_OK);
     }
 
-    public function acceptGroupApplication(Request $request, $application_id) {
+    public function acceptGroupApplication(Request $request, $application_id): JsonResponse{
         $user = User::find(DB::table('group_applications')->find($application_id)->user_id);
         $group = Group::find(DB::table('group_applications')->find($application_id)->group_id);
-        if (!$group->isaAdminById(Auth::user()->id))
+        if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
         $group->applications()->detach($user);
         $group->users()->attach($user);
+        Notification::create([
+            'user_id' => $user->id,
+            'title' => "Your application to {$group->name} has been accepted.",
+            'text' => "Your application to {$group->name} has been accepted. You can now see it under Social > Groups > My Groups.",
+        ]);
 
         $admin = Auth::user();
         ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "{$admin->username} accepted {$user->username}'s group application into {$group->name}.");
-        return new JsonResponse(['message' => "You successfully accepted {$user->username}'s application."], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => "You successfully accepted {$user->username}'s application."]], Response::HTTP_OK);
     }
 
-    public function rejectGroupApplication(Request $request, $application_id) {
+    public function rejectGroupApplication(Request $request, $application_id): JsonResponse{
         $user = User::find(DB::table('group_applications')->find($application_id)->user_id);
         $group = Group::find(DB::table('group_applications')->find($application_id)->group_id);
         if (!$group->isAdminById(Auth::user()->id))
@@ -114,7 +125,7 @@ class GroupsController extends Controller
 
         $admin = Auth::user();
         ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "{$admin->username} rejected {$user->username}'s group application into {$group->name}.");
-        return new JsonResponse(['message' => "You successfully rejected {$user->username}'s application."], Response::HTTP_OK);
+        return new JsonResponse(['message' => ['success' => "You successfully rejected {$user->username}'s application."]], Response::HTTP_OK);
     }
 
     public function leave(Request $request, Group $group): JsonResponse{

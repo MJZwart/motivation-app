@@ -17,7 +17,7 @@ class GroupApplicationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'time_applied' => $this->requested,
+            'applied_at' => $this->applied_at,
             'user_id' => $this->user_id,
             'username' => User::find($this->user_id)->username,
             'group_id' => $this->group_id,

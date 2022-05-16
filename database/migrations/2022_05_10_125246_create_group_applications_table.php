@@ -15,7 +15,7 @@ class CreateGroupApplicationsTable extends Migration
     {
         Schema::create('group_applications', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('requested')->useCurrent();
+            $table->timestamp('applied_at')->useCurrent();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('group_id')->constrained();
         });

@@ -90,7 +90,7 @@ class User extends Authenticatable
 
     public function applications() {
         return $this->belongsToMany('App\Models\Group', 'group_applications')
-            ->withPivot(['requested']);
+            ->withPivot(['applied_at']);
     }
     
     public function blockedUsers() {

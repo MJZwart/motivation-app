@@ -27,7 +27,7 @@ class Group extends Model
 
     public function applications() {
         return $this->belongsToMany('App\Models\User', 'group_applications')
-            ->withPivot(['requested']);
+            ->withPivot(['applied_at']);
     }
 
     public function isAdminById(int $id):bool {
