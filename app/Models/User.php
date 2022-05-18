@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
+use App\Models\GroupApplication;
 use App\Helpers\RewardObjectHandler;
 use App\Http\Resources\BannedUserResource;
 use Illuminate\Support\Facades\DB;
@@ -96,6 +97,7 @@ class User extends Authenticatable
 
     public function applications() {
         return $this->belongsToMany('App\Models\Group', 'group_applications')
+            ->using('App\Models\GroupApplication')
             ->withPivot(['applied_at']);
     }
     

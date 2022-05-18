@@ -99,8 +99,8 @@ class GroupsController extends Controller
     }
 
     public function acceptGroupApplication(Request $request, $application_id): JsonResponse{
-        $user = User::find(DB::table('group_applications')->find($application_id)->user_id);
-        $group = Group::find(DB::table('group_applications')->find($application_id)->group_id);
+        $user = User::find(GroupApplication::find($application_id)->user_id);
+        $group = Group::find(GroupApplication::find($application_id)->group_id);
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
         $group->applications()->detach($user);
@@ -117,8 +117,8 @@ class GroupsController extends Controller
     }
 
     public function rejectGroupApplication(Request $request, $application_id): JsonResponse{
-        $user = User::find(DB::table('group_applications')->find($application_id)->user_id);
-        $group = Group::find(DB::table('group_applications')->find($application_id)->group_id);
+        $user = User::find(GroupApplication::find($application_id)->user_id);
+        $group = Group::find(GroupApplication::find($application_id)->group_id);
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
         $group->applications()->detach($user);

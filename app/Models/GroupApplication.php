@@ -10,4 +10,6 @@ class GroupApplication extends Pivot
     use HasFactory;
 
     public $incrementing = true;
+
+    public $table = 'group_applications';
 }
