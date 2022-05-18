@@ -3,7 +3,7 @@
         <label :for="name">{{label}}</label>
         <input
             :id="id" 
-            :class="{invalid: isInvalid}"
+            :class="{invalid: isInvalid, disabled: disabled}"
             :type="type" 
             :name="name" 
             :value="modelValue"
@@ -75,3 +75,10 @@ const errorMsg = computed(() => {
     return (errors.value[props.name] || [])[0] || '';
 });
 </script>
+
+<style>
+.disabled {
+    color: grey;
+    background-color: #f0f0f0;
+}
+</style>

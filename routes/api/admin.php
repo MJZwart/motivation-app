@@ -31,5 +31,5 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/feedback', [AdminController::class, 'getFeedback']);
     Route::post('/feedback/archive/{feedback}', [AdminController::class, 'toggleArchiveFeedback']);
     Route::get('/bannedusers', [AdminController::class, 'getBannedUsers']);
-    Route::post('/unban/{bannedUser}', [AdminController::class, 'unbanUser']);
+    Route::post('/editban/{bannedUser}', [AdminController::class, 'editUserBan']);
 });

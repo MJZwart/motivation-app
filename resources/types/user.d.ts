@@ -19,6 +19,7 @@ export type UserStats = {
 }
 
 export type BannedUser = {
+    id: Number,
     created_at: Date,
     time_since: String,
     updated_at: Date,
@@ -35,4 +36,6 @@ export type BannedUser = {
     banned_until: Date,
     past: Boolean,
     banned_until_time: String,
+    comment: String,
+    end_ban: Boolean,
 }

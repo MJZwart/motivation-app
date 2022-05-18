@@ -89,6 +89,10 @@ export const BANNED_USERS_FIELDS = [
         key: 'banned_until',
     },
     {
+        label: 'Log',
+        key: 'log',
+    },
+    {
         label: 'Actions',
         key: 'actions',
     },

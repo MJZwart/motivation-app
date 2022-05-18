@@ -15,7 +15,8 @@ class AddColumnsToBannedUsersTable extends Migration
     {
         Schema::table('banned_users', function (Blueprint $table) {
             $table->timestamp('early_release')->nullable();
-            $table->text('early_release_details')->nullable();
+            $table->text('ban_edit_comment')->nullable();
+            $table->text('ban_edit_log')->nullable();
         });
     }
 

@@ -118,12 +118,10 @@ export const useAdminStore = defineStore('admin', {
 
         /**
          * Ends the suspension of a given user manually.
-         * @param {Number} bannedUserId 
-         * @returns {Promise<import('resources/types/user').BannedUser[]>}
+         * @param {import('resources/types/user').BannedUser} userBan 
          */
-        async unban(bannedUserId) {
-            const {data} = await axios.post(`/admin/unban/${bannedUserId}`);
-            return data.banned_users;
+        async editBan(userBan) {
+            await axios.post(`/admin/editban/${userBan.id}`, userBan);
         },
 
         /**

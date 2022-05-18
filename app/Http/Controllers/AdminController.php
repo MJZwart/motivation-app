@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
 use App\Http\Requests\BanUserRequest;
+use App\Http\Requests\EditUserBanRequest;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
@@ -143,8 +144,25 @@ class AdminController extends Controller
         return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
     }
 
-    public function unbanUser(BannedUser $bannedUser) {
-        
+    /**
+     * Edits a user ban, keeping a log of events and unbans a user if applicable.
+     *
+     * @param BannedUser $bannedUser
+     * @param EditUserBanRequest $request
+     * @return void
+     */
+    public function editUserBan(BannedUser $bannedUser, EditUserBanRequest $request) {
+        $validated = $request->validated();
+        if ($validated['end_ban']) {
+            $newDate = Carbon::now();
+            $user = $bannedUser->user;
+            $user->banned_until = $newDate;
+            $user->save();
+            $bannedUser->early_release = $newDate;
+        } 
+        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment.$validated['comment'];
+        $bannedUser->ban_edit_log = $validated['log'];
+        $bannedUser->save();
     }
 
     /**
