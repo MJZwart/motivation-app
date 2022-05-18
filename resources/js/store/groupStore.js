@@ -8,7 +8,6 @@ export const useGroupStore = defineStore('group', {
             myGroups: [],
             /** @type Array<import('resources/types/group').Group> */
             allGroups: [],
-            applications: [],
         }
     },
     actions: {
@@ -54,7 +53,7 @@ export const useGroupStore = defineStore('group', {
          */
         async fetchApplications(group) {
             const {data} = await axios.get(`/groups/applications/show/${group.id}`);
-            this.applications = data.applications;
+            return data.applications;
         },
         async rejectApplication(application) {
             await axios.post(`/groups/applications/reject/${application.id}`);

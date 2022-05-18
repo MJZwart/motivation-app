@@ -17,21 +17,21 @@
 
 <script setup>
 import {useGroupStore} from '/js/store/groupStore';
-import {ref, onMounted, computed} from 'vue';
+import {ref, onMounted} from 'vue';
 const groupStore = useGroupStore();
 
 const emit = defineEmits(['reloadGroups']);
 const loading = ref();
+const applications = ref();
 onMounted(() => {
     load();
 });
 async function load() {
     loading.value = true;
-    await groupStore.fetchApplications(props.group);
+    applications.value = await groupStore.fetchApplications(props.group);
     loading.value = false;
 }
 
-const applications = computed(() => groupStore.applications);
 
 const props = defineProps({
     group: {
