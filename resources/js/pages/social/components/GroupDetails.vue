@@ -60,7 +60,7 @@
         <Modal class="xl" :show="showManageApplicationsModal" :footer="false"
                :title="group.name" @close="closeManageApplications">
             <ManageApplicationsModal :group="group" @reloadGroups="emitReloadGroups()"/>    
-        </Modal>"
+        </Modal>
     </div>
 </template>
 
