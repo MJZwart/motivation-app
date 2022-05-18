@@ -21,11 +21,12 @@ import {ref, onMounted, computed} from 'vue';
 const groupStore = useGroupStore();
 
 const emit = defineEmits(['reloadGroups']);
-const loading = ref(true);
+const loading = ref();
 onMounted(() => {
     load();
 });
 async function load() {
+    loading.value = true;
     await groupStore.fetchApplications(props.group);
     loading.value = false;
 }
