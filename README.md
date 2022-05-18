@@ -78,13 +78,13 @@ Before launching the beta version of the site, the following things need to be f
 - [x] Tooltips on all buttons and otherwise unclear data
 - [ ] A tutorial or 'help what do I do here' button on every page
 # Users and interaction
-- [ ] Allowing users to manage their blocklist and search for friends to add
+- [x] Allowing users to manage their blocklist and search for friends to add
 - [ ] Allow a user to manage the group they are an admin of
 - [x] Fully allowing a user to manage their characters or villages (rename them, see their level)
 - [ ] Finished groups: invites to private groups, 
 # Admin and back-end
-- [ ] Admins able to view and respond to feedback
-- [ ] Admins able to view reported users and perform action: message the user, ban the user
+- [x] Admins able to view and respond to feedback
+- [x] Admins able to view reported users and perform action: message the user, ban the user
 - [ ] Tracking of logins (attempts) for security
 - [ ] Worked out good balancing of the rewards (experience points) to start off with, and plenty of levels to gain
 

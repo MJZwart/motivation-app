@@ -25,7 +25,7 @@ class NewAchievementRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|max:255',
             'description' => 'required|string',
             'trigger_type' => 'required|exists:achievement_triggers,trigger_type',
             'trigger_amount' => 'required|integer',

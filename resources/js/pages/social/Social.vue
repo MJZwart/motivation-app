@@ -20,8 +20,8 @@
                 {{ $t('blocklist') }}
             </button>
         </div>
-        <KeepAlive class="col-10">
-            <component :is="currentTabComponent" :key="activeComponent" />
+        <KeepAlive class="tab-content col-10">
+            <component :is="currentTabComponent" :key="tabKey" />
         </KeepAlive>
     </div>
 </template>
@@ -30,22 +30,31 @@
 import Groups from './tabs/Groups.vue';
 import Friends from './tabs/Friends.vue';
 import Blocklist from './tabs/Blocklist.vue';
-import {shallowRef, ref} from 'vue';
+import {shallowRef, ref, onMounted} from 'vue';
 
-const componentNames = {
+onMounted(async() => {
+    if (window.location.hash)
+        tabKey.value = window.location.hash.slice(1);
+    else 
+        tabKey.value = 'Groups';
+    currentTabComponent.value = tabs[tabKey.value];
+});
+
+const tabs = {
     'Groups': Groups,
     'Friends': Friends,
     'Blocklist': Blocklist,
 }
-const activeComponent = ref('Groups');
+const tabKey = ref('');
 
-const currentTabComponent = shallowRef(componentNames[activeComponent.value]);
-function activeTab(component) {
-    if (component == activeComponent.value) return 'active-tab';
+const currentTabComponent = shallowRef(tabs[0]);
+function activeTab(key) {
+    if (key == tabKey.value) return 'active-tab';
     return 'tab';
 }
-function switchTab(component) {
-    currentTabComponent.value = componentNames[component];
-    activeComponent.value = component;
+function switchTab(key) {
+    currentTabComponent.value = tabs[key];
+    tabKey.value = key;
+    window.location.hash = key;
 }
 </script>

@@ -8,6 +8,8 @@
             :name="name" 
             :value="modelValue"
             :placeholder="placeholder" 
+            :min="min"
+            :max="max"
             @input="$emit('update:modelValue', $event.target.value)"
         />
         <div v-if="errorMsg">
@@ -46,6 +48,14 @@ const props = defineProps({
         type: String,
         required: false,
     },
+    min: {
+        type: String,
+        required: false,
+    },
+    max: {
+        type: String,
+        required: false,
+    },
 });
 defineEmits(['update:modelValue']);
 const errors = computed(() => mainStore.errors)
@@ -59,12 +69,3 @@ const errorMsg = computed(() => {
     return (errors.value[props.name] || [])[0] || '';
 });
 </script>
-
-<style lang="scss" scoped>
-@import '../../../assets/scss/variables';
-.invalid-feedback {
-    color: $red;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-}
-</style>

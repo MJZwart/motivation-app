@@ -25,8 +25,8 @@ class StoreGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'description' => 'required|string',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
             'is_public' => 'boolean|required',
             'require_application' => 'boolean|required',
         ];

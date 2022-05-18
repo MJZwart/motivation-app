@@ -42,7 +42,10 @@ const mainStore = useMainStore();
 
 onMounted(() => {
     villageExpGain.value = shallowRef(village_exp_gain).value;
+    loading.value = false;
 });
+
+const loading = ref(true);
 
 const villageExpGain = ref(null);
 const villageExpGainFields = VILLAGE_EXP_GAIN_FIELDS;

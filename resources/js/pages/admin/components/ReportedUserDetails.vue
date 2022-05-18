@@ -4,25 +4,38 @@
             :items="user.reports"
             :fields="reportedUserDetailsFields"
             class="reported-user-details-table"
-            :options="['table-striped']"
+            :options="['table-striped', 'page-wide']"
         >
             <template #actions>
-                <button @click="sendMessageToReportedUser()">place holder message</button>
+                <Tooltip :text="$t('message-reported-user')">
+                    <FaIcon 
+                        icon="envelope"
+                        class="icon"
+                        @click="sendMessageToReportedUser()" />
+                </Tooltip>
             </template>
             <template #conversation="row">
-                <p>{{row.item.conversation}}</p>
-                <template v-if="row.item.conversation">
-                    <button @click="showConversation(row.item.conversation)"> placeholder show conversation</button>
-                </template>
+                <div v-if="row.item.conversation">
+                    {{ $t('yes')}}
+                    <Tooltip :text="$t('show-conversation')">
+                        <FaIcon 
+                            icon="magnifying-glass" 
+                            class="icon"
+                            @click="showConversation(row.item.conversation)" />
+                    </Tooltip>
+                </div>
+                <div v-else>
+                    {{ $t('no')}}
+                </div>
             </template>
         </Table>
 
-        <Modal :show="showSendMessageModal" :footer="false" :title="'placeholer title'" @close="closeSendMessageToReportedUser">
+        <Modal :show="showSendMessageModal" :footer="false" :title="$t('send-message')" @close="closeSendMessageToReportedUser">
             <SendMessage :user="user" @close="closeSendMessageToReportedUser"/>
         </Modal>
         <Modal :show="showConversationModal"
                :footer="false" 
-               :title="`placeholder title conversation ${conversationToShow}:`" 
+               :title="$t('see-conversation-reporter', {reportedUser: user.username})" 
                @close="closeShowConversation">
             <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation"/>
         </Modal>
@@ -32,7 +45,7 @@
 
 <script setup>
 import {ref} from 'vue';
-import {REPORTED_USER_DETAILS_FIELDS} from '/js/constants/reportedUserConstants.js';
+import {REPORTED_USER_DETAILS_FIELDS} from '/js/constants/reportUserConstants.js';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import ShowConversationModal from './ShowConversationModal.vue';
 import Table from '/js/components/global/Table.vue';
@@ -43,10 +56,6 @@ defineProps({
     user: {
         type: Object,
         required: true,
-    },
-    index: {
-        type: Number,
-        reqired: true,
     },
 });
 

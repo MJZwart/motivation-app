@@ -14,8 +14,6 @@ export const useUserStore = defineStore('user', {
             authenticated: JSON.parse(localStorage.getItem('authenticated') || '{}') || false,
             /** @type import('resources/types/user').UserStats | null */
             userStats: null,
-            /** @type Array<import('resources/types/user').User> | null */
-            searchResults: null,
         }
     },
     getters: {
@@ -25,12 +23,14 @@ export const useUserStore = defineStore('user', {
     },
     actions: {
         /**
-         * User authentication
+         * User authentication. If user login is valid but the account is otherwise invalidated, 
+         * instead return info the Login screen.
          * @param {import('resources/types/user').User} user
          */
         async login(user) {
-            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+            await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
+            if (data.invalid) return data.message;
             this.setUser(data.user);
             router.push('/dashboard').catch(() => {});
         },
@@ -58,6 +58,7 @@ export const useUserStore = defineStore('user', {
          * @param {import('resources/types/user').User} user
          */
         async register(user) {
+            await axios.get('/sanctum/csrf-cookie');
             await axios.post('/register', user);
             router.push('/login').catch(() => { });
         },
@@ -121,10 +122,11 @@ export const useUserStore = defineStore('user', {
 
         /**
          * @param {String} searchValue
+         * @returns Array<import('resources/types/user').User>
          */
         async searchUser(searchValue) {
             const {data} = await axios.post('/search', searchValue);
-            this.searchResults = data.data;
+            return data.data;
         },
 
         /**

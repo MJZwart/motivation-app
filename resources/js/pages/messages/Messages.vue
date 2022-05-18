@@ -25,7 +25,7 @@
                             <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
                         </div>
                     </div>
-                    <div v-if="activeConversation" class="col-8 m-1">
+                    <div v-if="activeConversation" class="col m-1 min-col-8">
                         <h5 class="d-flex">{{ $t('conversation-with') }}&nbsp;
                             <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
                                 {{activeConversation.recipient.username}}
@@ -61,7 +61,7 @@
                                     id="message" 
                                     v-model="message.message"
                                     name="message" 
-                                    rows=3
+                                    :rows=3
                                     :placeholder="$t('type-your-reply')" />
                                 <button type="submit" class="block">{{ $t('send-reply') }}</button>
                             </form>

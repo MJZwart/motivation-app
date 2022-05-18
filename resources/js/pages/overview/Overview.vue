@@ -1,7 +1,7 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <div v-else>
+        <div v-else class="w-60-flex center">
             <RewardCard v-if="rewardObj" class="mb-2" :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
             <UserStats class="mb-2" :user-stats="userStats" />
             <AchievementsCard :achievements="achievements" />

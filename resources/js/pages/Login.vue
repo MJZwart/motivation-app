@@ -1,13 +1,14 @@
 <template>
-    <div class="w-40 center">
+    <div class="w-40-flex center">
         <h2>{{ $t('login') }}</h2>
+        <p v-if="info" class="invalid-feedback">{{info.error}}</p>
         <form @submit.prevent="submitLogin">
             <Input 
                 id="username" 
                 v-model="login.username" 
                 name="username"
                 type="text" 
-                :label="$t('password')"
+                :label="$t('username')"
                 :placeholder="$t('username')" />
             <Input  
                 id="password" 
@@ -25,7 +26,7 @@
 
 <script setup>
 import {useUserStore} from '/js/store/userStore';
-import {reactive} from 'vue';
+import {reactive, ref} from 'vue';
 
 const login = reactive({
     username: '',
@@ -33,8 +34,9 @@ const login = reactive({
 });
 
 const userStore = useUserStore();
+const info = ref(null);
 
-function submitLogin() {
-    userStore.login(login);
+async function submitLogin() {
+    info.value = await userStore.login(login);
 }
 </script>

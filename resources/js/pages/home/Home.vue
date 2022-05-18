@@ -1,5 +1,5 @@
 <template>
-    <div class="w-60 center">
+    <div class="w-60-flex center">
         <div class="d-flex">
             <div class="w-80 center jumbotron">
                 <h1 class="display-3">{{appTitle}}</h1>
@@ -8,7 +8,7 @@
         </div>
         <hr />
         <div class="card-deck mb-3 text-center">
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">{{ $t('explanation-tasks-header') }}</div>
                 <div class="card-body">
                     <TaskList
@@ -69,5 +69,13 @@ const appLead = computed(() => t('home-introduction'));
 }
 .display-3{
     font-size:4rem;
+}
+.w-60-flex {
+    max-width: 850px;
+}
+@media (max-width:650px){
+    .card-deck{
+        flex-flow: column wrap;
+    }
 }
 </style>

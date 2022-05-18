@@ -26,7 +26,7 @@ class StoreReportedUserRequest extends FormRequest
     {
         return [
             'comment' => 'required_without:conversation_id|string|nullable',
-            'reason' => 'required|string',
+            'reason' => 'required|string|max:255',
             'conversation_id' => 'required_without:comment|string',
         ];
     }

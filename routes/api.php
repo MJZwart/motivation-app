@@ -6,7 +6,6 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\TaskListController;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FriendController;
@@ -17,7 +16,6 @@ use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\GroupsController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FeedbackController;
 
 /*
@@ -35,13 +33,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Middleware for admin
+$routes = str_replace(".php", "", array_diff(scandir(base_path() . '/routes/api'), array('.', '..')));
+foreach ($routes as $route) {
+    Route::prefix($route)->group(base_path('routes/api/' . $route . '.php'));
+}
 
 Route::post('/login', [AuthenticationController::class, 'authenticate']);
 Route::post('/logout', [AuthenticationController::class, 'logout']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['valid-auth']], function () {
     Route::resource('/tasks', TaskController::class)->only([
         'store', 'show', 'update', 'destroy'
     ]);
@@ -111,23 +112,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/user/{user}/report', [UserController::class, 'reportUser']);
 });
-
-Route::group(['middleware' => ['admin']], function () {
-
-    Route::resource('/achievements', AchievementController::class)->only([
-        'store', 'update',
-    ]);
-    Route::get('/admin/dashboard', [AdminController::class, 'getAdminDashboard']);
-    Route::put('/admin/experience_points', [AdminController::class, 'updateExeriencePoints']);
-    Route::put('/admin/character_exp_gain', [AdminController::class, 'updateCharacterExpGain']);
-    Route::put('/admin/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);
-    Route::get('/admin/conversation/{id}', [AdminController::class, 'getConversationById']);
-    Route::post('/admin/experience_points', [AdminController::class, 'addNewLevel']);
-});
-
-// Route::get('/achievements', [AchievementController::class, 'showAll']);
-// Route::get('/achievements/triggers', [AchievementController::class, 'showTriggers']);
-
 
 Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
 Route::post('/feedback', [FeedbackController::class, 'store']);

@@ -24,7 +24,7 @@ class CreateFeedbackTable extends Migration
         });
         Schema::table('feedback', function (Blueprint $table){
             $table->foreign('user_id')
-                ->references('id')->on('tasks')
+                ->references('id')->on('users')
                 ->onDelete('set null');
         });
     }

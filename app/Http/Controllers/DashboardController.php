@@ -15,6 +15,7 @@ class DashboardController extends Controller
      * Returns the task lists and character in an object
      */
     public function getDashboard(){
+        /** @var User */
         $user = Auth::user();
         $taskLists = TaskListResource::collection($user->taskLists);
         $rewardObj = RewardObjectHandler::getActiveRewardObjectResourceByUser($user->rewards, $user->id);

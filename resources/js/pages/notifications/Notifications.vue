@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-60-flex center">
         <h2>{{ $t('notifications') }}</h2>
         <Loading v-if="loading" />
         <div v-else>

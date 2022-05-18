@@ -14,8 +14,6 @@ export const useAdminStore = defineStore('admin', {
             villageExpGain: null,
             /** @type Array<import('resources/types/admin').ReportedUser> | null */
             reportedUsers: null,
-            /** @type import('resources/types/message').Conversation | null */
-            conversation: null,
             /** @type Array<import('resources/types/bug').BugReport> | null */
             bugReports: null,
         }
@@ -56,10 +54,11 @@ export const useAdminStore = defineStore('admin', {
         },
         /**
          * @param {Number} id
+         * @returns import('resources/types/message').Conversation | null
          */
         async fetchConversation(id) {
             const {data} = await axios.get(`/admin/conversation/${id}`);
-            this.conversation = data.data;
+            return data.data;
         },
         /**
          * @param {import('resources/types/bug').BugReport} bugReport
@@ -97,6 +96,33 @@ export const useAdminStore = defineStore('admin', {
         async updateVillageExpGain(villageExpGain) {
             const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
             this.villageExpGain = data.data;
+        },
+
+        /**
+         * Suspends a user account for x amount of days, or indefinite
+         * @param {Number} userId 
+         * @param {Object} suspension 
+         */
+        async suspendUser(userId, suspension) {
+            const {data} = await axios.post(`/admin/suspend/${userId}`, suspension);
+            this.reportedUsers = data.data;
+        },
+        /**
+         * Fetches all the feedback from back-end
+         * @returns Array<import('resources/types/feedback').Feedback>
+         */
+        async getFeedback() {
+            const {data} = await axios.get('/admin/feedback');
+            return data.feedback;
+        },
+        /**
+         * Toggles the feedback's archived status
+         * @param {Number} id
+         * @returns Array<import('resources/types/feedback').Feedback>
+         */
+        async toggleArchiveFeedback(id) {
+            const {data} = await axios.post(`/admin/feedback/archive/${id}`);
+            return data.feedback;
         },
     },
 });
