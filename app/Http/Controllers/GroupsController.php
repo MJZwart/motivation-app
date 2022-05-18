@@ -66,6 +66,8 @@ class GroupsController extends Controller
     }
 
     public function join(Request $request, Group $group): JsonResponse{
+        if (!$group->is_public)
+            return new JsonResponse(['message' => "This group is not public."], Response::HTTP_BAD_REQUEST);
         if ($group->require_application)
             return new JsonResponse(['message' => "This group needs an application to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
@@ -79,6 +81,8 @@ class GroupsController extends Controller
     }
 
     public function apply(Request $request, Group $group): JsonResponse{
+        if (!$group->is_public)
+            return new JsonResponse(['message' => "This group is not public."], Response::HTTP_BAD_REQUEST);
         if (!($group->require_application))
             return new JsonResponse(['message' => "This group does not require applications to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
