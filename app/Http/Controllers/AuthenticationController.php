@@ -29,7 +29,11 @@ class AuthenticationController extends Controller
             }
             $request->session()->regenerate();
             ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in '.$request['username']);
-            return new JsonResponse(['user' => new UserResource(Auth::user())]);
+            /** @var User */
+            $user = Auth::user();
+            $user->last_login = Carbon::now();
+            $user->save();
+            return new JsonResponse(['user' => new UserResource($user)]);
         }
         $errorMessage = 'Username or password is incorrect.';
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in '.$request['username'], 'Invalid login');

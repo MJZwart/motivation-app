@@ -45,6 +45,25 @@ export const useGroupStore = defineStore('group', {
         /**
          * @param {import('resources/types/group').Group} group
          */
+        async applyToGroup(group) {
+            await axios.post(`/groups/apply/${group.id}`);
+        },
+        /**
+         * @param {import('resources/types/group').Group} group
+         */
+        async fetchApplications(group) {
+            const {data} = await axios.get(`/groups/applications/show/${group.id}`);
+            return data.applications;
+        },
+        async rejectApplication(application) {
+            await axios.post(`/groups/applications/reject/${application.id}`);
+        },
+        async acceptApplication(application) {
+            await axios.post(`/groups/applications/accept/${application.id}`);
+        },
+        /**
+         * @param {import('resources/types/group').Group} group
+         */
         async leaveGroup(group) {
             await axios.post(`/groups/leave/${group.id}`);
         },

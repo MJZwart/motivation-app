@@ -4,6 +4,12 @@
         <div v-else class="row">
             <div class="tabs col-2">
                 <button 
+                    :class="activeTab('Overview')" 
+                    class="tab-item"
+                    @click="switchTab('Overview')">
+                    {{$t('overview')}}
+                </button>
+                <button 
                     :class="activeTab('Achievements')" 
                     class="tab-item"
                     @click="switchTab('Achievements')">
@@ -62,6 +68,7 @@ import Balancing from './tabs/Balancing.vue';
 import ReportedUsers from './tabs/ReportedUsers.vue';
 import Feedback from './tabs/Feedback.vue';
 import BannedUsers from './tabs/BannedUsers.vue';
+import Overview from './tabs/Overview.vue';
 import {shallowRef, onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
 
@@ -73,12 +80,13 @@ onMounted(async() => {
     if (window.location.hash)
         tabKey.value = window.location.hash.slice(1);
     else 
-        tabKey.value = 'Achievements';
+        tabKey.value = 'Overview';
     currentTabComponent.value = tabs[tabKey.value];
     loading.value = false;
 });
 
 const tabs = {
+    'Overview': Overview,
     'Achievements': Achievements,
     'BugReportPanel': BugReportPanel,
     'SendNotifications': SendNotifications,

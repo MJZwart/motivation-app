@@ -28,6 +28,7 @@ class StoreGroupRequest extends FormRequest
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'is_public' => 'boolean|required',
+            'require_application' => 'boolean|required',
         ];
     }
 
@@ -38,6 +39,7 @@ class StoreGroupRequest extends FormRequest
             'description.required' => 'You have not entered a description.',
             'description.*' => 'You have not entered a valid description.',
             'is_public.*' => 'You have not selected the publicity of your group.',
+            'require_application.*' => 'You have not selected if an application is required to join this group.'
         ];
     }
 }

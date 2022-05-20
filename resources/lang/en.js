@@ -200,6 +200,7 @@ export default {
     'leave-group': 'Leave group',
     'delete-group': 'Delete group',
     'show-details': 'Show details',
+    'manage-group-applications': 'Manage Applications',
     'delete-group-confirm': 'Are you sure you want to delete the group {group}?',
     'leave-group-confirm': 'Are you sure you want to leave the gorup {group}?',
     'no-groups-found': 'No groups at this time. Join or make one!',
