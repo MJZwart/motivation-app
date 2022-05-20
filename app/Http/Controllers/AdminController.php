@@ -153,4 +153,30 @@ class AdminController extends Controller
             'feedback' => FeedbackResource::collection(Feedback::get())], 
             Response::HTTP_OK);
     }   
+
+    /**
+     * Gets an overview of stats related to the website, relevant for admins
+     */
+    public function getOverview() {
+        $yesterday = Carbon::now()->subDay();
+        $lastWeek = Carbon::now()->subWeek();
+        $totalUsers = User::count();
+        $activeUsers = User::where('last_login', '>', $yesterday)->count();
+        $newUsers = User::where('created_at', '>', $lastWeek)->count();
+        $unarchivedFeedback = Feedback::where('archived', false)->count();
+        $unresolvedBugs = BugReport::where('status', '!=', 3)->count();
+        $newFeedback = Feedback::where('created_at', '>', $lastWeek)->count();
+        $newBugs = BugReport::where('created_at', '>', $lastWeek)->count();
+        $newUserReports = ReportedUser::where('created_at', '>', $lastWeek)->count();
+        $overview = [
+            'total-users' => $totalUsers, 
+            'new-users' => $newUsers,
+            'active-users' => $activeUsers, 
+            'unarchived-feedback' => $unarchivedFeedback, 
+            'unresolved-bugs' => $unresolvedBugs, 
+            'new-feedback' => $newFeedback, 
+            'new-bugs' => $newBugs, 
+            'new-user-reports' => $newUserReports];
+        return new JsonResponse(['overview' => $overview]);
+    }
 }

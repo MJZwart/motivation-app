@@ -124,5 +124,14 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.post(`/admin/feedback/archive/${id}`);
             return data.feedback;
         },
+
+        /**
+         * Fetches an overview of numbers related to the site, like users, new bug reports, etc.
+         * @returns Object
+         */
+        async getOverview() {
+            const {data} = await axios.get('/admin/overview');
+            return data.overview;
+        },
     },
 });

@@ -75,7 +75,7 @@
             </div>
             
             <Modal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
-                <ReportUser :user="userToReport" :conversation_id="conversationToReport" @close="closeReportUserModal" />
+                <ReportUser :user="userToReport" :conversation_id="conversationToReport.value" @close="closeReportUserModal" />
             </Modal>
         </div>
     </div>
