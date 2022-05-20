@@ -51,7 +51,7 @@ const report = ref({reason: null, comment: null});
 
 async function reportUser() {
     if (props.conversation_id) report.value.conversation_id = props.conversation_id;
-    await userStore.reportUser([props.user.value, report.value])
+    await userStore.reportUser([props.user, report.value])
     close();
 }
 function close() {

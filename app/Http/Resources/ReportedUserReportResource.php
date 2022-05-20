@@ -19,7 +19,7 @@ class ReportedUserReportResource extends JsonResource
             'comment' => $this->comment,
             'reported_date' => $this->created_at->toDateTimeString(),
             'reported_by_id' => $this->reported_by_user_id,
-            'reported_by_name' => $this->getReportedUser()->value('username'),
+            'reported_by_name' => $this->getReportedUser()->username,
             'conversation' => (int) $this->conversation_id,
             'id' => $this->id,
             'reason' => $this->reason,

@@ -14,12 +14,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(10)
+        User::factory(20)
             ->hasCharacters(1)
             ->hasTaskLists(3)
-            ->create(['first_login' => false]);
+            ->create(['rewards' => 'CHARACTER', 'first_login' => false]);
             
-        User::factory(10)
+        User::factory(20)
             ->hasVillages(1)
             ->hasTaskLists(3)
             ->create(['rewards' => 'VILLAGE', 'first_login' => false]);
@@ -27,12 +27,12 @@ class UserSeeder extends Seeder
         User::factory()
             ->hasCharacters(1)
             ->hasTaskLists(2)
-            ->create(['username' => 'admin', 'admin' => true]);
+            ->create(['rewards' => 'CHARACTER', 'username' => 'admin', 'admin' => true]);
 
         User::factory()
             ->hasCharacters(1)
             ->hasTaskLists(2)
-            ->create(['username' => 'chartest', 'first_login' => false]);
+            ->create(['rewards' => 'CHARACTER', 'username' => 'chartest', 'first_login' => false]);
 
         User::factory()
             ->hasVillages(1)
@@ -42,5 +42,9 @@ class UserSeeder extends Seeder
         User::factory()
             ->hasTaskLists(2)
             ->create(['username' => 'test', 'first_login' => false, 'rewards' => 'NONE']);
+
+        User::factory(20)
+            ->hasTaskLists(2)
+            ->create(['first_login' => false, 'rewards' => 'NONE']);
     }
 }

@@ -52,6 +52,15 @@ class AdminController extends Controller
             Response::HTTP_OK);
     }
 
+    public function getReportedUsers() {
+        $reportedUsers = ReportedUserResource::collection(
+            User::get()->filter(function ($user) {
+                return $user->isReported();
+            })
+        );
+        return new JsonResponse(['reportedUsers' => $reportedUsers], Response::HTTP_OK);
+    }
+
     public function updateExeriencePoints(UpdateExperiencePointsRequest $request) {
         $validated = $request->validated();
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);

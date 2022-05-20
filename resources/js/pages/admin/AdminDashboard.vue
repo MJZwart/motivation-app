@@ -87,7 +87,7 @@ const tabs = {
     'ReportedUsers': ReportedUsers,
     'Feedback': Feedback,
 }
-const tabKey = ref('');
+const tabKey = ref('Overview');
 
 const currentTabComponent = shallowRef(tabs[0]);
 function activeTab(key) {

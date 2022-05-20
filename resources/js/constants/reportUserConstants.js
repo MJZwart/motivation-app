@@ -55,8 +55,4 @@ export const REPORTED_USER_DETAILS_FIELDS = [
         label: 'Reason',
         key: 'reason',
     },
-    {
-        label: 'Actions',
-        key: 'actions',
-    },
 ];
