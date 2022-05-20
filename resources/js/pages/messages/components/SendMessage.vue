@@ -50,7 +50,5 @@ async function sendMessage() {
     await messageStore.sendMessage(message.value)
     emit('close');
 }
-const sendMessageTitle = computed(() => props.user.username ?
-    `Send message to ${props.user.username}` :
-    `Send message to User ${props.user.id}`);
+const sendMessageTitle = computed(() => `Send message to ${props.user.username}`)
 </script>
