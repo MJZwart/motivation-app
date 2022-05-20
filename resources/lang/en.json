@@ -194,7 +194,7 @@
     "automatically-end-ban-confirm": "Changing the amount of days to this would end the current ban. Are you sure?",
     "reset-days": "Reset days",
     "end-ban": "End ban",
-    
+    "ban-ended": "This ban has ended",
 
     "manage-achievements": "Manage achievements",
     "no-achievements": "No achievements yet.",

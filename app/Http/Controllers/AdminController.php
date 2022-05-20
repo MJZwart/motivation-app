@@ -26,6 +26,7 @@ use App\Models\BannedUser;
 use Carbon\Carbon;
 use App\Http\Resources\FeedbackResource;
 use App\Models\Feedback;
+use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -128,10 +129,12 @@ class AdminController extends Controller
                 return $user->isReported();
             })
         );
+        $bannedUsers = BannedUserResource::collection(BannedUser::get());
 
         return new JsonResponse(
             ['message' => ['success' => 'User banned until '. $bannedUntilTime],
-            'data' => $reportedUsers],
+            'reported_users' => $reportedUsers,
+            'banned_users' => $bannedUsers],
             Response::HTTP_OK);
     }
 
@@ -149,7 +152,7 @@ class AdminController extends Controller
      *
      * @param BannedUser $bannedUser
      * @param EditUserBanRequest $request
-     * @return void
+     * @return JsonResponse with BannedUserResource collection
      */
     public function editUserBan(BannedUser $bannedUser, EditUserBanRequest $request) {
         $validated = $request->validated();
@@ -159,10 +162,22 @@ class AdminController extends Controller
             $user->banned_until = $newDate;
             $user->save();
             $bannedUser->early_release = $newDate;
-        } 
-        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment.$validated['comment'];
-        $bannedUser->ban_edit_log = $validated['log'];
+            Notification::create(['user_id' => $user->id,
+                'title' => 'Your suspension has been lifted.',
+                'text' => Auth::user()->username . 
+                    ' has ended your suspension. Reason given: ' . $request['comment'] .
+                    ' You were originally banned for: ' . $bannedUser->reason]);
+        } else {
+            $newDate = $bannedUser->created_at->addDays($validated['days']);
+            $user = $bannedUser->user;
+            $user->banned_until = $newDate;
+            $bannedUser->banned_until = $newDate;
+        }
+        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment.$validated['comment'].' | ';
+        $bannedUser->ban_edit_log = $bannedUser->ban_edit_log.$validated['log'].' | ';
         $bannedUser->save();
+        
+        return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
     }
 
     /**

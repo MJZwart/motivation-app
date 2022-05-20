@@ -1,55 +1,60 @@
 <template>
     <div>
-        <h3>{{ $t('banned-users') }}</h3>
+        <Loading v-if="loading" />
+        <div v-else>
+            <h3>{{ $t('banned-users') }}</h3>
 
-        <Table
-            :items="bannedUsers"
-            :fields="bannedUsersFields"
-            :options="['table-striped', 'page-wide', 'body-borders']"
-        >
-            <template #user="row">
-                <router-link :to="{ name: 'profile', params: { id: row.item.user.id}}">
-                    {{row.item.user.username}}
-                </router-link>
-            </template>
-            <template #admin="row">
-                <router-link :to="{ name: 'profile', params: { id: row.item.admin.id}}">
-                    {{row.item.admin.username}}
-                </router-link>
-            </template>
-            <template #banned_until="row">
-                <span v-if="row.item.early_release">
-                    {{row.item.early_release}}
-                </span>
-                <span v-else>
-                    {{row.item.banned_until}}
-                </span>
-                <span v-if="banEnded(row.item)">
-                    <FaIcon icon="lock-open" class="icon small green" />
-                </span>
-            </template>
-            <template #log="row">
-                {{row.item.ban_edit_log}}
-                {{row.item.ban_edit_comment}}
-            </template>
-            <template #actions="row">
-                <div v-if="!row.item.past">
-                    <Tooltip :text="$t('edit-ban')">
-                        <FaIcon 
-                            :icon="['far', 'pen-to-square']"
-                            class="icon"
-                            @click="editBan(row.item)" />  
-                    </Tooltip>
-                </div>
-            </template>
-        </Table>
-        <Modal 
-            :show="showEditBanModal"
-            :footer="false"
-            :title="editBanModalTitle"
-            @close="closeEditBanModal">
-            <EditBan :userBan="editBanUser" @close="closeEditBanModal" />
-        </Modal>
+            <Table
+                :items="bannedUsers"
+                :fields="bannedUsersFields"
+                :options="['table-striped', 'page-wide', 'body-borders']"
+            >
+                <template #user="row">
+                    <router-link :to="{ name: 'profile', params: { id: row.item.user.id}}">
+                        {{row.item.user.username}}
+                    </router-link>
+                </template>
+                <template #admin="row">
+                    <router-link :to="{ name: 'profile', params: { id: row.item.admin.id}}">
+                        {{row.item.admin.username}}
+                    </router-link>
+                </template>
+                <template #banned_until="row">
+                    <span v-if="row.item.early_release">
+                        {{row.item.early_release}}
+                    </span>
+                    <span v-else>
+                        {{row.item.banned_until}}
+                    </span>
+                    <span v-if="banEnded(row.item)">
+                        <Tooltip :text="$t('ban-ended')">
+                            <FaIcon icon="lock-open" class="icon small green" />
+                        </Tooltip>
+                    </span>
+                </template>
+                <template #log="row">
+                    {{row.item.ban_edit_log}}
+                    {{row.item.ban_edit_comment}}
+                </template>
+                <template #actions="row">
+                    <div v-if="!banEnded(row.item)">
+                        <Tooltip :text="$t('edit-ban')">
+                            <FaIcon 
+                                :icon="['far', 'pen-to-square']"
+                                class="icon"
+                                @click="editBan(row.item)" />  
+                        </Tooltip>
+                    </div>
+                </template>
+            </Table>
+            <Modal 
+                :show="showEditBanModal"
+                :footer="false"
+                :title="editBanModalTitle"
+                @close="closeEditBanModal">
+                <EditBan :userBan="editBanUser" @close="closeEditBanModal" />
+            </Modal>
+        </div>
     </div>
 </template>
 
@@ -65,10 +70,13 @@ import {useMainStore} from '/js/store/store';
 const mainStore = useMainStore();
 
 onMounted(async() => {
-    bannedUsers.value = await adminStore.getBannedUsers();
+    await adminStore.getBannedUsers();
+    loading.value = false;
 })
 
-const bannedUsers = ref([]);
+const loading = ref(true);
+
+const bannedUsers = computed(() => adminStore.bannedUsers);
 const bannedUsersFields = BANNED_USERS_FIELDS;
 
 const showEditBanModal = ref(false);

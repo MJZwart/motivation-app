@@ -70,6 +70,7 @@ export const BANNED_USERS_FIELDS = [
     {
         label: 'User',
         key: 'user',
+        sortable: true,
     },
     {
         label: 'Reason',
@@ -87,6 +88,7 @@ export const BANNED_USERS_FIELDS = [
     {
         label: 'Banned until',
         key: 'banned_until',
+        sortable: true,
     },
     {
         label: 'Log',
