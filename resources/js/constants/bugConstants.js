@@ -11,13 +11,13 @@ export const BUG_TYPES = [
     {text: 'Functionality', value: 'FUNCTIONALITY'}, 
     {text: 'Other', value: 'OTHER'}];
 
-export const BUG_SORTABLES = [
+export const BUG_REPORT_OVERVIEW_FIELDS = [
     {label: 'Time Created', key: 'time_created', sortable: true},
     {label: 'Title', key: 'title', sortable: true},
     {label: 'Page', key: 'page', sortable: true},
     {label: 'Type', key: 'type', sortable: true},
     {label: 'Severity', key: 'severity', sortable: true},
-    {label: 'User ID', key: 'user_id'},
+    {label: 'User', key: 'user'},
     {label: 'Status', key: 'status', sortable: true},
     {label: 'Image', key: 'image'},
     {label: 'Comment', key: 'comment'},
