@@ -27,6 +27,9 @@
                 <button class="m-1" @click="togglePublic">
                     {{group.is_public ? 'Set to private' : 'Make public' }}
                 </button>
+                <button v-if="group.is_public" class="m-1" @click="toggleRequireApplication()">
+                    {{group.require_application ? 'Do not require application' : 'Require application' }}
+                </button>
                 <!-- TODO turn this into a 'turn off button' -->
             </form>
         </div>
@@ -88,6 +91,13 @@ function save(item) {
 function togglePublic() {
     const group = {};
     group.is_public = !props.group.is_public;
+    group.id = props.group.id;
+    groupStore.updateGroup(group);
+}
+
+function toggleRequireApplication() {
+    const group = {};
+    group.require_application = !props.group.require_application;
     group.id = props.group.id;
     groupStore.updateGroup(group);
 }

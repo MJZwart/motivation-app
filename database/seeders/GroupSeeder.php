@@ -38,5 +38,23 @@ class GroupSeeder extends Seeder
                 ]);
             }
         }
+        DB::table('groups')->insert([
+            'name' => 'application_test',
+            'description' => 'application_test',
+            'is_public' => 1,
+            'require_application' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $group = Group::where('name', 'application_test')->first();
+        DB::table('group_user')->insert([
+            'user_id' => 21,
+            'rank' => 'admin',
+            'group_id' => $group->id,
+        ]);
+        shuffle($users);
+        for($i = 0; $i < 6; $i++) {
+            $group->applications()->attach($users[$i]);
+        };
     }
 }

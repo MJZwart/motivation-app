@@ -6,15 +6,19 @@ use App\Helpers\ActionTrackingHandler;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\Groups_Users;
+use App\Models\GroupApplication;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\DeleteGroupRequest;
 use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
+use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -35,6 +39,11 @@ class GroupsController extends Controller
         return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
     }
 
+    public function showApplications(Group $group) {
+        $applications = GroupApplicationResource::collection(DB::table('group_applications')->where('group_id', $group->id)->get());
+        return new JsonResponse(['applications' => $applications]);
+    }
+
     public function store(StoreGroupRequest $request): JsonResponse{
         $validated = $request->validated();
 
@@ -49,6 +58,7 @@ class GroupsController extends Controller
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an admin of the group you are trying to delete."], Response::HTTP_BAD_REQUEST);
         $group->users()->detach();
+        $group->applications()->detach();
         $group->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group '.$group->name);
         return new JsonResponse(['message' => ['success' => "Your group \"{$group->name}\" has been deleted."]], Response::HTTP_OK);
@@ -56,6 +66,8 @@ class GroupsController extends Controller
     }
 
     public function join(Request $request, Group $group): JsonResponse{
+        if ($group->require_application)
+            return new JsonResponse(['message' => "This group needs an application to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
         $users = $group->users();
         if ($users->find($user)) 
@@ -64,6 +76,56 @@ class GroupsController extends Controller
         
         ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', $user->username.' joined group '.$group->name);
         return new JsonResponse(['message' => ['success' => "You successfully joined the group \"{$group->name}\"."]], Response::HTTP_OK);
+    }
+
+    public function apply(Request $request, Group $group): JsonResponse{
+        if (!($group->require_application))
+            return new JsonResponse(['message' => "This group does not require applications to join."], Response::HTTP_BAD_REQUEST);
+        $user = Auth::user();
+        if ($group->users()->find($user))
+            return new JsonResponse(['message' => "You are already a member of this group."], Response::HTTP_BAD_REQUEST);
+        $applications = $group->applications();
+        if ($applications->find($user))
+            return new JsonResponse(['message' => "You already have a pending application for this group."], Response::HTTP_BAD_REQUEST);
+        $applications->attach($user);
+        Notification::create([
+            'user_id' => $group->getAdmin()->id,
+            'title' => "New group application to {$group->name}.",
+            'text' => "{$user->username} has applied to your group {$group->name}. Head to the details of {$group->name} and click on \"Manage Applications\" to accept or reject the application.",
+        ]);
+        
+        ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "{$user->username} applied to group {$group->name}");
+        return new JsonResponse(['message' => ['success' => "You successfully applied to the group \"{$group->name}\"."]], Response::HTTP_OK);
+    }
+
+    public function acceptGroupApplication(Request $request, $application_id): JsonResponse{
+        $user = User::find(GroupApplication::find($application_id)->user_id);
+        $group = Group::find(GroupApplication::find($application_id)->group_id);
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $group->applications()->detach($user);
+        $group->users()->attach($user);
+        Notification::create([
+            'user_id' => $user->id,
+            'title' => "Your application to {$group->name} has been accepted.",
+            'text' => "Your application to {$group->name} has been accepted. You can now see it under Social > Groups > My Groups.",
+        ]);
+
+        $admin = Auth::user();
+        ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "{$admin->username} accepted {$user->username}'s group application into {$group->name}.");
+        return new JsonResponse(['message' => ['success' => "You successfully accepted {$user->username}'s application."]], Response::HTTP_OK);
+    }
+
+    public function rejectGroupApplication(Request $request, $application_id): JsonResponse{
+        $user = User::find(GroupApplication::find($application_id)->user_id);
+        $group = Group::find(GroupApplication::find($application_id)->group_id);
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $group->applications()->detach($user);
+
+        $admin = Auth::user();
+        ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "{$admin->username} rejected {$user->username}'s group application into {$group->name}.");
+        return new JsonResponse(['message' => ['success' => "You successfully rejected {$user->username}'s application."]], Response::HTTP_OK);
     }
 
     public function leave(Request $request, Group $group): JsonResponse{

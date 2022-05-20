@@ -28,6 +28,7 @@ class UpdateGroupsRequest extends FormRequest
             'name' => 'sometimes|string|max:255',
             'description' => 'sometimes|string|max:255',
             'is_public' => 'sometimes|boolean',
+            'require_application' => 'sometimes|boolean',
         ];
     }
 }

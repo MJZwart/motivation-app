@@ -25,7 +25,8 @@
             "services/*": ["./resources/services/*"],
             "pages/*": ["./resources/pages/*"],
             "types/*": ["./types/*"],
-            "@/*": ["./resources/js/*"]
+            "@/*": ["./resources/js/*"],
+            "/js/*": ["./resources/js/*"]
         },
         "jsx": "preserve"
     },

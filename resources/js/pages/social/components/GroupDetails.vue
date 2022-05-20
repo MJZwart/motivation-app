@@ -22,12 +22,16 @@
                 </div>
                 <div class="col-3">
                     <div v-if="isJoinGroupVisible" class="row">
-                        <button type="button" @click="joinGroup()">{{$t('join-group')}}</button>
+                        <button v-if="!group.require_application" type="button" @click="joinGroup()">{{$t('join-group')}}</button>
+                        <button v-if="group.require_application" type="button" @click="applyToGroup()">
+                            {{$t('apply-to-group')}}
+                        </button>
                     </div>
                     <div v-else class="row">
                         <div v-if="isUserAdmin">
                             <button type="button" @click="deleteGroup()">{{ $t('delete-group') }}</button>
                             <button type="button" @click="manageGroup()">{{ $t('manage-group') }}</button>
+                            <button type="button" @click="manageApplications()">{{ $t('manage-group-applications') }}</button>
                         </div>
                         <div v-else>
                             <button type="button" @click="leaveGroup()">{{ $t('leave-group') }}</button>
@@ -53,12 +57,17 @@
                :title="group.name" @close="closeManageGroup">
             <ManageGroupModal :group="group" />
         </Modal>
+        <Modal class="xl" :show="showManageApplicationsModal" :footer="false"
+               :title="group.name" @close="closeManageApplications">
+            <ManageApplicationsModal :group="group" @reloadGroups="emitReloadGroups()"/>    
+        </Modal>
     </div>
 </template>
 
 <script setup>
 import {computed, ref} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
+import ManageApplicationsModal from './ManageApplicationsModal.vue';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 import {useGroupStore} from '/js/store/groupStore';
@@ -94,6 +103,12 @@ async function joinGroup() {
     emit('reloadGroups');
     emit('close');
 }
+
+async function applyToGroup() {
+    await groupStore.applyToGroup(props.group);
+    emit('reloadGroups');
+    emit('close');
+}
 async function deleteGroup() {
     if (confirm(t('delete-group-confirm', {group: props.group.name})))
         await groupStore.deleteGroup(props.group)
@@ -111,6 +126,17 @@ function manageGroup() {
 }
 function closeManageGroup() {
     showManageGroupModal.value = false;
+}
+const showManageApplicationsModal = ref(false);
+function manageApplications() {
+    showManageApplicationsModal.value = true;
+}
+function closeManageApplications() {
+    showManageApplicationsModal.value = false;
+}
+
+function emitReloadGroups() {
+    emit('reloadGroups');
 }
 </script>
 

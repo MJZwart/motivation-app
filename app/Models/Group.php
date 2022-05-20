@@ -16,12 +16,19 @@ class Group extends Model
         'name',
         'description',
         'is_public',
+        'require_application',
     ];
 
     public function users() {
         return $this->belongsToMany('App\Models\User')
             ->withPivot(['rank'])
             ->withPivot(['joined']);
+    }
+
+    public function applications() {
+        return $this->belongsToMany('App\Models\User', 'group_applications')
+            ->using('App\Models\GroupApplication')
+            ->withPivot(['applied_at']);
     }
 
     public function isAdminById(int $id):bool {
