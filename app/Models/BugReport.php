@@ -20,4 +20,8 @@ class BugReport extends Model
         'admin_comment',
         'status',
     ];
+
+    public function user() {
+        return $this->belongsTo('App\Models\User');
+    }
 }

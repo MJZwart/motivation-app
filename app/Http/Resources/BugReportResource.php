@@ -22,7 +22,7 @@ class BugReportResource extends JsonResource
             'page' => $this->page,
             'type' => $this->type,
             'severity' => $this->severity,
-            'user_id' => $this->user_id,
+            'user' => new StrippedUserResource($this->user),
             'image_link' => $this->image_link,
             'comment' => $this->comment,
             'admin_comment' => $this->admin_comment,
