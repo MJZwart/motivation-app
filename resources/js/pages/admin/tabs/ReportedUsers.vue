@@ -6,7 +6,7 @@
             
             <template v-for="(user, index) in reportedUsers" :key="index">
                 {{user}}
-                <div class="detailed-table" @click="showDetails($event)">
+                <div class="detailed-table" @click="showDetails(index)">
                     <div class="row top-row">
                         <div class="col">
                             <span class="header">Username</span>
@@ -40,6 +40,9 @@
                                     @click="sendMessageToReportedUser()" />
                             </Tooltip>
                         </div>
+                    </div>
+                    <div  :ref="el => { divs[index] = el }" class="sub-details row" :style="{transition: 'height 2s ease'}">
+                        Test
                     </div>
                     <!-- <div v-if="showDetails($event)" /> -->
                 </div>
@@ -195,7 +198,7 @@
 <script setup>
 // import Table from '/js/components/global/Table.vue';
 import TableLikeComponent from '/js/components/global/TableLikeComponent.vue';
-import {ref, computed, onMounted} from 'vue';
+import {ref, computed, onMounted, onBeforeUpdate} from 'vue';
 // import ReportedUserDetails from './../components/ReportedUserDetails.vue';
 import SuspendUserModal from './../components/SuspendUserModal.vue';
 import {REPORTED_USER_FIELDS, REPORTED_USER_DETAILS_FIELDS} from '/js/constants/reportUserConstants.js';
@@ -205,6 +208,8 @@ import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
 import {useMainStore} from '/js/store/store';
 const mainStore = useMainStore();
+
+onBeforeUpdate(() => divs.value = []);
 
 onMounted(async() => {
     await adminStore.getReportedUsers();
@@ -274,8 +279,11 @@ function closeSuspendUserModal() {
     showSuspendUserModal.value = false;
 }
 
-function showDetails(event) {
-    console.log(event);
+const divs = ref([]);
+
+function showDetails(index) {
+    if (divs.value[index].style.height == '0px') divs.value[index].style.height = 'max-content';
+    else divs.value[index].style.height = '0px';
 }
 </script>
 
@@ -313,4 +321,19 @@ function showDetails(event) {
         }
     }
 }
+.sub-details {
+    transition: height 2s ease;
+    height: max-content;
+    overflow: hidden;
+	// animation: slide-bottom 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+@keyframes slide-bottom {
+  0% {
+    // transform: translateY(-10px);
+  }
+  100% {
+    // transform: translateY(0px);
+  }
+}
+
 </style>

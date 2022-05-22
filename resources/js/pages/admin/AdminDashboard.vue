@@ -46,9 +46,9 @@
                     {{$t('feedback')}}
                 </button>
             </div>
-            <KeepAlive class="tab-content col-10">
+            <div class="tab-content col-10"><!-- TODO-->
                 <component :is="currentTabComponent" :key="tabKey" />
-            </KeepAlive>
+            </div>
         </div>
     </div>
 </template>
