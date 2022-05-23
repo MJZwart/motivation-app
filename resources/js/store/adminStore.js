@@ -16,6 +16,8 @@ export const useAdminStore = defineStore('admin', {
             reportedUsers: null,
             /** @type Array<import('resources/types/bug').BugReport> | null */
             bugReports: null,
+            /** @type Array<import('resources/types/user').BannedUser> | null */
+            bannedUsers: null,
         }
     },
     getters: {
@@ -105,8 +107,26 @@ export const useAdminStore = defineStore('admin', {
          */
         async suspendUser(userId, suspension) {
             const {data} = await axios.post(`/admin/suspend/${userId}`, suspension);
-            this.reportedUsers = data.data;
+            this.reportedUsers = data.reported_users;
+            this.bannedUsers = data.banned_users;
         },
+        /**
+         * Gets all banned users
+         */
+        async getBannedUsers() {
+            const {data} = await axios.get('/admin/bannedusers');
+            this.bannedUsers = data.banned_users;
+        },
+
+        /**
+         * Ends the suspension of a given user manually.
+         * @param {import('resources/types/user').BannedUser} userBan 
+         */
+        async editBan(userBan) {
+            const {data} = await axios.post(`/admin/editban/${userBan.id}`, userBan);
+            this.bannedUsers = data.banned_users;
+        },
+
         /**
          * Fetches all the feedback from back-end
          * @returns Array<import('resources/types/feedback').Feedback>

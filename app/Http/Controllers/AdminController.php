@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
 use App\Http\Requests\BanUserRequest;
+use App\Http\Requests\EditUserBanRequest;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
@@ -20,10 +21,12 @@ use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
 use App\Http\Resources\ReportedUserResource;
 use App\Http\Resources\AdminConversationResource;
+use App\Http\Resources\BannedUserResource;
 use App\Models\BannedUser;
 use Carbon\Carbon;
 use App\Http\Resources\FeedbackResource;
 use App\Models\Feedback;
+use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -126,13 +129,57 @@ class AdminController extends Controller
                 return $user->isReported();
             })
         );
+        $bannedUsers = BannedUserResource::collection(BannedUser::get());
 
         return new JsonResponse(
             ['message' => ['success' => 'User banned until '. $bannedUntilTime],
-            'data' => $reportedUsers],
+            'reported_users' => $reportedUsers,
+            'banned_users' => $bannedUsers],
             Response::HTTP_OK);
     }
-    
+
+    /**
+     * Gets all banned users
+     *
+     * @return JsonResponse with BannedUserResource collection
+     */
+    public function getBannedUsers() {
+        return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
+    }
+
+    /**
+     * Edits a user ban, keeping a log of events and unbans a user if applicable.
+     *
+     * @param BannedUser $bannedUser
+     * @param EditUserBanRequest $request
+     * @return JsonResponse with BannedUserResource collection
+     */
+    public function editUserBan(BannedUser $bannedUser, EditUserBanRequest $request) {
+        $validated = $request->validated();
+        if ($validated['end_ban']) {
+            $newDate = Carbon::now();
+            $user = $bannedUser->user;
+            $user->banned_until = $newDate;
+            $user->save();
+            $bannedUser->early_release = $newDate;
+            Notification::create(['user_id' => $user->id,
+                'title' => 'Your suspension has been lifted.',
+                'text' => Auth::user()->username . 
+                    ' has ended your suspension. Reason given: ' . $request['comment'] .
+                    ' You were originally banned for: ' . $bannedUser->reason]);
+        } else {
+            $newDate = $bannedUser->created_at->addDays($validated['days']);
+            $user = $bannedUser->user;
+            $user->banned_until = $newDate;
+            $bannedUser->banned_until = $newDate;
+        }
+        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment.$validated['comment'].' | ';
+        $bannedUser->ban_edit_log = $bannedUser->ban_edit_log.$validated['log'].' | ';
+        $bannedUser->save();
+        
+        return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
+    }
+
     /**
      * Fetches all existing feedback and returns it in a Resource collection
      * @return JsonResponse with FeedbackResource collection

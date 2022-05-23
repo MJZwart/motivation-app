@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             BugReportSeeder::class,
             GroupSeeder::class,
             FeedbackSeeder::class,
+            BannedUsersSeeder::class,
         ]);
     }
 }

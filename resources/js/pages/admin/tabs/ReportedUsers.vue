@@ -16,7 +16,7 @@
                         {{ $t('show-details') }}
                     </FaIcon>                        
                 </Tooltip>
-                <Tooltip :text="$t('suspend-user')">
+                <Tooltip v-if="!currentlyBanned(row.item)" :text="$t('suspend-user')">
                     <FaIcon 
                         icon="ban" 
                         class="icon red"
@@ -61,6 +61,7 @@ import Table from '/js/components/global/Table.vue';
 import {ref, computed} from 'vue';
 import ReportedUserDetails from './../components/ReportedUserDetails.vue';
 import SuspendUserModal from './../components/SuspendUserModal.vue';
+import {DateTime} from 'luxon';
 import {REPORTED_USER_FIELDS} from '/js/constants/reportUserConstants.js';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
@@ -102,6 +103,10 @@ function suspendUser(item) {
 }
 function closeSuspendUserModal() {
     showSuspendUserModal.value = false;
+}
+
+function currentlyBanned(user) {
+    return !!user.banned_until && DateTime.now() < DateTime.fromFormat(user.banned_until, 'yyyy-MM-dd HH:mm:ss')
 }
 </script>
 

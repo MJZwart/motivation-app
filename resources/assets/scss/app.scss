@@ -134,6 +134,11 @@ button.clear {
     background-color: $red;
     border-color: $red;
 }
+button:disabled {
+    background-color: $primary;
+    border-color: $primary;
+    cursor: not-allowed;
+}
 .tabs {
     border-right: 1px solid $border-color;
     display: flex;

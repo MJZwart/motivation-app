@@ -60,3 +60,42 @@ export const REPORTED_USER_DETAILS_FIELDS = [
         key: 'actions',
     },
 ];
+
+export const BANNED_USERS_FIELDS = [
+    {
+        label: 'Date',
+        key: 'created_at',
+        sortable: true,
+    },
+    {
+        label: 'User',
+        key: 'user',
+        sortable: true,
+    },
+    {
+        label: 'Reason',
+        key: 'reason',
+    },
+    {
+        label: 'Days',
+        key: 'days',
+        sortable: true,
+    },
+    {
+        label: 'Banned by',
+        key: 'admin',
+    },
+    {
+        label: 'Banned until',
+        key: 'banned_until',
+        sortable: true,
+    },
+    {
+        label: 'Log',
+        key: 'log',
+    },
+    {
+        label: 'Actions',
+        key: 'actions',
+    },
+];
