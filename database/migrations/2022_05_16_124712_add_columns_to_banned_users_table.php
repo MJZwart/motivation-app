@@ -29,7 +29,8 @@ class AddColumnsToBannedUsersTable extends Migration
     {
         Schema::table('banned_users', function (Blueprint $table) {
             $table->dropColumn('early_release');
-            $table->dropColumn('early_release_details');
+            $table->dropColumn('ban_edit_comment');
+            $table->dropColumn('ban_edit_log');
         });
     }
 }

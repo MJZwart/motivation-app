@@ -8,7 +8,7 @@
             :label="$t('days')"
             :placeholder="$t('days')"
             :disabled="userBanToEdit.end_ban == true"
-            min="0" />
+            min="1" />
         <p>
             <Tooltip :text="$t('reset-days')">
                 <FaIcon 
