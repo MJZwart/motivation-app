@@ -165,8 +165,8 @@ class AdminController extends Controller
      */
     public function editUserBan(BannedUser $bannedUser, EditUserBanRequest $request) {
         $validated = $request->validated();
+        $newDate = Carbon::now();
         if ($validated['end_ban']) {
-            $newDate = Carbon::now();
             $user = $bannedUser->user;
             $user->banned_until = $newDate;
             $user->save();
@@ -180,8 +180,8 @@ class AdminController extends Controller
             $newDate = $bannedUser->created_at->addDays($validated['days']);
             $user = $bannedUser->user;
             $user->banned_until = $newDate;
-            $bannedUser->banned_until = $newDate;
         }
+        $bannedUser->banned_until = $newDate;
         $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment.$validated['comment'].' | ';
         $bannedUser->ban_edit_log = $bannedUser->ban_edit_log.$validated['log'].' | ';
         $bannedUser->save();

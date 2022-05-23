@@ -42,24 +42,24 @@ defineProps({
 </script>
 
 <style lang="scss">
-.detailed-table{
-    border: 1px solid grey;
-    .row{
-        background-color: white;
-        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
-        margin-left: 0;
-        padding: 0.3rem;
-        .col{
-            padding-right: 5px;
-            padding-left: 5px;
-            .header {
-                font-weight:600;
-                display: block;
-            }
-            .body {
-                display: block;
-            }
-        }
-    }
-}
+// .detailed-table{
+//     border: 1px solid grey;
+//     .row{
+//         background-color: white;
+//         box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
+//         margin-left: 0;
+//         padding: 0.3rem;
+//         .col{
+//             padding-right: 5px;
+//             padding-left: 5px;
+//             .header {
+//                 font-weight:600;
+//                 display: block;
+//             }
+//             .body {
+//                 display: block;
+//             }
+//         }
+//     }
+// }
 </style>

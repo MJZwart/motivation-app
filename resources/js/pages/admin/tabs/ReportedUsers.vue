@@ -3,128 +3,151 @@
         <Loading v-if="loading" />
         <div v-else>
             <h3>{{ $t('reported-users') }}</h3>
+
+            <button @click="setSort('username')">Sort by name</button>
+            <button @click="setSort('report_amount')">Sort by # of reports</button>
             
-            <template v-for="(user, index) in reportedUsers" :key="index">
-                {{user}}
-                <div class="detailed-table" @click="showDetails(index)">
+            <div class="header-row row">
+                <span class="col fg-1 header" @click="setSort('username')">
+                    Username
+                    <FaIcon 
+                        icon="sort"  />
+                </span>
+                <span class="fg-1 col header" @click="setSort('report_amount')">
+                    # of Reports
+                    <FaIcon 
+                        icon="sort"  />
+                </span>
+                <span class="col header" @click="setSort('last_report_date')">
+                    Last Report
+                    <FaIcon 
+                        icon="sort"  />
+                </span>
+                <span class="col header" @click="setSort('banned_until')">
+                    Banned until
+                    <FaIcon 
+                        icon="sort"  />
+                </span>
+                <span class="fg-1 col header">Actions</span>
+            </div>
+
+            <template v-for="(user, index) in sortedReportedUsers" :key="index">
+                <div class="detailed-table">
                     <div class="row top-row">
-                        <div class="col">
-                            <span class="header">Username</span>
+                        <div class="col fg-1">
                             {{user.username}}
                         </div>
-                        <div class="col">
-                            <span class="header"># of Reports</span>
+                        <div class="col fg-1">
+                            <FaIcon 
+                                class="expand-button"
+                                icon="caret-down" 
+                                @click="showReportDetails(index)" />
                             {{user.report_amount}}
                         </div>
                         <div class="col">
-                            <span class="header">Last Report</span>
                             {{user.last_report_date}}
                         </div>
                         <div class="col">
-                            <span class="header">Banned</span>
-                            {{user.banned ? user.banned[0].banned_until : '-'}}
-                            <!-- TODO turn this into a yes or no with the details below -->
+                            <FaIcon 
+                                v-if="user.banned"
+                                class="expand-button"
+                                icon="caret-down" 
+                                @click="showBannedDetails(index)" />
+                            {{user.banned ? user.banned[0].banned_until_time : 'Never'}}
                         </div>
-                        <div class="ml-auto col-1">
-                            <span class="header">Actions</span>
-                            <Tooltip v-if="!currentlyBanned(row.item)" :text="$t('suspend-user')">
+                        <div class="fg-1 col">
+                            <Tooltip v-if="!currentlyBanned(user)" :text="$t('suspend-user')">
                                 <FaIcon 
                                     icon="ban" 
                                     class="icon red"
-                                    @click="suspendUser(row.item)" />                        
+                                    @click="suspendUser(user)" />                        
                             </Tooltip>
                             <Tooltip :text="$t('message-reported-user')">
                                 <FaIcon 
                                     icon="envelope"
                                     class="icon"
-                                    @click="sendMessageToReportedUser()" />
+                                    @click="sendMessageToReportedUser(user)" />
                             </Tooltip>
                         </div>
                     </div>
-                    <div  :ref="el => { divs[index] = el }" class="sub-details row" :style="{transition: 'height 2s ease'}">
-                        Test
-                    </div>
-                    <!-- <div v-if="showDetails($event)" /> -->
-                </div>
-                <!-- <div class="detailed-table">
-                    <div class="row top-row">
-                        <div v-for="(field, index) in reportedUserFields" :key="index" class="col">
-                            <span class="header">{{field.label}}</span>
-                            <slot v-bind="{item, index}" :name="field.key">
-                                {{item[field.key]}}
-                            </slot>
+                    <!-- Banned overview -->
+                    <div 
+                        v-if="user.banned"
+                        :ref="el => { bannedDivs[index] = el }" class="sub-details row" 
+                        :style="{height: '0px', transition: 'height 2s ease'}">
+                        <h5>Bans</h5>
+                        <div class="row">
+                            <span class="col header">Start ban</span>
+                            <span class="col header">End ban</span>
+                            <span class="col header">Reason</span>
+                            <span class="col fg-1 header">Days</span>
+                            <span class="col fg-1 header">Banned by</span>
                         </div>
-                    </div>
-                    <div class="row bottom-row">
-                        <div v-for="(field, index) in reportedUserDetailsFields" :key="index" class="col">
-                            <span class="header">{{field.label}}</span>
-                            <slot v-bind="{item, index}" :name="field.key">
-                                <span v-for="(detail, idx) in item[detailKey]" 
-                                      :key="idx" class="body">
-                                    {{detail[field.key]}}
-                                </span>
-                            </slot>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="table-like-item">
-                    <TableLikeComponent 
-                        :item="user" 
-                        :topRowFields="reportedUserFields" 
-                        :bottomRowFields="reportedUserDetailsFields"
-                        detailKey="reports">
-                        <template #conversation="row"> 
-                            <span v-for="(item, idx) in row.item.reports" :key="idx" class="body">
-                                <div v-if="item.conversation">
-                                    {{ $t('yes')}}
-                                    <Tooltip :text="$t('show-conversation')">
-                                        <FaIcon 
-                                            icon="magnifying-glass" 
-                                            class="icon"
-                                            @click="showConversation(item.conversation)" />
-                                    </Tooltip>
+                        <template v-for="(banned, index) in user.banned" :key="index">
+                            <div class="row">
+                                <div class="col">
+                                    {{banned.created_at}} ({{banned.time_since}})
                                 </div>
-                                <div v-else>
-                                    {{ $t('no')}}
+                                <div class="col">
+                                    {{banned.early_release ? banned.early_release : banned.banned_until}} 
+                                    ({{banned.banned_until_time}})
                                 </div>
-                            </span>
-                        </template>
-                        <template #actions="row">
-                            <Tooltip :text="$t('show-details')">
-                                <FaIcon 
-                                    icon="magnifying-glass" 
-                                    class="icon"
-                                    @click="showReportedUserDetails(row.item)">
-                                    {{ $t('show-details') }}
-                                </FaIcon>                        
-                            </Tooltip>
-                            <Tooltip :text="$t('suspend-user')">
-                                <FaIcon 
-                                    icon="ban" 
-                                    class="icon red"
-                                    @click="suspendUser(row.item)" />                        
-                            </Tooltip>
-                            <Tooltip :text="$t('message-reported-user')">
-                                <FaIcon 
-                                    icon="envelope"
-                                    class="icon"
-                                    @click="sendMessageToReportedUser()" />
-                            </Tooltip>
-                        </template>
-                        <template #banned="row">
-                            <div v-if="row.item.banned">
-                                <div v-for="(banned, index) in row.item.banned" :key="index" class="banned-details">
-                                    <hr v-if="index > 0" />
-                                    <p>{{banned.created_at}} ({{banned.time_since}})</p>
-                                    <p>{{$t('banned-by')}}: {{banned.admin.username}}</p>
-                                    <p>{{$t('reason')}}: {{banned.reason}}</p>
-                                    <p>{{banned.days}} {{$t('days')}}</p>
-                                    <p>{{$t('banned-until')}}: {{banned.banned_until}} ({{banned.banned_until_time}})</p>
+                                <div class="col">
+                                    {{banned.reason}}
+                                </div>
+                                <div class="col fg-1">
+                                    {{banned.days}}
+                                </div>
+                                <div class="col fg-1">
+                                    {{banned.admin.username}}
                                 </div>
                             </div>
                         </template>
-                    </TableLikeComponent>
-                </div> -->
+                    </div>
+                    <!-- Reports overview -->
+                    <div 
+                        :ref="el => { reportDivs[index] = el }" class="sub-details row" 
+                        :style="{height: '0px', transition: 'height 2s ease'}">
+                        <h5>Reports</h5>
+                        <div class="row">
+                            <span class="col fg-1 header">Reason</span>
+                            <span class="col header">Comment</span>
+                            <span class="col header">Date</span>
+                            <span class="col header">Reported by</span>
+                            <span class="col fg-1 header">Conversation</span>
+                        </div>
+                        <template v-for="(report, index) in user.reports" :key="index">
+                            <div class="row">
+                                <div class="col fg-1">
+                                    {{parseReason(report.reason)}}
+                                </div>
+                                <div class="col">
+                                    {{report.comment}}
+                                </div>
+                                <div class="col">
+                                    {{report.reported_date}}
+                                </div>
+                                <div class="col">
+                                    {{report.reported_by_name}}
+                                </div>
+                                <div class="col fg-1">
+                                    <div v-if="report.conversation">
+                                        {{ $t('yes')}}
+                                        <Tooltip :text="$t('show-conversation')">
+                                            <FaIcon 
+                                                icon="magnifying-glass" 
+                                                class="icon"
+                                                @click="showConversation(report.conversation)" />
+                                        </Tooltip>
+                                    </div>
+                                    <div v-else>
+                                        {{ $t('no')}}
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
             </template>
             <Modal :show="showConversationModal"
                    :footer="false" 
@@ -132,49 +155,6 @@
                    @close="closeShowConversation">
                 <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation"/>
             </Modal>
-
-            <!-- <Table
-                :items="reportedUsers"
-                :fields="reportedUserFields"
-                :options="['table-striped', 'page-wide']"
-            >
-                <template #actions="row">
-                    <Tooltip :text="$t('show-details')">
-                        <FaIcon 
-                            icon="magnifying-glass" 
-                            class="icon"
-                            @click="showReportedUserDetails(row.item)">
-                            {{ $t('show-details') }}
-                        </FaIcon>                        
-                    </Tooltip>
-                    <Tooltip :text="$t('suspend-user')">
-                        <FaIcon 
-                            icon="ban" 
-                            class="icon red"
-                            @click="suspendUser(row.item)" />                        
-                    </Tooltip>
-                </template>
-                <template #banned="row">
-                    <div v-if="row.item.banned">
-                        <div v-for="(banned, index) in row.item.banned" :key="index" class="banned-details">
-                            <hr v-if="index > 0" />
-                            <p>{{banned.created_at}} ({{banned.time_since}})</p>
-                            <p>{{$t('banned-by')}}: {{banned.admin.username}}</p>
-                            <p>{{$t('reason')}}: {{banned.reason}}</p>
-                            <p>{{banned.days}} {{$t('days')}}</p>
-                            <p>{{$t('banned-until')}}: {{banned.banned_until}} ({{banned.banned_until_time}})</p>
-                        </div>
-                    </div>
-                </template>
-            </Table> -->
-            <!-- <Modal 
-                :show="showReportedUserDetailsModal" 
-                :footer="false" 
-                :title="reportedUserDetailsTitle" 
-                class="l"
-                @close="closeReportedUserDetails">
-                <ReportedUserDetails :user="reportedUserDetails" />
-            </Modal> -->
             <Modal
                 :show="showSuspendUserModal"
                 :footer="false"
@@ -196,21 +176,21 @@
 </template>
 
 <script setup>
-// import Table from '/js/components/global/Table.vue';
-import TableLikeComponent from '/js/components/global/TableLikeComponent.vue';
 import {ref, computed, onMounted, onBeforeUpdate} from 'vue';
-// import ReportedUserDetails from './../components/ReportedUserDetails.vue';
 import SuspendUserModal from './../components/SuspendUserModal.vue';
 import ShowConversationModal from '../components/ShowConversationModal.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
+import {sortValues} from '/js/services/sortService';
 import {DateTime} from 'luxon';
-import {REPORTED_USER_FIELDS, REPORTED_USER_DETAILS_FIELDS} from '/js/constants/reportUserConstants.js';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
 import {useMainStore} from '/js/store/store';
 const mainStore = useMainStore();
 
-onBeforeUpdate(() => divs.value = []);
+onBeforeUpdate(() => {
+    reportDivs.value = [];
+    bannedDivs.value = [];
+});
 
 onMounted(async() => {
     await adminStore.getReportedUsers();
@@ -222,26 +202,34 @@ const showConversationModal = ref(false);
 const conversationToShow = ref(null);
 const userToMessage = ref(null);
 
-// const reportedUserDetails = ref(null);
-const reportedUserFields = ref(REPORTED_USER_FIELDS);
-const reportedUserDetailsFields = ref(REPORTED_USER_DETAILS_FIELDS);
-// const reportedUserDetailsTitle = computed(() => {
-//     const username = reportedUserDetails.value ? reportedUserDetails.value.username : '';
-//     return `Reported user ${username}`;
-// });
-
 const suspendedUser = ref(null);
 const suspendUserTitle = computed(() => {
     const username = suspendedUser.value ? suspendedUser.value.username: '';
     return `Suspend user ${username}`;
 });
 
-// const showReportedUserDetailsModal = ref(false);
 const showSuspendUserModal = ref(false);
 
 const reportedUsers = computed(() => adminStore.reportedUsers);
+const currentSort = ref('last_report_date');
+const currentSortDir = ref('asc');
+const sortedReportedUsers = computed(() => {
+    return sortValues(reportedUsers.value, currentSort.value, currentSortDir.value);
+});
 
+function setSort(key) {
+    if (currentSort.value == key) toggleSortDir();
+    else currentSort.value = key;
+}
+function toggleSortDir() {
+    if (currentSortDir.value == 'asc') currentSortDir.value = 'desc';
+    else currentSortDir.value = 'asc';
+}
 
+function parseReason(reason) {
+    let string = reason.replaceAll('_', ' ').toLowerCase();
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 function showConversation(conversationId) {
     mainStore.clearErrors();
     conversationToShow.value = conversationId;
@@ -261,15 +249,6 @@ function closeSendMessageToReportedUser() {
     showSendMessageModal.value = false;
 }
 
-/** Opens the modal to show details on the user report */
-// function showReportedUserDetails(item) {
-//     reportedUserDetails.value = item;
-//     showReportedUserDetailsModal.value = true;
-// }
-// function closeReportedUserDetails() {
-//     showReportedUserDetailsModal.value = false;
-// }
-
 /** Opens the modal to suspend a user account */
 function suspendUser(item) {
     mainStore.clearErrors();
@@ -280,11 +259,16 @@ function closeSuspendUserModal() {
     showSuspendUserModal.value = false;
 }
 
-const divs = ref([]);
+const reportDivs = ref([]);
+const bannedDivs = ref([]);
 
-function showDetails(index) {
-    if (divs.value[index].style.height == '0px') divs.value[index].style.height = 'max-content';
-    else divs.value[index].style.height = '0px';
+function showReportDetails(index) {
+    if (reportDivs.value[index].style.height == '0px') reportDivs.value[index].style.height = 'max-content';
+    else reportDivs.value[index].style.height = '0px';
+}
+function showBannedDetails(index) {
+    if (bannedDivs.value[index].style.height == '0px') bannedDivs.value[index].style.height = 'max-content';
+    else bannedDivs.value[index].style.height = '0px';
 }
 function currentlyBanned(user) {
     return !!user.banned_until && DateTime.now() < DateTime.fromFormat(user.banned_until, 'yyyy-MM-dd HH:mm:ss')
@@ -292,33 +276,18 @@ function currentlyBanned(user) {
 </script>
 
 <style lang="scss" scoped>
-.banned-details {
-    p{
-        margin: 0.1rem;
-    }
-}
-.table-like-item {
-    margin-bottom: 0.5rem;
-}
-// .table-like-item:nth-of-type(2n+1) {
-//     background-color: rgba(0, 0, 0, .05);
-// }
-
 .detailed-table{
     border: 1px solid grey;
-    cursor: pointer;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
     .row{
         background-color: white;
-        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
         margin-left: 0;
         padding: 0.3rem;
+        width: 100%;
         .col, .col-1{
             padding-right: 5px;
             padding-left: 5px;
-            .header {
-                font-weight:600;
-                display: block;
-            }
+            flex-grow: 2;
             .body {
                 display: block;
             }
@@ -327,17 +296,21 @@ function currentlyBanned(user) {
 }
 .sub-details {
     transition: height 2s ease;
-    height: max-content;
     overflow: hidden;
-	// animation: slide-bottom 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }
-@keyframes slide-bottom {
-  0% {
-    // transform: translateY(-10px);
-  }
-  100% {
-    // transform: translateY(0px);
-  }
+.expand-button {
+    padding: 0.2rem;
+    cursor: pointer;
+    font-size: 1.5rem;
 }
-
+.header-row .col {
+    flex-grow: 2;
+}
+.col.fg-1{
+    flex-grow: 1 !important;
+}
+.header {
+    font-weight:600;
+    display: block;
+}
 </style>

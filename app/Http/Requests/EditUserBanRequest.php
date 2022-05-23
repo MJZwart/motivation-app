@@ -31,4 +31,12 @@ class EditUserBanRequest extends FormRequest
             'log' => 'required|string',
         ];
     }
+
+    public function messages(){
+        return [
+            'log.required' => 'A log is required.',
+            'comment.required' => 'A comment is required to explain why this ban was changed/lifted.',
+            'days.require_id' => 'If you are not lifting the ban, please fill in the amount of days.'
+        ];
+    }
 }

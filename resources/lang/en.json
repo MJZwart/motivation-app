@@ -191,7 +191,7 @@
     "unban": "End ban",
     "edit-ban": "Edit ban",
     "end-ban-confirm": "Are you sure you wish to end the suspension of this user?",
-    "automatically-end-ban-confirm": "Changing the amount of days to this would end the current ban. Are you sure?",
+    "automatically-end-ban-warning": "You cannot set the ban length lower than the elapsed time. If you wish to end the ban, use the checkbox.",
     "reset-days": "Reset days",
     "end-ban": "End ban",
     "ban-ended": "This ban has ended",

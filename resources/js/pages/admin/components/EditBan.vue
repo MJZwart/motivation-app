@@ -7,7 +7,7 @@
             name="days"
             :label="$t('days')"
             :placeholder="$t('days')"
-            :disabled="userBanToEdit.end_ban == true"
+            :disabled="userBanToEdit.end_ban"
             min="1" />
         <p>
             <Tooltip :text="$t('reset-days')">
@@ -19,7 +19,7 @@
             {{$t('banned-until')}}: {{bannedUntil}}
         </p>
         <span v-if="bannedUntilInPast" class="invalid-feedback">
-            {{$t('automatically-end-ban-confirm')}}
+            {{$t('automatically-end-ban-warning')}}
         </span>
 
         <div class="form-group">
@@ -84,10 +84,10 @@ function resetDays() {
 async function confirm() {
     if (bannedUntilInPast.value) return;
     let log = DateTime.now().toLocaleString(DateTime.DATETIME_MED) + ': ';
-    if (!userBanToEdit.value.end_ban && userBanToEdit.value.days != props.userBan.days)
-        log = log.concat(`Changed days from ${props.userBan.days} to ${userBanToEdit.value.days}. `);
     if (userBanToEdit.value.end_ban)
         log = log.concat('User has been unbanned. ');
+    else if (userBanToEdit.value.days != props.userBan.days)
+        log = log.concat(`Changed days from ${props.userBan.days} to ${userBanToEdit.value.days}. `);
     userBanToEdit.value.log = log;
     await adminStore.editBan(userBanToEdit.value);
     emit('close');

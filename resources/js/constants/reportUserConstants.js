@@ -84,6 +84,7 @@ export const BANNED_USERS_FIELDS = [
     {
         label: 'Banned by',
         key: 'admin',
+        sortable: true,
     },
     {
         label: 'Banned until',
