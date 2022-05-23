@@ -17,13 +17,6 @@ class BanUserRequest extends FormRequest
         return Auth::user()->admin;
     }
 
-    // protected function prepareForValidation()
-    // {
-    //     $this->merge([
-    //         'indefinite' => !!$this->indefinite,
-    //     ]);
-    // }
-
     /**
      * Get the validation rules that apply to the request.
      *

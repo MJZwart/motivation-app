@@ -23,7 +23,9 @@ class NotificationController extends Controller
      * Returns a user's notifications. Marks all unread as read
      */
     public function show(){
-        $notifications = Auth::user()->notifications()->latest()->get();
+        /** @var User */
+        $user = Auth::user();
+        $notifications = $user->notifications()->latest()->get();
         $response = new JsonResponse(['data' => NotificationResource::collection($notifications)], Response::HTTP_OK); 
             //Creates the response before marking as read, so the notifications sent are still marked as unread.
         $this->markAsRead($notifications);

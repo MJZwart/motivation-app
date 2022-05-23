@@ -116,6 +116,7 @@ function compareValues(key, order = 'asc') {
 </script>
 
 <style lang="scss">
+@import '../../../assets/scss/variables';
 .table-striped tbody tr:nth-of-type(2n+1) {
     background-color: rgba(0, 0, 0, .05);
 }
@@ -133,5 +134,8 @@ table thead tr th {
 }
 .page-wide{
     width:100%;
+}
+.body-borders tbody tr td{
+    border: 1px solid $grey;
 }
 </style>

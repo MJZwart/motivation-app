@@ -24,6 +24,7 @@ import {
     faLock,
     faLockOpen,
     faBoxArchive,
+    faRepeat,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
     faPenToSquare, 
@@ -46,4 +47,5 @@ library.add(
     faLock,
     faLockOpen,
     faBoxArchive,
+    faRepeat,
 );

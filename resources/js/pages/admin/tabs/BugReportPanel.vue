@@ -4,7 +4,7 @@
 
         <Table
             :items="bugReports"
-            :fields="bugSortables"
+            :fields="bugReportFields"
             :sort="currentSort"
             :sortAsc="!currentSortDesc"
             :options="['table-hover', 'table-sm', 'table-responsive', 'table-striped']"
@@ -15,6 +15,11 @@
             <template #status="data">
                 {{ parseStatus(data.item.status) }}
             </template>
+            <template #user="data">                
+                <router-link :to="{ name: 'profile', params: { id: data.item.user.id}}">
+                    {{ data.item.user.username }}
+                </router-link>
+            </template>
             <template #actions="data">
                 <div style="min-width: 49px">
                     <FaIcon 
@@ -24,7 +29,7 @@
                     <FaIcon 
                         icon="envelope"
                         class="icon medium"
-                        @click="sendMessageToBugReportAuthor(data.item.user_id)" />
+                        @click="sendMessageToBugReportAuthor(data.item.user)" />
                 </div>
             </template>
         </Table>
@@ -46,7 +51,7 @@
 
 <script setup>
 import Table from '/js/components/global/Table.vue';
-import {BUG_SORTABLES, BUG_DEFAULTS, BUG_STATUS} from '/js/constants/bugConstants';
+import {BUG_REPORT_OVERVIEW_FIELDS, BUG_DEFAULTS, BUG_STATUS} from '/js/constants/bugConstants';
 import {ref, computed} from 'vue';
 import EditBugReport from './../components/EditBugReport.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
@@ -58,16 +63,16 @@ const adminStore = useAdminStore();
 const bugReports = computed(() => adminStore.bugReports);
 
 const currentSort = ref(BUG_DEFAULTS.currentSort);
-const bugSortables = BUG_SORTABLES;
+const bugReportFields = BUG_REPORT_OVERVIEW_FIELDS;
 const currentSortDesc = ref(true);
 const bugReportToEdit = ref(null);
 const bugReportAuthor = ref(null);
 const showEditBugReportModal = ref(false);
 const showSendMessageModal = ref(false);
 
-function sendMessageToBugReportAuthor(authorId) {
+function sendMessageToBugReportAuthor(author) {
     mainStore.clearErrors();
-    bugReportAuthor.value = {id: authorId};
+    bugReportAuthor.value = {id: author.id, username: author.username};
     showSendMessageModal.value = true;
 }
 function closeSendMessageToBugReportAuthor() {

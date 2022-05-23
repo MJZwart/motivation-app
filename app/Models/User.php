@@ -180,7 +180,7 @@ class User extends Authenticatable
     public function isBanned() {
         $currentDate = Carbon::now();
         if (!$this->banned_until) return false;
-        if ($this->banned_until < $currentDate) return true;
+        if ($this->banned_until > $currentDate) return true;
         else return false;
     }
     

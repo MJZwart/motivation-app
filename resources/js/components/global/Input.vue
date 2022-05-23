@@ -3,13 +3,14 @@
         <label :for="name">{{label}}</label>
         <input
             :id="id" 
-            :class="{invalid: isInvalid}"
+            :class="{invalid: isInvalid, disabled: disabled}"
             :type="type" 
             :name="name" 
             :value="modelValue"
             :placeholder="placeholder" 
             :min="min"
             :max="max"
+            :disabled="disabled"
             @input="$emit('update:modelValue', $event.target.value)"
         />
         <div v-if="errorMsg">
@@ -56,6 +57,11 @@ const props = defineProps({
         type: String,
         required: false,
     },
+    disabled: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 });
 defineEmits(['update:modelValue']);
 const errors = computed(() => mainStore.errors)
@@ -69,3 +75,10 @@ const errorMsg = computed(() => {
     return (errors.value[props.name] || [])[0] || '';
 });
 </script>
+
+<style>
+.disabled {
+    color: grey;
+    background-color: #f0f0f0;
+}
+</style>

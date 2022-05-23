@@ -27,7 +27,7 @@
                         </div>
                         <div class="ml-auto col-1">
                             <span class="header">Actions</span>
-                            <Tooltip :text="$t('suspend-user')">
+                            <Tooltip v-if="!currentlyBanned(row.item)" :text="$t('suspend-user')">
                                 <FaIcon 
                                     icon="ban" 
                                     class="icon red"
@@ -201,9 +201,10 @@ import TableLikeComponent from '/js/components/global/TableLikeComponent.vue';
 import {ref, computed, onMounted, onBeforeUpdate} from 'vue';
 // import ReportedUserDetails from './../components/ReportedUserDetails.vue';
 import SuspendUserModal from './../components/SuspendUserModal.vue';
-import {REPORTED_USER_FIELDS, REPORTED_USER_DETAILS_FIELDS} from '/js/constants/reportUserConstants.js';
 import ShowConversationModal from '../components/ShowConversationModal.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
+import {DateTime} from 'luxon';
+import {REPORTED_USER_FIELDS, REPORTED_USER_DETAILS_FIELDS} from '/js/constants/reportUserConstants.js';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
 import {useMainStore} from '/js/store/store';
@@ -284,6 +285,9 @@ const divs = ref([]);
 function showDetails(index) {
     if (divs.value[index].style.height == '0px') divs.value[index].style.height = 'max-content';
     else divs.value[index].style.height = '0px';
+}
+function currentlyBanned(user) {
+    return !!user.banned_until && DateTime.now() < DateTime.fromFormat(user.banned_until, 'yyyy-MM-dd HH:mm:ss')
 }
 </script>
 

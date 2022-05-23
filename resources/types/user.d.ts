@@ -17,3 +17,25 @@ export type UserStats = {
     repeatable_most_completed: Task,
     tasks_completed: Number,
 }
+
+export type BannedUser = {
+    id: Number,
+    created_at: Date,
+    time_since: String,
+    updated_at: Date,
+    user: {
+        username: String,
+        id: Number,
+    },
+    reason: String,
+    days: Number,
+    admin: {
+        username: String,
+        id: Number,
+    },
+    banned_until: Date,
+    past: Boolean,
+    banned_until_time: String,
+    comment: String,
+    end_ban: Boolean,
+}
