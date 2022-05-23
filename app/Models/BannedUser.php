@@ -18,6 +18,8 @@ class BannedUser extends Model
         'banned_until',
     ];
 
+    protected $with = ['admin'];
+
     public function user() {
         return $this->belongsTo('App\Models\User');
     }

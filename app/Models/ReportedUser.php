@@ -18,6 +18,8 @@ class ReportedUser extends Model
         'conversation_id',
     ];
 
+    protected $with = ['user', 'reporter'];
+
     public function getReportedUser() {
         return User::find($this->reported_user_id);
     }

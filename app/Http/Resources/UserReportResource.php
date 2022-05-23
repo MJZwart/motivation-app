@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\User;
 
-class ReportedUserReportResource extends JsonResource
+class UserReportResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,5 +24,9 @@ class ReportedUserReportResource extends JsonResource
             'id' => $this->id,
             'reason' => $this->reason,
         ];
+    }
+
+    public static function collection($resource) {
+        return new UserReportResourceCollection($resource);
     }
 }
