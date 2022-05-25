@@ -15,7 +15,6 @@ function compareValues(key, order = 'asc') {
     return function innerSort(/** @type {{ [x: string]: any; }} */ a, /** @type {{ [x: string]: any; }} */ b) {
         if (!Object.prototype.hasOwnProperty.call(a, key) || !Object.prototype.hasOwnProperty.call(b, key))
             return 0;
-
         const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
         const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
 

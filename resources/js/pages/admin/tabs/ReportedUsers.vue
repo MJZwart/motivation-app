@@ -1,29 +1,26 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <div v-else>
+        <div v-else class="reported-users-overview">
             <h3>{{ $t('reported-users') }}</h3>
-
-            <button @click="setSort('username')">Sort by name</button>
-            <button @click="setSort('report_amount')">Sort by # of reports</button>
             
             <div class="header-row row">
-                <span class="col fg-1 header" @click="setSort('username')">
+                <span class="col fg-1 header clickable" @click="setSort('username')">
                     Username
                     <FaIcon 
                         icon="sort"  />
                 </span>
-                <span class="fg-1 col header" @click="setSort('report_amount')">
+                <span class="fg-1 col header clickable" @click="setSort('report_amount')">
                     # of Reports
                     <FaIcon 
                         icon="sort"  />
                 </span>
-                <span class="col header" @click="setSort('last_report_date')">
+                <span class="col header clickable" @click="setSort('last_report_date')">
                     Last Report
                     <FaIcon 
                         icon="sort"  />
                 </span>
-                <span class="col header" @click="setSort('banned_until')">
+                <span class="col header clickable" @click="setSort('banned_until')">
                     Banned until
                     <FaIcon 
                         icon="sort"  />
@@ -74,7 +71,7 @@
                     <div 
                         v-if="user.banned"
                         :ref="el => { bannedDivs[index] = el }" class="sub-details row" 
-                        :style="{height: '0px', transition: 'height 2s ease'}">
+                        :style="{'max-height': '0px', transition: 'max-height 2s'}">
                         <h5>Bans</h5>
                         <div class="row">
                             <span class="col header">Start ban</span>
@@ -107,7 +104,7 @@
                     <!-- Reports overview -->
                     <div 
                         :ref="el => { reportDivs[index] = el }" class="sub-details row" 
-                        :style="{height: '0px', transition: 'height 2s ease'}">
+                        :style="{'max-height': '0px'}">
                         <h5>Reports</h5>
                         <div class="row">
                             <span class="col fg-1 header">Reason</span>
@@ -198,21 +195,11 @@ onMounted(async() => {
 });
 
 const loading = ref(true);
-const showConversationModal = ref(false);
-const conversationToShow = ref(null);
-const userToMessage = ref(null);
-
-const suspendedUser = ref(null);
-const suspendUserTitle = computed(() => {
-    const username = suspendedUser.value ? suspendedUser.value.username: '';
-    return `Suspend user ${username}`;
-});
-
-const showSuspendUserModal = ref(false);
 
 const reportedUsers = computed(() => adminStore.reportedUsers);
 const currentSort = ref('last_report_date');
 const currentSortDir = ref('asc');
+
 const sortedReportedUsers = computed(() => {
     return sortValues(reportedUsers.value, currentSort.value, currentSortDir.value);
 });
@@ -230,6 +217,9 @@ function parseReason(reason) {
     let string = reason.replaceAll('_', ' ').toLowerCase();
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+/** Opens the modal to see a conversation between reported user and reporter */
+const conversationToShow = ref(null);
+const showConversationModal = ref(false);
 function showConversation(conversationId) {
     mainStore.clearErrors();
     conversationToShow.value = conversationId;
@@ -239,8 +229,10 @@ function closeShowConversation() {
     conversationToShow.value = null;
     showConversationModal.value = false;
 }
-const showSendMessageModal = ref(false);
 
+/** Opens the modal to message a user that has been reported */
+const userToMessage = ref(null);
+const showSendMessageModal = ref(false);
 function sendMessageToReportedUser() {
     mainStore.clearErrors();
     showSendMessageModal.value = true;
@@ -250,6 +242,12 @@ function closeSendMessageToReportedUser() {
 }
 
 /** Opens the modal to suspend a user account */
+const suspendedUser = ref(null);
+const suspendUserTitle = computed(() => {
+    const username = suspendedUser.value ? suspendedUser.value.username: '';
+    return `Suspend user ${username}`;
+});
+const showSuspendUserModal = ref(false);
 function suspendUser(item) {
     mainStore.clearErrors();
     suspendedUser.value = item;
@@ -263,12 +261,12 @@ const reportDivs = ref([]);
 const bannedDivs = ref([]);
 
 function showReportDetails(index) {
-    if (reportDivs.value[index].style.height == '0px') reportDivs.value[index].style.height = 'max-content';
-    else reportDivs.value[index].style.height = '0px';
+    if (reportDivs.value[index].style.maxHeight == '0px') reportDivs.value[index].style.maxHeight = 'max-content';
+    else reportDivs.value[index].style.maxHeight = '0px';
 }
 function showBannedDetails(index) {
-    if (bannedDivs.value[index].style.height == '0px') bannedDivs.value[index].style.height = 'max-content';
-    else bannedDivs.value[index].style.height = '0px';
+    if (bannedDivs.value[index].style.maxHeight == '0px') bannedDivs.value[index].style.maxHeight = 'max-content';
+    else bannedDivs.value[index].style.maxHeight = '0px';
 }
 function currentlyBanned(user) {
     return !!user.banned_until && DateTime.now() < DateTime.fromFormat(user.banned_until, 'yyyy-MM-dd HH:mm:ss')
@@ -279,6 +277,7 @@ function currentlyBanned(user) {
 .detailed-table{
     border: 1px solid grey;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
+    margin-bottom: 10px;
     .row{
         background-color: white;
         margin-left: 0;
@@ -294,8 +293,9 @@ function currentlyBanned(user) {
         }
     }
 }
-.sub-details {
-    transition: height 2s ease;
+.sub-details { 
+    max-height: 0px;
+    transition: max-height 2s;
     overflow: hidden;
 }
 .expand-button {
