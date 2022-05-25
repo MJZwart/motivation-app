@@ -44,11 +44,4 @@ class Task extends Model
                 && $value->repeatable_active <= Carbon::now()->toDateTimeString()
                 ;});
     }
-
-    public function completeRepeatable(){
-        RepeatableTaskCompleted::create([
-            'user_id' => $this->user_id,
-            'task_id' => $this->id,
-        ]);
-    }
 }

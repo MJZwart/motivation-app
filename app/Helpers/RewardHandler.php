@@ -10,7 +10,7 @@ class RewardHandler {
      * Calculates and returns the reward that is ready for update
      *
      * @param String $type
-     * @param Integer $difficulty
+     * @param int $difficulty
      * @param String $rewardType
      * @return Array
      */
@@ -28,7 +28,7 @@ class RewardHandler {
      * Parses the reward for a character to be injected into a character for update
      *
      * @param Object $balance
-     * @param Integer $difficulty
+     * @param int $difficulty
      * @return Array
      */
     public static function parseCharacterReward($balance, $difficulty) {
@@ -44,7 +44,7 @@ class RewardHandler {
      * Parses the reward for a village to be injected into a village for update
      *
      * @param Object $balance
-     * @param Integer $difficulty
+     * @param int $difficulty
      * @return Array
      */
     public static function parseVillageReward($balance, $difficulty) {
