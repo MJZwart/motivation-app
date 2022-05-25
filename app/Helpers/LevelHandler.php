@@ -2,9 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\DB;
-use App\Http\Resources\CharacterResource;
-use App\Http\Resources\VillageResource;
 use App\Models\ExperiencePoint;
 
 class LevelHandler {
@@ -38,7 +35,9 @@ class LevelHandler {
         $messages = [];
         $experienceTable =  ExperiencePoint::get();
         for($i = 0 ; $i < count(RewardEnums::CHAR_STAT_ARRAY) ; $i++){
-            $expNeeded = $experienceTable->firstWhere('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])->experience_points;
+            $expNeeded = $experienceTable
+                ->firstWhere('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])
+                ->experience_points;
             while($character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] > $expNeeded){ //While the exp owned is higher than the exp needed to level up:
                 $character[RewardEnums::CHAR_STAT_ARRAY[$i]]++; //Increase level
                 $character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] -= $expNeeded; //Subtract the exp needed to level
@@ -116,11 +115,7 @@ class LevelHandler {
         }
         $returnMessage->success = 'Task completed.';
         $returnValue = new \stdClass();
-        if($type == 'CHARACTER') {
-            $returnValue->activeReward = $activeReward; //Add the newly levelled character on the return value
-        } else if($type = 'VILLAGE') {
-            $returnValue->activeReward = $activeReward; //Add the newly levelled village on the return value
-        }
+        $returnValue->activeReward = $activeReward; //Add the newly levelled character or village on the return value
         $returnValue->message = $returnMessage; //As well as the messages for the user.
         return $returnValue;
     }
