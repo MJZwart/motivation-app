@@ -29,15 +29,20 @@ class LevelHandler {
      * Parses the messages and returns the value
      *
      * @param Character $character
-     * @return void
+     * @return Object
      */
     public static function checkCharacterLevelUp($character){
         $messages = [];
+        $maxLevel = ExperiencePoint::max('level');
         $experienceTable =  ExperiencePoint::get();
         for($i = 0 ; $i < count(RewardEnums::CHAR_STAT_ARRAY) ; $i++){
-            $expNeeded = $experienceTable
-                ->firstWhere('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])
-                ->experience_points;
+            $expNeeded = ExperiencePoint::
+                where('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])
+                ->orWhere('level', $maxLevel)
+                ->first()->experience_points;
+            // $expNeeded = $experienceTable
+            //     ->firstWhere('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])
+            //     ->experience_points;
             while($character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] > $expNeeded){ //While the exp owned is higher than the exp needed to level up:
                 $character[RewardEnums::CHAR_STAT_ARRAY[$i]]++; //Increase level
                 $character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] -= $expNeeded; //Subtract the exp needed to level
@@ -76,7 +81,7 @@ class LevelHandler {
      * Parses the messages and returns the value
      *
      * @param Village $village
-     * @return void
+     * @return Object
      */
     public static function checkVillageLevelUp($village){
         $messages = [];
