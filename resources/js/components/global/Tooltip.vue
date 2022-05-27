@@ -3,7 +3,7 @@
         <div @mouseover="showTooltip = true" @mouseleave="showTooltip = false">
             <slot />
         </div>
-        <div v-show="showTooltip" class="tooltip">
+        <div v-show="showTooltip" ref="tooltip" class="tooltip" :class="tooltipPosition">
             <span class="text">
                 {{text}}
             </span>
@@ -12,13 +12,21 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
-defineProps({
+import {ref, computed} from 'vue';
+const props = defineProps({
     text: {
         type: String,
         required: true,
     },
+    placement: {
+        type: String,
+        required: false,
+        default: 'top',
+    },
 });
+
+const tooltipPosition = computed(() => props.placement);
+
 const showTooltip = ref(false);
 </script>
 
@@ -42,7 +50,7 @@ const showTooltip = ref(false);
     transition: opacity 0.5s;
 
     position: absolute;
-    z-index: 1;
+    z-index: 99999;
 
     background: #000000;
 }
@@ -57,5 +65,39 @@ const showTooltip = ref(false);
     border-style: solid;
     border-color: #000000 transparent transparent transparent;
 
+}
+
+.tooltip.right {
+    left: 0;
+    bottom: 0;
+    transform: translateX(20%) translateY(10%);
+    .text::after {
+        top: 37%;
+        left: -4%;
+        margin-top: 0px;
+        border-color: transparent #000000 transparent transparent;
+    }
+}
+.tooltip.left {
+    left: 0;
+    bottom: 0;
+    transform: translateX(-103%);
+    .text::after {
+        top: 37%;
+        left: 100%;
+        margin-left: 0px;
+        border-color: transparent transparent transparent #000000;
+    }
+}
+.tooltip.bottom {
+    left: 50%;
+    bottom: -35px;
+    transform: translateX(-50%);
+    .text::after {
+        top: -30%;
+        left: 50%;
+        margin-left: -5px;
+        border-color: transparent transparent #000000 transparent;
+    }
 }
 </style>

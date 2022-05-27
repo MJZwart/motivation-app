@@ -5,13 +5,13 @@
                 <span class="d-flex">
                     {{taskList.name}}
                     <span class="ml-auto">
-                        <Tooltip :text="$t('edit-task-list')">
+                        <Tooltip :text="$t('edit-task-list')" placement="bottom">
                             <FaIcon 
                                 :icon="['far', 'pen-to-square']"
                                 class="icon white small"
                                 @click="showEditTaskList()" />
                         </Tooltip>
-                        <Tooltip :text="$t('delete-task-list')">
+                        <Tooltip :text="$t('delete-task-list')" placement="bottom">
                             <FaIcon 
                                 icon="trash"
                                 class="icon small white"

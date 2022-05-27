@@ -1,7 +1,7 @@
 <template>
     <div>
         <p class="task-title d-flex">
-            <Tooltip :text="$t('complete-task')">
+            <Tooltip :text="$t('complete-task')" placement="right">
                 <FaIcon 
                     :icon="['far', 'square-check']"
                     class="icon small green"
