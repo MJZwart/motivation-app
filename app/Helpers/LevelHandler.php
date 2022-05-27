@@ -34,19 +34,18 @@ class LevelHandler {
     public static function checkCharacterLevelUp($character){
         $messages = [];
         $maxLevel = ExperiencePoint::max('level');
-        $experienceTable =  ExperiencePoint::get();
         for($i = 0 ; $i < count(RewardEnums::CHAR_STAT_ARRAY) ; $i++){
             $expNeeded = ExperiencePoint::
                 where('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])
                 ->orWhere('level', $maxLevel)
-                ->first()->experience_points;
-            // $expNeeded = $experienceTable
-            //     ->firstWhere('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])
-            //     ->experience_points;
+                ->first()->experience_points; //Gets the amount of exp needed to level up with the current level
             while($character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] > $expNeeded){ //While the exp owned is higher than the exp needed to level up:
                 $character[RewardEnums::CHAR_STAT_ARRAY[$i]]++; //Increase level
                 $character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] -= $expNeeded; //Subtract the exp needed to level
-                $expNeeded = $experienceTable->firstWhere('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])->experience_points; //Recheck the experience needed after leveling up
+                $expNeeded = ExperiencePoint::
+                    where('level', $character[RewardEnums::CHAR_STAT_ARRAY[$i]])
+                    ->orWhere('level', $maxLevel)
+                    ->first()->experience_points; //Recheck the experience needed after leveling up
                 if(RewardEnums::CHAR_STAT_ARRAY[$i] !== 'level'){ //Add messages to an array to give back to the user, letting them know they levelled up.
                     array_push($messages, 'Your '.RewardEnums::CHAR_STAT_ARRAY[$i].' is now level '.$character[RewardEnums::CHAR_STAT_ARRAY[$i]].'!');
                 } else {
