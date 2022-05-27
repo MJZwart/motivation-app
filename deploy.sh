@@ -14,7 +14,7 @@ echo "Clear application cache"
 php artisan cache:clear
 
 echo "Migrating"
-php artisan migrate
+php artisan migrate --force
 
 # echo "Generating key"
 # php artisan key:generate
