@@ -48,13 +48,4 @@ class Village extends Model
         $returnValue->activeReward = new VillageResource($this);
         return $returnValue;
     }
-
-    public function expToLevel() {
-        return ExperiencePoint::where('level', $this->economy)
-            ->orWhere('level', $this->labour)
-            ->orWhere('level', $this->craft)
-            ->orWhere('level', $this->art)
-            ->orWhere('level', $this->community)
-            ->orWhere('level', $this->level)->get();
-    }
 }

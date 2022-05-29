@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use App\Models\ExperiencePoint;
 
 class ExperiencePointsSeeder extends Seeder
@@ -16,12 +15,14 @@ class ExperiencePointsSeeder extends Seeder
     public function run()
     {
         $experiencePoints = 1000;
-        for($i = 1 ; $i < 101 ; $i++){
+        $levelAmount = 130;
+        for($i = 1 ; $i < $levelAmount ; $i++){
             ExperiencePoint::insert([
                 'level' => $i,
                 'experience_points' => $experiencePoints,
             ]);
-            $experiencePoints += 100;
+            if ($i < 50) $experiencePoints += 50;
+            else if ($i < 112) $experiencePoints += 25;
         }
 
     }
