@@ -69,13 +69,4 @@ class Character extends Model
         }
         return $parsedReward;
     }
-
-    public function expToLevel() {
-        return ExperiencePoint::where('level', $this->strength)
-            ->orWhere('level', $this->agility)
-            ->orWhere('level', $this->endurance)
-            ->orWhere('level', $this->intelligence)
-            ->orWhere('level', $this->charisma)
-            ->orWhere('level', $this->level)->get();
-    }
 }

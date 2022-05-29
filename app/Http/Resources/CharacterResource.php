@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ExperiencePoint;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CharacterResource extends JsonResource
@@ -14,21 +15,12 @@ class CharacterResource extends JsonResource
      */
     public function toArray($request)
     {
+        $maxLevel = ExperiencePoint::max('level');
         return [
             'id' => $this->id,
             'name' => $this->name,
             'level' => $this->level,
-            // 'strength' => $this->strength,
-            // 'agility' => $this->agility,
-            // 'endurance' => $this->endurance,
-            // 'intelligence' => $this->intelligence,
-            // 'charisma' => $this->charisma,
-            // 'experience' => $this->experience,
-            // 'strength_exp' => $this->strength_exp,
-            // 'agility_exp' => $this->agility_exp,
-            // 'endurance_exp' => $this->endurance_exp,
-            // 'intelligence_exp' => $this->intelligence_exp,
-            // 'charisma_exp' => $this->charisma_exp,
+            'level_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->level, $maxLevel),
             'a' => $this->strength,
             'b' => $this->agility,
             'c' => $this->endurance,
@@ -40,8 +32,12 @@ class CharacterResource extends JsonResource
             'c_exp' => $this->endurance_exp,
             'd_exp' => $this->intelligence_exp,
             'e_exp' => $this->charisma_exp,
+            'a_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->strength, $maxLevel),
+            'b_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->agility, $maxLevel),
+            'c_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->endurance, $maxLevel),
+            'd_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->intelligence, $maxLevel),
+            'e_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->charisma, $maxLevel),
             'rewardType' => 'CHARACTER',
-            'exp_to_level' => $this->expToLevel(),
             'active' => !!$this->active,
         ];
     }

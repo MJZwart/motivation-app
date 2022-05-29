@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ExperiencePoint;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class VillageResource extends JsonResource
@@ -14,10 +15,12 @@ class VillageResource extends JsonResource
      */
     public function toArray($request)
     {
+        $maxLevel = ExperiencePoint::max('level');
         return [
             'id' => $this->id,
             'name' => $this->name,
             'level' => $this->level,
+            'level_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->level, $maxLevel),
             'a' => $this->economy,
             'b' => $this->labour,
             'c' => $this->craft,
@@ -29,7 +32,11 @@ class VillageResource extends JsonResource
             'c_exp' => $this->craft_exp,
             'd_exp' => $this->art_exp,
             'e_exp' => $this->community_exp,
-            'exp_to_level' => $this->expToLevel(),
+            'a_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->economy, $maxLevel),
+            'b_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->labour, $maxLevel),
+            'c_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->craft, $maxLevel),
+            'd_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->art, $maxLevel),
+            'e_exp_needed' => ExperiencePoint::getCurrentOrMaxExp($this->community, $maxLevel),
             'rewardType' => 'VILLAGE',
             'active' => !!$this->active,
         ];
