@@ -3,7 +3,7 @@
         <div @mouseover="showTooltip = true" @mouseleave="showTooltip = false">
             <slot />
         </div>
-        <div v-show="showTooltip" ref="tooltip" class="tooltip" :class="tooltipPosition">
+        <div v-show="showTooltip" class="tooltip" :class="tooltipPosition">
             <span class="text">
                 {{text}}
             </span>
