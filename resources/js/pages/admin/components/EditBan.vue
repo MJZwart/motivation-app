@@ -10,7 +10,7 @@
             :disabled="userBanToEdit.end_ban == true"
             min="1" />
         <p>
-            <Tooltip :text="$t('reset-days')">
+            <Tooltip :text="$t('reset-days')" placement="right">
                 <FaIcon 
                     icon="repeat"
                     class="icon small"
