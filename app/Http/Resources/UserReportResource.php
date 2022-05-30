@@ -5,10 +5,10 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\User;
 
-class ReportedUserReportResource extends JsonResource
+class UserReportResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource into an array. This only entails the report itself.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -19,10 +19,14 @@ class ReportedUserReportResource extends JsonResource
             'comment' => $this->comment,
             'reported_date' => $this->created_at->toDateTimeString(),
             'reported_by_id' => $this->reported_by_user_id,
-            'reported_by_name' => $this->getReportedUser()->value('username'),
+            'reported_by_name' => $this->reporter->username,
             'conversation' => (int) $this->conversation_id,
             'id' => $this->id,
             'reason' => $this->reason,
         ];
+    }
+
+    public static function collection($resource) {
+        return new UserReportResourceCollection($resource);
     }
 }

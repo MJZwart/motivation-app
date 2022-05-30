@@ -55,7 +55,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // protected $with = ['characters'];
+    protected $with = ['bannedUser'];
 
     public function characters(){
         return $this->hasMany('App\Models\Character');
@@ -127,6 +127,12 @@ class User extends Authenticatable
 
     public function getLatestReport(){
         return $this->getReports()->sortByDesc('created_at')->first();
+    }
+    public function reports() {
+        return $this->hasMany('App\Models\ReportedUser', 'reported_user_id');
+    }
+    public function latestReportDate() {
+        return $this->reports->sortByDesc('created_at')->first()->created_at;
     }
     /**
      * Returns the total number of regular and repeatable tasks completed by a user

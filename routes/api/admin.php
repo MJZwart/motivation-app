@@ -22,6 +22,7 @@ Route::group(['middleware' => ['admin']], function () {
         'store', 'update',
     ]);
     Route::get('/dashboard', [AdminController::class, 'getAdminDashboard']);
+    Route::get('/reported_users', [AdminController::class, 'getReportedUsers']);
     Route::put('/experience_points', [AdminController::class, 'updateExeriencePoints']);
     Route::put('/character_exp_gain', [AdminController::class, 'updateCharacterExpGain']);
     Route::put('/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);

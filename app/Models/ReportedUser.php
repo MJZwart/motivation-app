@@ -18,7 +18,17 @@ class ReportedUser extends Model
         'conversation_id',
     ];
 
+    protected $with = ['user', 'reporter'];
+
     public function getReportedUser() {
         return User::find($this->reported_user_id);
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User', 'reported_user_id');
+    }
+
+    public function reporter() {
+        return $this->belongsTo('App\Models\User', 'reported_by_user_id');
     }
 }

@@ -95,7 +95,7 @@ const tabs = {
     'BannedUsers': BannedUsers,
     'Feedback': Feedback,
 }
-const tabKey = ref('');
+const tabKey = ref('Overview');
 
 const currentTabComponent = shallowRef(tabs[0]);
 function activeTab(key) {

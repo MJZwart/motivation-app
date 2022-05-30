@@ -25,6 +25,8 @@ use App\Http\Resources\BannedUserResource;
 use App\Models\BannedUser;
 use Carbon\Carbon;
 use App\Http\Resources\FeedbackResource;
+use App\Http\Resources\ReportedUserCollection;
+use App\Http\Resources\UserReportResource;
 use App\Models\Feedback;
 use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
@@ -41,18 +43,28 @@ class AdminController extends Controller
         $experiencePoints = ExperiencePoint::get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
-        $reportedUsers = ReportedUserResource::collection(
-            User::get()->filter(function ($user) {
-                return $user->isReported();
-            })
-        );
         $balancing = ['experience_points' => $experiencePoints,
             'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain];
        
         return new JsonResponse(
             ['achievements' => $achievements, 'achievementTriggers' => $achievementTriggers,
-                'bugReports' => $bugReports, 'balancing' => $balancing, 'reportedUsers' => $reportedUsers], 
+                'bugReports' => $bugReports, 'balancing' => $balancing], 
             Response::HTTP_OK);
+    }
+
+    /** 
+     * Gets all reported users, sorted by User (id). Each report has the user linked to the report.
+     * Then parses it into a UserReportResource, with all relevant user information as its base (UserReportResourceCollection)
+     * and all reports as an array in the resource (UserReportResource).
+     * @return JsonResponse with a UserReportResource collection
+     */
+    public function getReportedUsers() {
+        $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->get()->groupBy('reported_user_id');
+        $reportedUsers = [];
+        foreach ($reportedUsersCollection as $userReport) {
+            array_push($reportedUsers, UserReportResource::collection($userReport)->setUser($userReport[0]->user));
+        }
+        return new JsonResponse(['reportedUsers' => $reportedUsers], Response::HTTP_OK);
     }
 
     public function updateExeriencePoints(UpdateExperiencePointsRequest $request) {
@@ -124,11 +136,11 @@ class AdminController extends Controller
             'banned_until' => $bannedUntilTime,
         ]);
 
-        $reportedUsers = ReportedUserResource::collection(
-            User::get()->filter(function ($user) {
-                return $user->isReported();
-            })
-        );
+        $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->get()->groupBy('reported_user_id');
+        $reportedUsers = [];
+        foreach ($reportedUsersCollection as $userReport) {
+            array_push($reportedUsers, UserReportResource::collection($userReport)->setUser($userReport[0]->user));
+        }
         $bannedUsers = BannedUserResource::collection(BannedUser::get());
 
         return new JsonResponse(
@@ -156,8 +168,8 @@ class AdminController extends Controller
      */
     public function editUserBan(BannedUser $bannedUser, EditUserBanRequest $request) {
         $validated = $request->validated();
+        $newDate = Carbon::now();
         if ($validated['end_ban']) {
-            $newDate = Carbon::now();
             $user = $bannedUser->user;
             $user->banned_until = $newDate;
             $user->save();
@@ -171,8 +183,8 @@ class AdminController extends Controller
             $newDate = $bannedUser->created_at->addDays($validated['days']);
             $user = $bannedUser->user;
             $user->banned_until = $newDate;
-            $bannedUser->banned_until = $newDate;
         }
+        $bannedUser->banned_until = $newDate;
         $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment.$validated['comment'].' | ';
         $bannedUser->ban_edit_log = $bannedUser->ban_edit_log.$validated['log'].' | ';
         $bannedUser->save();
