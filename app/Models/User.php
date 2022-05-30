@@ -131,7 +131,7 @@ class User extends Authenticatable
     public function reports() {
         return $this->hasMany('App\Models\ReportedUser', 'reported_user_id');
     }
-    public function latestReport() {
+    public function latestReportDate() {
         return $this->reports->sortByDesc('created_at')->first()->created_at;
     }
     /**
