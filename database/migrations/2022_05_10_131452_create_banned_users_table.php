@@ -20,7 +20,7 @@ class CreateBannedUsersTable extends Migration
             $table->text('reason');
             $table->unsignedBigInteger('admin_id')->nullable();
             $table->integer('days');
-            $table->timestamp('banned_until')->useCurrent();
+            $table->dateTime('banned_until')->useCurrent();
         });
         Schema::table('banned_users', function (Blueprint $table){
             $table->foreign('user_id')
