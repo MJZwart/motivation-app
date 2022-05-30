@@ -184,6 +184,7 @@ class AdminController extends Controller
             $user = $bannedUser->user;
             $user->banned_until = $newDate;
         }
+        $bannedUser->days = $request['days'];
         $bannedUser->banned_until = $newDate;
         $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment.$validated['comment'].' | ';
         $bannedUser->ban_edit_log = $bannedUser->ban_edit_log.$validated['log'].' | ';

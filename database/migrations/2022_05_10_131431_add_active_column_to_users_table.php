@@ -14,7 +14,7 @@ class AddActiveColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('banned_until')->nullable();
+            $table->dateTime('banned_until')->nullable();
         });
     }
 
