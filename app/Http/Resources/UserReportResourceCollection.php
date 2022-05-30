@@ -6,14 +6,22 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class UserReportResourceCollection extends ResourceCollection
 {
+    /** @var User */
     protected $user;
 
+    /**
+     * Set the user to get all the necessary user information linked to the reports.
+     *
+     * @param User $user
+     * @return this
+     */
     public function setUser($user) {
         $this->user = $user;
         return $this;
     }
     /**
-     * Transform the resource collection into an array.
+     * Uses the pre-set User to set the details only once per report group.
+     * After setting the user details, bundles the reports as a collection of UserReportResource
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable

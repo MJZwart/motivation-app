@@ -8,7 +8,7 @@ use App\Models\User;
 class UserReportResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource into an array. This only entails the report itself.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array

@@ -53,9 +53,9 @@ class AdminController extends Controller
     }
 
     /** 
-     * Gets all reported users, sorted by User (id).
-     * Then parses it into a UserReportResource, with all relevant user information as its base
-     * and all reports as an array in the resource as a key.
+     * Gets all reported users, sorted by User (id). Each report has the user linked to the report.
+     * Then parses it into a UserReportResource, with all relevant user information as its base (UserReportResourceCollection)
+     * and all reports as an array in the resource (UserReportResource).
      * @return JsonResponse with a UserReportResource collection
      */
     public function getReportedUsers() {
