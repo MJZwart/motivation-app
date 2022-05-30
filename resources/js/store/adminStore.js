@@ -46,7 +46,6 @@ export const useAdminStore = defineStore('admin', {
             this.experiencePoints = data.balancing.experience_points;
             this.charExpGain = data.balancing.character_exp_gain;
             this.villageExpGain = data.balancing.village_exp_gain;
-            // this.reportedUsers = data.reportedUsers;
         },
 
         async getReportedUsers() {

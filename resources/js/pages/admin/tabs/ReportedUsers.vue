@@ -6,26 +6,28 @@
             
             <div class="header-row row">
                 <span class="col fg-1 header clickable" @click="setSort('username')">
-                    Username
+                    {{ $t('username') }}
                     <FaIcon 
                         icon="sort"  />
                 </span>
                 <span class="fg-1 col header clickable" @click="setSort('report_amount')">
-                    # of Reports
+                    {{ $t('number-of-reports') }}
                     <FaIcon 
                         icon="sort"  />
                 </span>
                 <span class="col header clickable" @click="setSort('last_report_date')">
-                    Last Report
+                    {{ $t('last-report') }}
                     <FaIcon 
                         icon="sort"  />
                 </span>
                 <span class="col header clickable" @click="setSort('banned_until')">
-                    Banned until
+                    {{ $t('banned-until') }}
                     <FaIcon 
                         icon="sort"  />
                 </span>
-                <span class="fg-1 col header">Actions</span>
+                <span class="fg-1 col header">
+                    {{ $t('actions') }}
+                </span>
             </div>
 
             <template v-for="(user, index) in sortedReportedUsers" :key="index">
@@ -72,13 +74,13 @@
                         v-if="user.banned"
                         :ref="el => { bannedDivs[index] = el }" class="sub-details row" 
                         :style="{'max-height': '0px', transition: 'max-height 2s'}">
-                        <h5>Bans</h5>
+                        <h5>{{ $t('bans') }}</h5>
                         <div class="row">
-                            <span class="col header">Start ban</span>
-                            <span class="col header">End ban</span>
-                            <span class="col header">Reason</span>
-                            <span class="col fg-1 header">Days</span>
-                            <span class="col fg-1 header">Banned by</span>
+                            <span class="col header">{{ $t('start-ban') }}</span>
+                            <span class="col header">{{ $t('end-ban') }}</span>
+                            <span class="col header">{{ $t('reason') }}</span>
+                            <span class="col fg-1 header">{{ $t('days') }}</span>
+                            <span class="col fg-1 header">{{ $t('banned-by') }}</span>
                         </div>
                         <template v-for="(banned, index) in user.banned" :key="index">
                             <div class="row">
@@ -105,13 +107,13 @@
                     <div 
                         :ref="el => { reportDivs[index] = el }" class="sub-details row" 
                         :style="{'max-height': '0px'}">
-                        <h5>Reports</h5>
+                        <h5>{{ $t('reports') }}</h5>
                         <div class="row">
-                            <span class="col fg-1 header">Reason</span>
-                            <span class="col header">Comment</span>
-                            <span class="col header">Date</span>
-                            <span class="col header">Reported by</span>
-                            <span class="col fg-1 header">Conversation</span>
+                            <span class="col fg-1 header">{{ $t('reason') }}</span>
+                            <span class="col header">{{ $t('comment') }}</span>
+                            <span class="col header">{{ $t('date') }}</span>
+                            <span class="col header">{{ $t('reported-by') }}</span>
+                            <span class="col fg-1 header">{{ $t('conversation') }}</span>
                         </div>
                         <template v-for="(report, index) in user.reports" :key="index">
                             <div class="row">

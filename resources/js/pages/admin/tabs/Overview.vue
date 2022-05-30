@@ -20,9 +20,6 @@ onMounted(async() => {
 
 const loading = ref(true);
 const overview = ref({});
-
-// console.log('')
-
 </script>
 
 <style lang="scss" scoped>
