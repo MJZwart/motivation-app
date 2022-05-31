@@ -56,6 +56,7 @@ export default defineConfig(({command}) => {
                 '@fortawesome/free-regular-svg-icons',
                 '@fortawesome/free-solid-svg-icons',
                 'pinia',
+                'luxon',
             ],
         },
 
