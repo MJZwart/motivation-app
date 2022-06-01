@@ -172,7 +172,8 @@ class User extends Authenticatable
     }
 
     public function getVisibleConversations() {
-        $allConversations = Conversation::where('user_id', $this->id)->orderBy('updated_at', 'desc')->get();
+        $allConversations = Conversation::with(['messages', 'messages.sender', 'messages.recipient'])
+            ->where('user_id', $this->id)->orderBy('updated_at', 'desc')->get();
         return $allConversations->filter(function ($value, $key) {
             return $value->getLastMessage();
         });
