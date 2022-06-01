@@ -1,7 +1,7 @@
 
 
 <template>
-    <div class="w-50 center">
+    <div class="w-50-flex center">
         <h2>F.A.Q.</h2>
         <div>
             <div v-for="(question, index) in questions" :key="index">
@@ -36,11 +36,11 @@ const questions = [
     },
     {
         question: 'Can I help out?', 
-        answer: 'Of course! We\'re open to any and all feedback and tips on how we can improve. Think new features, tips on design, quality of life improvement, accessibility improvements etc.. Please share ideas you have through our feedback form (TODO) or in the #suggestions channel in our discord (TODO). We could also use some help regarding translations, so if you\'re proficient in English and another language you wish to translate into, please contact us through our Discord.',
+        answer: 'Of course! We\'re open to any and all feedback and tips on how we can improve. Think new features, tips on design, quality of life improvement, accessibility improvements etc.. Please share ideas you have through our Feedback form or in the #suggestions channel in our Discord. We could also use some help regarding translations, so if you\'re proficient in English and another language you wish to translate into, please contact us through our Discord.',
     },
     {
         question: 'I found a bug, what do I do?', 
-        answer: 'You can use our bug report page to report on any and all bugs you find. If you encounter a big problem you need help with, you also contact us on Discord. When filling in a bug report, please provide us with as much detail as possible to help us fix the problem quicker. We need to be able to reproduce the bug in order to fix it, so we might ask some more questions before fixing it.',
+        answer: 'You can use our bug report page to report on any and all bugs you find. If you encounter a big problem you need help with, you can also contact us on Discord. When filling in a bug report, please provide us with as much detail as possible to help us fix the problem quicker. We need to be able to reproduce the bug in order to fix it, so we might ask some more questions before fixing it.',
     },
     {
         question: 'Can I hunt for bugs and exploits?', 
@@ -52,11 +52,11 @@ const questions = [
     },
     {
         question: 'It\'s not very pretty.', 
-        answer: 'Okay listen here you little sh-. I\'m not very good at designing, give me a break.',
+        answer: 'Okay, I\'m not very good at designing, give me a break. If you have any ideas on how this site can improve, you\'re very welcome to contact us on our Discord with suggestions.',
     },
     {
-        question: '', 
-        answer: '',
+        question: 'Where can I find this Discord of yours?', 
+        answer: 'The link to our public Discord will always be at the bottom of the page in the footer.',
     },
     {
         question: '', 
@@ -64,7 +64,7 @@ const questions = [
     },
     {
         question: 'What do I do if I have any more questions?', 
-        answer: '(TODO)',
+        answer: 'You can either contact us through Discord or use our Feedback page, which you can find in the footer at the bottom of the page.',
     },
     {
         question: '', 
