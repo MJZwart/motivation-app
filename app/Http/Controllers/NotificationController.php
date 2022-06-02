@@ -25,12 +25,12 @@ class NotificationController extends Controller
     public function show(){
         /** @var User */
         $user = Auth::user();
-        $notifications = $user->notifications()->latest();
-        $notifCollection = $notifications->get();
-        $response = new JsonResponse(['data' => NotificationResource::collection($notifCollection)], Response::HTTP_OK); 
+        $notificationQuery = $user->notifications()->latest();
+        $notificationCollection = $notificationQuery->get();
+        $response = new JsonResponse(['data' => NotificationResource::collection($notificationCollection)], Response::HTTP_OK); 
             //Creates the response before marking as read, so the notifications sent are still marked as unread.
-        if ($this->needsUpdate($notifCollection))
-            $this->markAsRead($notifications);
+        if ($this->needsUpdate($notificationCollection))
+            $this->markAsRead($notificationQuery);
         return $response;
     }
 
@@ -48,15 +48,15 @@ class NotificationController extends Controller
     /**
      * Sets all notifications as read if any of them are unread
      */
-    private function markAsRead($notifications){
-        $notifications->where('read', false)->update(['read' => true]);
+    private function markAsRead($notificationQuery){
+        $notificationQuery->where('read', false)->update(['read' => true]);
     }
     
     /**
      * Checks if any notification in the collection needs to be set to read
      */
-    private function needsUpdate($collection): bool {
-        return $collection->contains('read', false);
+    private function needsUpdate($notificationCollection): bool {
+        return $notificationCollection->contains('read', false);
     }
 
     /**
