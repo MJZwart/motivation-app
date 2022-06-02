@@ -51,8 +51,9 @@ class NotificationController extends Controller
     private function markAsRead($notifications){
         $notifications->where('read', false)->update(['read' => true]);
     }
+    
     /**
-     * Checks if 
+     * Checks if any notification in the collection needs to be set to read
      */
     private function needsUpdate($collection): bool {
         return $collection->contains('read', false);
