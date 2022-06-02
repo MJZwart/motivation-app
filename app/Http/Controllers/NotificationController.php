@@ -53,7 +53,7 @@ class NotificationController extends Controller
     }
     
     /**
-     * Checks if any notification in the collection needs to be set to read
+     * Checks if any notification in the collection needs to be marked as read
      */
     private function needsUpdate($notificationCollection): bool {
         return $notificationCollection->contains('read', false);
