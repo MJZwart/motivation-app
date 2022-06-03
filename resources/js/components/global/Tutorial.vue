@@ -1,14 +1,23 @@
 <template>
     <FaIcon :icon="['far', 'circle-question']"
             class="icon small question"
-            :class="colorVariant"
+            :class="[colorVariant, size]"
             @click="openTutorial" />
     <ClearModal :show="tutorialOpen" :item="tutorialItem" class="medium-text" @close="closeTutorial" />
 </template>
 
 <script setup>
 import {shallowRef, ref} from 'vue';
-import TaskList from '../tutorial/TaskList.vue';
+import TaskListTutorial from '../tutorial/TaskListTutorial.vue';
+import StatsTutorial from '../tutorial/StatsTutorial.vue';
+import AchievementsTutorial from '../tutorial/AchievementsTutorial.vue';
+import GroupsTutorial from '../tutorial/GroupsTutorial.vue';
+import FriendsTutorial from '../tutorial/FriendsTutorial.vue';
+import IncomingFriendRequestsTutorial from '../tutorial/IncomingFriendRequestsTutorial.vue';
+import OutgoingFriendRequestsTutorial from '../tutorial/OutgoingFriendRequestsTutorial.vue';
+import BlocklistTutorial from '../tutorial/BlocklistTutorial.vue';
+import CharacterTutorial from '../tutorial/CharacterTutorial.vue';
+import VillageTutorial from '../tutorial/VillageTutorial.vue';
 const props = defineProps({
     tutorial: {
         type: String,
@@ -19,8 +28,24 @@ const props = defineProps({
         required: false,
         default: 'primary',
     },
+    size: {
+        type: String,
+        required: false,
+        default: 'small',
+    },
 });
-const tutorials = {'TaskList': TaskList};
+const tutorials = {
+    'TaskList': TaskListTutorial,
+    'Stats': StatsTutorial,
+    'Achievements': AchievementsTutorial,
+    'Groups': GroupsTutorial,
+    'Friends': FriendsTutorial,
+    'Incoming friend requests': IncomingFriendRequestsTutorial,
+    'Outgoing friend requests': OutgoingFriendRequestsTutorial,
+    'Blocklist': BlocklistTutorial,
+    'CHARACTER': CharacterTutorial,
+    'VILLAGE': VillageTutorial,
+};
 
 const tutorialItem = shallowRef({});
 const tutorialOpen = ref(false);
