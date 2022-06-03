@@ -1,0 +1,7 @@
+{
+    "manage-task-list": "Manage your task list",
+    "edit-task-tutorial":"Edit your task or task list. You can change the name of your task list or the details of your task at any time.",
+    "delete-task-tutorial": "Delete task or task list. If you have an active character or village, you will not gain any points towards their levels.",
+    "new-sub-task-tutorial": "Add new sub task. Use these to divide your bigger tasks up in smaller, bite-sized chunks. You can then finish each sub task separately or finish off the entire task in one go. Note that you will gain experience for these sub tasks as well, if you haven't already marked them as completed before.",
+    "complete-task-tutorial": "Complete your task. If you have an active character or village linked, you will gain experience points towards their levels."
+}

@@ -34,7 +34,7 @@ function closeTutorial() {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .question {
     cursor: help;
 }
@@ -42,6 +42,9 @@ function closeTutorial() {
     color: white;
 }
 .medium-text {
+    b{
+        font-size: 1rem;
+    }
     font-size: 0.8rem;
 }
 </style>
