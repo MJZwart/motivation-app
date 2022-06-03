@@ -17,6 +17,7 @@
                                 class="icon small white"
                                 @click="showDeleteTaskList(task)" />
                         </Tooltip>
+                        <Tutorial tutorial="TaskList" colorVariant="white" />
                     </span>
                 </span>
             </template>

@@ -7,6 +7,7 @@ import {
     faSquareCheck,
     faCirclePlay,
     faRectangleXmark,
+    faCircleQuestion,
 } from '@fortawesome/free-regular-svg-icons';
 //Solid icons
 import {
@@ -50,4 +51,5 @@ library.add(
     faBoxArchive,
     faRepeat,
     faCaretDown,
+    faCircleQuestion,
 );

@@ -38,7 +38,7 @@
                         class="icon small green" />
                 </Tooltip>
                 {{subTask.name}}
-                <Tooltip :text="$t('edit-sub-task')">
+                <Tooltip :text="$t('edit-sub-task')" class="ml-auto">
                     <FaIcon 
                         :icon="['far', 'pen-to-square']"
                         class="icon small" />
