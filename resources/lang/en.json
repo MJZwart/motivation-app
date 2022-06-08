@@ -6,6 +6,8 @@
     "discord-link": "https://discord.gg/r3sjMDgyA2",
 
 
+    "details" : "Details",
+    "view": "View",
     "create-new-task-list": "Create new task list",
     "create-new-task": "Create new task",
     "complete-task": "Complete task",

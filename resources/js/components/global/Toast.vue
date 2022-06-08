@@ -88,7 +88,7 @@ const toastTitle = computed(() => {
     box-shadow: 0 0 .5rem $shadow-grey;
 
     p {
-        font-weight: 100;
+        font-family: $light-font;
         margin-top: 3px;
         margin-bottom: 3px;
     } 
@@ -125,7 +125,7 @@ const toastTitle = computed(() => {
     width: 200px;
 
     p {
-        font-weight: 100;
+        font-family: $light-font;
         font-size: small;
     } 
     .custom-toast-sidebar {

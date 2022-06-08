@@ -25,7 +25,12 @@
                 :fields="groupFields"
                 :options="['table-striped']">
                 <template #details="row">
-                    <button class="primary" @click="showGroupsDetails(row.item)">{{ $t('show-details') }}</button>
+                    <Tooltip :text="$t('view')">
+                        <FaIcon 
+                            icon="magnifying-glass" 
+                            class="icon" 
+                            @click="showGroupsDetails(row.item)" />
+                    </Tooltip>
                 </template>
                 <template #empty>
                     {{ $t('no-groups-found') }}

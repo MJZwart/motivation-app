@@ -132,7 +132,7 @@ defineProps({
         border: 0;
         color: black;
         font-size: 1.5rem;
-        font-weight: 700;
+        font-family: $bold-font;
         line-height: 1;
         text-shadow: 0 1px 0 #fff;
         opacity: 0.5;
