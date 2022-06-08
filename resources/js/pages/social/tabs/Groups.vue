@@ -56,10 +56,13 @@ import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '/js/constants/groupConstants.js
 import {useGroupStore} from '/js/store/groupStore';
 import {useUserStore} from '/js/store/userStore';
 import {useMainStore} from '/js/store/store';
+import {useRouter} from 'vue-router';
 
 const groupStore = useGroupStore();
 const userStore = useUserStore();
 const mainStore = useMainStore();
+
+const router = useRouter();
 
 const user = computed(() => userStore.user);
 const groupFields = computed(() => {
@@ -114,8 +117,9 @@ const groupDetailsTitle = computed(() => {
 });
 const showGroupDetailsModal = ref(false);
 function showGroupsDetails(group) {
-    groupDetailsItemId.value = group.id;
-    showGroupDetailsModal.value = true;
+    router.push({path: `/group/${group.id}`});
+    // groupDetailsItemId.value = group.id;
+    // showGroupDetailsModal.value = true;
 }
 function closeGroupDetails() {
     showGroupDetailsModal.value = false;
