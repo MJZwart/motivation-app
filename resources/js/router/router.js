@@ -18,6 +18,7 @@ import Messages from '../pages/messages/Messages.vue';
 import Social from '../pages/social/Social.vue';
 import Faq from '../pages/Faq.vue';
 import Feedback from '../pages/Feedback.vue';
+import ErrorPage from '../pages/ErrorPage.vue';
 import {useUserStore} from '../store/userStore';
 // import Test from '../pages/Test.vue';
 
@@ -91,6 +92,10 @@ let routes = [
     {
         path:'/feedback',
         component: Feedback,
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: ErrorPage,
     },
     // {
     //     path: '/test',
