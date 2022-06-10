@@ -17,6 +17,7 @@
         // "checkJs": true,
         "allowSyntheticDefaultImports": true,
         "baseUrl": ".",
+        "resolveJsonModule": true,
         "paths": {
             "assets/*": ["./resources/assets/*"],
             "components/*": ["./resources/js/*"],

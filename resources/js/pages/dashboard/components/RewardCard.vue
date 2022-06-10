@@ -1,6 +1,12 @@
 <template>
     <div v-if="reward">
         <Summary :title='reward.name'>
+            <template #header>
+                <span class="d-flex">
+                    {{reward.name}}
+                    <Tutorial :tutorial="rewardType" colorVariant="white" />
+                </span>
+            </template>
             <div class="compact">
                 <p>{{ $t('level') }}: {{reward.level}}</p>
                 <p>{{ $t('experience') }}: {{reward.experience}}

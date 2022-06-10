@@ -347,6 +347,8 @@
     "archive" : "Archive",
     "unarchive" : "Unarchive",
 
+    "click-to-close" : "Click anywhere to close",
+
 
     "home-welcome-to": "Welcome to {0}.",
     "home-introduction": "Motivate yourself",
@@ -357,5 +359,9 @@
     "explanation-social-header": "Motivate your friends",
     "explanation-social": "While you can use this app alone, it's much more fun with friends. Invite your friends and make your own group, where you can see each other's progress and motivate each other.",
     "roadmap": "Roadmap",
-    "create-account-today": "Create an account today!"
+    "create-account-today": "Create an account today!",
+    "page-not-found": "Page not found",
+    "if-mistake-submit-report": "If you believe this is an error, please submit a",
+    "home-lc": "home",
+    "bug-report-lc": "bug report"
 }

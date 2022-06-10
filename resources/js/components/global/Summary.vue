@@ -3,7 +3,10 @@
         <div class="card summary-card" :class="headerVariant">
             <div class="card-header">
                 <slot name="header">
-                    {{title}}
+                    <span class="d-flex">
+                        {{title}}
+                        <Tutorial v-if="!tutorialOff" :tutorial="title" colorVariant="white" />
+                    </span>
                 </slot>
             </div>
             <div class="card-body">
@@ -30,6 +33,11 @@ defineProps({
     footer: {
         type: Boolean,
         required: false,
+    },
+    tutorialOff: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
 });
 </script>

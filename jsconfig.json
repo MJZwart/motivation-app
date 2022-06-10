@@ -16,6 +16,7 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "checkJs": true,
+        "resolveJsonModule": true,
         "baseUrl": ".",
         "paths": {
             "assets/*": ["./resources/assets/*"],

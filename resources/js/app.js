@@ -45,6 +45,8 @@ import BaseFormError from '/js/components/global/BaseFormError.vue';
 app.component('BaseFormError', BaseFormError);
 import Modal from '/js/components/global/Modal.vue';
 app.component('Modal', Modal);
+import ClearModal from '/js/components/global/ClearModal.vue';
+app.component('ClearModal', ClearModal);
 import Tooltip from '/js/components/global/Tooltip.vue';
 app.component('Tooltip', Tooltip);
 import Loading from '/js/components/global/Loading.vue';
@@ -53,5 +55,8 @@ import Input from '/js/components/global/Input.vue';
 app.component('Input', Input);
 import Textarea from '/js/components/global/Textarea.vue';
 app.component('Textarea', Textarea);
+import Tutorial from '/js/components/global/Tutorial.vue';
+app.component('Tutorial', Tutorial);
+
 
 app.mount('#app');
