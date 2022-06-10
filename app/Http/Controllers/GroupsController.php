@@ -14,6 +14,7 @@ use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
 use App\Http\Resources\GroupApplicationResource;
+use App\Http\Resources\GroupPageResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
 use App\Models\Notification;
@@ -26,17 +27,27 @@ use Illuminate\Http\Response;
 
 class GroupsController extends Controller
 {
-    public function show($argument){
-        if ($argument == 'all')
-            return GroupResource::collection(Group::where('is_public', true)->get());
-        if ($argument == 'my')
-            return MyGroupResource::collection(Auth::user()->groups);
-        if ($argument == 'dashboard') {
-            $myGroups = MyGroupResource::collection(Auth::user()->groups);
-            $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
-            return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
-        }
-        return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
+    // public function show($argument){
+    //     if ($argument == 'all')
+    //         return GroupResource::collection(Group::where('is_public', true)->get());
+    //     if ($argument == 'my')
+    //         return MyGroupResource::collection(Auth::user()->groups);
+    //     if ($argument == 'dashboard') {
+    //         $myGroups = MyGroupResource::collection(Auth::user()->groups);
+    //         $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
+    //         return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
+    //     }
+    //     return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
+    // }
+
+    public function show(Group $group) {
+        return new JsonResponse(['group' => new GroupPageResource($group)]);
+    }
+
+    public function dashboard() {
+        $myGroups = MyGroupResource::collection(Auth::user()->groups);
+        $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
+        return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
     }
 
     public function showApplications(Group $group) {

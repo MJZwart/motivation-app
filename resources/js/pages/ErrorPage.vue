@@ -12,7 +12,7 @@
 .center {
     text-align: center;
     h2 {
-        font-weight: 300;
+        font-family: "Nunito-Light";
         font-size: 3.5rem;
     }
 }
