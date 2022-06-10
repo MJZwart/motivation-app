@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Summary :title="$t('friends')">
+        <Summary :title="$t('friends')" :tutorialOff="!manage">
             <ul v-if="friends.length > 0" class="mb-1 no-list-style clear-a primary-text">
                 <li v-for="(friend, index) in friends" :key="index">
                     <span v-if="manage">
                         <Tooltip :text="$t('remove-friend')">
                             <FaIcon 
-                                icon="user-plus"
-                                class="icon small"
+                                :icon="['far', 'rectangle-xmark']"
+                                class="icon small red"
                                 @click="removeFriend(friend)" />
                         </Tooltip>
                     </span>

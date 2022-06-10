@@ -9,6 +9,9 @@
                 <button type="button" class="tab-item m-1" :class="{'active-tab': chosen == 'ALL'}" @click="chosen = 'ALL'">
                     {{ $t('all-groups') }}
                 </button>
+                <span class="ml-auto">
+                    <Tutorial tutorial="Groups" colorVariant="primary" size="medium" />
+                </span>
             </div>
             <input 
                 v-model="search" 

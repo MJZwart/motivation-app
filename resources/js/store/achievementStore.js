@@ -14,12 +14,12 @@ export const useAchievementStore = defineStore('achievement', {
     actions: {
         /** @param {import('resources/types/achievement.js').Achievement} achievement */
         async newAchievement(achievement) {
-            const {data} = await axios.post('/achievements', achievement);
+            const {data} = await axios.post('/admin/achievements', achievement);
             this.achievements = data.achievements;
         },
         /** @param {import('resources/types/achievement.js').Achievement} achievement */
         async editAchievement(achievement) {
-            const {data} = await axios.put('/achievements/' + achievement.id, achievement);
+            const {data} = await axios.put('/admin/achievements/' + achievement.id, achievement);
             this.achievements = data.achievements;
         },
     },

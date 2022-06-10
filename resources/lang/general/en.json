@@ -345,6 +345,8 @@
     "archive" : "Archive",
     "unarchive" : "Unarchive",
 
+    "click-to-close" : "Click anywhere to close",
+
 
     "home-welcome-to": "Welcome to {0}.",
     "home-introduction": "Motivate yourself",
