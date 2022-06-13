@@ -92,6 +92,7 @@ function validate() {
         setErrors(`The ${props.name} field cannot be empty`);
         return false;
     }
+    return true;
 }
 
 /**
