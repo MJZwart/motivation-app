@@ -7,7 +7,10 @@
                 <p><b>{{ $t('admin')}}</b>: {{group.admin.username}}</p>
                 <p><b>{{ $t('description')}}</b>: {{group.description}}</p>
                 <p><b>{{ $t('founded')}}</b>: {{group.time_created}} ({{daysSince(group.time_created)}})</p>
-                <p>{{group.is_public ? $t('public') : $t('private')}}</p>
+                <p>
+                    {{group.is_public ? $t('public') : $t('private')}}
+                    {{group.is_public && group.require_application ? ': ' + $t('requires-application') : ''}}
+                </p>
             </div>
             <div v-if="group.is_member" class="content-block">
                 <p><b>{{ $t('your-rank')}}</b>: 
@@ -28,11 +31,20 @@
                     <button type="button" class="m-1 box-shadow" @click="leaveGroup()">{{ $t('leave-group') }}</button>
                 </div>
                 <div v-if="!group.is_member">
-                    <button v-if="!group.require_application" type="button" class="m-1 box-shadow" @click="joinGroup()">
+                    <button 
+                        v-if="!group.require_application" 
+                        type="button" 
+                        class="m-1 box-shadow" 
+                        @click="joinGroup()">
                         {{$t('join-group')}}
                     </button>
-                    <button v-if="group.require_application" type="button" class="m-1 box-shadow" @click="applyToGroup()">
-                        {{$t('apply-to-group')}}
+                    <button 
+                        v-if="group.require_application" 
+                        type="button" 
+                        class="m-1 box-shadow" 
+                        :disabled="group.has_application"
+                        @click="applyToGroup()">
+                        {{ group.has_application ? $t('application-pending') : $t('apply-to-group')}}
                     </button>
                 </div>
             </div>
@@ -63,38 +75,49 @@
 </template>
 
 <script setup>
-import {onBeforeMount, ref} from 'vue';
+import {onBeforeMount, ref, computed} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
 import ManageApplicationsModal from './ManageApplicationsModal.vue';
 import {DateTime} from 'luxon';
 import {parseTimeSince} from '/js/services/dateParsingService';
 import {useGroupStore} from '/js/store/groupStore';
 const groupStore = useGroupStore();
-import {useRoute} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 const route = useRoute();
+const router = useRouter();
 import {useI18n} from 'vue-i18n';
 const {t} = useI18n();
 
 onBeforeMount(async() => {
-    group.value = await groupStore.fetchGroup(route.params.id);
+    await groupStore.fetchGroup(route.params.id);
     loading.value = false;
-})
+});
+
 const loading = ref(true);
-const group = ref({});
+const group = computed(() => groupStore.group);
 
 async function joinGroup() {
+    loading.value = true;
     await groupStore.joinGroup(group.value)
+    loading.value = false;
 }
 async function applyToGroup() {
+    loading.value = true;
     await groupStore.applyToGroup(group.value);
+    loading.value = false;
 }
 async function deleteGroup() {
-    if (confirm(t('delete-group-confirm', {group: group.value.name})))
-        await groupStore.deleteGroup(group.value)
+    if (confirm(t('delete-group-confirm', {group: group.value.name}))) {
+        await groupStore.deleteGroup(group.value);
+        router.push('/social#Groups');
+    }
 }
 async function leaveGroup() {
-    if (confirm(t('leave-group-confirm', {group: group.value.name})))
+    if (confirm(t('leave-group-confirm', {group: group.value.name}))) {
+        loading.value = true;
         await groupStore.leaveGroup(group.value)
+        loading.value = false;
+    }
 }
 
 const showManageGroupModal = ref(false);

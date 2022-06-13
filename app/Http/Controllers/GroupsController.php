@@ -76,6 +76,14 @@ class GroupsController extends Controller
         
     }
 
+    /**
+     * If the group is public and does not require application, instantly joins the group.
+     * Returns a success message and the group with the updated membership.
+     *
+     * @param Request $request
+     * @param Group $group
+     * @return JsonResponse
+     */
     public function join(Request $request, Group $group): JsonResponse{
         if (!$group->is_public)
             return new JsonResponse(['message' => "This group is not public."], Response::HTTP_BAD_REQUEST);
@@ -88,13 +96,24 @@ class GroupsController extends Controller
         $users->attach($user);
         
         ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', $user->username.' joined group '.$group->name);
-        return new JsonResponse(['message' => ['success' => "You successfully joined the group \"{$group->name}\"."]], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => ['success' => "You successfully joined the group \"{$group->name}\"."],
+            'group' => new GroupPageResource($group->fresh())], 
+            Response::HTTP_OK);
     }
 
+    /**
+     * If group is public and requires application, the user is not already a member and does not have a pending application,
+     * it sends an application to the group. This automatically sends a notification to the group admin. Returns the group.
+     *
+     * @param Request $request
+     * @param Group $group
+     * @return JsonResponse
+     */
     public function apply(Request $request, Group $group): JsonResponse{
         if (!$group->is_public)
             return new JsonResponse(['message' => "This group is not public."], Response::HTTP_BAD_REQUEST);
-        if (!($group->require_application))
+        if (!$group->require_application)
             return new JsonResponse(['message' => "This group does not require applications to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
         if ($group->users()->find($user))
@@ -110,7 +129,10 @@ class GroupsController extends Controller
         ]);
         
         ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "{$user->username} applied to group {$group->name}");
-        return new JsonResponse(['message' => ['success' => "You successfully applied to the group \"{$group->name}\"."]], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => ['success' => "You successfully applied to the group \"{$group->name}\"."],
+            'group' => new GroupPageResource($group->fresh())], 
+            Response::HTTP_OK);
     }
 
     public function acceptGroupApplication(Request $request, $application_id): JsonResponse{
@@ -128,7 +150,10 @@ class GroupsController extends Controller
 
         $admin = Auth::user();
         ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "{$admin->username} accepted {$user->username}'s group application into {$group->name}.");
-        return new JsonResponse(['message' => ['success' => "You successfully accepted {$user->username}'s application."]], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => ['success' => "You successfully accepted {$user->username}'s application."],
+            'group' => new GroupPageResource($group->fresh())], 
+            Response::HTTP_OK);
     }
 
     public function rejectGroupApplication(Request $request, $application_id): JsonResponse{
@@ -140,9 +165,20 @@ class GroupsController extends Controller
 
         $admin = Auth::user();
         ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "{$admin->username} rejected {$user->username}'s group application into {$group->name}.");
-        return new JsonResponse(['message' => ['success' => "You successfully rejected {$user->username}'s application."]], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => ['success' => "You successfully rejected {$user->username}'s application."],
+            'group' => new GroupPageResource($group->fresh())], 
+            Response::HTTP_OK);
     }
 
+    /**
+     * Assuming the user is a current member and is not admin, deletes the membership for the given group.
+     * Returns the group with updated member list.
+     *
+     * @param Request $request
+     * @param Group $group
+     * @return JsonResponse
+     */
     public function leave(Request $request, Group $group): JsonResponse{
         /** @var User */
         $user = Auth::user();
@@ -155,7 +191,10 @@ class GroupsController extends Controller
             return new JsonResponse(['message' => "You cannot leave a group where you are an admin."], Response::HTTP_BAD_REQUEST);
         $users->detach($user);
         ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', $user->username.' left group '.$group->name);
-        return new JsonResponse(['message' => ['success' => "You have successfully left the group \"{$group->name}\"."]], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => ['success' => "You have successfully left the group \"{$group->name}\"."],
+            'group' => new GroupPageResource($group->fresh())], 
+            Response::HTTP_OK);
     }
 
     public function update(Group $group, UpdateGroupsRequest $request) {
@@ -165,7 +204,10 @@ class GroupsController extends Controller
         $group->update($validated);
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
         ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP', $group.' updated.');
-        return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => ['success' => ['You have updated the group.']], 
+            'groups' => ['my' => $myGroups, 'current' => new GroupPageResource($group->fresh())]],
+            Response::HTTP_OK);
     }
 
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request) {
@@ -176,6 +218,9 @@ class GroupsController extends Controller
         $group->removeMemberFromGroup($request['id']);
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
         ActionTrackingHandler::handleAction($request, 'GROUP_USER_KICKED', $group.' kicked user id '.$request['id']);
-        return new JsonResponse(['message' => ['success' => ['You have updated the group.']], 'groups' => ['my' => $myGroups]], Response::HTTP_OK);
+        return new JsonResponse(
+            ['message' => ['success' => ['You have updated the group.']], 
+            'group' => new GroupPageResource($group->fresh())], 
+            Response::HTTP_OK);
     }
 }

@@ -17,9 +17,9 @@ use App\Http\Controllers\GroupsController;
 //Middleware for admin
 Route::group(['middleware' => ['valid-auth']], function () {
     Route::get('/dashboard', [GroupsController::class, 'dashboard']);
-    Route::resource('/', GroupsController::class)->only([
-        'store', 'destroy',
-    ]);
+    Route::delete('/{group}', [GroupsController::class, 'destroy']);
+    Route::post('/', [GroupsController::class, 'store']);
+
     Route::get('/{group}', [GroupsController::class, 'show']);
 
     Route::post('/join/{group}', [GroupsController::class, 'join']);

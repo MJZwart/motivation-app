@@ -8,6 +8,8 @@ export const useGroupStore = defineStore('group', {
             myGroups: [],
             /** @type Array<import('resources/types/group').Group> */
             allGroups: [],
+            /** @type import('resources/types/group').Group | null */
+            group: null,
         }
     },
     actions: {
@@ -26,11 +28,10 @@ export const useGroupStore = defineStore('group', {
         },
         /**
          * @param {Number} groupId
-         * @returns {Promise<import('resources/types/group').Group>}
          */
         async fetchGroup(groupId) {
             const {data} = await axios.get(`/groups/${groupId}`);
-            return data.group;
+            this.group = data.group;
         },
         /**
          * @param {import('resources/types/group').Group} group
@@ -48,13 +49,15 @@ export const useGroupStore = defineStore('group', {
          * @param {import('resources/types/group').Group} group
          */
         async joinGroup(group) {
-            await axios.post(`/groups/join/${group.id}`);
+            const {data} = await axios.post(`/groups/join/${group.id}`);
+            this.group = data.group;
         },
         /**
          * @param {import('resources/types/group').Group} group
          */
         async applyToGroup(group) {
-            await axios.post(`/groups/apply/${group.id}`);
+            const {data} = await axios.post(`/groups/apply/${group.id}`);
+            this.group = data.group;
         },
         /**
          * @param {import('resources/types/group').Group} group
@@ -67,25 +70,29 @@ export const useGroupStore = defineStore('group', {
          * @param {*} application 
          */
         async rejectApplication(application) {
-            await axios.post(`/groups/applications/reject/${application.id}`);
+            const {data} = await axios.post(`/groups/applications/reject/${application.id}`);
+            this.group = data.group;
         },
         /**
          * @param {*} application 
          */
         async acceptApplication(application) {
-            await axios.post(`/groups/applications/accept/${application.id}`);
+            const {data} = await axios.post(`/groups/applications/accept/${application.id}`);
+            this.group = data.group;
         },
         /**
          * @param {import('resources/types/group').Group} group
          */
         async leaveGroup(group) {
-            await axios.post(`/groups/leave/${group.id}`);
+            const {data} = await axios.post(`/groups/leave/${group.id}`);
+            this.group = data.group;
         },
         /**
          * @param {import('resources/types/group').Group} group
          */
         async updateGroup(group) {
             const {data} = await axios.put(`/groups/edit/${group.id}`, group);
+            this.group = data.groups.current;
             this.myGroups = data.groups.my;
         },
         /**
@@ -94,7 +101,7 @@ export const useGroupStore = defineStore('group', {
          */
         async removeGroupMember(user, group) {
             const {data} = await axios.post(`/groups/kick/${group.id}`, user);
-            this.myGroups = data.groups.my;
+            this.group = data.group;
         },
     },
 });

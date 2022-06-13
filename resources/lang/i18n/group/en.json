@@ -25,9 +25,11 @@
     "group-name-desc": "How do you want to call this group?",
     "group-search-placeholder": "Filter groups by name",
     "group-information": "Group Information",
+    "requires-application": "Requires application",
 
     "join-group": "Join group",
     "apply-to-group": "Request to join group",
+    "application-pending": "Application pending",
     "close-group-button": "Close",
     "leave-group": "Leave group",
     "delete-group": "Delete group",

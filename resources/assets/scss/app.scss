@@ -145,8 +145,8 @@ button.clear {
     border-color: $red;
 }
 button:disabled {
-    background-color: $primary;
-    border-color: $primary;
+    background-color: $grey;
+    border-color: $grey;
     cursor: not-allowed;
 }
 .tabs {

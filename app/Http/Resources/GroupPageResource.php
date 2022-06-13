@@ -27,6 +27,7 @@ class GroupPageResource extends JsonResource
             'is_member' => !!$this->findLoggedUser(),
             'rank' => $this->findLoggedUser() ? $this->findLoggedUser()->pivot->rank : null,
             'joined' => $this->findLoggedUser() ? $this->findLoggedUser()->pivot->joined : null,
+            'has_application' => $this->require_application ? $this->hasUserApplied() : false,
         ];
     }
 }
