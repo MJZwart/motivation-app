@@ -139,6 +139,7 @@ async function sendMessage() {
     message.conversation_id = activeConversation.value.conversation_id;
     message.recipient_id = activeConversation.value.recipient.id;
     await messageStore.sendMessage(message)
+    await messageStore.getConversations();
     message.message = '';
     resetConversation();
 }
@@ -175,6 +176,7 @@ async function deleteMessage(message) {
     if (confirm(t('confirmation-delete-message'))) {
         await messageStore.deleteMessage(message.id)
         resetConversation();
+        await messageStore.getConversations();
     }
 }
 function addFriend(user) {
@@ -183,6 +185,7 @@ function addFriend(user) {
 async function blockUser(user) {
     if (confirm(t('block-user-confirmation', {user: user.username}))) {
         await userStore.blockUser(user.id)
+        await messageStore.getConversations();
         resetConversation();
     }
 }
