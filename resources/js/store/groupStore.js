@@ -67,14 +67,14 @@ export const useGroupStore = defineStore('group', {
             return data.applications;
         },
         /**
-         * @param {*} application 
+         * @param {import('resources/types/group').Application} application 
          */
         async rejectApplication(application) {
             const {data} = await axios.post(`/groups/applications/reject/${application.id}`);
             this.group = data.group;
         },
         /**
-         * @param {*} application 
+         * @param {import('resources/types/group').Application} application 
          */
         async acceptApplication(application) {
             const {data} = await axios.post(`/groups/applications/accept/${application.id}`);
