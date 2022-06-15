@@ -17,7 +17,7 @@
 
 <script setup>
 import {computed, ref} from 'vue';
-import {parseDateTime} from '/js/services/timezoneService';
+import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 

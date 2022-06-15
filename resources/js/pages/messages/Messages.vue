@@ -89,7 +89,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
 import Message from './components/Message.vue';
 import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
-import {parseDateTime} from '/js/services/timezoneService';
+import {parseDateTime} from '/js/services/dateService';
 
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope

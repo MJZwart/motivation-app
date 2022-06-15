@@ -181,7 +181,7 @@ import {ref, computed, onMounted, onBeforeUpdate} from 'vue';
 import SuspendUserModal from './../components/SuspendUserModal.vue';
 import ShowConversationModal from '../components/ShowConversationModal.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
-import {parseDateTime} from '/js/services/timezoneService';
+import {parseDateTime} from '/js/services/dateService';
 import {sortValues} from '/js/services/sortService';
 import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';

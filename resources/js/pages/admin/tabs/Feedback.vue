@@ -55,7 +55,7 @@ import {ref, onMounted, computed} from 'vue';
 import Table from '/js/components/global/Table.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import {FEEDBACK_FIELDS} from '/js/constants/feedbackConstants.js';
-import {parseDateTime} from '/js/services/timezoneService';
+import {parseDateTime} from '/js/services/dateService';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
 

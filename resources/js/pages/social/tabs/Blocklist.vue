@@ -31,7 +31,7 @@
 <script setup>
 import Summary from '/js/components/global/Summary.vue';
 import {onMounted, ref} from 'vue';
-import {parseDateTime} from '/js/services/timezoneService';
+import {parseDateTime} from '/js/services/dateService';
 
 import {useUserStore} from '/js/store/userStore';
 const userStore = useUserStore();

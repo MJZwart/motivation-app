@@ -58,7 +58,7 @@ import {BUG_REPORT_OVERVIEW_FIELDS, BUG_DEFAULTS, BUG_STATUS} from '/js/constant
 import {ref, computed} from 'vue';
 import EditBugReport from './../components/EditBugReport.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
-import {parseDateTime} from '/js/services/timezoneService';
+import {parseDateTime} from '/js/services/dateService';
 import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
 const mainStore = useMainStore();

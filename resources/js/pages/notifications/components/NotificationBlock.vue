@@ -24,7 +24,7 @@
 
 <script setup>
 import Summary from '/js/components/global/Summary.vue';
-import {parseDateTime} from '/js/services/timezoneService';
+import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n'
 import {useMessageStore} from '/js/store/messageStore';
 

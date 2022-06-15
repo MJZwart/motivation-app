@@ -66,7 +66,7 @@ import {computed, onMounted, ref} from 'vue';
 import {DateTime} from 'luxon';
 import Table from '/js/components/global/Table.vue';
 import EditBan from '../components/EditBan.vue';
-import {parseDateTime} from '/js/services/timezoneService';
+import {parseDateTime} from '/js/services/dateService';
 import {BANNED_USERS_FIELDS} from '/js/constants/reportUserConstants';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();

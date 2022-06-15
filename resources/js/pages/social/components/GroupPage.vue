@@ -6,7 +6,7 @@
             <div class="content-block">
                 <p><b>{{ $t('admin')}}</b>: {{group.admin.username}}</p>
                 <p><b>{{ $t('description')}}</b>: {{group.description}}</p>
-                <p><b>{{ $t('founded')}}</b>: {{group.time_created}} ({{daysSince(group.time_created)}})</p>
+                <p><b>{{ $t('founded')}}</b>: {{parseDateTime(group.time_created)}} ({{daysSince(group.time_created)}})</p>
                 <p>
                     {{group.is_public ? $t('public') : $t('private')}}
                     {{group.is_public && group.require_application ? ': ' + $t('requires-application') : ''}}
@@ -17,7 +17,7 @@
                     <FaIcon :icon="group.rank == 'admin' ? 'angles-down' : 'angle-down'" />
                     {{group.rank}}
                 </p>
-                <p><b>{{ $t('joined')}}</b>: {{group.joined}} ({{daysSince(group.joined)}})</p>
+                <p><b>{{ $t('joined')}}</b>: {{parseDateTime(group.joined)}} ({{daysSince(group.joined)}})</p>
             </div>
             <div class="d-flex m-2">
                 <div v-if="group.rank == 'admin'">
@@ -78,7 +78,7 @@
 import {onBeforeMount, ref, computed} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
 import ManageApplicationsModal from './ManageApplicationsModal.vue';
-import {daysSince} from '/js/services/dateParsingService';
+import {daysSince, parseDateTime} from '../../../services/dateService';
 import {useGroupStore} from '/js/store/groupStore';
 const groupStore = useGroupStore();
 import {useRoute, useRouter} from 'vue-router';
