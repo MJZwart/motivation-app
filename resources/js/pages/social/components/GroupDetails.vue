@@ -13,7 +13,7 @@
                     </div>
                     <div class="row mb-1">
                         <div class="col-2"><b>{{ $t('founded') }}: </b></div>
-                        <div class="col-4">{{group.time_created}}</div>
+                        <div class="col-4">{{parseDateTime(group.time_created)}}</div>
                     </div>
                     <div class="row mb-1">
                         <div class="col-2"><b>{{ $t('members') }}:</b></div>
@@ -48,7 +48,7 @@
                     <div v-for="member in group.members" :key="member.id" class="row">
                         <div class="col-2">{{member.username}}</div>
                         <div class="col-2">{{member.rank}}</div>
-                        <div class="col-5">Joined: {{member.joined}}</div>
+                        <div class="col-5">Joined: {{parseDateTime(member.joined, true)}}</div>
                     </div>
                 </div>
             </div>
@@ -68,6 +68,7 @@
 import {computed, ref} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
 import ManageApplicationsModal from './ManageApplicationsModal.vue';
+import {parseDateTime} from '/js/services/timezoneService';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 import {useGroupStore} from '/js/store/groupStore';

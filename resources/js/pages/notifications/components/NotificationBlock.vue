@@ -15,7 +15,7 @@
             </template>
             <slot>
                 <p>{{notification.text}}</p>
-                <p>{{ $t('received-on') }}: {{notification.created_at}}</p>
+                <p>{{ $t('received-on') }}: {{parseDateTime(notification.created_at)}}</p>
             </slot>
         </Summary>
     </div>
@@ -24,6 +24,7 @@
 
 <script setup>
 import Summary from '/js/components/global/Summary.vue';
+import {parseDateTime} from '/js/services/timezoneService';
 import {useI18n} from 'vue-i18n'
 import {useMessageStore} from '/js/store/messageStore';
 

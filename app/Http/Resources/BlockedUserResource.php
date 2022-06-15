@@ -18,7 +18,7 @@ class BlockedUserResource extends JsonResource
             'id' => $this->id,
             'blocked_user_id' => $this->blocked_user_id,
             'blocked_user' => $this->blockedUser()->pluck('username')->first(),
-            'created_at' => $this->created_at->toDateTimeString(),
+            'created_at' => $this->created_at,
         ];
     }
 }

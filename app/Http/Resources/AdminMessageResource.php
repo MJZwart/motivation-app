@@ -17,7 +17,7 @@ class AdminMessageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'created_at' => $this->created_at->toDateTimeString(),
+            'created_at' => $this->created_at,
             'sender_id' => $this->sender_id,
             'sender_username' => $this->sender->username,
             'message' => $this->message,

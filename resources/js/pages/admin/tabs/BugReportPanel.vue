@@ -9,6 +9,9 @@
             :sortAsc="!currentSortDesc"
             :options="['table-hover', 'table-sm', 'table-responsive', 'table-striped']"
             class="font-sm">
+            <template #time_created="data">
+                {{parseDateTime(data.item.time_created)}}
+            </template>
             <template #severity="data">
                 <span class="severity">{{ data.item.severity }}</span>
             </template>
@@ -55,6 +58,7 @@ import {BUG_REPORT_OVERVIEW_FIELDS, BUG_DEFAULTS, BUG_STATUS} from '/js/constant
 import {ref, computed} from 'vue';
 import EditBugReport from './../components/EditBugReport.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
+import {parseDateTime} from '/js/services/timezoneService';
 import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
 const mainStore = useMainStore();

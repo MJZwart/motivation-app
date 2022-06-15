@@ -16,8 +16,8 @@ class MyGroupResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'time_created' => $this->created_at->toDateTimeString(),
-            'time_updated' => $this->updated_at->toDateTimeString(),
+            'time_created' => $this->created_at,
+            'time_updated' => $this->updated_at,
             'name' => $this->name,
             'description' => $this->description,
             'is_public' => (boolean) $this->is_public,

@@ -17,7 +17,7 @@ class UserReportResource extends JsonResource
     {
         return [
             'comment' => $this->comment,
-            'reported_date' => $this->created_at->toDateTimeString(),
+            'reported_date' => $this->created_at,
             'reported_by_id' => $this->reported_by_user_id,
             'reported_by_name' => $this->reporter->username,
             'conversation' => (int) $this->conversation_id,

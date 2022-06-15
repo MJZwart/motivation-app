@@ -19,11 +19,11 @@ class BannedUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'created_at' => $this->created_at->toDateTimeString(),
+            'created_at' => $this->created_at,
             'time_since' => $this->created_at->diffForHumans(Carbon::now(),[
                 'syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW,
             ]),
-            'updated_at' => $this->updated_at->toDateTimeString(),
+            'updated_at' => $this->updated_at,
             'user' => new StrippedUserResource($this->user),
             'reason' => $this->reason,
             'days' => $this->days,

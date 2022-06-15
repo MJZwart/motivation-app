@@ -22,7 +22,7 @@
                             <p><strong>{{getSender(conversation.last_message)}}</strong>
                                 {{limitMessage(conversation.last_message.message)}}
                             </p>
-                            <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
+                            <p class="silent mb-0">{{ $t('last-message') }}: {{parseDateTime(conversation.updated_at)}}</p>
                         </div>
                     </div>
                     <div v-if="activeConversation" class="col m-1 min-col-8">
@@ -89,6 +89,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
 import Message from './components/Message.vue';
 import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
+import {parseDateTime} from '/js/services/timezoneService';
 
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope

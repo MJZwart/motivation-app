@@ -9,6 +9,9 @@
                 :fields="bannedUsersFields"
                 :options="['table-striped', 'page-wide', 'body-borders']"
             >
+                <template #created_at="row">
+                    {{parseDateTime(row.item.created_at)}}
+                </template>
                 <template #user="row">
                     <router-link :to="{ name: 'profile', params: { id: row.item.user.id}}">
                         {{row.item.user.username}}
@@ -21,10 +24,10 @@
                 </template>
                 <template #banned_until="row">
                     <span v-if="row.item.early_release">
-                        {{row.item.early_release}}
+                        {{parseDateTime(row.item.early_release, true)}}
                     </span>
                     <span v-else>
-                        {{row.item.banned_until}}
+                        {{parseDateTime(row.item.banned_until, true)}}
                     </span>
                     <span v-if="banEnded(row.item)">
                         <Tooltip :text="$t('ban-ended')">
@@ -63,6 +66,7 @@ import {computed, onMounted, ref} from 'vue';
 import {DateTime} from 'luxon';
 import Table from '/js/components/global/Table.vue';
 import EditBan from '../components/EditBan.vue';
+import {parseDateTime} from '/js/services/timezoneService';
 import {BANNED_USERS_FIELDS} from '/js/constants/reportUserConstants';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();

@@ -44,7 +44,7 @@
                             {{user.report_amount}}
                         </div>
                         <div class="col">
-                            {{user.last_report_date}}
+                            {{parseDateTime(user.last_report_date)}}
                         </div>
                         <div class="col">
                             <FaIcon 
@@ -85,10 +85,11 @@
                         <template v-for="(banned, index) in user.banned" :key="index">
                             <div class="row">
                                 <div class="col">
-                                    {{banned.created_at}} ({{banned.time_since}})
+                                    {{parseDateTime(banned.created_at)}} ({{banned.time_since}})
                                 </div>
                                 <div class="col">
-                                    {{banned.early_release ? banned.early_release : banned.banned_until}} 
+                                    {{banned.early_release ? 
+                                        parseDateTime(banned.early_release, true) : parseDateTime(banned.banned_until, true)}} 
                                     ({{banned.banned_until_time}})
                                 </div>
                                 <div class="col">
@@ -124,7 +125,7 @@
                                     {{report.comment}}
                                 </div>
                                 <div class="col">
-                                    {{report.reported_date}}
+                                    {{parseDateTime(report.reported_date)}}
                                 </div>
                                 <div class="col">
                                     {{report.reported_by_name}}
@@ -175,10 +176,12 @@
 </template>
 
 <script setup>
+/* eslint-disable max-lines */
 import {ref, computed, onMounted, onBeforeUpdate} from 'vue';
 import SuspendUserModal from './../components/SuspendUserModal.vue';
 import ShowConversationModal from '../components/ShowConversationModal.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
+import {parseDateTime} from '/js/services/timezoneService';
 import {sortValues} from '/js/services/sortService';
 import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
