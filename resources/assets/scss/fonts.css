@@ -1,15 +1,18 @@
 
 @font-face {
     font-family: "Nunito";
-    src: url('/fonts/Nunito-Regular.ttf');
+    font-display: block;
+    src: local('Nunito'), url('/fonts/Nunito-Regular.ttf');
 }
 @font-face {
     font-family: "Nunito-Bold";
-    src: url('/fonts/Nunito-Bold.ttf');
+    font-display: block;
+    src: local('Nunito'), url('/fonts/Nunito-Bold.ttf');
 }
 @font-face {
     font-family: "Nunito-Light";
-    src: url('/fonts/Nunito-Light.ttf');
+    font-display: block;
+    src: local('Nunito'), url('/fonts/Nunito-Light.ttf');
 }
 
 @font-face {
