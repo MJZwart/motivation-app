@@ -1,7 +1,7 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <div v-else class="w-60 center">
+        <div v-else class="w-60-flex center">
             <h2>{{group.name}}</h2>
             <div class="content-block">
                 <p><b>{{ $t('admin')}}</b>: {{group.admin.username}}</p>
