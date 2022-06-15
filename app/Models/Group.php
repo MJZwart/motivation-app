@@ -19,6 +19,8 @@ class Group extends Model
         'require_application',
     ];
 
+    protected $with = ['users'];
+
     public function users() {
         return $this->belongsToMany('App\Models\User')
             ->withPivot(['rank'])
