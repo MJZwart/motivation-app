@@ -36,7 +36,7 @@ const overview = ref({});
         background-color: white;
         box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
         .key {
-            font-weight: 600;
+            font-family: $bold-font;
             font-size: 1rem;
             display: block;
         }
@@ -46,7 +46,7 @@ const overview = ref({});
             display: block;
         }
         .details {
-            font-weight: 300;
+            font-family: $light-font;
             color: $grey;
         }
     }

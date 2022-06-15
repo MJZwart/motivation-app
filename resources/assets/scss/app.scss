@@ -1,6 +1,7 @@
 @import 'variables';
 @import './basics';
 @import './spacing';
+@import './fonts.css';
 // @import '../../../node_modules/bootstrap/scss/bootstrap';
 // @import '../../../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -9,15 +10,16 @@ Cheat sheet
 border-radius: top-left top-right bottom-right bottom-left;
 margin: top right bottom left;
 */
-
 * {
     box-sizing: border-box;
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: $regular-font;
+    // font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 body {
     background-color: $background;
     margin: 0;
+    color: $dark-text
 }
 
 #app-container {
@@ -33,11 +35,19 @@ body {
 p {
     margin-left:5px;
 }
-label, b {
-    font-weight: 600;
+label {
+    font-family: $bold-font;
 }
 
-//New and copied, can be toned down
+.content-block {
+    background-color: white;
+    margin: 0 0 0.5rem 0;
+    width: 100%;
+    height: max-content;
+    border-radius: 0.5rem;
+    box-shadow: $basic-shadow;
+    padding: 0.5rem;
+}
 
 .card-deck {
     display: flex;
@@ -135,8 +145,8 @@ button.clear {
     border-color: $red;
 }
 button:disabled {
-    background-color: $primary;
-    border-color: $primary;
+    background-color: $grey;
+    border-color: $grey;
     cursor: not-allowed;
 }
 .tabs {
@@ -159,7 +169,7 @@ button:disabled {
     }
     .tab-item.active-tab {
         background-color: transparent;
-        font-weight: 700;
+        font-family: $bold-font;
         border-radius: 0.5rem 0 0 0.5rem;
         border-color: $border-color $background $border-color $border-color;
         border-top-right-radius: 0;
@@ -181,6 +191,7 @@ button:disabled {
         margin-bottom: -1px;
         justify-content: flex-start;
         min-width: max-content;
+        margin-bottom: -1px !important;
     }
     .tab-item.active-tab {
         border-color: $border-color $border-color $background;
@@ -230,7 +241,7 @@ button:disabled {
     font-size: small;
 }
 .silent {
-    font-weight: 200;
+    font-family: $light-font;
     color: $grey;
 }
 
@@ -261,7 +272,7 @@ button:disabled {
     border-bottom-right-radius: 0.25rem;
 }
 .box-shadow {
-    box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
+    box-shadow: $basic-shadow
 }
 .no-list-style {
     list-style: none;
@@ -269,7 +280,7 @@ button:disabled {
 }
 .card-title{
     font-size:18px;
-    font-weight: 600;
+    font-family: $bold-font;
     border: 1px solid $primary;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
@@ -364,7 +375,7 @@ button:disabled {
     margin: 0 0.5rem;
 }
 .task-title{
-    font-weight:600;
+    font-family: $bold-font;
     margin-bottom:0;
 }
 

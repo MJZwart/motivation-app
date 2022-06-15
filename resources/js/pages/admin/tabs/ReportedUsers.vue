@@ -279,6 +279,7 @@ function currentlyBanned(user) {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../../assets/scss/variables';
 .detailed-table{
     border: 1px solid grey;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
@@ -315,7 +316,7 @@ function currentlyBanned(user) {
     flex-grow: 1 !important;
 }
 .header {
-    font-weight:600;
+    font-family: $bold-font;
     display: block;
 }
 </style>

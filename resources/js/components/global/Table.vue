@@ -135,7 +135,7 @@ table thead tr th {
 .page-wide{
     width:100%;
 }
-.body-borders tbody tr td{
-    border: 1px solid $grey;
+td {
+    padding: 0.5rem;
 }
 </style>

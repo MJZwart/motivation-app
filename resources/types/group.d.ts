@@ -14,3 +14,11 @@ export type GroupUser = {
     rank: String,
     joined: Date,
 }
+
+export type Application = {
+    id: Number,
+    applied_at: Date,
+    user_id: Number,
+    username: String,
+    group_id: Number,
+}

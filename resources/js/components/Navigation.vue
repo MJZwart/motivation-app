@@ -101,7 +101,7 @@ function logout() {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../../assets/scss/variables';
 .navbar{
     background-color: $primary;
@@ -115,7 +115,7 @@ function logout() {
         text-decoration: none;
     }
     a.router-link-active{
-        font-weight:600;
+        font-family: $bold-font;
     }
     section, a {
         display: inline-block;

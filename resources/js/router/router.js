@@ -18,6 +18,7 @@ import Messages from '../pages/messages/Messages.vue';
 import Social from '../pages/social/Social.vue';
 import Faq from '../pages/Faq.vue';
 import Feedback from '../pages/Feedback.vue';
+import Group from '../pages/social/components/GroupPage.vue';
 import ErrorPage from '../pages/ErrorPage.vue';
 import {useUserStore} from '../store/userStore';
 // import Test from '../pages/Test.vue';
@@ -83,6 +84,11 @@ let routes = [
     {  
         path:'/social',
         component: Social,
+        meta: {requiresAuth: true},
+    },
+    {
+        path: '/group/:id',
+        component: Group,
         meta: {requiresAuth: true},
     },
     {

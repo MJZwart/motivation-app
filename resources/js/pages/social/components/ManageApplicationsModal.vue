@@ -22,6 +22,8 @@ const groupStore = useGroupStore();
 
 const emit = defineEmits(['reloadGroups']);
 const loading = ref();
+
+/** @type {import('resources/types/group').Application} */
 const applications = ref();
 onMounted(() => {
     load();
@@ -40,11 +42,13 @@ const props = defineProps({
     },
 });
 
+/** @param {import('resources/types/group').Application} application */
 async function rejectApplication(application) {
     await groupStore.rejectApplication(application);
     load();
 }
 
+/** @param {import('resources/types/group').Application} application */
 async function acceptApplication(application) {
     await groupStore.acceptApplication(application);
     emit('reloadGroups');
