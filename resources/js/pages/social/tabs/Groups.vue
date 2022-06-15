@@ -42,10 +42,6 @@
             <Modal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
             </Modal>
-            <Modal class="xl" :show="showGroupDetailsModal" :footer="false" 
-                   :title="groupDetailsTitle" @close="closeGroupDetails">
-                <GroupDetails :group="groupDetailsItem" :user="user" @close="closeGroupDetails" @reloadGroups="load" />
-            </Modal>
         </div>
     </div>
 </template>
@@ -53,21 +49,17 @@
 <script setup>
 import Table from '/js/components/global/Table.vue';
 import CreateGroup from '../components/CreateGroup.vue'
-import GroupDetails from '../components/GroupDetails.vue';
 import {computed, ref, onMounted} from 'vue';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '/js/constants/groupConstants.js';
 import {useGroupStore} from '/js/store/groupStore';
-import {useUserStore} from '/js/store/userStore';
 import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
 
 const groupStore = useGroupStore();
-const userStore = useUserStore();
 const mainStore = useMainStore();
 
 const router = useRouter();
 
-const user = computed(() => userStore.user);
 const groupFields = computed(() => {
     if (chosen.value == 'MY') return MY_GROUP_FIELDS;
     if (chosen.value == 'ALL') return ALL_GROUP_FIELDS;
@@ -108,24 +100,8 @@ function closeCreateGroup() {
     showCreateGroupModal.value = false;
 }
 
-const groupDetailsItemId = ref(null);
-const groupDetailsItem = computed(() => {
-    if (!groupDetailsItemId.value) return ref({});
-    if (!chosenGroups.value) return ref({});
-    return chosenGroups.value.find(item => item.id == groupDetailsItemId.value);
-});
-const groupDetailsTitle = computed(() => {
-    if (!groupDetailsItem.value) return '';
-    return groupDetailsItem.value.name;
-});
-const showGroupDetailsModal = ref(false);
 function showGroupsDetails(group) {
     router.push({path: `/group/${group.id}`});
-    // groupDetailsItemId.value = group.id;
-    // showGroupDetailsModal.value = true;
-}
-function closeGroupDetails() {
-    showGroupDetailsModal.value = false;
 }
 </script>
 
