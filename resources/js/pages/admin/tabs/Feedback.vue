@@ -12,6 +12,9 @@
                     {{row.item.user.username}}
                 </router-link>
             </template>
+            <template #created_at="row">
+                {{parseDateTime(row.item.created_at)}}
+            </template>
             <template #actions="row">
                 <Tooltip v-if="!row.item.archived" :text="$t('archive')">
                     <FaIcon 
@@ -34,7 +37,7 @@
                 </Tooltip>
             </template>
             <template #archived="row">
-                {{row.item.archived ? row.item.updated_at : ''}}
+                {{row.item.archived ? parseDateTime(row.item.updated_at) : ''}}
             </template>
         </Table>
         <Modal 
@@ -52,6 +55,7 @@ import {ref, onMounted, computed} from 'vue';
 import Table from '/js/components/global/Table.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import {FEEDBACK_FIELDS} from '/js/constants/feedbackConstants.js';
+import {parseDateTime} from '/js/services/dateService';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
 

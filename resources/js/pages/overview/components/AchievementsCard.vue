@@ -19,6 +19,7 @@
 
 <script setup>
 import Summary from '/js/components/global/Summary.vue';
+import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 defineProps({
@@ -33,6 +34,6 @@ defineProps({
  */
 function achievementSummary(achievement) {
     return achievement.description+' '+achievement.trigger_description+' '
-    + t('earned-on')+': '+achievement.pivot.earned;
+    + t('earned-on')+': '+parseDateTime(achievement.earned);
 }
 </script>

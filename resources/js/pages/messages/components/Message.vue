@@ -4,7 +4,7 @@
          @mouseleave="showActionButtons = false">
         <p class="mb-0">{{getSender}} {{message.message}}</p>
         <p class="silent d-flex">
-            {{message.created_at}}
+            {{parseDateTime(message.created_at)}}
             <span v-if="showActionButtons" class="ml-auto"> 
                 <FaIcon 
                     icon="trash"
@@ -17,6 +17,7 @@
 
 <script setup>
 import {computed, ref} from 'vue';
+import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 

@@ -17,8 +17,8 @@ class FeedbackResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'created_at' => $this->created_at->toDateTimeString(),
-            'updated_at' => $this->updated_at->toDateTimeString(),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
             'type' => $this->type,
             'text' => $this->text,
             'email' => $this->email,

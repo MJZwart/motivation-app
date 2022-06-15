@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ConversationOverviewResource extends JsonResource
 {
@@ -20,7 +22,7 @@ class ConversationOverviewResource extends JsonResource
             'conversation_id' => $this->conversation_id,
             'last_message' => MessageResource::make($this->getLastMessage())->setUserId($this->user_id),
             'messages' => MessageResource::collection($this->visibleMessages()->sortByDesc('created_at'))->setUserId($this->user_id),
-            'updated_at' => $this->updated_at->toDateTimeString(),
+            'updated_at' => $this->updated_at,
         ];
     }
 }

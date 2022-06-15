@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\User;
 
-class AdminMessageResource extends JsonResource
+class AchievementEarnedResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,10 @@ class AdminMessageResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'created_at' => $this->created_at,
-            'sender_id' => $this->sender_id,
-            'sender_username' => $this->sender->username,
-            'message' => $this->message,
+            'name' => $this->name,
+            'description' => $this->description,
+            'trigger_description' => $this->trigger_description,
+            'earned' => Carbon::create($this->pivot->earned),
         ];
     }
 }
