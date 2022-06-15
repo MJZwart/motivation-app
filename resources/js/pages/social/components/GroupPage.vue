@@ -1,7 +1,7 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <div v-else class="w-60-flex center">
+        <div v-else class="w-60-flex center p-1">
             <h2>{{group.name}}</h2>
             <div class="content-block">
                 <p><b>{{ $t('admin')}}</b>: {{group.admin.username}}</p>
@@ -62,15 +62,15 @@
                     <span class="col">{{daysSince(member.joined)}}</span>
                 </div>
             </div>
+            <Modal class="xl" :show="showManageGroupModal" :footer="false" 
+                   :title="group.name" @close="closeManageGroup">
+                <ManageGroupModal :group="group" />
+            </Modal>
+            <Modal class="xl" :show="showManageApplicationsModal" :footer="false"
+                   :title="group.name" @close="closeManageApplications">
+                <ManageApplicationsModal :group="group" @reloadGroups="emitReloadGroups()"/>    
+            </Modal>
         </div>
-        <Modal class="xl" :show="showManageGroupModal" :footer="false" 
-               :title="group.name" @close="closeManageGroup">
-            <ManageGroupModal :group="group" />
-        </Modal>
-        <Modal class="xl" :show="showManageApplicationsModal" :footer="false"
-               :title="group.name" @close="closeManageApplications">
-            <ManageApplicationsModal :group="group" @reloadGroups="emitReloadGroups()"/>    
-        </Modal>
     </div>
 </template>
 
