@@ -34,6 +34,6 @@ defineProps({
  */
 function achievementSummary(achievement) {
     return achievement.description+' '+achievement.trigger_description+' '
-    + t('earned-on')+': '+parseDateTime(achievement.pivot.earned, true);
+    + t('earned-on')+': '+parseDateTime(achievement.earned);
 }
 </script>

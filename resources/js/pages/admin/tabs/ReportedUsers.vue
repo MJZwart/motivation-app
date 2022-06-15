@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="col">
                                     {{banned.early_release ? 
-                                        parseDateTime(banned.early_release, true) : parseDateTime(banned.banned_until, true)}} 
+                                        parseDateTime(banned.early_release) : parseDateTime(banned.banned_until)}} 
                                     ({{banned.banned_until_time}})
                                 </div>
                                 <div class="col">

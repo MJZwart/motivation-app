@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupUserResource extends JsonResource
@@ -21,7 +22,7 @@ class GroupUserResource extends JsonResource
                 return $this->pivot->rank;
             }),
             'joined' => $this->whenPivotLoaded('group_user', function() {
-                return $this->pivot->joined;
+                return Carbon::create($this->pivot->joined);
             })
         ];
     }

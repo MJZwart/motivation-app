@@ -48,7 +48,7 @@
                     <div v-for="member in group.members" :key="member.id" class="row">
                         <div class="col-2">{{member.username}}</div>
                         <div class="col-2">{{member.rank}}</div>
-                        <div class="col-5">Joined: {{parseDateTime(member.joined, true)}}</div>
+                        <div class="col-5">Joined: {{parseDateTime(member.joined)}}</div>
                     </div>
                 </div>
             </div>

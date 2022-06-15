@@ -24,10 +24,10 @@
                 </template>
                 <template #banned_until="row">
                     <span v-if="row.item.early_release">
-                        {{parseDateTime(row.item.early_release, true)}}
+                        {{parseDateTime(row.item.early_release)}}
                     </span>
                     <span v-else>
-                        {{parseDateTime(row.item.banned_until, true)}}
+                        {{parseDateTime(row.item.banned_until)}}
                     </span>
                     <span v-if="banEnded(row.item)">
                         <Tooltip :text="$t('ban-ended')">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class MyGroupResource extends JsonResource
@@ -25,7 +26,7 @@ class MyGroupResource extends JsonResource
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
             'rank' => $this->findLoggedUser()->pivot->rank,
-            'joined' => $this->findLoggedUser()->pivot->joined,
+            'joined' => Carbon::create($this->findLoggedUser()->pivot->joined),
         ];
     }
 }
