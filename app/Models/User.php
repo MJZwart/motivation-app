@@ -55,8 +55,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['bannedUser'];
-
     public function characters(){
         return $this->hasMany('App\Models\Character');
     }

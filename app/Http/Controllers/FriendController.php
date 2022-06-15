@@ -107,8 +107,10 @@ class FriendController extends Controller
      * Returns all friend requests, divided in incoming and outgoing
      */
     private function fetchRequests(){
-        $incomingRequests = IncomingFriendRequestResource::collection(Friend::where('friend_id', Auth::user()->id)->where('accepted', false)->get());
-        $outgoingRequests = OutgoingFriendRequestResource::collection(Friend::where('user_id', Auth::user()->id)->where('accepted', false)->get());
+        $incomingRequests = IncomingFriendRequestResource::collection(
+            Friend::where('friend_id', Auth::user()->id)->where('accepted', false)->with('friend')->with('user')->get());
+        $outgoingRequests = OutgoingFriendRequestResource::collection(
+            Friend::where('user_id', Auth::user()->id)->where('accepted', false)->with('friend')->get());
         return ['incoming' => $incomingRequests, 'outgoing' => $outgoingRequests];
     }
 
