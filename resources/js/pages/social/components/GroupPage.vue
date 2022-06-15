@@ -78,8 +78,7 @@
 import {onBeforeMount, ref, computed} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
 import ManageApplicationsModal from './ManageApplicationsModal.vue';
-import {DateTime} from 'luxon';
-import {parseTimeSince} from '/js/services/dateParsingService';
+import {daysSince} from '/js/services/dateParsingService';
 import {useGroupStore} from '/js/store/groupStore';
 const groupStore = useGroupStore();
 import {useRoute, useRouter} from 'vue-router';
@@ -134,16 +133,5 @@ function manageApplications() {
 }
 function closeManageApplications() {
     showManageApplicationsModal.value = false;
-}
-
-/**
- * @param {String} date
- */
-// eslint-disable-next-line no-unused-vars
-function daysSince(date) {
-    const today = DateTime.now();
-    const start = DateTime.fromSQL(date);
-    const diff = today.diff(start, ['years', 'months', 'days', 'hours']).toObject();
-    return parseTimeSince(diff);
 }
 </script>
