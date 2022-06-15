@@ -1,0 +1,6 @@
+{
+    "year": "{count} year |{count} years",
+    "month": "{count} month |{count} months",
+    "day": "{count} day |{count} days",
+    "hour": "{count} hour |{count} hours"
+}

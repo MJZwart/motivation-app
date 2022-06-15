@@ -1,0 +1,48 @@
+{
+    "founded": "Founded",
+    "groups": "Groups",
+    "members": "Members",
+    "all-groups": "All groups", 
+    "my-groups": "My groups",
+    "social": "Social",
+    "create-group": "Create new group",
+    "your-rank": "Your rank",
+    "public": "Public",
+    "private": "Private",
+    
+    "kick": "Kick",
+    "joined": "Joined",
+    "member-for": "Member for",
+    "rank": "Rank",
+    "member-since": "Member since",
+
+    "group-public-checkbox": "Is this group public?",
+    "group-public-checkbox-desc": "If you check this box, other people can find, see, and join this group.",
+    "group-require-application-checkbox": "Is an application needed to join this group?",
+    "group-require-application-checkbox-desc": "If you check this box, an application is needed to join this public group. You can see a list of applications in the \"Manage Group\"-modal.",
+    "group-desc": "Description",
+    "group-description-desc": "How would you describe this group?",
+    "group-name-desc": "How do you want to call this group?",
+    "group-search-placeholder": "Filter groups by name",
+    "group-information": "Group Information",
+    "requires-application": "Requires application",
+
+    "join-group": "Join group",
+    "apply-to-group": "Request to join group",
+    "application-pending": "Application pending",
+    "close-group-button": "Close",
+    "leave-group": "Leave group",
+    "delete-group": "Delete group",
+    "manage-group-applications": "Manage Applications",
+    "reject-group-application": "Reject",
+    "accept-group-application": "Accept",
+
+    "member-list": "Member list",
+    "show-details": "Show details",
+    "manage-group": "Manage group",
+
+    "delete-group-confirm": "Are you sure you want to delete the group {group}?",
+    "leave-group-confirm": "Are you sure you want to leave the group {group}?",
+    "no-groups-found": "No groups at this time. Join or make one!",
+    "confirm-kick-from-group": "Are you sure you wish to kick {user}?"
+}

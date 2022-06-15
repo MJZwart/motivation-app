@@ -92,18 +92,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::delete('/message/{message}', [MessageController::class, 'deleteMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
 
-    Route::post('/groups/join/{group}', [GroupsController::class, 'join']);
-    Route::post('groups/apply/{group}', [GroupsController::class, 'apply']);
-    Route::get('/groups/applications/show/{group}', [GroupsController::class, 'showApplications']);
-    Route::post('/groups/applications/reject/{application_id}', [GroupsController::class, 'rejectGroupApplication']);
-    Route::post('/groups/applications/accept/{application_id}', [GroupsController::class, 'acceptGroupApplication']);
-    Route::post('/groups/leave/{group}', [GroupsController::class, 'leave']);
-    Route::resource('/groups', GroupsController::class)->only([
-        'store', 'destroy', 'show',
-    ]);
-    Route::put('/groups/edit/{group}', [GroupsController::class, 'update']);
-    Route::post('/groups/kick/{group}', [GroupsController::class, 'removeUserFromGroup']);
-
     Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
     Route::get('/user/blocklist', [UserController::class, 'getBlocklist']);
     Route::put('/user/{blockedUser}/unblock', [UserController::class, 'unblockUser']);

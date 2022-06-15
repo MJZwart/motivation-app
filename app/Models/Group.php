@@ -31,6 +31,13 @@ class Group extends Model
             ->withPivot(['applied_at']);
     }
 
+    public function hasUserApplied() {
+        return $this->applications()
+            ->where('user_id', Auth::user()->id)
+            ->where('group_id', $this->id)
+            ->exists();
+    }
+
     public function isAdminById(int $id):bool {
         return $this->users()->find($id)->pivot->rank == 'admin';
     }
