@@ -26,7 +26,8 @@
             <Table
                 :items="filteredAllGroups"
                 :fields="groupFields"
-                :options="['table-striped']">
+                :options="['table-striped']"
+                class="font-small-responsive">
                 <template #details="row">
                     <Tooltip :text="$t('view')">
                         <FaIcon 

@@ -5,17 +5,17 @@
             <Summary :title="$t('blocklist')">
                 <ul class="no-list-style">
                     <div v-if="blocklist[0]">
-                        <li v-for="(blockedUser, index) in blocklist" :key="index" class="mb-1 ml-0 row">
+                        <li v-for="(blockedUser, index) in blocklist" :key="index" class="mb-1 ml-0 d-flex flex-wrap">
                             <Tooltip :text="$t('unblock')">
                                 <FaIcon 
                                     icon="lock-open"
                                     class="icon green"
                                     @click="unblock(blockedUser.id)" />
                             </Tooltip>
-                            <router-link :to="{ name: 'profile', params: { id: blockedUser.blocked_user_id}}" class="col-2">
+                            <router-link :to="{ name: 'profile', params: { id: blockedUser.blocked_user_id}}" class="flex-1">
                                 {{blockedUser.blocked_user}}
                             </router-link>
-                            <span class="col-4">
+                            <span class="flex-2">
                                 {{$t('blocked-on')}}: {{blockedUser.created_at}}
                             </span>
                         </li>
@@ -53,3 +53,12 @@ async function unblock(blocklistId) {
     load();
 }
 </script>
+
+<style lang="scss">
+.flex-1 {
+    flex-grow: 1;
+}
+.flex-2 {
+    flex-grow: 2;
+}
+</style>
