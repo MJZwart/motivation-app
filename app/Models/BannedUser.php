@@ -18,7 +18,7 @@ class BannedUser extends Model
         'banned_until',
     ];
 
-    protected $with = ['admin'];
+    protected $with = ['admin', 'user'];
 
     public function user() {
         return $this->belongsTo('App\Models\User');

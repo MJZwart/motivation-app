@@ -29,16 +29,14 @@ export const useMessageStore = defineStore('message', {
          * @param {import('resources/types/message').Message} message
          */
         async sendMessage(message) {
-            const {data} = await axios.post('/message', message);
-            this.conversations = data.data;
+            await axios.post('/message', message);
         },
 
         /**
          * @param {Number} messageId
          */
         async deleteMessage(messageId) {
-            const {data} = await axios.delete('/message/' + messageId);
-            this.conversations = data.data;
+            await axios.delete('/message/' + messageId);
         },
         async getNotifications() {
             const {data} = await axios.get('/notifications');

@@ -22,7 +22,7 @@
                             <p><strong>{{getSender(conversation.last_message)}}</strong>
                                 {{limitMessage(conversation.last_message.message)}}
                             </p>
-                            <p class="silent mb-0">{{ $t('last-message') }}: {{conversation.updated_at}}</p>
+                            <p class="silent mb-0">{{ $t('last-message') }}: {{parseDateTime(conversation.updated_at)}}</p>
                         </div>
                     </div>
                     <div v-if="activeConversation" class="col m-1 min-col-8">
@@ -89,6 +89,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
 import Message from './components/Message.vue';
 import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
+import {parseDateTime} from '/js/services/dateService';
 
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
@@ -138,6 +139,7 @@ async function sendMessage() {
     message.conversation_id = activeConversation.value.conversation_id;
     message.recipient_id = activeConversation.value.recipient.id;
     await messageStore.sendMessage(message)
+    await messageStore.getConversations();
     message.message = '';
     resetConversation();
 }
@@ -174,6 +176,7 @@ async function deleteMessage(message) {
     if (confirm(t('confirmation-delete-message'))) {
         await messageStore.deleteMessage(message.id)
         resetConversation();
+        await messageStore.getConversations();
     }
 }
 function addFriend(user) {
@@ -182,6 +185,7 @@ function addFriend(user) {
 async function blockUser(user) {
     if (confirm(t('block-user-confirmation', {user: user.username}))) {
         await userStore.blockUser(user.id)
+        await messageStore.getConversations();
         resetConversation();
     }
 }

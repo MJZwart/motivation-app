@@ -16,8 +16,8 @@ class BugReportResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'time_created' => $this->created_at->toDateTimeString(),
-            'time_updated' => $this->updated_at->toDateTimeString(),
+            'time_created' => $this->created_at,
+            'time_updated' => $this->updated_at,
             'title' => $this->title,
             'page' => $this->page,
             'type' => $this->type,

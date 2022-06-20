@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupPageResource extends JsonResource
@@ -16,8 +17,8 @@ class GroupPageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'time_created' => $this->created_at->toDateTimeString(),
-            'time_updated' => $this->updated_at->toDateTimeString(),
+            'time_created' => $this->created_at,
+            'time_updated' => $this->updated_at,
             'name' => $this->name,
             'description' => $this->description,
             'is_public' => (boolean) $this->is_public,
@@ -26,7 +27,7 @@ class GroupPageResource extends JsonResource
             'admin' => new StrippedUserResource($this->getAdmin()),
             'is_member' => !!$this->findLoggedUser(),
             'rank' => $this->findLoggedUser() ? $this->findLoggedUser()->pivot->rank : null,
-            'joined' => $this->findLoggedUser() ? $this->findLoggedUser()->pivot->joined : null,
+            'joined' => $this->findLoggedUser() ? Carbon::create($this->findLoggedUser()->pivot->joined) : null,
             'has_application' => $this->require_application ? $this->hasUserApplied() : false,
         ];
     }

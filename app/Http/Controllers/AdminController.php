@@ -59,7 +59,7 @@ class AdminController extends Controller
      * @return JsonResponse with a UserReportResource collection
      */
     public function getReportedUsers() {
-        $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->get()->groupBy('reported_user_id');
+        $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->with('user.bannedUser')->get()->groupBy('reported_user_id');
         $reportedUsers = [];
         foreach ($reportedUsersCollection as $userReport) {
             array_push($reportedUsers, UserReportResource::collection($userReport)->setUser($userReport[0]->user));

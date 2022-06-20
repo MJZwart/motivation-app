@@ -23,7 +23,7 @@ class MessageResource extends JsonResource
         $resourceData = [
             'id' => $this->id,
             'message' => $this->message,
-            'created_at' => $this->created_at->toDateTimeString(),
+            'created_at' => $this->created_at,
         ];
         if($this->user_id == $this->sender->id && $this->visible_to_sender) {
             $resourceData['sent_by_user'] = true;

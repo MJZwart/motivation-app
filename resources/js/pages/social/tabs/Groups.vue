@@ -36,6 +36,9 @@
                             @click="showGroupsDetails(row.item)" />
                     </Tooltip>
                 </template>
+                <template #joined="row">
+                    {{parseDateTime(row.item.joined)}}
+                </template>
                 <template #empty>
                     {{ $t('no-groups-found') }}
                 </template>
@@ -51,6 +54,7 @@
 import Table from '/js/components/global/Table.vue';
 import CreateGroup from '../components/CreateGroup.vue'
 import {computed, ref, onMounted} from 'vue';
+import {parseDateTime} from '/js/services/dateService';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '/js/constants/groupConstants.js';
 import {useGroupStore} from '/js/store/groupStore';
 import {useMainStore} from '/js/store/store';

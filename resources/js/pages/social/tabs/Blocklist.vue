@@ -16,7 +16,7 @@
                                 {{blockedUser.blocked_user}}
                             </router-link>
                             <span class="flex-2">
-                                {{$t('blocked-on')}}: {{blockedUser.created_at}}
+                                {{$t('blocked-on')}}: {{parseDateTime(blockedUser.created_at)}}
                             </span>
                         </li>
                     </div>
@@ -31,8 +31,9 @@
 <script setup>
 import Summary from '/js/components/global/Summary.vue';
 import {onMounted, ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
+import {parseDateTime} from '/js/services/dateService';
 
+import {useUserStore} from '/js/store/userStore';
 const userStore = useUserStore();
 
 onMounted(() => {
