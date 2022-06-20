@@ -1,6 +1,6 @@
 <template>
     <div class="w-60-flex center row">
-        <div class="tabs col-2">
+        <ResponsiveTabs>
             <button
                 :class="activeTab('AccountSettings')" 
                 class="tab-item"
@@ -19,7 +19,7 @@
                 @click="switchTab('RewardSettings')">
                 {{$t('reward-settings')}}
             </button>
-        </div>
+        </ResponsiveTabs>
         <keep-alive class="tab-content col-10">
             <component :is="currentTabComponent" />
         </keep-alive>
@@ -31,6 +31,7 @@
 import ProfileSettings from './tabs/ProfileSettings.vue';
 import RewardSettings from './tabs/RewardSettings.vue';
 import AccountSettings from './tabs/AccountSettings.vue';
+import ResponsiveTabs from '/js/components/global/ResponsiveTabs.vue';
 import {shallowRef, ref, onMounted} from 'vue';
 
 onMounted(async() => {
