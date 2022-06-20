@@ -1,6 +1,6 @@
 <template>
-    <div class="row">
-        <div class="tabs col-2">
+    <div class="d-flex flex-wrap">
+        <ResponsiveTabs>
             <button 
                 :class="activeTab('Groups')" 
                 class="tab-item"
@@ -19,7 +19,7 @@
                 @click="switchTab('Blocklist')">
                 {{ $t('blocklist') }}
             </button>
-        </div>
+        </ResponsiveTabs>
         <KeepAlive class="tab-content col-10">
             <component :is="currentTabComponent" :key="tabKey" />
         </KeepAlive>
@@ -30,6 +30,7 @@
 import Groups from './tabs/Groups.vue';
 import Friends from './tabs/Friends.vue';
 import Blocklist from './tabs/Blocklist.vue';
+import ResponsiveTabs from '/js/components/global/ResponsiveTabs.vue';
 import {shallowRef, ref, onMounted} from 'vue';
 
 onMounted(async() => {

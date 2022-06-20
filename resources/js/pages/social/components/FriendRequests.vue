@@ -1,6 +1,6 @@
 <template>
-    <div class="row">
-        <div class="col">
+    <div class="flex-container">
+        <div class="flex-grow-1">
             <Summary :title="$t('incoming-friend-requests')">
                 <ul class="no-list-style">
                     <div v-if="requests.incoming[0]">
@@ -25,7 +25,7 @@
                 </ul>
             </Summary>
         </div>
-        <div class="col">
+        <div class="flex-grow-1">
             <Summary :title="$t('outgoing-friend-requests')">
                 <ul class="no-list-style">
                     <div v-if="requests.outgoing[0]">

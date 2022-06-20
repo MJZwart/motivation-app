@@ -2,7 +2,7 @@
     <div>
         <Loading v-if="loading" />
         <div v-else class="row">
-            <div class="tabs col-2">
+            <ResponsiveTabs>
                 <button 
                     :class="activeTab('Overview')" 
                     class="tab-item"
@@ -51,7 +51,7 @@
                     @click="switchTab('Feedback')">
                     {{$t('feedback')}}
                 </button>
-            </div>
+            </ResponsiveTabs>
             <KeepAlive class="tab-content col-10">
                 <component :is="currentTabComponent" :key="tabKey" />
             </KeepAlive>
@@ -69,6 +69,7 @@ import ReportedUsers from './tabs/ReportedUsers.vue';
 import Feedback from './tabs/Feedback.vue';
 import BannedUsers from './tabs/BannedUsers.vue';
 import Overview from './tabs/Overview.vue';
+import ResponsiveTabs from '/js/components/global/ResponsiveTabs.vue';
 import {shallowRef, onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
 

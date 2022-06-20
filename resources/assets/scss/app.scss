@@ -2,6 +2,7 @@
 @import './basics';
 @import './spacing';
 @import './fonts.css';
+@import './flexbox.scss';
 // @import '../../../node_modules/bootstrap/scss/bootstrap';
 // @import '../../../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -172,14 +173,10 @@ button:disabled {
         font-family: $bold-font;
         border-radius: 0.5rem 0 0 0.5rem;
         border-color: $border-color $background $border-color $border-color;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
     }
     .tab-item:hover {
         border-color:$border-color $background $border-color $border-color;
         border-radius: 0.5rem 0 0 0.5rem;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
     }
 }
 .tabs-horizontal {
@@ -188,29 +185,20 @@ button:disabled {
     flex-direction: row;
     .tab-item{
         margin-right: inherit;
-        margin-bottom: -1px;
         justify-content: flex-start;
         min-width: max-content;
         margin-bottom: -1px !important;
     }
     .tab-item.active-tab {
         border-color: $border-color $border-color $background;
-        border-radius: 0 0 0.5rem 0.5rem;
         border-radius: 0.5rem 0.5rem 0 0;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        border-top-right-radius: 0.5rem;
-        border-top-left-radius: 0.5rem;
     }
     .tab-item:hover {
         border-color:$border-color $border-color $background;
         border-radius: 0.5rem 0.5rem 0 0;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        border-top-right-radius: 0.5rem;
-        border-top-left-radius: 0.5rem;
     }
 }
+
 @media (max-width:600px) {
     .w-80 {
         width: 100% !important;
@@ -219,7 +207,7 @@ button:disabled {
         font-size: small !important;
         max-width: 200% !important;
         width: 100%;
-        padding-right: 0;
+        padding-right: 5px;
         
     }
     .tabs.col-2 {
@@ -227,6 +215,12 @@ button:disabled {
     }
     .tab-content.col-10 {
         max-width: 80%;
+    }
+}
+@media (max-width: 450px) {
+    .tab-content.col-10 {
+        max-width: 100%;
+        padding: 0;
     }
 }
 
@@ -239,6 +233,11 @@ button:disabled {
 
 .font-sm {
     font-size: small;
+}
+@media (max-width: 450px) {
+    .font-small-responsive {
+        font-size: small;
+    }
 }
 .silent {
     font-family: $light-font;
