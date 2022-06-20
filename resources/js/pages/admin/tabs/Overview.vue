@@ -51,4 +51,37 @@ const overview = ref({});
         }
     }
 }
+@media (max-width: 650px) {
+    .overview-box .overview {
+        width: 14rem;
+        height: 9rem;
+    }
+}
+@media (max-width: 600px) {
+    .overview-box .overview {
+        width: 12rem;
+        height: 9rem;
+    }
+}
+@media (max-width: 550px) {
+    .overview-box .overview {
+        width: 10rem;
+        height: 9rem;
+    }
+}
+@media (max-width: 450px) {
+    .overview-box .overview {
+        width: 8rem;
+        height: 8rem;
+        .key {
+            font-size: 0.8rem;
+        }
+        .item {
+            font-size: 2rem;
+        }
+        .details {
+            font-size: small;
+        }
+    }
+}
 </style>
