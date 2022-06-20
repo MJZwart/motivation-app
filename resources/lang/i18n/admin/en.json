@@ -17,6 +17,7 @@
     "bug-status-desc": "Status of the bug report",
     "reported-by": "Reported by",
     "time": "Time",
+    "link": "Link",
     
     "reported-users": "Reported users",
     "number-of-reports": "# of reports",

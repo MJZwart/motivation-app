@@ -16,7 +16,13 @@
                     :rows=5
                     :label="$t('text')"
                     name="text"/>
-
+                <Input 
+                    id="link" 
+                    v-model="notification.link" 
+                    type="text" 
+                    name="link" 
+                    :label="$t('link')"
+                    :placeholder="$t('link')" />
                 <button type="submit" class="block">{{ $t('send-notification') }}</button>
             </form>
         </div>

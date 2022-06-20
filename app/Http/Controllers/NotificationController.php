@@ -66,9 +66,8 @@ class NotificationController extends Controller
     public function sendNotificationToAll(SendNotificationRequest $request){
         $validated = $request->validated();
         foreach(User::lazy() as $user){
-            Notification::create(['user_id' => $user->id,
-            'title' => $validated['title'],
-            'text' => $validated['text']]);
+            $validated['user_id'] = $user->id;
+            Notification::create($validated);
         }
         return new JsonResponse(['message' => ['success' => 'Notification sent.']]);
     }

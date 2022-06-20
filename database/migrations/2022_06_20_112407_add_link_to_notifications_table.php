@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->string('link')->nullable();
+            $table->text('links')->nullable();
+            $table->boolean('delete_links_on_action')->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('notifications', function (Blueprint $table) {
             $table->dropColumn('link');
+            $table->dropColumn('delete_links_on_action');
         });
     }
 };

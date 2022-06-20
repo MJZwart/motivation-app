@@ -13,6 +13,8 @@ class Notification extends Model
         'title',
         'text',
         'user_id',
+        'links',
+        'delete_links_on_action',
     ];
 
     public function user(){

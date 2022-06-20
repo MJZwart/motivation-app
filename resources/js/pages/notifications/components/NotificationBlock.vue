@@ -15,6 +15,13 @@
             </template>
             <slot>
                 <p>{{notification.text}}</p>
+                <p v-if="notification.links">
+                    <span v-for="(item, index) in notification.links" :key="index">
+                        <router-link v-if="!item.link" :to="item.url">{{$t(item.text)}}</router-link>
+                        <span @click="linkAction(item.link.api, item.link.url)">{{$t(item.text)}}</span>
+                        <span v-if="index < notification.links.length -1"> / </span>
+                    </span>
+                </p>
                 <p>{{ $t('received-on') }}: {{parseDateTime(notification.created_at)}}</p>
             </slot>
         </Summary>
@@ -27,6 +34,8 @@ import Summary from '/js/components/global/Summary.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n'
 import {useMessageStore} from '/js/store/messageStore';
+import axios from 'axios';
+// import {PAGE_LINKS} from '/js/constants/pageConstants';
 
 const {t} = useI18n() // use as global scope
 const messageStore = useMessageStore();
@@ -43,6 +52,14 @@ function deleteNotification() {
     if (confirm(t('delete-notification-confirmation'))) {
         messageStore.deleteNotification(prop.notification.id);
     }
+}
+
+async function linkAction(apiType, linkUrl) {
+    if (apiType == 'POST') {
+        await axios.post(linkUrl);
+    }
+
+    //Check if delete_on_action is true, if so, update the notification after this
 }
 </script>
 
