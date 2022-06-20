@@ -238,11 +238,13 @@ function closeShowConversation() {
 /** Opens the modal to message a user that has been reported */
 const userToMessage = ref(null);
 const showSendMessageModal = ref(false);
-function sendMessageToReportedUser() {
+function sendMessageToReportedUser(user) {
     mainStore.clearErrors();
+    userToMessage.value = user;
     showSendMessageModal.value = true;
 }
 function closeSendMessageToReportedUser() {
+    userToMessage.value = null;
     showSendMessageModal.value = false;
 }
 
