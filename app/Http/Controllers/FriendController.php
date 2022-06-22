@@ -58,6 +58,8 @@ class FriendController extends Controller
      * Returns all open requests after updating
      */
     public function acceptFriendRequest(Request $request, Friend $friend){
+        if ($friend->accepted)
+            return new JsonResponse(['message' => ['error' => 'You have already accepted this request.']], Response::HTTP_UNPROCESSABLE_ENTITY);
         $friend->accepted = true;
         $friend->update();
         Friend::create(['user_id' => $friend->friend_id, 'friend_id' => $friend->user_id, 'accepted' => true]);
@@ -78,6 +80,8 @@ class FriendController extends Controller
      * Returns the updated list of request
      */
     public function denyFriendRequest(Request $request, Friend $friend){
+        if ($friend->accepted)
+            return new JsonResponse(['message' => ['error' => 'This request does not exist.']], Response::HTTP_UNPROCESSABLE_ENTITY);
         $friend->delete();
         $requests = $this->fetchRequests();
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request denied');
