@@ -175,9 +175,12 @@ class GroupsController extends Controller
     public function banGroupApplication(Request $request, GroupApplication $application): JsonResponse{
         $group = Group::find($application->group_id);
         $user = User::find($application->user_id);
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
         $group->applications()->detach($user);
         $group->bannedUsers()->attach($user);
         $username = User::find($user)->username;
+        ActionTrackingHandler::handleAction($request, 'BANGROUP_APPLICATION', $group->name.' banned user id '.$user);
         return new JsonResponse(['message' => ['success' => ["You have successfully denied {$username}'s application and banned them from your group."]],
             'group' => new GroupPageResource($group->fresh())],
             Response::HTTP_OK);
@@ -238,12 +241,13 @@ class GroupsController extends Controller
 
     public function banUserFromGroup(Group $group, BanUserFromGroupRequest $request) {
         $validated = $request->validated();
-        dump($validated);
         $user = $validated['id'];
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
         $group->users()->detach($user);
         $group->bannedUsers()->attach($user);
         $username = User::find($user)->username;
-
+        ActionTrackingHandler::handleAction($request, 'GROUP_USER_BANNED', $group->name.' banned user id '.$user);
         return new JsonResponse(['message' => ['success' => ["You have successfully removed and banned {$username} from your group."]],
             'group' => new GroupPageResource($group->fresh())],
             Response::HTTP_OK);
