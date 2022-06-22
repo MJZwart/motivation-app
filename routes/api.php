@@ -62,6 +62,8 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::get('/notifications', [NotificationController::class, 'show']);
     Route::post('/notifications/all', [NotificationController::class, 'sendNotificationToAll']);
     Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy']);
+    Route::put('/notifications/{notification}/disable-action', [NotificationController::class, 'disableAction']);
+
     Route::get('/profile/{user}', [UserController::class, 'show']);
   
     Route::post('/friend/request/{user}', [FriendController::class, 'sendFriendRequest']);

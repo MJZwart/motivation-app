@@ -16,10 +16,14 @@
             <slot>
                 <p>{{notification.text}}</p>
                 <p v-if="notification.links">
-                    <span v-for="(item, index) in notification.links" :key="index">
-                        <router-link v-if="!item.link" :to="item.url">{{$t(item.text)}}</router-link>
-                        <span @click="linkAction(item.link.api, item.link.url)">{{$t(item.text)}}</span>
-                        <span v-if="index < notification.links.length -1"> / </span>
+                    <span v-for="(item, index) in notification.links" :key="index" :class="linkClass">
+                        <router-link v-if="!item.link.api" :to="item.link.url">{{$t(item.text)}}</router-link>
+                        <span v-else>
+                            <span @click="prop.notification.link_active ? linkAction(item.link.api, item.link.url) : null">
+                                {{$t(item.text)}}
+                            </span>
+                            <span v-if="index < notification.links.length -1"> / </span>
+                        </span>
                     </span>
                 </p>
                 <p>{{ $t('received-on') }}: {{parseDateTime(notification.created_at)}}</p>
@@ -32,12 +36,12 @@
 <script setup>
 import Summary from '/js/components/global/Summary.vue';
 import {parseDateTime} from '/js/services/dateService';
-import {useI18n} from 'vue-i18n'
+import {useI18n} from 'vue-i18n';
 import {useMessageStore} from '/js/store/messageStore';
 import axios from 'axios';
-// import {PAGE_LINKS} from '/js/constants/pageConstants';
+import {computed} from 'vue';
 
-const {t} = useI18n() // use as global scope
+const {t} = useI18n();
 const messageStore = useMessageStore();
 
 const prop = defineProps({
@@ -48,21 +52,44 @@ const prop = defineProps({
     },
 });
 
+/** @type {String} */
+const linkClass = computed(() => prop.notification.link_active ? 'notification-link active' : 'notification-link disabled');
+
+/**
+ * Deletes the notification
+ */
 function deleteNotification() {
     if (confirm(t('delete-notification-confirmation'))) {
         messageStore.deleteNotification(prop.notification.id);
     }
 }
 
+/**
+ * Performs whatever action the link has built in. If the links are set to
+ * disable on action, fire the event to disable the link to prevent double action
+ * 
+ * @param {String} apiType
+ * @param {String} linkUrl
+ */
 async function linkAction(apiType, linkUrl) {
-    if (apiType == 'POST') {
-        await axios.post(linkUrl);
-    }
-
-    //Check if delete_on_action is true, if so, update the notification after this
+    if (apiType == 'POST')
+        axios.post(linkUrl);
+    else if (apiType == 'PUT')
+        axios.put(linkUrl);
+    else if (apiType == 'DELETE')
+        axios.delete(linkUrl);
+    if (prop.notification.delete_links_on_action)
+        await messageStore.deleteNotificationAction(prop.notification.id);
 }
 </script>
 
 
-<style>
+<style lang="scss" scoped>
+.notification-link.active {
+    cursor: pointer;
+}
+.notification-link.disabled {
+    text-decoration-line: line-through;
+    background-color: inherit;
+}
 </style>

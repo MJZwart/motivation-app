@@ -3,7 +3,12 @@
         <h2>{{ $t('notifications') }}</h2>
         <Loading v-if="loading" />
         <div v-else>
-            <NotificationBlock v-for="notification in notifications" :key="notification.id" :notification="notification" />
+            <div v-if="notifications.length > 0">
+                <NotificationBlock v-for="notification in notifications" :key="notification.id" :notification="notification" />
+            </div>
+            <div v-else>
+                <h5>{{$t('no-notifications')}}</h5>
+            </div>
         </div>
     </div>
 </template>

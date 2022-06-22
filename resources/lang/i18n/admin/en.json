@@ -18,6 +18,11 @@
     "reported-by": "Reported by",
     "time": "Time",
     "link": "Link",
+    "add-link": "Add link",
+    "remove-link": "Remove link",
+    "link-text": "Link text",
+    "ensure-link-correct": "Ensure you have entered the link correctly before sending. (Example: '/social#Friends' or '/overview')",
+    "link-text-details": "Enter the text you want the link to display as",
     
     "reported-users": "Reported users",
     "number-of-reports": "# of reports",

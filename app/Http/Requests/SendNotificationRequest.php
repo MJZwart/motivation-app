@@ -28,8 +28,7 @@ class SendNotificationRequest extends FormRequest
             'title' => 'required|string|max:255',
             'text' => 'required|string',
             'link' => 'nullable|string',
-            'link_param' => 'nullable|string',
-            'delete_links_on_action' => 'nullable|boolean',
+            'link_text' => 'required_with:link|nullable|string',
         ];
     }
 }

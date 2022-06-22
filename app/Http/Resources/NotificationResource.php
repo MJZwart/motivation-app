@@ -21,7 +21,8 @@ class NotificationResource extends JsonResource
             'title' => $this->title,
             'text' => $this->text,
             'links' => json_decode($this->links),
-            'delete_links_on_action' => $this->delete_links_on_action,
+            'link_active' => !!$this->link_active,
+            'delete_links_on_action' => !!$this->delete_links_on_action,
         ];
     }
 }

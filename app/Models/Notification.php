@@ -14,6 +14,7 @@ class Notification extends Model
         'text',
         'user_id',
         'links',
+        'link_active',
         'delete_links_on_action',
     ];
 
