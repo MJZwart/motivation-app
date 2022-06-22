@@ -52,6 +52,10 @@
                             class="icon small red"
                             @click="kick(member)" />
                     </Tooltip>
+                    <Tooltip :text="$t('ban')">
+                        <button
+                            @click="ban(member)">placeholder ban</button>
+                    </Tooltip>
 
                 </span>
             </div>
@@ -105,6 +109,10 @@ function toggleRequireApplication() {
 function kick(user) {
     if (confirm(t('confirm-kick-from-group', {user: user.username})))
         groupStore.removeGroupMember({id: user.id}, props.group);
+}
+function ban(user) {
+    if (confirm(t('confirm-ban-from-group', {user: user.username})))
+        groupStore.banGroupMember({id: user.id}, props.group);
 }
 function sendMessage(user) {
     showSendMessageModal.value = true;

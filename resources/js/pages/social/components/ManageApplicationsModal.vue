@@ -4,11 +4,14 @@
         <template v-for="application in applications" :key="application.id">
             <p>
                 {{`${application.username}, applied on: ${application.applied_at}`}}
+                <button class="m-1" @click="acceptApplication(application)">
+                    {{ $t('accept-group-application') }}
+                </button>
                 <button class="m-1" @click="rejectApplication(application)">
                     {{ $t('reject-group-application') }}
                 </button>
-                <button class="m-1" @click="acceptApplication(application)">
-                    {{ $t('accept-group-application') }}
+                <button class="m-1" @click="banApplication(application)">
+                    {{ $t('ban-group-application') }}
                 </button>
             </p>
         </template>
@@ -51,6 +54,13 @@ async function rejectApplication(application) {
 /** @param {import('resources/types/group').Application} application */
 async function acceptApplication(application) {
     await groupStore.acceptApplication(application);
+    emit('reloadGroups');
+    load();
+}
+
+/** @param {import('resources/types/group').Application} application */
+async function banApplication(application) {
+    await groupStore.banApplication(application);
     emit('reloadGroups');
     load();
 }

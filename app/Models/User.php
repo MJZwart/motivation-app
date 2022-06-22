@@ -132,6 +132,11 @@ class User extends Authenticatable
     public function latestReportDate() {
         return $this->reports->sortByDesc('created_at')->first()->created_at;
     }
+
+    public function bannedFromGroups() {
+        return $this->belongsToMany('App\Models\Group', 'group_bans')
+            ->withTimestamps();
+    }
     /**
      * Returns the total number of regular and repeatable tasks completed by a user
      */

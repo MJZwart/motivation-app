@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
+use App\Http\Requests\BanUserFromGroupRequest;
 use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupPageResource;
 use App\Http\Resources\GroupResource;
@@ -171,6 +172,17 @@ class GroupsController extends Controller
             Response::HTTP_OK);
     }
 
+    public function banGroupApplication(Request $request, $application_id): JsonResponse{
+        $group = Group::find(GroupApplication::find($application_id)->group_id);
+        $user = User::find(GroupApplication::find($application_id)->user_id);
+        $group->applications()->detach($user);
+        $group->bannedUsers()->attach($user);
+        $username = User::find($user)->username;
+        return new JsonResponse(['message' => ['success' => ["You have successfully denied {$username}'s application and banned them from your group."]],
+            'group' => new GroupPageResource($group->fresh())],
+            Response::HTTP_OK);
+    }
+
     /**
      * Assuming the user is a current member and is not admin, deletes the membership for the given group.
      * Returns the group with updated member list.
@@ -221,6 +233,19 @@ class GroupsController extends Controller
         return new JsonResponse(
             ['message' => ['success' => ['You have updated the group.']], 
             'group' => new GroupPageResource($group->fresh())], 
+            Response::HTTP_OK);
+    }
+
+    public function banUserFromGroup(Group $group, BanUserFromGroupRequest $request) {
+        $validated = $request->validated();
+        dump($validated);
+        $user = $validated['id'];
+        $group->users()->detach($user);
+        $group->bannedUsers()->attach($user);
+        $username = User::find($user)->username;
+
+        return new JsonResponse(['message' => ['success' => ["You have successfully removed and banned {$username} from your group."]],
+            'group' => new GroupPageResource($group->fresh())],
             Response::HTTP_OK);
     }
 }
