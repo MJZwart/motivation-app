@@ -46,8 +46,9 @@ class GroupsController extends Controller
     }
 
     public function dashboard() {
-        $myGroups = MyGroupResource::collection(Auth::user()->groups);
-        $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
+        $user = Auth::user();
+        $myGroups = MyGroupResource::collection($user->groups);
+        $allGroups = GroupResource::collection(Group::where('is_public', true)->whereNotIn('id', $user->bannedGroupIds())->get());
         return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
     }
 

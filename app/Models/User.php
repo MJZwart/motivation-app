@@ -137,6 +137,12 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Group', 'group_bans')
             ->withTimestamps();
     }
+
+    public function bannedGroupIds() {
+        return $this->bannedFromGroups()->select('group_id')->get()->map(function($element) {
+            return $element->group_id;
+        })->toArray();
+    }
     /**
      * Returns the total number of regular and repeatable tasks completed by a user
      */
