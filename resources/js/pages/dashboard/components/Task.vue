@@ -9,6 +9,14 @@
             </Tooltip>
             {{task.name}}             
             <span class="ml-auto">
+                <Tooltip v-if="task.repeatable != 'NONE'" :text="$t(task.repeatable)">
+                    <FaIcon 
+                        icon="repeat"
+                        class="icon small" />
+                </Tooltip>
+                <Tooltip :text="$t('difficulty')">
+                    <span :class="`number-icon diff-${task.difficulty}`">{{task.difficulty}}</span>
+                </Tooltip>
                 <Tooltip :text="$t('new-sub-task')">
                     <FaIcon 
                         icon="square-plus"
@@ -42,19 +50,29 @@
                         class="icon small green"
                         @click="completeTask(subTask)" />
                 </Tooltip>
-                {{subTask.name}}
-                <Tooltip :text="$t('edit-sub-task')" class="ml-auto">
-                    <FaIcon 
-                        :icon="['far', 'pen-to-square']"
-                        class="icon small"
-                        @click="editTask(subTask)" />
-                </Tooltip>
-                <Tooltip :text="$t('delete-sub-task')">
-                    <FaIcon 
-                        icon="trash"
-                        class="icon small red"
-                        @click="deleteTask(subTask)" />
-                </Tooltip>
+                {{subTask.name}}    
+                <span class="ml-auto">
+                    <Tooltip v-if="subTask.repeatable != 'NONE'" :text="$t(subTask.repeatable)">
+                        <FaIcon 
+                            icon="repeat"
+                            class="icon small" />
+                    </Tooltip>
+                    <Tooltip :text="$t('difficulty')">
+                        <span :class="`number-icon diff-${task.difficulty}`">{{task.difficulty}}</span>
+                    </Tooltip>
+                    <Tooltip :text="$t('edit-sub-task')">
+                        <FaIcon 
+                            :icon="['far', 'pen-to-square']"
+                            class="icon small"
+                            @click="editTask(subTask)" />
+                    </Tooltip>
+                    <Tooltip :text="$t('delete-sub-task')">
+                        <FaIcon 
+                            icon="trash"
+                            class="icon small red"
+                            @click="deleteTask(subTask)" />
+                    </Tooltip>
+                </span>
             </p>
             <p class="task-description">{{subTask.description}}</p>
         </div>
@@ -67,7 +85,7 @@
 
 
 <script setup>
-import {reactive, ref} from 'vue';
+import {reactive, ref, computed} from 'vue';
 import EditTask from './EditTask.vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useMainStore} from '/js/store/store';
@@ -75,7 +93,7 @@ import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 const mainStore = useMainStore();
 
-defineProps({
+const props = defineProps({
     task: {
         /** @type {import('resources/types/task').Task} */
         type: Object,
@@ -121,3 +139,25 @@ function completeTask(task) {
     taskStore.completeTask(task);
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../../../../assets/scss/variables.scss';
+.number-icon {
+    font-family: $bold-font;
+    margin: 1px;
+    position: relative;
+    bottom: 2px;
+}
+.number-icon.diff-1, .number-icon.diff-2 {
+    color: $green
+}
+.number-icon.diff-3 {
+    color: $yellow
+}
+.number-icon.diff-4 {
+    color: $orange
+}
+.number-icon.diff-5 {
+    color: $red
+}
+</style>
