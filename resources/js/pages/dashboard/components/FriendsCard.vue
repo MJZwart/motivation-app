@@ -42,10 +42,7 @@ import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 const friendStore = useFriendStore();
 
-const userStore = useUserStore();
-
-const user = computed(() => userStore.user);
-const friends = props.friends ? props.friends : user.value.friends;
+const friends = computed(() => friendStore.friends);
 
 const props = defineProps({
     manage: {
@@ -55,10 +52,6 @@ const props = defineProps({
     message: {
         type: Boolean,
         required: true,
-    },
-    friends: {
-        type: Array,
-        required: false,
     },
 });
 

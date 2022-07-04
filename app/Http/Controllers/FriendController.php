@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\NotificationHandler;
+use App\Http\Resources\FriendResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class FriendController extends Controller
         
         ActionTrackingHandler::handleAction($request, 'DELETE_FRIEND', 'Friendship removed');
         return new JsonResponse(['message' => ['info' => 'Friend removed.'], 
-            'user' => new UserResource(Auth::user())], 
+            'friends' => FriendResource::collection(Auth::user()->friends->sortBy('username'))], 
             Response::HTTP_OK);
     }
 
@@ -74,7 +75,7 @@ class FriendController extends Controller
 
         $requests = $this->fetchRequests();
         return new JsonResponse(['message' => ['success' => 'Friend request accepted. You are now friends.'], 
-            'user' => new UserResource(Auth::user()),
+            'friends' => FriendResource::collection(Auth::user()->friends->sortBy('username')),
             'requests' => $requests], 
             Response::HTTP_OK);
     }

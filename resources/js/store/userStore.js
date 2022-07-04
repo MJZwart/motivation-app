@@ -4,6 +4,7 @@ import router from '../router/router';
 import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
 import {useAchievementStore} from './achievementStore';
+import {useFriendStore} from './friendStore';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -32,6 +33,8 @@ export const useUserStore = defineStore('user', {
             const {data} = await axios.post('/login', user);
             if (data.invalid) return data.message;
             this.setUser(data.user);
+            const friendStore = useFriendStore();
+            friendStore.friends = data.user.friends;
             router.push('/dashboard').catch(() => {});
         },
 
