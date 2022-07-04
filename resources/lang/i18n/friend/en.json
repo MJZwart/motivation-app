@@ -10,5 +10,7 @@
     "no-outgoing-friend-requests": "No outgoing friend requests",
     "no-friends": "No friends yet",
     "notifications": "Notifications",
-    "send-friend-request": "Send friend request"
+    "send-friend-request": "Send friend request",
+    "accept": "Accept",
+    "deny": "Deny"
 }
