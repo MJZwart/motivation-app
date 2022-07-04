@@ -1,24 +1,24 @@
 export type Group = {
-    id: Number,
+    id: number,
     created_at: Date,
     updated_at: Date,
-    name: String,
-    description: String,
-    is_public: Boolean,
+    name: string,
+    description: string,
+    is_public: boolean,
     members: Array<GroupUser>,
 }
 
 export type GroupUser = {
-    id: Number,
-    username: String,
-    rank: String,
+    id: number,
+    username: string,
+    rank: string,
     joined: Date,
 }
 
 export type Application = {
-    id: Number,
+    id: number,
     applied_at: Date,
-    user_id: Number,
-    username: String,
-    group_id: Number,
+    user_id: number,
+    username: string,
+    group_id: number,
 }

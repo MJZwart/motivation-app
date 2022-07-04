@@ -1,16 +1,16 @@
 export type BugReport = {
-    id: Number,
-    comment: String,
-    image_link: String,
-    page: String,
-    severity: Number,
-    title: String,
-    type: String,
+    id: number,
+    comment: string,
+    image_link: string,
+    page: string,
+    severity: number,
+    title: string,
+    type: string,
 }
 
 export type Feedback = {
-    text: String,
-    type: String,
-    user_id: Number | null,
-    email: String | null,
+    text: string,
+    type: string,
+    user_id: number | null,
+    email: string | null,
 }

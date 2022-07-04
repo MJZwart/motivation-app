@@ -1,12 +1,12 @@
 export type Feedback = {
-    id: Number,
+    id: number,
     created_at: Date,
-    type: String,
-    text: String,
-    email: String,
+    type: string,
+    text: string,
+    email: string,
     user: {
-        id: Number,
-        username: String,
+        id: number,
+        username: string,
     },
-    archived: Boolean
+    archived: boolean
 }

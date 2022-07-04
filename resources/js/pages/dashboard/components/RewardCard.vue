@@ -39,7 +39,7 @@ import Summary from '/js/components/global/Summary.vue';
 
 defineProps({
     reward: {
-        /** @type {import('resources/types/reward').Reward} */
+        /** @type {import('vue').PropType<import('resources/types/reward').Reward>} */
         type: Object,
         required: true,
     },

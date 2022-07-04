@@ -85,7 +85,7 @@
 
 
 <script setup>
-import {reactive, ref} from 'vue';
+import {ref} from 'vue';
 import EditTask from './EditTask.vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useMainStore} from '/js/store/store';
@@ -103,8 +103,8 @@ defineProps({
 
 const emit = defineEmits(['newTask']);
 
-/** @type {import('resources/types/task').Task | {}} */
-const taskToEdit = reactive({});
+/** @type {import('vue').Ref<import('resources/types/task').Task | {}>}}} */
+const taskToEdit = ref({});
 const showEditTaskModal = ref(false);
 
 /** @param {import('resources/types/task').Task} task */

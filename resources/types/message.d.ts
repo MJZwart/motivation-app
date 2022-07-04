@@ -1,21 +1,21 @@
 export type Conversation = {
-    id: Number,
+    id: number,
     created_at: Date,
     updated_at: Date,
-    user_id: Number,
-    recipient_id: Number,
-    conversation_id: Number,
+    user_id: number,
+    recipient_id: number,
+    conversation_id: number,
 }
 
 export type Message = {
-    id: Number,
+    id: number,
     created_at: Date,
     updated_at: Date,
-    sender_id: Number,
-    recipient_id: Number,
-    message: String,
-    conversation_id: Number,
-    read: Boolean,
-    visible_to_sender: Boolean,
-    visible_to_recipient: Boolean,
+    sender_id: number,
+    recipient_id: number,
+    message: string,
+    conversation_id: number,
+    read: boolean,
+    visible_to_sender: boolean,
+    visible_to_recipient: boolean,
 }

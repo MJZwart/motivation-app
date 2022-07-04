@@ -1,12 +1,12 @@
-import { Task } from "./task"
+import {Task} from './task'
 
 export type User = {
     id: number,
-    username: String,
+    username: string,
     admin: boolean,
-    email: String,
+    email: string,
     first: boolean,
-    rewards: String,
+    rewards: string,
     show_achievements: boolean,
     show_reward: boolean,
     show_friends: boolean,
@@ -15,27 +15,27 @@ export type User = {
 
 export type UserStats = {
     repeatable_most_completed: Task,
-    tasks_completed: Number,
+    tasks_completed: number,
 }
 
 export type BannedUser = {
-    id: Number,
+    id: number,
     created_at: Date,
-    time_since: String,
+    time_since: string,
     updated_at: Date,
     user: {
-        username: String,
-        id: Number,
+        username: string,
+        id: number,
     },
-    reason: String,
-    days: Number,
+    reason: string,
+    days: number,
     admin: {
-        username: String,
-        id: Number,
+        username: string,
+        id: number,
     },
     banned_until: Date,
-    past: Boolean,
-    banned_until_time: String,
-    comment: String,
-    end_ban: Boolean,
+    past: boolean,
+    banned_until_time: string,
+    comment: string,
+    end_ban: boolean,
 }

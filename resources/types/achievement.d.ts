@@ -1,16 +1,16 @@
 export type Achievement = {
     id: number,
-    created_at: String,
-    description: String,
+    created_at: string,
+    description: string,
     image: null, //TODO implement once images are used in achievements.
-    name: String,
+    name: string,
     pivot: {
         user_id: number,
         achievement_id: number,
-        earned: String,
+        earned: string,
     },
     trigger_amount: number,
-    trigger_description: String,
-    trigger_type: String, //TODO Enum
-    updated_at: String,
+    trigger_description: string,
+    trigger_type: string, //TODO Enum
+    updated_at: string,
 }
