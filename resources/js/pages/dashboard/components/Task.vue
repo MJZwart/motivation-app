@@ -85,7 +85,7 @@
 
 
 <script setup>
-import {reactive, ref, computed} from 'vue';
+import {reactive, ref} from 'vue';
 import EditTask from './EditTask.vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useMainStore} from '/js/store/store';
@@ -93,9 +93,9 @@ import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 const mainStore = useMainStore();
 
-const props = defineProps({
+defineProps({
     task: {
-        /** @type {import('resources/types/task').Task} */
+        /** @type {import('vue').PropType<import('resources/types/task').Task>} */
         type: Object,
         required: true,
     },
@@ -103,7 +103,7 @@ const props = defineProps({
 
 const emit = defineEmits(['newTask']);
 
-/** @type {import('../../types/task').Task | null} */
+/** @type {import('resources/types/task').Task | {}} */
 const taskToEdit = reactive({});
 const showEditTaskModal = ref(false);
 
@@ -113,7 +113,7 @@ function openNewTask(task) {
 }
 
 /** Shows and hides the modal to edit a given task
- * @param {import('../../types/task').Task} task
+ * @param {import('resources/types/task').Task} task
  */
 function editTask(task) {
     mainStore.clearErrors();

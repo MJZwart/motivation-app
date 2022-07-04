@@ -16,7 +16,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "vue"
+        "vue",
+        "@typescript-eslint"
     ],
     "rules": {
         "arrow-parens": ["error", "as-needed"],
