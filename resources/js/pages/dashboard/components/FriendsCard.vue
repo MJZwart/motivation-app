@@ -39,6 +39,9 @@ import Summary from '/js/components/global/Summary.vue';
 import {computed, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 
+import {useFriendStore} from '/js/store/friendStore';
+const friendStore = useFriendStore();
+
 const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
@@ -71,7 +74,7 @@ function closeSendMessageModal() {
 
 function removeFriend(friend) {
     if (confirm('Are you sure you wish to remove ' + friend.username + ' as friend?')) {
-        this.$store.dispatch('friend/removeFriend', friend.friendship_id);
+        friendStore.removeFriend(friend.friendship_id);
     }
 }
 </script>
