@@ -11,11 +11,6 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 //Solid icons
 import {
-    fa1,
-    fa2,
-    fa3,
-    fa4,
-    fa5,
     faAngleDown,
     faAnglesDown,
     faArrowTurnUp,
@@ -37,11 +32,6 @@ import {
     faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
-    fa1,
-    fa2,
-    fa3,
-    fa4,
-    fa5,
     faAngleDown,
     faAnglesDown,
     faArrowTurnUp,
