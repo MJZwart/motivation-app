@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\NotificationHandler;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,14 +16,13 @@ use Carbon\Carbon;
 
 class NotificationController extends Controller
 {
-    public function store(Request $request){
-        // #68
-    }
-
     /**
      * Returns a user's notifications. Marks all unread as read
+     * 
+     * @return JsonResponse
      */
-    public function show(){
+    public function show(): JsonResponse
+    {
         /** @var User */
         $user = Auth::user();
         $notificationQuery = $user->notifications()->latest();
@@ -34,7 +34,15 @@ class NotificationController extends Controller
         return $response;
     }
 
-    public function destroy(Request $request, Notification $notification){
+    /**
+     * Deletes notification from database.
+     *
+     * @param Request $request
+     * @param Notification $notification
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, Notification $notification): JsonResponse
+    {
         if($notification->user_id == Auth::user()->id){
             $notification->delete();
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
@@ -47,6 +55,9 @@ class NotificationController extends Controller
 
     /**
      * Sets all notifications as read if any of them are unread
+     * 
+     * @param Query $notificationQuery
+     * @return void
      */
     private function markAsRead($notificationQuery){
         $notificationQuery->where('read', false)->update(['read' => true]);
@@ -54,22 +65,45 @@ class NotificationController extends Controller
     
     /**
      * Checks if any notification in the collection needs to be marked as read
+     * 
+     * @param Collection $notificationCollection
+     * @return Boolean
      */
-    private function needsUpdate($notificationCollection): bool {
+    private function needsUpdate($notificationCollection): bool 
+    {
         return $notificationCollection->contains('read', false);
     }
 
     /**
      * Admin function
      * Sends a notification to all users
+     * 
+     * @param SendNotificationRequest $request
+     * @return JsonResponse
      */
-    public function sendNotificationToAll(SendNotificationRequest $request){
+    public function sendNotificationToAll(SendNotificationRequest $request): JsonResponse
+    {
         $validated = $request->validated();
         foreach(User::lazy() as $user){
-            Notification::create(['user_id' => $user->id,
-            'title' => $validated['title'],
-            'text' => $validated['text']]);
+            NotificationHandler::createFromAdminDashboard($user->id, $validated['title'], $validated['text'], $validated['link'] ?? null, $validated['link_text'] ?? null);
         }
         return new JsonResponse(['message' => ['success' => 'Notification sent.']]);
+    }
+
+    /**
+     * Sets the variable link_active to false, so the front-end knows not to allow further
+     * interaction with the links. Useful for one-time clicks such as accepting friend requests
+     *
+     * @param Notification $notification
+     * @return JsonResponse
+     */
+    public function disableAction(Notification $notification): JsonResponse
+    {
+        $notification->link_active = false;
+        $notification->save();
+        /** @var User */
+        $user = Auth::user();
+        $notificationCollection = $user->notifications()->latest()->get();
+        return new JsonResponse(['data' => NotificationResource::collection($notificationCollection)], Response::HTTP_OK); 
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Resources\OutgoingFriendRequestResource;
 use App\Http\Resources\UserResource;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\NotificationHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -43,11 +44,14 @@ class FriendController extends Controller
         if(Friend::where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()){
             return new JsonResponse(['message' => 'You\'ve already sent a friend request to this user'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        Friend::create(['user_id' => Auth::user()->id, 'friend_id' => $user->id]);
-        Notification::create([
-            'user_id' => $user->id,
-            'title' => 'New friend request!',
-            'text' => 'You have a new friend request from '.Auth::user()->username.'. Would you like to accept?']);
+        $friendRequest = Friend::create(['user_id' => Auth::user()->id, 'friend_id' => $user->id]);
+        NotificationHandler::createFromFriendRequest(
+            $user->id, 
+            'New friend request!',
+            'You have a new friend request from '.Auth::user()->username.'. Would you like to accept?',
+            $friendRequest,
+            true
+        );
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request sent to '.$user->username);
         return new JsonResponse(['message' => ['success' => 'Friend request successfully sent.']], Response::HTTP_OK);
     }
