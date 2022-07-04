@@ -58,11 +58,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::put('/reward/delete', [RewardController::class, 'deleteInstance']);
 
     Route::put('/reward/update', [RewardController::class, 'updateRewardObj']);
-    
-    Route::get('/notifications', [NotificationController::class, 'show']);
-    Route::post('/notifications/all', [NotificationController::class, 'sendNotificationToAll']);
-    Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy']);
-    Route::put('/notifications/{notification}/disable-action', [NotificationController::class, 'disableAction']);
 
     Route::get('/profile/{user}', [UserController::class, 'show']);
   
