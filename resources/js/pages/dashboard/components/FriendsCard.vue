@@ -46,7 +46,7 @@ const friendStore = useFriendStore();
 
 onMounted(async() => {
     loading.value = true;
-    if (!props.profile)
+    if (!props.friends)
         await friendStore.getFriends();
     loading.value = false;
 });
@@ -54,7 +54,7 @@ onMounted(async() => {
 const loading = ref(true);
 
 
-const friends = computed(() => props.profile ? props.friends : friendStore.friends);
+const friends = computed(() => props.friends ? props.friends : friendStore.friends);
 
 const props = defineProps({
     manage: {
@@ -70,11 +70,6 @@ const props = defineProps({
         type: Array,
         required: false,
     },
-    profile: {
-        type: Boolean,
-        required: false,
-        default: false,
-    }
 });
 
 const friendToMessage = ref(false);
