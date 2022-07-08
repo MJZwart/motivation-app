@@ -20,9 +20,9 @@ export type UserStats = {
 
 export type BannedUser = {
     id: number,
-    created_at: Date,
+    created_at: string,
     time_since: string,
-    updated_at: Date,
+    updated_at: string,
     user: {
         username: string,
         id: number,
@@ -33,9 +33,16 @@ export type BannedUser = {
         username: string,
         id: number,
     },
-    banned_until: Date,
+    banned_until: string,
     past: boolean,
     banned_until_time: string,
     comment: string,
     end_ban: boolean,
+    log: string,
+}
+
+export type NewSuspension = {
+    reason: string,
+    days: number | null,
+    indefinite: boolean,
 }

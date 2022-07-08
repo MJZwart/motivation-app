@@ -89,18 +89,20 @@ onMounted(() => setValue());
  */
 function validate() {
     if (props.notEmpty && itemToEdit.value == '') {
-        setErrors(`The ${props.name} field cannot be empty`);
+        addError(`The ${props.name} field cannot be empty`);
         return false;
     }
     return true;
 }
 
 /**
- * Sets the error message on the editable field using the built in BaseFormError
- * using the props.name as key.
+ * Adds the error message on the editable field using the built in BaseFormError
+ * using the props.name as key and commits it to the store.
+ * @param {string} error
  */
-function setErrors(error) {
-    const errorObject = {};
+function addError(error) {
+    /** @type {Array<import('resources/types/error.js').Error>} */
+    const errorObject = [];
     errorObject[props.name] = [error];
     mainStore.setErrorMessages(errorObject);
 }

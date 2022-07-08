@@ -46,33 +46,45 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import {computed, ref} from 'vue';
 import {useAchievementStore} from '/js/store/achievementStore';
+import {Achievement, AchievementTrigger} from 'resources/types/achievement.js'
 const achievementStore = useAchievementStore();
 
 const emit = defineEmits(['close']);
 
-/** @type {import('resources/types/achievement').Achievement} */
-const achievement = ref({
-    trigger_amount: 0,
-});
+const achievement = ref<Achievement>(newAchievementInstance());
 
 async function submitAchievement() {
-    achievement.value.trigger_amount = parseInt(achievement.value.trigger_amount);
+    achievement.value.trigger_amount = Number(achievement.value.trigger_amount);
     await achievementStore.newAchievement(achievement.value)
     close();
 }
 function close() {
-    achievement.value = {trigger_amount: 0},
+    achievement.value = newAchievementInstance(),
     emit('close');
 }
-const achievementTriggers = computed(() => achievementStore.achievementTriggers);
+
+function newAchievementInstance() {
+    return {
+        description: '',
+        name: '',
+        trigger_amount: 0,
+        trigger_description: '',
+        trigger_type: '',
+    } as Achievement;
+}
+
+const achievementTriggers = computed<Array<AchievementTrigger>>(() => achievementStore.achievementTriggers);
+
 /** Parses the achievement description from the type (eg Made {0} friends) and the amount */
 const triggerDescription = computed(() => {
     const plural = achievement.value.trigger_amount > 1 ? 's' : '';
-    let desc = achievementTriggers.value.find(item => item.trigger_type === achievement.value.trigger_type);
-    desc = desc.trigger_description.replace('%d', achievement.value.trigger_amount);
+    let trigger = achievementTriggers.value.find(item => item.trigger_type === achievement.value.trigger_type);
+    if (!trigger) return;
+    const desc = trigger.trigger_description.replace('%d', String(achievement.value.trigger_amount));
     return desc.replace('%s', plural);
 });
+
 </script>

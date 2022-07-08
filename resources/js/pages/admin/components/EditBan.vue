@@ -47,15 +47,16 @@
     </div>
 </template>
 
-<script setup>
-import {computed, onMounted, ref} from 'vue';
+<script setup lang="ts">
+import {computed, onMounted, ref, PropType} from 'vue';
 import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
+import {BannedUser} from 'resources/types/user.js'
 const adminStore = useAdminStore();
 
 const props = defineProps({
     userBan: {
-        type: Object,
+        type: Object as PropType<BannedUser>,
         required: true,
     },
 });
@@ -66,23 +67,24 @@ onMounted(() => {
     userBanToEdit.value.end_ban = false;
 });
 
-const userBanToEdit = ref(null);
+const userBanToEdit = ref<BannedUser | null>(null);
 const bannedUntil = computed(() => {
     let date = DateTime.fromSQL(props.userBan.created_at);
-    return date.plus({days: userBanToEdit.value.days}).toLocaleString(DateTime.DATETIME_MED);
+    return date.plus({days: userBanToEdit.value?.days}).toLocaleString(DateTime.DATETIME_MED);
 });
 
-const bannedUntilInPast = computed(() => 
+const bannedUntilInPast = computed(() => Boolean(
     DateTime.now() > DateTime.fromFormat(bannedUntil.value, 'dd MMM yyyy, HH:mm') 
     && userBanToEdit.value 
-    && !userBanToEdit.value.end_ban);
+    && !userBanToEdit.value.end_ban));
 
 function resetDays() {
-    userBanToEdit.value.days = props.userBan.days;
+    if (userBanToEdit.value)
+        userBanToEdit.value.days = props.userBan.days;
 }
 
 async function confirm() {
-    if (bannedUntilInPast.value) return;
+    if (bannedUntilInPast.value || !userBanToEdit.value) return;
     let log = DateTime.now().toLocaleString(DateTime.DATETIME_MED) + ': ';
     if (userBanToEdit.value.end_ban)
         log = log.concat('User has been unbanned. ');

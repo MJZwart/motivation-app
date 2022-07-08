@@ -18,8 +18,7 @@
                 <select
                     id="severity" 
                     v-model="bugReportToEdit.severity"
-                    name="severity" 
-                    :placeholder="bugReportToEdit.severity">
+                    name="severity" >
                     <option v-for="(option, index) in bugSeverity" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
@@ -39,8 +38,7 @@
                     id="status" 
                     v-model="bugReportToEdit.status"
                     type="text" 
-                    name="status" 
-                    :placeholder="bugReportToEdit.status">
+                    name="status" >
                     <option v-for="(option, index) in bugStatus" :key="index" :value="option.value">{{option.text}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-status-desc')}}</small>
@@ -53,9 +51,11 @@
 </template>
 
 
-<script setup>
-import {onMounted, ref} from 'vue';
+<script setup lang="ts">
+import {onMounted, ref, PropType} from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '/js/constants/bugConstants';
+import {BugReport} from 'resources/types/bug';
+import {Message} from 'resources/types/message';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMessageStore} from '/js/store/messageStore';
 const adminStore = useAdminStore();
@@ -63,7 +63,7 @@ const messageStore = useMessageStore();
 
 const props = defineProps({
     bugReport: {
-        type: Object,
+        type: Object as PropType<BugReport>,
         required: true,
     },
 });
@@ -73,24 +73,25 @@ onMounted(() => {
     bugReportToEdit.value = Object.assign({}, props.bugReport);
 });
 
-const bugReportToEdit = ref({});
+const bugReportToEdit = ref<BugReport | null>(null);
 const bugTypes = BUG_TYPES;
 const bugSeverity = BUG_SEVERITY;
 const bugStatus = BUG_STATUS;
 
 async function updateBugReport() {
+    if (!bugReportToEdit.value) return;
     await adminStore.updateBugReport(bugReportToEdit.value)
     if (bugReportToEdit.value.status == 3) {
         const message = {
             message: 'Your bug report has been resolved!',
             recipient_id: bugReportToEdit.value.user_id,
-        };
+        } as Message;
         messageStore.sendMessage(message);
     }
     close();
 }
 function close() {
-    bugReportToEdit.value = {};
+    bugReportToEdit.value = null;
     emit('close');
 }
 </script>

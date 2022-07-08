@@ -1,5 +1,9 @@
 @import 'variables';
 
+option {
+    font-family: $regular-font;
+}
+
 .d-flex {
     display:flex;
 }
