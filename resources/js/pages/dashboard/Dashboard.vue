@@ -45,12 +45,10 @@ import {useMainStore} from '/js/store/store';
 import {onBeforeMount, ref, computed} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useRewardStore} from '/js/store/rewardStore';
-import {useFriendStore} from '/js/store/friendStore';
 
 const mainStore = useMainStore();
 const taskStore = useTaskStore();
 const rewardStore = useRewardStore();
-const friendStore = useFriendStore();
 
 const loading = ref(true);
 
