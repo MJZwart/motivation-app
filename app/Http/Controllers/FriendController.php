@@ -86,7 +86,7 @@ class FriendController extends Controller
      */
     public function denyFriendRequest(Request $request, Friend $friend){
         if ($friend->accepted)
-            return new JsonResponse(['message' => ['error' => 'This request does not exist.']], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse(['message' => ['error' => 'You have already accepted this request.']], Response::HTTP_UNPROCESSABLE_ENTITY);
         $friend->delete();
         $requests = $this->fetchRequests();
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request denied');
