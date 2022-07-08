@@ -44,9 +44,10 @@ import {useFriendStore} from '/js/store/friendStore';
 
 const friendStore = useFriendStore();
 
-onMounted(() => {
+onMounted(async() => {
     loading.value = true;
-    friendStore.getFriends();
+    if (!props.profile)
+        await friendStore.getFriends();
     loading.value = false;
 });
 
