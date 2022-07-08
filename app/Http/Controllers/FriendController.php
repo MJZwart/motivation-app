@@ -19,8 +19,8 @@ use Illuminate\Http\Response;
 
 class FriendController extends Controller
 {
-    public function show(){
-        // #56
+    public function getFriends(){
+        return new JsonResponse(['friends' => FriendResource::collection(Auth::user()->friends->sortBy('username'))]);
     }
 
     /**

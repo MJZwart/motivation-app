@@ -22,6 +22,10 @@ export const useFriendStore = defineStore('friend', {
             const {data} = await axios.get('/friend/requests/all');
             this.requests = data;
         },
+        async getFriends() {
+            const {data} = await axios.get('/friend');
+            this.friends = data.friends;
+        },
         /**
          * @param {Number} requestId
          */
