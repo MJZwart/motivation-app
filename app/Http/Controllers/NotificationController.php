@@ -12,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use App\Http\Resources\NotificationResource;
 use App\Http\Requests\SendNotificationRequest;
-use Carbon\Carbon;
 
 class NotificationController extends Controller
 {
@@ -23,15 +22,20 @@ class NotificationController extends Controller
      */
     public function show(): JsonResponse
     {
+        $resource = $this->getSortedNotificationsResource();
+        return new JsonResponse(['data' => $resource], Response::HTTP_OK);
+    }
+
+    private function getSortedNotificationsResource() {
         /** @var User */
         $user = Auth::user();
         $notificationQuery = $user->notifications()->latest();
         $notificationCollection = $notificationQuery->get();
-        $response = new JsonResponse(['data' => NotificationResource::collection($notificationCollection)], Response::HTTP_OK); 
+        $resource = NotificationResource::collection($notificationCollection); 
             //Creates the response before marking as read, so the notifications sent are still marked as unread.
         if ($this->needsUpdate($notificationCollection))
             $this->markAsRead($notificationQuery);
-        return $response;
+        return $resource;
     }
 
     /**
@@ -46,7 +50,10 @@ class NotificationController extends Controller
         if($notification->user_id == Auth::user()->id){
             $notification->delete();
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
-            return new JsonResponse(['message' => ['success' => 'Notification deleted.'], 'data' => NotificationResource::collection(Auth::user()->notifications)], Response::HTTP_OK); 
+            $resource = $this->getSortedNotificationsResource();
+            return new JsonResponse([
+                'message' => ['success' => 'Notification deleted.'], 
+                'data' => $resource], Response::HTTP_OK); 
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
             return new JsonResponse(['message' => 'You are not authorized to do this.'], Response::HTTP_FORBIDDEN); 
@@ -101,9 +108,7 @@ class NotificationController extends Controller
     {
         $notification->link_active = false;
         $notification->save();
-        /** @var User */
-        $user = Auth::user();
-        $notificationCollection = $user->notifications()->latest()->get();
-        return new JsonResponse(['data' => NotificationResource::collection($notificationCollection)], Response::HTTP_OK); 
+        $resource = $this->getSortedNotificationsResource();
+        return new JsonResponse(['data' => $resource], Response::HTTP_OK); 
     }
 }
