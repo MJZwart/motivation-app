@@ -55,7 +55,7 @@
 import {onMounted, ref, PropType} from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '/js/constants/bugConstants';
 import {BugReport} from 'resources/types/bug';
-import {Message} from 'resources/types/message';
+import {NewMessage} from 'resources/types/message';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMessageStore} from '/js/store/messageStore';
 const adminStore = useAdminStore();
@@ -85,7 +85,7 @@ async function updateBugReport() {
         const message = {
             message: 'Your bug report has been resolved!',
             recipient_id: bugReportToEdit.value.user_id,
-        } as Message;
+        } as NewMessage;
         messageStore.sendMessage(message);
     }
     close();

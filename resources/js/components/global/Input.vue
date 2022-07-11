@@ -75,9 +75,6 @@ const errorMsg = computed(() => {
     return (errors.value[props.name] || [])[0] || '';
 });
 
-/**
-* @param {Event} event
-*/
 function updateModelValue(event: Event) {
     emit('update:modelValue', (event.target as HTMLInputElement).value)
 }

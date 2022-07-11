@@ -33,14 +33,15 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import ProgressBar from '/js/components/global/ProgressBar.vue';
 import Summary from '/js/components/global/Summary.vue';
+import {PropType} from 'vue';
+import {Reward} from 'resources/types/reward';
 
 defineProps({
     reward: {
-        /** @type {import('vue').PropType<import('resources/types/reward').Reward>} */
-        type: Object,
+        type: Object as PropType<Reward>,
         required: true,
     },
     rewardType: {

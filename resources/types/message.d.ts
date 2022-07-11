@@ -27,6 +27,11 @@ export type Message = {
     sent_by_user: boolean,
 }
 
+export type NewMessage = {
+    recipient_id: number,
+    message: string,
+}
+
 export type ReportedMessage = {
     id: number,
     created_at: Date,

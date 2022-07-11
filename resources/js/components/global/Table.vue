@@ -86,8 +86,7 @@ const className = computed(() => {
     return className;
 });
 
-/** @type {import('vue').ComputedRef<Array<import('resources/types/global.js').Item>>} */
-const sortedItems = computed(() => {
+const sortedItems = computed<Array<Item>>(() => {
     return sortItems();
 });
 
