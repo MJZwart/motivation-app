@@ -1,21 +1,46 @@
 export type Conversation = {
-    id: Number,
-    created_at: Date,
+    id: number,
     updated_at: Date,
-    user_id: Number,
-    recipient_id: Number,
-    conversation_id: Number,
+    recipient: {
+        id: number,
+        username: string,
+    },
+    conversation_id: number,
+    messages: Array<Message>,
+    last_message: Message,
 }
 
 export type Message = {
-    id: Number,
+    id: number,
     created_at: Date,
-    updated_at: Date,
-    sender_id: Number,
-    recipient_id: Number,
-    message: String,
-    conversation_id: Number,
-    read: Boolean,
-    visible_to_sender: Boolean,
-    visible_to_recipient: Boolean,
+    sender: {
+        id: number,
+        username: string,
+    } | null,
+    recipient: {
+        id: number,
+        username: string,
+    } | null,
+    message: string,
+    read: boolean,
+    visible: boolean,
+    sent_by_user: boolean,
+}
+
+export type NewMessage = {
+    recipient_id: number,
+    message: string,
+}
+
+export type ReportedMessage = {
+    id: number,
+    created_at: Date,
+    sender_id: number,
+    sender_username: Jaiden,
+    message: string,
+}
+
+export type ReportedConversation = {
+    id: string,
+    messages: Array<ReportedMessage>,
 }

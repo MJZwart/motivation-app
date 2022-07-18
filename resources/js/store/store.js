@@ -16,17 +16,17 @@ export const useMainStore = defineStore('main', {
     },
     actions: {
         /**
+         * @param {Array<import('resources/types/error.js').Error>} errorMessages
+         */
+        setErrorMessages(errorMessages) {
+            this.errors = errorMessages;
+        },     
+        /**
          * Send a toast by calling:
          * useMainStore.addToast(toastObject)
          * where 'response.data.message' is an object with one or multiple messages.
          * In the JsonResponse, name the message key 'success', 'danger' or 'info' 
          * to get corresponding themes and titles.
-         * @param {[]} errorMessages
-         */
-        setErrorMessages(errorMessages) {
-            this.errors = errorMessages;
-        },
-        /**
          * @param {import('resources/types/toast.js').Toast} toast
          */
         addToast(toast) {

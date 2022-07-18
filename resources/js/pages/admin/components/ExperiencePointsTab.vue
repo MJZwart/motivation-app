@@ -53,9 +53,10 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
 import {shallowRef, onMounted, computed, ref} from 'vue';
+import {ExperiencePoint} from 'resources/types/admin';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 const adminStore = useAdminStore();
@@ -66,18 +67,21 @@ onMounted(() => {
     loading.value = false;
 });
 
-const experiencePoints = ref(null);
-const newLevel = ref({});
+const experiencePoints = ref<Array<ExperiencePoint> | []>([]);
+const newLevel = ref<ExperiencePoint>({level: 0, experience_points: 0});
 
 const experience_points = computed(() => adminStore.experiencePoints);
 
 const loading = ref(true);
 
 function updateExpPoints() {
+    if (!experiencePoints.value) return;
     clearErrors();
     adminStore.updateExpPoints(experiencePoints.value);
 }
+
 async function addNewLevel() {
+    if (!newLevel.value) return;
     clearErrors();
     await adminStore.addNewLevel(newLevel.value);
     experiencePoints.value = shallowRef(experience_points).value;

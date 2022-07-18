@@ -17,6 +17,7 @@
         "allowSyntheticDefaultImports": true,
         "checkJs": true,
         "resolveJsonModule": true,
+        "suppressImplicitAnyIndexErrors": true,
         "baseUrl": ".",
         "paths": {
             "assets/*": ["./resources/assets/*"],

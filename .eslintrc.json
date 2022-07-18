@@ -11,9 +11,15 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
     ],
+    "parser": "vue-eslint-parser",
     "parserOptions": {
-        "ecmaVersion": 2021,
-        "sourceType": "module"
+        "ecmaVersion": 2022,
+        "sourceType": "module",
+        "parser": "@typescript-eslint/parser",
+        "extraFileExtensions": [".vue"],
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "plugins": [
         "vue",

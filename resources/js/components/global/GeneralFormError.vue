@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="error in responseMessage" :key="error.index" class="d-block invalid-feedback">
+        <div v-for="(error, index) in responseMessage" :key="index" class="d-block invalid-feedback">
             {{ error[0] }}
         </div>
     </div>

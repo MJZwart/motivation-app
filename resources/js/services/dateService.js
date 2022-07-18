@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import {DateTime, Duration} from 'luxon';
 import i18n from '/js/i18n';
 
@@ -33,7 +33,7 @@ export function daysSince(date) {
  * Expects a timestring in ISO format (including timezone)
  * If it's not an ISO string, set SQLString to true, so it can be rezoned into UTC
  * 
- * @param {string} time
+ * @param {string | Date} time
  * @param {boolean} SQLString
  */
 export function parseDateTime(time, SQLString = false) {
@@ -42,8 +42,8 @@ export function parseDateTime(time, SQLString = false) {
     const timezone = 'system';
     const locale = 'system';
     if (SQLString) {
-        time = DateTime.fromSQL(time).setZone('UTC', {keepLocalTime: true}).toString();
+        time = DateTime.fromSQL(time.toString()).setZone('UTC', {keepLocalTime: true}).toString();
     }
-    const date = DateTime.fromISO(time).setZone(timezone).setLocale(locale);
+    const date = DateTime.fromISO(time.toString()).setZone(timezone).setLocale(locale);
     return date.toLocaleString(DateTime.DATETIME_MED);
 }

@@ -1,3 +1,3 @@
 export type Error = {
-    [key: string]: Array<String>,
+    [key: string]: Array<string>,
 }

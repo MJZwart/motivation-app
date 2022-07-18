@@ -1,17 +1,18 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <template v-else>
+        <template v-if="!loading && conversation">
             <ShowMessage v-for="message in conversation.messages" :key="message.id"
                          :message="message" />
         </template>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import ShowMessage from './ShowMessage.vue';
 import {useAdminStore} from '/js/store/adminStore';
+import {ReportedConversation} from 'resources/types/message';
 const adminStore = useAdminStore();
 
 const props = defineProps({
@@ -28,6 +29,5 @@ onMounted(async() => {
 
 const loading = ref(true);
 
-/** @type import('resources/types/message').Conversation | null */
-const conversation = ref({});
+const conversation = ref<ReportedConversation | null>(null);
 </script>

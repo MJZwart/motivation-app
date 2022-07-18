@@ -84,9 +84,10 @@
 </template>
 
 
-<script setup>
-import {reactive, ref} from 'vue';
+<script setup lang="ts">
+import {ref, PropType} from 'vue';
 import EditTask from './EditTask.vue';
+import {Task} from 'resources/types/task';
 import {useTaskStore} from '/js/store/taskStore';
 import {useMainStore} from '/js/store/store';
 import {useI18n} from 'vue-i18n'
@@ -95,27 +96,22 @@ const mainStore = useMainStore();
 
 defineProps({
     task: {
-        /** @type {import('vue').PropType<import('resources/types/task').Task>} */
-        type: Object,
+        type: Object as PropType<Task>,
         required: true,
     },
 });
 
 const emit = defineEmits(['newTask']);
 
-/** @type {import('resources/types/task').Task | {}} */
-const taskToEdit = reactive({});
+const taskToEdit = ref<Task | null>(null);
 const showEditTaskModal = ref(false);
 
-/** @param {import('resources/types/task').Task} task */
-function openNewTask(task) {
+function openNewTask(task: Task) {
     emit('newTask', task);
 }
 
-/** Shows and hides the modal to edit a given task
- * @param {import('resources/types/task').Task} task
- */
-function editTask(task) {
+/** Shows and hides the modal to edit a given task */
+function editTask(task: Task) {
     mainStore.clearErrors();
     taskToEdit.value = task;
     showEditTaskModal.value = true;
@@ -125,15 +121,13 @@ function closeEditTask() {
 }
 
 const taskStore = useTaskStore();
-/** @param {import('resources/types/task').Task} task */
-function deleteTask(task) {
+function deleteTask(task: Task) {
     const confirmationText = t('confirmation-delete-task', [task.name]);
     if (confirm(confirmationText)) {
         taskStore.deleteTask(task);
     }
 }
-/** @param {import('resources/types/task').Task} task */
-function completeTask(task) {
+function completeTask(task: Task) {
     if (task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
         return;
     taskStore.completeTask(task);

@@ -36,7 +36,7 @@
                     <small class="silent mb-1">{{$t('link-text-details')}}</small>
                         
                     <div class="d-flex">
-                        <button @click="removeLink" class="ml-auto button-red">{{$t('remove-link')}}</button>
+                        <button class="ml-auto button-red" @click="removeLink">{{$t('remove-link')}}</button>
                     </div>
                 </div>
                 <button type="submit" class="block">{{ $t('send-notification') }}</button>
@@ -46,13 +46,13 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import {ref} from 'vue';
+import {Notification} from 'resources/types/notification';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
 
-/** @type {import('resources/types/notification').Notification} */
-const notification = ref({});
+const notification = ref<Notification>(newNotificationInstance());
 
 /** @type {boolean} */
 const addLink = ref(false);
@@ -67,6 +67,13 @@ function removeLink() {
     addLink.value = false;
     notification.value.link = null;
     notification.value.link_text = null;
+}
+
+function newNotificationInstance() {
+    return {
+        title: '',
+        text: '',
+    } as Notification;
 }
 
 </script>

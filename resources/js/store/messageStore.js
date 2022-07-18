@@ -26,7 +26,7 @@ export const useMessageStore = defineStore('message', {
         },
 
         /**
-         * @param {import('resources/types/message').Message} message
+         * @param {import('resources/types/message').NewMessage} message
          */
         async sendMessage(message) {
             await axios.post('/message', message);

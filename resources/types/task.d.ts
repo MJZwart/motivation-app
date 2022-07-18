@@ -1,9 +1,9 @@
 export type Task = {
     id: number,
-    description: String,
+    description: string,
     difficulty: number,
-    name: String,
-    repeatable: String, //TODO Enum
+    name: string,
+    repeatable: string, //TODO Enum
     super_task: number | null,
     task_list_id: number,
     tasks: Array<Task>,
@@ -12,7 +12,7 @@ export type Task = {
 
 export type TaskList = {
     id: number,
-    color: String | null,
-    name: String,
+    color: string | null,
+    name: string,
     tasks: Array<Task>,
 }

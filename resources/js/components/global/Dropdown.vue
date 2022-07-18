@@ -32,19 +32,24 @@ defineProps({
 const isOpen = ref(false);
 const menu = ref(null);
 function openClose() { 
-    const closeListener = e => {
+    const closeListener = (/** @type {any} */ e) => {
         if (catchOutsideClick(e, menu.value ))
             window.removeEventListener('click', closeListener) , isOpen.value = false
     }
     window.addEventListener('click', closeListener)
     isOpen.value = !isOpen.value;
 }
+/**
+* @param {{ target: any; }} event
+* @param {null} dropdown
+*/
 function catchOutsideClick(event, dropdown)  {
     // Prevent closing on clicking menu
     if (dropdown == event.target)
-        return false
+        return false;
     if (isOpen.value && dropdown != event.target)
-        return true
+        return true;
+    return;
 }
 </script>
 

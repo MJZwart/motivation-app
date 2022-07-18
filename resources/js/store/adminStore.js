@@ -6,12 +6,12 @@ import {useUserStore} from './userStore';
 export const useAdminStore = defineStore('admin', {
     state: () => {
         return {
-            /** @type Array<import('resources/types/admin').ExperiencePoint> | null */
-            experiencePoints: null,
-            /** @type Array<import('resources/types/admin').CharExpGain> | null */
-            charExpGain: null,
-            /** @type Array<import('resources/types/admin').VillageExpGain> | null */
-            villageExpGain: null,
+            /** @type Array<import('resources/types/admin').ExperiencePoint> | [] */
+            experiencePoints: [],
+            /** @type Array<import('resources/types/admin').CharExpGain> | [] */
+            charExpGain: [],
+            /** @type Array<import('resources/types/admin').VillageExpGain> | [] */
+            villageExpGain: [],
             /** @type Array<import('resources/types/admin').ReportedUser> | null */
             reportedUsers: null,
             /** @type Array<import('resources/types/bug').BugReport> | null */
@@ -60,7 +60,7 @@ export const useAdminStore = defineStore('admin', {
         },
         /**
          * @param {Number} id
-         * @returns import('resources/types/message').Conversation | null
+         * @returns {Promise<import('resources/types/message').ReportedConversation | null>}
          */
         async fetchConversation(id) {
             const {data} = await axios.get(`/admin/conversation/${id}`);
@@ -90,14 +90,14 @@ export const useAdminStore = defineStore('admin', {
             this.experiencePoints = data.data;
         },
         /**
-         * @param {import('resources/types/admin').CharExpGain} charExpGain
+         * @param {Array<import('resources/types/admin').CharExpGain>} charExpGain
          */
         async updateCharExpGain(charExpGain) {
             const {data} = await axios.put('/admin/character_exp_gain', charExpGain);
             this.charExpGain = data.data;
         },
         /**
-         * @param {import('resources/types/admin').VillageExpGain} villageExpGain
+         * @param {Array<import('resources/types/admin').VillageExpGain>} villageExpGain
          */
         async updateVillageExpGain(villageExpGain) {
             const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
