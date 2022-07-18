@@ -60,13 +60,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::put('/reward/update', [RewardController::class, 'updateRewardObj']);
 
     Route::get('/profile/{user}', [UserController::class, 'show']);
-  
-    Route::post('/friend/request/{user}', [FriendController::class, 'sendFriendRequest']);
-    Route::get('/friend/requests/all', [FriendController::class, 'getAllRequests']);
-    Route::post('/friend/request/{friend}/accept', [FriendController::class, 'acceptFriendRequest']);
-    Route::post('/friend/request/{friend}/deny', [FriendController::class, 'denyFriendRequest']);
-    Route::delete('/friend/request/{friend}', [FriendController::class, 'removeFriendRequest']);
-    Route::delete('/friend/remove/{friend}', [FriendController::class, 'destroy']);
 
     Route::put('/user/settings/email', [UserController::class, 'updateEmail']);
     Route::put('/user/settings/password', [UserController::class, 'updatePassword']);

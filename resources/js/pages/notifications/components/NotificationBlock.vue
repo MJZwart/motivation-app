@@ -38,8 +38,8 @@ import Summary from '/js/components/global/Summary.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n';
 import {useMessageStore} from '/js/store/messageStore';
-import axios from 'axios';
 import {computed} from 'vue';
+import {handleNotificationLink} from '/js/services/notificationLinkService';
 
 const {t} = useI18n();
 const messageStore = useMessageStore();
@@ -72,12 +72,7 @@ function deleteNotification() {
  * @param {String} linkUrl
  */
 async function linkAction(apiType, linkUrl) {
-    if (apiType == 'POST')
-        axios.post(linkUrl);
-    else if (apiType == 'PUT')
-        axios.put(linkUrl);
-    else if (apiType == 'DELETE')
-        axios.delete(linkUrl);
+    handleNotificationLink(apiType, linkUrl);
     if (prop.notification.delete_links_on_action)
         await messageStore.deleteNotificationAction(prop.notification.id);
 }

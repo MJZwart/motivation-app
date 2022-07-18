@@ -1,12 +1,14 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {useUserStore} from './userStore';
+import {useMainStore} from './store';
 
 export const useFriendStore = defineStore('friend', {
     state: () => {
         return {
             /** @type Array<import('resources/types/friend').Friend> | null */
             requests: null,
+            /** @type Array<import('resources/types/friend').Friend> | null */
+            friends: [],
         }
     },
     actions: {
@@ -20,36 +22,66 @@ export const useFriendStore = defineStore('friend', {
             const {data} = await axios.get('/friend/requests/all');
             this.requests = data;
         },
+        async getFriends() {
+            const {data} = await axios.get('/friend');
+            this.friends = data.friends;
+        },
         /**
          * @param {Number} requestId
          */
         async acceptRequest(requestId) {
-            const {data} = await axios.post('/friend/request/' + requestId + '/accept');
-            const userStore = useUserStore();
-            userStore.user = data.user;
-            this.requests = data.requests;
+            try {
+                const {data} = await axios.post('/friend/request/' + requestId + '/accept');
+                this.friends = data.friends;
+                this.requests = data.requests;
+            } catch {
+                this.handleError();
+            }
         },
         /**
          * @param {Number} requestId
          */
         async denyRequest(requestId) {
-            const {data} = await axios.post('/friend/request/' + requestId + '/deny');
-            this.requests = data.requests;
+            try {
+                const {data} = await axios.post('/friend/request/' + requestId + '/deny');
+                this.requests = data.requests;
+            } catch {
+                this.handleError();
+            }
         },
         /**
          * @param {Number} requestId
          */
         async removeRequest(requestId) {
-            const {data} = await axios.delete('/friend/request/' + requestId);
-            this.requests = data.requests;
+            try {
+                const {data} = await axios.delete('/friend/request/' + requestId);
+                this.requests = data.requests;
+            } catch {
+                this.handleError();
+            }
         },
         /**
          * @param {Number} friendId
          */
         async removeFriend(friendId) {
-            const {data} = await axios.delete('/friend/remove/' + friendId);
-            const userStore = useUserStore();
-            userStore.user = data.user;
+            try {
+                const {data} = await axios.delete('/friend/remove/' + friendId);
+                this.friends = data.friends;
+            } catch {
+                this.handleError();
+            }
+        },
+
+        /**
+         * I've added this error handler with the try-catch blocks because either user can
+         * make a change to the friendship. If one user deletes the friendship while the other
+         * user is about to make a change to it, the back-end will throw a 404 and not send
+         * a proper error response. Reloading the page should always fix this problem, although
+         * this leaves 500's and other issues unchecked.
+         */
+        handleError() {
+            const mainStore = useMainStore();
+            mainStore.addToast({'Error': 'Something went wrong, please reload the page.'});
         },
     },
 });
