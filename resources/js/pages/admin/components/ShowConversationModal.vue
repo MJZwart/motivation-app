@@ -17,13 +17,13 @@ const adminStore = useAdminStore();
 
 const props = defineProps({
     conversationId: {
-        type: Number,
+        type: String,
         required: true,
     },
 });
 
 onMounted(async() => {
-    conversation.value = await adminStore.fetchConversation(props.conversationId)
+    conversation.value = await adminStore.fetchConversation(parseInt(props.conversationId));
     loading.value = false;
 });
 

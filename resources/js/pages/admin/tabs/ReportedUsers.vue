@@ -72,7 +72,7 @@
                     <!-- Banned overview -->
                     <div 
                         v-if="user.banned"
-                        :ref="el => { bannedDivs[index] = el }" class="sub-details row" 
+                        :ref="el => { bannedDivs[index] = el as HTMLDivElement }" class="sub-details row" 
                         :style="{'max-height': '0px', transition: 'max-height 2s'}">
                         <h5>{{ $t('bans') }}</h5>
                         <div class="row">
@@ -106,7 +106,7 @@
                     </div>
                     <!-- Reports overview -->
                     <div 
-                        :ref="el => { reportDivs[index] = el }" class="sub-details row" 
+                        :ref="el => { reportDivs[index] = el as HTMLDivElement }" class="sub-details row" 
                         :style="{'max-height': '0px'}">
                         <h5>{{ $t('reports') }}</h5>
                         <div class="row">
@@ -153,7 +153,10 @@
                    :footer="false" 
                    :title="$t('see-conversation-reporter')" 
                    @close="closeShowConversation">
-                <ShowConversationModal :conversationId="conversationToShow" @close="closeShowConversation"/>
+                <ShowConversationModal 
+                    v-if="conversationIdToShow !== null" 
+                    :conversationId="conversationIdToShow" 
+                    @close="closeShowConversation"/>
             </Modal>
             <Modal
                 :show="showSuspendUserModal"
@@ -161,6 +164,7 @@
                 :title="suspendUserTitle"
                 @close="closeSuspendUserModal">
                 <SuspendUserModal 
+                    v-if="suspendedUser !== null"
                     :userId="suspendedUser.id" 
                     @close="closeSuspendUserModal" />
             </Modal>
@@ -169,13 +173,13 @@
                 :footer="false" 
                 :title="$t('send-message')" 
                 @close="closeSendMessageToReportedUser">
-                <SendMessage :user="userToMessage" @close="closeSendMessageToReportedUser"/>
+                <SendMessage v-if="userToMessage !== null" :user="userToMessage" @close="closeSendMessageToReportedUser"/>
             </Modal>
         </div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 /* eslint-disable max-lines */
 import {ref, computed, onMounted, onBeforeUpdate} from 'vue';
 import SuspendUserModal from './../components/SuspendUserModal.vue';
@@ -185,8 +189,9 @@ import {parseDateTime} from '/js/services/dateService';
 import {sortValues} from '/js/services/sortService';
 import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
-const adminStore = useAdminStore();
 import {useMainStore} from '/js/store/store';
+import {User, UserToBan} from 'resources/types/user';
+const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
 onBeforeUpdate(() => {
@@ -206,10 +211,11 @@ const currentSort = ref('last_report_date');
 const currentSortDir = ref('asc');
 
 const sortedReportedUsers = computed(() => {
+    if (reportedUsers.value === null) return;
     return sortValues(reportedUsers.value, currentSort.value, currentSortDir.value);
 });
 
-function setSort(key) {
+function setSort(key: string) {
     if (currentSort.value == key) toggleSortDir();
     else currentSort.value = key;
 }
@@ -218,27 +224,27 @@ function toggleSortDir() {
     else currentSortDir.value = 'asc';
 }
 
-function parseReason(reason) {
+function parseReason(reason: string) {
     let string = reason.replaceAll('_', ' ').toLowerCase();
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 /** Opens the modal to see a conversation between reported user and reporter */
-const conversationToShow = ref(null);
+const conversationIdToShow = ref<string | null>(null);
 const showConversationModal = ref(false);
-function showConversation(conversationId) {
+function showConversation(conversationId: string) {
     mainStore.clearErrors();
-    conversationToShow.value = conversationId;
+    conversationIdToShow.value = conversationId;
     showConversationModal.value = true;
 }
 function closeShowConversation() {
-    conversationToShow.value = null;
+    conversationIdToShow.value = null;
     showConversationModal.value = false;
 }
 
 /** Opens the modal to message a user that has been reported */
-const userToMessage = ref(null);
+const userToMessage = ref<User | null>(null);
 const showSendMessageModal = ref(false);
-function sendMessageToReportedUser(user) {
+function sendMessageToReportedUser(user: User) {
     mainStore.clearErrors();
     userToMessage.value = user;
     showSendMessageModal.value = true;
@@ -249,33 +255,33 @@ function closeSendMessageToReportedUser() {
 }
 
 /** Opens the modal to suspend a user account */
-const suspendedUser = ref(null);
+const suspendedUser = ref<UserToBan | null>(null);
 const suspendUserTitle = computed(() => {
     const username = suspendedUser.value ? suspendedUser.value.username: '';
     return `Suspend user ${username}`;
 });
 const showSuspendUserModal = ref(false);
-function suspendUser(item) {
+function suspendUser(user: UserToBan) {
     mainStore.clearErrors();
-    suspendedUser.value = item;
+    suspendedUser.value = user;
     showSuspendUserModal.value = true;
 }
 function closeSuspendUserModal() {
     showSuspendUserModal.value = false;
 }
 
-const reportDivs = ref([]);
-const bannedDivs = ref([]);
+const reportDivs = ref<Array<HTMLDivElement>>([]);
+const bannedDivs = ref<Array<HTMLDivElement>>([]);
 
-function showReportDetails(index) {
+function showReportDetails(index: number) {
     if (reportDivs.value[index].style.maxHeight == '0px') reportDivs.value[index].style.maxHeight = 'max-content';
     else reportDivs.value[index].style.maxHeight = '0px';
 }
-function showBannedDetails(index) {
+function showBannedDetails(index: number) {
     if (bannedDivs.value[index].style.maxHeight == '0px') bannedDivs.value[index].style.maxHeight = 'max-content';
     else bannedDivs.value[index].style.maxHeight = '0px';
 }
-function currentlyBanned(user) {
+function currentlyBanned(user: UserToBan) {
     return !!user.banned_until && DateTime.now() < DateTime.fromFormat(user.banned_until, 'yyyy-MM-dd HH:mm:ss')
 }
 </script>
