@@ -208,7 +208,7 @@ const loading = ref(true);
 
 const reportedUsers = computed(() => adminStore.reportedUsers);
 const currentSort = ref('last_report_date');
-const currentSortDir = ref('asc');
+const currentSortDir = ref('desc');
 
 const sortedReportedUsers = computed(() => {
     if (reportedUsers.value === null) return;
