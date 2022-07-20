@@ -18,7 +18,6 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('group_id')->nullable();
-            $table->text('comment')->nullable();
         });
         Schema::table('group_invites', function (Blueprint $table) {
             $table->foreign('user_id')

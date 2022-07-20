@@ -15,16 +15,18 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {useGroupStore} from '/js/store/groupStore';
 import {ref, onMounted} from 'vue';
+import {Application, Group} from 'resources/types/group';
+
+const props = defineProps<{group: Group}>();
+
 const groupStore = useGroupStore();
 
-const emit = defineEmits(['reloadGroups']);
-const loading = ref();
+const loading = ref(true);
 
-/** @type {import('resources/types/group').Application} */
-const applications = ref();
+const applications = ref<Array<Application>>();
 onMounted(() => {
     load();
 });
@@ -34,24 +36,13 @@ async function load() {
     loading.value = false;
 }
 
-
-const props = defineProps({
-    group: {
-        type: Object,
-        required: true,
-    },
-});
-
-/** @param {import('resources/types/group').Application} application */
-async function rejectApplication(application) {
+async function rejectApplication(application: Application) {
     await groupStore.rejectApplication(application);
     load();
 }
 
-/** @param {import('resources/types/group').Application} application */
-async function acceptApplication(application) {
+async function acceptApplication(application: Application) {
     await groupStore.acceptApplication(application);
-    emit('reloadGroups');
     load();
 }
 </script>

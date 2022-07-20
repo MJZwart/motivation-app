@@ -27,7 +27,12 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::get('/applications/show/{group}', [GroupsController::class, 'showApplications']);
     Route::post('/applications/reject/{application_id}', [GroupsController::class, 'rejectGroupApplication']);
     Route::post('/applications/accept/{application_id}', [GroupsController::class, 'acceptGroupApplication']);
-    
+
     Route::put('/edit/{group}', [GroupsController::class, 'update']);
     Route::post('/kick/{group}', [GroupsController::class, 'removeUserFromGroup']);
+
+    Route::post('/invite', [GroupsController::class, 'sendGroupInvite']);
+
+    Route::post('/invite/accept/{invite}', [GroupsController::class, 'acceptGroupInvite']);
+    Route::post('/invite/reject/{invite}', [GroupsController::class, 'rejectGroupInvite']);
 });

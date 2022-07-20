@@ -1,12 +1,13 @@
 <template>
     <div>
-        <Loading v-if="loading" />
+        <Loading v-if="loading || group == null" />
         <div v-else class="w-60-flex center p-1">
             <h2>{{group.name}}</h2>
             <div class="content-block">
                 <p><b>{{ $t('admin')}}</b>: {{group.admin.username}}</p>
                 <p><b>{{ $t('description')}}</b>: {{group.description}}</p>
-                <p><b>{{ $t('founded')}}</b>: {{parseDateTime(group.time_created)}} ({{daysSince(group.time_created)}})</p>
+                <p><b>{{ $t('founded')}}</b>: 
+                    {{parseDateTime(group.time_created)}} ({{daysSince(group.time_created.toString())}})</p>
                 <p>
                     {{group.is_public ? $t('public') : $t('private')}}
                     {{group.is_public && group.require_application ? ': ' + $t('requires-application') : ''}}
@@ -26,6 +27,7 @@
                     <button type="button" class="m-1 box-shadow" @click="manageApplications()">
                         {{ $t('manage-group-applications') }}
                     </button>
+                    <button type="button" class="m-1 box-shadow" @click="inviteUsers()">{{ $t('invite-users') }}</button>
                 </div>
                 <div v-if="group.rank == 'member'">
                     <button type="button" class="m-1 box-shadow" @click="leaveGroup()">{{ $t('leave-group') }}</button>
@@ -59,7 +61,7 @@
                     <span class="col">{{member.username}}</span>
                     <span class="col"><FaIcon :icon="member.rank == 'admin' ? 'angles-down' : 'angle-down'" />
                         {{member.rank}}</span>
-                    <span class="col">{{daysSince(member.joined)}}</span>
+                    <span class="col">{{daysSince(member.joined.toString())}}</span>
                 </div>
             </div>
             <Modal class="xl" :show="showManageGroupModal" :footer="false" 
@@ -68,50 +70,61 @@
             </Modal>
             <Modal class="xl" :show="showManageApplicationsModal" :footer="false"
                    :title="group.name" @close="closeManageApplications">
-                <ManageApplicationsModal :group="group" @reloadGroups="emitReloadGroups()"/>    
+                <ManageApplicationsModal :group="group" />    
+            </Modal>
+            <Modal class="xl" :show="showInviteUsersModal" :footer="false"
+                   :title="group.name" @close="closeInviteUsersModal">
+                <InviteUsersModal :group="group" />
             </Modal>
         </div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onBeforeMount, ref, computed} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
 import ManageApplicationsModal from './ManageApplicationsModal.vue';
+import InviteUsersModal from './InviteUsersModal.vue';
 import {daysSince, parseDateTime} from '../../../services/dateService';
 import {useGroupStore} from '/js/store/groupStore';
-const groupStore = useGroupStore();
 import {useRoute, useRouter} from 'vue-router';
+import {useI18n} from 'vue-i18n';
+import {GroupPage} from 'resources/types/group';
+
+const groupStore = useGroupStore();
 const route = useRoute();
 const router = useRouter();
-import {useI18n} from 'vue-i18n';
 const {t} = useI18n();
 
 onBeforeMount(async() => {
-    await groupStore.fetchGroup(route.params.id);
+    await groupStore.fetchGroup(parseInt(String(route.params.id)));
     loading.value = false;
 });
 
 const loading = ref(true);
-const group = computed(() => groupStore.group);
+const group = computed((): GroupPage | null => groupStore.group);
 
 async function joinGroup() {
+    if (group.value === null) return;
     loading.value = true;
     await groupStore.joinGroup(group.value)
     loading.value = false;
 }
 async function applyToGroup() {
+    if (group.value === null) return;
     loading.value = true;
     await groupStore.applyToGroup(group.value);
     loading.value = false;
 }
 async function deleteGroup() {
+    if (group.value === null) return;
     if (confirm(t('delete-group-confirm', {group: group.value.name}))) {
         await groupStore.deleteGroup(group.value);
         router.push('/social#Groups');
     }
 }
 async function leaveGroup() {
+    if (group.value === null) return;
     if (confirm(t('leave-group-confirm', {group: group.value.name}))) {
         loading.value = true;
         await groupStore.leaveGroup(group.value)
@@ -133,5 +146,13 @@ function manageApplications() {
 }
 function closeManageApplications() {
     showManageApplicationsModal.value = false;
+}
+
+const showInviteUsersModal = ref(false);
+function inviteUsers() {
+    showInviteUsersModal.value = true;
+}
+function closeInviteUsersModal() {
+    showInviteUsersModal.value = false;
 }
 </script>

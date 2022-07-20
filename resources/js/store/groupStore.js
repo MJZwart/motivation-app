@@ -8,7 +8,7 @@ export const useGroupStore = defineStore('group', {
             myGroups: [],
             /** @type Array<import('resources/types/group').Group> */
             allGroups: [],
-            /** @type import('resources/types/group').Group | null */
+            /** @type import('resources/types/group').GroupPage | null */
             group: null,
         }
     },
@@ -101,6 +101,15 @@ export const useGroupStore = defineStore('group', {
          */
         async removeGroupMember(user, group) {
             const {data} = await axios.post(`/groups/kick/${group.id}`, user);
+            this.group = data.group;
+        },
+
+        /**
+         * 
+         * @param {{group_id: Number, user_id: Number}} invitation 
+         */
+        async inviteUser(invitation) {
+            const {data} = await axios.post('/groups/invite', invitation);
             this.group = data.group;
         },
     },

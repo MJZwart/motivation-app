@@ -46,3 +46,8 @@ export type NewSuspension = {
     days: number | null,
     indefinite: boolean,
 }
+
+export type StrippedUser = {
+    id: number,
+    username: string,
+}
