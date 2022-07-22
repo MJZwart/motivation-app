@@ -37,6 +37,10 @@
     "reject-group-application": "Reject",
     "accept-group-application": "Accept",
     "invite-users": "Invite users",
+    "search-by-username": "Search by username",
+    "invite-friends": "Invite friends",
+    "invite": "Invite",
+    "reject": "Reject",
 
     "member-list": "Member list",
     "show-details": "Show details",

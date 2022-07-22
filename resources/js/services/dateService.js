@@ -33,10 +33,11 @@ export function daysSince(date) {
  * Expects a timestring in ISO format (including timezone)
  * If it's not an ISO string, set SQLString to true, so it can be rezoned into UTC
  * 
- * @param {string | Date} time
+ * @param {string | Date | null} time
  * @param {boolean} SQLString
  */
 export function parseDateTime(time, SQLString = false) {
+    if (time === null) return;
     // const timezone = localStorage.getItem('timezone') || 'system';
     // const locale = localStorage.getItem('locale') || 'en-UK';
     const timezone = 'system';

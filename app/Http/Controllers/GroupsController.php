@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\NotificationHandler;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\GroupApplication;
@@ -264,8 +265,13 @@ class GroupsController extends Controller
         $group = Group::find($request['group_id']);
         if ($group->getAdmin()->id !== Auth::user()->id) return new JsonResponse(['message' => 'You are not the admin of this group.'], Response::HTTP_BAD_REQUEST);
         $validated = $request->validated();
-        GroupInvite::create($validated);
-        //Notify the user
+        $groupInvite = GroupInvite::create($validated);
+        NotificationHandler::createFromGroupInvite(
+            $request['user_id'],
+            "You have a new group invite.",
+            "You have been invited to join the group $group->name.",
+            $groupInvite
+        );
         //Update the group and send it back updated.
         return new JsonResponse([
             'message' => ['success' => ['You have invited this user.']],
@@ -280,17 +286,18 @@ class GroupsController extends Controller
         if ($user->id !== $invite->user_id) return new JsonResponse(['message' => 'This is not your invitation.'],  Response::HTTP_BAD_REQUEST);
         if ($invite->group->hasMember($user->id)) return new JsonResponse(['message' => 'You are already a member of this group.'], Response::HTTP_BAD_REQUEST);
         $invite->group->attach($user);
-        //Make sure the invite gets deleted.
+        $invite->delete();
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User id ' . $invite->user_id . ' accepted invite to group ' . $invite->group->name);
         return new JsonResponse(['message' => ['success' => ['You are now a member of ' . $invite->group->name]]], Response::HTTP_OK);
     }
+
     public function rejectGroupInvite(GroupInvite $invite, Request $request)
     {
         /** @var User */
         $user = Auth::user();
         if ($user->id !== $invite->user_id) return new JsonResponse(['message' => 'This is not your invitation.'],  Response::HTTP_BAD_REQUEST);
         if ($invite->group->hasMember($user->id)) return new JsonResponse(['message' => 'You are already a member of this group.'], Response::HTTP_BAD_REQUEST);
-        $invite->group->invited()->detach($user);
+        $invite->delete();
         //Test if the invite gets deleted
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User id ' . $invite->user_id . ' rejected invite to group ' . $invite->group->name);
         return new JsonResponse(['message' => ['success' => ['You have rejected the invitation.']]], Response::HTTP_OK);
