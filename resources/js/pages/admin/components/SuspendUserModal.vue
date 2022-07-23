@@ -32,8 +32,9 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {ref} from 'vue';
+import {NewSuspension} from 'resources/types/user';
 import {useAdminStore} from '/js/store/adminStore';
 const adminStore = useAdminStore();
 
@@ -45,7 +46,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 
-const suspension = ref({
+const suspension = ref<NewSuspension>({
     reason: '',
     days: 0,
     indefinite: false,

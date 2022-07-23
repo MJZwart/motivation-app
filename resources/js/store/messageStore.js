@@ -26,7 +26,7 @@ export const useMessageStore = defineStore('message', {
         },
 
         /**
-         * @param {import('resources/types/message').Message} message
+         * @param {import('resources/types/message').NewMessage} message
          */
         async sendMessage(message) {
             await axios.post('/message', message);
@@ -36,7 +36,7 @@ export const useMessageStore = defineStore('message', {
          * @param {Number} messageId
          */
         async deleteMessage(messageId) {
-            await axios.delete('/message/' + messageId);
+            await axios.delete(`/message/${messageId}`);
         },
         async getNotifications() {
             const {data} = await axios.get('/notifications');
@@ -46,7 +46,7 @@ export const useMessageStore = defineStore('message', {
          * @param {Number} notificationId
          */
         async deleteNotification(notificationId) {
-            const {data} = await axios.delete('/notifications/' + notificationId);
+            const {data} = await axios.delete(`/notifications/${notificationId}`);
             this.notifications = data.data;
         },
 
@@ -54,7 +54,16 @@ export const useMessageStore = defineStore('message', {
          * @param {Number} conversationId
          */
         markConversationRead(conversationId) {
-            axios.put('/conversation/' + conversationId + '/read');
+            axios.put(`/conversation/${conversationId}/read`);
         },
+
+        /**
+         * @param {Number} notificationId
+         */
+        async deleteNotificationAction(notificationId) {
+            const {data} = await axios.put(`/notifications/${notificationId}/disable-action`);
+            this.notifications = data.data;
+        },
+
     },
 });

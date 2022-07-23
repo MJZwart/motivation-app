@@ -86,7 +86,7 @@ const messageStore = useMessageStore();
 const authenticated = computed(() => userStore.authenticated);
 const user = computed(() => userStore.user);
 const hasNotifications = computed(() => messageStore.hasNotifications);
-const hasMessages = computed(() => messageStore.hasMessage);
+const hasMessages = computed(() => messageStore.hasMessages);
 const admin = computed(() => userStore.isAdmin);
 
 const windowWidth = ref(window.innerWidth);

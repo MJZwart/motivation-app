@@ -5,16 +5,14 @@ use App\Http\Controllers\GroupsController;
 
 /*
 |--------------------------------------------------------------------------
-| Admin API Routes
+| Groups API Routes
 |--------------------------------------------------------------------------
 |
-| All API calls that have the admin middleware. Users should not be able 
-| to reach any of these, as protected by both the router and the Requests
-| validation.
+| All API calls that have the valid-auth middleware. Only logged in users 
+| can reach these api calls. These calls are all about notifications.
 |
 */
 
-//Middleware for admin
 Route::group(['middleware' => ['valid-auth']], function () {
     Route::get('/dashboard', [GroupsController::class, 'dashboard']);
     Route::delete('/{group}', [GroupsController::class, 'destroy']);

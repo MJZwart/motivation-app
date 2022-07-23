@@ -46,16 +46,15 @@
 </template>
 
 
-<script setup>
-
-import {onMounted, computed, ref} from 'vue';
+<script setup lang="ts">
+import {onMounted, computed, ref, PropType} from 'vue';
 import {useAchievementStore} from '/js/store/achievementStore';
+import {Achievement, AchievementTrigger} from 'resources/types/achievement.js'
 const achievementStore = useAchievementStore();
 
 const props = defineProps({
     achievement: {
-        /** @type {import('resources/types/achievement').Achievement} */
-        type: Object,
+        type: Object as PropType<Achievement>,
         required: true,
     },
 });
@@ -66,24 +65,25 @@ onMounted(() => {
     achievementToEdit.value = Object.assign({}, props.achievement);
 });
 
-/** @type {import('resources/types/achievement').Achievement} */
-const achievementToEdit = ref({});
-const achievementTriggers = computed(() => achievementStore.achievementTriggers);
+const achievementToEdit = ref<Achievement | null>(null);
+const achievementTriggers = computed<Array<AchievementTrigger>>(() => achievementStore.achievementTriggers);
 
 async function updateAchievement() {
+    if (!achievementToEdit.value) return;
     await achievementStore.editAchievement(achievementToEdit.value)
     close();
 }
 function close() {
-    achievementToEdit.value = {},
+    achievementToEdit.value = null,
     emit('close');
 }
 
 /** Parses the achievement description from the type (eg Made {0} friends) and the amount */
 const triggerDescription = computed(() => {
     const plural = props.achievement.trigger_amount > 1 ? 's' : '';
-    let desc = achievementTriggers.value.find(item => item.trigger_type === props.achievement.trigger_type);
-    desc = desc.trigger_description.replace('%d', props.achievement.trigger_amount);
+    const trigger = achievementTriggers.value.find(item => item.trigger_type === props.achievement.trigger_type);
+    if (!trigger) return;
+    const desc = trigger.trigger_description.replace('%d', String(props.achievement.trigger_amount));
     return desc.replace('%s', plural);
 });
 </script>

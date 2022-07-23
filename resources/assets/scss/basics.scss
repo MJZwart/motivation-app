@@ -1,5 +1,9 @@
 @import 'variables';
 
+option {
+    font-family: $regular-font;
+}
+
 .d-flex {
     display:flex;
 }
@@ -14,6 +18,10 @@
 }
 .primary-text a{
     color: $primary;
+}
+
+select, option {
+    font: -moz-pull-down-menu;
 }
 
 a {

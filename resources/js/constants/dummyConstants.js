@@ -24,7 +24,7 @@ export const DUMMY_TASK_LIST = {
 };
 
 export const DUMMY_CHARACTER = {
-    name: 'Dummy thicc', 
+    name: 'Sir McTaskalot', 
     a: 1,
     a_exp: 100,
     a_exp_needed: 1000,

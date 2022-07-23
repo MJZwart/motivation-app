@@ -11,7 +11,7 @@
             :min="min"
             :max="max"
             :disabled="disabled"
-            @input="$emit('update:modelValue', $event.target.value)"
+            @input="updateModelValue($event)"
         />
         <div v-if="errorMsg">
             <div class="d-block invalid-feedback">{{ errorMsg }}</div>
@@ -19,7 +19,7 @@
     </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import {computed} from 'vue';
 import {useMainStore} from '/js/store/store';
 const mainStore = useMainStore();
@@ -63,7 +63,7 @@ const props = defineProps({
         default: false,
     },
 });
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 const errors = computed(() => mainStore.errors)
 
 const isInvalid = computed(() => !!errors.value && !!errors.value[props.name]);
@@ -74,6 +74,10 @@ const errorMsg = computed(() => {
     }
     return (errors.value[props.name] || [])[0] || '';
 });
+
+function updateModelValue(event: Event) {
+    emit('update:modelValue', (event.target as HTMLInputElement).value)
+}
 </script>
 
 <style>

@@ -9,6 +9,14 @@
             </Tooltip>
             {{task.name}}             
             <span class="ml-auto">
+                <Tooltip v-if="task.repeatable != 'NONE'" :text="$t(task.repeatable)">
+                    <FaIcon 
+                        icon="repeat"
+                        class="icon small" />
+                </Tooltip>
+                <Tooltip :text="$t('difficulty')">
+                    <span :class="`number-icon diff-${task.difficulty}`">{{task.difficulty}}</span>
+                </Tooltip>
                 <Tooltip :text="$t('new-sub-task')">
                     <FaIcon 
                         icon="square-plus"
@@ -42,19 +50,29 @@
                         class="icon small green"
                         @click="completeTask(subTask)" />
                 </Tooltip>
-                {{subTask.name}}
-                <Tooltip :text="$t('edit-sub-task')" class="ml-auto">
-                    <FaIcon 
-                        :icon="['far', 'pen-to-square']"
-                        class="icon small"
-                        @click="editTask(subTask)" />
-                </Tooltip>
-                <Tooltip :text="$t('delete-sub-task')">
-                    <FaIcon 
-                        icon="trash"
-                        class="icon small red"
-                        @click="deleteTask(subTask)" />
-                </Tooltip>
+                {{subTask.name}}    
+                <span class="ml-auto">
+                    <Tooltip v-if="subTask.repeatable != 'NONE'" :text="$t(subTask.repeatable)">
+                        <FaIcon 
+                            icon="repeat"
+                            class="icon small" />
+                    </Tooltip>
+                    <Tooltip :text="$t('difficulty')">
+                        <span :class="`number-icon diff-${task.difficulty}`">{{task.difficulty}}</span>
+                    </Tooltip>
+                    <Tooltip :text="$t('edit-sub-task')">
+                        <FaIcon 
+                            :icon="['far', 'pen-to-square']"
+                            class="icon small"
+                            @click="editTask(subTask)" />
+                    </Tooltip>
+                    <Tooltip :text="$t('delete-sub-task')">
+                        <FaIcon 
+                            icon="trash"
+                            class="icon small red"
+                            @click="deleteTask(subTask)" />
+                    </Tooltip>
+                </span>
             </p>
             <p class="task-description">{{subTask.description}}</p>
         </div>
@@ -66,9 +84,10 @@
 </template>
 
 
-<script setup>
-import {reactive, ref} from 'vue';
+<script setup lang="ts">
+import {ref, PropType} from 'vue';
 import EditTask from './EditTask.vue';
+import {Task} from 'resources/types/task';
 import {useTaskStore} from '/js/store/taskStore';
 import {useMainStore} from '/js/store/store';
 import {useI18n} from 'vue-i18n'
@@ -77,27 +96,22 @@ const mainStore = useMainStore();
 
 defineProps({
     task: {
-        /** @type {import('resources/types/task').Task} */
-        type: Object,
+        type: Object as PropType<Task>,
         required: true,
     },
 });
 
 const emit = defineEmits(['newTask']);
 
-/** @type {import('../../types/task').Task | null} */
-const taskToEdit = reactive({});
+const taskToEdit = ref<Task | null>(null);
 const showEditTaskModal = ref(false);
 
-/** @param {import('resources/types/task').Task} task */
-function openNewTask(task) {
+function openNewTask(task: Task) {
     emit('newTask', task);
 }
 
-/** Shows and hides the modal to edit a given task
- * @param {import('../../types/task').Task} task
- */
-function editTask(task) {
+/** Shows and hides the modal to edit a given task */
+function editTask(task: Task) {
     mainStore.clearErrors();
     taskToEdit.value = task;
     showEditTaskModal.value = true;
@@ -107,17 +121,37 @@ function closeEditTask() {
 }
 
 const taskStore = useTaskStore();
-/** @param {import('resources/types/task').Task} task */
-function deleteTask(task) {
+function deleteTask(task: Task) {
     const confirmationText = t('confirmation-delete-task', [task.name]);
     if (confirm(confirmationText)) {
         taskStore.deleteTask(task);
     }
 }
-/** @param {import('resources/types/task').Task} task */
-function completeTask(task) {
+function completeTask(task: Task) {
     if (task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
         return;
     taskStore.completeTask(task);
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../../../../assets/scss/variables.scss';
+.number-icon {
+    font-family: $bold-font;
+    margin: 1px;
+    position: relative;
+    bottom: 2px;
+}
+.number-icon.diff-1, .number-icon.diff-2 {
+    color: $green
+}
+.number-icon.diff-3 {
+    color: $yellow
+}
+.number-icon.diff-4 {
+    color: $orange
+}
+.number-icon.diff-5 {
+    color: $red
+}
+</style>

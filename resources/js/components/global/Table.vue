@@ -39,15 +39,17 @@
     </table>
 </template>
 
-<script setup>
-import {ref, computed, onMounted} from 'vue';
+<script setup lang="ts">
+import {ref, computed, onMounted, PropType} from 'vue';
+import {Item, Field} from 'resources/types/global';
+
 const props = defineProps({
     items: {
-        type: Array,
+        type: Array as PropType<Array<Item>>,
         required: true,
     },
     fields: {
-        type: Array,
+        type: Array as PropType<Array<Field>>,
         required: true,
     },
     options: {
@@ -83,11 +85,12 @@ const className = computed(() => {
     }
     return className;
 });
-const sortedItems = computed(() => {
+
+const sortedItems = computed<Array<Item>>(() => {
     return sortItems();
 });
 
-function toggleSort(key) {
+function toggleSort(key: string) {
     key == currentSort.value ? toggleDir() : currentSort.value = key;
     sortItems();
 }
@@ -97,9 +100,10 @@ function toggleDir() {
 function sortItems() {
     return props.items.slice().sort(compareValues(currentSort.value, currentSortDir.value));
 }
-function compareValues(key, order = 'asc') {
-    // eslint-disable-next-line complexity
-    return function innerSort(a, b) {
+
+function compareValues(key: string, order = 'asc') {
+    // eslint-disable-next-line complexity, @typescript-eslint/no-explicit-any
+    return function innerSort( a: { [x: string]: any; }, b: { [x: string]: any; }) {
         if (!Object.prototype.hasOwnProperty.call(a, key) || !Object.prototype.hasOwnProperty.call(b, key))
             return 0;
 

@@ -29,7 +29,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
     VILLAGE_EXP_GAIN_FIELDS,
 } from '/js/constants/balancingConstants.js';
@@ -37,6 +37,7 @@ import GeneralFormError from '/js/components/global/GeneralFormError.vue';
 import {shallowRef, computed, onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
+import {VillageExpGain} from 'resources/types/admin.js';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
@@ -47,10 +48,10 @@ onMounted(() => {
 
 const loading = ref(true);
 
-const villageExpGain = ref(null);
+const villageExpGain = ref<Array<VillageExpGain>>([]);
 const villageExpGainFields = VILLAGE_EXP_GAIN_FIELDS;
 
-const village_exp_gain = computed(() => adminStore.villageExpGain);
+const village_exp_gain = computed<Array<VillageExpGain>>(() => adminStore.villageExpGain);
 
 function updateVillageExpGain() {
     clearErrors();

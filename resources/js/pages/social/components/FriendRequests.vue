@@ -59,18 +59,18 @@ const requests = computed(() => friendStore.requests);
  * @param {Number} requestId
  */
 function removeFriendRequest(requestId) {
-    useFriendStore.removeRequest(requestId);
+    friendStore.removeRequest(requestId);
 }
 /**
  * @param {Number} requestId
  */
 function denyFriendRequest(requestId) {
-    useFriendStore.denyRequest(requestId);
+    friendStore.denyRequest(requestId);
 }
 /**
  * @param {Number} requestId
  */
 function acceptFriendRequest(requestId) {
-    useFriendStore.acceptRequest(requestId);
+    friendStore.acceptRequest(requestId);
 }
 </script>

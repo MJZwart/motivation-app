@@ -28,5 +28,9 @@
     "tasks-completed": "Tasks completed",
     "most-completed-repeatable": "Most completed repeatable: {0}. Completed {1} times",
     "task-name": "Task name",
-    "repeatable": "Repeatable"
+    "repeatable": "Repeatable",
+    "DAILY": "Daily",
+    "WEEKLY": "Weekly",
+    "MONTHLY": "Monthly",
+    "INFINITE": "Infinitely"
 }

@@ -23,7 +23,7 @@
                     <RewardCard v-if="rewardObj" class="summary-tab" 
                                 :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
 
-                    <FriendsCard :message="true" :manage="false" />
+                    <FriendsCard :message="true" />
                 </div>
             </div>
 

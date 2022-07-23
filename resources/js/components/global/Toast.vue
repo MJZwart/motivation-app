@@ -7,17 +7,18 @@
                 <button @click="dismissToast">X</button>
             </div>
             <div class="text">
-                <p v-for="(toast, index) in Object.values(toast)" :key="index">
-                    {{getToastMessage(toast)}}
+                <p v-for="(toastDetail, index) in Object.values(toast)" :key="index">
+                    {{getToastMessage(toastDetail)}}
                 </p>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-import {computed, onMounted} from 'vue';
+<script setup lang="ts">
+import {computed, onMounted, PropType} from 'vue';
 import {useMainStore} from '/js/store/store';
+import {Toast} from 'resources/types/toast';
 
 const mainStore = useMainStore();
 
@@ -28,9 +29,8 @@ onMounted(() => {
 });
 
 const props = defineProps({
-    /** @type {import('resources/types/toast').Toast} */
     toast: {
-        type: Object,
+        type: Object as PropType<Toast>,
         required: true,
     },
 });
@@ -38,7 +38,8 @@ const props = defineProps({
 function dismissToast() {
     mainStore.clearToast();
 }
-function getToastMessage(toast) {
+
+function getToastMessage(toast: string | Array<string>) {
     if (Array.isArray(toast)) return toast[0];
     return toast;
 }

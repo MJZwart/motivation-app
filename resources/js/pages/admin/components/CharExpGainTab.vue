@@ -29,7 +29,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, computed, ref, shallowRef} from 'vue';
 import {
     CHARACTER_EXP_GAIN_FIELDS, 
@@ -37,6 +37,7 @@ import {
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
+import {CharExpGain} from 'resources/types/admin.js';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
@@ -47,10 +48,10 @@ onMounted(() => {
 
 const loading = ref(true);
 
-const characterExpGain = ref(null);
+const characterExpGain = ref<Array<CharExpGain>>([]);
 const characterExpGainFields = CHARACTER_EXP_GAIN_FIELDS;
 
-const character_exp_gain = computed(() => adminStore.charExpGain);
+const character_exp_gain = computed<Array<CharExpGain>>(() => adminStore.charExpGain);
 
 function updateCharExpGain() {
     clearErrors();
