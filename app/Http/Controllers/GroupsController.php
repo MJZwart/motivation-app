@@ -285,7 +285,7 @@ class GroupsController extends Controller
         $user = Auth::user();
         if ($user->id !== $invite->user_id) return new JsonResponse(['message' => 'This is not your invitation.'],  Response::HTTP_BAD_REQUEST);
         if ($invite->group->hasMember($user->id)) return new JsonResponse(['message' => 'You are already a member of this group.'], Response::HTTP_BAD_REQUEST);
-        $invite->group->attach($user);
+        $invite->group->users()->attach($user);
         $invite->delete();
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User id ' . $invite->user_id . ' accepted invite to group ' . $invite->group->name);
         return new JsonResponse(['message' => ['success' => ['You are now a member of ' . $invite->group->name]]], Response::HTTP_OK);

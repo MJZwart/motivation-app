@@ -73,7 +73,7 @@
                 <ManageApplicationsModal :group="group" />    
             </Modal>
             <Modal class="xl" :show="showInviteUsersModal" :footer="false"
-                   :title="group.name" @close="closeInviteUsersModal">
+                   :title="$t('invite-users-to', {group: group.name})" @close="closeInviteUsersModal">
                 <InviteUsersModal :group="group" />
             </Modal>
         </div>

@@ -30,7 +30,7 @@
                 </form>
 
                 <!-- The search results -->
-                <div v-if="searchResults && searchResults[0]">
+                <div v-if="searchResults && searchResults[0]" class="invite-users-search-results">
                     <h5>{{ $t('search-results') }}:</h5>
                     <Table
                         :items="searchResults"
@@ -43,7 +43,7 @@
                         </template>
                         <template #actions="item">
                             <span 
-                                v-if="!canNotInvite(item.item.id)"
+                                :class="{disabled: canNotInvite(item.item.id)}"
                                 class="clickable" @click="inviteUser(item.item.id)">{{ $t('invite') }}</span>
                         </template>
                     </Table>
@@ -96,8 +96,8 @@ async function searchUser() {
 }
 
 async function inviteUser(userId: number) {
-    loading.value = true;
     if (group.value === null || canNotInvite(userId)) return;
+    loading.value = true;
     const invite = {
         user_id: userId,
         group_id: group.value.id,
@@ -124,7 +124,7 @@ function isMember(userId: number) {
  * user cannot be invited.
  */
 function canNotInvite(userId: number) {
-    return hasInvite(userId) && isMember(userId);
+    return hasInvite(userId) || isMember(userId);
 }
 </script>
 
@@ -136,18 +136,24 @@ function canNotInvite(userId: number) {
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     padding: 0.5rem;
+    margin-bottom: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 // .invite-friends-content {
 
 // }
-// .invite-friends-username {
-
-// }
+.invite-users-search-results {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
 .invite-friends-action {
     margin-right: 1rem;
 }
-.invite-friends-action.disabled {
+.invite-friends-action.disabled, span.disabled {
     text-decoration: line-through;
 }
 </style>
