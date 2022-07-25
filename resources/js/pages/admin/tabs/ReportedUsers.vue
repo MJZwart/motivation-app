@@ -155,7 +155,7 @@
                    @close="closeShowConversation">
                 <ShowConversationModal 
                     v-if="conversationIdToShow !== null" 
-                    :conversationId="conversationIdToShow" 
+                    :conversationId="parseInt(conversationIdToShow)" 
                     @close="closeShowConversation"/>
             </Modal>
             <Modal
