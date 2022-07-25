@@ -23,7 +23,7 @@ const props = defineProps({
 });
 
 onMounted(async() => {
-    conversation.value = await adminStore.fetchConversation(props.conversationId)
+    conversation.value = await adminStore.fetchConversation(props.conversationId);
     loading.value = false;
 });
 
