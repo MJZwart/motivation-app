@@ -264,15 +264,16 @@ class GroupsController extends Controller
     {
         $group = Group::find($request['group_id']);
         if ($group->getAdmin()->id !== Auth::user()->id) return new JsonResponse(['message' => 'You are not the admin of this group.'], Response::HTTP_BAD_REQUEST);
+        if (GroupInvite::where('group_id', $group->id)->where('user_id', $request['user_id'])->exists()) return new JsonResponse(['message' => 'This user has already been invited.'], Response::HTTP_BAD_REQUEST);
+        if ($group->hasMember($request['user_id']));
         $validated = $request->validated();
         $groupInvite = GroupInvite::create($validated);
         NotificationHandler::createFromGroupInvite(
-            $request['user_id'],
+            $validated['user_id'],
             "You have a new group invite.",
             "You have been invited to join the group $group->name.",
             $groupInvite
         );
-        //Update the group and send it back updated.
         return new JsonResponse([
             'message' => ['success' => ['You have invited this user.']],
             'group' => new GroupPageResource($group->fresh())

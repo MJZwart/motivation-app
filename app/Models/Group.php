@@ -53,7 +53,6 @@ class Group extends Model
         return $this->invites->map(function ($item, $key) {
             return $item->user_id;
         });
-        // return $this->invites->only('user_id');
     }
 
     public function isAdminById(int $id): bool
