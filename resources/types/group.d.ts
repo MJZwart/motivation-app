@@ -6,6 +6,7 @@ export type Group = {
     description: string,
     is_public: boolean,
     members: Array<GroupUser>,
+    require_application: boolean,
 }
 
 export type GroupUser = {

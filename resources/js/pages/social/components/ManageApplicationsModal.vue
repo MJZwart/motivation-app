@@ -18,16 +18,16 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {useGroupStore} from '/js/store/groupStore';
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, PropType} from 'vue';
+import {Group, Application} from 'resources/types/group'
 const groupStore = useGroupStore();
 
 const emit = defineEmits(['reloadGroups']);
 const loading = ref();
 
-/** @type {import('resources/types/group').Application} */
-const applications = ref();
+const applications = ref<Array<Application> | null>(null);
 onMounted(() => {
     load();
 });
@@ -40,26 +40,23 @@ async function load() {
 
 const props = defineProps({
     group: {
-        type: Object,
+        type: Object as PropType<Group>,
         required: true,
     },
 });
 
-/** @param {import('resources/types/group').Application} application */
-async function rejectApplication(application) {
+async function rejectApplication(application: Application) {
     await groupStore.rejectApplication(application);
     load();
 }
 
-/** @param {import('resources/types/group').Application} application */
-async function acceptApplication(application) {
+async function acceptApplication(application: Application) {
     await groupStore.acceptApplication(application);
     emit('reloadGroups');
     load();
 }
 
-/** @param {import('resources/types/group').Application} application */
-async function banApplication(application) {
+async function banApplication(application: Application) {
     await groupStore.banApplication(application);
     emit('reloadGroups');
     load();

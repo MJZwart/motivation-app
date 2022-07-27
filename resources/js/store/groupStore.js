@@ -103,7 +103,7 @@ export const useGroupStore = defineStore('group', {
             this.myGroups = data.groups.my;
         },
         /**
-         * @param {import('resources/types/user').User} user
+         * @param {import('resources/types/group').GroupUser} user
          * @param {import('resources/types/group').Group} group
          */
         async removeGroupMember(user, group) {
@@ -111,7 +111,7 @@ export const useGroupStore = defineStore('group', {
             this.group = data.group;
         },
         /**
-         * @param {import('resources/types/user').User} user
+         * @param {import('resources/types/group').GroupUser} user
          * @param {import('resources/types/group').Group} group
          */
         async banGroupMember(user, group) {

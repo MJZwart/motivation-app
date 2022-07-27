@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="group">
-            <form @submit.prevent="editGroup">
+            <form @submit.prevent>
                 <label for="edit-name-comp">Name</label>
                 <Editable 
                     id="edit-name-comp" 
@@ -53,8 +53,10 @@
                             @click="kick(member)" />
                     </Tooltip>
                     <Tooltip :text="$t('ban')">
-                        <button
-                            @click="ban(member)">placeholder ban</button>
+                        <FaIcon
+                            icon="ban"
+                            class="icon small red"
+                            @click="ban(member)" />
                     </Tooltip>
 
                 </span>
@@ -67,20 +69,22 @@
     </div>
 </template>
 
-<script setup>
-import {computed, ref} from 'vue';
+<script setup lang="ts">
+import {computed, ref, PropType} from 'vue';
 import Editable from '/js/components/global/Editable.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
+import {Group, GroupUser} from 'resources/types/group';
 import {useGroupStore} from '/js/store/groupStore';
-const groupStore = useGroupStore();
 import {useUserStore} from '/js/store/userStore';
-const userStore = useUserStore();
 import {useI18n} from 'vue-i18n'
+
+const groupStore = useGroupStore();
+const userStore = useUserStore();
 const {t} = useI18n();
 
 const props = defineProps({
     group: {
-        type: Object,
+        type: Object as PropType<Group>,
         required: true,
     },
 });
@@ -88,33 +92,35 @@ const user = computed(() => userStore.user);
 const showSendMessageModal = ref(false);
 const userToMessage = ref({});
 
-function save(item) {
-    item.id = props.group.id;
-    groupStore.updateGroup(item);
+function save(group: Group) {
+    group.id = props.group.id;
+    groupStore.updateGroup(group);
 }
 function togglePublic() {
-    const group = {};
+    const group = {} as Group;
     group.is_public = !props.group.is_public;
     group.id = props.group.id;
     groupStore.updateGroup(group);
 }
 
 function toggleRequireApplication() {
-    const group = {};
+    const group = {} as Group;
     group.require_application = !props.group.require_application;
     group.id = props.group.id;
     groupStore.updateGroup(group);
 }
 
-function kick(user) {
+function kick(user: GroupUser) {
     if (confirm(t('confirm-kick-from-group', {user: user.username})))
-        groupStore.removeGroupMember({id: user.id}, props.group);
+        groupStore.removeGroupMember(user, props.group);
+        //TODO sending a whole user, not sure if that's necessary
 }
-function ban(user) {
+function ban(user: GroupUser) {
     if (confirm(t('confirm-ban-from-group', {user: user.username})))
-        groupStore.banGroupMember({id: user.id}, props.group);
+        groupStore.banGroupMember(user, props.group);
+        //TODO sending a whole user, not sure if that's necessary
 }
-function sendMessage(user) {
+function sendMessage(user: GroupUser) {
     showSendMessageModal.value = true;
     userToMessage.value = user;
 }
