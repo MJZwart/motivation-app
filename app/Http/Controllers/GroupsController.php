@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\JoinGroupRequest;
 use App\Http\Requests\LeaveGroupRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
+use App\Http\Requests\BanUserFromGroupRequest;
 use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupPageResource;
 use App\Http\Resources\GroupResource;
@@ -40,40 +41,46 @@ class GroupsController extends Controller
     //     return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
     // }
 
-    public function show(Group $group) {
+    public function show(Group $group)
+    {
         return new JsonResponse(['group' => new GroupPageResource($group)]);
     }
 
-    public function dashboard() {
-        $myGroups = MyGroupResource::collection(Auth::user()->groups);
-        $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
+    public function dashboard()
+    {
+        /** @var User */
+        $user = Auth::user();
+        $myGroups = MyGroupResource::collection($user->groups);
+        $allGroups = GroupResource::collection(Group::where('is_public', true)->whereNotIn('id', $user->bannedGroupIds())->get());
         return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
     }
 
-    public function showApplications(Group $group) {
+    public function showApplications(Group $group)
+    {
         $applications = GroupApplicationResource::collection(DB::table('group_applications')->where('group_id', $group->id)->get());
         return new JsonResponse(['applications' => $applications]);
     }
 
-    public function store(StoreGroupRequest $request): JsonResponse{
+    public function store(StoreGroupRequest $request): JsonResponse
+    {
         $validated = $request->validated();
 
         $group = Group::create($validated);
         $group->users()->attach(Auth::user()->id, ['rank' => 'admin']);
-        ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group '.$group->name);
-        
+        ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
+
         return new JsonResponse(['message' => ['success' => "Your group \"{$validated['name']}\" has been created."]], Response::HTTP_OK);
     }
 
-    public function destroy(Request $request, Group $group): JsonResponse{
+    public function destroy(Request $request, Group $group): JsonResponse
+    {
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an admin of the group you are trying to delete."], Response::HTTP_BAD_REQUEST);
         $group->users()->detach();
         $group->applications()->detach();
         $group->delete();
-        ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group '.$group->name);
+        ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
         return new JsonResponse(['message' => ['success' => "Your group \"{$group->name}\" has been deleted."]], Response::HTTP_OK);
-        
     }
 
     /**
@@ -84,22 +91,28 @@ class GroupsController extends Controller
      * @param Group $group
      * @return JsonResponse
      */
-    public function join(Request $request, Group $group): JsonResponse{
+    public function join(Request $request, Group $group): JsonResponse
+    {
         if (!$group->is_public)
             return new JsonResponse(['message' => "This group is not public."], Response::HTTP_BAD_REQUEST);
         if ($group->require_application)
             return new JsonResponse(['message' => "This group needs an application to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
+        if ($group->bannedUsers()->find($user))
+            return new JsonResponse(['message' => "You are banned from this group."], Response::HTTP_BAD_REQUEST);
         $users = $group->users();
-        if ($users->find($user)) 
+        if ($users->find($user))
             return new JsonResponse(['message' => "You are already a member of this group."], Response::HTTP_BAD_REQUEST);
         $users->attach($user);
-        
-        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', $user->username.' joined group '.$group->name);
+
+        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', $user->username . ' joined group ' . $group->name);
         return new JsonResponse(
-            ['message' => ['success' => "You successfully joined the group \"{$group->name}\"."],
-            'group' => new GroupPageResource($group->fresh())], 
-            Response::HTTP_OK);
+            [
+                'message' => ['success' => "You successfully joined the group \"{$group->name}\"."],
+                'group' => new GroupPageResource($group->fresh())
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -110,12 +123,15 @@ class GroupsController extends Controller
      * @param Group $group
      * @return JsonResponse
      */
-    public function apply(Request $request, Group $group): JsonResponse{
+    public function apply(Request $request, Group $group): JsonResponse
+    {
         if (!$group->is_public)
             return new JsonResponse(['message' => "This group is not public."], Response::HTTP_BAD_REQUEST);
         if (!$group->require_application)
             return new JsonResponse(['message' => "This group does not require applications to join."], Response::HTTP_BAD_REQUEST);
         $user = Auth::user();
+        if ($group->bannedUsers()->find($user))
+            return new JsonResponse(['message' => "You are banned from this group."], Response::HTTP_BAD_REQUEST);
         if ($group->users()->find($user))
             return new JsonResponse(['message' => "You are already a member of this group."], Response::HTTP_BAD_REQUEST);
         $applications = $group->applications();
@@ -127,17 +143,21 @@ class GroupsController extends Controller
             'title' => "New group application to {$group->name}.",
             'text' => "{$user->username} has applied to your group {$group->name}. Head to the details of {$group->name} and click on \"Manage Applications\" to accept or reject the application.",
         ]);
-        
+
         ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "{$user->username} applied to group {$group->name}");
         return new JsonResponse(
-            ['message' => ['success' => "You successfully applied to the group \"{$group->name}\"."],
-            'group' => new GroupPageResource($group->fresh())], 
-            Response::HTTP_OK);
+            [
+                'message' => ['success' => "You successfully applied to the group \"{$group->name}\"."],
+                'group' => new GroupPageResource($group->fresh())
+            ],
+            Response::HTTP_OK
+        );
     }
 
-    public function acceptGroupApplication(Request $request, $application_id): JsonResponse{
-        $user = User::find(GroupApplication::find($application_id)->user_id);
-        $group = Group::find(GroupApplication::find($application_id)->group_id);
+    public function acceptGroupApplication(Request $request, GroupApplication $application): JsonResponse
+    {
+        $user = User::find($application->user_id);
+        $group = Group::find($application->group_id);
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
         $group->applications()->detach($user);
@@ -151,14 +171,18 @@ class GroupsController extends Controller
         $admin = Auth::user();
         ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "{$admin->username} accepted {$user->username}'s group application into {$group->name}.");
         return new JsonResponse(
-            ['message' => ['success' => "You successfully accepted {$user->username}'s application."],
-            'group' => new GroupPageResource($group->fresh())], 
-            Response::HTTP_OK);
+            [
+                'message' => ['success' => "You successfully accepted {$user->username}'s application."],
+                'group' => new GroupPageResource($group->fresh())
+            ],
+            Response::HTTP_OK
+        );
     }
 
-    public function rejectGroupApplication(Request $request, $application_id): JsonResponse{
-        $user = User::find(GroupApplication::find($application_id)->user_id);
-        $group = Group::find(GroupApplication::find($application_id)->group_id);
+    public function rejectGroupApplication(Request $request, GroupApplication $application): JsonResponse
+    {
+        $user = User::find($application->user_id);
+        $group = Group::find($application->group_id);
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
         $group->applications()->detach($user);
@@ -166,9 +190,31 @@ class GroupsController extends Controller
         $admin = Auth::user();
         ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "{$admin->username} rejected {$user->username}'s group application into {$group->name}.");
         return new JsonResponse(
-            ['message' => ['success' => "You successfully rejected {$user->username}'s application."],
-            'group' => new GroupPageResource($group->fresh())], 
-            Response::HTTP_OK);
+            [
+                'message' => ['success' => "You successfully rejected {$user->username}'s application."],
+                'group' => new GroupPageResource($group->fresh())
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function banGroupApplication(Request $request, GroupApplication $application): JsonResponse
+    {
+        $group = Group::find($application->group_id);
+        $user = User::find($application->user_id);
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $group->applications()->detach($user);
+        $group->bannedUsers()->attach($user);
+        $username = User::find($user)->username;
+        ActionTrackingHandler::handleAction($request, 'BAN_GROUP_APPLICATION', $group->name . ' banned user id ' . $user);
+        return new JsonResponse(
+            [
+                'message' => ['success' => ["You have successfully denied {$username}'s application and banned them from your group."]],
+                'group' => new GroupPageResource($group->fresh())
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -179,7 +225,8 @@ class GroupsController extends Controller
      * @param Group $group
      * @return JsonResponse
      */
-    public function leave(Request $request, Group $group): JsonResponse{
+    public function leave(Request $request, Group $group): JsonResponse
+    {
         /** @var User */
         $user = Auth::user();
         $users = $group->users();
@@ -190,37 +237,67 @@ class GroupsController extends Controller
         if ($group->isAdminById($user->id))
             return new JsonResponse(['message' => "You cannot leave a group where you are an admin."], Response::HTTP_BAD_REQUEST);
         $users->detach($user);
-        ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', $user->username.' left group '.$group->name);
+        ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', $user->username . ' left group ' . $group->name);
         return new JsonResponse(
-            ['message' => ['success' => "You have successfully left the group \"{$group->name}\"."],
-            'group' => new GroupPageResource($group->fresh())], 
-            Response::HTTP_OK);
+            [
+                'message' => ['success' => "You have successfully left the group \"{$group->name}\"."],
+                'group' => new GroupPageResource($group->fresh())
+            ],
+            Response::HTTP_OK
+        );
     }
 
-    public function update(Group $group, UpdateGroupsRequest $request) {
+    public function update(Group $group, UpdateGroupsRequest $request)
+    {
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an admin of the group you are trying to update."], Response::HTTP_BAD_REQUEST);
         $validated = $request->validated();
         $group->update($validated);
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP', $group->name.' updated.');
+        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP', $group->name . ' updated.');
         return new JsonResponse(
-            ['message' => ['success' => ['You have updated the group.']], 
-            'groups' => ['my' => $myGroups, 'current' => new GroupPageResource($group->fresh())]],
-            Response::HTTP_OK);
+            [
+                'message' => ['success' => ['You have updated the group.']],
+                'groups' => ['my' => $myGroups, 'current' => new GroupPageResource($group->fresh())]
+            ],
+            Response::HTTP_OK
+        );
     }
 
-    public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request) {
+    public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request)
+    {
         if (!$group->isAdminById(Auth::user()->id))
             return new JsonResponse(['message' => "You are not an admin of the group you are trying to manage."], Response::HTTP_BAD_REQUEST);
         if (!$group->hasMember($request['id']))
             return new JsonResponse(['message' => "This user is not a member of this group"], Response::HTTP_BAD_REQUEST);
         $group->removeMemberFromGroup($request['id']);
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
-        ActionTrackingHandler::handleAction($request, 'GROUP_USER_KICKED', $group->name.' kicked user id '.$request['id']);
+        ActionTrackingHandler::handleAction($request, 'GROUP_USER_KICKED', $group->name . ' kicked user id ' . $request['id']);
         return new JsonResponse(
-            ['message' => ['success' => ['You have updated the group.']], 
-            'group' => new GroupPageResource($group->fresh())], 
-            Response::HTTP_OK);
+            [
+                'message' => ['success' => ['You have updated the group.']],
+                'group' => new GroupPageResource($group->fresh())
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function banUserFromGroup(Group $group, BanUserFromGroupRequest $request)
+    {
+        $validated = $request->validated();
+        $user = $validated['id'];
+        if (!$group->isAdminById(Auth::user()->id))
+            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $group->users()->detach($user);
+        $group->bannedUsers()->attach($user);
+        $username = User::find($user)->username;
+        ActionTrackingHandler::handleAction($request, 'GROUP_USER_BANNED', $group->name . ' banned user id ' . $user);
+        return new JsonResponse(
+            [
+                'message' => ['success' => ["You have successfully removed and banned {$username} from your group."]],
+                'group' => new GroupPageResource($group->fresh())
+            ],
+            Response::HTTP_OK
+        );
     }
 }
