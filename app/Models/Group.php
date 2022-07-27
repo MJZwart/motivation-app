@@ -37,6 +37,12 @@ class Group extends Model
 
     public function hasUserApplied()
     {
+    public function bannedUsers() {
+        return $this->belongsToMany('App\Models\User', 'group_bans')
+            ->withTimestamps();
+    }
+
+    public function hasUserApplied() {
         return $this->applications()
             ->where('user_id', Auth::user()->id)
             ->where('group_id', $this->id)

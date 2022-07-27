@@ -9,6 +9,7 @@ export type Group = {
     is_public: boolean,
     require_application: boolean,
     members: Array<GroupUser>,
+    require_application: boolean,
 }
 
 export type GroupPage = {

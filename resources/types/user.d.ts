@@ -1,4 +1,4 @@
-import {Task} from './task'
+import {Task} from './task';
 
 export type User = {
     id: number,
@@ -20,9 +20,9 @@ export type UserStats = {
 
 export type BannedUser = {
     id: number,
-    created_at: string,
+    created_at: Date,
     time_since: string,
-    updated_at: string,
+    updated_at: Date,
     user: {
         username: string,
         id: number,
@@ -33,7 +33,7 @@ export type BannedUser = {
         username: string,
         id: number,
     },
-    banned_until: string,
+    banned_until: Date,
     past: boolean,
     banned_until_time: string,
     comment: string,
@@ -49,5 +49,15 @@ export type NewSuspension = {
 
 export type StrippedUser = {
     id: number,
+    username: string,
+}
+
+export type UserToBan = {
+    id: number,
+    last_report_date: Date | string,
+    banned: Array<BannedUser> | null,
+    banned_until: string | null,
+    report_amount: number,
+    reports: Array<ReportedUser>,
     username: string,
 }
