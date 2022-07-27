@@ -35,14 +35,14 @@ class Group extends Model
             ->withPivot(['applied_at']);
     }
 
-    public function hasUserApplied()
+    public function bannedUsers()
     {
-    public function bannedUsers() {
         return $this->belongsToMany('App\Models\User', 'group_bans')
             ->withTimestamps();
     }
 
-    public function hasUserApplied() {
+    public function hasUserApplied()
+    {
         return $this->applications()
             ->where('user_id', Auth::user()->id)
             ->where('group_id', $this->id)
