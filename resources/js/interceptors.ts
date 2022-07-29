@@ -1,11 +1,17 @@
 /* eslint-disable max-lines-per-function */
-import axios from 'axios';
+import axios, {AxiosStatic} from 'axios';
+import {Toast} from 'resources/types/toast.js';
 import router from './router/router.js';
 
 import {useMainStore} from './store/store';
 import {useUserStore} from './store/userStore';
 
-// @ts-ignore
+declare global {
+    interface Window {
+        axios: AxiosStatic;
+    }
+}
+
 window.axios = axios;
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -43,8 +49,7 @@ axios.interceptors.response.use(
              * This means that probably our token has expired and we need to get a new one.
              */
             case 401:
-                // @ts-ignore
-                if (router.currentRoute.name !== 'login') {
+                if (router.currentRoute.value.name !== 'login') {
                     const userStore = useUserStore();
                     userStore.logout();
                     // store.dispatch('user/logout', false);
@@ -57,11 +62,19 @@ axios.interceptors.response.use(
              * router will already redirect them, this is backup.
              */
             case 403:
-                // @ts-ignore
-                if (router.currentRoute.name !== 'login') {
+                if (router.currentRoute.value.name !== 'login') {
                     router.push('/dashboard');
                 }
                 sendToast('You are not authorized for this action', null, 'error');
+                return Promise.reject(error);
+            /**
+             * In the case of a 404, the user tried to find a user, group or other that no
+             * longer exists (or never did). Redirect to the error page. For specific cases,
+             * try to design specific errors (such as user not found, group not found, etc)
+             * and catch those errors through the store. This is a catch-all.
+             */
+            case 404:
+                router.push({name: 'Error'});
                 return Promise.reject(error);
             /**
              * In case of a 400 (Bad Request) the user tried to perform an invalid action 
@@ -89,12 +102,9 @@ axios.interceptors.response.use(
 );
 
 /**
- * Sends a toast with the type of 'danger'
- * @param {String | null} toastMessage 
- * @param {import('resources/types/toast.js').Toast | null} toast
- * @param {String} type 
+ * Sends a toast
  */
-function sendToast(toastMessage, toast, type) {
+function sendToast(toastMessage: string | null, toast: Toast | null, type: string) {
     const mainStore = useMainStore();
     if (type == 'error' && toastMessage)
         mainStore.addToast({'error' : toastMessage});

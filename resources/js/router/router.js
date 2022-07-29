@@ -34,6 +34,7 @@ let routes = [
         meta: {requiresAuth: true},
     },
     {
+        name: 'login',
         path: '/login',
         component: Login,
     },
@@ -100,6 +101,7 @@ let routes = [
         component: Feedback,
     },
     {
+        name: 'Error',
         path: '/:pathMatch(.*)*',
         component: ErrorPage,
     },
