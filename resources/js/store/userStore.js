@@ -35,6 +35,7 @@ export const useUserStore = defineStore('user', {
             this.setUser(data.user);
             const friendStore = useFriendStore();
             friendStore.friends = data.user.friends;
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             router.push('/dashboard').catch(() => {});
         },
 
@@ -63,7 +64,8 @@ export const useUserStore = defineStore('user', {
         async register(user) {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('/register', user);
-            router.push('/login').catch(() => { });
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            router.push('/login').catch(() => {});
         },
         /**
          * @param {import('resources/types/user').User} user
@@ -71,6 +73,7 @@ export const useUserStore = defineStore('user', {
         async confirmRegister(user) {
             const {data} = await axios.post('/register/confirm', user);
             this.setUser(data.user);
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             router.push('/').catch(() => {});
         },
 
@@ -124,7 +127,7 @@ export const useUserStore = defineStore('user', {
         },
 
         /**
-         * @param {String} searchValue
+         * @param {import('resources/types/global').UserSearch} searchValue
          * @returns Array<import('resources/types/user').User>
          */
         async searchUser(searchValue) {

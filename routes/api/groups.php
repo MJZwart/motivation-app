@@ -25,10 +25,15 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::post('/leave/{group}', [GroupsController::class, 'leave']);
 
     Route::get('/applications/show/{group}', [GroupsController::class, 'showApplications']);
+
+    Route::post('/invite', [GroupsController::class, 'sendGroupInvite']);
+
+    Route::post('/invite/accept/{invite}', [GroupsController::class, 'acceptGroupInvite']);
+    Route::post('/invite/reject/{invite}', [GroupsController::class, 'rejectGroupInvite']);
     Route::post('/applications/reject/{application}', [GroupsController::class, 'rejectGroupApplication']);
     Route::post('/applications/accept/{application}', [GroupsController::class, 'acceptGroupApplication']);
     Route::post('/applications/ban/{application}', [GroupsController::class, 'banGroupApplication']);
-    
+
     Route::put('/edit/{group}', [GroupsController::class, 'update']);
     Route::post('/kick/{group}', [GroupsController::class, 'removeUserFromGroup']);
     Route::post('/ban/{group}', [GroupsController::class, 'banUserFromGroup']);

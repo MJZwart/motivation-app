@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class GroupPageResource extends JsonResource
 {
@@ -21,14 +22,15 @@ class GroupPageResource extends JsonResource
             'time_updated' => $this->updated_at,
             'name' => $this->name,
             'description' => $this->description,
-            'is_public' => (boolean) $this->is_public,
-            'require_application' => (boolean) $this->require_application,
+            'is_public' => (bool) $this->is_public,
+            'require_application' => (bool) $this->require_application,
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
             'is_member' => !!$this->findLoggedUser(),
             'rank' => $this->findLoggedUser() ? $this->findLoggedUser()->pivot->rank : null,
             'joined' => $this->findLoggedUser() ? Carbon::create($this->findLoggedUser()->pivot->joined) : null,
             'has_application' => $this->require_application ? $this->hasUserApplied() : false,
+            'invites' => Auth::user()->id === $this->getAdmin()->id ? $this->invitesAsId() : null,
         ];
     }
 }

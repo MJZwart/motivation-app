@@ -47,6 +47,11 @@ export type NewSuspension = {
     indefinite: boolean,
 }
 
+export type StrippedUser = {
+    id: number,
+    username: string,
+}
+
 export type UserToBan = {
     id: number,
     last_report_date: Date | string,

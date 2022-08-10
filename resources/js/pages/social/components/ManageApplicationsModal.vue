@@ -24,10 +24,10 @@ import {ref, onMounted, PropType} from 'vue';
 import {Group, Application} from 'resources/types/group'
 const groupStore = useGroupStore();
 
-const emit = defineEmits(['reloadGroups']);
-const loading = ref();
+const loading = ref(true);
 
 const applications = ref<Array<Application> | null>(null);
+
 onMounted(() => {
     load();
 });
@@ -36,7 +36,6 @@ async function load() {
     applications.value = await groupStore.fetchApplications(props.group);
     loading.value = false;
 }
-
 
 const props = defineProps({
     group: {
@@ -52,13 +51,11 @@ async function rejectApplication(application: Application) {
 
 async function acceptApplication(application: Application) {
     await groupStore.acceptApplication(application);
-    emit('reloadGroups');
     load();
 }
 
 async function banApplication(application: Application) {
     await groupStore.banApplication(application);
-    emit('reloadGroups');
     load();
 }
 </script>

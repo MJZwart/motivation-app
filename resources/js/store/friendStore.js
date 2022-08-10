@@ -34,8 +34,10 @@ export const useFriendStore = defineStore('friend', {
                 const {data} = await axios.post('/friend/request/' + requestId + '/accept');
                 this.friends = data.friends;
                 this.requests = data.requests;
+                return true;
             } catch {
                 this.handleError();
+                return false;
             }
         },
         /**
@@ -45,8 +47,10 @@ export const useFriendStore = defineStore('friend', {
             try {
                 const {data} = await axios.post('/friend/request/' + requestId + '/deny');
                 this.requests = data.requests;
+                return true;
             } catch {
                 this.handleError();
+                return false;
             }
         },
         /**
@@ -56,8 +60,10 @@ export const useFriendStore = defineStore('friend', {
             try {
                 const {data} = await axios.delete('/friend/request/' + requestId);
                 this.requests = data.requests;
+                return true;
             } catch {
                 this.handleError();
+                return false;
             }
         },
         /**
@@ -67,8 +73,10 @@ export const useFriendStore = defineStore('friend', {
             try {
                 const {data} = await axios.delete('/friend/remove/' + friendId);
                 this.friends = data.friends;
+                return true;
             } catch {
                 this.handleError();
+                return false;
             }
         },
 

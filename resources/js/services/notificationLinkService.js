@@ -7,17 +7,20 @@ import {useFriendStore} from '/js/store/friendStore';
  * 
  * @param {string} apiType
  * @param {string} url
+ * @return {Promise<boolean>}
  */
-export function handleNotificationLink(apiType, url) {
+export async function handleNotificationLink(apiType, url) {
     const urlType = url.split('/')[1];
+    let success = false;
     switch (urlType) {
         case 'friend':
-            handleFriendRequests(url);
+            success = await handleFriendRequests(url);
             break;
         default:
-            handleOtherLinks(apiType, url);
+            success = await handleOtherLinks(apiType, url);
             break;
     }
+    return success;
 }
 
 /**
@@ -26,16 +29,18 @@ export function handleNotificationLink(apiType, url) {
  * This way the friends are still sent back to the store, updated.
  * 
  * @param {string} url
+ * @returns {Promise<boolean>}
  */
-function handleFriendRequests(url) {
+async function handleFriendRequests(url) {
     const action = url.split('/')[4];
     const requestId = parseInt(url.split('/')[3]);
     const friendStore = useFriendStore();
+    let success = false;
     if (action == 'accept')
-        friendStore.acceptRequest(requestId);
+        success = await friendStore.acceptRequest(requestId);
     else if (action == 'deny')
-        friendStore.denyRequest(requestId);
-
+        success = await friendStore.denyRequest(requestId);
+    return success;
 }
 
 /**
@@ -43,14 +48,23 @@ function handleFriendRequests(url) {
  * 
  * @param {string} apiType
  * @param {string} url
+ * @return {Promise<boolean>}
  */
-function handleOtherLinks(apiType, url) {
-    if (apiType == 'POST')
-        axios.post(url);
-    else if (apiType == 'PUT')
-        axios.put(url);
-    else if (apiType == 'DELETE')
-        axios.delete(url);
+async function handleOtherLinks(apiType, url) {
+    let success = true;
+    try {
+        if (apiType == 'POST')
+            await axios.post(url).then().catch(() => {
+                success = false
+            });
+        else if (apiType == 'PUT')
+            await axios.put(url).then().catch(() => success = false);
+        else if (apiType == 'DELETE')
+            await axios.delete(url).then().catch(() => success = false);
+    } catch (e) {
+        return false;
+    }
+    return success;
 }
 
 

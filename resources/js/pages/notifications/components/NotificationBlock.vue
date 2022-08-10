@@ -33,27 +33,27 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import Summary from '/js/components/global/Summary.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n';
 import {useMessageStore} from '/js/store/messageStore';
-import {computed} from 'vue';
+import {computed, PropType} from 'vue';
 import {handleNotificationLink} from '/js/services/notificationLinkService';
+import {Notification} from 'resources/types/notification';
 
 const {t} = useI18n();
 const messageStore = useMessageStore();
 
 const prop = defineProps({
     notification: {
-        /** @type {import('resources/types/notification').Notification} */
-        type: Object,
+        type: Object as PropType<Notification>,
         required: true,
     },
 });
 
-/** @type {String} */
-const linkClass = computed(() => prop.notification.link_active ? 'notification-link active' : 'notification-link disabled');
+const linkClass = computed<string>(() => 
+    prop.notification.link_active ? 'notification-link active' : 'notification-link disabled');
 
 /**
  * Deletes the notification
@@ -67,13 +67,10 @@ function deleteNotification() {
 /**
  * Performs whatever action the link has built in. If the links are set to
  * disable on action, fire the event to disable the link to prevent double action
- * 
- * @param {String} apiType
- * @param {String} linkUrl
  */
-async function linkAction(apiType, linkUrl) {
-    handleNotificationLink(apiType, linkUrl);
-    if (prop.notification.delete_links_on_action)
+async function linkAction(apiType: string, linkUrl: string) {
+    const actionSucceeded = await handleNotificationLink(apiType, linkUrl);
+    if (actionSucceeded && prop.notification.delete_links_on_action)
         await messageStore.deleteNotificationAction(prop.notification.id);
 }
 </script>

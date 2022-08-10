@@ -1,12 +1,32 @@
+import {StrippedUser} from './user'
+
 export type Group = {
     id: number,
-    created_at: Date,
-    updated_at: Date,
+    time_created: Date,
+    time_updated: Date,
     name: string,
     description: string,
     is_public: boolean,
+    require_application: boolean,
     members: Array<GroupUser>,
     require_application: boolean,
+}
+
+export type GroupPage = {
+    id: number,
+    time_created: Date,
+    time_updated: Date,
+    name: string,
+    description: string,
+    is_public: boolean,
+    require_application: boolean,
+    members: Array<GroupUser>,
+    admin: StrippedUser,
+    is_member: boolean,
+    rank: string,
+    joined: string,
+    has_application: boolean,
+    invites: Array<number> | null,
 }
 
 export type GroupUser = {

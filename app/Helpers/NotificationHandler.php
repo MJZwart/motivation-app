@@ -3,9 +3,11 @@
 namespace App\Helpers;
 
 use App\Models\Friend;
+use App\Models\GroupInvite;
 use App\Models\Notification;
 
-class NotificationHandler {
+class NotificationHandler
+{
 
     /**
      * Creates a notification
@@ -17,7 +19,8 @@ class NotificationHandler {
      * @param Boolean|null $deleteOnAction
      * @return void
      */
-    public static function create(int $userId, string $title, string $text, $link = null, bool $deleteOnAction = false) {
+    public static function create(int $userId, string $title, string $text, $link = null, bool $deleteOnAction = false)
+    {
         Notification::create([
             'user_id' => $userId,
             'title' => $title,
@@ -38,13 +41,32 @@ class NotificationHandler {
      * @param Friend $friendRequest
      * @return void
      */
-    public static function createFromFriendRequest(int $userId, string $title, string $text, Friend $friendRequest) {
+    public static function createFromFriendRequest(int $userId, string $title, string $text, Friend $friendRequest)
+    {
         $acceptLink = NotificationLink::create('accept', "/friend/request/$friendRequest->id/accept", 'POST');
         $denyLink = NotificationLink::create('deny', "/friend/request/$friendRequest->id/deny", 'POST');
         $linkGroup = NotificationHandler::createJson($acceptLink, $denyLink);
         NotificationHandler::create($userId, $title, $text, $linkGroup, true);
     }
-    
+
+    /**
+     * Creates a notification from a group invite. The function builds a link to accept or
+     * deny the request, given the parameters.
+     *
+     * @param int $userId
+     * @param string $title
+     * @param string $text
+     * @param GroupInvite $groupInvite
+     * @return void
+     */
+    public static function createFromGroupInvite(int $userId, string $title, string $text, GroupInvite $groupInvite)
+    {
+        $acceptLink = NotificationLink::create('accept', "/groups/invite/accept/$groupInvite->id", 'POST');
+        $rejectLink = NotificationLink::create('reject', "/groups/invite/reject/$groupInvite->id", 'POST');
+        $linkGroup = NotificationHandler::createJson($acceptLink, $rejectLink);
+        NotificationHandler::create($userId, $title, $text, $linkGroup, true);
+    }
+
     /**
      * Creates a notification
      *
@@ -55,7 +77,8 @@ class NotificationHandler {
      * @param String|null $linkText
      * @return void
      */
-    public static function createFromAdminDashboard(int $userId, string $title, string $text, $link = null, string $linkText = null) {
+    public static function createFromAdminDashboard(int $userId, string $title, string $text, $link = null, string $linkText = null)
+    {
         if ($link) {
             $serializedLink = NotificationLink::create($linkText, $link);
             NotificationHandler::create($userId, $title, $text, NotificationHandler::createJson($serializedLink));
