@@ -13,6 +13,7 @@
                             {{ $t('invite') }}
                         </span>
                         <span class="invite-friends-username">{{friend.username}}</span>
+                        <br />
                     </template>
                 </div>
             </div>
