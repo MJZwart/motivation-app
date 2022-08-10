@@ -19,7 +19,7 @@ class AchievementEarnedResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'trigger_description' => $this->trigger_description,
-            'earned' => Carbon::create($this->pivot->earned),
+            'earned' => $this->pivot->earned,
         ];
     }
 }

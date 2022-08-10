@@ -30,14 +30,16 @@ class UserController extends Controller
     /**
      * Returns the user from the param wrapped in a profile resource
      */
-    public function show(User $user){
+    public function show(User $user)
+    {
         return new UserProfileResource($user);
     }
 
     /**
      * Returns the authenticated user wrapped in a stats resource
      */
-    public function showStats(){
+    public function showStats()
+    {
         return new StatsResource(Auth::user());
     }
 
@@ -45,8 +47,9 @@ class UserController extends Controller
      * Checks if authenticated user is admin
      * Returns boolean
      */
-    public function isAdmin() {
-        if(!Auth::user()->admin){
+    public function isAdmin()
+    {
+        if (!Auth::user()->admin) {
             return new JsonResponse(['message' => "You are not admin."], Response::HTTP_UNAUTHORIZED);
         }
     }
@@ -55,7 +58,8 @@ class UserController extends Controller
      * Updates the authenticated user's email as given in the request
      * Returns updated user
      */
-    public function updateEmail(UpdateUserEmailRequest $request){
+    public function updateEmail(UpdateUserEmailRequest $request)
+    {
         $validated = $request->validated();
         /** @var User */
         $user = Auth::user();
@@ -71,7 +75,8 @@ class UserController extends Controller
      * Updates the authenticated user's password as given in the request
      * Logs the user out (front-end) if successful
      */
-    public function updatePassword(UpdateUserPasswordRequest $request){
+    public function updatePassword(UpdateUserPasswordRequest $request)
+    {
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         /** @var User */
@@ -85,16 +90,20 @@ class UserController extends Controller
      * Updates general user settings as given in the request
      * Returns the updated user
      */
-    public function updateSettings(UpdateUserSettingsRequest $request){
+    public function updateSettings(UpdateUserSettingsRequest $request)
+    {
         $validated = $request->validated();
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating settings');
-        return new JsonResponse([
-            'message' => ['success' => 'Your settings have been changed.'], 
-            'user' => new UserResource(Auth::user())],
-            Response::HTTP_OK);
+        return new JsonResponse(
+            [
+                'message' => ['success' => 'Your settings have been changed.'],
+                'user' => new UserResource(Auth::user())
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -103,60 +112,70 @@ class UserController extends Controller
      * Such as activating an old reward type or creating a new one, with name 
      * Returns the user and the active reward
      */
-    public function updateRewardsType(UpdateRewardsTypeRequest $request){
+    public function updateRewardsType(UpdateRewardsTypeRequest $request)
+    {
         $validated = $request->validated();
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
         $activeReward = null;
         $activeReward = RewardObjectHandler::changeRewardSettings(
-            $user, 
-            $request['keepOldInstance'], 
-            $request['new_object_name'], 
-            $request['rewards']);
+            $user,
+            $request['keepOldInstance'],
+            $request['new_object_name'],
+            $request['rewards']
+        );
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating rewards type');
-        return new JsonResponse([
-            'message' => ['success' => 'Your rewards type has been changed.'], 
-            'user' => new UserResource($user),
-            'activeReward' => $activeReward],
-            Response::HTTP_OK);
+        return new JsonResponse(
+            [
+                'message' => ['success' => 'Your rewards type has been changed.'],
+                'user' => new UserResource($user),
+                'activeReward' => $activeReward
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
      * Searches for a user that is like the search parameters in the request.
      * Returns a list of users that qualify
      */
-    public function searchUser(Request $request){
-        return StrippedUserResource::collection(User::where('username', 'like', '%'.$request['userSearch'].'%')->get());
+    public function searchUser(Request $request)
+    {
+        return StrippedUserResource::collection(User::where('username', 'like', '%' . $request['userSearch'] . '%')->get());
     }
 
-    
+
 
     /**
      * Check if the user has any unread notifications
      * Returns boolean
      */
-    public function hasUnread(){
+    public function hasUnread()
+    {
         $hasMessages = Message::where('recipient_id', Auth::user()->id)->where('read', false)->where('visible_to_recipient', true)->count() > 0;
         $hasNotifications = Notification::where('user_id', Auth::user()->id)->where('read', false)->count() > 0;
         return new JsonResponse(['hasNotifications' => $hasNotifications, 'hasMessages' => $hasMessages]);
     }
 
-    public function reportUser(StoreReportedUserRequest $request, User $user) {
+    public function reportUser(StoreReportedUserRequest $request, User $user)
+    {
         $validated = $request->validated();
         $validated['reported_user_id'] = $user->id;
         $validated['reported_by_user_id'] = Auth::user()->id;
         ReportedUser::create($validated);
-        ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: '.$user->username);
+        ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: ' . $user->username);
         return new JsonResponse(['message' => ['success' => 'User reported']]);
     }
 
-    public function getBlocklist() {
+    public function getBlocklist()
+    {
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
         return new JsonResponse(['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
 
-    public function unblockUser(BlockedUser $blockedUser) {
+    public function unblockUser(BlockedUser $blockedUser)
+    {
         $blockedUser->delete();
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
         return new JsonResponse(['message' => ['success' => 'User has been unblocked'], 'blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
