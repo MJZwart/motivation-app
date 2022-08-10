@@ -17,23 +17,23 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import Summary from '/js/components/global/Summary.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n'
+import {Achievement} from 'resources/types/achievement';
+import {PropType} from 'vue';
 const {t} = useI18n() // use as global scope
 defineProps({
     achievements: {
-        type: Array,
+        type: Array as PropType<Array<Achievement>>,
         required: false,
     },
 });
-/**
- * @param {import('resources/types/achievement').Achievement} achievement
- * @return {string}
- */
-function achievementSummary(achievement) {
+
+function achievementSummary(achievement: Achievement): string {
+    const date = achievement.pivot ? parseDateTime(achievement.pivot.earned, true) : '';
     return achievement.description+' '+achievement.trigger_description+' '
-    + t('earned-on')+': '+parseDateTime(achievement.earned);
+    + t('earned-on')+': '+ date;
 }
 </script>
