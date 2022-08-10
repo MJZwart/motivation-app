@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('group_invites', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('group_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('group_id');
         });
         Schema::table('group_invites', function (Blueprint $table) {
             $table->foreign('user_id')

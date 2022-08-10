@@ -310,7 +310,7 @@ class GroupsController extends Controller
         $group = Group::find($request['group_id']);
         if ($group->getAdmin()->id !== Auth::user()->id) return new JsonResponse(['message' => 'You are not the admin of this group.'], Response::HTTP_BAD_REQUEST);
         if (GroupInvite::where('group_id', $group->id)->where('user_id', $request['user_id'])->exists()) return new JsonResponse(['message' => 'This user has already been invited.'], Response::HTTP_BAD_REQUEST);
-        if ($group->hasMember($request['user_id']));
+        if ($group->hasMember($request['user_id'])) return new JsonResponse(['message' => 'This user is already a member of this group'], Response::HTTP_BAD_REQUEST);
         $validated = $request->validated();
         $groupInvite = GroupInvite::create($validated);
         NotificationHandler::createFromGroupInvite(
@@ -344,7 +344,6 @@ class GroupsController extends Controller
         if ($user->id !== $invite->user_id) return new JsonResponse(['message' => 'This is not your invitation.'],  Response::HTTP_BAD_REQUEST);
         if ($invite->group->hasMember($user->id)) return new JsonResponse(['message' => 'You are already a member of this group.'], Response::HTTP_BAD_REQUEST);
         $invite->delete();
-        //Test if the invite gets deleted
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User id ' . $invite->user_id . ' rejected invite to group ' . $invite->group->name);
         return new JsonResponse(['message' => ['success' => ['You have rejected the invitation.']]], Response::HTTP_OK);
     }
