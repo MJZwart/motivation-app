@@ -143,7 +143,7 @@ export const useUserStore = defineStore('user', {
         },
 
         /**
-         * @param {Number} userId
+         * @param {string | number} userId
          */
         async blockUser(userId) {
             const {data} = await axios.put('/user/' + userId + '/block');

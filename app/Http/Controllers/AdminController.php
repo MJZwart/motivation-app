@@ -36,20 +36,26 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    public function getAdminDashboard() {
+    public function getAdminDashboard()
+    {
         $achievements = AchievementResource::collection(Achievement::get());
         $achievementTriggers = AchievementTrigger::get();
         $bugReports = BugReportResource::collection(BugReport::all());
         $experiencePoints = ExperiencePoint::get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
-        $balancing = ['experience_points' => $experiencePoints,
-            'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain];
-       
+        $balancing = [
+            'experience_points' => $experiencePoints,
+            'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain
+        ];
+
         return new JsonResponse(
-            ['achievements' => $achievements, 'achievementTriggers' => $achievementTriggers,
-                'bugReports' => $bugReports, 'balancing' => $balancing], 
-            Response::HTTP_OK);
+            [
+                'achievements' => $achievements, 'achievementTriggers' => $achievementTriggers,
+                'bugReports' => $bugReports, 'balancing' => $balancing
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /** 
@@ -58,7 +64,8 @@ class AdminController extends Controller
      * and all reports as an array in the resource (UserReportResource).
      * @return JsonResponse with a UserReportResource collection
      */
-    public function getReportedUsers() {
+    public function getReportedUsers()
+    {
         $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->with('user.bannedUser')->get()->groupBy('reported_user_id');
         $reportedUsers = [];
         foreach ($reportedUsersCollection as $userReport) {
@@ -67,47 +74,56 @@ class AdminController extends Controller
         return new JsonResponse(['reportedUsers' => $reportedUsers], Response::HTTP_OK);
     }
 
-    public function updateExeriencePoints(UpdateExperiencePointsRequest $request) {
+    public function updateExeriencePoints(UpdateExperiencePointsRequest $request)
+    {
         $validated = $request->validated();
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
         $experiencePoints = ExperiencePoint::get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
         return new JsonResponse(
-            ['message' => ['success' => 'Experience points updated'], 'data' => $experiencePoints], 
-            Response::HTTP_OK);
+            ['message' => ['success' => 'Experience points updated'], 'data' => $experiencePoints],
+            Response::HTTP_OK
+        );
     }
 
-    public function addNewLevel(StoreNewLevelRequest $request) {
+    public function addNewLevel(StoreNewLevelRequest $request)
+    {
         $validated = $request->validated();
         ExperiencePoint::insert($validated);
         $experiencePoints = ExperiencePoint::get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
         return new JsonResponse(
-            ['message' => ['success' => 'Level added'], 'data' => $experiencePoints], 
-            Response::HTTP_OK);
+            ['message' => ['success' => 'Level added'], 'data' => $experiencePoints],
+            Response::HTTP_OK
+        );
     }
 
-    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request) {
+    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
+    {
         $validated = $request->validated();
         DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level']);
         $characterExpGain = DB::table('character_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
         return new JsonResponse(
-            ['message' => ['success' => 'Character experience balancing updated'], 'data' => $characterExpGain], 
-            Response::HTTP_OK);
+            ['message' => ['success' => 'Character experience balancing updated'], 'data' => $characterExpGain],
+            Response::HTTP_OK
+        );
     }
 
-    public function updateVillageExpGain(UpdateVillageExpGainRequest $request) {
+    public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
+    {
         $validated = $request->validated();
         DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level']);
         $villageExpGain = DB::table('village_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
         return new JsonResponse(
-            ['message' => ['success' => 'Village experience balancing updated'], 'data' => $villageExpGain], 
-            Response::HTTP_OK);
+            ['message' => ['success' => 'Village experience balancing updated'], 'data' => $villageExpGain],
+            Response::HTTP_OK
+        );
     }
-    
-    public function getConversationById($id) {
+
+    public function getConversationById($id)
+    {
         return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
     }
 
@@ -120,7 +136,8 @@ class AdminController extends Controller
      * @param User $user
      * @return JsonResponse
      */
-    public function banUser(BanUserRequest $request, User $user) {
+    public function banUser(BanUserRequest $request, User $user)
+    {
         $validated = $request->validated();
         if ($validated['indefinite'] == 'true') $validated['days'] = 99999;
 
@@ -144,10 +161,13 @@ class AdminController extends Controller
         $bannedUsers = BannedUserResource::collection(BannedUser::get());
 
         return new JsonResponse(
-            ['message' => ['success' => 'User banned until '. $bannedUntilTime],
-            'reported_users' => $reportedUsers,
-            'banned_users' => $bannedUsers],
-            Response::HTTP_OK);
+            [
+                'message' => ['success' => 'User banned until ' . $bannedUntilTime],
+                'reported_users' => $reportedUsers,
+                'banned_users' => $bannedUsers
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -155,7 +175,8 @@ class AdminController extends Controller
      *
      * @return JsonResponse with BannedUserResource collection
      */
-    public function getBannedUsers() {
+    public function getBannedUsers()
+    {
         return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
     }
 
@@ -166,7 +187,8 @@ class AdminController extends Controller
      * @param EditUserBanRequest $request
      * @return JsonResponse with BannedUserResource collection
      */
-    public function editUserBan(BannedUser $bannedUser, EditUserBanRequest $request) {
+    public function editUserBan(BannedUser $bannedUser, EditUserBanRequest $request)
+    {
         $validated = $request->validated();
         $newDate = Carbon::now();
         if ($validated['end_ban']) {
@@ -174,11 +196,13 @@ class AdminController extends Controller
             $user->banned_until = $newDate;
             $user->save();
             $bannedUser->early_release = $newDate;
-            Notification::create(['user_id' => $user->id,
+            Notification::create([
+                'user_id' => $user->id,
                 'title' => 'Your suspension has been lifted.',
-                'text' => Auth::user()->username . 
+                'text' => Auth::user()->username .
                     ' has ended your suspension. Reason given: ' . $request['comment'] .
-                    ' You were originally banned for: ' . $bannedUser->reason]);
+                    ' You were originally banned for: ' . $bannedUser->reason
+            ]);
         } else {
             $newDate = $bannedUser->created_at->addDays($validated['days']);
             $user = $bannedUser->user;
@@ -186,10 +210,10 @@ class AdminController extends Controller
         }
         $bannedUser->days = $request['days'];
         $bannedUser->banned_until = $newDate;
-        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment.$validated['comment'].' | ';
-        $bannedUser->ban_edit_log = $bannedUser->ban_edit_log.$validated['log'].' | ';
+        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment . $validated['comment'] . ' | ';
+        $bannedUser->ban_edit_log = $bannedUser->ban_edit_log . $validated['log'] . ' | ';
         $bannedUser->save();
-        
+
         return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
     }
 
@@ -197,27 +221,33 @@ class AdminController extends Controller
      * Fetches all existing feedback and returns it in a Resource collection
      * @return JsonResponse with FeedbackResource collection
      */
-    public function getFeedback() {
+    public function getFeedback()
+    {
         return new JsonResponse(['feedback' => FeedbackResource::collection(Feedback::get())]);
     }
-            
+
     /**
      * Toggles the feedback's archive column. True to false and vice versa. Returns the updated collection.
      * @return JsonResponse with string and FeedbackResource collection
      */
-    public function toggleArchiveFeedback(Feedback $feedback) {
+    public function toggleArchiveFeedback(Feedback $feedback)
+    {
         $feedback->archived = !$feedback->archived;
         $feedback->save();
-        return new JsonResponse([
-            'message' => ['success' => $feedback->archived ? 'Feedback archived': 'Feedback unarchived'],
-            'feedback' => FeedbackResource::collection(Feedback::get())], 
-            Response::HTTP_OK);
-    }   
+        return new JsonResponse(
+            [
+                'message' => ['success' => $feedback->archived ? 'Feedback archived' : 'Feedback unarchived'],
+                'feedback' => FeedbackResource::collection(Feedback::get())
+            ],
+            Response::HTTP_OK
+        );
+    }
 
     /**
      * Gets an overview of stats related to the website, relevant for admins
      */
-    public function getOverview() {
+    public function getOverview()
+    {
         $yesterday = Carbon::now()->subDay();
         $lastWeek = Carbon::now()->subWeek();
         $totalUsers = User::count();
@@ -229,14 +259,15 @@ class AdminController extends Controller
         $newBugs = BugReport::where('created_at', '>', $lastWeek)->count();
         $newUserReports = ReportedUser::where('created_at', '>', $lastWeek)->count();
         $overview = [
-            'total-users' => $totalUsers, 
+            'total-users' => $totalUsers,
             'new-users' => $newUsers,
-            'active-users' => $activeUsers, 
-            'unarchived-feedback' => $unarchivedFeedback, 
-            'unresolved-bugs' => $unresolvedBugs, 
-            'new-feedback' => $newFeedback, 
-            'new-bugs' => $newBugs, 
-            'new-user-reports' => $newUserReports];
+            'active-users' => $activeUsers,
+            'unarchived-feedback' => $unarchivedFeedback,
+            'unresolved-bugs' => $unresolvedBugs,
+            'new-feedback' => $newFeedback,
+            'new-bugs' => $newBugs,
+            'new-user-reports' => $newUserReports
+        ];
         return new JsonResponse(['overview' => $overview]);
     }
 }

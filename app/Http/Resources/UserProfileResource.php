@@ -3,9 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Character;
 use App\Http\Resources\FriendResource;
-use App\Http\Resources\CharacterResource;
 
 class UserProfileResource extends JsonResource
 {
@@ -19,12 +17,13 @@ class UserProfileResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'created_at' => $this->created_at->toDateString(),
+            'created_at' => $this->created_at,
             'username' => $this->username,
             'display_picture' => $this->display_picture,
             'rewardObj' => $this->show_reward ? $this->getActiveRewardObjectResource() : false,
             'achievements' => $this->show_achievements ? $this->achievements : false,
             'friends' => $this->show_friends ? FriendResource::collection($this->friends) : false,
+            'suspended' => $this->isBanned() ? new UserSuspensionSummaryResource($this->getLatestSuspension()) : null,
         ];
     }
 }

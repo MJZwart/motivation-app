@@ -1,4 +1,7 @@
 import {Task} from './task';
+import {Reward} from './reward';
+import {Achievement} from './achievement';
+import {Friend} from './friend';
 
 export type User = {
     id: number,
@@ -60,4 +63,18 @@ export type UserToBan = {
     report_amount: number,
     reports: Array<ReportedUser>,
     username: string,
+}
+
+export type UserProfile = {
+    id: number,
+    created_at: string,
+    username: string,
+    display_picture?: string | null,
+    rewardObj?: Reward | null,
+    achievements?: Achievement[],
+    friends?: Friend[],
+    suspended?: {
+        until: Date,
+        reason: string,
+    } | null,
 }

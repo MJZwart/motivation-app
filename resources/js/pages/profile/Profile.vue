@@ -1,9 +1,14 @@
 <template>
     <div>
-        <Loading v-if="loading" />
+        <Loading v-if="loading || userProfile == null" />
         <div v-else class="profile-grid">
             <div class="right-column">
                 <h2>{{userProfile.username}}</h2>
+                <div v-if="userProfile.suspended">
+                    {{$t('suspended-until-reason', 
+                         [parseDateTime(userProfile.suspended.until, true), 
+                          userProfile.suspended.reason])}}
+                </div>
                 <div v-if="notLoggedUser" class="d-flex">
                     <Tooltip :text="$t('message-user')">
                         <FaIcon 
@@ -31,8 +36,17 @@
                             class="icon small red"
                             @click="reportUser" />
                     </Tooltip>
+                    <span v-if="user.admin">
+                        | {{$t('admin-actions')}}: 
+                        <Tooltip v-if="userProfile.suspended" :text="$t('suspend-user')">
+                            <FaIcon
+                                icon="ban"
+                                class="icon small red"
+                                @click="suspendUser" />
+                        </Tooltip>
+                    </span>
                 </div>
-                <p class="silent">{{ $t('member-since') }}: {{userProfile.created_at}}</p>
+                <p class="silent">{{ $t('member-since') }}: {{parseDateTime(userProfile.created_at)}}</p>
                 <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
             <div class="left-column">
@@ -47,41 +61,64 @@
             <Modal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userProfile" @close="closeReportUserModal" />
             </Modal>
+            <Modal :show="showSuspendUserModal" :footer="false" :header="false" @close="closeSuspendUserModal">
+                <SuspendUserModal :userId="userProfile.id" @close="closeSuspendUserModal" />
+            </Modal>
         </div>
 
     </div>
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref, computed, watch} from 'vue';
 import AchievementsCard from '/js/pages/overview/components/AchievementsCard.vue';
 import RewardCard from '/js/pages/dashboard/components/RewardCard.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import ReportUser from '/js/pages/messages/components/ReportUser.vue';
 import FriendsCard from '/js/pages/dashboard/components/FriendsCard.vue';
+import SuspendUserModal from '/js/pages/admin/components/SuspendUserModal.vue';
 import axios from 'axios';
 import {useRoute} from 'vue-router';
 import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
+import {User, UserProfile} from 'resources/types/user';
+import {useI18n} from 'vue-i18n';
+import {FriendRequests, FriendRequest} from 'resources/types/friend';
+import {parseDateTime} from '/js/services/dateService';
 
-import {useI18n} from 'vue-i18n'
-const {t} = useI18n() // use as global scope
+const {t} = useI18n();
 const route = useRoute();
 const userStore = useUserStore();
 const friendStore = useFriendStore();
 
-const userProfile = ref({});
+/** Setup the user profile on page load */
+const loading = ref(true);
+const userProfile = ref<UserProfile | null>(null);
+
 onMounted(async() => {
     await getUserProfile();
     loading.value = false;
 });
-const loading = ref(true);
+
+/**
+ * Fetches the user profile by route params, toggles the loading
+ * animation accordingly.
+ */
+async function getUserProfile() {
+    if (!route.params.id) return;
+    loading.value = true;
+    const {data} = await axios.get('/profile/' + route.params.id);
+    userProfile.value = data.data;
+    loading.value = false;
+}
+
 const showSendMessageModal = ref(false);
 const showReportUserModal = ref(false);
+const showSuspendUserModal = ref(false);
 
-const user = computed(() => userStore.user);
-const requests = computed(() => friendStore.requests);
+const user = computed<User>(() => userStore.user);
+const requests = computed<FriendRequests | null>(() => friendStore.requests);
 
 // eslint-disable-next-line no-unused-vars
 const isConnection = computed(() => {
@@ -93,23 +130,15 @@ const isConnection = computed(() => {
             ids.push(...requests.value.incoming.map(request => request.id));
     }
     if (user.value.friends)
-        ids.push(...user.value.friends.map(friend => friend.id));
-    return ids.includes(userProfile.value.id);
+        ids.push(...user.value.friends.map((friend: FriendRequest) => friend.id));
+    return ids.includes(userProfile.value?.id);
 });
 /** Checked if this user profile is not the user currently logged in, so you can't send a request to yourself */
 const notLoggedUser = computed(() => {
-    return route.params.id != user.value.id;
+    return route.params.id != user.value.id.toString();
 });
-
-async function getUserProfile() {
-    if (!route.params.id) return;
-    loading.value = true;
-    const {data} = await axios.get('/profile/' + route.params.id);
-    userProfile.value = data.data;
-    loading.value = false;
-}
 function sendFriendRequest() {
-    friendStore.sendRequest(route.params.id);
+    friendStore.sendRequest(route.params.id as string);
 }
 function sendMessage() {
     showSendMessageModal.value = true;
@@ -124,9 +153,16 @@ function closeReportUserModal() {
     showReportUserModal.value = false;
 }
 function blockUser() {
-    if (confirm(t('block-user-confirmation', {user: userProfile.value.username}))) {
-        userStore.blockUser(route.params.id);
+    if (confirm(t('block-user-confirmation', {user: userProfile.value?.username}))) {
+        userStore.blockUser(route.params.id as string);
     }
+}
+function suspendUser() {
+    showSuspendUserModal.value = true;
+}
+function closeSuspendUserModal(reload: boolean) {
+    showSuspendUserModal.value = false;
+    if (reload) getUserProfile();
 }
 watch(
     () => route.params.id,
@@ -134,6 +170,7 @@ watch(
         if (route.params.id) getUserProfile()
     },
 );
+//TODO:: Show that a user is suspended and why. IT's already in the resource
 </script>
 
 
