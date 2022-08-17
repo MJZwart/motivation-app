@@ -50,7 +50,6 @@ axios.interceptors.response.use(
              * the page to show they 
              */
             case 400:
-                // window.location.reload();
                 router.go(0);
                 storeToastInLocalStorage(error.response.data.message, 'error');
                 return Promise.reject(error);
@@ -63,7 +62,6 @@ axios.interceptors.response.use(
                 if (router.currentRoute.value.name !== 'login') {
                     const userStore = useUserStore();
                     userStore.logout();
-                    // store.dispatch('user/logout', false);
                 }
                 sendToast('You are not logged in', 'error');
                 return Promise.reject(error);
