@@ -5,7 +5,7 @@
 
    echo "Running in $APP_ENV"
 # build
-npm ci
+npm install
 echo "Building"
 npm run build
 echo "Successfully built"
