@@ -22,7 +22,7 @@ axios.interceptors.response.use(
     function (response) {
         if (response.status == 200) {
             if (response.data.message) {
-                sendToast(null, response.data.message, 'success');
+                sendToast(null, 'success', response.data.message);
             }
         }
         // Any status code that lie within the range of 2xx cause this function to trigger
@@ -31,6 +31,7 @@ axios.interceptors.response.use(
     },
     // eslint-disable-next-line complexity
     function (error) {
+        const mainStore = useMainStore();
         if (!error.response) {
             return Promise.reject(error);
         }
@@ -44,6 +45,15 @@ axios.interceptors.response.use(
 
         switch (error.response.status) {
             /**
+             * With a 400 it is most likely that the user performed an illegal action
+             * or something changed with their permissions in the meantime. Reload
+             * the page to show they 
+             */
+            case 400:
+                router.go(0);
+                storeToastInLocalStorage(error.response.data.message, 'error');
+                return Promise.reject(error);
+            /**
              * If we get a 401 response from the API means that we are Unauthorized to
              * access the requested end point.
              * This means that probably our token has expired and we need to get a new one.
@@ -52,9 +62,8 @@ axios.interceptors.response.use(
                 if (router.currentRoute.value.name !== 'login') {
                     const userStore = useUserStore();
                     userStore.logout();
-                    // store.dispatch('user/logout', false);
                 }
-                sendToast('You are not logged in', null, 'error');
+                sendToast('You are not logged in', 'error');
                 return Promise.reject(error);
             /** 
              * User tries to perform an action they are not authorized for, such as
@@ -65,7 +74,7 @@ axios.interceptors.response.use(
                 if (router.currentRoute.value.name !== 'login') {
                     router.push('/dashboard');
                 }
-                sendToast('You are not authorized for this action', null, 'error');
+                sendToast('You are not authorized for this action', 'error');
                 return Promise.reject(error);
             /**
              * In the case of a 404, the user tried to find a user, group or other that no
@@ -81,11 +90,8 @@ axios.interceptors.response.use(
              * In case of a 422 (Unprocessable Entity) the user made a mistake, such as
              * sending invalid data. This is mostly thrown by the validator
              */
-            case 400:
             case 422:
-                sendToast(error.response.data.message, null, 'error');
-                // eslint-disable-next-line no-case-declarations
-                const mainStore = useMainStore();
+                sendToast(error.response.data.message, 'error');
                 mainStore.setErrorMessages(error.response.data.errors);
                 return Promise.reject(error);
             /**
@@ -104,10 +110,15 @@ axios.interceptors.response.use(
 /**
  * Sends a toast
  */
-function sendToast(toastMessage: string | null, toast: Toast | null, type: string) {
+function sendToast(toastMessage: string | null, type: string, toast: Toast | null = null) {
     const mainStore = useMainStore();
     if (type == 'error' && toastMessage)
         mainStore.addToast({'error' : toastMessage});
     else if (type == 'success' && toast)
         mainStore.addToast(toast);
+}
+
+function storeToastInLocalStorage(toastMessage: string | null, type: string) {
+    const toast = `{"type": "${type}", "message": "${toastMessage}"}`;
+    localStorage.setItem('queuedError', toast);
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\GroupNotAuthorizedException;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\NotificationHandler;
 use App\Models\Group;
@@ -55,6 +56,7 @@ class GroupsController extends Controller
 
     public function showApplications(Group $group)
     {
+        $this->isUserGroupAdmin($group);
         $applications = GroupApplicationResource::collection(DB::table('group_applications')->where('group_id', $group->id)->get());
         return new JsonResponse(['applications' => $applications]);
     }
@@ -72,8 +74,7 @@ class GroupsController extends Controller
 
     public function destroy(Request $request, Group $group): JsonResponse
     {
-        if (!$group->isAdminById(Auth::user()->id))
-            return new JsonResponse(['message' => "You are not an admin of the group you are trying to delete."], Response::HTTP_BAD_REQUEST);
+        $this->isUserGroupAdmin($group);
         $group->users()->detach();
         $group->applications()->detach();
         $group->delete();
@@ -156,8 +157,7 @@ class GroupsController extends Controller
     {
         $user = User::find($application->user_id);
         $group = Group::find($application->group_id);
-        if (!$group->isAdminById(Auth::user()->id))
-            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $this->isUserGroupAdmin($group);
         $group->applications()->detach($user);
         $group->users()->attach($user);
         Notification::create([
@@ -181,8 +181,7 @@ class GroupsController extends Controller
     {
         $user = User::find($application->user_id);
         $group = Group::find($application->group_id);
-        if (!$group->isAdminById(Auth::user()->id))
-            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $this->isUserGroupAdmin($group);
         $group->applications()->detach($user);
 
         $admin = Auth::user();
@@ -200,8 +199,7 @@ class GroupsController extends Controller
     {
         $group = Group::find($application->group_id);
         $user = User::find($application->user_id);
-        if (!$group->isAdminById(Auth::user()->id))
-            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $this->isUserGroupAdmin($group);
         $group->applications()->detach($user);
         $group->bannedUsers()->attach($user);
         $username = User::find($user)->username;
@@ -247,8 +245,7 @@ class GroupsController extends Controller
 
     public function update(Group $group, UpdateGroupsRequest $request)
     {
-        if (!$group->isAdminById(Auth::user()->id))
-            return new JsonResponse(['message' => "You are not an admin of the group you are trying to update."], Response::HTTP_BAD_REQUEST);
+        $this->isUserGroupAdmin($group);
         $validated = $request->validated();
         $group->update($validated);
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
@@ -264,8 +261,7 @@ class GroupsController extends Controller
 
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request)
     {
-        if (!$group->isAdminById(Auth::user()->id))
-            return new JsonResponse(['message' => "You are not an admin of the group you are trying to manage."], Response::HTTP_BAD_REQUEST);
+        $this->isUserGroupAdmin($group);
         if (!$group->hasMember($request['id']))
             return new JsonResponse(['message' => "This user is not a member of this group"], Response::HTTP_BAD_REQUEST);
         $group->removeMemberFromGroup($request['id']);
@@ -284,8 +280,7 @@ class GroupsController extends Controller
     {
         $validated = $request->validated();
         $user = $validated['id'];
-        if (!$group->isAdminById(Auth::user()->id))
-            return new JsonResponse(['message' => "You are not an administrator of this group."], Response::HTTP_BAD_REQUEST);
+        $this->isUserGroupAdmin($group);
         $group->users()->detach($user);
         $group->bannedUsers()->attach($user);
         $username = User::find($user)->username;
@@ -308,7 +303,7 @@ class GroupsController extends Controller
     public function sendGroupInvite(SendGroupInviteRequest $request)
     {
         $group = Group::find($request['group_id']);
-        if ($group->getAdmin()->id !== Auth::user()->id) return new JsonResponse(['message' => 'You are not the admin of this group.'], Response::HTTP_BAD_REQUEST);
+        $this->isUserGroupAdmin($group);
         if (GroupInvite::where('group_id', $group->id)->where('user_id', $request['user_id'])->exists()) return new JsonResponse(['message' => 'This user has already been invited.'], Response::HTTP_BAD_REQUEST);
         if ($group->hasMember($request['user_id'])) return new JsonResponse(['message' => 'This user is already a member of this group'], Response::HTTP_BAD_REQUEST);
         $validated = $request->validated();
@@ -346,5 +341,11 @@ class GroupsController extends Controller
         $invite->delete();
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User id ' . $invite->user_id . ' rejected invite to group ' . $invite->group->name);
         return new JsonResponse(['message' => ['success' => ['You have rejected the invitation.']]], Response::HTTP_OK);
+    }
+
+    private function isUserGroupAdmin(Group $group)
+    {
+        if (!$group->isAdminById(Auth::user()->id))
+            throw new GroupNotAuthorizedException();
     }
 }
