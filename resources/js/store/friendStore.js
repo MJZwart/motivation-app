@@ -5,7 +5,7 @@ import {useMainStore} from './store';
 export const useFriendStore = defineStore('friend', {
     state: () => {
         return {
-            /** @type Array<import('resources/types/friend').Friend> | null */
+            /** @type import('resources/types/friend').FriendRequests | null */
             requests: null,
             /** @type Array<import('resources/types/friend').Friend> | null */
             friends: [],
@@ -13,7 +13,7 @@ export const useFriendStore = defineStore('friend', {
     },
     actions: {
         /**
-         * @param {Number} friendId
+         * @param {string} friendId
          */
         async sendRequest(friendId) {
             await axios.post('/friend/request/' + friendId);

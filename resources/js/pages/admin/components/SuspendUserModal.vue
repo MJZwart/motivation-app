@@ -55,7 +55,7 @@ const suspension = ref<NewSuspension>({
 async function suspendUser() {
     if (suspension.value.indefinite) suspension.value.days = null;
     await adminStore.suspendUser(props.userId, suspension.value);
-    emit('close');
+    emit('close', true);
 }
 
 </script>
