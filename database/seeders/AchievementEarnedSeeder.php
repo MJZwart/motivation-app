@@ -17,13 +17,11 @@ class AchievementEarnedSeeder extends Seeder
      */
     public function run()
     {
-        if (App::environment(['local', 'testing', 'staging'])) {
-            for ($i = 0; $i < 40; $i++) {
-                DB::table('achievements_earned')->insertOrIgnore([
-                    'user_id' => rand(1, User::count()),
-                    'achievement_id' => rand(1, Achievement::count()),
-                ]);
-            }
+        for ($i = 0; $i < 40; $i++) {
+            DB::table('achievements_earned')->insertOrIgnore([
+                'user_id' => rand(1, User::count()),
+                'achievement_id' => rand(1, Achievement::count()),
+            ]);
         }
     }
 }
