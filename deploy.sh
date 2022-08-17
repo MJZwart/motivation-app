@@ -5,7 +5,10 @@
 
    echo "Running in $APP_ENV"
 # build
+npm ci
+echo "Building"
 npm run build
+echo "Successfully built"
 
 # echo "Performing php artisan migrate:fresh --force --seed"
 # php artisan migrate --force --seed
