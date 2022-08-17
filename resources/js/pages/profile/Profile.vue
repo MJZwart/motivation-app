@@ -170,7 +170,6 @@ watch(
         if (route.params.id) getUserProfile()
     },
 );
-//TODO:: Show that a user is suspended and why. IT's already in the resource
 </script>
 
 
