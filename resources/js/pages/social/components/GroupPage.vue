@@ -66,15 +66,15 @@
             </div>
             <Modal class="xl" :show="showManageGroupModal" :footer="false" 
                    :title="group.name" @close="closeManageGroup">
-                <ManageGroupModal :group="group" @close="closeManageGroup" />
+                <ManageGroupModal :group="group" />
             </Modal>
             <Modal class="xl" :show="showManageApplicationsModal" :footer="false"
                    :title="group.name" @close="closeManageApplications">
-                <ManageApplicationsModal :group="group" @close="closeManageApplications" />    
+                <ManageApplicationsModal :group="group" />    
             </Modal>
             <Modal class="xl" :show="showInviteUsersModal" :footer="false"
                    :title="$t('invite-users-to', {group: group.name})" @close="closeInviteUsersModal">
-                <InviteUsersModal :group="group" @close="closeInviteUsersModal" />
+                <InviteUsersModal :group="group" />
             </Modal>
         </div>
     </div>
