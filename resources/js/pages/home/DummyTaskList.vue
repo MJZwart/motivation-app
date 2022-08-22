@@ -28,11 +28,7 @@
             </slot>
             <template #footer>           
                 <button class="block bottom-radius p-0 new-task" variant="outline">
-                    <Tooltip :text="$t('add-new-task')">
-                        <FaIcon 
-                            icon="square-plus"
-                            class="icon large green m-0 wide" />
-                    </Tooltip>
+                    {{$t('new-task')}}
                 </button>
             </template>
         </Summary>
