@@ -14,6 +14,8 @@
             </a>
             <router-link class="silent mb-1" to="/bugreport">{{ $t('report-bug') }}</router-link>
             <router-link class="silent mb-1" to="/feedback">{{ $t('feedback') }}</router-link>
+            <router-link class="silent mb-1" to="/privacy">{{ $t('privacy-policy') }}</router-link>
+            <router-link class="silent mb-1" to="/tos">{{ $t('tos') }}</router-link>
         </div>
     </div>
 </template>

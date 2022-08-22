@@ -93,4 +93,3 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
 Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
 Route::post('/feedback', [FeedbackController::class, 'store']);
-
