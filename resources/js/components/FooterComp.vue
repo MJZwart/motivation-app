@@ -1,7 +1,7 @@
 <template>
     <div id="footer">
         <div class="footer-text-left">
-            <p class="silent">{{ $t('footer-text') }}</p>
+            <p class="silent">{{ $t('footer-text', [version]) }}</p>
             <p class="silent">{{ $t('footer-disclaimer') }}</p>
             <a class="silent mb-1" :href="$t('discord-link')" target="_blank">
                 {{ $t('discord-link') }}
@@ -17,6 +17,10 @@
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+import {version} from '../../../package.json';
+</script>
 
 <style lang="scss" scoped>
 @import '../../assets/scss/variables.scss';
