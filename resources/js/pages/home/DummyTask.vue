@@ -4,7 +4,7 @@
             <Tooltip :text="$t('complete-task')">
                 <FaIcon 
                     :icon="['far', 'square-check']"
-                    class="icon small green" />
+                    class="icon medium green" />
             </Tooltip>
        
             {{task.name}}             
@@ -32,10 +32,10 @@
         <div v-for="subTask in task.tasks" :key="subTask.id" class="sub-task">
             <p class="task-title d-flex">
                 <FaIcon icon="arrow-turn-up" rotation="90" />
-                <Tooltip :text="$t('complete-sub-task')">
+                <Tooltip :text="$t('complete-sub-task')" class="ml-1">
                     <FaIcon 
                         :icon="['far', 'square-check']"
-                        class="icon small green" />
+                        class="icon medium green" />
                 </Tooltip>
                 {{subTask.name}}
                 <Tooltip :text="$t('edit-sub-task')" class="ml-auto">
@@ -55,12 +55,8 @@
 </template>
 
 
-<script setup>
-defineProps({
-    /** @type {import('resources/types/task').Task} */
-    task: {
-        type: Object,
-        required: true,
-    },
-});
+<script setup lang="ts">
+import type {Task} from 'resources/types/task';
+
+defineProps<{task: Task}>();
 </script>

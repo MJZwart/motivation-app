@@ -4,7 +4,7 @@
             <Tooltip :text="$t('complete-task')" placement="right">
                 <FaIcon 
                     :icon="['far', 'square-check']"
-                    class="icon small green"
+                    class="icon medium green"
                     @click="completeTask(task)" />
             </Tooltip>
             {{task.name}}             
@@ -44,10 +44,10 @@
         <div v-for="subTask in task.tasks" :key="subTask.id" class="sub-task">
             <p class="task-title d-flex">
                 <FaIcon icon="arrow-turn-up" rotation="90" />
-                <Tooltip :text="$t('complete-sub-task')">
+                <Tooltip :text="$t('complete-sub-task')" class="ml-1">
                     <FaIcon 
                         :icon="['far', 'square-check']"
-                        class="icon small green"
+                        class="icon medium green"
                         @click="completeTask(subTask)" />
                 </Tooltip>
                 {{subTask.name}}    
@@ -78,28 +78,23 @@
         </div>
         
         <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
-            <EditTask :task="taskToEdit" @close="closeEditTask" />
+            <EditTask v-if="taskToEdit" :task="taskToEdit" @close="closeEditTask" />
         </Modal>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import {ref, PropType} from 'vue';
+import type {Task} from 'resources/types/task';
+import {ref} from 'vue';
 import EditTask from './EditTask.vue';
-import {Task} from 'resources/types/task';
 import {useTaskStore} from '/js/store/taskStore';
 import {useMainStore} from '/js/store/store';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 const mainStore = useMainStore();
 
-defineProps({
-    task: {
-        type: Object as PropType<Task>,
-        required: true,
-    },
-});
+defineProps<{task: Task}>();
 
 const emit = defineEmits(['newTask']);
 
