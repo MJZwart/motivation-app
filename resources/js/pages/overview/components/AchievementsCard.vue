@@ -32,8 +32,9 @@ defineProps({
 });
 
 function achievementSummary(achievement: Achievement): string {
-    const date = achievement.pivot ? parseDateTime(achievement.pivot.earned, true) : '';
-    return achievement.description+' '+achievement.trigger_description+' '
+    const date = parseDateTime(achievement.earned, true);
+    const description = achievement.description ? achievement.description+' ' : '';
+    return description + achievement.trigger_description + ' '
     + t('earned-on')+': '+ date;
 }
 </script>
