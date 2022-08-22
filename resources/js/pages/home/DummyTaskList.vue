@@ -27,7 +27,7 @@
                 </template>
             </slot>
             <template #footer>           
-                <button class="block clear bottom-radius p-0" variant="outline">
+                <button class="block bottom-radius p-0 new-task" variant="outline">
                     <Tooltip :text="$t('add-new-task')">
                         <FaIcon 
                             icon="square-plus"
