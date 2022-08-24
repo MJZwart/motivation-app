@@ -109,7 +109,7 @@ function closeDeleteTaskList() {
 }
 
 function taskClass(index: number) {
-    return index == props.taskList.tasks.length -1 ? 'task-last' : 'task';
+    return index == props.taskList.tasks.length -1 ? 'task task-last' : 'task';
 }
 </script>
 

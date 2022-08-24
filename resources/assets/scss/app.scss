@@ -360,6 +360,25 @@ button:disabled {
 }
 .task {
     border-bottom: 1px solid $background-darker;
+    display: flex;
+}
+.task-sidebar {
+    width: 1.5%;
+}
+.task-sidebar.diff-1 {
+    background-color: $light-green
+}
+.task-sidebar.diff-2 {
+    background-color: $green
+}
+.task-sidebar.diff-3 {
+    background-color: $yellow
+}
+.task-sidebar.diff-4 {
+    background-color: $orange
+}
+.task-sidebar.diff-5 {
+    background-color: $red
 }
 .sub-task{
     margin:-6px;
@@ -376,6 +395,9 @@ button:disabled {
 .task-title{
     font-family: $bold-font;
     margin-bottom:0;
+}
+.task-content {
+    width: 98.5%;
 }
 
 .green{

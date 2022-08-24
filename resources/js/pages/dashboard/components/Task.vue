@@ -1,80 +1,81 @@
 <template>
     <div>
-        <p class="task-title d-flex">
-            <Tooltip :text="$t('complete-task')" placement="right">
-                <FaIcon 
-                    :icon="['far', 'square-check']"
-                    class="icon medium green"
-                    @click="completeTask(task)" />
-            </Tooltip>
-            {{task.name}}             
-            <span class="ml-auto">
-                <Tooltip v-if="task.repeatable != 'NONE'" :text="$t(task.repeatable)">
-                    <FaIcon 
-                        icon="repeat"
-                        class="icon small" />
-                </Tooltip>
-                <Tooltip :text="$t('difficulty')">
-                    <span :class="`number-icon diff-${task.difficulty}`">{{task.difficulty}}</span>
-                </Tooltip>
-                <Tooltip :text="$t('new-sub-task')">
-                    <FaIcon 
-                        icon="square-plus"
-                        class="icon small green"
-                        @click="openNewTask(task)" />
-                </Tooltip>
-                <Tooltip :text="$t('edit-task')">
-                    <FaIcon 
-                        :icon="['far', 'pen-to-square']"
-                        class="icon small"
-                        @click="editTask(task)" />
-                </Tooltip>
-                <Tooltip :text="$t('delete-task')">
-                    <FaIcon 
-                        icon="trash"
-                        class="icon small red"
-                        @click="deleteTask(task)" />
-                </Tooltip>
-            </span>
-            
-        </p>
-        
-        <p class="task-description">{{task.description}}</p>
-
-        <div v-for="subTask in task.tasks" :key="subTask.id" class="sub-task">
+        <div class="task-sidebar" :class="`diff-${task.difficulty}`" />
+        <div class="task-content">
             <p class="task-title d-flex">
-                <FaIcon icon="arrow-turn-up" rotation="90" />
-                <Tooltip :text="$t('complete-sub-task')" class="ml-1">
+                <Tooltip :text="$t('complete-task')" placement="right">
                     <FaIcon 
                         :icon="['far', 'square-check']"
                         class="icon medium green"
-                        @click="completeTask(subTask)" />
+                        @click="completeTask(task)" />
                 </Tooltip>
-                {{subTask.name}}    
+                {{task.name}}             
                 <span class="ml-auto">
-                    <Tooltip v-if="subTask.repeatable != 'NONE'" :text="$t(subTask.repeatable)">
+                    <Tooltip v-if="task.repeatable != 'NONE'" :text="$t(task.repeatable)">
                         <FaIcon 
                             icon="repeat"
                             class="icon small" />
                     </Tooltip>
-                    <Tooltip :text="$t('difficulty')">
-                        <span :class="`number-icon diff-${task.difficulty}`">{{task.difficulty}}</span>
+                    <Tooltip :text="$t('new-sub-task')">
+                        <FaIcon 
+                            icon="square-plus"
+                            class="icon small green"
+                            @click="openNewTask(task)" />
                     </Tooltip>
-                    <Tooltip :text="$t('edit-sub-task')">
+                    <Tooltip :text="$t('edit-task')">
                         <FaIcon 
                             :icon="['far', 'pen-to-square']"
                             class="icon small"
-                            @click="editTask(subTask)" />
+                            @click="editTask(task)" />
                     </Tooltip>
-                    <Tooltip :text="$t('delete-sub-task')">
+                    <Tooltip :text="$t('delete-task')">
                         <FaIcon 
                             icon="trash"
                             class="icon small red"
-                            @click="deleteTask(subTask)" />
+                            @click="deleteTask(task)" />
                     </Tooltip>
                 </span>
+                
             </p>
-            <p class="task-description">{{subTask.description}}</p>
+            
+            <p class="task-description">{{task.description}}</p>
+
+            <div v-for="subTask in task.tasks" :key="subTask.id" class="sub-task">
+                <p class="task-title d-flex">
+                    <FaIcon icon="arrow-turn-up" rotation="90" />
+                    <Tooltip :text="$t('complete-sub-task')" class="ml-1">
+                        <FaIcon 
+                            :icon="['far', 'square-check']"
+                            class="icon medium green"
+                            @click="completeTask(subTask)" />
+                    </Tooltip>
+                    {{subTask.name}}    
+                    <span class="ml-auto">
+                        <Tooltip v-if="subTask.repeatable != 'NONE'" :text="$t(subTask.repeatable)">
+                            <FaIcon 
+                                icon="repeat"
+                                class="icon small" />
+                        </Tooltip>
+                        <Tooltip :text="$t('difficulty')">
+                            <span :class="`number-icon diff-${task.difficulty}`">{{task.difficulty}}</span>
+                        </Tooltip>
+                        <Tooltip :text="$t('edit-sub-task')">
+                            <FaIcon 
+                                :icon="['far', 'pen-to-square']"
+                                class="icon small"
+                                @click="editTask(subTask)" />
+                        </Tooltip>
+                        <Tooltip :text="$t('delete-sub-task')">
+                            <FaIcon 
+                                icon="trash"
+                                class="icon small red"
+                                @click="deleteTask(subTask)" />
+                        </Tooltip>
+                    </span>
+                </p>
+                <p class="task-description">{{subTask.description}}</p>
+            </div>
+            
         </div>
         
         <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
@@ -136,17 +137,5 @@ function completeTask(task: Task) {
     margin: 1px;
     position: relative;
     bottom: 2px;
-}
-.number-icon.diff-1, .number-icon.diff-2 {
-    color: $green
-}
-.number-icon.diff-3 {
-    color: $yellow
-}
-.number-icon.diff-4 {
-    color: $orange
-}
-.number-icon.diff-5 {
-    color: $red
 }
 </style>
