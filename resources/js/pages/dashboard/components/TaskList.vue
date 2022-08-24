@@ -126,8 +126,10 @@ function taskClass(index: number) {
     height: 3rem;
     margin-bottom: 0;
     border: none;
+    margin-top:-2px;
 }
 .new-task:hover {
     background-color: $dark-green;
+    border-color: $dark-green;
 }
 </style>
