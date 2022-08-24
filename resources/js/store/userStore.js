@@ -26,7 +26,8 @@ export const useUserStore = defineStore('user', {
         /**
          * User authentication. If user login is valid but the account is otherwise invalidated, 
          * instead return info the Login screen.
-         * @param {import('resources/types/user').User} user
+         * @param {import('resources/types/user').Login} user
+         * @returns {Promise<import('resources/types/error').Message | null>}
          */
         async login(user) {
             await axios.get('/sanctum/csrf-cookie');
@@ -37,6 +38,7 @@ export const useUserStore = defineStore('user', {
             friendStore.friends = data.user.friends;
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             router.push('/dashboard').catch(() => {});
+            return null;
         },
 
         async logout() {
@@ -59,13 +61,12 @@ export const useUserStore = defineStore('user', {
 
         //New user
         /**
-         * @param {import('resources/types/user').User} user
+         * @param {import('resources/types/user').Register} user
          */
         async register(user) {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('/register', user);
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            router.push('/login').catch(() => {});
+            router.push('/login');
         },
         /**
          * @param {import('resources/types/user').User} user

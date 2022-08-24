@@ -24,7 +24,8 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
+import type {Message} from 'resources/types/error';
 import {useUserStore} from '/js/store/userStore';
 import {reactive, ref} from 'vue';
 
@@ -34,7 +35,7 @@ const login = reactive({
 });
 
 const userStore = useUserStore();
-const info = ref(null);
+const info = ref<Message | null>(null);
 
 async function submitLogin() {
     info.value = await userStore.login(login);

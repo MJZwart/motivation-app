@@ -104,7 +104,7 @@ class GroupsController extends Controller
             return new JsonResponse(['message' => "You are already a member of this group."], Response::HTTP_BAD_REQUEST);
         $users->attach($user);
 
-        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', $user->username . ' joined group ' . $group->name);
+        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', 'Joined group ' . $group->name);
         return new JsonResponse(
             [
                 'message' => ['success' => "You successfully joined the group \"{$group->name}\"."],
@@ -143,7 +143,7 @@ class GroupsController extends Controller
             'text' => "{$user->username} has applied to your group {$group->name}. Head to the details of {$group->name} and click on \"Manage Applications\" to accept or reject the application.",
         ]);
 
-        ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "{$user->username} applied to group {$group->name}");
+        ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "User applied to group {$group->name}");
         return new JsonResponse(
             [
                 'message' => ['success' => "You successfully applied to the group \"{$group->name}\"."],
@@ -167,7 +167,7 @@ class GroupsController extends Controller
         ]);
 
         $admin = Auth::user();
-        ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "{$admin->username} accepted {$user->username}'s group application into {$group->name}.");
+        ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "User accepted {$user->username}'s group application into {$group->name}.");
         return new JsonResponse(
             [
                 'message' => ['success' => "You successfully accepted {$user->username}'s application."],
@@ -185,7 +185,7 @@ class GroupsController extends Controller
         $group->applications()->detach($user);
 
         $admin = Auth::user();
-        ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "{$admin->username} rejected {$user->username}'s group application into {$group->name}.");
+        ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "User rejected {$user->username}'s group application into {$group->name}.");
         return new JsonResponse(
             [
                 'message' => ['success' => "You successfully rejected {$user->username}'s application."],
@@ -233,7 +233,7 @@ class GroupsController extends Controller
         if ($group->isAdminById($user->id))
             return new JsonResponse(['message' => "You cannot leave a group where you are an admin."], Response::HTTP_BAD_REQUEST);
         $users->detach($user);
-        ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', $user->username . ' left group ' . $group->name);
+        ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', 'User left group ' . $group->name);
         return new JsonResponse(
             [
                 'message' => ['success' => "You have successfully left the group \"{$group->name}\"."],
@@ -328,7 +328,7 @@ class GroupsController extends Controller
         if ($invite->group->hasMember($user->id)) return new JsonResponse(['message' => 'You are already a member of this group.'], Response::HTTP_BAD_REQUEST);
         $invite->group->users()->attach($user);
         $invite->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User id ' . $invite->user_id . ' accepted invite to group ' . $invite->group->name);
+        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $invite->group->name);
         return new JsonResponse(['message' => ['success' => ['You are now a member of ' . $invite->group->name]]], Response::HTTP_OK);
     }
 
@@ -339,7 +339,7 @@ class GroupsController extends Controller
         if ($user->id !== $invite->user_id) return new JsonResponse(['message' => 'This is not your invitation.'],  Response::HTTP_BAD_REQUEST);
         if ($invite->group->hasMember($user->id)) return new JsonResponse(['message' => 'You are already a member of this group.'], Response::HTTP_BAD_REQUEST);
         $invite->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User id ' . $invite->user_id . ' rejected invite to group ' . $invite->group->name);
+        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $invite->group->name);
         return new JsonResponse(['message' => ['success' => ['You have rejected the invitation.']]], Response::HTTP_OK);
     }
 

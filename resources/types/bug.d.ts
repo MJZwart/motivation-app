@@ -14,6 +14,6 @@ export type BugReport = {
 export type Feedback = {
     text: string,
     type: string,
-    user_id: number | null,
-    email: string | null,
+    user_id?: string | number,
+    email?: string,
 }
