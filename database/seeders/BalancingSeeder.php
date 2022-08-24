@@ -21,7 +21,7 @@ class BalancingSeeder extends Seeder
             'endurance' => 3,
             'intelligence' => 3,
             'charisma' => 3,
-            'level' => 15,
+            'level' => 10,
         ]);
         DB::table('character_exp_gain')->insert([
             'task_type' => 'PHYSICAL',
@@ -30,7 +30,7 @@ class BalancingSeeder extends Seeder
             'endurance' => 4,
             'intelligence' => 1,
             'charisma' => 1,
-            'level' => 15,
+            'level' => 10,
         ]);
         DB::table('character_exp_gain')->insert([
             'task_type' => 'MENTAL',
@@ -39,7 +39,7 @@ class BalancingSeeder extends Seeder
             'endurance' => 3,
             'intelligence' => 7,
             'charisma' => 5,
-            'level' => 15,
+            'level' => 10,
         ]);
         DB::table('character_exp_gain')->insert([
             'task_type' => 'SOCIAL',
@@ -48,7 +48,7 @@ class BalancingSeeder extends Seeder
             'endurance' => 2,
             'intelligence' => 3,
             'charisma' => 8,
-            'level' => 15,
+            'level' => 10,
         ]);
 
         DB::table('village_exp_gain')->insert([
@@ -58,7 +58,7 @@ class BalancingSeeder extends Seeder
             'craft' => 3,
             'art' => 3,
             'community' => 3,
-            'level' => 15,
+            'level' => 10,
         ]);
         DB::table('village_exp_gain')->insert([
             'task_type' => 'PHYSICAL',
@@ -67,7 +67,7 @@ class BalancingSeeder extends Seeder
             'craft' => 4,
             'art' => 1,
             'community' => 3,
-            'level' => 15,
+            'level' => 10,
         ]);
         DB::table('village_exp_gain')->insert([
             'task_type' => 'MENTAL',
@@ -76,7 +76,7 @@ class BalancingSeeder extends Seeder
             'craft' => 6,
             'art' => 3,
             'community' => 1,
-            'level' => 15,
+            'level' => 10,
         ]);
         DB::table('village_exp_gain')->insert([
             'task_type' => 'SOCIAL',
@@ -85,7 +85,7 @@ class BalancingSeeder extends Seeder
             'craft' => 1,
             'art' => 6,
             'community' => 7,
-            'level' => 15,
+            'level' => 10,
         ]);
     }
 }

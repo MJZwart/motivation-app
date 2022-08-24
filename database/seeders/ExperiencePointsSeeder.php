@@ -16,7 +16,7 @@ class ExperiencePointsSeeder extends Seeder
     {
         $experiencePoints = 1000;
         $levelAmount = 130;
-        for($i = 1 ; $i < $levelAmount ; $i++){
+        for ($i = 1; $i < $levelAmount; $i++) {
             ExperiencePoint::insert([
                 'level' => $i,
                 'experience_points' => $experiencePoints,
@@ -24,6 +24,5 @@ class ExperiencePointsSeeder extends Seeder
             if ($i < 50) $experiencePoints += 50;
             else if ($i < 112) $experiencePoints += 25;
         }
-
     }
 }
