@@ -6,7 +6,8 @@ use App\Models\Character;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class CharacterHandler {
+class CharacterHandler
+{
 
     /**
      * Sets the character given as param as active and toggles all other characters as inactive
@@ -15,11 +16,12 @@ class CharacterHandler {
      * @param Integer $characterIdToActive
      * @return Character
      */
-    public static function toggleCharacterActive($userId, $characterIdToActive){
+    public static function toggleCharacterActive($userId, $characterIdToActive)
+    {
         $allCharacters = CharacterHandler::findAllCharactersByUser($userId);
         $activeCharacter = null;
-        foreach($allCharacters as $char){
-            if($char->id == $characterIdToActive){
+        foreach ($allCharacters as $char) {
+            if ($char->id == $characterIdToActive) {
                 $activeCharacter = CharacterHandler::activateCharacter($char->id);
             } else {
                 CharacterHandler::deactivateCharacter($char->id);
@@ -34,7 +36,8 @@ class CharacterHandler {
      * @param Integer $characterId
      * @return Character
      */
-    public static function activateCharacter($characterId){
+    public static function activateCharacter($characterId)
+    {
         $character = Character::find($characterId);
         $character->active = true;
         $character->update();
@@ -46,7 +49,8 @@ class CharacterHandler {
      *
      * @param Integer $characterId
      */
-    public static function deactivateCharacter($characterId){
+    public static function deactivateCharacter($characterId)
+    {
         $character = Character::find($characterId);
         $character->active = false;
         $character->update();
@@ -59,11 +63,13 @@ class CharacterHandler {
      * @param String $characterName
      * @return Character
      */
-    public static function createNewCharacterAndActivate($userId, $characterName){
+    public static function createNewCharacterAndActivate($userId, $characterName)
+    {
         $newCharacter = Character::create([
             'name' => $characterName,
-            'user_id' => $userId]);
-        CharacterHandler::toggleCharacterActive($userId, $newCharacter->id);
+            'user_id' => $userId
+        ]);
+        $newCharacter = CharacterHandler::toggleCharacterActive($userId, $newCharacter->id);
         return $newCharacter;
     }
 
@@ -73,7 +79,8 @@ class CharacterHandler {
      * @param Integer $userId
      * @return Character
      */
-    public static function findActiveCharacter($userId){
+    public static function findActiveCharacter($userId)
+    {
         return Character::where('user_id', $userId)->where('active', true)->first();
     }
 
@@ -83,13 +90,15 @@ class CharacterHandler {
      * @param Integer $userId
      * @return Characters
      */
-    public static function findAllCharactersByUser($userId){
+    public static function findAllCharactersByUser($userId)
+    {
         return Character::where('user_id', $userId)->get();
     }
 
-    public static function updateActiveCharacter($activeCharacter, $newName) {
+    public static function updateActiveCharacter($activeCharacter, $newName)
+    {
         $character = Character::find($activeCharacter);
-        if($character->user_id == Auth::user()->id){
+        if ($character->user_id == Auth::user()->id) {
             $character->update(['name' => $newName]);
             return $character->refresh();
         } else {
@@ -97,16 +106,18 @@ class CharacterHandler {
         }
     }
 
-    public static function deactivateAllCharacters(User $user) {
+    public static function deactivateAllCharacters(User $user)
+    {
         foreach ($user->characters as $character) {
-            if($character->active) {
+            if ($character->active) {
                 $character->active = false;
                 $character->save();
             }
         }
     }
 
-    public static function deleteCharacter($characterId) {
+    public static function deleteCharacter($characterId)
+    {
         Character::find($characterId)->delete();
     }
 }

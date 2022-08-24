@@ -6,7 +6,8 @@ use App\Models\Village;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class VillageHandler {
+class VillageHandler
+{
 
     /**
      * Sets the village given as param as active and toggles all other villages as inactive
@@ -15,13 +16,14 @@ class VillageHandler {
      * @param Integer $villageIdToActive
      * @return Village
      */
-    public static function toggleVillageActive($userId, $villageIdToActive){
+    public static function toggleVillageActive($userId, $villageIdToActive)
+    {
         $allVillages = VillageHandler::findAllVillagesByUser($userId);
         $activeVillage = null;
-        foreach($allVillages as $vill){
-            if($vill->id == $villageIdToActive){
+        foreach ($allVillages as $vill) {
+            if ($vill->id == $villageIdToActive) {
                 $activeVillage = VillageHandler::activateVillage($vill->id);
-            } else {
+            } else if ($vill->active == 1) {
                 VillageHandler::deactivateVillage($vill->id);
             }
         }
@@ -34,7 +36,8 @@ class VillageHandler {
      * @param Integer $villageId
      * @return Village
      */
-    public static function activateVillage($villageId){
+    public static function activateVillage($villageId)
+    {
         $village = Village::find($villageId);
         $village->active = true;
         $village->update();
@@ -46,7 +49,8 @@ class VillageHandler {
      *
      * @param Integer $villageId
      */
-    public static function deactivateVillage($villageId){
+    public static function deactivateVillage($villageId)
+    {
         $village = Village::find($villageId);
         $village->active = false;
         $village->update();
@@ -59,11 +63,13 @@ class VillageHandler {
      * @param String $villageName
      * @return Village
      */
-    public static function createNewVillageAndActivate($userId, $villageName){
+    public static function createNewVillageAndActivate($userId, $villageName)
+    {
         $newVillage = Village::create([
             'name' => $villageName,
-            'user_id' => $userId]);
-        VillageHandler::toggleVillageActive($userId, $newVillage->id);
+            'user_id' => $userId
+        ]);
+        $newVillage = VillageHandler::toggleVillageActive($userId, $newVillage->id);
         return $newVillage;
     }
 
@@ -73,7 +79,8 @@ class VillageHandler {
      * @param Integer $userId
      * @return Village
      */
-    public static function findActiveVillage($userId){
+    public static function findActiveVillage($userId)
+    {
         return Village::where('user_id', $userId)->where('active', true)->first();
     }
 
@@ -83,30 +90,34 @@ class VillageHandler {
      * @param Integer $userId
      * @return Villages
      */
-    public static function findAllVillagesByUser($userId){
+    public static function findAllVillagesByUser($userId)
+    {
         return Village::where('user_id', $userId)->get();
     }
 
-    public static function updateActiveVillage($activeVillage, $newName) {
+    public static function updateActiveVillage($activeVillage, $newName)
+    {
         $village = Village::find($activeVillage);
-        if($village->user_id == Auth::user()->id){
+        if ($village->user_id == Auth::user()->id) {
             $village->update(['name' => $newName]);
             return $village->refresh();
         } else {
             //Throw exception
         }
     }
-    
-    public static function deactivateAllVillages(User $user) {
+
+    public static function deactivateAllVillages(User $user)
+    {
         foreach ($user->villages as $village) {
-            if($village->active) {
+            if ($village->active) {
                 $village->active = false;
                 $village->save();
             }
         }
     }
 
-    public static function deleteVillage($villageId) {
+    public static function deleteVillage($villageId)
+    {
         Village::find($villageId)->delete();
     }
 }
