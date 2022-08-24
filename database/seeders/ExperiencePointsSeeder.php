@@ -14,7 +14,7 @@ class ExperiencePointsSeeder extends Seeder
      */
     public function run()
     {
-        $experiencePoints = 1000;
+        $experiencePoints = 2000;
         $levelAmount = 130;
         for ($i = 1; $i < $levelAmount; $i++) {
             ExperiencePoint::insert([
