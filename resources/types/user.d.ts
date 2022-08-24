@@ -78,3 +78,16 @@ export type UserProfile = {
         reason: string,
     } | null,
 }
+
+export type Login = {
+    username: string,
+    password: string,
+}
+
+export type Register = {
+    username: string,
+    password: string,
+    password_confirmation: string,
+    email: string,
+    agree_to_tos: boolean,
+}

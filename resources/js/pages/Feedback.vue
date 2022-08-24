@@ -34,7 +34,8 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type {Feedback} from 'resources/types/bug';
 import {reactive, computed} from 'vue';
 import {FEEDBACK_TYPES} from '/js/constants/feedbackConstants.js';
 import {useMainStore} from '/js/store/store';
@@ -42,8 +43,10 @@ import {useUserStore} from '/js/store/userStore';
 const mainStore = useMainStore();
 const userStore = useUserStore();
 
-const feedback = reactive({
+const feedback = reactive<Feedback>({
     type: 'FEEDBACK',
+    text: '',
+    email: '',
 });
 const feedbackTypes = FEEDBACK_TYPES;
 

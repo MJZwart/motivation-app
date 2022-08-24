@@ -28,6 +28,14 @@ class RegisterUserRequest extends FormRequest
             'username' => 'required|string|unique:users|max:255',
             'email' => 'required|string|email|unique:users|max:255',
             'password' => ['required', 'confirmed', Rules\Password::min(8), 'max:255'],
+            'agree_to_tos' => 'required|boolean|accepted',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'agree_to_tos.accepted' => 'You must agree to the terms of service to register an account.',
         ];
     }
 }
