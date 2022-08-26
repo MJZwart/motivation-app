@@ -14,12 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            ExampleTaskSeeder::class,
-            AchievementSeeder::class,
-            ExperiencePointsSeeder::class,
-            BalancingSeeder::class,
-        ]);
         if (App::environment(['local', 'testing', 'staging'])) {
             $this->call([
                 UserSeeder::class,
