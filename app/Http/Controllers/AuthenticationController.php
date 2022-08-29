@@ -18,17 +18,18 @@ class AuthenticationController extends Controller
     /**
      * Check login credentials. Logs the user in, regenerates a session.
      */
-    public function authenticate(LoginRequest $request): JsonResponse{
+    public function authenticate(LoginRequest $request): JsonResponse
+    {
         $credentials = $request->validated();
 
-        if(Auth::attempt($credentials)){
+        if (Auth::attempt($credentials)) {
             /** @var User */
             $user = Auth::user();
-            if ($user->isBanned()){
+            if ($user->isBanned()) {
                 return $this->handleBannedUser($user, $request);
             }
             $request->session()->regenerate();
-            ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in '.$request['username']);
+            ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in ' . $request['username']);
             /** @var User */
             $user = Auth::user();
             $user->last_login = Carbon::now();
@@ -36,27 +37,30 @@ class AuthenticationController extends Controller
             return new JsonResponse(['user' => new UserResource($user)]);
         }
         $errorMessage = 'Username or password is incorrect.';
-        ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in '.$request['username'], 'Invalid login');
+        ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in ' . $request['username'], 'Invalid login');
         return new JsonResponse(['message' => $errorMessage, 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
-
     }
 
-    private function handleBannedUser(User $user, Request $request) {
+    private function handleBannedUser(User $user, Request $request)
+    {
         $timeRemaining = Carbon::parse($user->banned_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]);
-        ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in '.$request['username']);
+        ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in ' . $request['username']);
         $bannedUntilDate = $user->banned_until;
         $reason = $user->bannedUser->first()->reason;
         $errorMessage = 'You are banned until %s. Reason: %s If you wish to dispute your ban, contact one of the admins on our Discord. Time remaining: %s.';
         return new JsonResponse([
             'message' => [
-                'error' => sprintf($errorMessage, $bannedUntilDate, $reason, $timeRemaining)], 
-            'invalid' => true]);
+                'error' => sprintf($errorMessage, $bannedUntilDate, $reason, $timeRemaining)
+            ],
+            'invalid' => true
+        ]);
     }
 
     /**
      * Invalidates the session to log the user out
      */
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
 
         $request->session()->invalidate();

@@ -22,11 +22,12 @@ class RegisteredUserController extends Controller
     /**
      * Creates a new user with a hashed password. Returns confirmation.
      */
-    public function store(RegisterUserRequest $request): JsonResponse{
+    public function store(RegisterUserRequest $request): JsonResponse
+    {
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
-        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Deleting '.$request['rewardType'].' '.$request['id']);
+        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Deleting ' . $request['rewardType'] . ' ' . $request['id']);
         $successMessage = "You have successfully registered. You can now login with your chosen username.";
         return new JsonResponse(['message' => ['sucess' => $successMessage]], Response::HTTP_OK);
     }
@@ -36,30 +37,40 @@ class RegisteredUserController extends Controller
      * * The reward type, with a new instance of this reward if applicable
      * * Optionally chosen example tasks
      */
-    public function confirmRegister(ConfirmRegisterRequest $request): JsonResponse{
+    public function confirmRegister(ConfirmRegisterRequest $request): JsonResponse
+    {
         $request->validated();
         /** @var User */
         $user = Auth::user();
         $user->rewards = $request['rewardsType'];
-        switch($request['rewardsType']){
+        switch ($request['rewardsType']) {
             case 'NONE':
                 $user->show_reward = false;
                 break;
             case 'CHARACTER':
                 Character::create(
-                    ['name' => $request['reward_object_name'],
-                    'user_id' => $user->id]);
+                    [
+                        'name' => $request['reward_object_name'],
+                        'user_id' => $user->id
+                    ]
+                );
                 break;
             case 'VILLAGE':
                 Village::create(
-                    ['name' => $request['reward_object_name'],
-                    'user_id' => $user->id]);
+                    [
+                        'name' => $request['reward_object_name'],
+                        'user_id' => $user->id
+                    ]
+                );
                 break;
         }
         $taskList = TaskList::create(
-            ['name' => 'Tasks',
-            'user_id' => $user->id]);
-        if(!!$request['tasks']){
+            [
+                'name' => 'Tasks',
+                'user_id' => $user->id
+            ]
+        );
+        if (!!$request['tasks']) {
             $this->addExampleTasks($request['tasks'], $user->id, $taskList->id);
             AchievementHandler::checkForAchievement('TASKS_MADE', $user);
         }
@@ -77,17 +88,21 @@ class RegisteredUserController extends Controller
      * @param Integer $userId
      * @param Integer $taskListId
      */
-    private function addExampleTasks($tasks, $userId, $taskListId){
-        for($i = 0 ; $i < count($tasks) ; $i ++){
+    private function addExampleTasks($tasks, $userId, $taskListId)
+    {
+        for ($i = 0; $i < count($tasks); $i++) {
             $task = ExampleTask::find($tasks[$i]);
             Task::create(
-                ['name' => $task->name,
-                'description' => $task->description,
-                'difficulty' => $task->difficulty,
-                'type' => $task->type,
-                'repeatable' => $task->repeatable,
-                'user_id' => $userId,
-                'task_list_id' => $taskListId]);
+                [
+                    'name' => $task->name,
+                    'description' => $task->description,
+                    'difficulty' => $task->difficulty,
+                    'type' => $task->type,
+                    'repeatable' => $task->repeatable,
+                    'user_id' => $userId,
+                    'task_list_id' => $taskListId
+                ]
+            );
         }
     }
 }

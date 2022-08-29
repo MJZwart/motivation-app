@@ -18,22 +18,24 @@ use Illuminate\Support\Facades\DB;
 class MessageController extends Controller
 {
 
-    public function getConversations() {
+    public function getConversations()
+    {
         /** @var User */
         $user = Auth::user();
         return ConversationOverviewResource::collection($user->getVisibleConversations());
     }
 
-    public function sendMessage(SendMessageRequest $request) {
+    public function sendMessage(SendMessageRequest $request)
+    {
         /** @var User */
         $user = Auth::user();
-        if($user->isBlocked($request['recipient_id'])){
+        if ($user->isBlocked($request['recipient_id'])) {
             return new JsonResponse(['message' => 'You are unable to send messages to this user.'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         $validated = $request->validated();
         $validated['sender_id'] = $user->id;
 
-        if(!array_key_exists('conversation_id', $validated)) {
+        if (!array_key_exists('conversation_id', $validated)) {
             $validated['conversation_id'] = $this->getConversationId($user->id, $validated['recipient_id']);
         }
 
@@ -44,12 +46,13 @@ class MessageController extends Controller
         return new JsonResponse(['message' => ['success' => 'Message sent.']], Response::HTTP_OK);
     }
 
-    private function getConversationId($user_id, $recipient_id) {
+    private function getConversationId($user_id, $recipient_id)
+    {
         $conversation_id = null;
         $conversation = Conversation::where('user_id', $user_id)
-                  ->where('recipient_id', $recipient_id)
-                  ->first();
-        if(!$conversation) {
+            ->where('recipient_id', $recipient_id)
+            ->first();
+        if (!$conversation) {
             do {
                 $conversation_id = random_int(11111, 99999);
             } while (Conversation::where('conversation_id', $conversation_id)->first() != null);
@@ -61,17 +64,20 @@ class MessageController extends Controller
         return $conversation_id;
     }
 
-    public function markConversationAsRead(Conversation $conversation) {
+    public function markConversationAsRead(Conversation $conversation)
+    {
         foreach ($conversation->messages as $message) {
-            if(!$message->read) {
+            if (!$message->read) {
                 $message->read = true;
                 $message->save([
-                    'touch' => false]);
+                    'touch' => false
+                ]);
             }
         }
     }
 
-    public function deleteMessage(Request $request, Message $message) {
+    public function deleteMessage(Request $request, Message $message)
+    {
         /** @var User */
         $user = Auth::user();
         $this->makeMessageInvisibleToUser($message, $user->id);
@@ -79,7 +85,8 @@ class MessageController extends Controller
         return new JsonResponse(['message' => ['success' => 'Message deleted.']], Response::HTTP_OK);
     }
 
-    public function blockUser(Request $request, User $blockedUser) {
+    public function blockUser(Request $request, User $blockedUser)
+    {
         /** @var User */
         $user = Auth::user();
         BlockedUser::create([
@@ -87,22 +94,24 @@ class MessageController extends Controller
             'blocked_user_id' => $blockedUser->id,
         ]);
         $this->makeConversationInvisible($user, $blockedUser);
-        ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user '.$blockedUser->username);
+        ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user ' . $blockedUser->username);
         return new JsonResponse(['message' => ['success' => 'User blocked.']], Response::HTTP_OK);
     }
 
-    private function makeConversationInvisible($user, $blockedUser) {
+    private function makeConversationInvisible($user, $blockedUser)
+    {
         $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->id)->first();
-        if(!$conversation) return;
+        if (!$conversation) return;
         foreach ($conversation->messages as $message) {
             $this->makeMessageInvisibleToUser($message, $user->id);
         }
     }
 
-    private function makeMessageInvisibleToUser($message, $userId) {
+    private function makeMessageInvisibleToUser($message, $userId)
+    {
         if ($message->recipient_id == $userId) {
             $message->visible_to_recipient = false;
-        } 
+        }
         if ($message->sender_id == $userId) {
             $message->visible_to_sender = false;
         }

@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
-    public function store(StoreFeedbackRequest $request) {
+    public function store(StoreFeedbackRequest $request)
+    {
         $validated = $request->validated();
         Feedback::create($validated);
         ActionTrackingHandler::handleAction($request, 'FEEDBACK', 'Feedback sent');

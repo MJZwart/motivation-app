@@ -26,13 +26,14 @@ class NotificationController extends Controller
         return new JsonResponse(['data' => $resource], Response::HTTP_OK);
     }
 
-    private function getSortedNotificationsResource() {
+    private function getSortedNotificationsResource()
+    {
         /** @var User */
         $user = Auth::user();
         $notificationQuery = $user->notifications()->latest();
         $notificationCollection = $notificationQuery->get();
-        $resource = NotificationResource::collection($notificationCollection); 
-            //Creates the response before marking as read, so the notifications sent are still marked as unread.
+        $resource = NotificationResource::collection($notificationCollection);
+        //Creates the response before marking as read, so the notifications sent are still marked as unread.
         if ($this->needsUpdate($notificationCollection))
             $this->markAsRead($notificationQuery);
         return $resource;
@@ -47,16 +48,17 @@ class NotificationController extends Controller
      */
     public function destroy(Request $request, Notification $notification): JsonResponse
     {
-        if($notification->user_id == Auth::user()->id){
+        if ($notification->user_id == Auth::user()->id) {
             $notification->delete();
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
             $resource = $this->getSortedNotificationsResource();
             return new JsonResponse([
-                'message' => ['success' => 'Notification deleted.'], 
-                'data' => $resource], Response::HTTP_OK); 
+                'message' => ['success' => 'Notification deleted.'],
+                'data' => $resource
+            ], Response::HTTP_OK);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
-            return new JsonResponse(['message' => 'You are not authorized to do this.'], Response::HTTP_FORBIDDEN); 
+            return new JsonResponse(['message' => 'You are not authorized to do this.'], Response::HTTP_FORBIDDEN);
         }
     }
 
@@ -66,17 +68,18 @@ class NotificationController extends Controller
      * @param Query $notificationQuery
      * @return void
      */
-    private function markAsRead($notificationQuery){
+    private function markAsRead($notificationQuery)
+    {
         $notificationQuery->where('read', false)->update(['read' => true]);
     }
-    
+
     /**
      * Checks if any notification in the collection needs to be marked as read
      * 
      * @param Collection $notificationCollection
      * @return Boolean
      */
-    private function needsUpdate($notificationCollection): bool 
+    private function needsUpdate($notificationCollection): bool
     {
         return $notificationCollection->contains('read', false);
     }
@@ -91,7 +94,7 @@ class NotificationController extends Controller
     public function sendNotificationToAll(SendNotificationRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        foreach(User::lazy() as $user){
+        foreach (User::lazy() as $user) {
             NotificationHandler::createFromAdminDashboard($user->id, $validated['title'], $validated['text'], $validated['link'] ?? null, $validated['link_text'] ?? null);
         }
         return new JsonResponse(['message' => ['success' => 'Notification sent.']]);
@@ -109,6 +112,6 @@ class NotificationController extends Controller
         $notification->link_active = false;
         $notification->save();
         $resource = $this->getSortedNotificationsResource();
-        return new JsonResponse(['data' => $resource], Response::HTTP_OK); 
+        return new JsonResponse(['data' => $resource], Response::HTTP_OK);
     }
 }

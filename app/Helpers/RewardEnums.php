@@ -2,7 +2,8 @@
 
 namespace App\Helpers;
 
-class RewardEnums {
+class RewardEnums
+{
 
     public const EXPERIENCE = "experience";
     public const LEVEL = "level";
@@ -32,33 +33,36 @@ class RewardEnums {
     public const COMMUNITY_EXP = "community_exp";
 
     public const CHAR_STAT_EXP_ARRAY = [
-        RewardEnums::STRENGTH_EXP, 
-        RewardEnums::AGILITY_EXP, 
-        RewardEnums::ENDURANCE_EXP, 
-        RewardEnums::INTELLIGENCE_EXP, 
-        RewardEnums::CHARISMA_EXP, 
-        RewardEnums::EXPERIENCE];
+        RewardEnums::STRENGTH_EXP,
+        RewardEnums::AGILITY_EXP,
+        RewardEnums::ENDURANCE_EXP,
+        RewardEnums::INTELLIGENCE_EXP,
+        RewardEnums::CHARISMA_EXP,
+        RewardEnums::EXPERIENCE
+    ];
     public const CHAR_STAT_ARRAY = [
-        RewardEnums::STRENGTH, 
-        RewardEnums::AGILITY, 
-        RewardEnums::ENDURANCE, 
-        RewardEnums::INTELLIGENCE, 
-        RewardEnums::CHARISMA, 
-        RewardEnums::LEVEL];
+        RewardEnums::STRENGTH,
+        RewardEnums::AGILITY,
+        RewardEnums::ENDURANCE,
+        RewardEnums::INTELLIGENCE,
+        RewardEnums::CHARISMA,
+        RewardEnums::LEVEL
+    ];
 
     public const VILL_STAT_EXP_ARRAY = [
-        RewardEnums::ECONOMY_EXP, 
-        RewardEnums::LABOUR_EXP, 
-        RewardEnums::CRAFT_EXP, 
-        RewardEnums::ART_EXP, 
-        RewardEnums::COMMUNITY_EXP, 
-        RewardEnums::EXPERIENCE];
+        RewardEnums::ECONOMY_EXP,
+        RewardEnums::LABOUR_EXP,
+        RewardEnums::CRAFT_EXP,
+        RewardEnums::ART_EXP,
+        RewardEnums::COMMUNITY_EXP,
+        RewardEnums::EXPERIENCE
+    ];
     public const VILL_STAT_ARRAY = [
-        RewardEnums::ECONOMY, 
-        RewardEnums::LABOUR, 
-        RewardEnums::CRAFT, 
-        RewardEnums::ART, 
-        RewardEnums::COMMUNITY, 
-        RewardEnums::LEVEL];
-
+        RewardEnums::ECONOMY,
+        RewardEnums::LABOUR,
+        RewardEnums::CRAFT,
+        RewardEnums::ART,
+        RewardEnums::COMMUNITY,
+        RewardEnums::LEVEL
+    ];
 }

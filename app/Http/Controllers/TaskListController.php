@@ -25,7 +25,7 @@ class TaskListController extends Controller
         $validated['user_id'] = Auth::user()->id;
 
         TaskList::create($validated);
-        ActionTrackingHandler::handleAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: '.$validated['name']);
+        ActionTrackingHandler::handleAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         return new JsonResponse(['message' => ['success' => 'Task list successfully created.'], 'data' => $taskLists], Response::HTTP_OK);
@@ -40,7 +40,7 @@ class TaskListController extends Controller
     {
         $validated = $request->validated();
         $tasklist->update($validated);
-        ActionTrackingHandler::handleAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: '.$validated['name']);
+        ActionTrackingHandler::handleAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         return new JsonResponse(['message' => ['success' => "Task list updated."], 'data' => $taskLists], Response::HTTP_OK);
@@ -52,15 +52,15 @@ class TaskListController extends Controller
      */
     public function destroy(Request $request, TaskList $tasklist): JsonResponse
     {
-        if(Auth::user()->id === $tasklist->user_id){
+        if (Auth::user()->id === $tasklist->user_id) {
             $tasklist->tasks()->delete();
             $tasklist->delete();
-            ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: '.$tasklist->name);
+            ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name);
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
             return new JsonResponse(['message' => ['success' => "Task list deleted."], 'data' => $taskLists], Response::HTTP_OK);
         } else {
-            ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: '.$tasklist->name, 'Not authorized');
+            ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name, 'Not authorized');
             return new JsonResponse(['message' => "You are not authorized to delete this task list"], Response::HTTP_FORBIDDEN);
         }
     }
@@ -69,11 +69,12 @@ class TaskListController extends Controller
      * Merges tasks from a deleted task list into an active task list
      * Params: Task list ID to be merged into, and tasks in the request object
      */
-    public function mergeTasks(TaskList $tasklist, Request $request){
-        foreach($request->tasks as $task){
+    public function mergeTasks(TaskList $tasklist, Request $request)
+    {
+        foreach ($request->tasks as $task) {
             $taskModel = Task::find($task['id']);
-            if(!empty($taskModel->tasks)){
-                foreach($task->tasks as $subTask){
+            if (!empty($taskModel->tasks)) {
+                foreach ($task->tasks as $subTask) {
                     $subTask->task_list_id = $tasklist->id;
                     $subTask->update();
                 }
