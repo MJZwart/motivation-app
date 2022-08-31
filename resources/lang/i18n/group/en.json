@@ -53,5 +53,6 @@
     "confirm-kick-from-group": "Are you sure you wish to kick {user}?",
     "confirm-ban-from-group": "Are you sure you wish to ban {user}?",
     "ban-group-application": "Reject and ban",
-    "ban": "Ban"
+    "ban": "Ban",
+    "no-applications": "No applications yet."
 }
