@@ -48,3 +48,17 @@ export function parseDateTime(time, SQLString = false) {
     const date = DateTime.fromISO(time.toString()).setZone(timezone).setLocale(locale);
     return date.toLocaleString(DateTime.DATETIME_MED);
 }
+
+/**
+ * 
+ * @param {Date} date 
+ * @param {number} daysToAdd 
+ * @param {boolean | undefined} parsed 
+ * @returns 
+ */
+export function getDateWithAddedDays(date, daysToAdd, parsed = true) {
+    let dateTime = DateTime.fromISO(date.toString()).setZone('system').setLocale('system');
+    dateTime = dateTime.plus({days: daysToAdd});
+    if (!parsed) return dateTime;
+    return dateTime.toLocaleString(DateTime.DATETIME_MED);
+}
