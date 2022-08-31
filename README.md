@@ -65,34 +65,36 @@ You are free to fork this git and make your own version, but please give credit 
 
 ## Roadmap
 
-(To see the issues connected to this roadmap, see: https://github.com/MJZwart/motivation-app/blob/development/todo.md)
+## 0.3.0 
+https://github.com/MJZwart/motivation-app/projects/2
 
-Before launching the beta version of the site, the following things need to be finished:
-# Content
-- [x] An actual landing page
-- [x] A filled in FAQ page
-- [x] A privacy policy
-- [x] Responsive design on every page in terms of placement of components and readable text
-- [x] A feedback form
-- [x] All invalid inputs show as red when validation fails
-- [x] Tooltips on all buttons and otherwise unclear data
-- [x] A tutorial or 'help what do I do here' button on every page
-# Users and interaction
-- [x] Allowing users to manage their blocklist and search for friends to add
-- [x] Allow a user to manage the group they are an admin of
-- [x] Fully allowing a user to manage their characters or villages (rename them, see their level)
-- [x] Finished groups: invites to private groups, 
-# Admin and back-end
-- [x] Admins able to view and respond to feedback
-- [x] Admins able to view reported users and perform action: message the user, ban the user
-- [x] Tracking of logins (attempts) for security
-- [x] Worked out good balancing of the rewards (experience points) to start off with, and plenty of levels to gain
+# Tasks
+- [ ] Moving tasks to other task lists https://github.com/MJZwart/motivation-app/issues/296
+- [ ] Store favourite tasks and being able to retrieve the when making new tasks https://github.com/MJZwart/motivation-app/issues/186
+- [ ] Editing these favourites
+- [ ] More task types https://github.com/MJZwart/motivation-app/issues/459
+# Admin
+- [ ] Allow admins to close a user report independent of actions taken https://github.com/MJZwart/motivation-app/issues/385
+- [ ] Refine the blocked users concept https://github.com/MJZwart/motivation-app/issues/409
+
+# Settings
+- [ ] Option to turn off tutorials site-wide https://github.com/MJZwart/motivation-app/issues/407
+- [ ] More than one language https://github.com/MJZwart/motivation-app/issues/154
+- [ ] Dark version of the website or other version of design for switching https://github.com/MJZwart/motivation-app/issues/236 https://github.com/MJZwart/motivation-app/issues/361
+- [ ] Able to change password https://github.com/MJZwart/motivation-app/issues/452
+
+# Other
+- [ ] Make it clear to the user when something is loading (like buttons etc) https://github.com/MJZwart/motivation-app/issues/442
+- [ ] Better error handling (eg when searching groups/users) https://github.com/MJZwart/motivation-app/issues/446
+- [ ] More achievement (types) https://github.com/MJZwart/motivation-app/issues/449
+
+## 0.4.0
+https://github.com/MJZwart/motivation-app/projects/3
+
+- [ ] Interaction with the characters and villages that users grow with their tasks
+- [ ] Allowing a user to retire an existing character into a village for a boost https://github.com/MJZwart/motivation-app/issues/201
+
 
 ## Further development
-- [ ] Dark version of the website
-- [ ] More than one language
 - [ ] Other types of rewards for completing tasks
-- [ ] Allowing a user to retire an existing character into a village for a boost
-- [ ] Adding favourite tasks or templates so users can easily find tasks that can be repeated in various ways, with slight variations
-- [ ] Interaction with the characters and villages that users grow with their tasks
 - [ ] Interaction with characters and villages within a group to help and motivate each other
