@@ -365,6 +365,9 @@ button:disabled {
 .task-sidebar {
     width: 1.5%;
 }
+.subtask-sidebar {
+    margin-left: 1.5%;
+}
 .task-sidebar.diff-1 {
     background-color: $light-green
 }
@@ -383,6 +386,7 @@ button:disabled {
 .sub-task{
     margin:-6px;
     padding:0.4rem;
+    display: flex;
     .task-description{
         margin-left:1.5rem;
     }
@@ -397,6 +401,9 @@ button:disabled {
     margin-bottom:0;
 }
 .task-content {
+    width: 98.5%;
+}
+.subtask-content {
     width: 98.5%;
 }
 
