@@ -1,18 +1,16 @@
 <?php
 
-namespace Database\Seeders;
-
-use Illuminate\Database\Seeder;
 use App\Models\ExperiencePoint;
+use Illuminate\Database\Migrations\Migration;
 
-class ExperiencePointsSeeder extends Seeder
+return new class extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up()
     {
         $experiencePoints = 2000;
         $levelAmount = 130;
@@ -25,4 +23,14 @@ class ExperiencePointsSeeder extends Seeder
             else if ($i < 112) $experiencePoints += 25;
         }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //
+    }
+};

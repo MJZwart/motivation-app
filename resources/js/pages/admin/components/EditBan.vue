@@ -1,6 +1,6 @@
 <template>
     <div v-if="userBanToEdit">
-        <Input
+        <SimpleInput
             id="days"
             v-model="userBanToEdit.days"
             type="number"
@@ -32,7 +32,7 @@
             <BaseFormError name="end-ban" />
         </div>
 
-        <Textarea
+        <SimpleTextarea
             id="comment"
             v-model="userBanToEdit.comment"
             :rows="2"
@@ -48,18 +48,14 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, PropType} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
 import {BannedUser} from 'resources/types/user.js'
+import {getDateWithAddedDays} from '/js/services/dateService';
 const adminStore = useAdminStore();
 
-const props = defineProps({
-    userBan: {
-        type: Object as PropType<BannedUser>,
-        required: true,
-    },
-});
+const props = defineProps<{userBan: BannedUser}>();
 const emit = defineEmits(['close']);
 
 onMounted(() => {
@@ -69,12 +65,12 @@ onMounted(() => {
 
 const userBanToEdit = ref<BannedUser | null>(null);
 const bannedUntil = computed(() => {
-    let date = DateTime.fromSQL(props.userBan.created_at);
-    return date.plus({days: userBanToEdit.value?.days}).toLocaleString(DateTime.DATETIME_MED);
+    if (!userBanToEdit.value) return '';
+    return getDateWithAddedDays(props.userBan.created_at, userBanToEdit.value.days);
 });
 
 const bannedUntilInPast = computed(() => Boolean(
-    DateTime.now() > DateTime.fromFormat(bannedUntil.value, 'dd MMM yyyy, HH:mm') 
+    DateTime.now() > DateTime.fromFormat(bannedUntil.value.toString(), 'dd MMM yyyy, HH:mm') 
     && userBanToEdit.value 
     && !userBanToEdit.value.end_ban));
 

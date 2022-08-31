@@ -4,7 +4,7 @@
         <form @submit.prevent="sendMessage">
             <div class="form-group">
                 <label for="message">{{$t('message')}}</label>
-                <Textarea 
+                <SimpleTextarea 
                     id="message" 
                     v-model="message.message"
                     name="message" 

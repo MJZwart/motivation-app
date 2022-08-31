@@ -4,7 +4,8 @@ namespace App\Helpers;
 
 use App\Models\ExperiencePoint;
 
-class LevelHandler {
+class LevelHandler
+{
     /**
      * Adds experience to a given character, using the given parsed rewards in RewardHandler
      * Sends the data to the checkLevelUp function to further check and return information
@@ -13,8 +14,9 @@ class LevelHandler {
      * @param Array $parsedRewards
      * @return Object
      */
-    public static function addCharacterExperience($character, $parsedRewards){
-        forEach(RewardEnums::CHAR_STAT_EXP_ARRAY as $value){
+    public static function addCharacterExperience($character, $parsedRewards)
+    {
+        foreach (RewardEnums::CHAR_STAT_EXP_ARRAY as $value) {
             $character[$value] += $parsedRewards[$value];
         }
         return LevelHandler::checkCharacterLevelUp($character);
@@ -33,19 +35,20 @@ class LevelHandler {
      * @param Character $character
      * @return Object
      */
-    public static function checkCharacterLevelUp($character){
+    public static function checkCharacterLevelUp($character)
+    {
         $messages = [];
         $maxLevel = ExperiencePoint::max('level');
-        for($i = 0 ; $i < count(RewardEnums::CHAR_STAT_ARRAY) ; $i++){
+        for ($i = 0; $i < count(RewardEnums::CHAR_STAT_ARRAY); $i++) {
             $expNeeded = ExperiencePoint::getCurrentOrMaxExp($character[RewardEnums::CHAR_STAT_ARRAY[$i]], $maxLevel); //Gets the amount of exp needed to level up with the current level
-            while($character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] > $expNeeded){ //While the exp owned is higher than the exp needed to level up:
+            while ($character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] > $expNeeded) { //While the exp owned is higher than the exp needed to level up:
                 $character[RewardEnums::CHAR_STAT_ARRAY[$i]]++; //Increase level
                 $character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] -= $expNeeded; //Subtract the exp needed to level
                 $expNeeded = ExperiencePoint::getCurrentOrMaxExp($character[RewardEnums::CHAR_STAT_ARRAY[$i]], $maxLevel); //Recheck the experience needed after leveling up
-                if(RewardEnums::CHAR_STAT_ARRAY[$i] !== 'level'){ //Add messages to an array to give back to the user, letting them know they levelled up.
-                    array_push($messages, 'Your '.RewardEnums::CHAR_STAT_ARRAY[$i].' is now level '.$character[RewardEnums::CHAR_STAT_ARRAY[$i]].'!');
+                if (RewardEnums::CHAR_STAT_ARRAY[$i] !== 'level') { //Add messages to an array to give back to the user, letting them know they levelled up.
+                    array_push($messages, 'Your ' . RewardEnums::CHAR_STAT_ARRAY[$i] . ' is now level ' . $character[RewardEnums::CHAR_STAT_ARRAY[$i]] . '!');
                 } else {
-                    array_push($messages, 'Your character is now level '.$character[RewardEnums::CHAR_STAT_ARRAY[$i]].'!');
+                    array_push($messages, 'Your character is now level ' . $character[RewardEnums::CHAR_STAT_ARRAY[$i]] . '!');
                 }
             }
         }
@@ -60,8 +63,9 @@ class LevelHandler {
      * @param Array $parsedRewards
      * @return Object
      */
-    public static function addVillageExperience($village, $parsedRewards){
-        forEach(RewardEnums::VILL_STAT_EXP_ARRAY as $value){
+    public static function addVillageExperience($village, $parsedRewards)
+    {
+        foreach (RewardEnums::VILL_STAT_EXP_ARRAY as $value) {
             $village[$value] += $parsedRewards[$value];
         }
         return LevelHandler::checkVillageLevelUp($village);
@@ -78,19 +82,20 @@ class LevelHandler {
      * @param Village $village
      * @return Object
      */
-    public static function checkVillageLevelUp($village){
+    public static function checkVillageLevelUp($village)
+    {
         $messages = [];
         $experienceTable =  ExperiencePoint::get();
-        for($i = 0 ; $i < count(RewardEnums::VILL_STAT_ARRAY) ; $i++){
+        for ($i = 0; $i < count(RewardEnums::VILL_STAT_ARRAY); $i++) {
             $expNeeded = $experienceTable->firstWhere('level', $village[RewardEnums::VILL_STAT_ARRAY[$i]])->experience_points;
-            while($village[RewardEnums::VILL_STAT_EXP_ARRAY[$i]] > $expNeeded){ //While the exp owned is higher than the exp needed to level up:
+            while ($village[RewardEnums::VILL_STAT_EXP_ARRAY[$i]] > $expNeeded) { //While the exp owned is higher than the exp needed to level up:
                 $village[RewardEnums::VILL_STAT_ARRAY[$i]]++; //Increase level
                 $village[RewardEnums::VILL_STAT_EXP_ARRAY[$i]] -= $expNeeded; //Subtract the exp needed to level
                 $expNeeded = $experienceTable->firstWhere('level', $village[RewardEnums::VILL_STAT_ARRAY[$i]])->experience_points; //Recheck the experience needed after leveling up
-                if(RewardEnums::VILL_STAT_ARRAY[$i] !== 'level'){ //Add messages to an array to give back to the user, letting them know they levelled up.
-                    array_push($messages, 'Your '.RewardEnums::VILL_STAT_ARRAY[$i].' is now level '.$village[RewardEnums::VILL_STAT_ARRAY[$i]].'!');
+                if (RewardEnums::VILL_STAT_ARRAY[$i] !== 'level') { //Add messages to an array to give back to the user, letting them know they levelled up.
+                    array_push($messages, 'Your ' . RewardEnums::VILL_STAT_ARRAY[$i] . ' is now level ' . $village[RewardEnums::VILL_STAT_ARRAY[$i]] . '!');
                 } else {
-                    array_push($messages, 'Your village is now level '.$village[RewardEnums::VILL_STAT_ARRAY[$i]].'!');
+                    array_push($messages, 'Your village is now level ' . $village[RewardEnums::VILL_STAT_ARRAY[$i]] . '!');
                 }
             }
         }
@@ -106,10 +111,11 @@ class LevelHandler {
      * @param Array $messages
      * @return Object
      */
-    public static function parseReturnValues($activeReward, $messages, $type){
+    public static function parseReturnValues($activeReward, $messages, $type)
+    {
         $returnMessage = new \stdClass();
-        if(!empty($messages)){
-            foreach($messages as $key=>$message){
+        if (!empty($messages)) {
+            foreach ($messages as $key => $message) {
                 $returnMessage->$key = (array)$message;
             }
         }

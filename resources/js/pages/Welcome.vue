@@ -40,7 +40,7 @@
                     </div>
                     <BaseFormError name="rewards-type" /> 
                 </div>
-                <Input  
+                <SimpleInput  
                     v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
                     id="reward_object_name" 
                     v-model="user.reward_object_name"

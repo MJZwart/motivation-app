@@ -1,14 +1,14 @@
 <template>
     <div>
         <form @submit.prevent="submitTask">
-            <Input 
+            <SimpleInput 
                 id="name" 
                 v-model="task.name"
                 type="text" 
                 name="name" 
                 :label="$t('task-name')"
                 :placeholder="$t('name')" />
-            <Input  
+            <SimpleInput  
                 id="description" 
                 v-model="task.description"
                 type="text" 
@@ -25,7 +25,7 @@
                 </select>
                 <BaseFormError name="type" /> 
             </div>
-            <Input 
+            <SimpleInput 
                 id="difficulty"
                 v-model="task.difficulty"
                 type="range"

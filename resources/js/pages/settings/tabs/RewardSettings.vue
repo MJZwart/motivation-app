@@ -86,7 +86,7 @@
 
             <!-- If the user wants to create a new instance -->
             <p class="silent">{{ $t('change-name-later') }}</p>
-            <Input  
+            <SimpleInput  
                 v-if="isNewInstance"
                 id="new-object-name" 
                 v-model="rewardSetting.new_object_name"

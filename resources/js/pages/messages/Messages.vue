@@ -4,14 +4,14 @@
         <div v-else>
             <h3>{{ $t('messages') }}</h3>
             <div class="container message-page">
-                <div v-if="emptyInbox">
+                <div v-if="!hasConversations">
                     {{ $t('no-messages') }}
                 </div>
                 <div v-else class="row">
                     <div class="conversations col">
                         <h5>{{ $t('conversations') }}</h5>
                         <div v-for="(conversation, index) in conversations" :key="conversation.id" 
-                             :class="['conversation', 'clickable', activeConversation.id == conversation.id ? 'active': '']"
+                             :class="['conversation', 'clickable', activeConversation?.id == conversation.id ? 'active': '']"
                              @click="switchActiveConversation(index)">
                             <span class="d-flex">
                                 <h6 class="mt-1 ml-2">{{conversation.recipient.username}}</h6>
@@ -38,17 +38,17 @@
                                         </router-link>
                                     </section>
                                     <section class="option">
-                                        <button @click="addFriend(activeConversation.recipient)">
+                                        <button @click="addFriend(activeConversation!.recipient.id.toString())">
                                             {{ $t('add-friend') }}
                                         </button>
                                     </section>
                                     <section class="option">
-                                        <button @click="blockUser(activeConversation.recipient)">
+                                        <button @click="blockUser(activeConversation!.recipient)">
                                             {{ $t('block-user') }}
                                         </button>
                                     </section>
                                     <section class="option">
-                                        <button @click="reportUser(activeConversation)">
+                                        <button @click="reportUser(activeConversation!)">
                                             {{ $t('report') }}
                                         </button>
                                     </section>
@@ -57,7 +57,7 @@
                         </h5>
                         <div class="new-message mb-3">
                             <form @submit.prevent="sendMessage">
-                                <Textarea 
+                                <SimpleTextarea 
                                     id="message" 
                                     v-model="message.message"
                                     name="message" 
@@ -66,8 +66,8 @@
                                 <button type="submit" class="block">{{ $t('send-reply') }}</button>
                             </form>
                         </div>
-                        <Message v-for="message in activeConversation.messages" :key="message.id"
-                                 :message="message" @deleteMessage="deleteMessage"
+                        <MessageComponent v-for="message in activeConversation.messages" :key="message.id"
+                                          :message="message" @deleteMessage="deleteMessage"
                         />
                         
                     </div>
@@ -76,46 +76,60 @@
             
             <Modal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
                 <ReportUser 
-                    :user="userToReport.value" 
-                    :conversation_id="conversationToReport.value" 
+                    v-if="conversationToReport && userToReport"
+                    :user="userToReport" 
+                    :conversation_id="conversationToReport" 
                     @close="closeReportUserModal" />
             </Modal>
         </div>
     </div>
 </template>
 
-<script setup>
-import {computed, ref, reactive, onMounted} from 'vue';
-import Message from './components/Message.vue';
+<script setup lang="ts">
+import {computed, ref, onMounted} from 'vue';
+import MessageComponent from './components/Message.vue';
 import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
 import {parseDateTime} from '/js/services/dateService';
-
-import {useI18n} from 'vue-i18n'
-const {t} = useI18n() // use as global scope
-
 import {useMessageStore} from '/js/store/messageStore';
-const messageStore = useMessageStore();
 import {useUserStore} from '/js/store/userStore';
-const userStore = useUserStore();
 import {useFriendStore} from '/js/store/friendStore';
+import {useI18n} from 'vue-i18n';
+import type {Conversation, Message, NewMessage} from 'resources/types/message';
+import type {StrippedUser} from 'resources/types/user';
+
+const {t} = useI18n();
+
+const messageStore = useMessageStore();
+const userStore = useUserStore();
 const friendStore = useFriendStore();
 
 onMounted(() => {
     load();
 });
 
-const activeConversation = ref({});
-const message = reactive({
+const activeConversation = ref<Conversation | null>(null);
+const message = ref<NewMessage>({
     message: '',
 });
-const userToReport = reactive({});
-const conversationToReport = reactive({});
+const userToReport = ref<StrippedUser | null>(null)
+const conversationToReport = ref<string | null>(null);
 const loading = ref(true);
-const emptyInbox = ref(true);
 const showReportUserModal = ref(false);
 
 const conversations = computed(() => messageStore.conversations);
+
+const hasConversations = computed(() => !!conversations.value && !!conversations.value[0]);
+
+function markAsRead(conversation: Conversation) {
+    if (hasUnreadMessages(conversation)) {
+        messageStore.markConversationRead(conversation.id);
+        setTimeout(() => {
+            conversation.messages.forEach(message => {
+                message.read = true;
+            })}, 3000);
+    }
+}
 
 async function load() {
     await messageStore.getConversations();
@@ -125,78 +139,65 @@ async function load() {
     loading.value = false;
 }
 function resetConversation() {
-    if (conversations.value && conversations.value[0]) {
+    if (conversations.value && conversations.value[0])
         activeConversation.value = conversations.value[0];
-        emptyInbox.value = false;
-    } else 
-        emptyInbox.value = true;
 }
-function switchActiveConversation(key) {
+function switchActiveConversation(key: number) {
+    if (!conversations.value) return;
     activeConversation.value = conversations.value[key];
     markAsRead(conversations.value[key]);
 }
 async function sendMessage() {
-    message.conversation_id = activeConversation.value.conversation_id;
-    message.recipient_id = activeConversation.value.recipient.id;
-    await messageStore.sendMessage(message)
+    if (activeConversation.value == null) return;
+    message.value.conversation_id = activeConversation.value.conversation_id;
+    message.value.recipient_id = activeConversation.value.recipient.id;
+    await messageStore.sendMessage(message.value)
     await messageStore.getConversations();
-    message.message = '';
+    message.value.message = '';
     resetConversation();
 }
-function getSender(message) {
-    return message.sent_by_user ? t('you')+': ' : message.sender.username + ': ';
+function getSender(message: Message) {
+    return message.sent_by_user ? t('you')+': ' : message.sender?.username + ': ';
 }
-// eslint-disable-next-line no-unused-vars
-function getConversationClass(conversationId) {
-    return ['conversation', 'clickable', activeConversation.value.id == conversationId ? 'active': '']
-}
-async function markAsRead(conversation) {
-    if (hasUnreadMessages(conversation)) {
-        messageStore.markConversationRead(conversation.id);
-        setTimeout(() => {
-            conversation.messages.forEach(message => {
-                message.read = true;
-            })}, 3000);
-    }
-}
-function hasUnreadMessages(conversation) {
+function hasUnreadMessages(conversation: Conversation) {
     if (conversations.value && conversations.value[0])
-        return conversation.messages.some(message => message.read == false);
+        return conversation.messages.some((message: Message) => message.read == false);
     return false;
 }
-function limitMessage(message) {
-    if (message.length > 100) {
-        return message.slice(0, 100) + '...';
+function limitMessage(messageString: string) {
+    if (messageString.length > 100) {
+        return messageString.slice(0, 100) + '...';
     } else {
-        return message;
+        return messageString;
     }
     
 }
-async function deleteMessage(message) {
+async function deleteMessage(message: Message) {
     if (confirm(t('confirmation-delete-message'))) {
         await messageStore.deleteMessage(message.id)
         resetConversation();
         await messageStore.getConversations();
     }
 }
-function addFriend(user) {
-    friendStore.sendRequest(user.id);
+function addFriend(userId: string) {
+    if (userId == null) return;
+    friendStore.sendRequest(userId);
 }
-async function blockUser(user) {
+async function blockUser(user: StrippedUser) {
     if (confirm(t('block-user-confirmation', {user: user.username}))) {
         await userStore.blockUser(user.id)
         await messageStore.getConversations();
         resetConversation();
     }
 }
-function reportUser(conversation) {
+function reportUser(conversation: Conversation) {
     userToReport.value = conversation.recipient;
     conversationToReport.value = conversation.conversation_id;
     showReportUserModal.value = true;
 }
 function closeReportUserModal() {
     showReportUserModal.value = false;
-    userToReport.value = {};
+    userToReport.value = null;
     conversationToReport.value = '';
 }
 </script>

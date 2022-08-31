@@ -1,14 +1,14 @@
 <template>
     <div>
         <form @submit.prevent="createGroup">
-            <Input
+            <SimpleInput
                 id="name"
                 v-model="groupToCreate.name"
                 name="name"
                 :label="$t('name')"
                 :placeholder="$t('name')" />
             <small class="form-text text-muted">{{$t('group-name-desc')}}</small>
-            <Textarea
+            <SimpleTextarea
                 id="description"
                 v-model="groupToCreate.description"
                 name="description"

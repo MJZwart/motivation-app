@@ -24,7 +24,7 @@
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
                 <BaseFormError name="severity" /> 
             </div>
-            <Input 
+            <SimpleInput 
                 id="admin-comment" 
                 v-model="bugReportToEdit.admin_comment"
                 type="text" 

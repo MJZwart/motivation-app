@@ -1,7 +1,7 @@
 <template>
     <div v-if="editedTaskList">
         <form @submit.prevent="updateTaskList">
-            <Input 
+            <SimpleInput 
                 id="name" 
                 v-model="editedTaskList.name"
                 type="text" 

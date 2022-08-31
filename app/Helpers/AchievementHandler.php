@@ -6,7 +6,8 @@ use App\Models\Achievement;
 use App\Models\Notification;
 use App\Models\AchievementEarned;
 
-class AchievementHandler {
+class AchievementHandler
+{
 
     /**
      * Collects the information needed to check if the user is eligible for an achievement,
@@ -15,9 +16,10 @@ class AchievementHandler {
      * @param String $type
      * @param User $user
      */
-    public static function checkForAchievement($type, $user){
+    public static function checkForAchievement($type, $user)
+    {
         $amount = null;
-        switch($type){
+        switch ($type) {
             case 'TASKS_MADE':
                 $amount = $user->getTotalTasksMade();
                 break;
@@ -43,11 +45,12 @@ class AchievementHandler {
      * @param String $type
      * @param Integer $amount
      */
-    public static function checkAchievementEligible($user, $type, $amount){
+    public static function checkAchievementEligible($user, $type, $amount)
+    {
         $achievements = Achievement::where('trigger_type', $type)->where('trigger_amount', '<=', $amount)->get();
-        if($achievements){
-            foreach($achievements as $achievement){
-                if(!AchievementHandler::checkIfAchievementEarned($user, $achievement)){
+        if ($achievements) {
+            foreach ($achievements as $achievement) {
+                if (!AchievementHandler::checkIfAchievementEarned($user, $achievement)) {
                     AchievementHandler::awardAchievement($user, $achievement);
                 }
             }
@@ -61,7 +64,8 @@ class AchievementHandler {
      * @param Achievement $achievement
      * @return boolean
      */
-    public static function checkIfAchievementEarned($user, $achievement){
+    public static function checkIfAchievementEarned($user, $achievement)
+    {
         return $user->achievements()->where('achievement_id', $achievement->id)->exists();
     }
 
@@ -72,7 +76,8 @@ class AchievementHandler {
      * @param User $user
      * @param Achievement $achievement
      */
-    public static function awardAchievement($user, $achievement){
+    public static function awardAchievement($user, $achievement)
+    {
         AchievementEarned::create(['user_id' => $user->id, 'achievement_id' => $achievement->id]);
         AchievementHandler::sendAwardNotification($user, $achievement);
     }
@@ -83,10 +88,10 @@ class AchievementHandler {
      * @param User $user
      * @param Achievement $achievement
      */
-    public static function sendAwardNotification($user, $achievement){
+    public static function sendAwardNotification($user, $achievement)
+    {
         $title = "New achievement!";
-        $text = "You have earned the achievement " . $achievement->name . ": ". $achievement->trigger_description;
+        $text = "You have earned the achievement " . $achievement->name . ": " . $achievement->trigger_description;
         Notification::create(['user_id' => $user->id, 'title' => $title, 'text' => $text]);
     }
-
 }

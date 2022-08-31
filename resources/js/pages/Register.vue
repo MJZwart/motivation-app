@@ -2,28 +2,28 @@
     <div class="w-40-flex center">
         <h2>{{ $t('register') }}</h2>
         <form @submit.prevent="submitRegister">
-            <Input 
+            <SimpleInput 
                 id="username"  
                 v-model="register.username"
                 type="text" 
                 name="username" 
                 :label="$t('username')"
                 :placeholder="$t('username')" />
-            <Input 
+            <SimpleInput 
                 id="email" 
                 v-model="register.email"
                 type="text" 
                 name="email" 
                 :label="$t('email')"
                 :placeholder="$t('email')"  />
-            <Input 
+            <SimpleInput 
                 id="password"  
                 v-model="register.password"
                 type="password" 
                 name="password" 
                 :label="$t('password')"
                 :placeholder="$t('password')" />
-            <Input 
+            <SimpleInput 
                 id="password_confirmation" 
                 v-model="register.password_confirmation" 
                 type="password" 

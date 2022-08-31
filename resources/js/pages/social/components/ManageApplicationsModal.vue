@@ -15,6 +15,9 @@
                 </button>
             </p>
         </template>
+        <div v-if="applications && applications.length < 1">
+            {{$t('no-applications')}}
+        </div>
     </div>
 </template>
 

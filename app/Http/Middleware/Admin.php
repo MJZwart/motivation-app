@@ -19,7 +19,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->admin) {
+        if (Auth::user()->admin) {
             return $next($request);
         } else {
             return new JsonResponse(['message' => ['danger' => ['You are not authorized to do this.']]], Response::HTTP_FORBIDDEN);

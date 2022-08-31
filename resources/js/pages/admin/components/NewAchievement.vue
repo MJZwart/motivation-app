@@ -1,14 +1,14 @@
 <template>
     <div>
         <form @submit.prevent="submitAchievement">
-            <Input 
+            <SimpleInput 
                 id="name" 
                 v-model="achievement.name"
                 type="text" 
                 name="name" 
                 :label="$t('achievement-name')"
                 :placeholder="$t('name')"  />
-            <Input 
+            <SimpleInput 
                 id="description" 
                 v-model="achievement.description"
                 type="text" 
@@ -28,7 +28,7 @@
                 </select>
                 <BaseFormError name="trigger_type" /> 
             </div>
-            <Input 
+            <SimpleInput 
                 id="trigger_amount" 
                 v-model="achievement.trigger_amount"
                 type="number" 

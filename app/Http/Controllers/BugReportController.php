@@ -13,12 +13,13 @@ use Illuminate\Http\Response;
 
 class BugReportController extends Controller
 {
-    public function store(StoreBugReportRequest $request): JsonResponse{
+    public function store(StoreBugReportRequest $request): JsonResponse
+    {
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
         BugReport::create($validated);
-        ActionTrackingHandler::handleAction($request, 'STORE_BUG_REPORT', 'Bug report stored: '.$validated['title']);
+        ActionTrackingHandler::handleAction($request, 'STORE_BUG_REPORT', 'Bug report stored: ' . $validated['title']);
 
         return new JsonResponse(['message' => ['success' => 'Bug report successfully created.']], Response::HTTP_OK);
     }
@@ -26,11 +27,11 @@ class BugReportController extends Controller
     public function update(UpdateBugReportRequest $request, $id): JsonResponse
     {
         $validated = $request->validated();
-        
+
         BugReport::find($id)->update($validated);
 
         $return = BugReportResource::collection(BugReport::all());
-        ActionTrackingHandler::handleAction($request, 'UPDATE_BUG_REPORT', 'Bug report updated: '.$validated['title']);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_BUG_REPORT', 'Bug report updated: ' . $validated['title']);
 
         return new JsonResponse(['message' => ['success' => "Bug Report updated."], 'data' => $return], Response::HTTP_OK);
     }

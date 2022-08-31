@@ -3,21 +3,21 @@
         <form v-if="!loading" @submit.prevent="submitPasswordSettings">
             <h4>{{ $t('change-password') }}</h4>
             <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
-            <Input 
+            <SimpleInput 
                 id="old_password" 
                 v-model="passwordSettings.old_password"
                 type="password" 
                 name="old_password" 
                 :label="$t('old-password')"
                 :placeholder="$t('old-password')"  />
-            <Input 
+            <SimpleInput 
                 id="password" 
                 v-model="passwordSettings.password"
                 type="password" 
                 name="password" 
                 :label="$t('new-password')"
                 :placeholder="$t('new-password')"  />
-            <Input 
+            <SimpleInput 
                 id="password_confirmation" 
                 v-model="passwordSettings.password_confirmation"
                 type="password" 
@@ -32,7 +32,7 @@
         <form v-if="!loading" @submit.prevent="submitEmailSettings">
             <h4>{{ $t('change-email') }}</h4>
             <!-- Todo verify e-mail and show e-mail as verified -->
-            <Input 
+            <SimpleInput 
                 id="email" 
                 v-model="emailSettings.email"
                 type="text" 

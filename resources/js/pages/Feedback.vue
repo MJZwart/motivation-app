@@ -17,13 +17,13 @@
                 </select>
                 <BaseFormError name="type" /> 
             </div>
-            <Textarea
+            <SimpleTextarea
                 id="feedback" 
                 v-model="feedback.text" 
                 :rows=4
                 :label="$t('feedback')"
                 name="feedback" />
-            <Input
+            <SimpleInput
                 v-if="!auth"
                 id="email" 
                 v-model="feedback.email" 

@@ -19,6 +19,5 @@ export type Reward = {
     e: number,
     e_exp: number,
     e_exp_needed: number,
-    experienceTable: Array,
     rewardType: string,
 }

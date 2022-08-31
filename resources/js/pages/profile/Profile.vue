@@ -36,9 +36,9 @@
                             class="icon small red"
                             @click="reportUser" />
                     </Tooltip>
-                    <span v-if="user.admin">
+                    <span v-if="user.admin && !userProfile.suspended">
                         | {{$t('admin-actions')}}: 
-                        <Tooltip v-if="userProfile.suspended" :text="$t('suspend-user')">
+                        <Tooltip :text="$t('suspend-user')">
                             <FaIcon
                                 icon="ban"
                                 class="icon small red"

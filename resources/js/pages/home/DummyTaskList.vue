@@ -27,12 +27,8 @@
                 </template>
             </slot>
             <template #footer>           
-                <button class="block clear bottom-radius p-0" variant="outline">
-                    <Tooltip :text="$t('add-new-task')">
-                        <FaIcon 
-                            icon="square-plus"
-                            class="icon large green m-0 wide" />
-                    </Tooltip>
+                <button class="block bottom-radius p-0 new-task" variant="outline">
+                    {{$t('new-task')}}
                 </button>
             </template>
         </Summary>
@@ -52,7 +48,7 @@ const props = defineProps({
 });
 
 function taskClass(/** @type {number} */ index) {
-    return index == props.taskList.tasks.length -1 ? 'task-last' : 'task';
+    return index == props.taskList.tasks.length -1 ? 'task task-last' : 'task';
 }
 </script>
 

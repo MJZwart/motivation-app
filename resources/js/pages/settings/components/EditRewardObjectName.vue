@@ -1,7 +1,7 @@
 <template>
     <div v-if="rewardObj">
         <form @submit.prevent="updateRewardObj">
-            <Input 
+            <SimpleInput 
                 id="name" 
                 v-model="editedRewardObj.name"
                 type="text" 

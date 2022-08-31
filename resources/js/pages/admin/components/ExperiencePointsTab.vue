@@ -12,14 +12,14 @@
                 -->
             <div class="m-1">
                 <h5>{{$t('add-new-level')}}</h5>
-                <Input  
+                <SimpleInput  
                     id="level" 
                     v-model="newLevel.level"
                     type="number" 
                     name="level" 
                     :label="$t('level')"
                     :placeholder="$t('level')"  />
-                <Input  
+                <SimpleInput  
                     id="points" 
                     v-model="newLevel.experience_points"
                     type="number" 

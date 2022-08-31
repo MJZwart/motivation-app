@@ -1,14 +1,14 @@
 <template>
     <div v-if="editedTask">
         <form @submit.prevent="updateTask">
-            <Input 
+            <SimpleInput 
                 id="name" 
                 v-model="editedTask.name"
                 type="text" 
                 name="name" 
                 :label="$t('task-name')"
                 :placeholder="$t('name')"  />
-            <Input 
+            <SimpleInput 
                 id="description" 
                 v-model="editedTask.description"
                 type="text" 
@@ -46,10 +46,10 @@
                 </select>
                 <BaseFormError name="repeatable" /> 
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <p v-if="editedTask.taskList">{{ $t('task-list') }}: {{editedTask.taskList}}</p>
                 <p v-if="editedTask.superTask">{{ $t('subtask-of') }}: {{editedTask.superTask}}</p>
-            </div>
+            </div> -->
             <button type="submit" class="block">{{ $t('edit-task') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
@@ -57,31 +57,26 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
 import {ref, onMounted} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
+import type {Task} from 'resources/types/task';
 
-/** @type {import('../../../../types/task').Task} */
-const editedTask = ref({});
+const editedTask = ref<Task | null>(null);
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
 
-const props = defineProps({
-    task: {
-        /** @type {import('../../../../types/task').Task} */
-        type: Object,
-        required: true,
-    },
-});
+const props = defineProps<{task: Task}>();
 const emit = defineEmits(['close']);
 onMounted(() => {
-    editedTask.value = props.task ? Object.assign({}, props.task.value) : {};
+    editedTask.value = props.task ? Object.assign({}, props.task) : null;
 });
 
 const taskStore = useTaskStore();
 
 async function updateTask() {
+    if (!editedTask.value) return;
     await taskStore.updateTask(editedTask.value);
     close();
 }

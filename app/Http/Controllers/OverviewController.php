@@ -14,7 +14,8 @@ class OverviewController extends Controller
      * Collects the information needed for the Overview page: A reward if active, achievements and stats
      * Returns and parses this into a Json response
      */
-    public function getOverview(){
+    public function getOverview()
+    {
         $user = Auth::user();
         $rewardObj = RewardObjectHandler::getActiveRewardObjectResourceByUser($user->rewards, $user->id);
         $achievements = AchievementEarnedResource::collection($user->achievements);
