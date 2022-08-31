@@ -34,3 +34,9 @@ export type ReportedUser = {
     reason: string,
     conversation_id: number | null,
 }
+
+export type NewReportedUser = {
+    comment: string,
+    reason: string,
+    conversation_id?: string,
+}

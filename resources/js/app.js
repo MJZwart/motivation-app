@@ -7,7 +7,6 @@ import App from './App.vue';
 
 const app = createApp(App);
 
-// @ts-ignore
 // app.config.errorHandler = (err, vm) => {
 //     // eslint-disable-next-line no-console
 //     console.log(err);
@@ -52,9 +51,9 @@ app.component('Tooltip', Tooltip);
 import Loading from '/js/components/global/Loading.vue';
 app.component('Loading', Loading);
 import Input from '/js/components/global/Input.vue';
-app.component('Input', Input);
+app.component('SimpleInput', Input);
 import Textarea from '/js/components/global/Textarea.vue';
-app.component('Textarea', Textarea);
+app.component('SimpleTextarea', Textarea);
 import Tutorial from '/js/components/global/Tutorial.vue';
 app.component('Tutorial', Tutorial);
 

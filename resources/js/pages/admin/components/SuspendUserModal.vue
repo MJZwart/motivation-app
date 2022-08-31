@@ -1,14 +1,14 @@
 <template>
     <div>
         <form @submit.prevent="suspendUser">
-            <Textarea 
+            <SimpleTextarea 
                 id="reason" 
                 v-model="suspension.reason"
                 :rows="2"
                 name="reason" 
                 :label="$t('reason')"
                 :placeholder="$t('reason')"  />
-            <Input 
+            <SimpleInput 
                 id="days" 
                 v-model="suspension.days"
                 type="number" 

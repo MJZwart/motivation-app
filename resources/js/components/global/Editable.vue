@@ -11,12 +11,12 @@
             </Tooltip>
         </div>
         <div v-else>
-            <Input
+            <SimpleInput
                 v-if="type == 'input'"
                 :id="name"
                 v-model="itemToEdit"
                 :name="name" />
-            <Textarea
+            <SimpleTextarea
                 v-if="type == 'textarea'"
                 :id="name"
                 v-model="itemToEdit"

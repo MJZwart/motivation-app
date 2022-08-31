@@ -3,14 +3,14 @@
         <h3>{{ $t('send-notification-to-users') }}</h3>
         <div>
             <form @submit.prevent="sendNotification">
-                <Input 
+                <SimpleInput 
                     id="title" 
                     v-model="notification.title" 
                     type="text" 
                     name="title" 
                     :label="$t('title')"
                     :placeholder="$t('title')" />
-                <Textarea 
+                <SimpleTextarea 
                     id="text" 
                     v-model="notification.text" 
                     :rows=5
@@ -18,7 +18,7 @@
                     name="text"/>
                 <button v-if="!addLink" @click="addLink = true">{{$t('add-link')}}</button>
                 <div v-if="addLink">
-                    <Input 
+                    <SimpleInput 
                         id="link" 
                         v-model="notification.link" 
                         type="text" 
@@ -26,7 +26,7 @@
                         :label="$t('link')"
                         :placeholder="$t('link')" />
                     <small class="silent mb-1">{{$t('ensure-link-correct')}}</small>
-                    <Input 
+                    <SimpleInput 
                         id="link_text" 
                         v-model="notification.link_text" 
                         type="text" 

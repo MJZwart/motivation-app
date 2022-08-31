@@ -3,14 +3,14 @@
         <h2>{{ $t('login') }}</h2>
         <p v-if="info" class="invalid-feedback">{{info.error}}</p>
         <form @submit.prevent="submitLogin">
-            <Input 
+            <SimpleInput 
                 id="username" 
                 v-model="login.username" 
                 name="username"
                 type="text" 
                 :label="$t('username')"
                 :placeholder="$t('username')" />
-            <Input  
+            <SimpleInput  
                 id="password" 
                 v-model="login.password"
                 type="password" 

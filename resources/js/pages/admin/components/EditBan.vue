@@ -1,6 +1,6 @@
 <template>
     <div v-if="userBanToEdit">
-        <Input
+        <SimpleInput
             id="days"
             v-model="userBanToEdit.days"
             type="number"
@@ -32,7 +32,7 @@
             <BaseFormError name="end-ban" />
         </div>
 
-        <Textarea
+        <SimpleTextarea
             id="comment"
             v-model="userBanToEdit.comment"
             :rows="2"

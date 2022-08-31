@@ -5,7 +5,7 @@ export type Conversation = {
         id: number,
         username: string,
     },
-    conversation_id: number,
+    conversation_id: string,
     messages: Array<Message>,
     last_message: Message,
 }
@@ -14,11 +14,11 @@ export type Message = {
     id: number,
     created_at: Date,
     sender: {
-        id: number,
+        id: number | string,
         username: string,
     } | null,
     recipient: {
-        id: number,
+        id: number | string,
         username: string,
     } | null,
     message: string,
@@ -28,8 +28,9 @@ export type Message = {
 }
 
 export type NewMessage = {
-    recipient_id: number,
+    recipient_id?: number,
     message: string,
+    conversation_id?: string,
 }
 
 export type ReportedMessage = {

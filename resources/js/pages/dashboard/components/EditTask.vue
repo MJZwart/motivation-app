@@ -1,14 +1,14 @@
 <template>
     <div v-if="editedTask">
         <form @submit.prevent="updateTask">
-            <Input 
+            <SimpleInput 
                 id="name" 
                 v-model="editedTask.name"
                 type="text" 
                 name="name" 
                 :label="$t('task-name')"
                 :placeholder="$t('name')"  />
-            <Input 
+            <SimpleInput 
                 id="description" 
                 v-model="editedTask.description"
                 type="text" 

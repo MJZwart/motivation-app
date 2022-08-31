@@ -137,10 +137,10 @@ export const useUserStore = defineStore('user', {
         },
 
         /**
-         * @param {[import('resources/types/user').User, import('resources/types/admin').ReportedUser]} searchValue
+         * @param {[number, import('resources/types/admin').NewReportedUser]} searchValue
          */
-        async reportUser([user, report]) {
-            await  axios.post('/user/' + user.id + '/report', report);
+        async reportUser([userId, report]) {
+            await  axios.post('/user/' + userId + '/report', report);
         },
 
         /**

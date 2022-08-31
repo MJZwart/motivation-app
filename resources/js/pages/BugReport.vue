@@ -3,14 +3,14 @@
         <h2>{{ $t('submit-bug-report') }}</h2>
 
         <form @submit.prevent="submitBugReport">
-            <Input 
+            <SimpleInput 
                 id="title" 
                 v-model="bugReport.title" 
                 type="text" 
                 name="title" 
                 :label="$t('title')"
                 :placeholder="$t('title')" />
-            <Input 
+            <SimpleInput 
                 id="page" 
                 v-model="bugReport.page" 
                 type="text" 
@@ -40,7 +40,7 @@
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
                 <BaseFormError name="severity" />
             </div>
-            <Input 
+            <SimpleInput 
                 id="image-link" 
                 v-model="bugReport.image_link" 
                 type="text" 
@@ -48,7 +48,7 @@
                 :label="$t('image-link')"
                 :placeholder="$t('image-link')" />
             <small class="form-text text-muted">{{$t('bug-image-link-desc')}}</small>
-            <Textarea 
+            <SimpleTextarea 
                 id="comment" 
                 v-model="bugReport.comment"
                 type="text" 
