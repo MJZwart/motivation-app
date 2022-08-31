@@ -1,7 +1,7 @@
 {
     "name": "taskr",
     "author": "MJZwart",
-    "version": "0.2.2-alpha",
+    "version": "0.2.3-alpha",
     "private": true,
     "engines": {
         "node": "16.14.0",
