@@ -114,6 +114,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\User', 'blocklist', 'user_id', 'blocked_user_id')->withPivot('id');;
     }
 
+    public function blockedByUsers()
+    {
+        return $this->belongsToMany('App\Models\User', 'blocklist', 'blocked_user_id', 'user_id')->withPivot('id');
+    }
+
     public function isBlocked($userId)
     {
         $user = User::find($userId);
