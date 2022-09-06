@@ -1,9 +1,11 @@
 export type Reward = {
     id: number;
-    level: number;
-    level_exp_needed: number;
     name: string;
+    active: boolean;
+    rewardType: string;
+    level: number;
     experience: number;
+    level_exp_needed: number;
     a: number;
     a_exp: number;
     a_exp_needed: number;
@@ -19,5 +21,12 @@ export type Reward = {
     e: number;
     e_exp: number;
     e_exp_needed: number;
-    rewardType: string;
+};
+
+export type ChangeReward = {
+    rewards: string;
+    // TODO change 'rewards' to 'rewardType', it's a little ambiguous
+    keepOldInstance: string | number | null;
+    // TODO And while you're at it, either pick camel case or underscore
+    new_object_name?: string | null;
 };

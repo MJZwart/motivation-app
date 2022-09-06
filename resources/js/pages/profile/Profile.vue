@@ -3,56 +3,48 @@
         <Loading v-if="loading || userProfile == null" />
         <div v-else class="profile-grid">
             <div class="right-column">
-                <h2>{{userProfile.username}}</h2>
+                <h2>{{ userProfile.username }}</h2>
                 <div v-if="userProfile.suspended">
-                    {{$t('suspended-until-reason', 
-                         [parseDateTime(userProfile.suspended.until, true), 
-                          userProfile.suspended.reason])}}
+                    {{
+                        $t('suspended-until-reason', [
+                            parseDateTime(userProfile.suspended.until, true),
+                            userProfile.suspended.reason,
+                        ])
+                    }}
                 </div>
                 <div v-if="notLoggedUser" class="d-flex">
                     <Tooltip :text="$t('message-user')">
-                        <FaIcon 
-                            icon="envelope"
-                            class="icon small"
-                            @click="sendMessage" />
+                        <FaIcon icon="envelope" class="icon small" @click="sendMessage" />
                     </Tooltip>
                     <span v-if="!isConnection">
                         <Tooltip :text="$t('send-friend-request')">
-                            <FaIcon 
-                                icon="user-plus"
-                                class="icon small"
-                                @click="sendFriendRequest" />
+                            <FaIcon icon="user-plus" class="icon small" @click="sendFriendRequest" />
                         </Tooltip>
                     </span>
                     <Tooltip :text="$t('block-user')">
-                        <FaIcon 
-                            icon="ban"
-                            class="icon small red"
-                            @click="blockUser" />
+                        <FaIcon icon="ban" class="icon small red" @click="blockUser" />
                     </Tooltip>
                     <Tooltip :text="$t('report-user')">
-                        <FaIcon 
-                            :icon="['far', 'flag']"
-                            class="icon small red"
-                            @click="reportUser" />
+                        <FaIcon :icon="['far', 'flag']" class="icon small red" @click="reportUser" />
                     </Tooltip>
                     <span v-if="user.admin && !userProfile.suspended">
-                        | {{$t('admin-actions')}}: 
+                        | {{ $t('admin-actions') }}:
                         <Tooltip :text="$t('suspend-user')">
-                            <FaIcon
-                                icon="ban"
-                                class="icon small red"
-                                @click="suspendUser" />
+                            <FaIcon icon="ban" class="icon small red" @click="suspendUser" />
                         </Tooltip>
                     </span>
                 </div>
-                <p class="silent">{{ $t('member-since') }}: {{parseDateTime(userProfile.created_at)}}</p>
+                <p class="silent">{{ $t('member-since') }}: {{ parseDateTime(userProfile.created_at) }}</p>
                 <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" />
             </div>
             <div class="left-column">
-                <RewardCard v-if="userProfile.rewardObj" class="summary-tab" 
-                            :reward="userProfile.rewardObj" :userReward="false" 
-                            :rewardType="userProfile.rewardObj.rewardType" />
+                <RewardCard
+                    v-if="userProfile.rewardObj"
+                    class="summary-tab"
+                    :reward="userProfile.rewardObj"
+                    :userReward="false"
+                    :rewardType="userProfile.rewardObj.rewardType"
+                />
                 <FriendsCard :message="false" :friends="userProfile.friends" />
             </div>
             <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
@@ -65,10 +57,8 @@
                 <SuspendUserModal :userId="userProfile.id" @close="closeSuspendUserModal" />
             </Modal>
         </div>
-
     </div>
 </template>
-
 
 <script setup lang="ts">
 import {onMounted, ref, computed, watch} from 'vue';
@@ -84,7 +74,7 @@ import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {User, UserProfile} from 'resources/types/user';
 import {useI18n} from 'vue-i18n';
-import {FriendRequests, FriendRequest} from 'resources/types/friend';
+import {FriendRequests, Friend} from 'resources/types/friend';
 import {parseDateTime} from '/js/services/dateService';
 
 const {t} = useI18n();
@@ -96,7 +86,7 @@ const friendStore = useFriendStore();
 const loading = ref(true);
 const userProfile = ref<UserProfile | null>(null);
 
-onMounted(async() => {
+onMounted(async () => {
     await getUserProfile();
     loading.value = false;
 });
@@ -120,18 +110,16 @@ const showSuspendUserModal = ref(false);
 const user = computed<User>(() => userStore.user);
 const requests = computed<FriendRequests | null>(() => friendStore.requests);
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line complexity
 const isConnection = computed(() => {
+    if (userProfile.value === null) return;
     const ids = [];
     if (requests.value) {
-        if (requests.value.outgoing)
-            ids.push(...requests.value.outgoing.map(request => request.id));
-        if (requests.value.incoming)
-            ids.push(...requests.value.incoming.map(request => request.id));
+        if (requests.value.outgoing) ids.push(...requests.value.outgoing.map(request => request.id));
+        if (requests.value.incoming) ids.push(...requests.value.incoming.map(request => request.id));
     }
-    if (user.value.friends)
-        ids.push(...user.value.friends.map((friend: FriendRequest) => friend.id));
-    return ids.includes(userProfile.value?.id);
+    if (user.value.friends) ids.push(...user.value.friends.map((friend: Friend) => friend.id));
+    return ids.includes(userProfile.value.id);
 });
 /** Checked if this user profile is not the user currently logged in, so you can't send a request to yourself */
 const notLoggedUser = computed(() => {
@@ -167,33 +155,32 @@ function closeSuspendUserModal(reload: boolean) {
 watch(
     () => route.params.id,
     () => {
-        if (route.params.id) getUserProfile()
+        if (route.params.id) getUserProfile();
     },
 );
 </script>
 
-
 <style>
-.profile-grid{
+.profile-grid {
     display: grid;
-    gap:10px;
+    gap: 10px;
 }
-.left-column{
+.left-column {
     grid-row-start: 1;
     grid-column-start: 1;
     display: flex;
     flex-direction: column;
-    gap:10px;
+    gap: 10px;
 }
-.right-column{
+.right-column {
     grid-column-start: 2;
     grid-column-end: 4;
     display: flex;
     flex-direction: column;
-    gap:10px;
+    gap: 10px;
 }
-@media (max-width:767px){
-    .profile-grid{
+@media (max-width: 767px) {
+    .profile-grid {
         display: flex;
         flex-direction: column;
     }

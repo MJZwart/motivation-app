@@ -92,3 +92,10 @@ export type Register = {
     email: string;
     agree_to_tos: boolean;
 };
+
+export type Blocked = {
+    id: number;
+    blocked_user_id: number;
+    blocked_user: string;
+    created_at: Date;
+};

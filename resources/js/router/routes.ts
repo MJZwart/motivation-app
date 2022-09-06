@@ -78,8 +78,8 @@ export const routes = [
         component: Messages,
         meta: {requiresAuth: true},
     },
-    {  
-        path:'/social',
+    {
+        path: '/social',
         component: Social,
         meta: {requiresAuth: true},
     },
@@ -89,11 +89,11 @@ export const routes = [
         meta: {requiresAuth: true},
     },
     {
-        path:'/faq',
+        path: '/faq',
         component: Faq,
     },
     {
-        path:'/feedback',
+        path: '/feedback',
         component: Feedback,
     },
     {
@@ -113,5 +113,4 @@ export const routes = [
     //     path: '/test',
     //     component: require('../pages/Test.vue').default,
     // },
-
 ];

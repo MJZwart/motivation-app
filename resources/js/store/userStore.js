@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', {
             authenticated: JSON.parse(localStorage.getItem('authenticated') || '{}') || false,
             /** @type import('resources/types/user').UserStats | null */
             userStats: null,
-        }
+        };
     },
     getters: {
         isAdmin(state) {
@@ -24,7 +24,7 @@ export const useUserStore = defineStore('user', {
     },
     actions: {
         /**
-         * User authentication. If user login is valid but the account is otherwise invalidated, 
+         * User authentication. If user login is valid but the account is otherwise invalidated,
          * instead return info the Login screen.
          * @param {import('resources/types/user').Login} user
          * @returns {Promise<import('resources/types/error').Message | null>}
@@ -83,12 +83,12 @@ export const useUserStore = defineStore('user', {
          * @param {Number} userId
          */
         async getUserProfile(userId) {
-            const {data} = await  axios.get('/profile/' + userId);
+            const {data} = await axios.get('/profile/' + userId);
             return data.data;
         },
 
         async getOverview() {
-            const {data} = await  axios.get('/overview');
+            const {data} = await axios.get('/overview');
             this.userStats = data.stats;
             const achievementStore = useAchievementStore();
             achievementStore.achievementsByUser = data.achievements;
@@ -118,10 +118,10 @@ export const useUserStore = defineStore('user', {
             this.setUser(data.user);
         },
         /**
-         * @param {import('resources/types/user').User} user
+         * @param {import('resources/types/reward').ChangeReward} change
          */
-        async changeRewardType(user) {
-            const {data} = await  axios.put('/user/settings/rewards', user);
+        async changeRewardType(change) {
+            const {data} = await axios.put('/user/settings/rewards', change);
             this.setUser(data.user);
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.activeReward;
@@ -140,7 +140,7 @@ export const useUserStore = defineStore('user', {
          * @param {[number, import('resources/types/admin').NewReportedUser]} searchValue
          */
         async reportUser([userId, report]) {
-            await  axios.post('/user/' + userId + '/report', report);
+            await axios.post('/user/' + userId + '/report', report);
         },
 
         /**
@@ -160,7 +160,7 @@ export const useUserStore = defineStore('user', {
         },
 
         /**
-         * @param {Number} blocklistId 
+         * @param {Number} blocklistId
          */
         async unblockUser(blocklistId) {
             const {data} = await axios.put(`/user/${blocklistId}/unblock`);

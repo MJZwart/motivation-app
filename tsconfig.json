@@ -4,6 +4,7 @@
         "outDir": "build",
         "module": "esnext",
         "target": "esnext",
+        "types": ["vite/client", "node"],
         "moduleResolution": "node",
         "lib": ["esnext", "dom"],
         "allowUnreachableCode": false,
@@ -15,11 +16,14 @@
         "noImplicitThis": true,
         "alwaysStrict": true,
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
+        "allowJs": true,
+        "noEmit": true,
         "checkJs": true,
-        "resolveJsonModule": true,
-        "suppressImplicitAnyIndexErrors": true,
+        "jsx": "preserve",
         "baseUrl": ".",
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "suppressImplicitAnyIndexErrors": true,
         "paths": {
             "assets/*": ["./resources/assets/*"],
             "components/*": ["./resources/js/components/*"],
@@ -27,12 +31,11 @@
             "pages/*": ["./resources/js/pages/*"],
             "types/*": ["./types/*"],
             "/js/*": ["./resources/js/*"]
-        },
-        "jsx": "preserve"
+        }
     },
     "typeAcquisition": {
         "include": ["jest"]
     },
-    "include": ["resources/**/*", "types/**/*"],
-    "exclude": ["node_modules", "build/**/*"]
+    "include": ["resources/js/**/*", "resources/types/**/*", "vite.config.js"],
+    "exclude": ["node_modules/**/*", "build/**/*"]
 }
