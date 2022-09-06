@@ -145,10 +145,10 @@ function confirmSettings() {
 }
 function checkInput() {
     if (user.value.rewardsType == 'CHARACTER' && !user.value.reward_object_name) {
-        mainStore.setErrorMessages([{reward_object_name: ['No character name given.']}]);
+        mainStore.setErrorMessages({reward_object_name: ['No character name given.']});
         return false;
     } else if (user.value.rewardsType == 'VILLAGE' && !user.value.reward_object_name) {
-        mainStore.setErrorMessages([{reward_object_name: ['No village name given.']}]);
+        mainStore.setErrorMessages({reward_object_name: ['No village name given.']});
         return false;
     }
     mainStore.clearErrors();

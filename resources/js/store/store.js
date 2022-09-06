@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import {defineStore} from 'pinia';
 import {useRewardStore} from './rewardStore.js';
@@ -8,24 +7,24 @@ export const useMainStore = defineStore('main', {
     state: () => {
         return {
             //Errors and response
-            /** @type Array<import('resources/types/error.js').Error> */
-            errors: [],
+            /** @type import('resources/types/error.js').Error */
+            errors: {},
             /** @type Array<import('resources/types/toast.js').Toast> */
             toasts: [],
         };
     },
     actions: {
         /**
-         * @param {Array<import('resources/types/error.js').Error>} errorMessages
+         * @param {import('resources/types/error.js').Error} errorMessages
          */
         setErrorMessages(errorMessages) {
             this.errors = errorMessages;
-        },     
+        },
         /**
          * Send a toast by calling:
          * useMainStore.addToast(toastObject)
          * where 'response.data.message' is an object with one or multiple messages.
-         * In the JsonResponse, name the message key 'success', 'danger' or 'info' 
+         * In the JsonResponse, name the message key 'success', 'danger' or 'info'
          * to get corresponding themes and titles.
          * @param {import('resources/types/toast.js').Toast} toast
          */
@@ -36,7 +35,7 @@ export const useMainStore = defineStore('main', {
             this.toasts.splice(0, 1);
         },
         clearErrors() {
-            this.errors = [];
+            this.errors = {};
         },
         async getDashboard() {
             const {data} = await axios.get('/dashboard');

@@ -5,6 +5,12 @@ import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
 import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
+import {PasswordSettings, ProfileSettings} from 'resources/types/settings';
+import {ChangeReward} from 'resources/types/reward';
+import {Login, NewUser, Register, User} from 'resources/types/user';
+import {UserSearch} from 'resources/types/global';
+import {NewReportedUser} from 'resources/types/admin';
+import {Message} from 'resources/types/message';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -26,10 +32,8 @@ export const useUserStore = defineStore('user', {
         /**
          * User authentication. If user login is valid but the account is otherwise invalidated,
          * instead return info the Login screen.
-         * @param {import('resources/types/user').Login} user
-         * @returns {Promise<import('resources/types/error').Message | null>}
          */
-        async login(user) {
+        async login(user: Login): Promise<Message | null> {
             await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
             if (data.invalid) return data.message;
@@ -48,11 +52,7 @@ export const useUserStore = defineStore('user', {
                 router.forward();
             });
         },
-        /**
-         * @param {import('resources/types/user').User | {}} user
-         * @param {Boolean} auth
-         */
-        setUser(user, auth = true) {
+        setUser(user: User | Record<string, never>, auth = true) {
             this.user = user;
             this.authenticated = auth;
             localStorage.setItem('authenticated', auth.toString());
@@ -60,18 +60,12 @@ export const useUserStore = defineStore('user', {
         },
 
         //New user
-        /**
-         * @param {import('resources/types/user').Register} user
-         */
-        async register(user) {
+        async register(user: Register) {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('/register', user);
             router.push('/login');
         },
-        /**
-         * @param {import('resources/types/user').NewUser} user
-         */
-        async confirmRegister(user) {
+        async confirmRegister(user: NewUser) {
             const {data} = await axios.post('/register/confirm', user);
             this.setUser(data.user);
             // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -79,10 +73,7 @@ export const useUserStore = defineStore('user', {
         },
 
         //Public user profile
-        /**
-         * @param {Number} userId
-         */
-        async getUserProfile(userId) {
+        async getUserProfile(userId: number) {
             const {data} = await axios.get('/profile/' + userId);
             return data.data;
         },
@@ -96,73 +87,46 @@ export const useUserStore = defineStore('user', {
             rewardStore.rewardObj = data.rewardObj;
         },
 
-        /**
-         * @param {{string, string, string}} passwords
-         */
-        async updatePassword(passwords) {
+        async updatePassword(passwords: PasswordSettings) {
             await axios.put('/user/settings/password', passwords);
             this.logout();
         },
-        /**
-         * @param {String} email
-         */
-        async updateEmail(email) {
+        async updateEmail(email: string) {
             const {data} = await axios.put('/user/settings/email', email);
             this.setUser(data.user);
         },
-        /**
-         * @param {{boolean, boolean, boolean}} settings
-         */
-        async updateSettings(settings) {
+        async updateSettings(settings: ProfileSettings) {
             const {data} = await axios.put('/user/settings', settings);
             this.setUser(data.user);
         },
-        /**
-         * @param {import('resources/types/reward').ChangeReward} change
-         */
-        async changeRewardType(change) {
+        async changeRewardType(change: ChangeReward) {
             const {data} = await axios.put('/user/settings/rewards', change);
             this.setUser(data.user);
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.activeReward;
         },
 
-        /**
-         * @param {import('resources/types/global').UserSearch} searchValue
-         * @returns Array<import('resources/types/user').User>
-         */
-        async searchUser(searchValue) {
+        async searchUser(searchValue: UserSearch): Promise<User[]> {
             const {data} = await axios.post('/search', searchValue);
             return data.data;
         },
 
-        /**
-         * @param {[number, import('resources/types/admin').NewReportedUser]} searchValue
-         */
-        async reportUser([userId, report]) {
+        async reportUser(userId: number, report: NewReportedUser) {
             await axios.post('/user/' + userId + '/report', report);
         },
 
-        /**
-         * @param {string | number} userId
-         */
-        async blockUser(userId) {
+        async blockUser(userId: string | number) {
             const {data} = await axios.put('/user/' + userId + '/block');
             const messageStore = useMessageStore();
             messageStore.conversations = data.data;
         },
-        /**
-         * @returns Array<import('resources/types/user').User>
-         */
-        async getBlocklist() {
+
+        async getBlocklist(): Promise<User> {
             const {data} = await axios.get('/user/blocklist');
             return data.blockedUsers;
         },
 
-        /**
-         * @param {Number} blocklistId
-         */
-        async unblockUser(blocklistId) {
+        async unblockUser(blocklistId: number) {
             const {data} = await axios.put(`/user/${blocklistId}/unblock`);
             return data.blockedUsers;
         },
