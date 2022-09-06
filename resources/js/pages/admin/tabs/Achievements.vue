@@ -41,7 +41,7 @@ import {ref, computed} from 'vue';
 import Table from '/js/components/global/Table.vue';
 import EditAchievement from '/js/pages/admin/components/EditAchievement.vue';
 import NewAchievement from '/js/pages/admin/components/NewAchievement.vue';
-import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '../../../constants/achievementsConstants.js';
+import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '/js/constants/achievementsConstants.js';
 import {useAchievementStore} from '/js/store/achievementStore';
 import {useMainStore} from '/js/store/store';
 import {Achievement} from 'resources/types/achievement';

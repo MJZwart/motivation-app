@@ -1,6 +1,7 @@
-import {Field} from 'resources/types/global';
-
-export const ACHIEVEMENT_FIELDS: Field[] = [
+/**
+ * @type {import('resources/types/global').Field[]}
+ */
+export const ACHIEVEMENT_FIELDS = [
     {label: 'Image', key: 'image'},
     {label: 'Name', key: 'name', sortable: true},
     {label: 'Description', key: 'description', sortable: true},
