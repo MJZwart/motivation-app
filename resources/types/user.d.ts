@@ -93,6 +93,12 @@ export type Register = {
     agree_to_tos: boolean;
 };
 
+export type NewUser = {
+    rewardsType: string;
+    tasks: Task[];
+    reward_object_name: string | null;
+};
+
 export type Blocked = {
     id: number;
     blocked_user_id: number;

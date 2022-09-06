@@ -69,7 +69,7 @@ export const useUserStore = defineStore('user', {
             router.push('/login');
         },
         /**
-         * @param {import('resources/types/user').User} user
+         * @param {import('resources/types/user').NewUser} user
          */
         async confirmRegister(user) {
             const {data} = await axios.post('/register/confirm', user);
@@ -97,7 +97,7 @@ export const useUserStore = defineStore('user', {
         },
 
         /**
-         * @param {{String, String, String}} passwords
+         * @param {{string, string, string}} passwords
          */
         async updatePassword(passwords) {
             await axios.put('/user/settings/password', passwords);
@@ -111,7 +111,7 @@ export const useUserStore = defineStore('user', {
             this.setUser(data.user);
         },
         /**
-         * @param {{Boolean, Boolean, Boolean}} settings
+         * @param {{boolean, boolean, boolean}} settings
          */
         async updateSettings(settings) {
             const {data} = await axios.put('/user/settings', settings);
