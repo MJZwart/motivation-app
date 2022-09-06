@@ -12,7 +12,7 @@ export type Task = {
 
 export type TaskList = {
     id: number;
-    color: string | null;
+    color?: string | null;
     name: string;
     tasks: Task[];
 };

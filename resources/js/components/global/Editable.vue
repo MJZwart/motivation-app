@@ -1,48 +1,38 @@
 <template>
     <div>
         <div v-if="!edit">
-            {{item}}
+            {{ item }}
             <Tooltip :text="$t('edit')">
-                <FaIcon 
+                <FaIcon
                     :id="'edit-item-' + index"
                     :icon="['far', 'pen-to-square']"
                     class="icon small"
-                    @click="edit = true" />
+                    @click="edit = true"
+                />
             </Tooltip>
         </div>
         <div v-else>
-            <SimpleInput
-                v-if="type == 'input'"
-                :id="name"
-                v-model="itemToEdit"
-                :name="name" />
-            <SimpleTextarea
-                v-if="type == 'textarea'"
-                :id="name"
-                v-model="itemToEdit"
-                :name="name"
-                :rows="rows" /> 
+            <SimpleInput v-if="type == 'input'" :id="name" v-model="itemToEdit" :name="name" />
+            <SimpleTextarea v-if="type == 'textarea'" :id="name" v-model="itemToEdit" :name="name" :rows="rows" />
 
             <Tooltip :text="$t('save')">
-                <FaIcon 
-                    :id="'save-' + index"
-                    :icon="['far', 'square-check']"
-                    class="icon small green"
-                    @click="save" />
+                <FaIcon :id="'save-' + index" :icon="['far', 'square-check']" class="icon small green" @click="save" />
             </Tooltip>
 
             <Tooltip :text="$t('cancel')">
-                <FaIcon 
+                <FaIcon
                     :id="'cancel-' + index"
                     :icon="['far', 'rectangle-xmark']"
                     class="icon small red"
-                    @click="close" />
+                    @click="close"
+                />
             </Tooltip>
         </div>
-    </div>    
+    </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import {Error} from 'resources/types/error';
 import {onMounted, ref} from 'vue';
 import {useMainStore} from '/js/store/store';
 const mainStore = useMainStore();
@@ -83,8 +73,8 @@ const itemToEdit = ref('');
 
 onMounted(() => setValue());
 
-/** 
- * Validation based on props. To add validation, first add a prop, then add the 
+/**
+ * Validation based on props. To add validation, first add a prop, then add the
  * desired functionality in this. Return a false when invalid and specify the error.
  */
 function validate() {
@@ -98,11 +88,9 @@ function validate() {
 /**
  * Adds the error message on the editable field using the built in BaseFormError
  * using the props.name as key and commits it to the store.
- * @param {string} error
  */
-function addError(error) {
-    /** @type {Array<import('resources/types/error.js').Error>} */
-    const errorObject = [];
+function addError(error: string) {
+    const errorObject = {} as Error;
     errorObject[props.name] = [error];
     mainStore.setErrorMessages(errorObject);
 }
@@ -126,6 +114,6 @@ function close() {
     edit.value = false;
 }
 function setValue() {
-    itemToEdit.value = props.item
+    itemToEdit.value = props.item;
 }
 </script>

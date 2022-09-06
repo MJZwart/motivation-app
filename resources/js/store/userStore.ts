@@ -7,7 +7,7 @@ import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
 import {PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import {ChangeReward} from 'resources/types/reward';
-import {Login, NewUser, Register, User} from 'resources/types/user';
+import {Blocked, Login, NewUser, Register, User} from 'resources/types/user';
 import {UserSearch} from 'resources/types/global';
 import {NewReportedUser} from 'resources/types/admin';
 import {Message} from 'resources/types/message';
@@ -121,7 +121,7 @@ export const useUserStore = defineStore('user', {
             messageStore.conversations = data.data;
         },
 
-        async getBlocklist(): Promise<User> {
+        async getBlocklist(): Promise<Blocked[]> {
             const {data} = await axios.get('/user/blocklist');
             return data.blockedUsers;
         },

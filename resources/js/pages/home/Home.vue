@@ -2,8 +2,8 @@
     <div class="w-60-flex center">
         <div class="d-flex">
             <div class="w-80 center jumbotron">
-                <h1 class="display-3">{{appTitle}}</h1>
-                <p class="lead">{{appLead}}</p>
+                <h1 class="display-3">{{ appTitle }}</h1>
+                <p class="lead">{{ appLead }}</p>
             </div>
         </div>
         <hr />
@@ -11,9 +11,7 @@
             <div class="card mb-3">
                 <div class="card-header">{{ $t('explanation-tasks-header') }}</div>
                 <div class="card-body">
-                    <TaskList
-                        :taskList="dummyList" 
-                        class="task-list mt-2" />
+                    <TaskList :taskList="dummyList" class="task-list mt-2" />
                     <div class="card-text">
                         <p>{{ $t('explanation-tasks') }}</p>
                     </div>
@@ -22,10 +20,7 @@
             <div class="card">
                 <div class="card-header">{{ $t('explanation-reward-header') }}</div>
                 <div class="card-body">
-                    <Character 
-                        :reward="dummyCharacter" 
-                        :rewardType="'CHARACTER'"
-                        :userReward="true" />
+                    <Character :reward="dummyCharacter" :rewardType="'CHARACTER'" :userReward="true" />
                     <div class="card-text">
                         <p>{{ $t('explanation-reward') }}</p>
                     </div>
@@ -46,13 +41,13 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TaskList from './DummyTaskList.vue';
 import Character from '/js/pages/dashboard/components/RewardCard.vue';
 import {DUMMY_TASK_LIST, DUMMY_CHARACTER} from '/js/constants/dummyConstants.js';
 import {computed} from 'vue';
-import {useI18n} from 'vue-i18n'
-const {t} = useI18n() // use as global scope
+import {useI18n} from 'vue-i18n';
+const {t} = useI18n(); // use as global scope
 
 const dummyList = DUMMY_TASK_LIST;
 const dummyCharacter = DUMMY_CHARACTER;
@@ -67,14 +62,14 @@ const appLead = computed(() => t('home-introduction'));
     padding: 1.5rem;
     border-radius: 3rem;
 }
-.display-3{
-    font-size:4rem;
+.display-3 {
+    font-size: 4rem;
 }
 .w-60-flex {
     max-width: 850px;
 }
-@media (max-width:650px){
-    .card-deck{
+@media (max-width: 650px) {
+    .card-deck {
         flex-flow: column wrap;
     }
 }

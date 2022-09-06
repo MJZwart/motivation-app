@@ -3,14 +3,15 @@
         <h5>{{ sendMessageTitle }}</h5>
         <form @submit.prevent="sendMessage">
             <div class="form-group">
-                <label for="message">{{$t('message')}}</label>
-                <SimpleTextarea 
-                    id="message" 
+                <label for="message">{{ $t('message') }}</label>
+                <SimpleTextarea
+                    id="message"
                     v-model="message.message"
-                    name="message" 
+                    name="message"
                     :rows="3"
-                    :placeholder="$t('send-message-placeholder')"  />
-                <BaseFormError name="message" /> 
+                    :placeholder="$t('send-message-placeholder')"
+                />
+                <BaseFormError name="message" />
             </div>
             <button type="submit" class="block">{{ $t('send-message') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
@@ -18,7 +19,8 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type {Message} from 'resources/types/message';
 import {computed, ref} from 'vue';
 import {useMessageStore} from '/js/store/messageStore';
 const messageStore = useMessageStore();
@@ -35,7 +37,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 
-const message = ref({
+const message = ref<Message>({
     message: '',
 });
 
@@ -47,8 +49,8 @@ async function sendMessage() {
     if (props.conversation) {
         message.value.conversation_id = props.conversation.conversation_id;
     }
-    await messageStore.sendMessage(message.value)
+    await messageStore.sendMessage(message.value);
     emit('close');
 }
-const sendMessageTitle = computed(() => `Send message to ${props.user.username}`)
+const sendMessageTitle = computed(() => `Send message to ${props.user.username}`);
 </script>
