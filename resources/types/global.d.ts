@@ -1,7 +1,7 @@
 export type Field = {
     key: string,
     label: string,
-    sortable: boolean,
+    sortable?: boolean,
 }
 
 export type Item = {

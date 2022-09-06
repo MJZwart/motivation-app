@@ -60,7 +60,7 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import Achievements from './tabs/Achievements.vue';
 import BugReportPanel from './tabs/BugReportPanel.vue';
 import SendNotifications from './tabs/SendNotifications.vue';
@@ -99,11 +99,11 @@ const tabs = {
 const tabKey = ref('Overview');
 
 const currentTabComponent = shallowRef(tabs[0]);
-function activeTab(key) {
+function activeTab(key: string) {
     if (key == tabKey.value) return 'active-tab';
     return 'tab';
 }
-function switchTab(key) {
+function switchTab(key: string) {
     currentTabComponent.value = tabs[key];
     tabKey.value = key;
     window.location.hash = key;

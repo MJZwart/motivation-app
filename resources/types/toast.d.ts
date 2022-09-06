@@ -1,8 +1,8 @@
 export type Toast = {
-    [key: integer]: Array<string>,
-    [key: string]: string,
-}
+    [key: number]: string;
+    [key: string]: string;
+};
 
 export type ToastMessage = {
-    [key: string]: string,
-}
+    [key: string]: string;
+};

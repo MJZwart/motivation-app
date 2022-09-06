@@ -1,7 +1,7 @@
 export type Error = {
-    [key: string]: Array<string>,
-}
+    [key: string]: string[];
+};
 
 export type Message = {
-    error: string,
-}
+    error: string;
+};

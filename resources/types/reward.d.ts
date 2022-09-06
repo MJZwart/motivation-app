@@ -1,23 +1,23 @@
 export type Reward = {
-    id: number,
-    level: number,
-    level_exp_needed: number,
-    name: string,
-    experience: number,
-    a: number,
-    a_exp: number,
-    a_exp_needed: number,
-    b: number,
-    b_exp: number,
-    b_exp_needed: number,
-    c: number,
-    c_exp: number,
-    c_exp_needed: number,
-    d: number,
-    d_exp: number,
-    d_exp_needed: number,
-    e: number,
-    e_exp: number,
-    e_exp_needed: number,
-    rewardType: string,
-}
+    id: number;
+    level: number;
+    level_exp_needed: number;
+    name: string;
+    experience: number;
+    a: number;
+    a_exp: number;
+    a_exp_needed: number;
+    b: number;
+    b_exp: number;
+    b_exp_needed: number;
+    c: number;
+    c_exp: number;
+    c_exp_needed: number;
+    d: number;
+    d_exp: number;
+    d_exp_needed: number;
+    e: number;
+    e_exp: number;
+    e_exp_needed: number;
+    rewardType: string;
+};
