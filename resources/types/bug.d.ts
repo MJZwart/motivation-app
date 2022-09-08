@@ -11,6 +11,15 @@ export type BugReport = {
     admin_comment: string;
 };
 
+export type NewBugReport = {
+    title: string;
+    page: string;
+    type: string;
+    severity: number;
+    image_link: string;
+    comment: string;
+};
+
 export type Feedback = {
     text: string;
     type: string;

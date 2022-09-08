@@ -37,12 +37,13 @@ export type BannedUser = {
         username: string;
         id: number;
     };
-    banned_until: Date;
+    banned_until: string;
     past: boolean;
     banned_until_time: string;
-    comment: string;
-    end_ban: boolean;
-    log: string;
+    early_release: Date;
+    ban_edit_comment: string;
+    // end_ban: boolean;
+    ban_edit_log: string;
 };
 
 export type NewSuspension = {

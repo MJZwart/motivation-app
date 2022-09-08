@@ -52,7 +52,7 @@ export const useMainStore = defineStore('main', {
             await axios.post('/feedback', feedback);
         },
         /**
-         * @param {import('resources/types/bug.js').BugReport} bugReport
+         * @param {import('resources/types/bug.js').NewBugReport} bugReport
          */
         async storeBugReport(bugReport) {
             await axios.get('/sanctum/csrf-cookie');
