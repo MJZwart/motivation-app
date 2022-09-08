@@ -5,8 +5,11 @@ import {useMainStore} from './store';
 export const useFriendStore = defineStore('friend', {
     state: () => {
         return {
-            /** @type import('resources/types/friend').FriendRequests | null */
-            requests: null,
+            /** @type import('resources/types/friend').FriendRequests */
+            requests: {
+                incoming: [],
+                outgoing: [],
+            },
             /** @type Array<import('resources/types/friend').Friend> | [] */
             friends: [],
         };

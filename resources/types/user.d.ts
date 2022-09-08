@@ -42,7 +42,7 @@ export type BannedUser = {
     banned_until_time: string;
     early_release: Date;
     ban_edit_comment: string;
-    // end_ban: boolean;
+    end_ban?: boolean;
     ban_edit_log: string;
 };
 

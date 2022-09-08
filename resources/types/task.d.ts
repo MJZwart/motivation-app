@@ -1,13 +1,16 @@
-export type Task = {
+export type Task = NewTask & {
     id: number;
+    tasks?: Task[];
+};
+
+export type NewTask = {
+    name: string;
     description: string;
     difficulty: number;
-    name: string;
-    repeatable: string; //TODO Enum
-    super_task: number | null;
+    type: string;
+    repeatable: string;
+    super_task_id?: number | null;
     task_list_id: number;
-    tasks: Task[];
-    type: number;
 };
 
 export type TaskList = {

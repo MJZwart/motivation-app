@@ -5,11 +5,11 @@ import {useRewardStore} from './rewardStore';
 export const useTaskStore = defineStore('task', {
     state: () => {
         return {
-            /** @type Array<import('resources/types/task').Task> */
+            /** @type Array<import('resources/types/task').TaskList> */
             taskLists: [],
-        }
+        };
     },
-    
+
     actions: {
         /** @returns Array<import('resources/types/task').Task> */
         async fetchExampleTasks() {
@@ -17,7 +17,7 @@ export const useTaskStore = defineStore('task', {
             return data.data;
         },
         /**
-         * @param {import('resources/types/task').Task} task
+         * @param {import('resources/types/task').NewTask} task
          */
         async storeTask(task) {
             const {data} = await axios.post('/tasks', task);
@@ -68,7 +68,7 @@ export const useTaskStore = defineStore('task', {
             this.taskLists = data.data;
         },
         /**
-         * @param {{taskListId: Number, tasks: Array<import('resources/types/task').Task>}} data
+         * @param {{taskListId: Number | string, tasks: Array<import('resources/types/task').Task>}} data
          */
         mergeTasks(data) {
             axios.post('/tasks/merge/' + data.taskListId, data);
