@@ -45,7 +45,7 @@ export const useMainStore = defineStore('main', {
             rewardStore.rewardObj = data.rewardObj;
         },
         /**
-         * @param {import('resources/types/bug.js').Feedback} feedback
+         * @param {import('resources/types/feedback.js').Feedback} feedback
          */
         async sendFeedback(feedback) {
             await axios.get('/sanctum/csrf-cookie');

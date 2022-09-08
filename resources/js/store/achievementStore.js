@@ -10,10 +10,10 @@ export const useAchievementStore = defineStore('achievement', {
             achievements: null,
             /** @type {Array<import('resources/types/achievement.js').AchievementTrigger> | []} */
             achievementTriggers: [],
-        }
+        };
     },
     actions: {
-        /** @param {import('resources/types/achievement.js').Achievement} achievement */
+        /** @param {import('resources/types/achievement.js').NewAchievement} achievement */
         async newAchievement(achievement) {
             const {data} = await axios.post('/admin/achievements', achievement);
             this.achievements = data.achievements;
