@@ -1,11 +1,8 @@
 export type Friend = {
     id: number;
-    created_at: Date;
-    updated_at: Date;
-    user_id: number;
-    friend_id: number;
-    accepted: boolean;
+    friendship_id: number;
     username: string;
+    friends_since: string;
 };
 
 export type FriendRequests = {

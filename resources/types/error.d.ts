@@ -2,6 +2,6 @@ export type Error = {
     [key: string]: string[];
 };
 
-export type Message = {
+export type ErrorMessage = {
     error: string;
 };

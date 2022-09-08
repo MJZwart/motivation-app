@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import type {Message} from 'resources/types/message';
+import type {NewMessage} from 'resources/types/message';
 import {computed, ref} from 'vue';
 import {useMessageStore} from '/js/store/messageStore';
 const messageStore = useMessageStore();
@@ -37,7 +37,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 
-const message = ref<Message>({
+const message = ref<NewMessage>({
     message: '',
 });
 

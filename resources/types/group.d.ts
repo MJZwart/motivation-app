@@ -1,27 +1,27 @@
 import {StrippedUser} from './user';
 
-export interface Group extends NewGroup {
+export type Group = NewGroup & {
     id: number;
     time_created: Date;
     time_updated: Date;
     members: GroupUser[];
-}
+};
 
-export interface NewGroup {
+export type NewGroup = {
     name: string;
     description: string;
     is_public: boolean;
     require_application: boolean;
-}
+};
 
-export interface GroupPage extends Group {
+export type GroupPage = Group & {
     admin: StrippedUser;
     is_member: boolean;
     rank: string;
     joined: string;
     has_application: boolean;
     invites: number[] | null;
-}
+};
 
 export type GroupUser = {
     id: number;

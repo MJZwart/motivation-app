@@ -25,15 +25,15 @@ export type VillageExpGain = {
     level: number;
 };
 
-export interface NewReportedUser {
+export type NewReportedUser = {
     comment: string;
     reason: string;
     conversation_id?: string;
-}
+};
 
-export interface ReportedUser extends NewReportedUser {
+export type ReportedUser = NewReportedUser & {
     id: number;
     created_at: Date;
     reported_user_id: number;
     reported_by_user_id: number;
-}
+};
