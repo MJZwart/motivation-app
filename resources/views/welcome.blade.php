@@ -21,8 +21,10 @@
     </head>
     <body>
         <div id="app"></div>
+        <!-- Online -->
         @production
-        <script type="module" src="/js/{{ $manifest['js/app.js']['file'] }}" type="text/html"></script>
+        <!-- Test to see it reaches production. -->
+        <script type="module" src="/js/{{ $manifest['js/app.js']['file'] }}" type="text/html"></>
         @else
         <script type="module" src="http://localhost:3000/@vite/client"></script>
         <script type="module" src="http://localhost:3000/js/app.js"></script>
