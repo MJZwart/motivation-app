@@ -8,6 +8,7 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <link rel="manifest" href="/site.webmanifest">
+        <base href=".">
         </script>
         @php
         $manifest = json_decode(file_get_contents(public_path('js/manifest.json')), true);
