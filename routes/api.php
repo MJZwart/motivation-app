@@ -38,9 +38,14 @@ foreach ($routes as $route) {
     Route::prefix($route)->group(base_path('routes/api/' . $route . '.php'));
 }
 
-Route::post('/login', [AuthenticationController::class, 'authenticate']);
-Route::post('/logout', [AuthenticationController::class, 'logout']);
-Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::group(['middleware' => ['web']], function () {
+    Route::post('/login', [AuthenticationController::class, 'authenticate']);
+    Route::post('/logout', [AuthenticationController::class, 'logout']);
+    Route::post('/register', [RegisteredUserController::class, 'store']);
+
+    Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
+    Route::post('/feedback', [FeedbackController::class, 'store']);
+});
 
 Route::group(['middleware' => ['valid-auth']], function () {
     Route::resource('/tasks', TaskController::class)->only([
@@ -91,5 +96,3 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::post('/user/{user}/report', [UserController::class, 'reportUser']);
 });
 
-Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
-Route::post('/feedback', [FeedbackController::class, 'store']);
