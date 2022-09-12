@@ -32,6 +32,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        /** @var User */
+        $activeUser = Auth::user();
+        if ($activeUser->isBlocked($user->id)) {
+            return new JsonResponse(['message' => ['error' => 'Unable to view this user\'s profile.', Response::HTTP_UNPROCESSABLE_ENTITY]]);
+        }
         return new UserProfileResource($user);
     }
 
@@ -142,7 +147,16 @@ class UserController extends Controller
      */
     public function searchUser(Request $request)
     {
-        return StrippedUserResource::collection(User::where('username', 'like', '%' . $request['userSearch'] . '%')->get());
+        /** @var User */
+        $activeUser = Auth::user();
+        $blockedUsers = $activeUser->blockedUsers()->get();
+        $blockedByUsers = $activeUser->blockedByUsers()->get();
+        $exclude = $blockedUsers->concat($blockedByUsers);
+        $exclude = $exclude->map(function ($item) {
+            return $item->id;
+        });
+        return StrippedUserResource::collection(User::where('username', 'like', '%' . $request['userSearch'] . '%')
+            ->whereNotIn('id', $exclude)->get());
     }
 
 
