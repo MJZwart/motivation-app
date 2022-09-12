@@ -16,31 +16,23 @@
 </template>
 
 
-<script setup>
-import {onMounted, ref} from 'vue';
+<script setup lang="ts">
+import type {TaskList} from 'resources/types/task';
+import {ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 const taskStore = useTaskStore();
 
-const props = defineProps({
-    taskList: {
-        /** @type {import('../../../../types/task').TaskList} */
-        type: Object,
-        required: true,
-    },
-});
+const props = defineProps<{taskList: TaskList}>();
 const emit = defineEmits(['close']);
 
-onMounted(() => editedTaskList.value = props.taskList ? Object.assign({}, props.taskList) : {});
 
-/** @type {import('../../../../types/task').TaskList} */
-const editedTaskList = ref({});
+const editedTaskList = ref<TaskList>(Object.assign({}, props.taskList));
 
 async function updateTaskList() {
     await taskStore.updateTaskList(editedTaskList.value)
     close();
 }
 function close() {
-    editedTaskList.value = {},
     emit('close');
 }
 </script>

@@ -53,7 +53,7 @@ export const useAdminStore = defineStore('admin', {
             this.reportedUsers = data.reportedUsers;
         },
         /**
-         * @param {import('resources/types/notification').Notification} notification
+         * @param {import('resources/types/notification').NewNotification} notification
          */
         async sendNotification(notification) {
             await axios.post('/notifications/all', notification);

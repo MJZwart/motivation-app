@@ -47,7 +47,7 @@ export const useTaskStore = defineStore('task', {
             rewardStore.rewardObj = data.activeReward;
         },
         /**
-         * @param {import('resources/types/task').TaskList} taskList
+         * @param {import('resources/types/task').NewTaskList} taskList
          */
         async storeTaskList(taskList) {
             const {data} = await axios.post('/tasklists', taskList);

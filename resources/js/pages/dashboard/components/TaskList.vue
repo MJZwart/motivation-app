@@ -35,7 +35,7 @@
             <NewTask v-if="superTask" :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
         </Modal>
         <Modal :show="showEditTaskListModal" :footer="false" :title="$t('edit-task-list')" @close="closeEditTaskList">
-            <EditTaskList :taskList="taskListToEdit" @close="closeEditTaskList" />
+            <EditTaskList v-if="taskListToEdit" :taskList="taskListToEdit" @close="closeEditTaskList" />
         </Modal>
         <Modal
             :show="showDeleteTaskListConfirmModal"
