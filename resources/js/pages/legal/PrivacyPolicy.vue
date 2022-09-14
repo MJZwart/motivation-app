@@ -65,8 +65,8 @@
         <p>
             None of this information is shared with or sold to third parties. We do not track any activity outside of the 
             website. Any information shared with us outside of this website (such as contacting administrators through Discord 
-            or email) will not be linked to a Taskr account.
+            or email) will not be linked to a {{$t('app-name')}} account.
         </p>
-        <p>Taskr - August 2022</p>
+        <p>{{$t('app-name')}} - September 2022</p>
     </div>
 </template>
