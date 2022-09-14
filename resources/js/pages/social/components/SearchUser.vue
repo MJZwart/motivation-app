@@ -84,7 +84,6 @@ function closeSendMessageModal() {
     showSendMessageModal.value = false;
 }
 
-// const user = computed(() => userStore.user);
 const friends = computed(() => friendStore.friends);
 const requests = computed(() => friendStore.requests);
 </script>
