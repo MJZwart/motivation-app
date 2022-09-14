@@ -18,8 +18,8 @@ class RewardController extends Controller
 {
     public function updateRewardObj(Request $request)
     {
-        $activeReward = RewardObjectHandler::updateActiveReward($request['type'], $request['id'], $request['name']);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_INSTANCE', 'Updating ' . $request['type'] . ' with new name ' . $request['name']);
+        $activeReward = RewardObjectHandler::updateActiveReward($request['rewardType'], $request['id'], $request['name']);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_INSTANCE', 'Updating ' . $request['rewardType'] . ' with new name ' . $request['name']);
         return new JsonResponse([
             'message' => ['success' => 'You have changed the name.'],
             'rewardObj' => $activeReward

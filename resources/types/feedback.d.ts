@@ -1,12 +1,16 @@
-export type Feedback = {
-    id: number,
-    created_at: Date,
-    type: string,
-    text: string,
-    email: string,
-    user: {
-        id: number,
-        username: string,
-    },
-    archived: boolean
-}
+export type NewFeedback = {
+    type: string;
+    text: string;
+    email?: string;
+    user_id?: number;
+};
+
+export type Feedback = NewFeedback & {
+    id: number;
+    created_at: Date;
+    archived: boolean;
+    user?: {
+        id: number;
+        username: string;
+    };
+};

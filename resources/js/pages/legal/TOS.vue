@@ -42,6 +42,6 @@
             In the case of illegal operations, we may contact the appropriate authorities to settle the matter.
         </p>
 
-        <p>Taskr - August 2022</p>
+        <p>{{$t('app-name')}} - September 2022</p>
     </div>
 </template>

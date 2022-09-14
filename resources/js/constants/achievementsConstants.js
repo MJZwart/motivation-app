@@ -1,3 +1,6 @@
+/**
+ * @type {import('resources/types/global').Field[]}
+ */
 export const ACHIEVEMENT_FIELDS = [
     {label: 'Image', key: 'image'},
     {label: 'Name', key: 'name', sortable: true},
@@ -5,7 +8,8 @@ export const ACHIEVEMENT_FIELDS = [
     {label: 'Trigger', key: 'trigger', sortable: true},
     {label: 'Trigger amount', key: 'trigger_amount', sortable: true},
     {label: 'Trigger type', key: 'trigger_type', sortable: true},
-    {label: 'Actions', key: 'actions'}];
+    {label: 'Actions', key: 'actions'},
+];
 
 export const ACHIEVEMENT_DEFAULTS = {
     currentSort: 'trigger',

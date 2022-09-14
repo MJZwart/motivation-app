@@ -5,31 +5,43 @@ import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
 import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
+import {PasswordSettings, ProfileSettings} from 'resources/types/settings';
+import {ChangeReward} from 'resources/types/reward';
+import {Blocked, Login, NewUser, Register, User} from 'resources/types/user';
+import {UserSearch} from 'resources/types/global';
+import {NewReportedUser} from 'resources/types/admin';
+import {ErrorMessage} from 'resources/types/error';
 
 export const useUserStore = defineStore('user', {
     state: () => {
         return {
             /** @type import('resources/types/user').User | any = {} */
             user: JSON.parse(localStorage.getItem('user') || '{}') || {},
-            /** @type Boolean */
-            authenticated: JSON.parse(localStorage.getItem('authenticated') || '{}') || false,
+            /** @type boolean */
+            authenticated: false,
             /** @type import('resources/types/user').UserStats | null */
             userStats: null,
-        }
+        };
     },
     getters: {
         isAdmin(state) {
             return state.user ? state.user.admin : false;
         },
+        isAuthenticated(state) {
+            if (!state.authenticated) {
+                const localStor = localStorage.getItem('authenticated');
+                if (!localStor) state.authenticated = false;
+                else state.authenticated = JSON.parse(localStor);
+            }
+            return state.authenticated;
+        },
     },
     actions: {
         /**
-         * User authentication. If user login is valid but the account is otherwise invalidated, 
+         * User authentication. If user login is valid but the account is otherwise invalidated,
          * instead return info the Login screen.
-         * @param {import('resources/types/user').Login} user
-         * @returns {Promise<import('resources/types/error').Message | null>}
          */
-        async login(user) {
+        async login(user: Login): Promise<ErrorMessage | null> {
             await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
             if (data.invalid) return data.message;
@@ -48,11 +60,7 @@ export const useUserStore = defineStore('user', {
                 router.forward();
             });
         },
-        /**
-         * @param {import('resources/types/user').User | {}} user
-         * @param {Boolean} auth
-         */
-        setUser(user, auth = true) {
+        setUser(user: User | Record<string, never>, auth = true) {
             this.user = user;
             this.authenticated = auth;
             localStorage.setItem('authenticated', auth.toString());
@@ -60,18 +68,12 @@ export const useUserStore = defineStore('user', {
         },
 
         //New user
-        /**
-         * @param {import('resources/types/user').Register} user
-         */
-        async register(user) {
+        async register(user: Register) {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('/register', user);
             router.push('/login');
         },
-        /**
-         * @param {import('resources/types/user').User} user
-         */
-        async confirmRegister(user) {
+        async confirmRegister(user: NewUser) {
             const {data} = await axios.post('/register/confirm', user);
             this.setUser(data.user);
             // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -79,16 +81,13 @@ export const useUserStore = defineStore('user', {
         },
 
         //Public user profile
-        /**
-         * @param {Number} userId
-         */
-        async getUserProfile(userId) {
-            const {data} = await  axios.get('/profile/' + userId);
+        async getUserProfile(userId: number) {
+            const {data} = await axios.get('/profile/' + userId);
             return data.data;
         },
 
         async getOverview() {
-            const {data} = await  axios.get('/overview');
+            const {data} = await axios.get('/overview');
             this.userStats = data.stats;
             const achievementStore = useAchievementStore();
             achievementStore.achievementsByUser = data.achievements;
@@ -96,73 +95,46 @@ export const useUserStore = defineStore('user', {
             rewardStore.rewardObj = data.rewardObj;
         },
 
-        /**
-         * @param {{String, String, String}} passwords
-         */
-        async updatePassword(passwords) {
+        async updatePassword(passwords: PasswordSettings) {
             await axios.put('/user/settings/password', passwords);
             this.logout();
         },
-        /**
-         * @param {String} email
-         */
-        async updateEmail(email) {
+        async updateEmail(email: string) {
             const {data} = await axios.put('/user/settings/email', email);
             this.setUser(data.user);
         },
-        /**
-         * @param {{Boolean, Boolean, Boolean}} settings
-         */
-        async updateSettings(settings) {
+        async updateSettings(settings: ProfileSettings) {
             const {data} = await axios.put('/user/settings', settings);
             this.setUser(data.user);
         },
-        /**
-         * @param {import('resources/types/user').User} user
-         */
-        async changeRewardType(user) {
-            const {data} = await  axios.put('/user/settings/rewards', user);
+        async changeRewardType(change: ChangeReward) {
+            const {data} = await axios.put('/user/settings/rewards', change);
             this.setUser(data.user);
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.activeReward;
         },
 
-        /**
-         * @param {import('resources/types/global').UserSearch} searchValue
-         * @returns Array<import('resources/types/user').User>
-         */
-        async searchUser(searchValue) {
+        async searchUser(searchValue: UserSearch): Promise<User[]> {
             const {data} = await axios.post('/search', searchValue);
             return data.data;
         },
 
-        /**
-         * @param {[number, import('resources/types/admin').NewReportedUser]} searchValue
-         */
-        async reportUser([userId, report]) {
-            await  axios.post('/user/' + userId + '/report', report);
+        async reportUser(userId: number, report: NewReportedUser) {
+            await axios.post('/user/' + userId + '/report', report);
         },
 
-        /**
-         * @param {string | number} userId
-         */
-        async blockUser(userId) {
+        async blockUser(userId: string | number) {
             const {data} = await axios.put('/user/' + userId + '/block');
             const messageStore = useMessageStore();
             messageStore.conversations = data.data;
         },
-        /**
-         * @returns Array<import('resources/types/user').User>
-         */
-        async getBlocklist() {
+
+        async getBlocklist(): Promise<Blocked[]> {
             const {data} = await axios.get('/user/blocklist');
             return data.blockedUsers;
         },
 
-        /**
-         * @param {Number} blocklistId 
-         */
-        async unblockUser(blocklistId) {
+        async unblockUser(blocklistId: number) {
             const {data} = await axios.put(`/user/${blocklistId}/unblock`);
             return data.blockedUsers;
         },

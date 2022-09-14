@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\Conversation;
+use App\Models\Friend;
 use App\Http\Resources\ConversationOverviewResource;
 use App\Http\Requests\SendMessageRequest;
 use App\Models\BlockedUser;
@@ -94,6 +95,12 @@ class MessageController extends Controller
             'blocked_user_id' => $blockedUser->id,
         ]);
         $this->makeConversationInvisible($user, $blockedUser);
+        //delete friendship and inverse friendship
+        $toDelete = Friend::where('user_id', $user->id)->where('friend_id', $blockedUser->id)->first();
+        if ($toDelete) $toDelete->delete();
+        $toDelete = Friend::where('user_id', $blockedUser->id)->where('friend_id', $user->id)->first();
+        if ($toDelete) $toDelete->delete();
+
         ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user ' . $blockedUser->username);
         return new JsonResponse(['message' => ['success' => 'User blocked.']], Response::HTTP_OK);
     }

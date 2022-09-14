@@ -49,14 +49,22 @@ class FriendController extends Controller
      */
     public function sendFriendRequest(Request $request, User $user): JsonResponse
     {
-        if (Friend::where('user_id', Auth::user()->id)->where('friend_id', $user->id)->exists()) {
+        /** @var User */
+        $activeUser = Auth::user();
+        if (Friend::where('user_id', $activeUser->id)->where('friend_id', $user->id)->exists()) {
             return new JsonResponse(['message' => 'You\'ve already sent a friend request to this user'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        $friendRequest = Friend::create(['user_id' => Auth::user()->id, 'friend_id' => $user->id]);
+        if ($activeUser->isBlocked($user->id)){
+            return new JsonResponse(['message' => ['error' => 'Unable to send a friend request to this user.', Response::HTTP_UNPROCESSABLE_ENTITY]]);
+        }
+        if ($user->isBlocked($activeUser->id)){
+            return new JsonResponse(['message' => ['error' => 'You have blocked this user.', Response::HTTP_UNPROCESSABLE_ENTITY]]);
+        }
+        $friendRequest = Friend::create(['user_id' => $activeUser->id, 'friend_id' => $user->id]);
         NotificationHandler::createFromFriendRequest(
             $user->id,
             'New friend request!',
-            'You have a new friend request from ' . Auth::user()->username . '. Would you like to accept?',
+            'You have a new friend request from ' . $activeUser->username . '. Would you like to accept?',
             $friendRequest,
             true
         );

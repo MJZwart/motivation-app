@@ -124,7 +124,7 @@ function deleteTask(task: Task) {
     }
 }
 function completeTask(task: Task) {
-    if (task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
+    if (task.tasks && task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
         return;
     taskStore.completeTask(task);
 }

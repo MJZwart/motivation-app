@@ -7,54 +7,50 @@
                     <li v-for="(friend, index) in friends" :key="index">
                         <span v-if="manage">
                             <Tooltip :text="$t('remove-friend')">
-                                <FaIcon 
+                                <FaIcon
                                     :icon="['far', 'rectangle-xmark']"
                                     class="icon small red"
-                                    @click="removeFriend(friend)" />
+                                    @click="removeFriend(friend)"
+                                />
                             </Tooltip>
                         </span>
                         <span v-if="message">
                             <Tooltip :text="$t('send-message')">
-                                <FaIcon 
-                                    icon="envelope"
-                                    class="icon small"
-                                    @click="sendMessage(friend)" />
+                                <FaIcon icon="envelope" class="icon small" @click="sendMessage(friend)" />
                             </Tooltip>
                         </span>
-                        <router-link :to="{ name: 'profile', params: { id: friend.id}}">
-                            {{friend.username}}
+                        <router-link :to="{name: 'profile', params: {id: friend.id}}">
+                            {{ friend.username }}
                         </router-link>
                     </li>
                 </ul>
                 <p v-else class="mb-1">{{ $t('no-friends') }}</p>
             </Summary>
             <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
-                <SendMessage :user="friendToMessage" @close="closeSendMessageModal" />
+                <SendMessage v-if="friendToMessage" :user="friendToMessage" @close="closeSendMessageModal" />
             </Modal>
         </div>
     </div>
 </template>
 
-
-<script setup>
+<script setup lang="ts">
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import Summary from '/js/components/global/Summary.vue';
-import {ref, computed, onMounted} from 'vue';
+import {ref, computed, onMounted, PropType} from 'vue';
 import {useFriendStore} from '/js/store/friendStore';
+import {Friend} from 'resources/types/friend';
 
 const friendStore = useFriendStore();
 
-onMounted(async() => {
+onMounted(async () => {
     loading.value = true;
-    if (!props.friends)
-        await friendStore.getFriends();
+    if (!props.friends) await friendStore.getFriends();
     loading.value = false;
 });
 
 const loading = ref(true);
 
-
-const friends = computed(() => props.friends ? props.friends : friendStore.friends);
+const friends = computed(() => (props.friends ? props.friends : friendStore.friends));
 
 const props = defineProps({
     manage: {
@@ -67,14 +63,15 @@ const props = defineProps({
         required: true,
     },
     friends: {
-        type: Array,
+        type: Array as PropType<Friend[]>,
         required: false,
     },
 });
 
-const friendToMessage = ref(false);
+const friendToMessage = ref<Friend | null>(null);
 const showSendMessageModal = ref(false);
-function sendMessage(friend) {
+
+function sendMessage(friend: Friend) {
     friendToMessage.value = friend;
     showSendMessageModal.value = true;
 }
@@ -82,7 +79,7 @@ function closeSendMessageModal() {
     showSendMessageModal.value = false;
 }
 
-function removeFriend(friend) {
+function removeFriend(friend: Friend) {
     if (props.manage && confirm('Are you sure you wish to remove ' + friend.username + ' as friend?')) {
         friendStore.removeFriend(friend.friendship_id);
     }

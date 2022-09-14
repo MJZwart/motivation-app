@@ -10,7 +10,7 @@ export const useGroupStore = defineStore('group', {
             allGroups: [],
             /** @type import('resources/types/group').GroupPage | null */
             group: null,
-        }
+        };
     },
     actions: {
         // fetchMyGroups() {
@@ -34,7 +34,7 @@ export const useGroupStore = defineStore('group', {
             this.group = data.group;
         },
         /**
-         * @param {import('resources/types/group').Group} group
+         * @param {import('resources/types/group').NewGroup} group
          */
         async createGroup(group) {
             await axios.post('/groups', group);
@@ -67,21 +67,21 @@ export const useGroupStore = defineStore('group', {
             return data.applications;
         },
         /**
-         * @param {import('resources/types/group').Application} application 
+         * @param {import('resources/types/group').Application} application
          */
         async rejectApplication(application) {
             const {data} = await axios.post(`/groups/applications/reject/${application.id}`);
             this.group = data.group;
         },
         /**
-         * @param {import('resources/types/group').Application} application 
+         * @param {import('resources/types/group').Application} application
          */
         async acceptApplication(application) {
             const {data} = await axios.post(`/groups/applications/accept/${application.id}`);
             this.group = data.group;
         },
         /**
-         * @param {import('resources/types/group').Application} application 
+         * @param {import('resources/types/group').Application} application
          */
         async banApplication(application) {
             const {data} = await axios.post(`/groups/applications/ban/${application.id}`);
@@ -112,14 +112,14 @@ export const useGroupStore = defineStore('group', {
         },
 
         /**
-         * 
-         * @param {{group_id: Number, user_id: Number}} invitation 
+         *
+         * @param {{group_id: Number, user_id: Number}} invitation
          */
         async inviteUser(invitation) {
             const {data} = await axios.post('/groups/invite', invitation);
             this.group = data.group;
         },
-        
+
         /**
          * @param {import('resources/types/group').GroupUser} user
          * @param {import('resources/types/group').Group} group

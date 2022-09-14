@@ -2,11 +2,7 @@
     <div>
         <!-- The search bar -->
         <form class="navbar-search mb-3" @submit.prevent>
-            <input 
-                v-model="data.userSearch" 
-                type="search" 
-                :placeholder="$t('search-user')" 
-                aria-label="Search user" />
+            <input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
             <button type="submit" @click="searchUser">{{ $t('search') }}</button>
         </form>
 
@@ -16,42 +12,39 @@
             <Table
                 :items="searchResults"
                 :fields="searchResultsFields"
-                :options="['table-sm', 'table-striped', 'table-hover']">
+                :options="['table-sm', 'table-striped', 'table-hover']"
+            >
                 <template #username="item">
-                    <router-link :to="{ name: 'profile', params: { id: item.item.id}}">{{item.item.username}}</router-link>
+                    <router-link :to="{name: 'profile', params: {id: item.item.id}}">
+                        {{ item.item.username }}
+                    </router-link>
                 </template>
                 <template #actions="item">
                     <Tooltip :text="$t('send-message')">
-                        <FaIcon 
-                            icon="envelope"
-                            class="icon small"
-                            @click="sendMessage(item.item)" />
+                        <FaIcon icon="envelope" class="icon small" @click="sendMessage(item.item)" />
                     </Tooltip>
                     <span v-if="!isConnection(item.item.id)">
                         <Tooltip :text="$t('send-friend-request')">
-                            <FaIcon 
-                                icon="user-plus"
-                                class="icon small"
-                                @click="sendFriendRequest(item.item.id)" />
+                            <FaIcon icon="user-plus" class="icon small" @click="sendFriendRequest(item.item.id)" />
                         </Tooltip>
                     </span>
                 </template>
             </Table>
         </div>
         <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
-            <SendMessage :user="userToMessage" @close="closeSendMessageModal" />
+            <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />
         </Modal>
     </div>
 </template>
 
-
-<script setup>
+<script setup lang="ts">
 import Table from '/js/components/global/Table.vue';
 import {ref, computed} from 'vue';
 import {SEARCH_RESULTS_FIELDS} from '/js/constants/userConstants.js';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
+import type {StrippedUser} from 'resources/types/user';
 const userStore = useUserStore();
 const friendStore = useFriendStore();
 
@@ -61,30 +54,29 @@ const data = ref({
     userSearch: '',
 });
 const searchResultsFields = SEARCH_RESULTS_FIELDS;
-const userToMessage = ref({});
+const userToMessage = ref<StrippedUser | null>(null);
 const showSendMessageModal = ref(false);
-            
-/** @type Array<import('resources/types/user').User> | null */
-const searchResults = ref([]);
+
+const searchResults = ref<StrippedUser[] | null>(null);
 /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
 async function searchUser() {
     searchResults.value = await userStore.searchUser(data.value);
 }
 /** Checks if a given user (by id) is already friends with the logged in user or a request is already sent */
-function isConnection(id) {
+function isConnection(id: number) {
     const ids = [];
     if (requests.value) {
         ids.push(...requests.value.outgoing.map(request => request.id));
         ids.push(...requests.value.incoming.map(request => request.id));
     }
-    ids.push(...user.value.friends.map(friend => friend.id));
+    ids.push(...friends.value.map(friend => friend.id));
     return ids.includes(id);
 }
-async function sendFriendRequest(id) {
-    await friendStore.sendRequest(id);
+async function sendFriendRequest(id: number) {
+    await friendStore.sendRequest(id.toString());
     emit('reload');
 }
-function sendMessage(user) {
+function sendMessage(user: StrippedUser) {
     userToMessage.value = user;
     showSendMessageModal.value = true;
 }
@@ -92,14 +84,13 @@ function closeSendMessageModal() {
     showSendMessageModal.value = false;
 }
 
-const user = computed(() => userStore.user);
+const friends = computed(() => friendStore.friends);
 const requests = computed(() => friendStore.requests);
 </script>
 
-
 <style>
 .navbar-search {
-    display:flex;
-    flex-direction:row;
+    display: flex;
+    flex-direction: row;
 }
 </style>

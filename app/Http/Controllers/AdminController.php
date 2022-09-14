@@ -200,7 +200,7 @@ class AdminController extends Controller
                 'user_id' => $user->id,
                 'title' => 'Your suspension has been lifted.',
                 'text' => Auth::user()->username .
-                    ' has ended your suspension. Reason given: ' . $request['comment'] .
+                    ' has ended your suspension. Reason given: ' . $request['ban_edit_comment'] .
                     ' You were originally banned for: ' . $bannedUser->reason
             ]);
         } else {
@@ -210,8 +210,8 @@ class AdminController extends Controller
         }
         $bannedUser->days = $request['days'];
         $bannedUser->banned_until = $newDate;
-        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment . $validated['comment'] . ' | ';
-        $bannedUser->ban_edit_log = $bannedUser->ban_edit_log . $validated['log'] . ' | ';
+        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment . $validated['ban_edit_comment'] . ' | ';
+        $bannedUser->ban_edit_log = $bannedUser->ban_edit_log . $validated['ban_edit_log'] . ' | ';
         $bannedUser->save();
 
         return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);

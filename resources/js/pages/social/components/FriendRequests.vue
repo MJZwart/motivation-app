@@ -6,21 +6,23 @@
                     <div v-if="requests.incoming[0]">
                         <li v-for="(request, index) in requests.incoming" :key="index">
                             <Tooltip :text="$t('accept-friend-request')">
-                                <FaIcon 
+                                <FaIcon
                                     :icon="['far', 'square-check']"
                                     class="icon small green"
-                                    @click="acceptFriendRequest(request.friendship_id)" />
+                                    @click="acceptFriendRequest(request.friendship_id)"
+                                />
                             </Tooltip>
                             <Tooltip :text="$t('deny-friend-request')">
-                                <FaIcon 
+                                <FaIcon
                                     :icon="['far', 'rectangle-xmark']"
                                     class="icon small red"
-                                    @click="denyFriendRequest(request.friendship_id)" />
+                                    @click="denyFriendRequest(request.friendship_id)"
+                                />
                             </Tooltip>
-                            {{request.friend}}
+                            {{ request.friend }}
                         </li>
                     </div>
-                    
+
                     <p v-else>{{ $t('no-incoming-friend-requests') }}</p>
                 </ul>
             </Summary>
@@ -31,12 +33,13 @@
                     <div v-if="requests.outgoing[0]">
                         <li v-for="(request, index) in requests.outgoing" :key="index">
                             <Tooltip :text="$t('cancel-friend-request')">
-                                <FaIcon 
+                                <FaIcon
                                     :icon="['far', 'rectangle-xmark']"
                                     class="icon small red"
-                                    @click="removeFriendRequest(request.friendship_id)" />
+                                    @click="removeFriendRequest(request.friendship_id)"
+                                />
                             </Tooltip>
-                            {{request.friend}}
+                            {{ request.friend }}
                         </li>
                     </div>
 
@@ -47,7 +50,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {computed} from 'vue';
 import Summary from '/js/components/global/Summary.vue';
 import {useFriendStore} from '/js/store/friendStore';
@@ -55,22 +58,13 @@ const friendStore = useFriendStore();
 
 const requests = computed(() => friendStore.requests);
 
-/**
- * @param {Number} requestId
- */
-function removeFriendRequest(requestId) {
+function removeFriendRequest(requestId: number) {
     friendStore.removeRequest(requestId);
 }
-/**
- * @param {Number} requestId
- */
-function denyFriendRequest(requestId) {
+function denyFriendRequest(requestId: number) {
     friendStore.denyRequest(requestId);
 }
-/**
- * @param {Number} requestId
- */
-function acceptFriendRequest(requestId) {
+function acceptFriendRequest(requestId: number) {
     friendStore.acceptRequest(requestId);
 }
 </script>
