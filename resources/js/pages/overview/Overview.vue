@@ -2,15 +2,20 @@
     <div>
         <Loading v-if="loading" />
         <div v-else class="w-60-flex center">
-            <RewardCard v-if="rewardObj" class="mb-2" :reward="rewardObj" :userReward="true" :rewardType="rewardObj.rewardType" />
-            <UserStats class="mb-2" :user-stats="userStats" />
-            <AchievementsCard :achievements="achievements" />
+            <RewardCard
+                v-if="rewardObj"
+                class="mb-2"
+                :reward="rewardObj"
+                :userReward="true"
+                :rewardType="rewardObj.rewardType"
+            />
+            <UserStats v-if="userStats" class="mb-2" :user-stats="userStats" />
+            <AchievementsCard v-if="achievements" :achievements="achievements" />
         </div>
     </div>
 </template>
 
-
-<script setup>
+<script setup lang="ts">
 import AchievementsCard from './components/AchievementsCard.vue';
 import RewardCard from '/js/pages/dashboard/components/RewardCard.vue';
 import UserStats from './components/UserStats.vue';
@@ -25,8 +30,8 @@ const achievementStore = useAchievementStore();
 
 const loading = ref(true);
 
-onMounted(async() => {
-    await userStore.getOverview()
+onMounted(async () => {
+    await userStore.getOverview();
     loading.value = false;
 });
 

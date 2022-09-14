@@ -3,62 +3,72 @@
         <Loading v-if="loading" />
         <div v-else>
             <div class="tabs tabs-horizontal d-flex">
-                <button type="button" class="tab-item m-1" :class="{'active-tab': chosen == 'MY'}" @click="chosen = 'MY'">
+                <button
+                    type="button"
+                    class="tab-item m-1"
+                    :class="{'active-tab': chosen == 'MY'}"
+                    @click="chosen = 'MY'"
+                >
                     {{ $t('my-groups') }}
                 </button>
-                <button type="button" class="tab-item m-1" :class="{'active-tab': chosen == 'ALL'}" @click="chosen = 'ALL'">
+                <button
+                    type="button"
+                    class="tab-item m-1"
+                    :class="{'active-tab': chosen == 'ALL'}"
+                    @click="chosen = 'ALL'"
+                >
                     {{ $t('all-groups') }}
                 </button>
                 <span class="ml-auto">
                     <Tutorial tutorial="Groups" colorVariant="primary" size="medium" />
                 </span>
             </div>
-            <input 
-                v-model="search" 
-                class="m-1 filter-input" 
-                type="text" 
-                :placeholder="$t('group-search-placeholder')"/>
+            <input
+                v-model="search"
+                class="m-1 filter-input"
+                type="text"
+                :placeholder="$t('group-search-placeholder')"
+            />
             <div class="mt-2 mb-1">
                 <h3 v-if="chosen == 'MY'">Your groups</h3>
                 <h3 v-if="chosen == 'ALL'">All groups</h3>
-                <button type="button" class="m-1 ml-auto" @click="createGroup">{{$t('create-group')}}</button>
+                <button type="button" class="m-1 ml-auto" @click="createGroup">{{ $t('create-group') }}</button>
             </div>
             <Table
                 :items="filteredAllGroups"
                 :fields="groupFields"
                 :options="['table-striped']"
-                class="font-small-responsive">
+                class="font-small-responsive"
+            >
                 <template #details="row">
                     <Tooltip :text="$t('view')">
-                        <FaIcon 
-                            icon="magnifying-glass" 
-                            class="icon" 
-                            @click="showGroupsDetails(row.item)" />
+                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(row.item)" />
                     </Tooltip>
                 </template>
                 <template #joined="row">
-                    {{parseDateTime(row.item.joined)}}
+                    {{ parseDateTime(row.item.joined) }}
                 </template>
                 <template #empty>
                     {{ $t('no-groups-found') }}
                 </template>
             </Table>
             <Modal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
-                <CreateGroup @close="closeCreateGroup" @reloadGroups="load"/>
+                <CreateGroup @close="closeCreateGroup" @reloadGroups="load" />
             </Modal>
         </div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Table from '/js/components/global/Table.vue';
-import CreateGroup from '../components/CreateGroup.vue'
+import CreateGroup from '../components/CreateGroup.vue';
 import {computed, ref, onMounted} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '/js/constants/groupConstants.js';
 import {useGroupStore} from '/js/store/groupStore';
 import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
+import type {Group} from 'resources/types/group';
 
 const groupStore = useGroupStore();
 const mainStore = useMainStore();
@@ -68,9 +78,8 @@ const router = useRouter();
 const groupFields = computed(() => {
     if (chosen.value == 'MY') return MY_GROUP_FIELDS;
     if (chosen.value == 'ALL') return ALL_GROUP_FIELDS;
-    return {};
+    return [];
 });
-ref({});
 
 const loading = ref(true);
 onMounted(() => {
@@ -83,8 +92,7 @@ async function load() {
 
 const search = ref('');
 const filteredAllGroups = computed(() => {
-    return chosenGroups.value.filter(group =>
-        group.name.toLowerCase().includes(search.value.toLowerCase()));
+    return chosenGroups.value.filter((group: Group) => group.name.toLowerCase().includes(search.value.toLowerCase()));
 });
 
 const myGroups = computed(() => groupStore.myGroups);
@@ -93,7 +101,7 @@ const chosen = ref('MY');
 const chosenGroups = computed(() => {
     if (chosen.value == 'MY') return myGroups.value;
     if (chosen.value == 'ALL') return allGroups.value;
-    return {};
+    return [];
 });
 
 const showCreateGroupModal = ref(false);
@@ -105,7 +113,7 @@ function closeCreateGroup() {
     showCreateGroupModal.value = false;
 }
 
-function showGroupsDetails(group) {
+function showGroupsDetails(group: Group) {
     router.push({path: `/group/${group.id}`});
 }
 </script>
@@ -113,12 +121,11 @@ function showGroupsDetails(group) {
 <style lang="scss" scoped>
 @import '../../../../assets/scss/variables';
 .groups-table {
-
     .details {
         padding: 0.6rem;
         border: 1px solid $grey;
         border-radius: 4px;
-        background-color:white;
+        background-color: white;
     }
 }
 </style>

@@ -1,22 +1,13 @@
 <template>
     <div class="d-flex flex-wrap">
         <ResponsiveTabs>
-            <button 
-                :class="activeTab('Groups')" 
-                class="tab-item"
-                @click="switchTab('Groups')">
+            <button :class="activeTab('Groups')" class="tab-item" @click="switchTab('Groups')">
                 {{ $t('groups') }}
             </button>
-            <button 
-                :class="activeTab('Friends')" 
-                class="tab-item"
-                @click="switchTab('Friends')">
+            <button :class="activeTab('Friends')" class="tab-item" @click="switchTab('Friends')">
                 {{ $t('friends') }}
             </button>
-            <button 
-                :class="activeTab('Blocklist')" 
-                class="tab-item"
-                @click="switchTab('Blocklist')">
+            <button :class="activeTab('Blocklist')" class="tab-item" @click="switchTab('Blocklist')">
                 {{ $t('blocklist') }}
             </button>
         </ResponsiveTabs>
@@ -26,34 +17,32 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Groups from './tabs/Groups.vue';
 import Friends from './tabs/Friends.vue';
 import Blocklist from './tabs/Blocklist.vue';
 import ResponsiveTabs from '/js/components/global/ResponsiveTabs.vue';
 import {shallowRef, ref, onMounted} from 'vue';
 
-onMounted(async() => {
-    if (window.location.hash)
-        tabKey.value = window.location.hash.slice(1);
-    else 
-        tabKey.value = 'Groups';
+onMounted(async () => {
+    if (window.location.hash) tabKey.value = window.location.hash.slice(1);
+    else tabKey.value = 'Groups';
     currentTabComponent.value = tabs[tabKey.value];
 });
 
 const tabs = {
-    'Groups': Groups,
-    'Friends': Friends,
-    'Blocklist': Blocklist,
-}
+    Groups: Groups,
+    Friends: Friends,
+    Blocklist: Blocklist,
+};
 const tabKey = ref('');
 
 const currentTabComponent = shallowRef(tabs[0]);
-function activeTab(key) {
+function activeTab(key: string) {
     if (key == tabKey.value) return 'active-tab';
     return 'tab';
 }
-function switchTab(key) {
+function switchTab(key: string) {
     currentTabComponent.value = tabs[key];
     tabKey.value = key;
     window.location.hash = key;

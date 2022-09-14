@@ -1,51 +1,50 @@
 <template>
     <div>
         <form @submit.prevent="submitTask">
-            <SimpleInput 
-                id="name" 
+            <SimpleInput
+                id="name"
                 v-model="task.name"
-                type="text" 
-                name="name" 
+                type="text"
+                name="name"
                 :label="$t('task-name')"
-                :placeholder="$t('name')" />
-            <SimpleInput  
-                id="description" 
+                :placeholder="$t('name')"
+            />
+            <SimpleInput
+                id="description"
                 v-model="task.description"
-                type="text" 
-                name="description" 
+                type="text"
+                name="description"
                 :label="$t('description-optional')"
-                :placeholder="$t('description')"  />
+                :placeholder="$t('description')"
+            />
             <div class="form-group">
-                <label for="type">{{$t('type')}}</label>
-                <select
-                    id="type"
-                    v-model="task.type"
-                    name="type">
-                    <option v-for="(type, index) in taskTypes" :key="index" :value="type.value">{{type.text}}</option>
+                <label for="type">{{ $t('type') }}</label>
+                <select id="type" v-model="task.type" name="type">
+                    <option v-for="(type, index) in taskTypes" :key="index" :value="type.value">{{ type.text }}</option>
                 </select>
-                <BaseFormError name="type" /> 
+                <BaseFormError name="type" />
             </div>
-            <SimpleInput 
+            <SimpleInput
                 id="difficulty"
                 v-model="task.difficulty"
                 type="range"
                 name="difficulty"
-                :label="$t('difficulty')+': '+task.difficulty+'/5'"
+                :label="$t('difficulty') + ': ' + task.difficulty + '/5'"
                 min="1"
-                max="5" />
+                max="5"
+            />
             <div class="form-group">
-                <label for="repeatable">{{$t('repeatable')}}</label>
-                <select
-                    id="repeatable"
-                    v-model="task.repeatable"
-                    name="repeatable">
-                    <option v-for="(option, index) in repeatables" :key="index" :value="option.value">{{option.text}}</option>
+                <label for="repeatable">{{ $t('repeatable') }}</label>
+                <select id="repeatable" v-model="task.repeatable" name="repeatable">
+                    <option v-for="(option, index) in repeatables" :key="index" :value="option.value">
+                        {{ option.text }}
+                    </option>
                 </select>
-                <BaseFormError name="repeatable" /> 
+                <BaseFormError name="repeatable" />
             </div>
             <div class="form-group">
-                <p v-if="taskList">{{ $t('task-list') }}: {{taskList.name}}</p>
-                <p v-if="superTask">{{ $t('subtask-of') }}: {{superTask.name}}</p>
+                <p v-if="taskList">{{ $t('task-list') }}: {{ taskList.name }}</p>
+                <p v-if="superTask">{{ $t('subtask-of') }}: {{ superTask.name }}</p>
             </div>
             <button type="submit" class="block">{{ $t('create-new-task') }}</button>
             <button type="button" class="block" @click="emit('close')">{{ $t('cancel') }}</button>
@@ -53,40 +52,31 @@
     </div>
 </template>
 
-
-<script setup>
+<script setup lang="ts">
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
-import {reactive} from 'vue';
+import {ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
+import {NewTask, Task, TaskList} from 'resources/types/task';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
 
-const props = defineProps({
-    taskList: {
-        /** @type {import('../../../types/task').TaskList} */
-        type: Object,
-        required: true,
-    },
-    superTask: {
-        /** @type {import('../../../types/task').Task} */
-        type: Object,
-        required: false,
-    },
-});
-const emit = defineEmits(['close'])
+const props = defineProps<{taskList: TaskList; superTask?: Task}>();
+const emit = defineEmits(['close']);
 
-const task = reactive({
+const task = ref<NewTask>({
+    name: '',
+    description: '',
     difficulty: 3,
     type: 'GENERIC',
     repeatable: 'NONE',
+    task_list_id: props.taskList.id,
 });
 
 const taskStore = useTaskStore();
 async function submitTask() {
-    task.super_task_id = props.superTask ? props.superTask.id : null;
-    task.task_list_id = props.taskList.id || null;
-    await taskStore.storeTask(task);
+    task.value.super_task_id = props.superTask ? props.superTask.id : null;
+    await taskStore.storeTask(task.value);
     emit('close');
 }
 </script>

@@ -1,19 +1,15 @@
-export type BugReport = {
-    id: number,
-    user_id: number,
-    comment: string,
-    image_link: string,
-    page: string,
-    severity: number,
-    title: string,
-    type: string,
-    status: number,
-    admin_comment: string,
-}
+export type NewBugReport = {
+    title: string;
+    page: string;
+    type: string;
+    severity: number;
+    image_link: string;
+    comment: string;
+};
 
-export type Feedback = {
-    text: string,
-    type: string,
-    user_id?: string | number,
-    email?: string,
-}
+export type BugReport = NewBugReport & {
+    id: number;
+    user_id: number;
+    status: number;
+    admin_comment: string;
+};

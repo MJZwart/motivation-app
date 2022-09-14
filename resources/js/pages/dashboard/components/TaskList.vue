@@ -3,19 +3,17 @@
         <Summary :footer="true" class="p-0">
             <template #header>
                 <span class="d-flex">
-                    {{taskList.name}}
+                    {{ taskList.name }}
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')" placement="bottom">
-                            <FaIcon 
+                            <FaIcon
                                 :icon="['far', 'pen-to-square']"
                                 class="icon white small"
-                                @click="showEditTaskList()" />
+                                @click="showEditTaskList()"
+                            />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')" placement="bottom">
-                            <FaIcon 
-                                icon="trash"
-                                class="icon small white"
-                                @click="showDeleteTaskList()" />
+                            <FaIcon icon="trash" class="icon small white" @click="showDeleteTaskList()" />
                         </Tooltip>
                         <Tutorial tutorial="TaskList" colorVariant="white" />
                     </span>
@@ -23,35 +21,32 @@
             </template>
             <slot>
                 <template v-for="(task, index) in taskList.tasks" :key="task.id">
-                    <TaskComp 
-                        :task="task" 
-                        :class="taskClass(index)"
-                        v-on:newTask="openNewTask" />
+                    <TaskComp :task="task" :class="taskClass(index)" v-on:newTask="openNewTask" />
                 </template>
             </slot>
-            <template #footer>           
+            <template #footer>
                 <button class="block bottom-radius p-0 new-task" @click="openNewTask()">
-                    {{$t('new-task')}}
+                    {{ $t('new-task') }}
                 </button>
             </template>
         </Summary>
 
         <Modal :show="showNewTaskModal" :footer="false" :title="$t('new-task')" @close="closeNewTask">
-            <NewTask :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
+            <NewTask v-if="superTask" :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
         </Modal>
         <Modal :show="showEditTaskListModal" :footer="false" :title="$t('edit-task-list')" @close="closeEditTaskList">
-            <EditTaskList :taskList="taskListToEdit" @close="closeEditTaskList" />
+            <EditTaskList v-if="taskListToEdit" :taskList="taskListToEdit" @close="closeEditTaskList" />
         </Modal>
-        <Modal 
-            :show="showDeleteTaskListConfirmModal" 
-            :footer="false" 
-            :title="$t('delete-task-list-confirm')" 
-            @close="closeDeleteTaskList">
-            <DeleteTaskListConfirm :taskList="taskListToDelete" @close="closeDeleteTaskList" />
+        <Modal
+            :show="showDeleteTaskListConfirmModal"
+            :footer="false"
+            :title="$t('delete-task-list-confirm')"
+            @close="closeDeleteTaskList"
+        >
+            <DeleteTaskListConfirm v-if="taskListToDelete" :taskList="taskListToDelete" @close="closeDeleteTaskList" />
         </Modal>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import TaskComp from './Task.vue';
@@ -84,7 +79,7 @@ function closeNewTask() {
     showNewTaskModal.value = false;
 }
 
-/** 
+/**
  * Shows and hides the modal to edit a given task list
  */
 function showEditTaskList() {
@@ -96,7 +91,7 @@ function closeEditTaskList() {
     showEditTaskListModal.value = false;
 }
 
-/** 
+/**
  * Shows and hides the modal to confirm deleting a task list
  */
 function showDeleteTaskList() {
@@ -109,7 +104,7 @@ function closeDeleteTaskList() {
 }
 
 function taskClass(index: number) {
-    return index == props.taskList.tasks.length -1 ? 'task task-last' : 'task';
+    return index == props.taskList.tasks.length - 1 ? 'task task-last' : 'task';
 }
 </script>
 
@@ -126,7 +121,7 @@ function taskClass(index: number) {
     height: 3rem;
     margin-bottom: 0;
     border: none;
-    margin-top:-2px;
+    margin-top: -2px;
 }
 .new-task:hover {
     background-color: $dark-green;

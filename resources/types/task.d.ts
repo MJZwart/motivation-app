@@ -1,18 +1,24 @@
-export type Task = {
-    id: number,
-    description: string,
-    difficulty: number,
-    name: string,
-    repeatable: string, //TODO Enum
-    super_task: number | null,
-    task_list_id: number,
-    tasks: Array<Task>,
-    type: number,
-}
+export type Task = NewTask & {
+    id: number;
+    tasks?: Task[];
+};
 
-export type TaskList = {
-    id: number,
-    color: string | null,
-    name: string,
-    tasks: Array<Task>,
+export type NewTask = {
+    name: string;
+    description: string;
+    difficulty: number;
+    type: string;
+    repeatable: string;
+    super_task_id?: number | null;
+    task_list_id: number;
+};
+
+export type TaskList = NewTaskList & {
+    id: number;
+    color?: string | null;
+    tasks: Task[];
+};
+
+export type NewTaskList = {
+    name: string;
 }

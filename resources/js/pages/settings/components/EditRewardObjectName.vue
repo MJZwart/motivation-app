@@ -1,52 +1,40 @@
 <template>
     <div v-if="rewardObj">
         <form @submit.prevent="updateRewardObj">
-            <SimpleInput 
-                id="name" 
+            <SimpleInput
+                id="name"
                 v-model="editedRewardObj.name"
-                type="text" 
-                name="name" 
+                type="text"
+                name="name"
                 :label="parsedLabelName"
-                :placeholder="$t('name')"  />
+                :placeholder="$t('name')"
+            />
             <button type="submit" class="block">{{ $t('update-reward-name') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
-            <BaseFormError name="error" /> 
+            <BaseFormError name="error" />
         </form>
     </div>
 </template>
 
-
-<script setup>
-
-import {onMounted, ref, computed} from 'vue';
-import {useI18n} from 'vue-i18n'
-const {t} = useI18n() // use as global scope
+<script setup lang="ts">
+import type {Reward} from 'resources/types/reward';
+import {ref, computed} from 'vue';
+import {useI18n} from 'vue-i18n';
 import {useRewardStore} from '/js/store/rewardStore';
+const {t} = useI18n(); // use as global scope
 const rewardStore = useRewardStore();
 
-const props = defineProps({
-    rewardObj: {
-        type: Object,
-        required: true,
-    },
-    type: {
-        type: String,
-        required: true,
-    },
-});
+const props = defineProps<{rewardObj: Reward; type: string}>();
 const emit = defineEmits(['close']);
 
-onMounted(() => editedRewardObj.value = props.rewardObj ? Object.assign({}, props.rewardObj) : {});
-
-const editedRewardObj = ref({});
+const editedRewardObj = ref<Reward>(Object.assign({}, props.rewardObj));
 
 async function updateRewardObj() {
-    editedRewardObj.value.type = props.type;
+    editedRewardObj.value.rewardType = props.type;
     await rewardStore.updateRewardObjName(editedRewardObj.value);
     close();
 }
 function close() {
-    editedRewardObj.value = {},
     emit('close');
 }
 
@@ -59,5 +47,4 @@ const parsedLabelName = computed(() => {
         return null;
     }
 });
-
 </script>

@@ -1,8 +1,10 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
+        "outDir": "build",
         "module": "esnext",
         "target": "esnext",
+        "types": ["vite/client", "node"],
         "moduleResolution": "node",
         "lib": ["esnext", "dom"],
         "allowUnreachableCode": false,
@@ -14,23 +16,26 @@
         "noImplicitThis": true,
         "alwaysStrict": true,
         "esModuleInterop": true,
-        // "checkJs": true,
-        "allowSyntheticDefaultImports": true,
+        "allowJs": true,
+        "noEmit": true,
+        "checkJs": true,
+        "jsx": "preserve",
         "baseUrl": ".",
         "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "suppressImplicitAnyIndexErrors": true,
         "paths": {
             "assets/*": ["./resources/assets/*"],
-            "components/*": ["./resources/js/*"],
-            // "handlers/*": ["./resources/handlers/*"],
-            // "helpers/*": ["./resources/helpers/*"],
-            "services/*": ["./resources/services/*"],
-            "pages/*": ["./resources/pages/*"],
-            "types/*": ["./types/*"]
+            "components/*": ["./resources/js/components/*"],
+            "services/*": ["./resources/js/services/*"],
+            "pages/*": ["./resources/js/pages/*"],
+            "types/*": ["./types/*"],
+            "/js/*": ["./resources/js/*"]
         }
     },
     "typeAcquisition": {
         "include": ["jest"]
     },
-    // addeing vite/client here to import the ImportMetaEnv interface
-    "include": ["resources/**/*", "types/**/*"]
+    "include": ["resources/js/**/*", "resources/types/**/*", "vite.config.js"],
+    "exclude": ["node_modules/**/*", "build/**/*"]
 }

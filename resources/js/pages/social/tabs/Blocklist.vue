@@ -7,20 +7,20 @@
                     <div v-if="blocklist[0]">
                         <li v-for="(blockedUser, index) in blocklist" :key="index" class="mb-1 ml-0 d-flex flex-wrap">
                             <Tooltip :text="$t('unblock')">
-                                <FaIcon 
-                                    icon="lock-open"
-                                    class="icon green"
-                                    @click="unblock(blockedUser.id)" />
+                                <FaIcon icon="lock-open" class="icon green" @click="unblock(blockedUser.id)" />
                             </Tooltip>
-                            <router-link :to="{ name: 'profile', params: { id: blockedUser.blocked_user_id}}" class="flex-1">
-                                {{blockedUser.blocked_user}}
+                            <router-link
+                                :to="{name: 'profile', params: {id: blockedUser.blocked_user_id}}"
+                                class="flex-1"
+                            >
+                                {{ blockedUser.blocked_user }}
                             </router-link>
                             <span class="flex-2">
-                                {{$t('blocked-on')}}: {{parseDateTime(blockedUser.created_at)}}
+                                {{ $t('blocked-on') }}: {{ parseDateTime(blockedUser.created_at) }}
                             </span>
                         </li>
                     </div>
-                    
+
                     <p v-else>{{ $t('no-blocked-users') }}</p>
                 </ul>
             </Summary>
@@ -28,12 +28,13 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Summary from '/js/components/global/Summary.vue';
 import {onMounted, ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
-
 import {useUserStore} from '/js/store/userStore';
+import type {Blocked} from 'resources/types/user';
+
 const userStore = useUserStore();
 
 onMounted(() => {
@@ -42,14 +43,14 @@ onMounted(() => {
 
 const loading = ref(true);
 
-const blocklist = ref([]);
+const blocklist = ref<Blocked[] | []>([]);
 async function load() {
     loading.value = true;
     blocklist.value = await userStore.getBlocklist();
     loading.value = false;
 }
 
-async function unblock(blocklistId) {
+async function unblock(blocklistId: number) {
     await userStore.unblockUser(blocklistId);
     load();
 }

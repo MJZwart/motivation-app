@@ -5,11 +5,14 @@ import {useMainStore} from './store';
 export const useFriendStore = defineStore('friend', {
     state: () => {
         return {
-            /** @type import('resources/types/friend').FriendRequests | null */
-            requests: null,
-            /** @type Array<import('resources/types/friend').Friend> | null */
+            /** @type import('resources/types/friend').FriendRequests */
+            requests: {
+                incoming: [],
+                outgoing: [],
+            },
+            /** @type Array<import('resources/types/friend').Friend> | [] */
             friends: [],
-        }
+        };
     },
     actions: {
         /**
@@ -89,7 +92,7 @@ export const useFriendStore = defineStore('friend', {
          */
         handleError() {
             const mainStore = useMainStore();
-            mainStore.addToast({'Error': 'Something went wrong, please reload the page.'});
+            mainStore.addToast({Error: 'Something went wrong, please reload the page.'});
         },
     },
 });

@@ -87,11 +87,11 @@ class RewardObjectHandler
         }
     }
 
-    public static function updateActiveReward(String $type, $activeRewardId, $newName)
+    public static function updateActiveReward(String $rewardType, $activeRewardId, $newName)
     {
-        if ($type == 'VILLAGE') {
+        if ($rewardType == 'VILLAGE') {
             return new VillageResource(VillageHandler::updateActiveVillage($activeRewardId, $newName));
-        } else if ($type == 'CHARACTER') {
+        } else if ($rewardType == 'CHARACTER') {
             return new CharacterResource(CharacterHandler::updateActiveCharacter($activeRewardId, $newName));
         }
     }

@@ -27,8 +27,8 @@ class EditUserBanRequest extends FormRequest
         return [
             'days' => 'required_if:end_ban,false|nullable|integer',
             'end_ban' => 'boolean',
-            'comment' => 'required|string',
-            'log' => 'required|string',
+            'ban_edit_comment' => 'required|string',
+            'ban_edit_log' => 'required|string',
         ];
     }
 

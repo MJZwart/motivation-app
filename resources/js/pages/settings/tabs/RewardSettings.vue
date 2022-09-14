@@ -6,199 +6,206 @@
         <div v-else>
             <h5>{{ $t('manage-rewards') }}</h5>
             <div>
-                <Table
-                    :items="rewardItems"
-                    :fields="rewardFields">
+                <Table :items="rewardItems" :fields="rewardFields">
+                    <template #rewardType="item">
+                        {{ capitalizeOnlyFirst(item.item.rewardType) }}
+                    </template>
                     <template #active="item">
                         {{ item.item.active ? 'Yes' : 'No' }}
                     </template>
                     <template #actions="item">
                         <Tooltip :text="$t('change-name')">
-                            <FaIcon 
-                                :icon="['far', 'pen-to-square']"
-                                class="icon"
-                                @click="showEditReward(item.item)" />
+                            <FaIcon :icon="['far', 'pen-to-square']" class="icon" @click="showEditReward(item.item)" />
                         </Tooltip>
-                        <Tooltip v-if="!item.item.active"  :text="$t('activate')">
-                            <FaIcon 
-                                :icon="['far', 'play-circle']"
-                                class="icon"
-                                @click="activateReward(item.item)" />
+                        <Tooltip v-if="!item.item.active" :text="$t('activate')">
+                            <FaIcon :icon="['far', 'play-circle']" class="icon" @click="activateReward(item.item)" />
                         </Tooltip>
-                        <Tooltip v-if="!item.item.active"  :text="$t('delete')">
-                            <FaIcon 
-                                icon="trash"
-                                class="icon small red"
-                                @click="deleteItem(item.item)" />
+                        <Tooltip v-if="!item.item.active" :text="$t('delete')">
+                            <FaIcon icon="trash" class="icon small red" @click="deleteItem(item.item)" />
                         </Tooltip>
                     </template>
                 </Table>
             </div>
-            
+
             <h5>{{ $t('change-reward-settings') }}</h5>
             <!-- Pick a reward type -->
             <div class="form-group">
-                <label for="rewards">{{$t('which-reward-type')}}</label>
+                <label for="rewards">{{ $t('which-reward-type') }}</label>
                 <div v-for="(type, index) in rewardTypes" :key="index">
-                    <input 
-                        :id="type.value" 
-                        v-model="rewardSetting.rewards" 
-                        name="rewards" 
-                        type="radio" 
-                        :value="type.value" />
-                    <label :for="type.value">{{type.text}}</label>
+                    <input
+                        :id="type.value"
+                        v-model="rewardSetting.rewards"
+                        name="rewards"
+                        type="radio"
+                        :value="type.value"
+                    />
+                    <label :for="type.value">{{ type.text }}</label>
                 </div>
-                <BaseFormError name="rewards" /> 
+                <BaseFormError name="rewards" />
                 <hr />
             </div>
-        
+
             <!-- If the user clicks 'Character' -->
             <div v-if="rewardSetting.rewards == 'CHARACTER'" class="form-group">
-                <label for="character-option">{{$t('activate-or-new')}}</label>
+                <label for="character-option">{{ $t('activate-or-new') }}</label>
                 <div v-for="(option, index) in characterOptions" :key="index">
-                    <input 
-                        :id="option.value + 'char'" 
-                        v-model="rewardSetting.keepOldInstance" 
-                        name="character-option" 
-                        type="radio" 
-                        :value="option.value" />
-                    <label :for="option.value + 'char'">{{option.text}}</label>
-                    <BaseFormError name="keepOldInstance" /> 
+                    <input
+                        :id="option.value + 'char'"
+                        v-model="rewardSetting.keepOldInstance"
+                        name="character-option"
+                        type="radio"
+                        :value="option.value"
+                    />
+                    <label :for="option.value + 'char'">{{ option.text }}</label>
+                    <BaseFormError name="keepOldInstance" />
                 </div>
                 <hr />
             </div>
 
             <!-- Or if the user clicks 'Village' -->
             <div v-if="rewardSetting.rewards == 'VILLAGE'" class="form-group">
-                <label for="village-option">{{$t('activate-or-new-village')}}</label>
+                <label for="village-option">{{ $t('activate-or-new-village') }}</label>
                 <div v-for="(option, index) in villageOptions" :key="index">
-                    <input 
-                        :id="option.value + 'vill'" 
-                        v-model="rewardSetting.keepOldInstance" 
-                        name="village-option" 
-                        type="radio" 
-                        :value="option.value" />
-                    <label :for="option.value + 'vill'">{{option.text}}</label>
-                    <BaseFormError name="keepOldInstance" /> 
+                    <input
+                        :id="option.value + 'vill'"
+                        v-model="rewardSetting.keepOldInstance"
+                        name="village-option"
+                        type="radio"
+                        :value="option.value"
+                    />
+                    <label :for="option.value + 'vill'">{{ option.text }}</label>
+                    <BaseFormError name="keepOldInstance" />
                 </div>
                 <hr />
             </div>
 
             <!-- If the user wants to create a new instance -->
             <p class="silent">{{ $t('change-name-later') }}</p>
-            <SimpleInput  
+            <SimpleInput
                 v-if="isNewInstance"
-                id="new-object-name" 
+                id="new-object-name"
                 v-model="rewardSetting.new_object_name"
-                type="text" 
-                name="new_object_name" 
+                type="text"
+                name="new_object_name"
                 :label="rewardTypeName"
-                :placeholder="rewardTypeName"   />
+                :placeholder="rewardTypeName"
+            />
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
 
-        
         <Modal :show="showEditRewardNameModal" :footer="false" :title="$t('edit-reward-name')" @close="closeEditReward">
-            <EditRewardObjectName :rewardObj="rewardToEdit" :type="rewardType" @close="closeEditReward" />
+            <EditRewardObjectName
+                v-if="rewardToEdit"
+                :rewardObj="rewardToEdit"
+                :type="rewardToEdit.rewardType"
+                @close="closeEditReward"
+            />
         </Modal>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref, computed} from 'vue';
 import {REWARD_TYPES, REWARD_FIELDS} from '/js/constants/rewardConstants';
 import EditRewardObjectName from '../components/EditRewardObjectName.vue';
 import Table from '/js/components/global/Table.vue';
 import {useUserStore} from '/js/store/userStore';
-const userStore = useUserStore();
 import {useRewardStore} from '/js/store/rewardStore';
-const rewardStore = useRewardStore();
 import {useMainStore} from '/js/store/store';
+import {useI18n} from 'vue-i18n';
+import {capitalizeOnlyFirst} from '/js/services/stringService';
+import type {Reward, ChangeReward} from 'resources/types/reward';
+
+const userStore = useUserStore();
+const rewardStore = useRewardStore();
 const mainStore = useMainStore();
-import {useI18n} from 'vue-i18n'
-const {t} = useI18n() // use as global scope
+const {t} = useI18n();
 
 onMounted(() => load());
 
-const rewardSetting = ref({
-    rewards: null,
+const rewardSetting = ref<ChangeReward>({
+    rewards: 'NONE',
     keepOldInstance: null,
-})
+});
+
 const rewardTypes = REWARD_TYPES;
 const rewardFields = REWARD_FIELDS;
 const loading = ref(true);
-const rewardToEdit = ref(null);
-const rewardType = ref(null);
+const rewardToEdit = ref<Reward | null>(null);
 const showEditRewardNameModal = ref(false);
 const user = computed(() => userStore.user);
 const characters = computed(() => rewardStore.characters);
 const villages = computed(() => rewardStore.villages);
 
-const rewardTypeName = computed(() => 
-    rewardSetting.value.rewards == 'VILLAGE' ? t('village-name') : t('character-name'));
+const rewardTypeName = computed(() =>
+    rewardSetting.value.rewards == 'VILLAGE' ? t('village-name') : t('character-name'),
+);
 const isNewInstance = computed(() => {
     if (rewardSetting.value.rewards == 'NONE') return false;
     return rewardSetting.value.keepOldInstance == 'NEW';
 });
+
+// TODO This may be combined a bit
 const characterOptions = computed(() => {
     let options = [];
-    for (const character of characters.value) {
-        options.push({
-            value: character.id, 
-            text: 'Activate ' + character.name + displayActive(character), 
-            disabled: character.active});
+    if (characters.value) {
+        for (const character of characters.value) {
+            options.push({
+                value: character.id,
+                text: 'Activate ' + character.name + displayActive(character),
+                disabled: character.active,
+            });
+        }
     }
     options.push({text: 'Make a new character', value: 'NEW'});
     return options;
 });
 const villageOptions = computed(() => {
     let options = [];
-    for (const village of villages.value) {
-        options.push({
-            value: village.id, 
-            text: 'Activate ' + village.name + displayActive(village), 
-            disabled: village.active});
+    if (villages.value) {
+        for (const village of villages.value) {
+            options.push({
+                value: village.id,
+                text: 'Activate ' + village.name + displayActive(village),
+                disabled: village.active,
+            });
+        }
     }
     options.push({text: 'Make a new village', value: 'NEW'});
     return options;
 });
 const rewardItems = computed(() => {
-    let rewardItems = [];
-    for (const character of characters.value) {
-        character.type = 'Character';
-        rewardItems.push(character);
-    }
-    for (const village of villages.value) {
-        village.type = 'Village';
-        rewardItems.push(village);
-    }
+    let rewardItems = [] as Reward[];
+    if (characters.value) rewardItems = rewardItems.concat(characters.value);
+    if (villages.value) rewardItems = rewardItems.concat(villages.value);
     return rewardItems;
 });
 async function confirmRewardsSettings() {
-    await userStore.changeRewardType(rewardSetting.value)
+    await userStore.changeRewardType(rewardSetting.value);
     rewardSetting.value.keepOldInstance = null;
     rewardSetting.value.new_object_name = null;
     load();
 }
-function showEditReward(instance) {
+function showEditReward(instance: Reward) {
+    if (instance === null) return;
     mainStore.clearErrors();
     rewardToEdit.value = instance;
-    rewardType.value = instance.type.toUpperCase()
+    rewardToEdit.value.rewardType = instance.rewardType.toUpperCase();
     showEditRewardNameModal.value = true;
 }
 function closeEditReward() {
     showEditRewardNameModal.value = false;
     load();
 }
-async function activateReward(instance) {
-    await rewardStore.activateInstance(instance)
+async function activateReward(instance: Reward) {
+    await rewardStore.activateInstance(instance);
     load();
 }
-function displayActive(instance) {
-    return instance.active ? ' (' + t('currently-active') + ')' : ''; 
+function displayActive(instance: Reward) {
+    return instance.active ? ' (' + t('currently-active') + ')' : '';
 }
-async function deleteItem(instance) {
-    if (confirm(t('confirm-delete-instance', {name: instance.name, type: instance.type.toLowerCase()}))) {
+async function deleteItem(instance: Reward) {
+    if (confirm(t('confirm-delete-instance', {name: instance.name, type: instance.rewardType.toLowerCase()}))) {
         await rewardStore.deleteInstance(instance);
         load();
     }
