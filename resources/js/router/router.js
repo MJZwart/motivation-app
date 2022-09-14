@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
     const userStore = useUserStore();
     mainStore.clearErrors();
 
-    if (to.path == '/' && userStore.authenticated) {
+    if (to.path == '/' && userStore.isAuthenticated) {
         return next({path: '/dashboard'});
     }
 
@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
         return next({path: '/welcome'});
     }
 
-    if (to.meta && to.meta.requiresAuth && !userStore.authenticated) {
+    if (to.meta && to.meta.requiresAuth && !userStore.isAuthenticated) {
         return next({path: '/login'});
     }
 
@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
         return next({path: '/dashboard'});
     }
     
-    if (userStore.authenticated) {
+    if (userStore.isAuthenticated) {
         messageStore.hasUnread();
     }
     next();

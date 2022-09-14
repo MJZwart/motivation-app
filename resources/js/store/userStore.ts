@@ -17,8 +17,8 @@ export const useUserStore = defineStore('user', {
         return {
             /** @type import('resources/types/user').User | any = {} */
             user: JSON.parse(localStorage.getItem('user') || '{}') || {},
-            /** @type Boolean */
-            authenticated: JSON.parse(localStorage.getItem('authenticated') || '{}') || false,
+            /** @type boolean */
+            authenticated: false,
             /** @type import('resources/types/user').UserStats | null */
             userStats: null,
         };
@@ -26,6 +26,14 @@ export const useUserStore = defineStore('user', {
     getters: {
         isAdmin(state) {
             return state.user ? state.user.admin : false;
+        },
+        isAuthenticated(state) {
+            if (!state.authenticated) {
+                const localStor = localStorage.getItem('authenticated');
+                if (!localStor) state.authenticated = false;
+                else state.authenticated = JSON.parse(localStor);
+            }
+            return state.authenticated;
         },
     },
     actions: {
