@@ -89,6 +89,6 @@ async function submitBugReport() {
 }
 
 function resetForm() {
-    Object.assign(bugReport, emptyBugReport);
+    Object.assign(bugReport.value, emptyBugReport);
 }
 </script>
