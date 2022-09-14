@@ -6,7 +6,6 @@
                 <p class="lead">{{ appLead }}</p>
             </div>
         </div>
-        <hr />
         <div class="card-deck mb-3 text-center">
             <div class="card mb-3">
                 <div class="card-header">{{ $t('explanation-tasks-header') }}</div>
@@ -17,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card mb-3 ml-3">
                 <div class="card-header">{{ $t('explanation-reward-header') }}</div>
                 <div class="card-body">
                     <Character :reward="dummyCharacter" :rewardType="'CHARACTER'" :userReward="true" />
@@ -30,12 +29,14 @@
         <div deck class="card-deck w-50 text-center center">
             <div class="card">
                 <div class="card-header">{{ $t('explanation-social-header') }}</div>
-                <p>{{ $t('explanation-social') }}</p>
+                <div class="card-body">
+                    <p>{{ $t('explanation-social') }}</p>
+                </div>
             </div>
         </div>
         <div class="d-flex">
-            <button class="large-button center mt-3">
-                <router-link to="/register" class="primary-text no-hover">{{ $t('create-account-today') }}</router-link>
+            <button class="register-button center mt-3">
+                <router-link to="/register" class="register-button-text">{{ $t('create-account-today') }}</router-link>
             </button>
         </div>
     </div>
@@ -56,11 +57,27 @@ const appTitle = computed(() => t('home-welcome-to', [t('app-name')]));
 const appLead = computed(() => t('home-introduction'));
 </script>
 
-<style scoped>
-.large-button {
+<style lang="scss" scoped>
+@import '../../../assets/scss/variables.scss';
+.register-button {
     font-size: 2rem;
-    padding: 1.5rem;
-    border-radius: 3rem;
+    padding: 0.8rem;
+    border: 3px solid $primary;
+    border-radius: 0.5rem;
+    background-color: $background;
+    width: 50%;
+    transition: all 0.3s 0s ease-in-out;
+    .register-button-text {
+        color: $primary;
+        text-decoration: none;
+        font-family: $bold-font;
+    }
+}
+.register-button:hover {
+    background-color: $primary;
+    .register-button-text {
+        color: $primary-text;
+    }
 }
 .display-3 {
     font-size: 4rem;
