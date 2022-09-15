@@ -20,6 +20,8 @@ router.beforeEach((to, from, next) => {
     const userStore = useUserStore();
     mainStore.clearErrors();
 
+    window.scrollTo(0,0);
+    
     if (to.path == '/' && userStore.isAuthenticated) {
         return next({path: '/dashboard'});
     }
