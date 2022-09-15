@@ -66,7 +66,6 @@ const emit = defineEmits(['close']);
 
 const task = ref<NewTask>({
     name: '',
-    description: '',
     difficulty: 3,
     type: 'GENERIC',
     repeatable: 'NONE',

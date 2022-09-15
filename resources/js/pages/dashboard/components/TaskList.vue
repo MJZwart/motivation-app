@@ -32,7 +32,7 @@
         </Summary>
 
         <Modal :show="showNewTaskModal" :footer="false" :title="$t('new-task')" @close="closeNewTask">
-            <NewTask v-if="superTask" :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
+            <NewTask :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
         </Modal>
         <Modal :show="showEditTaskListModal" :footer="false" :title="$t('edit-task-list')" @close="closeEditTaskList">
             <EditTaskList v-if="taskListToEdit" :taskList="taskListToEdit" @close="closeEditTaskList" />

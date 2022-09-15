@@ -5,7 +5,7 @@ export type Task = NewTask & {
 
 export type NewTask = {
     name: string;
-    description: string;
+    description?: string;
     difficulty: number;
     type: string;
     repeatable: string;
