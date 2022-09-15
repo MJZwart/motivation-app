@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
 
     window.scrollTo(0,0);
     if (to.meta && to.meta.title) {
-        document.title = 'Questifyer - ' + to.meta.title.toString();
+        document.title = 'Questifyer - ' + to.meta.title;
     } else {
         document.title = 'Questifyer';
     }
