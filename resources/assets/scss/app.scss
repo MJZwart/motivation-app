@@ -515,6 +515,14 @@ select {
     // transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.25s ease-in-out;
 }
 
+.success-text { 
+    color: $green;
+}
+.clear-link {
+    color: $primary;
+    text-decoration: none;
+}
+
 @media (max-width:991px){
     .task-list{
         flex: 100%;

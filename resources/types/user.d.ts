@@ -106,3 +106,10 @@ export type Blocked = {
     blocked_user: string;
     created_at: Date;
 };
+
+export type ResetPassword = {
+    email: string;
+    password: string;
+    password_confirmation: string;
+    token: string;
+};

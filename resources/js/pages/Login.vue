@@ -22,6 +22,9 @@
             <button type="submit" class="block">{{ $t('login') }}</button>
             <BaseFormError name="error" />
         </form>
+        <span class="d-flex">
+            <router-link class="ml-auto mt-1 clear-link" to="/forgot-password">{{ $t('forgot-password-link') }}</router-link>
+        </span>
     </div>
 </template>
 

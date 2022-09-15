@@ -7,7 +7,7 @@ import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
 import {PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import {ChangeReward} from 'resources/types/reward';
-import {Blocked, Login, NewUser, Register, User} from 'resources/types/user';
+import {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resources/types/user';
 import {UserSearch} from 'resources/types/global';
 import {NewReportedUser} from 'resources/types/admin';
 import {ErrorMessage} from 'resources/types/error';
@@ -137,6 +137,13 @@ export const useUserStore = defineStore('user', {
         async unblockUser(blocklistId: number) {
             const {data} = await axios.put(`/user/${blocklistId}/unblock`);
             return data.blockedUsers;
+        },
+
+        async resetPassword(email: {email: string}) {
+            return await axios.post('/send-reset-password', email);
+        },
+        async setNewPassword(newPassword: ResetPassword) {
+            return await axios.post('/password/reset', newPassword);
         },
     },
 });
