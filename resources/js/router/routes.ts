@@ -27,87 +27,142 @@ export const routes = [
     {
         path: '/dashboard',
         component: Dashboard,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Dashboard",
+        },
     },
     {
         name: 'login',
         path: '/login',
         component: Login,
+        meta: {
+            title: "Login",
+        },
     },
     {
         path: '/register',
         component: Register,
+        meta: {
+            title: "Register",
+        },
     },
     {
         path: '/overview',
         component: Overview,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Overview",
+        },
     },
     {
         path: '/notifications',
         component: Notifications,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Notifications",
+        },
     },
     {
         path: '/settings',
         component: Settings,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Settings",
+        },
     },
     {
         name: 'profile',
         path: '/profile/:id',
         component: Profile,
+        meta: {
+            title: "Profile",
+        },
     },
     {
         path: '/admindashboard',
         component: AdminDashboard,
-        meta: {requiresAuth: true, requiresAdmin: true},
+        meta: {
+            requiresAuth: true, 
+            requiresAdmin: true,
+            title: "Admin dashboard",
+        },
     },
     {
         path: '/welcome',
         component: Welcome,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Welcome",
+        },
     },
     {
         path: '/bugreport',
         component: BugReport,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Report a bug",
+        },
     },
     {
         path: '/messages',
         component: Messages,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Messages",
+        },
     },
     {
         path: '/social',
         component: Social,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Social",
+        },
     },
     {
         path: '/group/:id',
         component: Group,
-        meta: {requiresAuth: true},
+        meta: {
+            requiresAuth: true,
+            title: "Group",
+        },
     },
     {
         path: '/faq',
         component: Faq,
+        meta: {
+            title: "Frequently asked questions",
+        },
     },
     {
         path: '/feedback',
         component: Feedback,
+        meta: {
+            title: "Feedback",
+        },
     },
     {
         path: '/privacy',
         component: PrivacyPolicy,
+        meta: {
+            title: "Privacy Policy",
+        },
     },
     {
         path: '/tos',
         component: TOS,
+        meta: {
+            title: "Terms of Service",
+        },
     },
     {
         name: 'Error',
         path: '/:pathMatch(.*)*',
         component: ErrorPage,
+        meta: {
+            title: "Error",
+        },
     },
     // {
     //     path: '/test',

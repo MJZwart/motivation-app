@@ -26,7 +26,7 @@ import {createPinia} from 'pinia';
 app.use(createPinia());
 
 //Import router
-import router from './router/router.js';
+import router from './router/router';
 app.use(router);
 
 //Import vue-i18n translations

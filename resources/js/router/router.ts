@@ -1,5 +1,5 @@
 // import Vue from 'vue';
-import {createRouter, createWebHistory} from 'vue-router';
+import {createRouter, createWebHistory, RouteLocationNormalized} from 'vue-router';
 import {useMainStore} from '../store/store';
 import {useMessageStore} from '../store/messageStore';
 import {useUserStore} from '../store/userStore';
@@ -21,6 +21,11 @@ router.beforeEach((to, from, next) => {
     mainStore.clearErrors();
 
     window.scrollTo(0,0);
+    if (to.meta && to.meta.title) {
+        document.title = 'Questifyer - ' + to.meta.title.toString();
+    } else {
+        document.title = 'Questifyer';
+    }
     
     if (to.path == '/' && userStore.isAuthenticated) {
         return next({path: '/dashboard'});
