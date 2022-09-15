@@ -21,7 +21,7 @@
             </template>
             <slot>
                 <template v-for="(task, index) in taskList.tasks" :key="task.id">
-                    <TaskComp :task="task" :class="taskClass(index)" v-on:newTask="openNewTask" />
+                    <TaskComp :task="task" :taskList="taskList" :class="taskClass(index)" v-on:newTask="openNewTask" />
                 </template>
             </slot>
             <template #footer>

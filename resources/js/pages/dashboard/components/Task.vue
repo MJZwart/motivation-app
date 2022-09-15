@@ -62,7 +62,7 @@
                                 <FaIcon 
                                     :icon="['far', 'pen-to-square']"
                                     class="icon small"
-                                    @click="editTask(subTask)" />
+                                    @click="editTask(subTask, task.name)" />
                             </Tooltip>
                             <Tooltip :text="$t('delete-sub-task')">
                                 <FaIcon 
@@ -79,14 +79,14 @@
         </div>
         
         <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
-            <EditTask v-if="taskToEdit" :task="taskToEdit" @close="closeEditTask" />
+            <EditTask v-if="taskToEdit" :task="taskToEdit" :taskList="taskList" :superTask="editSuperTask" @close="closeEditTask" />
         </Modal>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import type {Task} from 'resources/types/task';
+import type {Task, TaskList} from 'resources/types/task';
 import {ref} from 'vue';
 import EditTask from './EditTask.vue';
 import {useTaskStore} from '/js/store/taskStore';
@@ -95,11 +95,12 @@ import {useI18n} from 'vue-i18n'
 const {t} = useI18n() // use as global scope
 const mainStore = useMainStore();
 
-defineProps<{task: Task}>();
+defineProps<{task: Task, taskList: TaskList}>();
 
 const emit = defineEmits(['newTask']);
 
 const taskToEdit = ref<Task | null>(null);
+const editSuperTask = ref<string | null>(null);
 const showEditTaskModal = ref(false);
 
 function openNewTask(task: Task) {
@@ -107,8 +108,9 @@ function openNewTask(task: Task) {
 }
 
 /** Shows and hides the modal to edit a given task */
-function editTask(task: Task) {
+function editTask(task: Task, superTask: string | null = null) {
     mainStore.clearErrors();
+    editSuperTask.value = superTask;
     taskToEdit.value = task;
     showEditTaskModal.value = true;
 }

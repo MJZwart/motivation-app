@@ -46,10 +46,10 @@
                 </select>
                 <BaseFormError name="repeatable" /> 
             </div>
-            <!-- <div class="form-group">
-                <p v-if="editedTask.taskList">{{ $t('task-list') }}: {{editedTask.taskList}}</p>
-                <p v-if="editedTask.superTask">{{ $t('subtask-of') }}: {{editedTask.superTask}}</p>
-            </div> -->
+            <div class="form-group">
+                <p v-if="taskList.name">{{ $t('task-list') }}: {{taskList.name}}</p>
+                <p v-if="superTask">{{ $t('subtask-of') }}: {{superTask}}</p>
+            </div>
             <button type="submit" class="block">{{ $t('edit-task') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
@@ -61,13 +61,13 @@
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
 import {ref, onMounted} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
-import type {Task} from 'resources/types/task';
+import type {Task, TaskList} from 'resources/types/task';
 
 const editedTask = ref<Task | null>(null);
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
 
-const props = defineProps<{task: Task}>();
+const props = defineProps<{task: Task, taskList: TaskList, superTask?: string | null}>();
 const emit = defineEmits(['close']);
 onMounted(() => {
     editedTask.value = props.task ? Object.assign({}, props.task) : null;
