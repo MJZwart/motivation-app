@@ -20,6 +20,13 @@ router.beforeEach((to, from, next) => {
     const userStore = useUserStore();
     mainStore.clearErrors();
 
+    window.scrollTo(0,0);
+    if (to.meta && to.meta.title) {
+        document.title = 'Questifyer - ' + to.meta.title.toString();
+    } else {
+        document.title = 'Questifyer';
+    }
+    
     if (to.path == '/' && userStore.isAuthenticated) {
         return next({path: '/dashboard'});
     }
