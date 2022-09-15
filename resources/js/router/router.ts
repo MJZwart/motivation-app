@@ -1,5 +1,5 @@
 // import Vue from 'vue';
-import {createRouter, createWebHistory, RouteLocationNormalized} from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import {useMainStore} from '../store/store';
 import {useMessageStore} from '../store/messageStore';
 import {useUserStore} from '../store/userStore';
