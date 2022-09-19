@@ -35,8 +35,8 @@ export const useFriendStore = defineStore('friend', {
         async acceptRequest(requestId) {
             try {
                 const {data} = await axios.post('/friend/request/' + requestId + '/accept');
-                this.friends = data.friends;
-                this.requests = data.requests;
+                this.friends = data.data.friends;
+                this.requests = data.data.requests;
                 return true;
             } catch {
                 this.handleError();
@@ -62,7 +62,7 @@ export const useFriendStore = defineStore('friend', {
         async removeRequest(requestId) {
             try {
                 const {data} = await axios.delete('/friend/request/' + requestId);
-                this.requests = data.requests;
+                this.requests = data.data.requests;
                 return true;
             } catch {
                 this.handleError();
@@ -75,7 +75,7 @@ export const useFriendStore = defineStore('friend', {
         async removeFriend(friendId) {
             try {
                 const {data} = await axios.delete('/friend/remove/' + friendId);
-                this.friends = data.friends;
+                this.friends = data.data.friends;
                 return true;
             } catch {
                 this.handleError();

@@ -9,10 +9,10 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use App\Models\RepeatableTaskCompleted;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -36,7 +36,7 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
-        return new JsonResponse(['message' => ['success' => "Task successfully created."], 'data' => $taskLists], Response::HTTP_OK);
+        return ResponseWrapper::successResponse("Task successfully created.", $taskLists);
     }
 
     /**
@@ -55,7 +55,7 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
 
-        return new JsonResponse(['message' => ['success' => "Task successfully updated."], 'data' => $taskLists], Response::HTTP_OK);
+        return ResponseWrapper::successResponse("Task successfully updated.", $taskLists);
     }
 
     /**
@@ -74,10 +74,10 @@ class TaskController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name);
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => ['info' => "Task deleted."], 'data' => $taskLists], Response::HTTP_OK);
+            return ResponseWrapper::successResponse("Task deleted.", $taskLists);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name, 'Not authorized');
-            return new JsonResponse(['message' => "You are not authorized to delete this task"], Response::HTTP_FORBIDDEN);
+            return ResponseWrapper::forbiddenResponse("You are not authorized to delete this task");
         }
     }
 
@@ -106,13 +106,14 @@ class TaskController extends Controller
             $returnValue = null;
             if ($user->rewards != 'NONE') {
                 $returnValue = $activeReward->applyReward($task);
-                return new JsonResponse(['message' => $returnValue->message, 'data' => $taskLists, 'activeReward' => $returnValue->activeReward], Response::HTTP_OK);
+                //TODO Refactor the response that includes level up notifications
+                return ResponseWrapper::successResponse($returnValue->message->success, ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]);
             } else {
-                return new JsonResponse(['message' => ['success' => 'Task completed.'], 'data' => $taskLists], Response::HTTP_OK);
+                return ResponseWrapper::successResponse('Task completed.', $taskLists);
             }
         } else {
             ActionTrackingHandler::handleAction($request, 'COMPLETE_TASK', 'Completing task named: ' . $task->name, 'Not authorized');
-            return new JsonResponse(['message' => "You are not authorized to complete this task"], Response::HTTP_FORBIDDEN);
+            return ResponseWrapper::forbiddenResponse("You are not authorized to complete this task");
         }
     }
 

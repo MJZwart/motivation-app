@@ -42,9 +42,9 @@ export const useTaskStore = defineStore('task', {
          */
         async completeTask(task) {
             const {data} = await axios.put('/tasks/complete/' + task.id);
-            this.taskLists = data.data;
+            this.taskLists = data.data.taskLists;
             const rewardStore = useRewardStore();
-            rewardStore.rewardObj = data.activeReward;
+            rewardStore.rewardObj = data.data.activeReward;
         },
         /**
          * @param {import('resources/types/task').NewTaskList} taskList
