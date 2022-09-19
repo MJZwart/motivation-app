@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
@@ -30,15 +31,12 @@ class AuthenticationController extends Controller
             }
             $request->session()->regenerate();
             ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in ' . $request['username']);
-            /** @var User */
-            $user = Auth::user();
             $user->last_login = Carbon::now();
             $user->save();
             return new JsonResponse(['user' => new UserResource($user)]);
         }
-        $errorMessage = 'Username or password is incorrect.';
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in ' . $request['username'], 'Invalid login');
-        return new JsonResponse(['message' => $errorMessage, 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
+        return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 
     private function handleBannedUser(User $user, Request $request)
@@ -48,12 +46,8 @@ class AuthenticationController extends Controller
         $bannedUntilDate = $user->banned_until;
         $reason = $user->bannedUser->first()->reason;
         $errorMessage = 'You are banned until %s. Reason: %s If you wish to dispute your ban, contact one of the admins on our Discord. Time remaining: %s.';
-        return new JsonResponse([
-            'message' => [
-                'error' => sprintf($errorMessage, $bannedUntilDate, $reason, $timeRemaining)
-            ],
-            'invalid' => true
-        ]);
+        $parsedMessage = sprintf($errorMessage, $bannedUntilDate, $reason, $timeRemaining);
+        return ResponseWrapper::errorResponse($parsedMessage, ['invalid' => true]);
     }
 
     /**

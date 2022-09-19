@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {useMainStore} from './store';
+import {successToast} from '/js/services/toastService';
 import {useUserStore} from './userStore';
 
 export const useRewardStore = defineStore('reward', {
@@ -43,8 +43,7 @@ export const useRewardStore = defineStore('reward', {
          */
         async activateInstance (rewardObj) {
             const {data} = await axios.put('/reward/activate', rewardObj);
-            const mainStore = useMainStore();
-            mainStore.addToast(data.message);
+            successToast(data.message);
             const userStore = useUserStore();
             userStore.user = data.user;
         },

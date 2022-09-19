@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {useMainStore} from './store';
+import {errorToast} from '/js/services/toastService';
 
 export const useFriendStore = defineStore('friend', {
     state: () => {
@@ -91,8 +91,7 @@ export const useFriendStore = defineStore('friend', {
          * this leaves 500's and other issues unchecked.
          */
         handleError() {
-            const mainStore = useMainStore();
-            mainStore.addToast({Error: 'Something went wrong, please reload the page.'});
+            errorToast('Something went wrong, please reload the page.');
         },
     },
 });

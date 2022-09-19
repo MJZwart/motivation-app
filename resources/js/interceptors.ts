@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import axios, {AxiosStatic} from 'axios';
-import {Toast} from 'resources/types/toast.js';
+import {errorToast, storeToastInLocalStorage, successToast} from '/js/services/toastService';
 import router from './router/router.js';
 
 import {useMainStore} from './store/store';
@@ -22,7 +22,7 @@ axios.interceptors.response.use(
     function (response) {
         if (response.status == 200) {
             if (response.data.message) {
-                sendToast(null, 'success', response.data.message);
+                successToast(response.data.message);
             }
         }
         // Any status code that lie within the range of 2xx cause this function to trigger
@@ -63,7 +63,7 @@ axios.interceptors.response.use(
                     const userStore = useUserStore();
                     userStore.logout();
                 }
-                sendToast('You are not logged in', 'error');
+                errorToast('You are not logged in');
                 return Promise.reject(error);
             /** 
              * User tries to perform an action they are not authorized for, such as
@@ -74,7 +74,7 @@ axios.interceptors.response.use(
                 if (router.currentRoute.value.name !== 'login') {
                     router.push('/dashboard');
                 }
-                sendToast('You are not authorized for this action', 'error');
+                errorToast('You are not authorized for this action');
                 return Promise.reject(error);
             /**
              * In the case of a 404, the user tried to find a user, group or other that no
@@ -91,7 +91,7 @@ axios.interceptors.response.use(
              * sending invalid data. This is mostly thrown by the validator
              */
             case 422:
-                sendToast(error.response.data.message, 'error');
+                errorToast(error.response.data.message);
                 mainStore.setErrorMessages(error.response.data.errors);
                 return Promise.reject(error);
             /**
@@ -106,19 +106,3 @@ axios.interceptors.response.use(
         }
     },
 );
-
-/**
- * Sends a toast
- */
-function sendToast(toastMessage: string | null, type: string, toast: Toast | null = null) {
-    const mainStore = useMainStore();
-    if (type == 'error' && toastMessage)
-        mainStore.addToast({'error' : toastMessage});
-    else if (type == 'success' && toast)
-        mainStore.addToast(toast);
-}
-
-function storeToastInLocalStorage(toastMessage: string | null, type: string) {
-    const toast = `{"type": "${type}", "message": "${toastMessage}"}`;
-    localStorage.setItem('queuedError', toast);
-}

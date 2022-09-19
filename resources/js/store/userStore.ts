@@ -10,7 +10,6 @@ import {ChangeReward} from 'resources/types/reward';
 import {Blocked, Login, NewUser, Register, User} from 'resources/types/user';
 import {UserSearch} from 'resources/types/global';
 import {NewReportedUser} from 'resources/types/admin';
-import {ErrorMessage} from 'resources/types/error';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -41,10 +40,10 @@ export const useUserStore = defineStore('user', {
          * User authentication. If user login is valid but the account is otherwise invalidated,
          * instead return info the Login screen.
          */
-        async login(user: Login): Promise<ErrorMessage | null> {
+        async login(user: Login): Promise<string | null> {
             await axios.get('/sanctum/csrf-cookie');
+            // @ts-ignore
             const {data} = await axios.post('/login', user);
-            if (data.invalid) return data.message;
             this.setUser(data.user);
             const friendStore = useFriendStore();
             friendStore.friends = data.user.friends;

@@ -16,11 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, PropType} from 'vue';
-import {useMainStore} from '/js/store/store';
+import {computed, onMounted} from 'vue';
 import {Toast} from 'resources/types/toast';
-
-const mainStore = useMainStore();
+import {clearToast} from '/js/services/toastService';
 
 onMounted(() => {
     setTimeout(() => {
@@ -28,15 +26,10 @@ onMounted(() => {
     }, 5000);
 });
 
-const props = defineProps({
-    toast: {
-        type: Object as PropType<Toast>,
-        required: true,
-    },
-});
+const props = defineProps<{toast: Toast}>();
 
 function dismissToast() {
-    mainStore.clearToast();
+    clearToast();
 }
 
 function getToastMessage(toast: string | Array<string>) {
