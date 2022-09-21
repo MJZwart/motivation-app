@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StrippedUserResource;
@@ -23,7 +24,6 @@ use App\Models\BlockedUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -35,7 +35,7 @@ class UserController extends Controller
         /** @var User */
         $activeUser = Auth::user();
         if ($activeUser->isBlocked($user->id)) {
-            return new JsonResponse(['message' => ['error' => 'Unable to view this user\'s profile.', Response::HTTP_UNPROCESSABLE_ENTITY]]);
+            return ResponseWrapper::errorResponse('Unable to view this user\'s profile.');
         }
         return new UserProfileResource($user);
     }
@@ -52,10 +52,11 @@ class UserController extends Controller
      * Checks if authenticated user is admin
      * Returns boolean
      */
+    //TODO is this okay?
     public function isAdmin()
     {
         if (!Auth::user()->admin) {
-            return new JsonResponse(['message' => "You are not admin."], Response::HTTP_UNAUTHORIZED);
+            return ResponseWrapper::forbiddenResponse("You are not admin.");
         }
     }
 
@@ -131,14 +132,7 @@ class UserController extends Controller
             $request['rewards']
         );
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating rewards type');
-        return new JsonResponse(
-            [
-                'message' => ['success' => 'Your rewards type has been changed.'],
-                'user' => new UserResource($user),
-                'activeReward' => $activeReward
-            ],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('Your rewards type has been changed.', ['user' => new UserResource($user), 'activeReward' => $activeReward]);
     }
 
     /**

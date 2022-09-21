@@ -80,14 +80,14 @@ export const useAdminStore = defineStore('admin', {
          */
         async updateExpPoints(experiencePoints) {
             const {data} = await axios.put('/admin/experience_points', experiencePoints);
-            this.experiencePoints = data.data;
+            this.experiencePoints = data.data.experience_points;
         },
         /**
          * @param {import('resources/types/admin').ExperiencePoint} newLevel
          */
         async addNewLevel(newLevel) {
             const {data} = await axios.post('/admin/experience_points', newLevel);
-            this.experiencePoints = data.data;
+            this.experiencePoints = data.data.experience_points;
         },
         /**
          * @param {Array<import('resources/types/admin').CharExpGain>} charExpGain
@@ -111,8 +111,8 @@ export const useAdminStore = defineStore('admin', {
          */
         async suspendUser(userId, suspension) {
             const {data} = await axios.post(`/admin/suspend/${userId}`, suspension);
-            this.reportedUsers = data.reported_users;
-            this.bannedUsers = data.banned_users;
+            this.reportedUsers = data.data.reported_users;
+            this.bannedUsers = data.data.banned_users;
         },
         /**
          * Gets all banned users
@@ -146,7 +146,7 @@ export const useAdminStore = defineStore('admin', {
          */
         async toggleArchiveFeedback(id) {
             const {data} = await axios.post(`/admin/feedback/archive/${id}`);
-            return data.feedback;
+            return data.data.feedback;
         },
 
         /**

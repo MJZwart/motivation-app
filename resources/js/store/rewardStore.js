@@ -45,7 +45,7 @@ export const useRewardStore = defineStore('reward', {
             const {data} = await axios.put('/reward/activate', rewardObj);
             successToast(data.message);
             const userStore = useUserStore();
-            userStore.user = data.user;
+            userStore.user = data.data.user;
         },
 
         /**

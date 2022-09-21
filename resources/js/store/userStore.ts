@@ -74,7 +74,7 @@ export const useUserStore = defineStore('user', {
         },
         async confirmRegister(user: NewUser) {
             const {data} = await axios.post('/register/confirm', user);
-            this.setUser(data.user);
+            this.setUser(data.data.user);
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             router.push('/').catch(() => {});
         },
@@ -108,9 +108,9 @@ export const useUserStore = defineStore('user', {
         },
         async changeRewardType(change: ChangeReward) {
             const {data} = await axios.put('/user/settings/rewards', change);
-            this.setUser(data.user);
+            this.setUser(data.data.user);
             const rewardStore = useRewardStore();
-            rewardStore.rewardObj = data.activeReward;
+            rewardStore.rewardObj = data.data.activeReward;
         },
 
         async searchUser(searchValue: UserSearch): Promise<User[]> {

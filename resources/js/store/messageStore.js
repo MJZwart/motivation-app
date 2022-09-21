@@ -47,7 +47,7 @@ export const useMessageStore = defineStore('message', {
          */
         async deleteNotification(notificationId) {
             const {data} = await axios.delete(`/notifications/${notificationId}`);
-            this.notifications = data.data;
+            this.notifications = data.data.notifications;
         },
 
         /**
