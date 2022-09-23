@@ -1,5 +1,6 @@
 <template>
     <div v-if="items">
+        <!-- Header field which shows only sortable fields -->
         <div class="field-header m-1 mt-2">
             <template v-for="(fieldGroup, index) in fields" :key="index">
                 <div :class="'width-'+fieldGroup.width">
@@ -14,17 +15,42 @@
                 </div>
             </template>
         </div>
+
+        <!-- Content field -->
         <template v-for="(item, idx) in sortedItems" :key="idx">
-            <div class="overview-field-item content-block">
-                <div v-for="(fieldGroup, index) in fields" :key="index" class="field-group" :class="'width-'+fieldGroup.width">
-                    <slot v-bind="{item, index}" :name="fieldGroup.key">
-                        <h5>{{fieldGroup.label}}</h5>
-                    </slot>
-                    <p v-for="field in fieldGroup.fields" :key="field.key">
-                        <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
-                            <b>{{field.label}}:</b> {{item[field.key]}}
+            <div class="content-block" :class="{clickable: clickToExtend}" @click="test = !test">
+                <div class="overview-field-item">
+                    <div 
+                        v-for="(fieldGroup, index) in fields" 
+                        :key="index" 
+                        class="field-group" 
+                        :class="'width-'+fieldGroup.width"
+                    >
+                        <slot v-bind="{item, index}" :name="fieldGroup.key">
+                            <h5>{{fieldGroup.label}}</h5>
                         </slot>
-                    </p>
+                        <p v-for="field in fieldGroup.fields" :key="field.key">
+                            <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
+                                <b>{{field.label}}:</b> {{item[field.key]}}
+                            </slot>
+                        </p>
+                    </div>
+                </div>
+                <div v-if="test" class="overview-field-details">
+                    <!-- {{item}} -->
+                    {{fields}}
+                    <!-- <slot v-bind="{item, idx}" :name="'details'">
+                        <div v-for="fieldGroup in fields" :key="fieldGroup.key">
+                            <p v-for="field in fieldGroup.fields" :key="field.key">
+                                <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
+                                    <b>{{field.label}}:</b> {{item[field.key]}}
+                                </slot>
+                            </p>
+                            <slot v-if="fieldGroup.details" v-bind="{item, idx}" :name="fieldGroup.key">
+                                <b>{{fieldGroup.label}}:</b> {{item[field.key]}}
+                            </slot>
+                        </div>
+                    </slot> -->
                 </div>
             </div>
         </template>
@@ -45,7 +71,13 @@ const props = defineProps({
         type: Array as PropType<OverviewField[]>,
         required: true,
     },
+    clickToExtend: {
+        type: Boolean,
+        default: false,
+    },
 });
+
+const test = ref(false);
 
 const currentSortDir = ref('');
 const currentSort = ref('');
@@ -67,10 +99,10 @@ function toggleDir() {
 .overview-field-item {
     display: flex;
 }
-.overview-field-item:nth-of-type(2n+1) {
+.content-block:nth-of-type(2n+1) {
     background-color: rgba(0, 0, 0, .05);
 }
-.overview-field-item:hover {
+.overview-field-item.clickable:hover {
     background-color: rgba(0, 0, 0, .09);
 }
 .field-header {
@@ -84,4 +116,7 @@ function toggleDir() {
         width: 100% !important;
     }
 }
+// .overview-field-details{
+    
+// }
 </style>

@@ -34,7 +34,12 @@
                 <h3 v-if="chosen == 'ALL'">All groups</h3>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{ $t('create-group') }}</button>
             </div>
-            <SortableOverviewTable v-if="filteredAllGroups.length > 0" :items="filteredAllGroups" :fields="groupFields">
+            <SortableOverviewTable 
+                v-if="filteredAllGroups.length > 0" 
+                :items="filteredAllGroups" 
+                :fields="groupFields"
+                click-to-extend
+            >
                 <template #nameField="item">
                     <h5>{{item.item.name}}</h5>
                 </template>
