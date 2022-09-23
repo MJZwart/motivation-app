@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import {ref, computed, onMounted, PropType} from 'vue';
+import {sortValues} from '/js/services/sortService';
 import {Item, Field} from 'resources/types/global';
 
 const props = defineProps({
@@ -87,36 +88,17 @@ const className = computed(() => {
 });
 
 const sortedItems = computed<Array<Item>>(() => {
-    return sortItems();
+    return sortValues(props.items, currentSort.value, currentSortDir.value);
 });
 
 function toggleSort(key: string) {
     key == currentSort.value ? toggleDir() : currentSort.value = key;
-    sortItems();
+    return sortValues(props.items, currentSort.value, currentSortDir.value);
 }
 function toggleDir() {
     currentSortDir.value = currentSortDir.value == 'asc' ? 'desc' : 'asc';
 }
-function sortItems() {
-    return props.items.slice().sort(compareValues(currentSort.value, currentSortDir.value));
-}
 
-function compareValues(key: string, order = 'asc') {
-    // eslint-disable-next-line complexity, @typescript-eslint/no-explicit-any
-    return function innerSort( a: { [x: string]: any; }, b: { [x: string]: any; }) {
-        if (!Object.prototype.hasOwnProperty.call(a, key) || !Object.prototype.hasOwnProperty.call(b, key))
-            return 0;
-
-        const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
-        const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
-
-        let comparison = 0;
-        if (varA > varB) comparison = 1;
-        else if (varA < varB) comparison = -1;
-
-        return ((order === 'desc') ? (comparison * -1) : comparison);
-    };
-}
 </script>
 
 <style lang="scss">

@@ -34,24 +34,22 @@
                 <h3 v-if="chosen == 'ALL'">All groups</h3>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{ $t('create-group') }}</button>
             </div>
-            <Table
-                :items="filteredAllGroups"
-                :fields="groupFields"
-                :options="['table-striped']"
-                class="font-small-responsive"
-            >
-                <template #details="row">
+            <SortableOverviewTable v-if="filteredAllGroups.length > 0" :items="filteredAllGroups" :fields="groupFields">
+                <template #nameField="item">
+                    <h5>{{item.item.name}}</h5>
+                </template>
+                <template #joined="item">
+                    <b>{{$t('member-since')}}:</b> {{ parseDateTime(item.item.joined) }}
+                </template>
+                <template #details="item">
                     <Tooltip :text="$t('view')">
-                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(row.item)" />
+                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item)" />
                     </Tooltip>
                 </template>
-                <template #joined="row">
-                    {{ parseDateTime(row.item.joined) }}
-                </template>
-                <template #empty>
-                    {{ $t('no-groups-found') }}
-                </template>
-            </Table>
+            </SortableOverviewTable>
+            <div v-else>
+                {{ $t('no-groups-found') }}
+            </div>
             <Modal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load" />
             </Modal>
@@ -60,11 +58,11 @@
 </template>
 
 <script setup lang="ts">
-import Table from '/js/components/global/Table.vue';
+import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import CreateGroup from '../components/CreateGroup.vue';
 import {computed, ref, onMounted} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
-import {ALL_GROUP_FIELDS, MY_GROUP_FIELDS} from '/js/constants/groupConstants.js';
+import {ALL_GROUP_FIELDS_OVERVIEW, MY_GROUP_FIELDS_OVERVIEW} from '/js/constants/groupConstants';
 import {useGroupStore} from '/js/store/groupStore';
 import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
@@ -76,8 +74,9 @@ const mainStore = useMainStore();
 const router = useRouter();
 
 const groupFields = computed(() => {
-    if (chosen.value == 'MY') return MY_GROUP_FIELDS;
-    if (chosen.value == 'ALL') return ALL_GROUP_FIELDS;
+    // if (chosen.value == 'MY') return MY_GROUP_FIELDS;
+    if (chosen.value == 'MY') return MY_GROUP_FIELDS_OVERVIEW;
+    if (chosen.value == 'ALL') return ALL_GROUP_FIELDS_OVERVIEW;
     return [];
 });
 

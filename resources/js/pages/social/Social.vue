@@ -11,9 +11,9 @@
                 {{ $t('blocklist') }}
             </button>
         </ResponsiveTabs>
-        <KeepAlive class="tab-content col-10">
+        <div class="tab-content col-10">
             <component :is="currentTabComponent" :key="tabKey" />
-        </KeepAlive>
+        </div>
     </div>
 </template>
 

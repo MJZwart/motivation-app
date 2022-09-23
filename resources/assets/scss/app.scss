@@ -39,6 +39,10 @@ p {
 label {
     font-family: $bold-font;
 }
+.header {
+    font-family: $bold-font;
+    display: block;
+}
 
 .content-block {
     background-color: white;
@@ -219,6 +223,7 @@ button:disabled {
 @media (max-width: 450px) {
     .tab-content.col-10 {
         max-width: 100%;
+        flex: 0 0 99%;
         padding: 0;
     }
 }
