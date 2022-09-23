@@ -73,7 +73,7 @@ class AuthenticationController extends Controller
         return;
     }
 
-    public function getResetPasswordLink(SendResetPasswordEmailRequest $request) 
+    public function getResetPasswordLink(SendResetPasswordEmailRequest $request)
     {
         $validated = $request->validated();
         $status = Password::sendResetLink($validated);
@@ -102,9 +102,9 @@ class AuthenticationController extends Controller
 
         if ($status === Password::PASSWORD_RESET)
             return new JsonResponse(['message' => ['success' => 'Password changed. Login with your new password']], Response::HTTP_OK);
-        else if ($status === PASSWORD::INVALID_TOKEN)
+        else if ($status === Password::INVALID_TOKEN)
             return new JsonResponse(['message' => 'Invalid token. Please revisit the original link from your email and try again.'], Response::HTTP_UNPROCESSABLE_ENTITY);
-        else if ($status === PASSWORD::INVALID_USER)
+        else if ($status === Password::INVALID_USER)
             return new JsonResponse(['message' => 'Invalid user. Check your e-mailaddress and try again.'], Response::HTTP_UNPROCESSABLE_ENTITY);
         else
             return new JsonResponse(['message' => 'Something went wrong. Try again later or contact an admin.'], Response::HTTP_UNPROCESSABLE_ENTITY);

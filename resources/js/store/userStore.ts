@@ -5,12 +5,12 @@ import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
 import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
-import {PasswordSettings, ProfileSettings} from 'resources/types/settings';
-import {ChangeReward} from 'resources/types/reward';
-import {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resources/types/user';
-import {UserSearch} from 'resources/types/global';
-import {NewReportedUser} from 'resources/types/admin';
-import {ErrorMessage} from 'resources/types/error';
+import type {PasswordSettings, ProfileSettings} from 'resources/types/settings';
+import type {ChangeReward} from 'resources/types/reward';
+import type {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resources/types/user';
+import type {UserSearch} from 'resources/types/global';
+import type {NewReportedUser} from 'resources/types/admin';
+import type {ErrorMessage} from 'resources/types/error';
 
 export const useUserStore = defineStore('user', {
     state: () => {

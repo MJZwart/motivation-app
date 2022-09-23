@@ -9,6 +9,7 @@
                 type="email"
                 :label="$t('email')"
                 :placeholder="$t('email')"
+                disabled
             />
             <SimpleInput 
                 id="password"  
@@ -25,7 +26,6 @@
                 :label="$t('repeat-password')"
                 :placeholder="$t('repeat-password')" />
             <button type="submit" class="block">{{ $t('reset-password') }}</button>
-            <BaseFormError name="email" />
         </form>
     </div>
 </template>
