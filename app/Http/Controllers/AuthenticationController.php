@@ -73,9 +73,9 @@ class AuthenticationController extends Controller
         $status = Password::sendResetLink($validated);
 
         if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
-            return new JsonResponse(['message' => ['success' => 'Success, if an account with this e-mail exists, we have sent you an e-mail with the link to reset your password. Check your spam folder if you cannot find our email.']], Response::HTTP_OK);
+            return ResponseWrapper::successResponse('Success, if an account with this e-mail exists, we have sent you an e-mail with the link to reset your password. Check your spam folder if you cannot find our email.');
         else
-            return new JsonResponse(['message' => 'Something went wrong. Try again later or contact an admin.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('Something went wrong. Try again later or contact an admin.');
     }
 
     public function resetPassword(ResetPasswordRequest $request)
@@ -95,12 +95,12 @@ class AuthenticationController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET)
-            return new JsonResponse(['message' => ['success' => 'Password changed. Login with your new password']], Response::HTTP_OK);
+            return ResponseWrapper::successResponse('Password changed. Login with your new password');
         else if ($status === Password::INVALID_TOKEN)
-            return new JsonResponse(['message' => 'Invalid token. Please revisit the original link from your email and try again.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('Invalid token. Please revisit the original link from your email and try again.');
         else if ($status === Password::INVALID_USER)
-            return new JsonResponse(['message' => 'Invalid user. Check your e-mailaddress and try again.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('Invalid user. Check your e-mailaddress and try again.');
         else
-            return new JsonResponse(['message' => 'Something went wrong. Try again later or contact an admin.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('Something went wrong. Try again later or contact an admin.');
     }
 }
