@@ -100,11 +100,11 @@ export const useUserStore = defineStore('user', {
         },
         async updateEmail(email: string) {
             const {data} = await axios.put('/user/settings/email', email);
-            this.setUser(data.user);
+            this.setUser(data.data.user);
         },
         async updateSettings(settings: ProfileSettings) {
             const {data} = await axios.put('/user/settings', settings);
-            this.setUser(data.user);
+            this.setUser(data.data.user);
         },
         async changeRewardType(change: ChangeReward) {
             const {data} = await axios.put('/user/settings/rewards', change);
@@ -135,7 +135,7 @@ export const useUserStore = defineStore('user', {
 
         async unblockUser(blocklistId: number) {
             const {data} = await axios.put(`/user/${blocklistId}/unblock`);
-            return data.blockedUsers;
+            return data.data.blockedUsers;
         },
     },
 });

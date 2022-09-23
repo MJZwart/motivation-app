@@ -49,7 +49,7 @@ export const useFriendStore = defineStore('friend', {
         async denyRequest(requestId) {
             try {
                 const {data} = await axios.post('/friend/request/' + requestId + '/deny');
-                this.requests = data.requests;
+                this.requests = data.data.requests;
                 return true;
             } catch {
                 this.handleError();

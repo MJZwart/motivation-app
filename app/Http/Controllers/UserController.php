@@ -52,7 +52,6 @@ class UserController extends Controller
      * Checks if authenticated user is admin
      * Returns boolean
      */
-    //TODO is this okay?
     public function isAdmin()
     {
         if (!Auth::user()->admin) {
@@ -74,7 +73,7 @@ class UserController extends Controller
         //Invalidate old e-mail
         //Send new e-mail confirmation
         //Update new e-mail, unconfirmed
-        return new JsonResponse(['message' => ['success' => 'Your email has been changed.'], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Your email has been changed.', ['user' => new UserResource(Auth::user())]);
     }
 
     /**
@@ -89,7 +88,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating password');
-        return new JsonResponse(['message' => ['success' => 'Your password has been updated. Please log in using your new password.']], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Your password has been updated. Please log in using your new password.');
     }
 
     /**
@@ -103,13 +102,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating settings');
-        return new JsonResponse(
-            [
-                'message' => ['success' => 'Your settings have been changed.'],
-                'user' => new UserResource(Auth::user())
-            ],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('Your settings have been changed.', ['user' => new UserResource(Auth::user())]);
     }
 
     /**
@@ -173,7 +166,7 @@ class UserController extends Controller
         $validated['reported_by_user_id'] = Auth::user()->id;
         ReportedUser::create($validated);
         ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: ' . $user->username);
-        return new JsonResponse(['message' => ['success' => 'User reported']]);
+        return ResponseWrapper::successResponse('User reported');
     }
 
     public function getBlocklist()
@@ -186,6 +179,6 @@ class UserController extends Controller
     {
         $blockedUser->delete();
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
-        return new JsonResponse(['message' => ['success' => 'User has been unblocked'], 'blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
+        return ResponseWrapper::successResponse('User has been unblocked', ['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
 }
