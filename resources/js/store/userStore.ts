@@ -5,11 +5,11 @@ import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
 import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
-import {PasswordSettings, ProfileSettings} from 'resources/types/settings';
-import {ChangeReward} from 'resources/types/reward';
-import {Blocked, Login, NewUser, Register, User} from 'resources/types/user';
-import {UserSearch} from 'resources/types/global';
-import {NewReportedUser} from 'resources/types/admin';
+import type {PasswordSettings, ProfileSettings} from 'resources/types/settings';
+import type {ChangeReward} from 'resources/types/reward';
+import type {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resources/types/user';
+import type {UserSearch} from 'resources/types/global';
+import type {NewReportedUser} from 'resources/types/admin';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -136,6 +136,13 @@ export const useUserStore = defineStore('user', {
         async unblockUser(blocklistId: number) {
             const {data} = await axios.put(`/user/${blocklistId}/unblock`);
             return data.data.blockedUsers;
+        },
+
+        async resetPassword(email: {email: string}) {
+            return await axios.post('/send-reset-password', email);
+        },
+        async setNewPassword(newPassword: ResetPassword) {
+            return await axios.post('/password/reset', newPassword);
         },
     },
 });

@@ -8,11 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\SendResetPasswordEmailRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthenticationController extends Controller
 {
@@ -60,5 +65,42 @@ class AuthenticationController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return;
+    }
+
+    public function getResetPasswordLink(SendResetPasswordEmailRequest $request)
+    {
+        $validated = $request->validated();
+        $status = Password::sendResetLink($validated);
+
+        if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
+            return new JsonResponse(['message' => ['success' => 'Success, if an account with this e-mail exists, we have sent you an e-mail with the link to reset your password. Check your spam folder if you cannot find our email.']], Response::HTTP_OK);
+        else
+            return new JsonResponse(['message' => 'Something went wrong. Try again later or contact an admin.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $validated = $request->validated();
+        $status = Password::reset(
+            $validated,
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => bcrypt($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET)
+            return new JsonResponse(['message' => ['success' => 'Password changed. Login with your new password']], Response::HTTP_OK);
+        else if ($status === Password::INVALID_TOKEN)
+            return new JsonResponse(['message' => 'Invalid token. Please revisit the original link from your email and try again.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        else if ($status === Password::INVALID_USER)
+            return new JsonResponse(['message' => 'Invalid user. Check your e-mailaddress and try again.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        else
+            return new JsonResponse(['message' => 'Something went wrong. Try again later or contact an admin.'], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

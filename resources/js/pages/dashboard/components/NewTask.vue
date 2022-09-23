@@ -61,7 +61,7 @@ import {NewTask, Task, TaskList} from 'resources/types/task';
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
 
-const props = defineProps<{taskList: TaskList; superTask?: Task}>();
+const props = defineProps<{taskList: TaskList; superTask?: Task | null}>();
 const emit = defineEmits(['close']);
 
 const task = ref<NewTask>({

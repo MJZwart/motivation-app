@@ -17,6 +17,8 @@ import Group from '../pages/social/components/GroupPage.vue';
 import ErrorPage from '../pages/ErrorPage.vue';
 import PrivacyPolicy from '../pages/legal/PrivacyPolicy.vue';
 import TOS from '../pages/legal/TOS.vue';
+import ForgotPassword from '../pages/ForgotPassword.vue';
+import ResetPassword from '../pages/ResetPassword.vue';
 // import Test from '../pages/Test.vue';
 
 export const routes = [
@@ -162,6 +164,22 @@ export const routes = [
         component: ErrorPage,
         meta: {
             title: 'Error',
+        },
+    },
+    {
+        name: 'ForgotPassword',
+        path: '/forgot-password',
+        component: ForgotPassword,
+        meta: {
+            title: 'Forgot password',
+        },
+    },
+    {
+        name: 'ResetPassword',
+        path: '/reset-password',
+        component: ResetPassword,
+        meta: {
+            title: 'Reset password',
         },
     },
     // {
