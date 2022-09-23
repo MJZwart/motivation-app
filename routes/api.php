@@ -45,6 +45,9 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
     Route::post('/feedback', [FeedbackController::class, 'store']);
+
+    Route::post('/send-reset-password', [AuthenticationController::class, 'getResetPasswordLink']);
+    Route::post('/password/reset', [AuthenticationController::class, 'resetPassword'])->name('password.reset');
 });
 
 Route::group(['middleware' => ['valid-auth']], function () {

@@ -17,6 +17,8 @@ import Group from '../pages/social/components/GroupPage.vue';
 import ErrorPage from '../pages/ErrorPage.vue';
 import PrivacyPolicy from '../pages/legal/PrivacyPolicy.vue';
 import TOS from '../pages/legal/TOS.vue';
+import ForgotPassword from '../pages/ForgotPassword.vue';
+import ResetPassword from '../pages/ResetPassword.vue';
 // import Test from '../pages/Test.vue';
 
 export const routes = [
@@ -29,7 +31,7 @@ export const routes = [
         component: Dashboard,
         meta: {
             requiresAuth: true,
-            title: "Dashboard",
+            title: 'Dashboard',
         },
     },
     {
@@ -37,14 +39,14 @@ export const routes = [
         path: '/login',
         component: Login,
         meta: {
-            title: "Login",
+            title: 'Login',
         },
     },
     {
         path: '/register',
         component: Register,
         meta: {
-            title: "Register",
+            title: 'Register',
         },
     },
     {
@@ -52,7 +54,7 @@ export const routes = [
         component: Overview,
         meta: {
             requiresAuth: true,
-            title: "Overview",
+            title: 'Overview',
         },
     },
     {
@@ -60,7 +62,7 @@ export const routes = [
         component: Notifications,
         meta: {
             requiresAuth: true,
-            title: "Notifications",
+            title: 'Notifications',
         },
     },
     {
@@ -68,7 +70,7 @@ export const routes = [
         component: Settings,
         meta: {
             requiresAuth: true,
-            title: "Settings",
+            title: 'Settings',
         },
     },
     {
@@ -76,7 +78,7 @@ export const routes = [
         path: '/profile/:id',
         component: Profile,
         meta: {
-            title: "Profile",
+            title: 'Profile',
         },
     },
     {
@@ -85,7 +87,7 @@ export const routes = [
         meta: {
             requiresAuth: true, 
             requiresAdmin: true,
-            title: "Admin dashboard",
+            title: 'Admin dashboard',
         },
     },
     {
@@ -93,7 +95,7 @@ export const routes = [
         component: Welcome,
         meta: {
             requiresAuth: true,
-            title: "Welcome",
+            title: 'Welcome',
         },
     },
     {
@@ -101,7 +103,7 @@ export const routes = [
         component: BugReport,
         meta: {
             requiresAuth: true,
-            title: "Report a bug",
+            title: 'Report a bug',
         },
     },
     {
@@ -109,7 +111,7 @@ export const routes = [
         component: Messages,
         meta: {
             requiresAuth: true,
-            title: "Messages",
+            title: 'Messages',
         },
     },
     {
@@ -117,7 +119,7 @@ export const routes = [
         component: Social,
         meta: {
             requiresAuth: true,
-            title: "Social",
+            title: 'Social',
         },
     },
     {
@@ -125,35 +127,35 @@ export const routes = [
         component: Group,
         meta: {
             requiresAuth: true,
-            title: "Group",
+            title: 'Group',
         },
     },
     {
         path: '/faq',
         component: Faq,
         meta: {
-            title: "Frequently asked questions",
+            title: 'Frequently asked questions',
         },
     },
     {
         path: '/feedback',
         component: Feedback,
         meta: {
-            title: "Feedback",
+            title: 'Feedback',
         },
     },
     {
         path: '/privacy',
         component: PrivacyPolicy,
         meta: {
-            title: "Privacy Policy",
+            title: 'Privacy Policy',
         },
     },
     {
         path: '/tos',
         component: TOS,
         meta: {
-            title: "Terms of Service",
+            title: 'Terms of Service',
         },
     },
     {
@@ -161,7 +163,23 @@ export const routes = [
         path: '/:pathMatch(.*)*',
         component: ErrorPage,
         meta: {
-            title: "Error",
+            title: 'Error',
+        },
+    },
+    {
+        name: 'ForgotPassword',
+        path: '/forgot-password',
+        component: ForgotPassword,
+        meta: {
+            title: 'Forgot password',
+        },
+    },
+    {
+        name: 'ResetPassword',
+        path: '/reset-password',
+        component: ResetPassword,
+        meta: {
+            title: 'Reset password',
         },
     },
     // {

@@ -65,6 +65,13 @@
     "register": "Register",
     "register-new-account": "Register new account",
     "login": "Login",
+    "forgot-password-link": "Forgot password?",
+    "forgot-password": "Forgot password",
+    "send-password-reset": "Send password reset link",
+    "reset-password": "Reset password",
+    "password-reset-link-sent": "Mail sent.",
+    "password-reset-failed": "Password reset failed. Either revisit the link through your e-mail or try again later.",
+    
     "stats": "Stats",
 
     "delete-notification-confirmation": "Are you sure you want to delete this notification?",
