@@ -21,8 +21,7 @@ class RewardController extends Controller
     {
         $activeReward = RewardObjectHandler::updateActiveReward($request['rewardType'], $request['id'], $request['name']);
         ActionTrackingHandler::handleAction($request, 'UPDATE_INSTANCE', 'Updating ' . $request['rewardType'] . ' with new name ' . $request['name']);
-        return ResponseWrapper::successResponse('You have changed the name.', ['rewardObj' => $activeReward]);
-        //This being sent back doesn't do anything?
+        return ResponseWrapper::successResponse('You have changed the name.');
     }
 
     /**

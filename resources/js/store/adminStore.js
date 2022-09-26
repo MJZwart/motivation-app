@@ -71,7 +71,7 @@ export const useAdminStore = defineStore('admin', {
          */
         async updateBugReport(bugReport) {
             const {data} = await axios.put('/bugreport/' + bugReport.id, bugReport);
-            this.bugReports = data.data;
+            this.bugReports = data.data.bugReports;
         },
 
         //Balancing

@@ -34,6 +34,6 @@ class BugReportController extends Controller
         $return = BugReportResource::collection(BugReport::all());
         ActionTrackingHandler::handleAction($request, 'UPDATE_BUG_REPORT', 'Bug report updated: ' . $validated['title']);
 
-        return ResponseWrapper::successResponse('Bug Report updated.');
+        return ResponseWrapper::successResponse('Bug Report updated.', ['bugReports' => $return]);
     }
 }
