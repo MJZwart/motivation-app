@@ -37,5 +37,5 @@
         "include": ["jest"]
     },
     "include": ["resources/js/**/*", "resources/types/**/*", "vite.config.js"],
-    "exclude": ["node_modules/**/*", "build/**/*"]
+    "exclude": ["node_modules/**/*", "build/**/*", "cypress/**/*"]
 }

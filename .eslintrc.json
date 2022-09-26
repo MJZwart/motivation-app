@@ -25,6 +25,7 @@
         "vue",
         "@typescript-eslint"
     ],
+    "ignorePatterns": ["**/*.cy.js"],
     "rules": {
         "arrow-parens": ["error", "as-needed"],
         "indent": ["warn", 4, {"SwitchCase": 1}],

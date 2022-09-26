@@ -14,7 +14,8 @@
         "prod": "npm run production",
         "lint": "eslint \"resources/js/**/*.{js,vue}\" --fix --cache",
         "typescript-check": "tsc --noEmit -p tsconfig.json",
-        "vue-typescript-check": "vue-tsc -p tsconfig.json"
+        "vue-typescript-check": "vue-tsc -p tsconfig.json",
+        "cypress": "cypress open"
     },
     "devDependencies": {
         "@babel/types": "^7.19.0",
@@ -48,6 +49,7 @@
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@fortawesome/vue-fontawesome": "^3.0.0-5",
         "@vitejs/plugin-vue": "^2.2.4",
+        "cypress": "^10.8.0",
         "luxon": "^2.4.0",
         "pinia": "^2.0.13",
         "prettier": "^2.5.1",

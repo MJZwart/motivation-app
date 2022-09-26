@@ -79,7 +79,12 @@
         </div>
         
         <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
-            <EditTask v-if="taskToEdit" :task="taskToEdit" :taskList="taskList" :superTask="editSuperTask" @close="closeEditTask" />
+            <EditTask 
+                v-if="taskToEdit" 
+                :task="taskToEdit" 
+                :taskList="taskList" 
+                :superTask="editSuperTask" 
+                @close="closeEditTask" />
         </Modal>
     </div>
 </template>
