@@ -25,8 +25,8 @@
                 </template>
             </slot>
             <template #footer>
-                <button class="block bottom-radius p-0 new-task" @click="openNewTask()">
-                    {{ $t('new-task') }}
+                <button class="block p-0 dashed-border-button" @click="openNewTask()">
+                    <b>{{ $t('new-task') }}</b>
                 </button>
             </template>
         </Summary>
@@ -115,16 +115,5 @@ function taskClass(index: number) {
         padding: 0 !important;
         min-height: 0;
     }
-}
-.new-task {
-    background-color: $green;
-    height: 3rem;
-    margin-bottom: 0;
-    border: none;
-    margin-top: -2px;
-}
-.new-task:hover {
-    background-color: $dark-green;
-    border-color: $dark-green;
 }
 </style>

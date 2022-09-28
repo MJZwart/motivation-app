@@ -8,8 +8,8 @@
                         <TaskList :taskList="list" class="task-list" />
                     </template>
                     <div class="task-list border-1">
-                        <button type="button" class="block new-task-list-button" @click="showNewTaskList">
-                            {{ $t('create-new-task-list') }}
+                        <button type="button" class="block dashed-border-button new-task-list-button" @click="showNewTaskList">
+                            <b>{{ $t('create-new-task-list') }}</b>
                         </button>
                     </div>
                 </div>

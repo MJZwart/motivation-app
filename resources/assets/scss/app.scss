@@ -149,6 +149,21 @@ button:disabled {
     border-color: $grey;
     cursor: not-allowed;
 }
+
+.dashed-border-button {
+    background-color: $white;
+    color: $primary;
+    height: 3rem;
+    margin-bottom: 0;
+    border: 4px dashed $primary-light;
+    margin-top: -2px;
+    border-radius: 0;
+}
+.dashed-border-button:hover {
+    background-color: $white;
+    border-color: $primary;
+}
+
 .tabs {
     border-right: 1px solid $border-color;
     display: flex;
