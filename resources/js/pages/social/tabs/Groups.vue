@@ -51,6 +51,15 @@
                         <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item)" />
                     </Tooltip>
                 </template>
+                <template #is_public="item">
+                    <b>{{item.item.is_public ? $t('public') : $t('private')}}</b>
+                </template>
+                <template #require_application="item">
+                    <b>{{item.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
+                </template>
+                <template #members="item">
+                    <b>{{$t('members')}}:</b> {{item.item.members.length}}
+                </template>
             </SortableOverviewTable>
             <div v-else>
                 {{ $t('no-groups-found') }}
@@ -79,10 +88,8 @@ const mainStore = useMainStore();
 const router = useRouter();
 
 const groupFields = computed(() => {
-    // if (chosen.value == 'MY') return MY_GROUP_FIELDS;
     if (chosen.value == 'MY') return MY_GROUP_FIELDS_OVERVIEW;
-    if (chosen.value == 'ALL') return ALL_GROUP_FIELDS_OVERVIEW;
-    return [];
+    return ALL_GROUP_FIELDS_OVERVIEW;
 });
 
 const loading = ref(true);

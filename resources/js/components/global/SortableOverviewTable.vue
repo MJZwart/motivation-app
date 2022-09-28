@@ -2,7 +2,7 @@
     <div v-if="items">
         <!-- Header field which shows only sortable fields -->
         <div class="field-header m-1 mt-2">
-            <template v-for="(fieldGroup, index) in fields" :key="index">
+            <template v-for="(fieldGroup, index) in fields.fieldGroups" :key="index">
                 <div :class="'width-'+fieldGroup.width">
                     <template v-for="(subField, idx) in fieldGroup.fields" :key="idx">
                         <slot v-bind="subField" :name="'head'">
@@ -18,10 +18,10 @@
 
         <!-- Content field -->
         <template v-for="(item, idx) in sortedItems" :key="idx">
-            <div class="content-block" :class="{clickable: clickToExtend}" @click="test = !test">
+            <div class="content-block" :class="{clickable: clickToExtend}" @click="toggleExtend(idx)">
                 <div class="overview-field-item">
                     <div 
-                        v-for="(fieldGroup, index) in fields" 
+                        v-for="(fieldGroup, index) in fields.fieldGroups" 
                         :key="index" 
                         class="field-group" 
                         :class="'width-'+fieldGroup.width"
@@ -36,21 +36,17 @@
                         </p>
                     </div>
                 </div>
-                <div v-if="test" class="overview-field-details">
-                    <!-- {{item}} -->
-                    {{fields}}
-                    <!-- <slot v-bind="{item, idx}" :name="'details'">
-                        <div v-for="fieldGroup in fields" :key="fieldGroup.key">
-                            <p v-for="field in fieldGroup.fields" :key="field.key">
-                                <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
-                                    <b>{{field.label}}:</b> {{item[field.key]}}
-                                </slot>
-                            </p>
-                            <slot v-if="fieldGroup.details" v-bind="{item, idx}" :name="fieldGroup.key">
-                                <b>{{fieldGroup.label}}:</b> {{item[field.key]}}
-                            </slot>
-                        </div>
-                    </slot> -->
+                <!-- Content field for extra details, available by clicking on it -->
+                <div v-show="isExtended(idx) && fields.extend" class="overview-field-details">
+                    <div 
+                        v-for="(field, index) in fields.extend" 
+                        :key="index" 
+                        class="field-group"
+                    >
+                        <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
+                            <b>{{field.label}}:</b> {{item[field.key]}}
+                        </slot>
+                    </div>
                 </div>
             </div>
         </template>
@@ -58,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import {Item, OverviewField} from 'resources/types/global';
+import {Item, OverviewFieldGroups} from 'resources/types/global';
 import {ref, computed, PropType} from 'vue';
 import {sortValues} from '/js/services/sortService';
 
@@ -68,19 +64,43 @@ const props = defineProps({
         required: true,
     },
     fields: {
-        type: Array as PropType<OverviewField[]>,
+        type: Object as PropType<OverviewFieldGroups>,
         required: true,
     },
     clickToExtend: {
         type: Boolean,
         default: false,
     },
+    singleExtend: {
+        type: Boolean,
+        default: false,
+    },
 });
 
-const test = ref(false);
+const extendedIndexes = ref<number[]>([]);
+const singleExtendedIndex = ref<number | null>(null);
 
 const currentSortDir = ref('');
 const currentSort = ref('');
+
+function isExtended(index: number) {
+    if (props.singleExtend) return singleExtendedIndex.value === index;
+    else return extendedIndexes.value.includes(index);
+}
+
+function toggleExtend(index: number) {
+    if (!props.clickToExtend) return;
+    if (props.singleExtend) 
+        if (singleExtendedIndex.value === index) singleExtendedIndex.value = null;
+        else singleExtendedIndex.value = index;
+    else {
+        const existingIdx = extendedIndexes.value.indexOf(index);
+        if (existingIdx == -1)
+            extendedIndexes.value.push(index);
+        else
+            extendedIndexes.value.splice(existingIdx, 1);
+    }
+}
 
 const sortedItems = computed<Array<Item>>(() => {
     return sortValues(props.items, currentSort.value, currentSortDir.value);

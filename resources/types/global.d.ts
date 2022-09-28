@@ -12,6 +12,11 @@ export type OverviewField = {
     width: number,
 }
 
+export type OverviewFieldGroups = {
+    fieldGroups: OverviewField[],
+    extend?: Field[],
+}
+
 export type Item = {
     [key: string]: string | number | unknown,
 }
