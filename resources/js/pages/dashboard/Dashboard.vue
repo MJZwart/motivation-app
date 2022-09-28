@@ -7,7 +7,7 @@
                     <template v-for="(list, index) in taskLists" :key="index">
                         <TaskList :taskList="list" class="task-list" />
                     </template>
-                    <div class="task-list border-1">
+                    <div class="task-list-button border-1">
                         <button type="button" class="block new-task-list-button" @click="showNewTaskList">
                             {{ $t('create-new-task-list') }}
                         </button>
@@ -83,6 +83,9 @@ function closeNewTaskList() {
     flex-wrap: wrap;
     flex-direction: column;
     gap: 10px;
+}
+.task-list-button {
+    flex:49%;
 }
 .new-task-list-button {
     height: 46px;
