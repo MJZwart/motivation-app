@@ -6,7 +6,7 @@ use App\Helpers\ActionTrackingHandler;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
 use App\Http\Resources\AchievementResource;
-use App\Http\Requests\NewAchievementRequest;
+use App\Http\Requests\StoreAchievementRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -16,7 +16,7 @@ class AchievementController extends Controller
      * Create a new achievement. Only available to admins.
      * Returns all available achievements
      */
-    public function store(NewAchievementRequest $request)
+    public function store(StoreAchievementRequest $request)
     {
         $validated = $request->validated();
         $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
@@ -46,7 +46,7 @@ class AchievementController extends Controller
      * Update an existing achievement. Only available to admins.
      * Returns all available achievements
      */
-    public function update(NewAchievementRequest $request, Achievement $achievement)
+    public function update(StoreAchievementRequest $request, Achievement $achievement)
     {
         $validated = $request->validated();
         $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
