@@ -21,21 +21,21 @@ export const useTaskStore = defineStore('task', {
          */
         async storeTask(task) {
             const {data} = await axios.post('/tasks', task);
-            this.taskLists = data.data;
+            this.taskLists = data.data.taskLists;
         },
         /**
          * @param {import('resources/types/task').Task} task
          */
         async updateTask(task) {
             const {data} = await axios.put('/tasks/' + task.id, task);
-            this.taskLists = data.data;
+            this.taskLists = data.data.taskLists;
         },
         /**
          * @param {import('resources/types/task').Task} task
          */
         async deleteTask(task) {
             const {data} = await axios.delete('/tasks/' + task.id);
-            this.taskLists = data.data;
+            this.taskLists = data.data.taskLists;
         },
         /**
          * @param {import('resources/types/task').Task} task

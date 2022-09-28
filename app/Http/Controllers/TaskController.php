@@ -36,7 +36,7 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
-        return ResponseWrapper::successResponse("Task successfully created.", $taskLists);
+        return ResponseWrapper::successResponse("Task successfully created.", ['taskLists' => $taskLists]);
     }
 
     /**
@@ -55,7 +55,7 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
 
-        return ResponseWrapper::successResponse("Task successfully updated.", $taskLists);
+        return ResponseWrapper::successResponse("Task successfully updated.", ['taskLists' => $taskLists]);
     }
 
     /**
@@ -74,7 +74,7 @@ class TaskController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name);
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return ResponseWrapper::successResponse("Task deleted.", $taskLists);
+            return ResponseWrapper::successResponse("Task deleted.", ['taskLists' => $taskLists]);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name, 'Not authorized');
             return ResponseWrapper::forbiddenResponse("You are not authorized to delete this task");
@@ -109,7 +109,7 @@ class TaskController extends Controller
                 //TODO Refactor the response that includes level up notifications
                 return ResponseWrapper::successResponse($returnValue->message->success, ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]);
             } else {
-                return ResponseWrapper::successResponse('Task completed.', $taskLists);
+                return ResponseWrapper::successResponse('Task completed.', ['taskLists' => $taskLists]);
             }
         } else {
             ActionTrackingHandler::handleAction($request, 'COMPLETE_TASK', 'Completing task named: ' . $task->name, 'Not authorized');
