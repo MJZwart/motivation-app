@@ -18,7 +18,7 @@
                 :label="$t('password')"
                 :placeholder="$t('password')"
             />
-            <button type="submit" class="block">{{ $t('login') }}</button>
+            <button id="login-button" type="submit" class="block">{{ $t('login') }}</button>
             <BaseFormError name="error" />
         </form>
         <span class="d-flex">

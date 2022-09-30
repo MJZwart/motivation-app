@@ -98,4 +98,3 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
     Route::post('/user/{user}/report', [UserController::class, 'reportUser']);
 });
-

@@ -14,7 +14,8 @@
         "prod": "npm run production",
         "lint": "eslint \"resources/js/**/*.{js,vue}\" --fix --cache",
         "typescript-check": "tsc --noEmit -p tsconfig.json",
-        "vue-typescript-check": "vue-tsc -p tsconfig.json"
+        "vue-typescript-check": "vue-tsc -p tsconfig.json",
+        "cypress": "cypress open"
     },
     "devDependencies": {
         "@babel/types": "^7.19.0",
@@ -25,6 +26,7 @@
         "@typescript-eslint/parser": "^5.27.0",
         "axios": "^0.27.2",
         "eslint": "^8.24.0",
+        "cypress": "^10.9.0",
         "eslint-config-standard": "^17.0.0",
         "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-node": "^11.1.0",

@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             ->hasCharacters(1)
             ->hasTaskLists(3)
             ->create(['rewards' => 'CHARACTER', 'first_login' => false]);
-            
+
         User::factory(20)
             ->hasVillages(1)
             ->hasTaskLists(3)
@@ -41,7 +41,8 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->hasTaskLists(2)
-            ->create(['username' => 'test', 'first_login' => false, 'rewards' => 'NONE']);
+            ->hasCharacters(1)
+            ->create(['username' => 'test', 'first_login' => false, 'rewards' => 'CHARACTER']);
 
         User::factory(20)
             ->hasTaskLists(2)
