@@ -8,7 +8,7 @@
                 name="name" 
                 :label="$t('task-list-name')"
                 :placeholder="$t('name')"  />
-            <button id="create-new-task-button" type="submit" class="block">Create new task list</button>
+            <button id="create-new-task-list-button" type="submit" class="block">Create new task list</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
