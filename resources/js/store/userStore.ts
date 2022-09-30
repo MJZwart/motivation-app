@@ -10,7 +10,6 @@ import type {ChangeReward} from 'resources/types/reward';
 import type {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resources/types/user';
 import type {UserSearch} from 'resources/types/global';
 import type {NewReportedUser} from 'resources/types/admin';
-import type {ErrorMessage} from 'resources/types/error';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -41,10 +40,10 @@ export const useUserStore = defineStore('user', {
          * User authentication. If user login is valid but the account is otherwise invalidated,
          * instead return info the Login screen.
          */
-        async login(user: Login): Promise<ErrorMessage | null> {
+        async login(user: Login): Promise<string | null> {
             await axios.get('/sanctum/csrf-cookie');
+            // @ts-ignore
             const {data} = await axios.post('/login', user);
-            if (data.invalid) return data.message;
             this.setUser(data.user);
             const friendStore = useFriendStore();
             friendStore.friends = data.user.friends;
@@ -75,7 +74,7 @@ export const useUserStore = defineStore('user', {
         },
         async confirmRegister(user: NewUser) {
             const {data} = await axios.post('/register/confirm', user);
-            this.setUser(data.user);
+            this.setUser(data.data.user);
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             router.push('/').catch(() => {});
         },
@@ -101,17 +100,17 @@ export const useUserStore = defineStore('user', {
         },
         async updateEmail(email: string) {
             const {data} = await axios.put('/user/settings/email', email);
-            this.setUser(data.user);
+            this.setUser(data.data.user);
         },
         async updateSettings(settings: ProfileSettings) {
             const {data} = await axios.put('/user/settings', settings);
-            this.setUser(data.user);
+            this.setUser(data.data.user);
         },
         async changeRewardType(change: ChangeReward) {
             const {data} = await axios.put('/user/settings/rewards', change);
-            this.setUser(data.user);
+            this.setUser(data.data.user);
             const rewardStore = useRewardStore();
-            rewardStore.rewardObj = data.activeReward;
+            rewardStore.rewardObj = data.data.activeReward;
         },
 
         async searchUser(searchValue: UserSearch): Promise<User[]> {
@@ -136,7 +135,7 @@ export const useUserStore = defineStore('user', {
 
         async unblockUser(blocklistId: number) {
             const {data} = await axios.put(`/user/${blocklistId}/unblock`);
-            return data.blockedUsers;
+            return data.data.blockedUsers;
         },
 
         async resetPassword(email: {email: string}) {

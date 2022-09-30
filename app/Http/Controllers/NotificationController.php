@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\NotificationHandler;
+use App\Helpers\ResponseWrapper;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class NotificationController extends Controller
     public function show(): JsonResponse
     {
         $resource = $this->getSortedNotificationsResource();
-        return new JsonResponse(['data' => $resource], Response::HTTP_OK);
+        return new JsonResponse(['data' => $resource]);
     }
 
     private function getSortedNotificationsResource()
@@ -52,13 +53,10 @@ class NotificationController extends Controller
             $notification->delete();
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
             $resource = $this->getSortedNotificationsResource();
-            return new JsonResponse([
-                'message' => ['success' => 'Notification deleted.'],
-                'data' => $resource
-            ], Response::HTTP_OK);
+            return ResponseWrapper::successResponse('Notification deleted.', ['notifications' => $resource]);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
-            return new JsonResponse(['message' => 'You are not authorized to do this.'], Response::HTTP_FORBIDDEN);
+            return ResponseWrapper::forbiddenResponse('You are not authorized to do this.');
         }
     }
 
@@ -97,7 +95,7 @@ class NotificationController extends Controller
         foreach (User::lazy() as $user) {
             NotificationHandler::createFromAdminDashboard($user->id, $validated['title'], $validated['text'], $validated['link'] ?? null, $validated['link_text'] ?? null);
         }
-        return new JsonResponse(['message' => ['success' => 'Notification sent.']]);
+        return ResponseWrapper::successResponse('Notification sent.');
     }
 
     /**
@@ -112,6 +110,6 @@ class NotificationController extends Controller
         $notification->link_active = false;
         $notification->save();
         $resource = $this->getSortedNotificationsResource();
-        return new JsonResponse(['data' => $resource], Response::HTTP_OK);
+        return new JsonResponse(['data' => $resource]);
     }
 }

@@ -10,7 +10,7 @@
             <div class="card mb-3">
                 <div class="card-header">{{ $t('explanation-tasks-header') }}</div>
                 <div class="card-body">
-                    <TaskList :taskList="dummyList" class="task-list mt-2" />
+                    <TaskList :taskList="dummyList" class="task-list" />
                     <div class="card-text">
                         <p>{{ $t('explanation-tasks') }}</p>
                     </div>

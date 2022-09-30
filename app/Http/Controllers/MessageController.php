@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -14,7 +15,6 @@ use App\Http\Requests\SendMessageRequest;
 use App\Models\BlockedUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -31,7 +31,7 @@ class MessageController extends Controller
         /** @var User */
         $user = Auth::user();
         if ($user->isBlocked($request['recipient_id'])) {
-            return new JsonResponse(['message' => 'You are unable to send messages to this user.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('You are unable to send messages to this user.');
         }
         $validated = $request->validated();
         $validated['sender_id'] = $user->id;
@@ -44,7 +44,7 @@ class MessageController extends Controller
         $message->conversation->touch();
         ActionTrackingHandler::handleAction($request, 'STORE_MESSAGE', 'Sending message');
 
-        return new JsonResponse(['message' => ['success' => 'Message sent.']], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Message sent.');
     }
 
     private function getConversationId($user_id, $recipient_id)
@@ -83,7 +83,7 @@ class MessageController extends Controller
         $user = Auth::user();
         $this->makeMessageInvisibleToUser($message, $user->id);
         ActionTrackingHandler::handleAction($request, 'DELETE_MESSAGE', 'Deleting message');
-        return new JsonResponse(['message' => ['success' => 'Message deleted.']], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Message deleted.');
     }
 
     public function blockUser(Request $request, User $blockedUser)
@@ -102,7 +102,7 @@ class MessageController extends Controller
         if ($toDelete) $toDelete->delete();
 
         ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user ' . $blockedUser->username);
-        return new JsonResponse(['message' => ['success' => 'User blocked.']], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('User blocked.');
     }
 
     private function makeConversationInvisible($user, $blockedUser)

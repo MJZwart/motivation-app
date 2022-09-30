@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
 use App\Http\Resources\AchievementResource;
-use App\Http\Requests\NewAchievementRequest;
+use App\Http\Requests\StoreAchievementRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -16,14 +17,14 @@ class AchievementController extends Controller
      * Create a new achievement. Only available to admins.
      * Returns all available achievements
      */
-    public function store(NewAchievementRequest $request)
+    public function store(StoreAchievementRequest $request)
     {
         $validated = $request->validated();
         $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
         Achievement::create($validated);
         ActionTrackingHandler::handleAction($request, 'STORE_ACHIEVEMENT', 'Created new achievement: ' . $validated['name']);
 
-        return new JsonResponse(['message' => ['success' => "Achievement added."], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Achievement added.', ['achievements' => AchievementResource::collection(Achievement::get())]);
     }
 
     /**
@@ -46,14 +47,14 @@ class AchievementController extends Controller
      * Update an existing achievement. Only available to admins.
      * Returns all available achievements
      */
-    public function update(NewAchievementRequest $request, Achievement $achievement)
+    public function update(StoreAchievementRequest $request, Achievement $achievement)
     {
         $validated = $request->validated();
         $validated['trigger_description'] = $this->parseTrigger($validated['trigger_amount'], $validated['trigger_type']);
         $achievement->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_ACHIEVEMENT', 'Updated achievement: ' . $validated['name']);
 
-        return new JsonResponse(['message' => ['success' => "Achievement updated."], 'achievements' => AchievementResource::collection(Achievement::get())], Response::HTTP_OK);
+        return ResponseWrapper::successResponse("Achievement updated.", ['achievements' => AchievementResource::collection(Achievement::get())]);
     }
 
     public function destroy(Achievement $achievement)

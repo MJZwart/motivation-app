@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
@@ -35,15 +36,12 @@ class AuthenticationController extends Controller
             }
             $request->session()->regenerate();
             ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in ' . $request['username']);
-            /** @var User */
-            $user = Auth::user();
             $user->last_login = Carbon::now();
             $user->save();
             return new JsonResponse(['user' => new UserResource($user)]);
         }
-        $errorMessage = 'Username or password is incorrect.';
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in ' . $request['username'], 'Invalid login');
-        return new JsonResponse(['message' => $errorMessage, 'errors' => ['error' => [$errorMessage]]], Response::HTTP_UNPROCESSABLE_ENTITY);
+        return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 
     private function handleBannedUser(User $user, Request $request)
@@ -53,12 +51,8 @@ class AuthenticationController extends Controller
         $bannedUntilDate = $user->banned_until;
         $reason = $user->bannedUser->first()->reason;
         $errorMessage = 'You are banned until %s. Reason: %s If you wish to dispute your ban, contact one of the admins on our Discord. Time remaining: %s.';
-        return new JsonResponse([
-            'message' => [
-                'error' => sprintf($errorMessage, $bannedUntilDate, $reason, $timeRemaining)
-            ],
-            'invalid' => true
-        ]);
+        $parsedMessage = sprintf($errorMessage, $bannedUntilDate, $reason, $timeRemaining);
+        return ResponseWrapper::errorResponse($parsedMessage, ['invalid' => true]);
     }
 
     /**
@@ -79,9 +73,9 @@ class AuthenticationController extends Controller
         $status = Password::sendResetLink($validated);
 
         if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
-            return new JsonResponse(['message' => ['success' => 'Success, if an account with this e-mail exists, we have sent you an e-mail with the link to reset your password. Check your spam folder if you cannot find our email.']], Response::HTTP_OK);
+            return ResponseWrapper::successResponse('Success, if an account with this e-mail exists, we have sent you an e-mail with the link to reset your password. Check your spam folder if you cannot find our email.');
         else
-            return new JsonResponse(['message' => 'Something went wrong. Try again later or contact an admin.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('Something went wrong. Try again later or contact an admin.');
     }
 
     public function resetPassword(ResetPasswordRequest $request)
@@ -101,12 +95,12 @@ class AuthenticationController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET)
-            return new JsonResponse(['message' => ['success' => 'Password changed. Login with your new password']], Response::HTTP_OK);
+            return ResponseWrapper::successResponse('Password changed. Login with your new password');
         else if ($status === Password::INVALID_TOKEN)
-            return new JsonResponse(['message' => 'Invalid token. Please revisit the original link from your email and try again.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('Invalid token. Please revisit the original link from your email and try again.');
         else if ($status === Password::INVALID_USER)
-            return new JsonResponse(['message' => 'Invalid user. Check your e-mailaddress and try again.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('Invalid user. Check your e-mailaddress and try again.');
         else
-            return new JsonResponse(['message' => 'Something went wrong. Try again later or contact an admin.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ResponseWrapper::errorResponse('Something went wrong. Try again later or contact an admin.');
     }
 }

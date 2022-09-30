@@ -1,6 +1,6 @@
-// import {createVuePlugin} from 'vite-plugin-vue2';
-import ViteRequireContext from '@originjs/vite-plugin-require-context'
-import vue from '@vitejs/plugin-vue'
+import ViteRequireContext from '@originjs/vite-plugin-require-context';
+// @ts-ignore
+import vue from '@vitejs/plugin-vue';
 
 import {defineConfig} from 'vite';
 

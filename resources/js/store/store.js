@@ -20,20 +20,6 @@ export const useMainStore = defineStore('main', {
         setErrorMessages(errorMessages) {
             this.errors = errorMessages;
         },
-        /**
-         * Send a toast by calling:
-         * useMainStore.addToast(toastObject)
-         * where 'response.data.message' is an object with one or multiple messages.
-         * In the JsonResponse, name the message key 'success', 'danger' or 'info'
-         * to get corresponding themes and titles.
-         * @param {import('resources/types/toast.js').Toast} toast
-         */
-        addToast(toast) {
-            this.toasts.push(toast);
-        },
-        clearToast() {
-            this.toasts.splice(0, 1);
-        },
         clearErrors() {
             this.errors = {};
         },
