@@ -142,11 +142,11 @@ Cypress.Commands.add('login', (visit = '/') => {
                 // }
                 cy.wait(500);
                 cy.url().then(url => {
-                    if (url.includes('login')) {
-                        cy.task('setUserData', {fail3: true});
+                    if (url !== 'http://localhost:8000/dashboard') {
+                        login();
                     }
                 });
-                cy.url().should('not.contain', 'login');
+                cy.url().should('contain', 'dashboard');
             // });
         });
 });
