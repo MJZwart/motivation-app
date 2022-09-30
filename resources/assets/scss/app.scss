@@ -3,6 +3,7 @@
 @import './spacing';
 @import './fonts.css';
 @import './flexbox.scss';
+@import './animations.scss';
 // @import '../../../node_modules/bootstrap/scss/bootstrap';
 // @import '../../../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -38,6 +39,10 @@ p {
 }
 label {
     font-family: $bold-font;
+}
+.header {
+    font-family: $bold-font;
+    display: block;
 }
 
 .content-block {
@@ -219,6 +224,7 @@ button:disabled {
 @media (max-width: 450px) {
     .tab-content.col-10 {
         max-width: 100%;
+        flex: 0 0 99%;
         padding: 0;
     }
 }

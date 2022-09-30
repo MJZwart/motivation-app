@@ -323,8 +323,5 @@ function currentlyBanned(user: UserToBan) {
 .col.fg-1{
     flex-grow: 1 !important;
 }
-.header {
-    font-family: $bold-font;
-    display: block;
-}
+
 </style>
