@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use App\Models\BugReport;
 use App\Http\Requests\StoreBugReportRequest;
 use App\Http\Requests\UpdateBugReportRequest;
@@ -21,7 +22,7 @@ class BugReportController extends Controller
         BugReport::create($validated);
         ActionTrackingHandler::handleAction($request, 'STORE_BUG_REPORT', 'Bug report stored: ' . $validated['title']);
 
-        return new JsonResponse(['message' => ['success' => 'Bug report successfully created.']], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Bug report successfully created.');
     }
 
     public function update(UpdateBugReportRequest $request, $id): JsonResponse
@@ -33,6 +34,6 @@ class BugReportController extends Controller
         $return = BugReportResource::collection(BugReport::all());
         ActionTrackingHandler::handleAction($request, 'UPDATE_BUG_REPORT', 'Bug report updated: ' . $validated['title']);
 
-        return new JsonResponse(['message' => ['success' => "Bug Report updated."], 'data' => $return], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Bug Report updated.', ['bugReports' => $return]);
     }
 }

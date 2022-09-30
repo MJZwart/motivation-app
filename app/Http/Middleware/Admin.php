@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\ResponseWrapper;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class Admin
         if (Auth::user()->admin) {
             return $next($request);
         } else {
-            return new JsonResponse(['message' => ['danger' => ['You are not authorized to do this.']]], Response::HTTP_FORBIDDEN);
+            return ResponseWrapper::forbiddenResponse('You are not authorized to do this.');
         };
     }
 }

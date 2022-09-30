@@ -9,12 +9,7 @@
 
 <script setup>
 import Toast from '/js/components/global/Toast.vue';
-import {computed} from 'vue';
-
-import {useMainStore} from '/js/store/store';
-const mainStore = useMainStore();
-
-const toasts = computed(() => mainStore.toasts);
+import {toasts} from '/js/services/toastService';
 </script>
 
 <style lang="scss" scoped>
