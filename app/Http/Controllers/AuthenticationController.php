@@ -21,24 +21,6 @@ use Illuminate\Support\Str;
 
 class AuthenticationController extends Controller
 {
-
-    public function me(): JsonResponse
-    {
-        // dd(Auth::user()->auth);
-        error_log(Auth::check());
-        error_log(Auth::hasUser());
-        $user = Auth::user();
-        dd($user);
-        if ($user) {
-            return $user;
-        } else {
-            return new JsonResponse(null, Response::HTTP_UNAUTHORIZED);
-        }
-        return new JsonResponse(([
-            'user' => new UserResource(Auth::user())
-        ]));
-    }
-
     /**
      * Check login credentials. Logs the user in, regenerates a session.
      */

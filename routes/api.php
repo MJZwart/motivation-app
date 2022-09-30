@@ -51,7 +51,6 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['middleware' => ['valid-auth']], function () {
-    Route::get('/me', [AuthenticationController::class, 'me']);
     Route::resource('/tasks', TaskController::class)->only([
         'store', 'show', 'update', 'destroy'
     ]);
