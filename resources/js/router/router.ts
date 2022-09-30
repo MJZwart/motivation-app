@@ -5,13 +5,12 @@ import {useMessageStore} from '../store/messageStore';
 import {useUserStore} from '../store/userStore';
 // import Test from '../pages/Test.vue';
 import {routes} from './routes';
-
+import {errorToast} from '/js/services/toastService';
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
 });
-
 
 // eslint-disable-next-line complexity
 router.beforeEach((to, from, next) => {
@@ -40,7 +39,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (to.meta && to.meta.requiresAdmin && !userStore.isAdmin) {
-        mainStore.addToast({'error': 'You are not authorized to view this page'});
+        errorToast('You are not authorized to view this page');
         return next({path: '/dashboard'});
     }
     

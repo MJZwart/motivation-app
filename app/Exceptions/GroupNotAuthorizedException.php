@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\ResponseWrapper;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -17,6 +18,6 @@ class GroupNotAuthorizedException extends Exception
      */
     public function render(): JsonResponse
     {
-        return new JsonResponse(['message' => 'You are not authorized to perform this group action.'], $this->responseCode);
+        return ResponseWrapper::errorResponse('You are not authorized to perform this group action.');
     }
 }

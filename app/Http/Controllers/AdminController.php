@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use App\Http\Requests\BanUserRequest;
 use App\Http\Requests\EditUserBanRequest;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
 use App\Http\Requests\StoreNewLevelRequest;
-use Illuminate\Http\Request;
 use App\Models\Achievement;
 use App\Models\AchievementTrigger;
 use App\Http\Resources\AchievementResource;
@@ -19,13 +19,11 @@ use App\Models\ReportedUser;
 use App\Models\Conversation;
 use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
-use App\Http\Resources\ReportedUserResource;
 use App\Http\Resources\AdminConversationResource;
 use App\Http\Resources\BannedUserResource;
 use App\Models\BannedUser;
 use Carbon\Carbon;
 use App\Http\Resources\FeedbackResource;
-use App\Http\Resources\ReportedUserCollection;
 use App\Http\Resources\UserReportResource;
 use App\Models\Feedback;
 use App\Models\Notification;
@@ -80,10 +78,7 @@ class AdminController extends Controller
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
         $experiencePoints = ExperiencePoint::get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
-        return new JsonResponse(
-            ['message' => ['success' => 'Experience points updated'], 'data' => $experiencePoints],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('Experience points updated', ['experience_points' => $experiencePoints]);
     }
 
     public function addNewLevel(StoreNewLevelRequest $request)
@@ -92,10 +87,7 @@ class AdminController extends Controller
         ExperiencePoint::insert($validated);
         $experiencePoints = ExperiencePoint::get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
-        return new JsonResponse(
-            ['message' => ['success' => 'Level added'], 'data' => $experiencePoints],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('Level added', ['experience_points' => $experiencePoints]);
     }
 
     public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
@@ -104,10 +96,7 @@ class AdminController extends Controller
         DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level']);
         $characterExpGain = DB::table('character_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
-        return new JsonResponse(
-            ['message' => ['success' => 'Character experience balancing updated'], 'data' => $characterExpGain],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('Character experience balancing updated', ['data' => $characterExpGain]);
     }
 
     public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
@@ -116,10 +105,7 @@ class AdminController extends Controller
         DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level']);
         $villageExpGain = DB::table('village_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
-        return new JsonResponse(
-            ['message' => ['success' => 'Village experience balancing updated'], 'data' => $villageExpGain],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('Village experience balancing updated', ['data' => $villageExpGain]);
     }
 
     public function getConversationById($id)
@@ -160,14 +146,7 @@ class AdminController extends Controller
         }
         $bannedUsers = BannedUserResource::collection(BannedUser::get());
 
-        return new JsonResponse(
-            [
-                'message' => ['success' => 'User banned until ' . $bannedUntilTime],
-                'reported_users' => $reportedUsers,
-                'banned_users' => $bannedUsers
-            ],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('User banned until ' . $bannedUntilTime, ['reported_users' => $reportedUsers, 'banned_users' => $bannedUsers]);
     }
 
     /**
@@ -234,12 +213,9 @@ class AdminController extends Controller
     {
         $feedback->archived = !$feedback->archived;
         $feedback->save();
-        return new JsonResponse(
-            [
-                'message' => ['success' => $feedback->archived ? 'Feedback archived' : 'Feedback unarchived'],
-                'feedback' => FeedbackResource::collection(Feedback::get())
-            ],
-            Response::HTTP_OK
+        return ResponseWrapper::successResponse(
+            $feedback->archived ? 'Feedback archived' : 'Feedback unarchived',
+            ['feedback' => FeedbackResource::collection(Feedback::get())]
         );
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StrippedUserResource;
@@ -23,7 +24,6 @@ use App\Models\BlockedUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -35,7 +35,7 @@ class UserController extends Controller
         /** @var User */
         $activeUser = Auth::user();
         if ($activeUser->isBlocked($user->id)) {
-            return new JsonResponse(['message' => ['error' => 'Unable to view this user\'s profile.', Response::HTTP_UNPROCESSABLE_ENTITY]]);
+            return ResponseWrapper::errorResponse('Unable to view this user\'s profile.');
         }
         return new UserProfileResource($user);
     }
@@ -55,7 +55,7 @@ class UserController extends Controller
     public function isAdmin()
     {
         if (!Auth::user()->admin) {
-            return new JsonResponse(['message' => "You are not admin."], Response::HTTP_UNAUTHORIZED);
+            return ResponseWrapper::forbiddenResponse("You are not admin.");
         }
     }
 
@@ -73,7 +73,7 @@ class UserController extends Controller
         //Invalidate old e-mail
         //Send new e-mail confirmation
         //Update new e-mail, unconfirmed
-        return new JsonResponse(['message' => ['success' => 'Your email has been changed.'], 'user' => new UserResource(Auth::user())], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Your email has been changed.', ['user' => new UserResource(Auth::user())]);
     }
 
     /**
@@ -88,7 +88,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating password');
-        return new JsonResponse(['message' => ['success' => 'Your password has been updated. Please log in using your new password.']], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Your password has been updated. Please log in using your new password.');
     }
 
     /**
@@ -102,13 +102,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating settings');
-        return new JsonResponse(
-            [
-                'message' => ['success' => 'Your settings have been changed.'],
-                'user' => new UserResource(Auth::user())
-            ],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('Your settings have been changed.', ['user' => new UserResource(Auth::user())]);
     }
 
     /**
@@ -131,14 +125,7 @@ class UserController extends Controller
             $request['rewards']
         );
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating rewards type');
-        return new JsonResponse(
-            [
-                'message' => ['success' => 'Your rewards type has been changed.'],
-                'user' => new UserResource($user),
-                'activeReward' => $activeReward
-            ],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse('Your rewards type has been changed.', ['user' => new UserResource($user), 'activeReward' => $activeReward]);
     }
 
     /**
@@ -179,7 +166,7 @@ class UserController extends Controller
         $validated['reported_by_user_id'] = Auth::user()->id;
         ReportedUser::create($validated);
         ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: ' . $user->username);
-        return new JsonResponse(['message' => ['success' => 'User reported']]);
+        return ResponseWrapper::successResponse('User reported');
     }
 
     public function getBlocklist()
@@ -192,6 +179,6 @@ class UserController extends Controller
     {
         $blockedUser->delete();
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
-        return new JsonResponse(['message' => ['success' => 'User has been unblocked'], 'blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
+        return ResponseWrapper::successResponse('User has been unblocked', ['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
 }

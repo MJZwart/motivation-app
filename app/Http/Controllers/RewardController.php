@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +21,7 @@ class RewardController extends Controller
     {
         $activeReward = RewardObjectHandler::updateActiveReward($request['rewardType'], $request['id'], $request['name']);
         ActionTrackingHandler::handleAction($request, 'UPDATE_INSTANCE', 'Updating ' . $request['rewardType'] . ' with new name ' . $request['name']);
-        return new JsonResponse([
-            'message' => ['success' => 'You have changed the name.'],
-            'rewardObj' => $activeReward
-        ]);
+        return ResponseWrapper::successResponse('You have changed the name.');
     }
 
     /**
@@ -63,13 +61,13 @@ class RewardController extends Controller
         if ($request['rewardType'] != $user->rewards)
             $user->update(['rewards' => $request['rewardType']]);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating reward type to ' . $request['rewardType']);
-        return new JsonResponse(['message' => ['success' => 'You have activated ' . $request['name']], 'user' => new UserResource(Auth::user())]);
+        return ResponseWrapper::successResponse('You have activated ' . $request['name'], ['user' => new UserResource(Auth::user())]);
     }
 
     public function deleteInstance(Request $request)
     {
         RewardObjectHandler::deleteRewardObject($request['rewardType'], $request['id']);
         ActionTrackingHandler::handleAction($request, 'DELETE_INSTANCE', 'Deleting ' . $request['rewardType'] . ' ' . $request['id']);
-        return new JsonResponse(['message' => ['success' => 'You have deleted ' . $request['name']]]);
+        return ResponseWrapper::successResponse('You have deleted ' . $request['name']);
     }
 }

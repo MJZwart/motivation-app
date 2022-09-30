@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use App\Models\TaskList;
 use App\Models\Task;
 use App\Http\Resources\TaskListResource;
@@ -11,7 +12,6 @@ use App\Http\Requests\UpdateTaskListRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class TaskListController extends Controller
 {
@@ -28,7 +28,7 @@ class TaskListController extends Controller
         ActionTrackingHandler::handleAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return new JsonResponse(['message' => ['success' => 'Task list successfully created.'], 'data' => $taskLists], Response::HTTP_OK);
+        return ResponseWrapper::successResponse('Task list successfully created.', $taskLists);
     }
 
     /**
@@ -43,7 +43,7 @@ class TaskListController extends Controller
         ActionTrackingHandler::handleAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return new JsonResponse(['message' => ['success' => "Task list updated."], 'data' => $taskLists], Response::HTTP_OK);
+        return ResponseWrapper::successResponse("Task list updated.", $taskLists);
     }
 
     /**
@@ -58,10 +58,10 @@ class TaskListController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name);
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return new JsonResponse(['message' => ['success' => "Task list deleted."], 'data' => $taskLists], Response::HTTP_OK);
+            return ResponseWrapper::successResponse("Task list deleted.", $taskLists);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name, 'Not authorized');
-            return new JsonResponse(['message' => "You are not authorized to delete this task list"], Response::HTTP_FORBIDDEN);
+            return ResponseWrapper::forbiddenResponse("You are not authorized to delete this task list");
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\ResponseWrapper;
 use App\Http\Requests\StoreFeedbackRequest;
 use App\Models\Feedback;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +16,6 @@ class FeedbackController extends Controller
         $validated = $request->validated();
         Feedback::create($validated);
         ActionTrackingHandler::handleAction($request, 'FEEDBACK', 'Feedback sent');
-        return new JsonResponse(['message' => ['success' => 'Thank you for your feedback. We will contact you if we have any further questions or remarks.']]);
+        return ResponseWrapper::successResponse('Thank you for your feedback. We will contact you if we have any further questions or remarks.');
     }
 }
