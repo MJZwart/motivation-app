@@ -113,3 +113,8 @@ export type ResetPassword = {
     password_confirmation: string;
     token: string;
 };
+
+// export type UserWithBansAndReports = User & {
+//     reports: UserReport[],
+//     banned: 
+// }
