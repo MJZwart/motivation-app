@@ -1,10 +1,7 @@
-import {TEST_USER_1, TEST_USER_2} from '../../support/commands';
+import {TEST_USER_1, TEST_USER_2, getRandomString} from '../../support/commands';
 
 describe('Groups', () => {
-    
-    function getRandomString(length = 5) {
-        return Math.random().toString(36).substring(2, length + 2);
-    }
+
     const publicGroupName = getRandomString();
     const groupWithApplicationName1 = getRandomString();
     const groupWithApplicationName2 = getRandomString();
@@ -12,13 +9,31 @@ describe('Groups', () => {
     const user1 = TEST_USER_1;
     const user2 = TEST_USER_2;
 
+    function loginUser1() {
+        cy.login(user1.username, user1.password);
+    }
+    function loginUser2() {
+        cy.login(user2.username, user2.password);
+    }
 
-    //User 1
-    //Create group public                   publicGroupName
-    //Edit group name                       publicGroupName (change back)
-    //Create group public                   groupWithApplicationName1
-    //Edit group to require application     groupWithApplicationName1
-    //Create group requires application     groupWithApplicationName2
+    describe('User 1 can create groups', () => {
+        it('can create groups', () => {
+            loginUser1();
+
+            cy.get('a').contains('Social').click();
+            cy.get('button').contains('Create new group').click();
+
+            cy.get('#name').type(publicGroupName);
+            cy.get('#description').type(getRandomString());
+            //User 1
+            //Create group public                   publicGroupName
+            //Edit group name                       publicGroupName (change back)
+            //Create group public                   groupWithApplicationName1
+            //Edit group to require application     groupWithApplicationName1
+            //Create group requires application     groupWithApplicationName2
+        });
+    });
+
 
     //User 2
     //Join a public group                   publicGroupName

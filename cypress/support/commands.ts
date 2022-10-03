@@ -56,6 +56,10 @@ export const TEST_USER_2 = {
     password: 'password',
 }
 
+export function getRandomString(length = 5) {
+    return Math.random().toString(36).substring(2, length + 2);
+}
+
 // function validateLogin(userData) {
 //     let cookie;
 //     if (userData.authCookie) {

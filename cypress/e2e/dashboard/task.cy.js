@@ -1,9 +1,11 @@
+import {getRandomString} from '../../support/commands';
+
 describe('Tasks', () => {
     beforeEach(() => {
         cy.login();
     });
-    const testTask = Math.random().toString(36).substring(2,7);
-    const testDescription = Math.random().toString(36).substring(2,7);
+    const testTask = getRandomString();
+    const testDescription = getRandomString();
 
     describe('Check that you can create a task', () => {
         it('can create a new task', () => {
@@ -46,11 +48,11 @@ describe('Tasks', () => {
         });
     });
 
-    const testTaskList = Math.random().toString(36).substring(2,7);
-    const testTaskListEdit = Math.random().toString(36).substring(2,7);
-    const testTaskListWithTask = Math.random().toString(36).substring(2,7);
-    const taskListToDelete = Math.random().toString(36).substring(2,7);
-    const testTask1 = Math.random().toString(36).substring(2,7);
+    const testTaskList = getRandomString();
+    const testTaskListEdit = getRandomString();
+    const testTaskListWithTask = getRandomString();
+    const taskListToDelete = getRandomString();
+    const testTask1 = getRandomString();
 
     describe('Check that you can manage task lists', () => {
         //No task list exists within the test scope
