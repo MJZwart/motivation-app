@@ -80,13 +80,13 @@ let userData = {
 //         });
 // }
 
-function login() {
+function login(username: string, password: string) {
     cy.session('testUser', () => {
         cy.intercept('/api/login').as('apiLogin');
         cy.intercept('/api/sanctum/csrf-cookie').as('csrfCookie');
         cy.visit('/login');
-        cy.get('#username').type('test');
-        cy.get('#password').type('password');
+        cy.get('#username').type(username);
+        cy.get('#password').type(password);
         cy.get('#login-button').click();
         // cy.wait('csrfCookie').then(intercept => {
         //     let response = intercept.response;
@@ -106,7 +106,7 @@ function login() {
     cy.visit('/');
 }
 
-Cypress.Commands.add('login', (visit = '/') => {
+Cypress.Commands.add('login', (username = 'test', password = 'password') => {
     let cookies = [];
     // Get the stored userdata
     cy.task('getUserData')
@@ -138,15 +138,14 @@ Cypress.Commands.add('login', (visit = '/') => {
         .then(() => {
             // validateLogin(userData).then(valid => {
             //     if (valid === false) {
-                    login();
+                    login(username, password);
                 // }
                 cy.wait(500);
                 cy.url().then(url => {
                     if (url !== 'http://localhost:8000/dashboard') {
-                        login();
+                        login(username, password);
                     }
                 });
-                cy.url().should('contain', 'dashboard');
             // });
         });
 });
