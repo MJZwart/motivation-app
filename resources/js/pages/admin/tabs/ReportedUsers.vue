@@ -115,6 +115,7 @@
                             <span class="col header">{{ $t('date') }}</span>
                             <span class="col header">{{ $t('reported-by') }}</span>
                             <span class="col fg-1 header">{{ $t('conversation') }}</span>
+                            <span class="col fg-1 header">{{ $t('actions')}}</span>
                         </div>
                         <template v-for="(report, index) in user.reports" :key="index">
                             <div class="row">
@@ -143,6 +144,14 @@
                                     <div v-else>
                                         {{ $t('no')}}
                                     </div>
+                                </div>
+                                <div class="col fg-1">
+                                    <Tooltip :text="$t('close-report')">
+                                        <FaIcon 
+                                            icon="trash"
+                                            class="icon"
+                                            @click="closeReport()" />
+                                    </Tooltip>
                                 </div>
                             </div>
                         </template>
