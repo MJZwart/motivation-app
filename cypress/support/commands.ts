@@ -47,6 +47,15 @@ let userData = {
     fail3: false,
 }
 
+export const TEST_USER_1 = {
+    username: 'cyptest1',
+    password: 'password',
+}
+export const TEST_USER_2 = {
+    username: 'cyptest2',
+    password: 'password',
+}
+
 // function validateLogin(userData) {
 //     let cookie;
 //     if (userData.authCookie) {
