@@ -6,27 +6,29 @@
                 <h4 class="block">{{ $t('invite-friends') }}</h4>
                 <div class="invite-friends-content">
                     <template v-for="(friend, index) in friends" :key="index">
-                        <span 
-                            class="invite-friends-action clickable" 
-                            :class="{disabled: canNotInvite(friend.id)}" 
-                            @click="inviteUser(friend.id)">
+                        <span
+                            class="invite-friends-action clickable"
+                            :class="{disabled: canNotInvite(friend.id)}"
+                            @click="inviteUser(friend.id)"
+                        >
                             {{ $t('invite') }}
                         </span>
-                        <span class="invite-friends-username">{{friend.username}}</span>
+                        <span class="invite-friends-username">{{ friend.username }}</span>
                         <br />
                     </template>
                 </div>
             </div>
             <div id="invite-users-box">
-                
                 <h4>{{ $t('search-by-username') }}</h4>
                 <!-- The search bar -->
                 <form class="navbar-search mb-3" @submit.prevent>
-                    <input 
-                        v-model="searchData.userSearch" 
-                        type="search" 
-                        :placeholder="$t('search-user')" 
-                        aria-label="Search user" />
+                    <input
+                        id="search-users"
+                        v-model="searchData.userSearch"
+                        type="search"
+                        :placeholder="$t('search-user')"
+                        aria-label="Search user"
+                    />
                     <button type="submit" @click="searchUser">{{ $t('search') }}</button>
                 </form>
 
@@ -36,16 +38,21 @@
                     <Table
                         :items="searchResults"
                         :fields="searchResultsFields"
-                        :options="['table-sm', 'table-striped', 'table-hover']">
+                        :options="['table-sm', 'table-striped', 'table-hover']"
+                    >
                         <template #username="item">
-                            <router-link :to="{ name: 'profile', params: { id: item.item.id}}">
-                                {{item.item.username}}
+                            <router-link :to="{name: 'profile', params: {id: item.item.id}}">
+                                {{ item.item.username }}
                             </router-link>
                         </template>
                         <template #actions="item">
-                            <span 
+                            <span
                                 :class="{disabled: canNotInvite(item.item.id)}"
-                                class="clickable" @click="inviteUser(item.item.id)">{{ $t('invite') }}</span>
+                                class="clickable"
+                                @click="inviteUser(item.item.id)"
+                            >
+                                {{ $t('invite') }}
+                            </span>
                         </template>
                     </Table>
                 </div>
@@ -73,7 +80,7 @@ const searchResultsFields = SEARCH_RESULTS_FIELDS;
 
 const loading = ref(true);
 
-onMounted(async() => {
+onMounted(async () => {
     loading.value = true;
     await friendStore.getFriends();
     if (group.value !== null) {
@@ -102,7 +109,7 @@ async function inviteUser(userId: number) {
     const invite = {
         user_id: userId,
         group_id: group.value.id,
-    }
+    };
     await groupStore.inviteUser(invite);
     groupMemberIds.value = group.value.members.map(member => member.id);
     loading.value = false;
@@ -120,7 +127,7 @@ function isMember(userId: number) {
     return groupMemberIds.value.includes(userId);
 }
 
-/** 
+/**
  * Checks if the user is either already a member or has already been invited. If either are true, the
  * user cannot be invited.
  */
@@ -154,7 +161,8 @@ function canNotInvite(userId: number) {
 .invite-friends-action {
     margin-right: 1rem;
 }
-.invite-friends-action.disabled, span.disabled {
+.invite-friends-action.disabled,
+span.disabled {
     text-decoration: line-through;
 }
 </style>

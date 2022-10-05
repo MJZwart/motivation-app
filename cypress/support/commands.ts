@@ -94,7 +94,7 @@ export function getRandomString(length = 5) {
 // }
 
 function login(username: string, password: string) {
-    cy.session('testUser', () => {
+    cy.session([username, password], () => {
         cy.intercept('/api/login').as('apiLogin');
         cy.intercept('/api/sanctum/csrf-cookie').as('csrfCookie');
         cy.visit('/login');
