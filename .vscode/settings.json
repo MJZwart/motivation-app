@@ -5,7 +5,7 @@
     // Vue format settings
     "[vue]": {
         // For editors with multiple default vue formatters installed
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        // "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.codeActionsOnSave": {
             "source.fixAll": false,
             "source.fixAll.eslint": true
