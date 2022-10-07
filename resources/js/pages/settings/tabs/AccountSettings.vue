@@ -45,6 +45,11 @@
             />
             <button type="submit" class="block">{{ $t('update-email') }}</button>
         </form>
+
+        <hr />
+        
+        <h4>{{$t('language')}}</h4>
+        <ChangeLanguage class="large" />
     </div>
 </template>
 
@@ -52,6 +57,8 @@
 import {onMounted, ref, computed} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import type {PasswordSettings, EmailSettings} from 'resources/types/settings';
+import ChangeLanguage from '../../../components/global/ChangeLanguage.vue';
+
 const userStore = useUserStore();
 
 const user = computed(() => userStore.user);

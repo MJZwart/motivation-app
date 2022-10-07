@@ -1,0 +1,37 @@
+{
+    "manage-task-list": "Manage your task list",
+    "edit-task-tutorial":"Edit your task or task list. You can change the name of your task list or the details of your task at any time.",
+    "delete-task-tutorial": "Delete task or task list. If you have an active character or village, you will not gain any points towards their levels.",
+    "new-sub-task-tutorial": "Add new sub task. Use these to divide your bigger tasks up in smaller, bite-sized chunks. You can then finish each sub task separately or finish off the entire task in one go. Note that you will gain experience for these sub tasks as well, if you haven't already marked them as completed before.",
+    "complete-task-tutorial": "Complete your task. If you have an active character or village linked, you will gain experience points towards their levels.",
+
+    "stats-tutorial": "Here you find an overview of statistics related to your account, such as the amount of tasks completed, which repeatable task you've completed the most, etc.",
+
+    "achievements-tutorial": "Here you find an overview of the achievements you've earned. You can earn achievements by making and completing tasks, completing repeatable tasks and making friends. More to come in the future!",
+
+    "incoming-friend-requests-tutorial": "View and manage all incoming friend requests that people have sent you. Note: If you received a notification about a friend request, but don't see it here, it's likely that the other user cancelled their request, perhaps due to a misclick.",
+    "incoming-friend-accept-tutorial": "Do you wish to be friends with them? Click this button to accept.",
+    "incoming-friend-deny-tutorial": "Rather not be friends with them? Click this button to deny. The other user will not be notified.",
+
+    "outgoing-friend-requests-tutorial": "View and manage all outgoing friend requests here.",
+    "outgoing-friend-cancel-tutorial": "Changed your mind or sent a request by accident? Click this button to cancel the request. Keep in mind that sending a friend request has already notified the other user.",
+
+    "friends-tutorial": "Manage your friends here.",
+    "friends-remove-tutorial": "Remove this user as your friend. This will also take you off of their friend list.",
+    "friends-message-tutorial": "Message this user.",
+
+    "groups-tutorial": "This is where you can connect to other people through groups. Right now the options are limited, but there are plans to create more interactivity.",
+    "groups-make-tutorial": "You can create your own groups and manage them as you see fit, whether it's a public group or a more closed off private group. Private groups do not show up in any searches and require invites to join.",
+    "groups-join-tutorial": "Use the search function or look through the list of public groups to find a group that fits you. Some groups are open to join whenever, while others require approval by a group admin.",
+    "groups-manage-tutorial": "Group admins can manage the group and its users, and kick those who misbehave. They can also approve or deny any join requests a group may have.",
+
+    "blocklist-tutorial": "Here you can manage your blocklist. Blocked users cannot message you. Soon they will also be unable to send friend requests, or see your profile.",
+    "blocklist-unblock-tutorial": "Use this button to unblock this user.",
+
+    "village": "Village",
+    "character": "Character",
+    "village-tutorial": "This is where you can see the fruits of your labour. The tasks you complete will give you points towards your village, which improve your village over time. We are still working on creating a more interactive part of the site where you can do more with your village.",
+    "character-tutorial": "This is where you can see the fruits of your labour. The tasks you complete will give you points towards your character, which improve your character over time. We are still working on creating a more interactive part of the site where you can do more with your character.",
+
+    "": ""
+}

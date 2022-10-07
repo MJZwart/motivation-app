@@ -7,6 +7,10 @@
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"
+        />
         <link rel="manifest" href="/site.webmanifest">
         <base href=".">
         </script>
@@ -24,7 +28,7 @@
         @production
         <script type="module" src="/js/{{ $manifest['js/app.js']['file'] }}" type="text/html"></script>
         @else
-        <script type="module" src="http://localhost:3000/@vite/client"></script>
+        <script type="module" src="http://localhost:3000/@@vite/client"></script>
         <script type="module" src="http://localhost:3000/js/app.js"></script>
         @endproduction
     </body>

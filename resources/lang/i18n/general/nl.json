@@ -1,8 +1,8 @@
 {
     "app-name": "Questifyer",
     "faq": "F.A.Q.",
-    "footer-text": "Version {0} - MJ Black © 2022.",
-    "footer-disclaimer": "This is an alpha version. This website is unfinished and subject to major changes. Join our discord for updates and discuss your ideas for the site.",
+    "footer-text": "Versie {0} - MJ Black © 2022.",
+    "footer-disclaimer": "Dit is een vroege versie. This website is unfinished and subject to major changes. Join our discord for updates and discuss your ideas for the site.",
     "discord-link": "https://discord.gg/r3sjMDgyA2",
     "privacy-policy": "Privacy policy",
     "tos": "Terms of service",
@@ -111,14 +111,14 @@
     "welcome": "Welcome",
     "little-more": "Just a little more",
     "not-yet-done": "Hold up, you're not quite done yet.",
-    "home": "Home",
-    "overview": "Overview",
+    "home": "Dashboard",
+    "overview": "Overzicht",
     "friends": "Friends",
     "achievements": "Achievements",
     "admin": "Admin",
     "profile": "Profile",
     "go-to-profile": "Go to profile",
-    "logout": "Logout",
+    "logout": "Log uit",
     "yes": "Yes",
     "no": "No",
 
@@ -149,6 +149,6 @@
     "home-lc": "home",
     "bug-report-lc": "bug report",
 
-    "language": "Language",
-    "update-language": "Change language"
+    "language": "Taal",
+    "update-language": "Verander taal"
 }

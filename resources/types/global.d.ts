@@ -24,3 +24,9 @@ export type Item = {
 export type UserSearch = {
     userSearch: string,
 }
+
+export type LanguageOption = {
+    key: 'en' | 'nl',
+    label: string,
+    flag: string,
+}

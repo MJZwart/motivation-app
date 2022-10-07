@@ -1,0 +1,17 @@
+{
+    "message": "Message",
+    "messages": "Messages",
+    "send-message-placeholder": "Type your message",
+    "conversations": "Conversations",
+    "conversation-with": "Conversation with",
+    "last-message": "Last message",
+    "send-message": "Send message",
+    "send-reply": "Send reply",
+    "type-your-reply": "Type your reply",
+    "unread": "Unread",
+    "you": "You",
+    "confirmation-delete-message": "Are you sure you want to delete this message?",
+    "no-messages": "No messages found at this time. Maybe send a message to one of your friends first!",
+
+    "no-notifications": "No notifications at this time."
+}
