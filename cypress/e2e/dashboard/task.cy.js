@@ -1,4 +1,5 @@
 import {getRandomString} from '../../support/commands';
+import {deleteButton, completeTaskButton, editButton} from '../../support/constants';
 
 describe('Tasks', () => {
     beforeEach(() => {
@@ -21,7 +22,7 @@ describe('Tasks', () => {
         });
         it('can edit the newly created task', () => {
             //Get the test task and click the edit button
-            cy.contains(testTask).parent().find('.fa-pen-to-square').click();
+            cy.contains(testTask).parent().find(editButton).click();
             cy.wait(1);
             cy.get('h5').should('have.text', 'Edit task');
 
@@ -39,7 +40,7 @@ describe('Tasks', () => {
             //Fetch existing character to compare exp
             cy.contains('Experience:').invoke('text').then((currentExp) => {
                 //Completes the task
-                cy.contains(testTask).parent().find('.fa-square-check').click();
+                cy.contains(testTask).parent().find(completeTaskButton).click();
                 cy.wait(1000);
                 //Checks the experience to see it is higher
                 cy.contains('Experience:').invoke('text').should('not.eq', currentExp);
@@ -73,7 +74,7 @@ describe('Tasks', () => {
         });
         it('can edit the new task list', () => {
             //Find the newly made task list and click edit
-            cy.get('.task-list').contains(testTaskList).find('.fa-pen-to-square').click();
+            cy.get('.task-list').contains(testTaskList).find(editButton).click();
             cy.get('h5').should('have.text', 'Edit task list');
             
             //Adds on to the name and asserts that it has been edited
@@ -81,7 +82,7 @@ describe('Tasks', () => {
             cy.contains('Update task list').click();
             cy.wait(5000);
             //After asserting, delete the task list
-            cy.get('.task-list').last().should('contain.text', testTaskList + testTaskListEdit).find('.fa-trash').click();
+            cy.get('.task-list').last().should('contain.text', testTaskList + testTaskListEdit).find(deleteButton).click();
             cy.get('h5').should('have.text', 'Delete task list');
             cy.get('.block').contains('Delete task list').click();
         });
@@ -109,7 +110,7 @@ describe('Tasks', () => {
                     cy.get('.task-list').contains(testTaskListWithTask).parent().parent().should('contain.text', testTask1);
 
                     //Delete the task list and merge
-                    cy.get('.task-list').contains(testTaskListWithTask).find('.fa-trash').click();
+                    cy.get('.task-list').contains(testTaskListWithTask).find(deleteButton).click();
                     cy.get('h5').should('have.text', 'Delete task list');
                     cy.get('#deleteOption').select(1).should('contain.text', 'Merge with');
                     cy.get('.block').contains('Delete task list').click();
@@ -119,7 +120,7 @@ describe('Tasks', () => {
                     cy.get('.task-list').should('not.contain.text', testTaskListWithTask);
                     cy.get('.task-list').should('contain.text', testTask1);
                     //Delete the task for cleanup
-                    cy.contains(testTask1).parent().find('.fa-trash').click();
+                    cy.contains(testTask1).parent().find(deleteButton).click();
                     cy.get('.task-list').should('contain.text', testTask1);
                 });
             });
@@ -136,7 +137,7 @@ describe('Tasks', () => {
                 //Find the newly made task list and press delete
                 cy.get('.task-list').last().should('contain.text', taskListToDelete);
 
-                cy.get('.task-list').contains(taskListToDelete).find('.fa-trash').click();
+                cy.get('.task-list').contains(taskListToDelete).find(deleteButton).click();
                 cy.get('h5').should('have.text', 'Delete task list');
                 cy.get('.block').contains('Delete task list').click();
                 cy.on('window:confirm', () => true);

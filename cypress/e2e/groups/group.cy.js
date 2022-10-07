@@ -1,16 +1,11 @@
-import {TEST_USER_1, TEST_USER_2, getRandomString} from '../../support/commands';
+import {getRandomString} from '../../support/commands';
+import {user1, user2, viewGroupPageButton, kickRemoveButton, globalLongWait, globalShortWait} from '../../support/constants';
 
 describe('Groups', () => {
 
     const publicGroupName = getRandomString();
     const groupWithApplicationName1 = getRandomString();
     const groupWithApplicationName2 = getRandomString();
-
-    const globalLongWait = 3000;
-    const globalShortWait = 1000;
-
-    const user1 = TEST_USER_1;
-    const user2 = TEST_USER_2;
 
     function loginUser1() {
         cy.login(user1.username, user1.password);
@@ -26,6 +21,7 @@ describe('Groups', () => {
 
         cy.get('a').contains('Social').click();
         cy.wait('@getGroups');
+        cy.wait(globalShortWait);
     }
 
     function createNewGroup(groupName, groupDesc = getRandomString(), publicGroup = true, requiresApplication = false) {
@@ -39,6 +35,11 @@ describe('Groups', () => {
                 cy.get('#require-application-checkbox').click();
         }
         cy.get('#create-new-group').click();
+    }
+
+    function openGroupPage(groupName) {
+        cy.get('.content-block').contains(groupName).should('exist').parent().parent().find(viewGroupPageButton).click();
+        cy.wait(globalLongWait);
     }
 
     describe('User 1 can create groups', () => {
@@ -57,8 +58,7 @@ describe('Groups', () => {
             const desc = getRandomString();
             loginUser1();
 
-            cy.get('.content-block').contains(publicGroupName).should('exist').parent().parent().find('.fa-magnifying-glass').click();
-            cy.wait(globalLongWait);
+            openGroupPage(publicGroupName);
 
             //Edit group description                publicGroupName
             cy.get('button').contains('Manage group').click();
@@ -76,8 +76,7 @@ describe('Groups', () => {
             createNewGroup(groupWithApplicationName2, undefined, undefined, true);
 
             //Edit group to require application     groupWithApplicationName1
-            cy.get('.content-block').contains(groupWithApplicationName1).should('exist').parent().parent().find('.fa-magnifying-glass').click();
-            cy.wait(globalLongWait);
+            openGroupPage(groupWithApplicationName1);
 
             cy.get('button').contains('Manage group').click();
             cy.wait(globalLongWait);
@@ -95,12 +94,11 @@ describe('Groups', () => {
             cy.wait(globalLongWait);
 
             //Join a public group                   publicGroupName
-            cy.get('.content-block').contains(publicGroupName).should('exist').parent().parent().find('.fa-magnifying-glass').click();
-            cy.wait(globalLongWait);
+            openGroupPage(publicGroupName);
 
             cy.get('h2').should('have.text', publicGroupName);
             cy.get('button').contains('Join group').click();
-            cy.wait(2000);
+            cy.wait(globalLongWait);
 
             cy.get('.content-block').contains('Your rank').parent().should('contain.text', 'member');
 
@@ -111,8 +109,7 @@ describe('Groups', () => {
             cy.get('.tab-item').contains('All groups').click();
             cy.wait(globalLongWait);
 
-            cy.get('.content-block').contains(groupWithApplicationName1).should('exist').parent().parent().find('.fa-magnifying-glass').click();
-            cy.wait(globalLongWait);
+            openGroupPage(groupWithApplicationName1);
 
             cy.get('h2').should('have.text', groupWithApplicationName1);
             cy.get('button').contains('Request to join group').click();
@@ -126,8 +123,7 @@ describe('Groups', () => {
             cy.get('.tab-item').contains('All groups').click();
             cy.wait(globalLongWait);
 
-            cy.get('.content-block').contains(groupWithApplicationName2).should('exist').parent().parent().find('.fa-magnifying-glass').click();
-            cy.wait(globalLongWait);
+            openGroupPage(groupWithApplicationName2);
 
             cy.get('h2').should('have.text', groupWithApplicationName2);
             cy.get('button').contains('Request to join group').click();
@@ -140,29 +136,27 @@ describe('Groups', () => {
             //User 1
             loginUser1();
 
-            cy.get('.content-block').contains(groupWithApplicationName1).should('exist').parent().parent().find('.fa-magnifying-glass').click();
-            cy.wait(globalLongWait);
+            openGroupPage(groupWithApplicationName1);
 
             //Can see application                   groupWithApplicationName1/groupWithApplicationName2
             cy.get('button').contains('Manage applications').click();
             cy.wait(globalLongWait);
 
             //Can accept application                groupWithApplicationName1
-            cy.get('.modal-body').contains('cyptest2').should('exist').parent().get('button').contains('Accept').click();
+            cy.get('.modal-body').contains(user2.username).should('exist').parent().get('button').contains('Accept').click();
             cy.get('.modal-body').should('contain.text', 'No applications yet');
             cy.get('.close').click();
 
             goToGroupsPage();
             cy.wait(globalLongWait);
 
-            cy.get('.content-block').contains(groupWithApplicationName2).should('exist').parent().parent().find('.fa-magnifying-glass').click();
-            cy.wait(globalLongWait);
+            openGroupPage(groupWithApplicationName2);
 
             //Can reject application group 2        groupWithApplicationName2
             cy.get('button').contains('Manage applications').click();
             cy.wait(globalLongWait);
 
-            cy.get('.modal-body').contains('cyptest2').should('exist').parent().get('button').contains('Reject').click();
+            cy.get('.modal-body').contains(user2.username).should('exist').parent().get('button').contains('Reject').click();
             cy.get('.modal-body').should('contain.text', 'No applications yet');
             cy.get('.close').click();
 
@@ -170,11 +164,11 @@ describe('Groups', () => {
             //TODO add a friend through seeder and allow this part
             //Can send invite to a user             groupWithApplicationName2
             cy.get('button').contains('Invite users').click();
-            cy.get('#search-users').type('cyptest2');
+            cy.get('#search-users').type(user2.username);
             cy.get('button').contains('Search').click();
             cy.wait(globalLongWait);
 
-            cy.get('a').contains('cyptest2').should('exist').parent().parent().find('span').contains('Invite').click();
+            cy.get('a').contains(user2.username).should('exist').parent().parent().find('span').contains('Invite').click();
         });
     });
     describe('Users can manage invites', () => {
@@ -187,7 +181,7 @@ describe('Groups', () => {
             //User sees notification
             //User can accept the invite            groupWithApplicationName2
             cy.get('.card-body').contains('You have been invited').should('exist').should('contain.text', groupWithApplicationName2)
-                .parent().find('span').contains('Accept').click().should('have.class', 'disabled');
+                .parent().find('span').contains('Accept').click();
             goToGroupsPage();
             cy.get('.content-block').should('contain.text', publicGroupName);
             cy.get('.content-block').should('contain.text', groupWithApplicationName1);
@@ -196,18 +190,82 @@ describe('Groups', () => {
         });
         it('User 1 can kick users and send invite again', () => {
             //User 1
+            loginUser1();
+            cy.visit('/social');
+            cy.wait(globalLongWait);
+
+            openGroupPage(groupWithApplicationName2);
+            cy.get('button').contains('Manage group').click();
+            cy.wait(globalLongWait);
+
             //Kick user from group                  groupWithApplicationName2
+            cy.get('.member-list').contains(user2.username).parent().find(kickRemoveButton).click();
+            cy.wait(globalShortWait);
+            cy.get('.modal-body').should('not.contain', user2.username);
+            cy.get('.close').click();
+            
             //Send invite again                     groupWithApplicationName2
+            cy.get('button').contains('Invite users').click();
+            cy.wait(globalShortWait);
+            cy.get('#search-users').type(user2.username);
+            cy.get('button').contains('Search').click();
+            cy.wait(globalShortWait);
+
+            cy.get('a').contains(user2.username).should('exist').parent().parent().find('span').contains('Invite').click();
         });
         it('User 2 can reject invites and leave a group', () => {
             //User 2
+            loginUser2();
+            cy.visit('/notifications');
+            cy.wait(globalLongWait);
+
             //User can reject invite                groupWithApplicationName2
+            cy.get('.card-body').contains('You have been invited').should('exist').should('contain.text', groupWithApplicationName2)
+                .parent().find('span').contains('Reject').click();
+                
             //User can leave group                  groupWithApplicationName1
+            cy.visit('/social');
+            cy.wait(globalLongWait);
+
+            openGroupPage(groupWithApplicationName1);
+            cy.get('button').contains('Leave group').click();
+            cy.on('window:confirm', () => true);
+            cy.wait(globalLongWait);
+            cy.get('button').contains('Request to join group').should('exist');
         });
         it('User 1 can send another invite and disband a group', () => {
             //User 1
+            loginUser1();
+            cy.visit('/social');
+            cy.wait(globalLongWait);
+
+            openGroupPage(groupWithApplicationName2);
             //User can send another invite          groupWithApplicationName2
-            //User can disband group                publicGroupName
+            cy.get('button').contains('Invite users').click();
+            cy.wait(globalShortWait);
+            cy.get('#search-users').type(user2.username);
+            cy.get('button').contains('Search').click();
+            cy.wait(globalShortWait);
+            
+            cy.get('a').contains(user2.username).should('exist').parent().parent().find('span').contains('Invite').click();
+            cy.get('.close').click();
+
+            //User can disband group                publicGroupName, groupWithApplicationName2, groupWithApplicationName1
+            cy.get('button').contains('Delete group').click();
+            cy.on('window:confirm', () => true);
+            cy.wait(globalLongWait);
+            
+            openGroupPage(groupWithApplicationName1);
+            cy.get('button').contains('Delete group').click();
+            cy.on('window:confirm', () => true);
+            cy.wait(globalLongWait);
+            
+            openGroupPage(publicGroupName);
+            cy.get('button').contains('Delete group').click();
+            cy.on('window:confirm', () => true);
+            cy.wait(globalLongWait);
+
+            //TODO check that the invite has also become inactive
         });
     });
 });
