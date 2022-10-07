@@ -1,0 +1,9 @@
+{
+    "volar.autoCompleteRefs": true,
+
+    "eslint.run": "onSave",
+    "eslint.codeActionsOnSave.mode": "all",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
+}

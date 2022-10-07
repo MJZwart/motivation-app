@@ -7,7 +7,15 @@ import nl from '../lang/nl.js';
 export default createI18n({
     legacy: false,
     globalInjection: true,
-    locale: localStorage.getItem('lang') || 'en',
+    locale: getLanguage(),
     fallbackLocale: import.meta.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
     messages:{en, nl},
 });
+
+export function getLanguage() {
+    const storedLang = localStorage.getItem('lang');
+    if (storedLang) return storedLang;
+    const browserPref = navigator.language.split('-')[0];
+    if (browserPref) return browserPref;
+    return 'en';
+}
