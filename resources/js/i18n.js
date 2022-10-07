@@ -12,10 +12,12 @@ export default createI18n({
     messages:{en, nl},
 });
 
+const availableLanguages = ['en', 'nl'];
+
 export function getLanguage() {
     const storedLang = localStorage.getItem('lang');
     if (storedLang) return storedLang;
     const browserPref = navigator.language.split('-')[0];
-    if (browserPref) return browserPref;
+    if (browserPref && availableLanguages.includes(browserPref)) return browserPref;
     return 'en';
 }
