@@ -1,0 +1,6 @@
+{
+    "ach-tasks-made": "Created {n} task. | Created {n} tasks.",
+    "ach-tasks-completed": "Completed {n} task. | Completed {n} tasks.",
+    "ach-repeatable-completed": "Complete a repeatable task {n} time. | Complete a repeatable task {n} times.",
+    "ach-friends": "Add {n} friend. | Add {n} friends."
+}

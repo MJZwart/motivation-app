@@ -14,3 +14,22 @@ export const ACHIEVEMENT_FIELDS = [
 export const ACHIEVEMENT_DEFAULTS = {
     currentSort: 'trigger',
 };
+
+export const ACHIEVEMENT_TRIGGERS = [
+    {
+        type: 'TASKS_MADE',
+        desc: 'ach-tasks-made',
+    }, 
+    {
+        type: 'TASKS_COMPLETED',
+        desc: 'ach-tasks-completed',
+    }, 
+    {
+        type: 'REPEATABLE_COMPLETED',
+        desc: 'ach-repeatable-completed',
+    }, 
+    {
+        type: 'FRIENDS',
+        desc: 'ach-friends',
+    },
+];

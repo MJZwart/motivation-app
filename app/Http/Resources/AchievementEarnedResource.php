@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AchievementEarnedResource extends JsonResource
@@ -18,7 +17,8 @@ class AchievementEarnedResource extends JsonResource
         return [
             'name' => $this->name,
             'description' => $this->description,
-            'trigger_description' => $this->trigger_description,
+            'trigger_type' => $this->trigger_type,
+            'trigger_amount' => $this->trigger_amount,
             'earned' => $this->pivot->earned,
         ];
     }
