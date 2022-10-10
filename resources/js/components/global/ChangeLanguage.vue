@@ -16,8 +16,9 @@ import {useUserStore} from '/js/store/userStore';
 const userStore = useUserStore();
 
 function changeLanguage(lang: 'en' | 'nl') {
-    changeLang(lang);
-    if (userStore.isAuthenticated)
+    const isAuth = userStore.isAuthenticated;
+    changeLang(lang, isAuth);
+    if (isAuth)
         userStore.updateLanguage({'language': lang});
 }
 </script>

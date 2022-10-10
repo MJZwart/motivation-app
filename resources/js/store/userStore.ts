@@ -5,6 +5,7 @@ import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
 import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
+import {changeLang} from '../services/languageService';
 import type {PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import type {ChangeReward} from 'resources/types/reward';
 import type {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resources/types/user';
@@ -64,6 +65,11 @@ export const useUserStore = defineStore('user', {
             this.authenticated = auth;
             localStorage.setItem('authenticated', auth.toString());
             localStorage.setItem('user', JSON.stringify(user));
+            if (auth) this.setLanguage(user.language);
+        },
+        setLanguage(lang: string) {
+            if (lang !== 'en' && lang !== 'nl') return;
+            changeLang(lang);
         },
 
         //New user

@@ -9,8 +9,8 @@ export const langs: LanguageOption[] = [
     {key: 'nl', label: 'Nederlands', flag: 'fi-nl'},
 ];
 
-export function changeLang(lang: 'en' | 'nl') {
+export function changeLang(lang: 'en' | 'nl', auth = false) {
     i18n.global.locale.value = lang;
-    localStorage.setItem('lang', lang);
+    if (!auth) localStorage.setItem('lang', lang);
     currentLang.value = lang;
 }

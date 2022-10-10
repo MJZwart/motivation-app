@@ -4,6 +4,8 @@ import en from '../lang/en.js';
 import nl from '../lang/nl.js';
 // import en from '../lang/en.js';
 
+const availableLanguages = ['en', 'nl'];
+
 export default createI18n({
     legacy: false,
     globalInjection: true,
@@ -12,11 +14,9 @@ export default createI18n({
     messages:{en, nl},
 });
 
-const availableLanguages = ['en', 'nl'];
-
 export function getLanguage() {
     const storedLang = localStorage.getItem('lang');
-    if (storedLang) return storedLang;
+    if (storedLang && availableLanguages.includes(storedLang)) return storedLang;
     const browserPref = navigator.language.split('-')[0];
     if (browserPref && availableLanguages.includes(browserPref)) return browserPref;
     return 'en';

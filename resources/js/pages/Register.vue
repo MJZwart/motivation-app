@@ -53,6 +53,7 @@ import {reactive} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {useMainStore} from '/js/store/store';
 import {Register} from 'resources/types/user';
+import {currentLang} from '/js/services/languageService';
 
 const mainStore = useMainStore();
 const userStore = useUserStore();
@@ -63,6 +64,7 @@ const register = reactive<Register>({
     password: '',
     password_confirmation: '',
     agree_to_tos: false,
+    language: currentLang.value,
 });
 function submitRegister() {
     mainStore.clearErrors();
