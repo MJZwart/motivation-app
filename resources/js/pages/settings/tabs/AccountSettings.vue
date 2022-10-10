@@ -85,7 +85,7 @@ function submitPasswordSettings() {
     userStore.updatePassword(passwordSettings.value);
 }
 function submitEmailSettings() {
-    userStore.updateEmail(emailSettings.value.email);
+    userStore.updateEmail({email: emailSettings.value.email});
     // TODO doesn't update the page
 }
 </script>

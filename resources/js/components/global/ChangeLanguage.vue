@@ -3,7 +3,7 @@
         <div v-for="lang in langs" :key="lang.key" class="language-option" :class="{'active': currentLang === lang.key}">
             <span 
                 :class="['clickable', 'fi', lang.flag]" 
-                @click="changeLang(lang.key)" 
+                @click="changeLanguage(lang.key)" 
             />
         </div>
     </div>
@@ -11,6 +11,15 @@
 
 <script setup lang="ts">
 import {currentLang, changeLang, langs} from '/js/services/languageService';
+import {useUserStore} from '/js/store/userStore';
+
+const userStore = useUserStore();
+
+function changeLanguage(lang: 'en' | 'nl') {
+    changeLang(lang);
+    if (userStore.isAuthenticated)
+        userStore.updateLanguage({'language': lang});
+}
 </script>
 
 <style scoped lang="scss">

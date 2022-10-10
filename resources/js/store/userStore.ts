@@ -98,7 +98,7 @@ export const useUserStore = defineStore('user', {
             await axios.put('/user/settings/password', passwords);
             this.logout();
         },
-        async updateEmail(email: string) {
+        async updateEmail(email: {email: string}) {
             const {data} = await axios.put('/user/settings/email', email);
             this.setUser(data.data.user);
         },
@@ -106,6 +106,12 @@ export const useUserStore = defineStore('user', {
             const {data} = await axios.put('/user/settings', settings);
             this.setUser(data.data.user);
         },
+
+        async updateLanguage(language: {language: string}) {
+            const {data} = await axios.put('/user/settings/language', language);
+            this.setUser(data.data.user);
+        },
+
         async changeRewardType(change: ChangeReward) {
             const {data} = await axios.put('/user/settings/rewards', change);
             this.setUser(data.data.user);
