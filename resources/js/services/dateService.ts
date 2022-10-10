@@ -44,3 +44,7 @@ export function getDateWithAddedDays(date: Date, daysToAdd: number, parsed = tru
     if (!parsed) return dateTime;
     return dateTime.toLocaleString(DateTime.DATETIME_MED);
 }
+
+export function isDateItem(item: string) {
+    return DateTime.fromISO(item).isValid;
+}

@@ -21,8 +21,6 @@ Programs needed to work this:
 
 `npm install`
 
-`npm run dev`
-
 - Make a copy of `env.example` and rename this to `.env`
 
 `php artisan migrate:fresh --seed`
@@ -75,13 +73,13 @@ https://github.com/MJZwart/motivation-app/projects/2
 - [ ] More task types https://github.com/MJZwart/motivation-app/issues/459
 # Admin
 - [ ] Allow admins to close a user report independent of actions taken https://github.com/MJZwart/motivation-app/issues/385
-- [ ] Refine the blocked users concept https://github.com/MJZwart/motivation-app/issues/409
+- [x] Refine the blocked users concept https://github.com/MJZwart/motivation-app/issues/409
 
 # Settings
 - [ ] Option to turn off tutorials site-wide https://github.com/MJZwart/motivation-app/issues/407
 - [ ] More than one language https://github.com/MJZwart/motivation-app/issues/154
 - [ ] Dark version of the website or other version of design for switching https://github.com/MJZwart/motivation-app/issues/236 https://github.com/MJZwart/motivation-app/issues/361
-- [ ] Able to change password https://github.com/MJZwart/motivation-app/issues/452
+- [x] Able to change password https://github.com/MJZwart/motivation-app/issues/452
 
 # Other
 - [ ] Make it clear to the user when something is loading (like buttons etc) https://github.com/MJZwart/motivation-app/issues/442

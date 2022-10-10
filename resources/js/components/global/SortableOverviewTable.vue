@@ -31,7 +31,7 @@
                         </slot>
                         <p v-for="field in fieldGroup.fields" :key="field.key">
                             <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
-                                <b>{{field.label}}:</b> {{item[field.key]}}
+                                <b>{{field.label}}:</b> {{parseItem(item[field.key])}}
                             </slot>
                         </p>
                     </div>
@@ -44,7 +44,7 @@
                         class="field-group"
                     >
                         <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
-                            <b>{{field.label}}:</b> {{item[field.key]}}
+                            <b>{{field.label}}:</b> {{parseItem(item[field.key])}}
                         </slot>
                     </div>
                 </div>
@@ -57,6 +57,7 @@
 import {Item, OverviewFieldGroups} from 'resources/types/global';
 import {ref, computed, PropType} from 'vue';
 import {sortValues} from '/js/services/sortService';
+import {isDateItem, parseDateTime} from '/js/services/dateService';
 
 const props = defineProps({
     items: {
@@ -100,6 +101,12 @@ function toggleExtend(index: number) {
         else
             extendedIndexes.value.splice(existingIdx, 1);
     }
+}
+
+function parseItem(item: unknown) {
+    if (typeof item !== 'string') return item;
+    if (isDateItem(item)) return parseDateTime(item);
+    else return item;
 }
 
 const sortedItems = computed<Array<Item>>(() => {

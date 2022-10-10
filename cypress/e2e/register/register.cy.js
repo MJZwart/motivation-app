@@ -1,11 +1,7 @@
-const { createPropertyAssignment } = require("typescript");
+import {getRandomString} from '../../support/commands';
 
 describe('New user', () => {
-
-    function getRandomString(length = 5) {
-        return Math.random().toString(36).substring(2, length + 2);
-    }
-
+    
     const username = getRandomString();
     const password = getRandomString(8);
     const email = getRandomString() + '@mail.com';
