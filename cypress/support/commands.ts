@@ -47,6 +47,19 @@ let userData = {
     fail3: false,
 }
 
+export const TEST_USER_1 = {
+    username: 'cyptest1',
+    password: 'password',
+}
+export const TEST_USER_2 = {
+    username: 'cyptest2',
+    password: 'password',
+}
+
+export function getRandomString(length = 5) {
+    return Math.random().toString(36).substring(2, length + 2);
+}
+
 // function validateLogin(userData) {
 //     let cookie;
 //     if (userData.authCookie) {
@@ -81,7 +94,7 @@ let userData = {
 // }
 
 function login(username: string, password: string) {
-    cy.session('testUser', () => {
+    cy.session([username, password], () => {
         cy.intercept('/api/login').as('apiLogin');
         cy.intercept('/api/sanctum/csrf-cookie').as('csrfCookie');
         cy.visit('/login');

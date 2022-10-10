@@ -36,7 +36,7 @@
         <!-- Manage users -->
         <div>
             <label for="">Members</label>
-            <div v-for="member in group.members" :key="member.id" class="d-flex hover">
+            <div v-for="member in group.members" :key="member.id" class="d-flex hover member-list">
                 <!-- TODO make a table -->
                 {{member.username}}
                 <span v-if="member.id != user.id" class="ml-auto">
