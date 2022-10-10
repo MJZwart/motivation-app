@@ -150,5 +150,9 @@
     "bug-report-lc": "bug report",
 
     "language": "Language",
-    "update-language": "Change language"
+    "update-language": "Change language",
+
+    "error": "Error",
+    "success": "Success",
+    "info": "Info"
 }

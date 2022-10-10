@@ -150,5 +150,9 @@
     "bug-report-lc": "bug report",
 
     "language": "Taal",
-    "update-language": "Verander taal"
+    "update-language": "Verander taal",
+
+    "error": "Fout",
+    "success": "Success",
+    "info": "Info"
 }
