@@ -1,7 +1,7 @@
 {
     "name": "questifyer",
     "author": "MJZwart",
-    "version": "0.2.4-release",
+    "version": "0.3.0",
     "private": true,
     "engines": {
         "node": "16.14.0",
@@ -14,7 +14,7 @@
         "prod": "npm run production",
         "lint": "eslint \"resources/js/**/*.{js,vue}\" --fix --cache",
         "typescript-check": "tsc --noEmit -p tsconfig.json",
-        "vue-typescript-check": "vue-tsc -p tsconfig.json",
+        "vue-typescript-check": "vue-tsc -p tsconfig.json --skipLibCheck",
         "cypress": "cypress open"
     },
     "devDependencies": {
