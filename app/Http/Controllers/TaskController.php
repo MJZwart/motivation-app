@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class TaskController extends Controller
 {
@@ -36,7 +37,7 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
-        return ResponseWrapper::successResponse("Task successfully created.", ['taskLists' => $taskLists]);
+        return ResponseWrapper::successResponse(__('messages.task.created'), ['taskLists' => $taskLists]);
     }
 
     /**

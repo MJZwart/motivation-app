@@ -36,6 +36,11 @@ foreach ($routes as $route) {
 }
 
 Route::group(['middleware' => ['web']], function () {
+    Route::post('/locale', function() {
+        session(['locale' => app('request')->input('locale')]);
+        return redirect()->back();
+    });
+
     Route::post('/login', [AuthenticationController::class, 'authenticate']);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
     Route::post('/register', [RegisteredUserController::class, 'store']);
