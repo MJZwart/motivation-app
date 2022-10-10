@@ -6,6 +6,7 @@
             v-if="sortedReportedUsers"
             :items="sortedReportedUsers"
             :fields="REPORTED_USER_OVERVIEW_FIELDS"
+            class="striped"
             click-to-extend>
 
             <template #username="item">

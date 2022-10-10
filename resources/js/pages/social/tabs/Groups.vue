@@ -38,6 +38,7 @@
                 v-if="filteredAllGroups.length > 0" 
                 :items="filteredAllGroups" 
                 :fields="groupFields"
+                class="striped"
                 click-to-extend
             >
                 <template #nameField="item">
