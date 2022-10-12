@@ -1,10 +1,10 @@
 <template>
     <div class="flex-container">
         <div class="flex-grow-1">
-            <Summary :title="$t('incoming-friend-requests')">
+            <Summary id="incoming-friend-requests" :title="$t('incoming-friend-requests')">
                 <ul class="no-list-style">
                     <div v-if="requests.incoming[0]">
-                        <li v-for="(request, index) in requests.incoming" :key="index">
+                        <li v-for="(request, index) in requests.incoming" :key="index" class="incoming-request">
                             <Tooltip :text="$t('accept-friend-request')">
                                 <FaIcon
                                     :icon="['far', 'square-check']"
@@ -28,10 +28,10 @@
             </Summary>
         </div>
         <div class="flex-grow-1">
-            <Summary :title="$t('outgoing-friend-requests')">
+            <Summary id="outgoing-friend-requests" :title="$t('outgoing-friend-requests')">
                 <ul class="no-list-style">
                     <div v-if="requests.outgoing[0]">
-                        <li v-for="(request, index) in requests.outgoing" :key="index">
+                        <li v-for="(request, index) in requests.outgoing" :key="index" class="outgoing-request">
                             <Tooltip :text="$t('cancel-friend-request')">
                                 <FaIcon
                                     :icon="['far', 'rectangle-xmark']"

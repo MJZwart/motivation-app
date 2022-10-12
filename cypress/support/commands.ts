@@ -37,6 +37,7 @@
 // }
 // @ts-nocheck
 
+import { globalLongWait, globalShortWait } from "./constants";
 let userData = {
     username: 'test',
     password: 'password',
@@ -47,17 +48,15 @@ let userData = {
     fail3: false,
 }
 
-export const TEST_USER_1 = {
-    username: 'cyptest1',
-    password: 'password',
-}
-export const TEST_USER_2 = {
-    username: 'cyptest2',
-    password: 'password',
-}
-
 export function getRandomString(length = 5) {
     return Math.random().toString(36).substring(2, length + 2);
+}
+
+export function waitShort() {
+    cy.wait(globalShortWait);
+}
+export function waitLong() {
+    cy.wait(globalLongWait);
 }
 
 // function validateLogin(userData) {
