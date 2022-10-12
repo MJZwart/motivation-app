@@ -12,6 +12,9 @@
             :options="['table-sm', 'table-striped', 'table-hover']"
             class="font-sm"
         >
+            <template #trigger="row">
+                {{parseAchievementTriggerDesc(row.item)}}
+            </template>
             <template #actions="row">
                 <FaIcon :icon="['far', 'pen-to-square']" class="icon small" @click="showEditAchievement(row.item)" />
             </template>
@@ -45,6 +48,7 @@ import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '/js/constants/achievemen
 import {useAchievementStore} from '/js/store/achievementStore';
 import {useMainStore} from '/js/store/store';
 import {Achievement} from 'resources/types/achievement';
+import {parseAchievementTriggerDesc} from '/js/services/achievementService';
 const achievementStore = useAchievementStore();
 const mainStore = useMainStore();
 

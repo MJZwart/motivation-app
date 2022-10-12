@@ -8,8 +8,6 @@ export const useAchievementStore = defineStore('achievement', {
             achievementsByUser: null,
             /** @type {Array<import('resources/types/achievement.js').Achievement> | null} */
             achievements: null,
-            /** @type {Array<import('resources/types/achievement.js').AchievementTrigger> | []} */
-            achievementTriggers: [],
         };
     },
     actions: {
