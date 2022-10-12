@@ -22,10 +22,10 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::put('/settings/language', [UserController::class, 'updateLanguage']);
 
     //Report user
-    Route::post('/user/{user}/report', [UserController::class, 'reportUser']);
+    Route::post('/{user}/report', [UserController::class, 'reportUser']);
 
     //Blocklist
-    Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
-    Route::get('/user/blocklist', [UserController::class, 'getBlocklist']);
-    Route::put('/user/{blockedUser}/unblock', [UserController::class, 'unblockUser']);
+    Route::put('/{blockedUser}/block', [MessageController::class, 'blockUser']);
+    Route::get('/blocklist', [UserController::class, 'getBlocklist']);
+    Route::put('/{blockedUser}/unblock', [UserController::class, 'unblockUser']);
 });
