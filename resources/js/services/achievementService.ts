@@ -2,7 +2,6 @@
 //or even be included in 'language service'
 
 import {Achievement, NewAchievement} from 'resources/types/achievement';
-import {computed, ref} from 'vue';
 import {ACHIEVEMENT_TRIGGERS} from '/js/constants/achievementsConstants';
 import i18n from '/js/i18n';
 
@@ -13,10 +12,3 @@ export function parseAchievementTriggerDesc(achievement: Achievement | NewAchiev
     if (!trigger) return;
     return i18n.global.t(trigger.desc, achievement.trigger_amount);
 }
-
-export const achievementToParse = ref<Achievement | null>(null);
-
-export const parsedTrigger = computed(() => {
-    if (!achievementToParse.value) return;
-    return parseAchievementTriggerDesc(achievementToParse.value);
-});
