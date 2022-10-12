@@ -76,7 +76,6 @@ function newAchievementInstance(): NewAchievement {
         description: '',
         name: '',
         trigger_amount: 0,
-        trigger_description: '',
         trigger_type: '',
     };
 }
