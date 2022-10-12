@@ -118,6 +118,7 @@ describe('Friends', () => {
             goToFriendsPage();
 
             cy.get('#friendships').contains(user3.username).parent().find(kickRemoveButton).click();
+            cy.get('#friendships').contains(user2.username).parent().find(kickRemoveButton).click();
             cy.on('window:confirm', () => true);
             waitShort();
 

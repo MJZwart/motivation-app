@@ -38,7 +38,18 @@
 // @ts-nocheck
 
 import { globalLongWait, globalShortWait } from "./constants";
-let userData = {
+
+type UserData = {
+    username: string,
+    password: string,
+    csrfCookie: undefined,
+    authCookie: undefined | string[],
+    cookies: undefined | Cypress.Cookie[],
+    localStorage: undefined | string,
+    fail3: boolean,
+}
+
+let userData: UserData = {
     username: 'test',
     password: 'password',
     csrfCookie: undefined,
@@ -118,7 +129,7 @@ function login(username: string, password: string) {
     cy.visit('/');
 }
 
-Cypress.Commands.add('login', (username = 'test', password = 'password') => {
+Cypress.Commands.add('login', (username: string = 'test', password: string = 'password') => {
     let cookies = [];
     // Get the stored userdata
     cy.task('getUserData')
