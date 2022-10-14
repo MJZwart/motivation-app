@@ -330,8 +330,7 @@ class GroupsController extends Controller
     private function getGroupInviteOrFail(int $invite)
     {
         try {
-            $groupInvite = GroupInvite::findOrFail($invite);
-            return $groupInvite;
+            return GroupInvite::findOrFail($invite);
         } catch (Throwable $e) {
             if ($e instanceof ModelNotFoundException) {
                 throw new GroupNotFoundException();

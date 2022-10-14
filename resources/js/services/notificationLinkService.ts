@@ -26,6 +26,8 @@ export async function handleNotificationLink(apiType: string, url: string): Prom
  * Handles the friend requests. It takes the type of action (accept/deny) out of
  * the url, as well as the request ID, and uses the friendStore to handle the action.
  * This way the friends are still sent back to the store, updated.
+ * @param {string} url
+ * @returns {Promise<boolean>}
  */
 async function handleFriendRequests(url: string): Promise<boolean> {
     const action = url.split('/')[4];
@@ -37,10 +39,18 @@ async function handleFriendRequests(url: string): Promise<boolean> {
     return success;
 }
 
+/**
+ * Handles the group invites. If the group no longer exists, it will throw an error
+ * accordingly, return a 'success' as true to ensure the link gets disabled. Any other
+ * error will not cause the link to be disabled.
+ * @param {string} url
+ * @returns {Promise<boolean>}
+ */
 async function handleGroupInviteRequests(url: string): Promise<boolean> {
-    let success = false;
+    let success = true;
     await axios.post(url).then().catch(e => {
         if (e.response.data.data.error === 'GROUP_DELETED') success = true;
+        success = false;
     });
     return success;
 }

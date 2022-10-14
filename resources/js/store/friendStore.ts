@@ -15,10 +15,7 @@ export const useFriendStore = defineStore('friend', {
         };
     },
     actions: {
-        /**
-         * @param {string} friendId
-         */
-        async sendRequest(friendId) {
+        async sendRequest(friendId: number) {
             await axios.post('/friend/request/' + friendId);
         },
         async getRequests() {
@@ -29,57 +26,41 @@ export const useFriendStore = defineStore('friend', {
             const {data} = await axios.get('/friend');
             this.friends = data.friends;
         },
-        /**
-         * @param {Number} requestId
-         */
-        async acceptRequest(requestId) {
+        async acceptRequest(requestId: number) {
             try {
                 const {data} = await axios.post('/friend/request/' + requestId + '/accept');
                 this.friends = data.data.friends;
                 this.requests = data.data.requests;
                 return true;
-            } catch {
-                this.handleError();
-                return false;
+            } catch (e) {
+                return this.handleError(e);
             }
         },
-        /**
-         * @param {Number} requestId
-         */
-        async denyRequest(requestId) {
+        async denyRequest(requestId: number) {
             try {
                 const {data} = await axios.post('/friend/request/' + requestId + '/deny');
                 this.requests = data.data.requests;
                 return true;
-            } catch {
-                this.handleError();
-                return false;
+            } catch (e) {
+                return this.handleError(e);
             }
         },
-        /**
-         * @param {Number} requestId
-         */
-        async removeRequest(requestId) {
+        async removeRequest(requestId: number) {
             try {
                 const {data} = await axios.delete('/friend/request/' + requestId);
                 this.requests = data.data.requests;
                 return true;
-            } catch {
-                this.handleError();
-                return false;
+            } catch (e) {
+                return this.handleError(e);
             }
         },
-        /**
-         * @param {Number} friendId
-         */
-        async removeFriend(friendId) {
+        async removeFriend(friendId: number) {
             try {
                 const {data} = await axios.delete('/friend/remove/' + friendId);
                 this.friends = data.data.friends;
                 return true;
-            } catch {
-                this.handleError();
-                return false;
+            } catch (e) {
+                return this.handleError(e);
             }
         },
 
@@ -90,8 +71,14 @@ export const useFriendStore = defineStore('friend', {
          * a proper error response. Reloading the page should always fix this problem, although
          * this leaves 500's and other issues unchecked.
          */
-        handleError() {
-            errorToast('Something went wrong, please reload the page.');
+        handleError(e: unknown) {
+            //@ts-ignore
+            if (e.response.data.data.error === 'FRIEND_DELETED') {
+                return true;
+            } else {
+                errorToast('Something went wrong, please reload the page.');
+                return false;
+            }
         },
     },
 });
