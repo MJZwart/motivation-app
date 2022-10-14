@@ -12,6 +12,9 @@ export async function handleNotificationLink(apiType: string, url: string): Prom
         case 'friend':
             success = await handleFriendRequests(url);
             break;
+        case 'groups':
+            success = await handleGroupInviteRequests(url);
+            break;
         default:
             success = await handleOtherLinks(apiType, url);
             break;
@@ -31,6 +34,14 @@ async function handleFriendRequests(url: string): Promise<boolean> {
     let success = false;
     if (action == 'accept') success = await friendStore.acceptRequest(requestId);
     else if (action == 'deny') success = await friendStore.denyRequest(requestId);
+    return success;
+}
+
+async function handleGroupInviteRequests(url: string): Promise<boolean> {
+    let success = false;
+    await axios.post(url).then().catch(e => {
+        if (e.response.data.data.error === 'GROUP_DELETED') success = true;
+    });
     return success;
 }
 

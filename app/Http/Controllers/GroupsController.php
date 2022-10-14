@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\GroupNotAuthorizedException;
+use App\Exceptions\GroupNotFoundException;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
@@ -20,10 +21,12 @@ use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
 use App\Models\GroupInvite;
 use App\Models\Notification;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Throwable;
 
 class GroupsController extends Controller
 {
@@ -295,31 +298,45 @@ class GroupsController extends Controller
         );
     }
 
-    public function acceptGroupInvite(GroupInvite $invite, Request $request)
+    public function acceptGroupInvite(int $invite, Request $request)
     {
+        $groupInvite = $this->getGroupInviteOrFail($invite);
         /** @var User */
         $user = Auth::user();
-        if ($user->id !== $invite->user_id)
+        if ($user->id !== $groupInvite->user_id)
             return ResponseWrapper::errorResponse('This is not your invitation.');
-        if ($invite->group->hasMember($user->id))
+        if ($groupInvite->group->hasMember($user->id))
             return ResponseWrapper::errorResponse('You are already a member of this group.');
-        $invite->group->users()->attach($user);
-        $invite->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $invite->group->name);
-        return ResponseWrapper::successResponse('You are now a member of ' . $invite->group->name);
+        $groupInvite->group->users()->attach($user);
+        $groupInvite->delete();
+        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $groupInvite->group->name);
+        return ResponseWrapper::successResponse('You are now a member of ' . $groupInvite->group->name);
     }
 
-    public function rejectGroupInvite(GroupInvite $invite, Request $request)
+    public function rejectGroupInvite(int $invite, Request $request)
     {
+        $groupInvite = $this->getGroupInviteOrFail($invite);
         /** @var User */
         $user = Auth::user();
-        if ($user->id !== $invite->user_id)
+        if ($user->id !== $groupInvite->user_id)
             return ResponseWrapper::errorResponse('This is not your invitation.');
-        if ($invite->group->hasMember($user->id))
+        if ($groupInvite->group->hasMember($user->id))
             return ResponseWrapper::errorResponse('You are already a member of this group.');
-        $invite->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $invite->group->name);
+        $groupInvite->delete();
+        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $groupInvite->group->name);
         return ResponseWrapper::successResponse('You have rejected the invitation.');
+    }
+
+    private function getGroupInviteOrFail(int $invite)
+    {
+        try {
+            $groupInvite = GroupInvite::findOrFail($invite);
+            return $groupInvite;
+        } catch (Throwable $e) {
+            if ($e instanceof ModelNotFoundException) {
+                throw new GroupNotFoundException();
+            }
+        }
     }
 
     private function isUserGroupAdmin(Group $group)
