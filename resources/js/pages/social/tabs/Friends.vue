@@ -4,7 +4,7 @@
         <div v-else>
             <FriendRequests class="mb-2" />
             
-            <FriendsCard :manage="true" :message="true" class="mb-2" />
+            <FriendsCard id="friendships" :manage="true" :message="true" class="mb-2" />
 
             <SearchUser @reload="load" />
         </div>
@@ -16,7 +16,7 @@
 import FriendsCard from '/js/pages/dashboard/components/FriendsCard.vue';
 import FriendRequests from '../components/FriendRequests.vue';
 import SearchUser from '../components/SearchUser.vue';
-import {onMounted, ref, computed} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useFriendStore} from '/js/store/friendStore';
 
 const friendStore = useFriendStore();
