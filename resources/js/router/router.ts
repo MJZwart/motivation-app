@@ -26,15 +26,15 @@ router.beforeEach((to, from, next) => {
         document.title = 'Questifyer';
     }
     
-    if (to.path == '/' && userStore.isAuthenticated) {
+    if (to.path == '/' && userStore.authenticated) {
         return next({path: '/dashboard'});
     }
 
-    if (to.path != '/welcome' && userStore.user.first) {
+    if (to.path != '/welcome' && userStore.user && userStore.user.first) {
         return next({path: '/welcome'});
     }
 
-    if (to.meta && to.meta.requiresAuth && !userStore.isAuthenticated) {
+    if (to.meta && to.meta.requiresAuth && !userStore.authenticated) {
         return next({path: '/login'});
     }
 
@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
         return next({path: '/dashboard'});
     }
     
-    if (userStore.isAuthenticated) {
+    if (userStore.authenticated) {
         messageStore.hasUnread();
     }
     next();
