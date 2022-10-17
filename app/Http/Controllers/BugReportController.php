@@ -22,7 +22,7 @@ class BugReportController extends Controller
         BugReport::create($validated);
         ActionTrackingHandler::handleAction($request, 'STORE_BUG_REPORT', 'Bug report stored: ' . $validated['title']);
 
-        return ResponseWrapper::successResponse('Bug report successfully created.');
+        return ResponseWrapper::successResponse(__('messages.bug.created'));
     }
 
     public function update(UpdateBugReportRequest $request, $id): JsonResponse
@@ -34,6 +34,6 @@ class BugReportController extends Controller
         $return = BugReportResource::collection(BugReport::all());
         ActionTrackingHandler::handleAction($request, 'UPDATE_BUG_REPORT', 'Bug report updated: ' . $validated['title']);
 
-        return ResponseWrapper::successResponse('Bug Report updated.', ['bugReports' => $return]);
+        return ResponseWrapper::successResponse(__('messages.bug.updated'), ['bugReports' => $return]);
     }
 }

@@ -55,9 +55,12 @@ class AuthenticationController extends Controller
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in ' . $request['username']);
         $bannedUntilDate = $user->banned_until;
         $reason = $user->bannedUser->first()->reason;
-        $errorMessage = 'You are banned until %s. Reason: %s If you wish to dispute your ban, contact one of the admins on our Discord. Time remaining: %s.';
-        $parsedMessage = sprintf($errorMessage, $bannedUntilDate, $reason, $timeRemaining);
-        return ResponseWrapper::errorResponse($parsedMessage, ['invalid' => true]);
+        $errorMessage = __('messages.user.ban.login_notification', [
+            'time' => $bannedUntilDate,
+            'reason' => $reason,
+            'remaining' => $timeRemaining,
+        ]);
+        return ResponseWrapper::errorResponse($errorMessage, ['invalid' => true]);
     }
 
     /**
@@ -85,9 +88,9 @@ class AuthenticationController extends Controller
         $status = Password::sendResetLink($validated);
 
         if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
-            return ResponseWrapper::successResponse('Success, if an account with this e-mail exists, we have sent you an e-mail with the link to reset your password. Check your spam folder if you cannot find our email.');
+            return ResponseWrapper::successResponse(__('messages.user.password_reset.link_sent'));
         else
-            return ResponseWrapper::errorResponse('Something went wrong. Try again later or contact an admin.');
+            return ResponseWrapper::errorResponse(__('messages.user.password_reset.link_error'));
     }
 
     /** 
@@ -112,13 +115,13 @@ class AuthenticationController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET)
-            return ResponseWrapper::successResponse('Password changed. Login with your new password');
+            return ResponseWrapper::successResponse(__('messages.user.password_reset.reset_success'));
         else if ($status === Password::INVALID_TOKEN)
-            return ResponseWrapper::errorResponse('Invalid token. Please revisit the original link from your email and try again.');
+            return ResponseWrapper::errorResponse(__('messages.user.password_reset.invalid_token'));
         else if ($status === Password::INVALID_USER)
-            return ResponseWrapper::errorResponse('Invalid user. Check your e-mailaddress and try again.');
+            return ResponseWrapper::errorResponse(__('messages.user.password_reset.invalid_user'));
         else
-            return ResponseWrapper::errorResponse('Something went wrong. Try again later or contact an admin.');
+            return ResponseWrapper::errorResponse(__('messages.user.password_reset.reset_error'));
     }
 
     /**
