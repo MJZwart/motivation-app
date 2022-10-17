@@ -23,7 +23,7 @@ export const useAdminStore = defineStore('admin', {
     getters: {
         isAdmin() {
             const userStore = useUserStore();
-            return userStore.isAdmin();
+            return userStore.isAdmin;
         },
         getBalancing(state) {
             return {

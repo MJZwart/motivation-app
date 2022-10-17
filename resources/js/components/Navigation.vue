@@ -54,7 +54,7 @@
                             <router-link to="/notifications">{{ $t('notifications') }}</router-link>
                         </section>
                         <section class="option">
-                            <router-link :to="{ name: 'profile', params: { id: user.id}}">
+                            <router-link :to="{ name: 'profile', params: { id: user?.id}}">
                                 {{ $t('profile') }}
                             </router-link>
                         </section>
