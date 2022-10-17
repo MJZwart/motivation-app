@@ -31,6 +31,7 @@ axios.interceptors.response.use(
     },
     // eslint-disable-next-line complexity
     function (error) {
+        const userStore = useUserStore();
         const mainStore = useMainStore();
         if (!error.response) {
             return Promise.reject(error);
@@ -60,7 +61,6 @@ axios.interceptors.response.use(
              */
             case 401:
                 if (router.currentRoute.value.name !== 'login') {
-                    const userStore = useUserStore();
                     userStore.logout();
                 }
                 errorToast('You are not logged in');
@@ -71,6 +71,7 @@ axios.interceptors.response.use(
              * router will already redirect them, this is backup.
              */
             case 403:
+                userStore.getMe();
                 if (router.currentRoute.value.name !== 'login') {
                     router.push('/dashboard');
                 }

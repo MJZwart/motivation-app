@@ -40,7 +40,7 @@ const feedback = ref<NewFeedback>({
 const feedbackTypes = FEEDBACK_TYPES;
 
 const user = computed(() => userStore.user);
-const auth = computed(() => userStore.isAuthenticated);
+const auth = computed(() => userStore.authenticated);
 
 async function sendFeedback() {
     if (user.value) {
