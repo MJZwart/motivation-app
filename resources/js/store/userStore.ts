@@ -7,33 +7,18 @@ import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
 import type {PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import type {ChangeReward} from 'resources/types/reward';
-import type {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resources/types/user';
+import type {Blocked, Login, NewUser, Register, ResetPassword, User, UserStats} from 'resources/types/user';
 import type {UserSearch} from 'resources/types/global';
 import type {NewReportedUser} from 'resources/types/admin';
 
 export const useUserStore = defineStore('user', {
     state: () => {
         return {
-            /** @type import('resources/types/user').User | any = {} */
-            user: JSON.parse(localStorage.getItem('user') || '{}') || {},
-            /** @type boolean */
+            user: null as User | null,
             authenticated: false,
-            /** @type import('resources/types/user').UserStats | null */
-            userStats: null,
+            userStats: null as UserStats | null,
+            isAdmin: false,
         };
-    },
-    getters: {
-        isAdmin(state) {
-            return state.user ? state.user.admin : false;
-        },
-        isAuthenticated(state) {
-            if (!state.authenticated) {
-                const localStor = localStorage.getItem('authenticated');
-                if (!localStor) state.authenticated = false;
-                else state.authenticated = JSON.parse(localStor);
-            }
-            return state.authenticated;
-        },
     },
     actions: {
         /**
@@ -54,16 +39,19 @@ export const useUserStore = defineStore('user', {
 
         async logout() {
             await axios.post('/logout');
-            this.setUser({}, false);
+            this.setUser(null, false);
             router.push('/').catch(() => {
                 router.forward();
             });
         },
-        setUser(user: User | Record<string, never>, auth = true) {
+        async getMe() {
+            const {data} = await axios.get('/me');
+            this.setUser(data.user, !!data.user);
+        },
+        setUser(user: User | null, auth = true) {
             this.user = user;
             this.authenticated = auth;
-            localStorage.setItem('authenticated', auth.toString());
-            localStorage.setItem('user', JSON.stringify(user));
+            this.isAdmin = user?.admin ?? false;
         },
 
         //New user
