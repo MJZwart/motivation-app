@@ -77,8 +77,8 @@ function isConnection(id: number) {
     ids.push(...friends.value.map(friend => friend.id));
     return ids.includes(id);
 }
-async function sendFriendRequest(id: number) {
-    await friendStore.sendRequest(id.toString());
+async function sendFriendRequest(id: string) {
+    await friendStore.sendRequest(id);
     emit('reload');
 }
 function sendMessage(user: StrippedUser) {
