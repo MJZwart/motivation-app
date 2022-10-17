@@ -73,6 +73,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::put('/user/settings/password', [UserController::class, 'updatePassword']);
     Route::put('/user/settings', [UserController::class, 'updateSettings']);
     Route::put('/user/settings/rewards', [UserController::class, 'updateRewardsType']);
+    Route::put('/user/settings/tutorial', [UserController::class, 'toggleTutorial']);
 
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
 

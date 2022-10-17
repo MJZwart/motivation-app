@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <form v-if="!loading" @submit.prevent="submitPasswordSettings">
+    <div v-if="loading" />
+    <div v-else>
+        <form @submit.prevent="submitPasswordSettings">
             <h4>{{ $t('change-password') }}</h4>
             <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
             <SimpleInput
@@ -32,7 +33,7 @@
 
         <hr />
 
-        <form v-if="!loading" @submit.prevent="submitEmailSettings">
+        <form @submit.prevent="submitEmailSettings">
             <h4>{{ $t('change-email') }}</h4>
             <!-- Todo verify e-mail and show e-mail as verified -->
             <SimpleInput
@@ -45,16 +46,29 @@
             />
             <button type="submit" class="block">{{ $t('update-email') }}</button>
         </form>
+
+        <hr />
+        
+        <div>
+            <h4>{{ $t('show-or-hide-tutorials') }}</h4>
+            <ToggleButton 
+                :active="user.show_tutorial"
+                @click="toggleShowTutorial">
+                {{ user.show_tutorial ? $t('hide-tutorials') : $t('show-tutorials') }}
+            </ToggleButton>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import {onMounted, ref, computed} from 'vue';
 import {useUserStore} from '/js/store/userStore';
+import ToggleButton from '/js/components/global/ToggleButton.vue';
 import type {PasswordSettings, EmailSettings} from 'resources/types/settings';
 const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
+// const showTutorial = ref(user.value.show_tutorial);
 
 onMounted(() => setupSettings());
 
@@ -78,7 +92,10 @@ function submitPasswordSettings() {
     userStore.updatePassword(passwordSettings.value);
 }
 function submitEmailSettings() {
-    userStore.updateEmail(emailSettings.value.email);
+    userStore.updateEmail(emailSettings.value);
     // TODO doesn't update the page
+}
+function toggleShowTutorial() {
+    userStore.toggleTutorial({show: !user.value.show_tutorial});
 }
 </script>

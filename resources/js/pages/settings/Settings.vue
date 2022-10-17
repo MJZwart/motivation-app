@@ -11,9 +11,9 @@
                 {{ $t('reward-settings') }}
             </button>
         </ResponsiveTabs>
-        <keep-alive class="tab-content col-10">
+        <KeepAlive class="tab-content col-10">
             <component :is="currentTabComponent" />
-        </keep-alive>
+        </KeepAlive>
     </div>
 </template>
 

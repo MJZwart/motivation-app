@@ -40,6 +40,9 @@
     "automatically-logged-out": "If successful, you will be automatically logged out. Please log in with your new password.",
     "update-password": "Update password",
     "update-email": "Update e-mail",
+    "show-tutorials": "Turn on tutorials",
+    "hide-tutorials": "Hide tutorials",
+    "show-or-hide-tutorials": "Show or hide tutorials",
 
     "search-results": "Search results",
     "no-results": "No results",

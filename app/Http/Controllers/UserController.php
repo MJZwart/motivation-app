@@ -19,6 +19,7 @@ use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Http\Requests\StoreReportedUserRequest;
 use App\Helpers\RewardObjectHandler;
+use App\Http\Requests\ToggleTutorialRequest;
 use App\Http\Resources\BlockedUserResource;
 use App\Models\BlockedUser;
 use Illuminate\Support\Facades\Auth;
@@ -89,6 +90,17 @@ class UserController extends Controller
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating password');
         return ResponseWrapper::successResponse('Your password has been updated. Please log in using your new password.');
+    }
+
+    public function toggleTutorial(ToggleTutorialRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        /** @var User */
+        $user = Auth::user();
+        $user->show_tutorial = $validated['show'];
+        $user->save();
+        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Toggling tutorial show');
+        return ResponseWrapper::successResponse('Your tutorial settings have been updated', ['user' => $user]);
     }
 
     /**
