@@ -1,21 +1,20 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
+import {Friend, FriendRequest, FriendRequests} from 'resources/types/friend';
 import {errorToast} from '/js/services/toastService';
 
 export const useFriendStore = defineStore('friend', {
     state: () => {
         return {
-            /** @type import('resources/types/friend').FriendRequests */
             requests: {
-                incoming: [],
-                outgoing: [],
-            },
-            /** @type Array<import('resources/types/friend').Friend> | [] */
-            friends: [],
+                incoming: [] as FriendRequest[],
+                outgoing: [] as FriendRequest[],
+            } as FriendRequests,
+            friends: [] as Friend[],
         };
     },
     actions: {
-        async sendRequest(friendId: number) {
+        async sendRequest(friendId: string) {
             await axios.post('/friend/request/' + friendId);
         },
         async getRequests() {
