@@ -50,7 +50,7 @@ async function handleGroupInviteRequests(url: string): Promise<boolean> {
     let success = true;
     await axios.post(url).then().catch(e => {
         if (e.response.data.data.error === 'GROUP_DELETED') success = true;
-        success = false;
+        else success = false;
     });
     return success;
 }
