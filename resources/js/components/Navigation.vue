@@ -83,7 +83,7 @@ onMounted(() => window.addEventListener('resize', handleResize));
 const userStore = useUserStore();
 const messageStore = useMessageStore();
 
-const authenticated = computed(() => userStore.isAuthenticated);
+const authenticated = computed(() => userStore.authenticated);
 const user = computed(() => userStore.user);
 const hasNotifications = computed(() => messageStore.hasNotifications);
 const hasMessages = computed(() => messageStore.hasMessages);
