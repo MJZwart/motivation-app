@@ -6,7 +6,7 @@ use App\Helpers\ResponseWrapper;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class GroupNotAuthorizedException extends Exception
+class GroupNotFoundException extends Exception
 {
     /**
      * Render the exception into an HTTP response.
@@ -15,6 +15,6 @@ class GroupNotAuthorizedException extends Exception
      */
     public function render(): JsonResponse
     {
-        return ResponseWrapper::errorResponse('You are not authorized to perform this group action.');
+        return ResponseWrapper::errorResponse('This group no longer exist.', ['error' => 'GROUP_DELETED']);
     }
 }

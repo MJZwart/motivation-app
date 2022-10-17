@@ -36,6 +36,8 @@ foreach ($routes as $route) {
 }
 
 Route::group(['middleware' => ['web']], function () {
+    Route::get('/me', [AuthenticationController::class, 'me']);
+
     Route::post('/login', [AuthenticationController::class, 'authenticate']);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
     Route::post('/register', [RegisteredUserController::class, 'store']);

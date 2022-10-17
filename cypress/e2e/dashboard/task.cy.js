@@ -41,7 +41,7 @@ describe('Tasks', () => {
             cy.contains('Experience:').invoke('text').then((currentExp) => {
                 //Completes the task
                 cy.contains(testTask).parent().find(completeTaskButton).click();
-                cy.wait(1000);
+                waitShort();
                 //Checks the experience to see it is higher
                 cy.contains('Experience:').invoke('text').should('not.eq', currentExp);
                 cy.get('.card').first().should('not.contain.text', testTask);
@@ -67,7 +67,7 @@ describe('Tasks', () => {
             cy.get('#name').type(testTaskList);
             cy.get('#create-new-task-list-button').click();
             cy.wait('@storeTasklist').then(() => {
-                cy.wait(1000);
+                waitShort();
                 //Assert that it is made 
                 cy.get('.task-list').last().should('contain.text', testTaskList);
             });
@@ -80,7 +80,7 @@ describe('Tasks', () => {
             //Adds on to the name and asserts that it has been edited
             cy.get('#name').type(testTaskListEdit);
             cy.contains('Update task list').click();
-            cy.wait(5000);
+            waitLong();
             //After asserting, delete the task list
             cy.get('.task-list').last().should('contain.text', testTaskList + testTaskListEdit).find(deleteButton).click();
             cy.get('h5').should('have.text', 'Delete task list');
@@ -94,9 +94,9 @@ describe('Tasks', () => {
             cy.get('h5').should('have.text', 'New task list');
             cy.get('#name').type(testTaskListWithTask);
             cy.get('#create-new-task-list-button').click();
-            cy.wait(1000);
+            waitShort();
             cy.wait('@storeTasklist').then(() => {
-                cy.wait(1000);
+                waitShort();
                 cy.get('.task-list').last().should('contain.text', testTaskListWithTask);
             
                 //Create a task in this list with the name $testTask1
@@ -106,7 +106,7 @@ describe('Tasks', () => {
                 cy.get('#name').type(testTask1);
                 cy.contains('Create new task').click();
                 cy.wait('@storeTask').then(() => {
-                    cy.wait(1000);
+                    waitShort();
                     cy.get('.task-list').contains(testTaskListWithTask).parent().parent().should('contain.text', testTask1);
 
                     //Delete the task list and merge
@@ -114,7 +114,7 @@ describe('Tasks', () => {
                     cy.get('h5').should('have.text', 'Delete task list');
                     cy.get('#deleteOption').select(1).should('contain.text', 'Merge with');
                     cy.get('.block').contains('Delete task list').click();
-                    cy.wait(1000);
+                    waitShort();
 
                     //Asserting the task list has been deleted but the task remains
                     cy.get('.task-list').should('not.contain.text', testTaskListWithTask);
@@ -141,7 +141,7 @@ describe('Tasks', () => {
                 cy.get('h5').should('have.text', 'Delete task list');
                 cy.get('.block').contains('Delete task list').click();
                 cy.on('window:confirm', () => true);
-                cy.wait(5000);
+                waitLong();
 
                 cy.get('.task-list').should('not.contain.text', taskListToDelete);
             });
