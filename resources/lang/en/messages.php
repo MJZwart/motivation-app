@@ -47,11 +47,43 @@ return [
     'feedback' => [
         'archived' => 'Feedback archived',
         'unarchived' => 'Feedback unarchived',
+        'created' => 'Thank you for your feedback. We will contact you if we have any further questions or remarks.',
     ],
 
     'bug' => [
         'created' => 'Bug report successfully created.',
         'updated' => 'Bug Report updated.'
+    ],
+
+    'friend' => [
+        'deleted' => 'Friend removed.',
+        'request' => [
+            'already_sent' => 'You\'ve already sent a friend request to this user',
+            'already_accepted' => 'You have already accepted this request.',
+            'already_accepted_other' => 'Friend request already accepted',
+            'unable_to_send' => 'Unable to send a friend request to this user.',
+            'blocked' => 'You have blocked this user.',
+            'notification_title' => 'New friend request!',
+            'notification_body' => 'You have a new friend request from :name. Would you like to accept?',
+            'sent' => 'Friend request successfully sent.',
+            'accepted' => 'Friend request accepted. You are now friends.',
+            'denied' => 'Friend request denied.',
+            'cancelled' => 'Friend request cancelled.',
+        ],
+    ],
+
+    'group' => [
+        'created' => 'Your group :name has been created.',
+        'deleted' => 'Your group :name has been deleted.',
+        'not_public' => 'This group is not public.',
+        'needs_application' => 'This group needs an application to join.',
+        'no_application' => 'This group does not require applications to join.',
+        'already_applied' => 'You already have a pending application for this group.',
+        'banned' => 'You are banned from this group.',
+        'already_member' => 'You are already a member of this group.',
+        'join_success' => 'You successfully joined the group :name.',
+        'new_application_title' => 'New group application to :name.',
+        'new_application_text' => ':username has applied to your group :groupname. Head to the details of :groupname and click on "Manage Applications" to accept or reject the application.',
     ]
 
 ];

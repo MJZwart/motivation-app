@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Throwable;
 
 class FriendController extends Controller
@@ -38,7 +37,7 @@ class FriendController extends Controller
 
         ActionTrackingHandler::handleAction($request, 'DELETE_FRIEND', 'Friendship removed');
         return ResponseWrapper::successResponse(
-            'Friend removed.',
+            __('messages.friend.deleted'),
             ['friends' => FriendResource::collection(Auth::user()->friends->sortBy('username'))]
         );
     }
@@ -51,24 +50,24 @@ class FriendController extends Controller
         /** @var User */
         $activeUser = Auth::user();
         if (Friend::where('user_id', $activeUser->id)->where('friend_id', $user->id)->exists()) {
-            return ResponseWrapper::errorResponse('You\'ve already sent a friend request to this user');
+            return ResponseWrapper::errorResponse(__('messages.friend.request.already_sent'));
         }
         if ($activeUser->isBlocked($user->id)) {
-            return ResponseWrapper::errorResponse('Unable to send a friend request to this user.');
+            return ResponseWrapper::errorResponse(__('messages.friend.request.unable_to_send'));
         }
         if ($user->isBlocked($activeUser->id)) {
-            return ResponseWrapper::errorResponse('You have blocked this user.');
+            return ResponseWrapper::errorResponse(__('messages.friend.request.blocked'));
         }
         $friendRequest = Friend::create(['user_id' => $activeUser->id, 'friend_id' => $user->id]);
         NotificationHandler::createFromFriendRequest(
             $user->id,
-            'New friend request!',
-            'You have a new friend request from ' . $activeUser->username . '. Would you like to accept?',
+            __('messages.friend.request.notification_title'),
+            __('messages.friend.request.notification_body', ['name' => $activeUser->username]),
             $friendRequest,
             true
         );
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request sent to ' . $user->username);
-        return ResponseWrapper::successResponse('Friend request successfully sent.');
+        return ResponseWrapper::successResponse(__('messages.friend.request.sent'));
     }
 
     /**
@@ -80,7 +79,7 @@ class FriendController extends Controller
     {
         $friendship = $this->findFriendOrFail($friend);
         if ($friendship->accepted)
-            return ResponseWrapper::errorResponse('You have already accepted this request.');
+            return ResponseWrapper::errorResponse(__('messages.friend.request.already_accepted'));
         $friendship->accepted = true;
         $friendship->update();
         Friend::create(['user_id' => $friendship->friend_id, 'friend_id' => $friendship->user_id, 'accepted' => true]);
@@ -91,7 +90,7 @@ class FriendController extends Controller
 
         $requests = $this->fetchRequests();
         return ResponseWrapper::successResponse(
-            'Friend request accepted. You are now friends.',
+            __('messages.friend.request.accepted'),
             [
                 'friends' => FriendResource::collection(Auth::user()->friends->sortBy('username')),
                 'requests' => $requests
@@ -107,11 +106,11 @@ class FriendController extends Controller
     {
         $friendship = $this->findFriendOrFail($friend);
         if ($friendship->accepted)
-            return ResponseWrapper::errorResponse('You have already accepted this request.');
+            return ResponseWrapper::errorResponse(__('messages.friend.request.already_accepted'));
         $friendship->delete();
         $requests = $this->fetchRequests();
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request denied');
-        return ResponseWrapper::successResponse('Friend request denied.', ['requests' => $requests]);
+        return ResponseWrapper::successResponse(__('messages.friend.request.denied'), ['requests' => $requests]);
     }
 
     private function findFriendOrFail(int $friendshipId)
@@ -130,13 +129,13 @@ class FriendController extends Controller
         $friendship = $this->findFriendOrFail($friend);
         if ($friendship->accepted) {
             $requests = $this->fetchRequests();
-            return ResponseWrapper::errorResponse('Friend request already accepted', ['requests' => $requests]);
+            return ResponseWrapper::errorResponse(__('messages.friend.request.already_accepted_other'), ['requests' => $requests]);
         }
         $friendship->delete();
         $requests = $this->fetchRequests();
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request cancelled');
         return ResponseWrapper::successResponse(
-            'Friend request cancelled.',
+            __('messages.friend.request.cancelled'),
             ['requests' => $requests]
         );
     }

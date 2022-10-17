@@ -72,7 +72,7 @@ class GroupsController extends Controller
         $group->users()->attach(Auth::user()->id, ['rank' => 'admin']);
         ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
 
-        return ResponseWrapper::successResponse("Your group \"{$validated['name']}\" has been created.");
+        return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]));
     }
 
     public function destroy(Request $request, Group $group): JsonResponse
@@ -82,7 +82,7 @@ class GroupsController extends Controller
         $group->applications()->detach();
         $group->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
-        return ResponseWrapper::successResponse("Your group \"{$group->name}\" has been deleted.");
+        return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $group->name]));
     }
 
     /**
@@ -96,20 +96,20 @@ class GroupsController extends Controller
     public function join(Request $request, Group $group): JsonResponse
     {
         if (!$group->is_public)
-            return ResponseWrapper::errorResponse("This group is not public.");
+            return ResponseWrapper::errorResponse(__('messages.group.not_public'));
         if ($group->require_application)
-            return ResponseWrapper::errorResponse("This group needs an application to join.");
+            return ResponseWrapper::errorResponse(__('messages.group.needs_application'));
         $user = Auth::user();
         if ($group->bannedUsers()->find($user))
-            return ResponseWrapper::errorResponse("You are banned from this group.");
+            return ResponseWrapper::errorResponse(__('messages.group.banned'));
         $users = $group->users();
         if ($users->find($user))
-            return ResponseWrapper::errorResponse("You are already a member of this group.");
+            return ResponseWrapper::errorResponse(__('messages.group.already_member'));
         $users->attach($user);
 
         ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', 'Joined group ' . $group->name);
         return ResponseWrapper::successResponse(
-            "You successfully joined the group \"{$group->name}\".",
+            __('messages.group.join_success', ['name' => $group->name]),
             ['group' => new GroupPageResource($group->fresh())]
         );
     }
@@ -125,22 +125,22 @@ class GroupsController extends Controller
     public function apply(Request $request, Group $group): JsonResponse
     {
         if (!$group->is_public)
-            return ResponseWrapper::errorResponse("This group is not public.");
+            return ResponseWrapper::errorResponse(__('messages.group.not_public'));
         if (!$group->require_application)
-            return ResponseWrapper::errorResponse("This group does not require applications to join.");
+            return ResponseWrapper::errorResponse(__('messages.group.no_application'));
         $user = Auth::user();
         if ($group->bannedUsers()->find($user))
-            return ResponseWrapper::errorResponse("You are banned from this group.");
+            return ResponseWrapper::errorResponse(__('messages.group.banned'));
         if ($group->users()->find($user))
-            return ResponseWrapper::errorResponse("You are already a member of this group.");
+            return ResponseWrapper::errorResponse(__('messages.group.already_member'));
         $applications = $group->applications();
         if ($applications->find($user))
-            return ResponseWrapper::errorResponse("You already have a pending application for this group.");
+            return ResponseWrapper::errorResponse(__('messages.group.already_applied'));
         $applications->attach($user);
         Notification::create([
             'user_id' => $group->getAdmin()->id,
-            'title' => "New group application to {$group->name}.",
-            'text' => "{$user->username} has applied to your group {$group->name}. Head to the details of {$group->name} and click on \"Manage Applications\" to accept or reject the application.",
+            'title' => __('messages.group.already_applied', ['name' => $group->name]),
+            'text' => __('messages.group.already_applied', ['username' => $user->username, 'groupname' => $group->name]),
         ]);
 
         ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "User applied to group {$group->name}");
