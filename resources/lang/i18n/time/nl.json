@@ -1,6 +1,6 @@
 {
-    "year": "{count} year |{count} years",
-    "month": "{count} month |{count} months",
-    "day": "{count} day |{count} days",
-    "hour": "{count} hour |{count} hours"
+    "year": "{count} jaar |{count} jaren",
+    "month": "{count} maand |{count} maanden",
+    "day": "{count} dag |{count} dagen",
+    "hour": "{count} uur |{count} uren"
 }
