@@ -43,7 +43,13 @@ class AuthenticationController extends Controller
         return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 
-    private function handleBannedUser(User $user, Request $request)
+    /**
+     * Handles a banned user by logging its attempt and parsing the ban message to the user to show on the login screen.
+     *
+     * @param User $user
+     * @param Request $request
+     */
+    private function handleBannedUser(User $user, Request $request): JsonResponse
     {
         $timeRemaining = Carbon::parse($user->banned_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]);
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in ' . $request['username']);
@@ -66,7 +72,14 @@ class AuthenticationController extends Controller
         return;
     }
 
-    public function getResetPasswordLink(SendResetPasswordEmailRequest $request)
+    /**
+     * Creates a password reset link. To not show to the user whether that user/email exists, always confirm
+     * unless there was another technical error. This way a hacker cannot guess an e-mail or try multiple until
+     * an email is confirmed.
+     *
+     * @param SendResetPasswordEmailRequest $request
+     */
+    public function getResetPasswordLink(SendResetPasswordEmailRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $status = Password::sendResetLink($validated);
@@ -77,6 +90,11 @@ class AuthenticationController extends Controller
             return ResponseWrapper::errorResponse('Something went wrong. Try again later or contact an admin.');
     }
 
+    /** 
+     * Resets the password using the previously provided link 
+     * 
+     * @param ResetPasswordRequest $request
+     */
     public function resetPassword(ResetPasswordRequest $request)
     {
         $validated = $request->validated();
@@ -101,5 +119,16 @@ class AuthenticationController extends Controller
             return ResponseWrapper::errorResponse('Invalid user. Check your e-mailaddress and try again.');
         else
             return ResponseWrapper::errorResponse('Something went wrong. Try again later or contact an admin.');
+    }
+
+    /**
+     * Checks if the user is logged in, and if so, returns the user. If not, returns a null
+     */
+    public function me(): JsonResponse
+    {
+        if (Auth::check()) {
+            return new JsonResponse(['user' => new UserResource(Auth::user())]);
+        }
+        return new JsonResponse(['user' => null]);
     }
 }

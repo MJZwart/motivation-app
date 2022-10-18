@@ -25,6 +25,10 @@ const app = createApp(App);
 import {createPinia} from 'pinia';
 app.use(createPinia());
 
+import {useUserStore} from './store/userStore';
+const userStore = useUserStore();
+await userStore.getMe();
+
 //Import router
 import router from './router/router';
 app.use(router);
@@ -56,6 +60,5 @@ import Textarea from '/js/components/global/Textarea.vue';
 app.component('SimpleTextarea', Textarea);
 import Tutorial from '/js/components/global/Tutorial.vue';
 app.component('Tutorial', Tutorial);
-
 
 app.mount('#app');

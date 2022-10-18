@@ -126,11 +126,11 @@ function toggleDir() {
 .overview-field-item {
     display: flex;
 }
-.content-block:nth-of-type(2n+1) {
-    background-color: rgba(0, 0, 0, .05);
+.striped .content-block:nth-of-type(2n+1) {
+    background-color: rgba(0, 0, 0, .04);
 }
-.overview-field-item.clickable:hover {
-    background-color: rgba(0, 0, 0, .09);
+.content-block.clickable:hover {
+    background-color: rgba(0, 0, 0, .1);
 }
 .field-header {
     display: flex;

@@ -7,7 +7,7 @@ import {ReportedUser} from './admin';
 export type User = {
     id: number;
     username: string;
-    admin: boolean;
+    admin?: boolean;
     email: string;
     first: boolean;
     rewards: string;
