@@ -54,6 +54,8 @@
     "end-ban": "End ban",
     "ban-ended": "This ban has ended",
     "suspended-until-reason": "Suspended until {0} for {1}.",
+    "close-report-confirmation": "Close report {report}?",
+    "close-report": "Close report",
     
     "total-users": "Total users",
     "active-users": "Active users",

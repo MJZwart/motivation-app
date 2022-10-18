@@ -150,7 +150,7 @@
                                         <FaIcon 
                                             icon="trash"
                                             class="icon"
-                                            @click="closeReport()" />
+                                            @click="closeReport(report)" />
                                     </Tooltip>
                                 </div>
                             </div>
@@ -200,8 +200,10 @@ import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 import {User, UserToBan} from 'resources/types/user';
+import {useI18n} from 'vue-i18n';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
+const {t} = useI18n();
 
 onBeforeUpdate(() => {
     reportDivs.value = [];
@@ -277,6 +279,11 @@ function suspendUser(user: UserToBan) {
 }
 function closeSuspendUserModal() {
     showSuspendUserModal.value = false;
+}
+function closeReport(report) {
+    if (confirm(t('close-report-confirmation', {report: report.id}))) {
+        adminStore.closeReport(report);
+    }
 }
 
 const reportDivs = ref<Array<HTMLDivElement>>([]);
