@@ -35,7 +35,7 @@ class UserController extends Controller
         /** @var User */
         $activeUser = Auth::user();
         if ($activeUser->isBlocked($user->id)) {
-            return ResponseWrapper::errorResponse('Unable to view this user\'s profile.');
+            return ResponseWrapper::errorResponse(__('messages.user.profile_unavailable'));
         }
         return new UserProfileResource($user);
     }
@@ -55,7 +55,7 @@ class UserController extends Controller
     public function isAdmin()
     {
         if (!Auth::user()->admin) {
-            return ResponseWrapper::forbiddenResponse("You are not admin.");
+            return ResponseWrapper::forbiddenResponse(__('messages.user.not_admin'));
         }
     }
 
@@ -73,7 +73,7 @@ class UserController extends Controller
         //Invalidate old e-mail
         //Send new e-mail confirmation
         //Update new e-mail, unconfirmed
-        return ResponseWrapper::successResponse('Your email has been changed.', ['user' => new UserResource(Auth::user())]);
+        return ResponseWrapper::successResponse(__('messages.user.email_updated'), ['user' => new UserResource(Auth::user())]);
     }
 
     /**
@@ -88,7 +88,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating password');
-        return ResponseWrapper::successResponse('Your password has been updated. Please log in using your new password.');
+        return ResponseWrapper::successResponse(__('messages.user.password_updated'));
     }
 
     /**
@@ -102,7 +102,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating settings');
-        return ResponseWrapper::successResponse('Your settings have been changed.', ['user' => new UserResource($user->fresh())]);
+        return ResponseWrapper::successResponse(__('messages.user.setting_updated'), ['user' => new UserResource($user->fresh())]);
     }
 
     /**
@@ -116,7 +116,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_LANGUAGE', 'Language changed');
-        return ResponseWrapper::successResponse('Your language has been changed.', ['user' => new UserResource($user->fresh())]);
+        return ResponseWrapper::successResponse(__('messages.user.language_updated'), ['user' => new UserResource($user->fresh())]);
     }
 
     /**
@@ -139,7 +139,7 @@ class UserController extends Controller
             $request['rewards']
         );
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating rewards type');
-        return ResponseWrapper::successResponse('Your rewards type has been changed.', ['user' => new UserResource($user), 'activeReward' => $activeReward]);
+        return ResponseWrapper::successResponse(__('messages.user.reward_updated'), ['user' => new UserResource($user), 'activeReward' => $activeReward]);
     }
 
     /**
@@ -180,7 +180,7 @@ class UserController extends Controller
         $validated['reported_by_user_id'] = Auth::user()->id;
         ReportedUser::create($validated);
         ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: ' . $user->username);
-        return ResponseWrapper::successResponse('User reported');
+        return ResponseWrapper::successResponse(_('messages.user.reported'));
     }
 
     public function getBlocklist()
@@ -193,6 +193,6 @@ class UserController extends Controller
     {
         $blockedUser->delete();
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
-        return ResponseWrapper::successResponse('User has been unblocked', ['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
+        return ResponseWrapper::successResponse(_('messages.user.unblocked'), ['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
 }

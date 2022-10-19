@@ -55,7 +55,7 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
 
-        return ResponseWrapper::successResponse("Task successfully updated.", ['taskLists' => $taskLists]);
+        return ResponseWrapper::successResponse(__('messages.task.updated'), ['taskLists' => $taskLists]);
     }
 
     /**
@@ -74,10 +74,10 @@ class TaskController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name);
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return ResponseWrapper::successResponse("Task deleted.", ['taskLists' => $taskLists]);
+            return ResponseWrapper::successResponse(__('messages.task.deleted'), ['taskLists' => $taskLists]);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name, 'Not authorized');
-            return ResponseWrapper::forbiddenResponse("You are not authorized to delete this task");
+            return ResponseWrapper::forbiddenResponse(__('messages.task.unauthorized'));
         }
     }
 
@@ -109,11 +109,11 @@ class TaskController extends Controller
                 //TODO Refactor the response that includes level up notifications
                 return ResponseWrapper::successResponse($returnValue->message->success, ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]);
             } else {
-                return ResponseWrapper::successResponse('Task completed.', ['taskLists' => $taskLists]);
+                return ResponseWrapper::successResponse(__('messages.task.completed'), ['taskLists' => $taskLists]);
             }
         } else {
             ActionTrackingHandler::handleAction($request, 'COMPLETE_TASK', 'Completing task named: ' . $task->name, 'Not authorized');
-            return ResponseWrapper::forbiddenResponse("You are not authorized to complete this task");
+            return ResponseWrapper::forbiddenResponse(__('messages.task.unauthorized'));
         }
     }
 

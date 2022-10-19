@@ -29,7 +29,7 @@ class RegisteredUserController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
         ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Deleting ' . $request['rewardType'] . ' ' . $request['id']);
-        $successMessage = "You have successfully registered. You can now login with your chosen username.";
+        $successMessage = __('messages.user.created');
         return ResponseWrapper::successResponse($successMessage);
     }
 
@@ -77,9 +77,8 @@ class RegisteredUserController extends Controller
         }
         $user->first_login = false;
         $user->save();
-        $successMessage = "You have successfully set up your account.";
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'User finishes first login');
-        return ResponseWrapper::successResponse($successMessage, ['user' => new UserResource(Auth::user())]);
+        return ResponseWrapper::successResponse(__('messages.user.setup'), ['user' => new UserResource(Auth::user())]);
     }
 
     /**

@@ -13,6 +13,17 @@ return [
 
     'task' => [
         'created' => 'Task created.',
+        'updated' => 'Task successfully updated.',
+        'deleted' => 'Task deleted',
+        'completed' => 'Task completed.',
+        'unauthorized' => 'This is not your task',
+    ],
+
+    'tasklist' => [
+        'created' => 'Task list successfully created.',
+        'updated' => 'Task list updated.',
+        'deleted' => 'Task list deleted',
+        'unauthorized' => 'This is not your task list',
     ],
 
     'achievement' => [
@@ -42,6 +53,18 @@ return [
             'invalid_user' => 'Invalid user. Check your e-mailaddress and try again.',
             'reset_error' => 'Something went wrong. Try again later or contact an admin.',
         ],
+        'blocked' => 'User blocked',
+        'unblocked' => 'User has been unblocked',
+        'created' => 'You have successfully registered. You can now login with your chosen username.',
+        'setup' => 'You have successfully set up your account.',
+        'profile_unavailable' => 'Unable to view this user\'s profile.',
+        'not_admin' => 'You are not admin.',
+        'email_updated' => 'Your email has been changed.',
+        'password_updated' => 'Your password has been updated. Please log in using your new password.',
+        'settings_updated' => 'Your settings have been changed.',
+        'language_updated' => 'Your language has been changed.',
+        'reward_updated' => 'Your rewards type has been changed.',
+        'reported' => 'User reported',
     ],
 
     'feedback' => [
@@ -104,8 +127,26 @@ return [
             'sent' => 'You have invited this user.',
             'not_yours' => 'This is not your invitation.',
             'rejected' => 'You have rejected the invitation.',
-        ]
+        ],
+    ],
 
-    ]
+    'message' => [
+        'unable_to_send' => 'You are unable to send messages to this user.',
+        'sent' => 'Message sent',
+        'deleted' => 'Message deleted',
+    ],
+
+    'notification' => [
+        'sent' => 'Notification sent.',
+        'deleted' => 'Notification deleted.',
+    ],
+
+    'reward' => [
+        'name_changed' => 'You have changed the name.',
+        'activated' => 'You have activated :name',
+        'deleted' => 'You have deleted :name',
+    ],
+
+    'not_authorized' => 'You are not authorized to do this.',
 
 ];
