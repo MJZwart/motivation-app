@@ -75,6 +75,7 @@ return [
     'group' => [
         'created' => 'Your group :name has been created.',
         'deleted' => 'Your group :name has been deleted.',
+        'updated' => 'You have updated the group.',
         'not_public' => 'This group is not public.',
         'needs_application' => 'This group needs an application to join.',
         'no_application' => 'This group does not require applications to join.',
@@ -84,6 +85,27 @@ return [
         'join_success' => 'You successfully joined the group :name.',
         'new_application_title' => 'New group application to :name.',
         'new_application_text' => ':username has applied to your group :groupname. Head to the details of :groupname and click on "Manage Applications" to accept or reject the application.',
+        'successful_application' => 'You successfully applied to the group :name.',
+        'application_accepted_title' => 'Your application to :name has been accepted.',
+        'application_accepted_text' => 'Your application to :name has been accepted. You can now see it under Social > Groups > My Groups.',
+        'accepted_application' => 'You successfully accepted :username\'s application.',
+        'rejected_application' => 'You successfully rejected :username\'s application.',
+        'rejected_and_banned' => 'You have successfully denied :username\'s application and banned them from your group.',
+        'removed_and_banned' => 'You have successfully removed and banned :username from your group.',
+        'leave' => [
+            'not_member' => 'You are not a member of the group you are trying to leave.',
+            'only_member' => 'You can\'t leave a group you are the only member of, please delete instead.',
+            'admin' => 'You cannot leave a group where you are an admin.',
+            'success' => 'You have successfully left the group :name.',
+        ],
+        'invite' => [
+            'new_title' => 'You have a new group invite.',
+            'new_text' => 'You have been invited to join the group :name.',
+            'sent' => 'You have invited this user.',
+            'not_yours' => 'This is not your invitation.',
+            'rejected' => 'You have rejected the invitation.',
+        ]
+
     ]
 
 ];
