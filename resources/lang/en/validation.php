@@ -162,7 +162,12 @@ return [
         'keepOldInstance' => [
             'required' => 'Please select whether to activate an existing instance or create a new one.',
         ],
-
+        'achievement_type' => 'Invalid achievement type',
+        'match_old_password' => 'Old password is not correct.',
+        'valid_bug_type' => 'You have not selected a valid type.',
+        'valid_repeatable' => 'This is not a valid repeatable type.',
+        'valid_reward_type' => 'This is not a valid reward type.',
+        'valid_task_type' => 'This is not a valid task type.',
     ],
 
     /*

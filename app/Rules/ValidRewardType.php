@@ -35,6 +35,6 @@ class ValidRewardType implements Rule
      */
     public function message()
     {
-        return 'This is not a valid reward type.';
+        return __('validation.custom.valid_reward_type');
     }
 }
