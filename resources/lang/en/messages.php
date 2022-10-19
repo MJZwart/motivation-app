@@ -148,5 +148,8 @@ return [
     ],
 
     'not_authorized' => 'You are not authorized to do this.',
+    'accept' => 'accept',
+    'reject' => 'reject',
+    'deny' => 'deny',
 
 ];

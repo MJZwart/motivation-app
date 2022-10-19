@@ -43,8 +43,8 @@ class NotificationHandler
      */
     public static function createFromFriendRequest(int $userId, string $title, string $text, Friend $friendRequest)
     {
-        $acceptLink = NotificationLink::create('accept', "/friend/request/$friendRequest->id/accept", 'POST');
-        $denyLink = NotificationLink::create('deny', "/friend/request/$friendRequest->id/deny", 'POST');
+        $acceptLink = NotificationLink::create(__('messages.accept'), "/friend/request/$friendRequest->id/accept", 'POST');
+        $denyLink = NotificationLink::create(__('messages.deny'), "/friend/request/$friendRequest->id/deny", 'POST');
         $linkGroup = NotificationHandler::createJson($acceptLink, $denyLink);
         NotificationHandler::create($userId, $title, $text, $linkGroup, true);
     }
@@ -61,8 +61,8 @@ class NotificationHandler
      */
     public static function createFromGroupInvite(int $userId, string $title, string $text, GroupInvite $groupInvite)
     {
-        $acceptLink = NotificationLink::create('accept', "/groups/invite/accept/$groupInvite->id", 'POST');
-        $rejectLink = NotificationLink::create('reject', "/groups/invite/reject/$groupInvite->id", 'POST');
+        $acceptLink = NotificationLink::create(__('messages.accept'), "/groups/invite/accept/$groupInvite->id", 'POST');
+        $rejectLink = NotificationLink::create(__('messages.reject'), "/groups/invite/reject/$groupInvite->id", 'POST');
         $linkGroup = NotificationHandler::createJson($acceptLink, $rejectLink);
         NotificationHandler::create($userId, $title, $text, $linkGroup, true);
     }
