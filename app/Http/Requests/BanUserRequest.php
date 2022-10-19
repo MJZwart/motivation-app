@@ -30,12 +30,4 @@ class BanUserRequest extends FormRequest
             'indefinite' => 'required_if:days,<1|boolean',
         ];
     }
-
-    public function messages(){
-        return [
-            'days.required_if' => 'The amount of days is required if not indefinite.',
-            'days.min' => 'The amount of days must be more than 1 if not indefinite.',
-            'indefinite.required_if' => 'If no days are selected, please check indefinite.',
-        ];
-    }
 }

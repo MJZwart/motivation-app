@@ -33,11 +33,4 @@ class RegisterUserRequest extends FormRequest
             'language' => ['required', 'string', Rule::in(['en', 'nl'])],
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'agree_to_tos.accepted' => 'You must agree to the terms of service to register an account.',
-        ];
-    }
 }

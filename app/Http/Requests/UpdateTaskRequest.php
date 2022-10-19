@@ -40,15 +40,4 @@ class UpdateTaskRequest extends FormRequest
         
         ];
     }
-    
-    public function messages(){
-        return [
-            'task_list_id.required' => 'You have not selected a task list.',
-            'task_list_id.*' => 'You have not selected a valid task list.',
-            'difficulty.max' => 'You have not selected a valid difficulty.',
-            'name.max' => 'The name you picked is too long. Use the description to add more information.',
-            'super_task_id.*' => 'You have not picked a valid task to make this a sub-task of.',
-            'repeatable.*' => 'You have not picked a valid repeatable type.',
-        ];
-    }
 }

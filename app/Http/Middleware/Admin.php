@@ -23,7 +23,7 @@ class Admin
         if (Auth::user()->admin) {
             return $next($request);
         } else {
-            return ResponseWrapper::forbiddenResponse('You are not authorized to do this.');
+            return ResponseWrapper::forbiddenResponse(__('messages.not_authorized'));
         };
     }
 }
