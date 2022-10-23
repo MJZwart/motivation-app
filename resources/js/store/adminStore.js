@@ -137,7 +137,7 @@ export const useAdminStore = defineStore('admin', {
          */
         async closeReport(report) {
             const {data} = await axios.post(`/admin/reported_users/${report.id}`);
-            this.reportedUsers = data.data.reportedUsers;
+            this.reportedUsers = data.reportedUsers;
         },
 
         /**

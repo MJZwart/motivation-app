@@ -26,6 +26,17 @@
                 <label for="indefinite">{{ $t('indefinite') }}</label>
                 <BaseFormError name="indefinite" />
             </div>
+            <div class="form-group">
+                <input
+                    id="close-reports"
+                    v-model="suspension.close_reports"
+                    type="checkbox"
+                    name="close-reports"
+                    :label="$t('suspend-user-close-reports')"
+                    :placeholder="$t('suspend-user-close-reports')" />
+                <label for="close-reports">{{ $t('suspend-user-close-reports') }}</label>
+                <BaseFormError name="close-reports" />
+            </div>
             <button type="submit" class="block">{{ $t('suspend-user') }}</button>
             <button type="button" class="block" @click="emit('close')">{{ $t('cancel') }}</button>
         </form>
@@ -50,6 +61,7 @@ const suspension = ref<NewSuspension>({
     reason: '',
     days: 0,
     indefinite: false,
+    close_reports: false,
 });
 
 async function suspendUser() {

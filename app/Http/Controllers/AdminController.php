@@ -80,12 +80,8 @@ class AdminController extends Controller
      */
     public function closeReport(ReportedUser $reportedUser)
     {
-        $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->with('user.bannedUser')->get()->groupBy('reported_user_id');
-        $reportedUsers = [];
-        foreach ($reportedUsersCollection as $userReport) {
-            array_push($reportedUsers, UserReportResource::collection($userReport)->setUser($userReport[0]->user));
-        }
-        return ResponseWrapper::successResponse("tried to delete {$reportedUser->id}, but not implemented", ['reportedUsers' => $reportedUsers]);
+        $reportedUser->delete();
+        return $this->getReportedUsers();
     }
 
     public function updateExeriencePoints(UpdateExperiencePointsRequest $request)
@@ -154,6 +150,11 @@ class AdminController extends Controller
             'days' => $validated['days'],
             'banned_until' => $bannedUntilTime,
         ]);
+
+        //delete all reports of the user if checkbox 'close all reports' is checked
+        if ($validated['close_reports'] == 'true') {
+            ReportedUser::where('reported_user_id', $user->id)->delete();
+        }
 
         $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->get()->groupBy('reported_user_id');
         $reportedUsers = [];
