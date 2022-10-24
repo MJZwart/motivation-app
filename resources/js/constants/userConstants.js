@@ -1,4 +1,4 @@
 export const SEARCH_RESULTS_FIELDS = [
-    {label: 'Username', key: 'username', sortable: true},
-    {label: 'Actions', key: 'actions', sortable: false},
+    {label: 'username', key: 'username', sortable: true},
+    {label: 'actions', key: 'actions', sortable: false},
 ];

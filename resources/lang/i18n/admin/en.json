@@ -24,6 +24,21 @@
     "link-text": "Link text",
     "ensure-link-correct": "Ensure you have entered the link correctly before sending. (Example: '/social#Friends' or '/overview')",
     "link-text-details": "Enter the text you want the link to display as",
+
+    "design": "Design",
+    "functionality": "Functionality",
+    "other": "Other",
+
+    "bug-low": "Low (Not too important)",
+    "bug-medium": "Medium (A bit odd/annoying)",
+    "bug-high": "High (Quite limiting)",
+    "bug-severe": "Severe (Very limiting)",
+    "bug-critical": "Critical (Site-breaking)",
+
+    "reported": "Reported",
+    "in-progress": "In progress",
+    "done": "Fix ready",
+    "resolved": "Fix published",
     
     "reported-users": "Reported users",
     "number-of-reports": "# of reports",
@@ -54,6 +69,11 @@
     "end-ban": "End ban",
     "ban-ended": "This ban has ended",
     "suspended-until-reason": "Suspended until {0} for {1}.",
+
+    "report-amount": "# of reports",
+    "banned": "Banned",
+    "log": "Log",
+    "edit-ban-of": "Edit ban of {user}",
     
     "total-users": "Total users",
     "active-users": "Active users",
@@ -71,6 +91,8 @@
     "new-bugs-details": "Last 7 days",
     "new-user-reports-details": "Last 7 days",
     "new-users-details": "Last 7 days",
+    "archived": "Archived",
+    "created": "Created",
 
     "manage-achievements": "Manage achievements",
     "no-achievements": "No achievements yet.",

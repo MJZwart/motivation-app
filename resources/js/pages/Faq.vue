@@ -15,7 +15,15 @@
 </template>
 
 <script setup>
-import {questions} from '../../lang/components/faq/en';
+import {computed} from 'vue';
+import {enQuestions} from '../../lang/components/faq/en';
+import {nlQuestions} from '../../lang/components/faq/nl';
+import {currentLang} from '/js/services/languageService';
+
+const questions = computed(() => {
+    if (currentLang.value === 'nl') return nlQuestions;
+    return enQuestions;
+})
 </script>
 
 <style>

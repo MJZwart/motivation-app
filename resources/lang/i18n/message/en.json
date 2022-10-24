@@ -2,6 +2,7 @@
     "message": "Message",
     "messages": "Messages",
     "send-message-placeholder": "Type your message",
+    "send-message-to": "Send message to {user}",
     "conversations": "Conversations",
     "conversation-with": "Conversation with",
     "last-message": "Last message",

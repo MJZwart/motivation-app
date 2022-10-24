@@ -24,6 +24,11 @@
     "subtask-of": "Subtaak van",
     "update-task-list": "Update takenlijst",
     "task-list-name": "Takenlijst naam",
+    "task-type": "Taak type",
+
+    "generic": "Generiek",
+    "physical": "Fysiek",
+    "mental": "Mentaal",
 
     "tasks-completed": "Taken voltooid",
     "most-completed-repeatable": "Vaakst voltooid: {0}. {1} keer voltooid.",
@@ -32,5 +37,10 @@
     "DAILY": "Dagelijks",
     "WEEKLY": "Wekelijks",
     "MONTHLY": "Maandelijks",
-    "INFINITE": "Oneindig"
+    "INFINITE": "Oneindig",
+    "daily": "Dagelijks",
+    "weekly": "Wekelijks",
+    "monthly": "Maandelijks",
+    "infinite": "Oneindig",
+    "not-repeatable": "Eenmalig"
 }

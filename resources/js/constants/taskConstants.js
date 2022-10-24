@@ -1,9 +1,11 @@
-export const TASK_TYPES = [{text: 'Generic', value: 'GENERIC'}, 
-    {text: 'Physical', value: 'PHYSICAL'}, 
-    {text: 'Mental', value: 'MENTAL'}, 
-    {text: 'Social', value: 'SOCIAL'}];
-export const REPEATABLES = [{text: 'Not repeatable', value:'NONE'},
-    {text: 'Daily', value:'DAILY'},
-    {text: 'Weekly', value:'WEEKLY'},
-    {text: 'Monthly', value:'MONTHLY'},
-    {text: 'Infinite', value:'INFINITE'}];
+export const TASK_TYPES = [
+    {text: 'generic', value: 'GENERIC'}, 
+    {text: 'physical', value: 'PHYSICAL'}, 
+    {text: 'mental', value: 'MENTAL'}, 
+    {text: 'social', value: 'SOCIAL'}];
+export const REPEATABLES = [
+    {text: 'not-repeatable', value:'NONE'},
+    {text: 'daily', value:'DAILY'},
+    {text: 'weekly', value:'WEEKLY'},
+    {text: 'monthly', value:'MONTHLY'},
+    {text: 'infinite', value:'INFINITE'}];

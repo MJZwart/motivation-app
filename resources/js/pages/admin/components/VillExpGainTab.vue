@@ -9,7 +9,7 @@
             <table class="table table-sm table-striped">
                 <thead>
                     <tr>
-                        <th v-for="(field, index) in villageExpGainFields" :key="index">{{field.label}}</th>
+                        <th v-for="(field, index) in villageExpGainFields" :key="index">{{ $t(field.label) }}</th>
                     </tr>
                 </thead>
                 <tbody>

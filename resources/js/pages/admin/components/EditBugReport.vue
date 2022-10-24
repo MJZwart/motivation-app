@@ -8,7 +8,7 @@
                     v-model="bugReportToEdit.type" 
                     name="type"
                     :placeholder="bugReportToEdit.type">
-                    <option v-for="(option, index) in bugTypes" :key="index" :value="option.value">{{option.text}}</option>
+                    <option v-for="(option, index) in bugTypes" :key="index" :value="option.value">{{$t(option.text)}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-type-desc')}}</small>
                 <BaseFormError name="type" /> 
@@ -19,7 +19,7 @@
                     id="severity" 
                     v-model="bugReportToEdit.severity"
                     name="severity" >
-                    <option v-for="(option, index) in bugSeverity" :key="index" :value="option.value">{{option.text}}</option>
+                    <option v-for="(option, index) in bugSeverity" :key="index" :value="option.value">{{$t(option.text)}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-severity-desc')}}</small>
                 <BaseFormError name="severity" /> 
@@ -39,7 +39,7 @@
                     v-model="bugReportToEdit.status"
                     type="text" 
                     name="status" >
-                    <option v-for="(option, index) in bugStatus" :key="index" :value="option.value">{{option.text}}</option>
+                    <option v-for="(option, index) in bugStatus" :key="index" :value="option.value">{{$t(option.text)}}</option>
                 </select>
                 <small class="form-text text-muted">{{$t('bug-status-desc')}}</small>
                 <BaseFormError name="status" /> 

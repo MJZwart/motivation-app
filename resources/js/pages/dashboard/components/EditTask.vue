@@ -21,7 +21,7 @@
                     id="type"
                     v-model="editedTask.type"
                     name="type">
-                    <option v-for="(option, index) in taskTypes" :key="index" :value="option.value">{{option.text}}</option>
+                    <option v-for="(option, index) in taskTypes" :key="index" :value="option.value">{{ $t(option.text) }}</option>
                 </select>
                 <BaseFormError name="type" /> 
             </div>
@@ -42,7 +42,9 @@
                     id="repeatable"
                     v-model="editedTask.repeatable"
                     name="repeatable">
-                    <option v-for="(option, index) in repeatables" :key="index" :value="option.value">{{option.text}}</option>
+                    <option v-for="(option, index) in repeatables" :key="index" :value="option.value">
+                        {{ $t(option.text) }}
+                    </option>
                 </select>
                 <BaseFormError name="repeatable" /> 
             </div>

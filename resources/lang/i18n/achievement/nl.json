@@ -2,5 +2,8 @@
     "ach-tasks-made": "{n} taak aangemaakt. | {n} taken aangemaakt.",
     "ach-tasks-completed": "{n} taak voltooid. | {n} taken voltooid.",
     "ach-repeatable-completed": "Een herhaalbare taak {n} keer voltooien. | Een herhaalbare taak {n} keer voltooien.",
-    "ach-friends": "{n} vriend toegevoegd. | {n} vrienden toegevoegd."
+    "ach-friends": "{n} vriend toegevoegd. | {n} vrienden toegevoegd.",
+
+    "image": "Afbeelding",
+    "trigger": "Trigger"
 }

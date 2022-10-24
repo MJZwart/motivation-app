@@ -2,6 +2,7 @@
     "message": "Bericht",
     "messages": "Berichten",
     "send-message-placeholder": "Type je bericht",
+    "send-message-to": "Stuur bericht naar {user}",
     "conversations": "Conversaties",
     "conversation-with": "Conversatie met",
     "last-message": "Laatste bericht",

@@ -22,8 +22,10 @@
 <script setup lang="ts">
 import type {NewMessage} from 'resources/types/message';
 import {computed, ref} from 'vue';
+import {useI18n} from 'vue-i18n';
 import {useMessageStore} from '/js/store/messageStore';
 const messageStore = useMessageStore();
+const {t} = useI18n();
 
 const props = defineProps({
     user: {
@@ -52,5 +54,5 @@ async function sendMessage() {
     await messageStore.sendMessage(message.value);
     emit('close');
 }
-const sendMessageTitle = computed(() => `Send message to ${props.user.username}`);
+const sendMessageTitle = computed(() => t('send-message-to', {user: props.user.username}));
 </script>

@@ -53,6 +53,8 @@
     "description": "Description",
     "description-optional": "Description (optional)",
     "type": "Type",
+    "user": "User",
+    "time-created": "Time created",
     "amount": "Amount",
     "title": "Title",
     "username": "Username",
