@@ -159,8 +159,15 @@ export const routes = [
         },
     },
     {
-        name: 'Error',
         path: '/:pathMatch(.*)*',
+        component: ErrorPage,
+        meta: {
+            title: 'Error',
+        },
+    },
+    {
+        name: 'Error',
+        path: '/error',
         component: ErrorPage,
         meta: {
             title: 'Error',

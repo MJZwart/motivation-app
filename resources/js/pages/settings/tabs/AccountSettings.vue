@@ -59,7 +59,7 @@ const user = computed(() => userStore.user);
 onMounted(() => setupSettings());
 
 const emailSettings = ref<EmailSettings>({
-    email: user.value.email.slice(),
+    email: user.value ? user.value.email.slice() : '',
 });
 const passwordSettings = ref<PasswordSettings>({
     old_password: '',
@@ -70,7 +70,7 @@ const loading = ref(true);
 
 /** Sets up the form with the user settings */
 function setupSettings() {
-    emailSettings.value.email = user.value.email;
+    emailSettings.value.email = user.value?.email ?? '';
     loading.value = false;
 }
 

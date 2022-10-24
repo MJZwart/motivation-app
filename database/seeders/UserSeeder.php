@@ -47,5 +47,17 @@ class UserSeeder extends Seeder
         User::factory(20)
             ->hasTaskLists(2)
             ->create(['first_login' => false, 'rewards' => 'NONE']);
+
+        User::factory()
+            ->hasTaskLists(1)
+            ->create(['username' => 'cyptest1', 'first_login' => false, 'rewards' => 'NONE']);
+
+        User::factory()
+            ->hasTaskLists(1)
+            ->create(['username' => 'cyptest2', 'first_login' => false, 'rewards' => 'NONE']);
+
+        User::factory()
+            ->hasTaskLists(1)
+            ->create(['username' => 'cyptest3', 'first_login' => false, 'rewards' => 'NONE']);
     }
 }

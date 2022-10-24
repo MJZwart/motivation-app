@@ -1,3 +1,5 @@
+import {OverviewFieldGroups} from 'resources/types/global';
+
 export const REPORT_REASONS = [
     {text: 'Harassment', value: 'HARASSMENT'},
     {text: 'Spam', value: 'SPAM'},
@@ -100,3 +102,66 @@ export const BANNED_USERS_FIELDS = [
         key: 'actions',
     },
 ];
+
+export const REPORTED_USER_OVERVIEW_FIELDS: OverviewFieldGroups = {
+    fieldGroups: [
+        {
+            key: 'username',
+            fields: [
+                {
+                    key: 'username',
+                    label: 'Username',
+                    hidden: true,
+                    sortable: true,
+                },
+            ],
+            width: 2,
+        },
+        {
+            label: 'Reports',
+            key: 'reports',
+            fields: [
+                {
+                    label: '# of Reports',
+                    key: 'report_amount',
+                    sortable: true,
+                },
+                {
+                    label: 'Last Report',
+                    key: 'last_report_date',
+                    sortable: true,
+                },
+            ],
+            width: 3,
+        },
+        {
+            label: 'Banned until',
+            key: 'banned_group',
+            fields: [
+                {
+                    label: 'Banned',
+                    key: 'banned_until',
+                    sortable: true,
+                },
+            ],
+            width: 3,
+        },
+        {
+            label: 'Actions',
+            key: 'actions_group',
+            fields: [
+                {
+                    label: 'Actions',
+                    key: 'actions',
+                },
+            ],
+            width: 2,
+        },
+    ],
+    extend: [
+        {
+            label: '',
+            key: 'extend',
+        },
+    ],
+}
