@@ -20,9 +20,13 @@ import {enQuestions} from '../../lang/components/faq/en';
 import {nlQuestions} from '../../lang/components/faq/nl';
 import {currentLang} from '/js/services/languageService';
 
+const languages = {
+    'en': enQuestions,
+    'nl': nlQuestions,
+};
+
 const questions = computed(() => {
-    if (currentLang.value === 'nl') return nlQuestions;
-    return enQuestions;
+    return languages[currentLang.value];
 })
 </script>
 
