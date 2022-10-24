@@ -15,7 +15,19 @@
 </template>
 
 <script setup>
-import {questions} from '../../lang/components/faq/en';
+import {computed} from 'vue';
+import {enQuestions} from '../../lang/components/faq/en';
+import {nlQuestions} from '../../lang/components/faq/nl';
+import {currentLang} from '/js/services/languageService';
+
+const languages = {
+    'en': enQuestions,
+    'nl': nlQuestions,
+};
+
+const questions = computed(() => {
+    return languages[currentLang.value];
+})
 </script>
 
 <style>

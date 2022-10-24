@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-export const questions = [
+export const enQuestions = [
     // {
     //     question: 'So what is this site?', 
     //     answer: 'Hi',

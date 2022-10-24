@@ -30,8 +30,8 @@
                 :placeholder="$t('group-search-placeholder')"
             />
             <div class="mt-2 mb-1">
-                <h3 v-if="chosen == 'MY'">Your groups</h3>
-                <h3 v-if="chosen == 'ALL'">All groups</h3>
+                <h3 v-if="chosen == 'MY'">{{ $t('my-groups') }}</h3>
+                <h3 v-if="chosen == 'ALL'">{{ $t('all-groups') }}</h3>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{ $t('create-group') }}</button>
             </div>
             <SortableOverviewTable 

@@ -1,39 +1,39 @@
 export const FEEDBACK_TYPES = [
-    {text: 'Feedback', value: 'FEEDBACK'},
-    {text: 'Suggestion', value: 'SUGGESTION'},
-    {text: 'Question', value: 'QUESTION'},
-    {text: 'Other', value: 'OTHER'},
+    {text: 'feedback', value: 'FEEDBACK'},
+    {text: 'suggestion', value: 'SUGGESTION'},
+    {text: 'question', value: 'QUESTION'},
+    {text: 'other', value: 'OTHER'},
 ];
 
 export const FEEDBACK_FIELDS = [
     {
-        label: 'Actions', 
+        label: 'actions', 
         key: 'actions',
     },
     {
-        label: 'Type', 
+        label: 'type', 
         key: 'type',
         sortable: true,
     },
     {
-        label: 'Text', 
+        label: 'text', 
         key: 'text',
     },
     {
-        label: 'User', 
+        label: 'user', 
         key: 'user',
     },
     {
-        label: 'Email', 
+        label: 'email', 
         key: 'email',
     },
     {
-        label: 'Created', 
+        label: 'created', 
         key: 'created_at',
         sortable: true,
     },
     {
-        label: 'Archived', 
+        label: 'archived', 
         key: 'archived',
         sortable: true,
     },

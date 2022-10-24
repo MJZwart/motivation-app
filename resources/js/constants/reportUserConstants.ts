@@ -1,104 +1,104 @@
 import {OverviewFieldGroups} from 'resources/types/global';
 
 export const REPORT_REASONS = [
-    {text: 'Harassment', value: 'HARASSMENT'},
-    {text: 'Spam', value: 'SPAM'},
-    {text: 'Inappropriate naming', value: 'NAME'},
-    {text: 'Other', value: 'OTHER'},
+    {text: 'harassment', value: 'HARASSMENT'},
+    {text: 'spam', value: 'SPAM'},
+    {text: 'inappropriate-naming', value: 'NAME'},
+    {text: 'other', value: 'OTHER'},
 ];
 
 export const REPORTED_USER_FIELDS = [
     {
-        label: 'Username',
+        label: 'username',
         key: 'username',
         sortable: true,
     },
     {
-        label: '# of Reports',
+        label: 'report-amount',
         key: 'report_amount',
         sortable: true,
     },
     {
-        label: 'Last Report',
+        label: 'last-report',
         key: 'last_report_date',
         sortable: true,
     },
     {
-        label: 'Actions',
+        label: 'actions',
         key: 'actions',
     },
     {
-        label: 'Banned',
+        label: 'banned',
         key: 'banned',
     },
 ];
 
 export const REPORTED_USER_DETAILS_FIELDS = [
     {
-        label: 'Comment',
+        label: 'comment',
         key: 'comment',
     },
     {
-        label: 'Report Date',
+        label: 'report-date',
         key: 'reported_date',
         sortable: true,
     },
     {
-        label: 'Reported by',
+        label: 'reported-by',
         key: 'reported_by_name',
         sortable: true,
     },
     {
-        label: 'Conversation ID',
+        label: 'conversation-id',
         key: 'conversation',
         sortable: true,
     },
     {
-        label: 'Reason',
+        label: 'reason',
         key: 'reason',
     },
     {
-        label: 'Actions',
+        label: 'actions',
         key: 'actions',
     },
 ];
 
 export const BANNED_USERS_FIELDS = [
     {
-        label: 'Date',
+        label: 'date',
         key: 'created_at',
         sortable: true,
     },
     {
-        label: 'User',
+        label: 'user',
         key: 'user',
         sortable: true,
     },
     {
-        label: 'Reason',
+        label: 'reason',
         key: 'reason',
     },
     {
-        label: 'Days',
+        label: 'days',
         key: 'days',
         sortable: true,
     },
     {
-        label: 'Banned by',
+        label: 'banned-by',
         key: 'admin',
         sortable: true,
     },
     {
-        label: 'Banned until',
+        label: 'banned-until',
         key: 'banned_until',
         sortable: true,
     },
     {
-        label: 'Log',
+        label: 'log',
         key: 'log',
     },
     {
-        label: 'Actions',
+        label: 'actions',
         key: 'actions',
     },
 ];
@@ -110,7 +110,7 @@ export const REPORTED_USER_OVERVIEW_FIELDS: OverviewFieldGroups = {
             fields: [
                 {
                     key: 'username',
-                    label: 'Username',
+                    label: 'username',
                     hidden: true,
                     sortable: true,
                 },
@@ -118,16 +118,16 @@ export const REPORTED_USER_OVERVIEW_FIELDS: OverviewFieldGroups = {
             width: 2,
         },
         {
-            label: 'Reports',
+            label: 'reports',
             key: 'reports',
             fields: [
                 {
-                    label: '# of Reports',
+                    label: 'report-amount',
                     key: 'report_amount',
                     sortable: true,
                 },
                 {
-                    label: 'Last Report',
+                    label: 'last-report',
                     key: 'last_report_date',
                     sortable: true,
                 },
@@ -135,11 +135,11 @@ export const REPORTED_USER_OVERVIEW_FIELDS: OverviewFieldGroups = {
             width: 3,
         },
         {
-            label: 'Banned until',
+            label: 'banned-until',
             key: 'banned_group',
             fields: [
                 {
-                    label: 'Banned',
+                    label: 'banned',
                     key: 'banned_until',
                     sortable: true,
                 },
@@ -147,11 +147,11 @@ export const REPORTED_USER_OVERVIEW_FIELDS: OverviewFieldGroups = {
             width: 3,
         },
         {
-            label: 'Actions',
+            label: 'actions',
             key: 'actions_group',
             fields: [
                 {
-                    label: 'Actions',
+                    label: 'actions',
                     key: 'actions',
                 },
             ],

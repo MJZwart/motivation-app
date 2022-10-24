@@ -39,7 +39,7 @@
                         type="radio"
                         :value="type.value"
                     />
-                    <label :for="type.value">{{ type.text }}</label>
+                    <label :for="type.value">{{ $t(type.text) }}</label>
                 </div>
                 <BaseFormError name="rewards" />
                 <hr />
@@ -152,12 +152,12 @@ const characterOptions = computed(() => {
         for (const character of characters.value) {
             options.push({
                 value: character.id,
-                text: 'Activate ' + character.name + displayActive(character),
+                text: t('activate') + ' ' + character.name + displayActive(character),
                 disabled: character.active,
             });
         }
     }
-    options.push({text: 'Make a new character', value: 'NEW'});
+    options.push({text: t('make-new-character'), value: 'NEW'});
     return options;
 });
 const villageOptions = computed(() => {
@@ -166,12 +166,12 @@ const villageOptions = computed(() => {
         for (const village of villages.value) {
             options.push({
                 value: village.id,
-                text: 'Activate ' + village.name + displayActive(village),
+                text: t('activate') + ' ' + village.name + displayActive(village),
                 disabled: village.active,
             });
         }
     }
-    options.push({text: 'Make a new village', value: 'NEW'});
+    options.push({text: t('make-new-village'), value: 'NEW'});
     return options;
 });
 const rewardItems = computed(() => {

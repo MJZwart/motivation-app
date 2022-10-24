@@ -65,8 +65,10 @@ import {BANNED_USERS_FIELDS} from '/js/constants/reportUserConstants';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 import {BannedUser} from 'resources/types/user';
+import {useI18n} from 'vue-i18n';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
+const {t} = useI18n();
 
 onMounted(async () => {
     await adminStore.getBannedUsers();
@@ -82,7 +84,7 @@ const showEditBanModal = ref(false);
 const editBanUser = ref<BannedUser | null>(null);
 const editBanModalTitle = computed(() => {
     if (!editBanUser.value) return;
-    return `Edit ban of ${editBanUser.value.user.username}`;
+    return t('edit-ban-of', {user: editBanUser.value.user.username});
 });
 
 function editBan(bannedUser: BannedUser) {

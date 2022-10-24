@@ -7,7 +7,7 @@
                     <template v-for="(subField, idx) in fieldGroup.fields" :key="idx">
                         <slot v-bind="subField" :name="'head'">
                             <span v-if="subField.sortable" class="clickable block header" @click="toggleSort(subField.key)">
-                                {{ subField.label }} 
+                                {{ $t(subField.label) }} 
                                 <FaIcon icon="sort"  />
                             </span>
                         </slot>
@@ -27,11 +27,11 @@
                         :class="'width-'+fieldGroup.width"
                     >
                         <slot v-bind="{item, index}" :name="fieldGroup.key">
-                            <h5>{{fieldGroup.label}}</h5>
+                            <h5 v-if="fieldGroup.label">{{ $t(fieldGroup.label) }}</h5>
                         </slot>
                         <p v-for="field in fieldGroup.fields" :key="field.key">
                             <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
-                                <b>{{field.label}}:</b> {{parseItem(item[field.key])}}
+                                <b>{{$t(field.label)}}:</b> {{parseItem(item[field.key])}}
                             </slot>
                         </p>
                     </div>
@@ -44,7 +44,7 @@
                         class="field-group"
                     >
                         <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
-                            <b>{{field.label}}:</b> {{parseItem(item[field.key])}}
+                            <b>{{$t(field.label)}}:</b> {{parseItem(item[field.key])}}
                         </slot>
                     </div>
                 </div>

@@ -5,11 +5,11 @@
                 <th v-for="(field, index) in fields" :key="index">
                     <slot v-bind="field" :name="'head'">
                         <span v-if="field.sortable" class="clickable block" @click="toggleSort(field.key)">
-                            {{ field.label }} 
+                            {{ $t(field.label) }} 
                             <FaIcon 
                                 icon="sort"  />
                         </span>
-                        <span v-else>{{ field.label }}</span>
+                        <span v-else>{{ $t(field.label) }}</span>
                     </slot>
                 </th>
             </tr>

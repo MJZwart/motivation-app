@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label for="type">{{ $t('type') }}</label>
                 <select id="type" v-model="task.type" name="type">
-                    <option v-for="(type, index) in taskTypes" :key="index" :value="type.value">{{ type.text }}</option>
+                    <option v-for="(type, index) in taskTypes" :key="index" :value="type.value">{{ $t(type.text) }}</option>
                 </select>
                 <BaseFormError name="type" />
             </div>
@@ -37,7 +37,7 @@
                 <label for="repeatable">{{ $t('repeatable') }}</label>
                 <select id="repeatable" v-model="task.repeatable" name="repeatable">
                     <option v-for="(option, index) in repeatables" :key="index" :value="option.value">
-                        {{ option.text }}
+                        {{ $t(option.text) }}
                     </option>
                 </select>
                 <BaseFormError name="repeatable" />

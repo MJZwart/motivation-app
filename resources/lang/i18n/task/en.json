@@ -24,6 +24,11 @@
     "subtask-of": "Subtask of",
     "update-task-list": "Update task list",
     "task-list-name": "Task list name",
+    "task-type": "Task type",
+
+    "generic": "Generic",
+    "physical": "Physical",
+    "mental": "Mental",
 
     "tasks-completed": "Tasks completed",
     "most-completed-repeatable": "Most completed repeatable: {0}. Completed {1} times",
@@ -32,5 +37,10 @@
     "DAILY": "Daily",
     "WEEKLY": "Weekly",
     "MONTHLY": "Monthly",
-    "INFINITE": "Infinitely"
+    "INFINITE": "Infinitely",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "infinite": "Infinitely",
+    "not-repeatable": "Once"
 }

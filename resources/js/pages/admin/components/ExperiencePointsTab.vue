@@ -36,8 +36,8 @@
             <table class="table table-sm table-striped">
                 <thead>
                     <tr>
-                        <th>Level</th>
-                        <th>Points</th>
+                        <th>{{ $t('level') }}</th>
+                        <th>{{ $t('points') }}</th>
                     </tr>
                 </thead>
                 <tbody>

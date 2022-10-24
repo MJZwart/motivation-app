@@ -1,14 +1,14 @@
 export const EXPERIENCE_POINTS_FIELDS = [
     {
         key: 'level', 
-        label: 'Level', 
+        label: 'level', 
         type: 'number',
         editable: false,
         sortable: true,
     },
     {
         key: 'experience_points', 
-        label: 'Points',
+        label: 'points',
         type: 'number',
         editable: true, 
         class: 'points-col',
@@ -19,37 +19,37 @@ export const EXPERIENCE_POINTS_FIELDS = [
 export const CHARACTER_EXP_GAIN_FIELDS = [
     {
         key: 'task_type',
-        label: 'Task type',
+        label: 'task-type',
         editable: false,
     },
     {
         key: 'strength',
-        label: 'Strength',
+        label: 'strength',
         editable: true,
     },
     {
         key: 'agility',
-        label: 'Agility',
+        label: 'agility',
         editable: true,
     },
     {
         key: 'endurance',
-        label: 'Endurance',
+        label: 'endurance',
         editable: true,
     },
     {
         key: 'intelligence',
-        label: 'Intelligence',
+        label: 'intelligence',
         editable: true,
     },
     {
         key: 'charisma',
-        label: 'Charisma',
+        label: 'charisma',
         editable: true,
     },
     {
         key: 'level',
-        label: 'Level',
+        label: 'level',
         editable: true,
     },
 ];
@@ -57,37 +57,37 @@ export const CHARACTER_EXP_GAIN_FIELDS = [
 export const VILLAGE_EXP_GAIN_FIELDS = [
     {
         key: 'task_type',
-        label: 'Task type',
+        label: 'task-type',
         editable: false,
     },
     {
         key: 'economy',
-        label: 'Economy',
+        label: 'economy',
         editable: true,
     },
     {
         key: 'labour',
-        label: 'Labour',
+        label: 'labour',
         editable: true,
     },
     {
         key: 'craft',
-        label: 'Craft',
+        label: 'craft',
         editable: true,
     },
     {
         key: 'art',
-        label: 'Art',
+        label: 'art',
         editable: true,
     },
     {
         key: 'community',
-        label: 'Community',
+        label: 'community',
         editable: true,
     },
     {
         key: 'level',
-        label: 'Level',
+        label: 'level',
         editable: true,
     },
 ];

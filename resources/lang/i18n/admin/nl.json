@@ -24,10 +24,25 @@
     "link-text": "Link text",
     "ensure-link-correct": "Zorg ervoor dat de link correct is voor versturen (Zoals: '/social#Friends' of '/overview')",
     "link-text-details": "Voer de text in zoals je wil dat de link er uit ziet.",
+
+    "design": "Design",
+    "functionality": "Functionaliteit",
+    "other": "Anders",
+
+    "bug-low": "Laag (Niet heel belangrijk)",
+    "bug-medium": "Medium (Een beetje vreemd/irritant)",
+    "bug-high": "Hoog (Aardig limiterend)",
+    "bug-severe": "Ernstig (Erg limiterend)",
+    "bug-critical": "Kritiek (Site-brekend)",
+
+    "reported": "Gerapporteerd",
+    "in-progress": "In behandeling",
+    "done": "Fix klaar",
+    "resolved": "Fix uitgerold",
     
     "reported-users": "Gemelde gebruikers",
     "number-of-reports": "Aantal meldingen",
-    "last-report": "Laàtste melding",
+    "last-report": "Laatste melding",
     "actions": "Acties",
     "reports": "Meldingen",
     "date": "Datum",
@@ -54,6 +69,14 @@
     "end-ban": "Schorsing beëindigen",
     "ban-ended": "Deze schorsing is beëindigd.",
     "suspended-until-reason": "Geschorst tot {0} voor {1}.",
+
+    "report-amount": "Aantal meldingen",
+    "banned": "Geschorst",
+    "log": "Log",
+    "edit-ban-of": "Schorsing van {user} wijzigen",
+    "close-report-confirmation": "Sluit melding {report}?",
+    "close-report": "Sluit melding",
+    "suspend-user-close-reports": "Sluit alle meldingen van gebruiker?",
     
     "total-users": "Totaal aantal gebruikers",
     "active-users": "Actieve gebruikers",
@@ -71,6 +94,8 @@
     "new-bugs-details": "Laatste 7 dagen",
     "new-user-reports-details": "Laatste 7 dagen",
     "new-users-details": "Laatste 7 dagen",
+    "archived": "Gearchiveerd",
+    "created": "Aangemaakt",
 
     "manage-achievements": "Achievements beheren",
     "no-achievements": "Nog geen achievements",

@@ -21,6 +21,7 @@
     "e": "Charisma | Community",
 
     "currently-active": "Currently active",
+    "active": "Active",
     "manage-rewards": "Manage rewards",
     "rewards-type": "Rewards type",
     "change-reward-type": "Change reward type",
@@ -46,5 +47,9 @@
     "pick-example-tasks": "To get you started, you can pick a few of these example tasks to directly put into your task lists.",
     "update-reward-name": "Update name",
     "edit-reward-name": "Edit name",
-    "confirm-delete-instance": "Are you sure you wish to delete the {type} {name}?"
+    "confirm-delete-instance": "Are you sure you wish to delete the {type} {name}?",
+
+    "turn-off-rewards": "Turn off rewards.",
+    "switch-character-or-new": "Switch to an RPG character and/or make a new one.",
+    "switch-village-or-new": "Switch to a Village and/or make a new one."
 }

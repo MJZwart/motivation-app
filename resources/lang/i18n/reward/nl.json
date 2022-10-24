@@ -16,6 +16,7 @@
     "community": "Gemeenschap",
 
     "currently-active": "Nu actief",
+    "active": "Actief",
     "manage-rewards": "Beheer beloning",
     "rewards-type": "Belonigstype",
     "change-reward-type": "Verander beloningstype",
@@ -41,5 +42,9 @@
     "pick-example-tasks": "Om je te helpen beginnen kun je een paar voorbeeldtaken kiezen om gelijk in je takenlijst te stoppen.",
     "update-reward-name": "Update naam",
     "edit-reward-name": "Verander naam",
-    "confirm-delete-instance": "Weet je zeker dat je je {type} {name} wil verwijderen?"
+    "confirm-delete-instance": "Weet je zeker dat je je {type} {name} wil verwijderen?",
+
+    "turn-off-rewards": "Beloningen uitzetten.",
+    "switch-character-or-new": "Wissel naar een RPG-karakter en/of maak een nieuwe.",
+    "switch-village-or-new": "Wissel naar een nederzetting en/of maak een nieuwe."
 }

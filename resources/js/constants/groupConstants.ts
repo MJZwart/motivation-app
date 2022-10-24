@@ -7,13 +7,13 @@ export const ALL_GROUP_FIELDS_OVERVIEW: OverviewFieldGroups = {
             key: 'nameField',
             fields: [
                 {
-                    label: 'Name', 
+                    label: 'name', 
                     key: 'name',
                     sortable: true,
                     hidden: true,
                 },
                 {
-                    label: 'Description', 
+                    label: 'description', 
                     key: 'description',
                 },
             ],
@@ -22,7 +22,7 @@ export const ALL_GROUP_FIELDS_OVERVIEW: OverviewFieldGroups = {
         {
             fields: [
                 {
-                    label: 'Details',
+                    label: 'details',
                     key: 'details',
                 },
             ],
@@ -31,15 +31,15 @@ export const ALL_GROUP_FIELDS_OVERVIEW: OverviewFieldGroups = {
     ],
     extend: [
         {
-            label: 'Public',
+            label: 'public',
             key: 'is_public',
         },
         {
-            label: 'Application required',
+            label: 'application-required',
             key: 'require_application',
         },
         {
-            label: 'Members',
+            label: 'members',
             key: 'members',
         },
     ],
@@ -51,13 +51,13 @@ export const MY_GROUP_FIELDS_OVERVIEW: OverviewFieldGroups = {
             key: 'nameField',
             fields: [
                 {
-                    label: 'Name', 
+                    label: 'name', 
                     key: 'name',
                     sortable: true,
                     hidden: true,
                 },
                 {
-                    label: 'Description', 
+                    label: 'description', 
                     key: 'description',
                 },
             ],
@@ -67,12 +67,12 @@ export const MY_GROUP_FIELDS_OVERVIEW: OverviewFieldGroups = {
             key: 'personal',
             fields: [
                 {
-                    label: 'Member since', 
+                    label: 'member-since', 
                     key: 'joined',
                     sortable: true,
                 },
                 {
-                    label: 'Rank', 
+                    label: 'rank', 
                     key: 'rank',
                 },
             ],
@@ -81,7 +81,7 @@ export const MY_GROUP_FIELDS_OVERVIEW: OverviewFieldGroups = {
         {
             fields: [
                 {
-                    label: 'Details',
+                    label: 'details',
                     key: 'details',
                 },
             ],
@@ -90,15 +90,15 @@ export const MY_GROUP_FIELDS_OVERVIEW: OverviewFieldGroups = {
     ],
     extend: [
         {
-            label: 'Public',
+            label: 'public',
             key: 'is_public',
         },
         {
-            label: 'Application required',
+            label: 'application-required',
             key: 'require_application',
         },
         {
-            label: 'Members',
+            label: 'members',
             key: 'members',
         },
     ],

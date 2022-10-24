@@ -40,6 +40,9 @@
     "automatically-logged-out": "Bij het wijzigen van het wachtwoord word je automatisch uitgelogd. Log daarna in met je nieuwe wachtwoord.",
     "update-password": "Update wachtwoord",
     "update-email": "Update e-mail",
+    "show-tutorials": "Tutorials aanzetten",
+    "hide-tutorials": "Tutorials uitzetten",
+    "show-or-hide-tutorials": "Tutorials aan- of uitzetten",
 
     "search-results": "Zoekresultaten",
     "no-results": "Geen resultaten",
@@ -48,8 +51,10 @@
 
     "name": "Naam",
     "description": "Omschrijving",
-    "description-optional": "Beschrijving (optioneel)",
+    "description-optional": "Omschrijving (optioneel)",
+    "user": "Gebruiker",
     "type": "Type",
+    "time-created": "Tijd aangemaakt",
     "amount": "Aantal",
     "title": "Titel",
     "username": "Gebruikersnaam",
