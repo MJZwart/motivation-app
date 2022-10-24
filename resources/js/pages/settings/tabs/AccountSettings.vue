@@ -57,6 +57,9 @@
                 {{ user.show_tutorial ? $t('hide-tutorials') : $t('show-tutorials') }}
             </ToggleButton>
         </div>
+
+        <hr />
+
         <div>
             <h4>{{$t('language')}}</h4>
             <ChangeLanguage class="large" />
@@ -74,7 +77,6 @@ import ChangeLanguage from '../../../components/global/ChangeLanguage.vue';
 const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
-// const showTutorial = ref(user.value.show_tutorial);
 
 onMounted(() => setupSettings());
 
