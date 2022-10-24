@@ -132,8 +132,8 @@ export const useAdminStore = defineStore('admin', {
         },
 
         /**
-         * Closes the UserReport (trashes it in the baclend)
-         * @param {hurrdurr add type}
+         * Closes the UserReport (trashes it in the backend)
+         * @param {import('resources/types/admin').ReportedUser} report
          */
         async closeReport(report) {
             const {data} = await axios.post(`/admin/reported_users/${report.id}`);
