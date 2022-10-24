@@ -20,6 +20,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::put('/settings', [UserController::class, 'updateSettings']);
     Route::put('/settings/rewards', [UserController::class, 'updateRewardsType']);
     Route::put('/settings/language', [UserController::class, 'updateLanguage']);
+    Route::put('/settings/tutorial', [UserController::class, 'toggleTutorial']);
 
     //Report user
     Route::post('/{user}/report', [UserController::class, 'reportUser']);
