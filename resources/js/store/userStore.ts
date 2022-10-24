@@ -5,8 +5,8 @@ import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
 import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
+import type {EmailSettings, PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import {changeLang} from '../services/languageService';
-import type {PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import type {ChangeReward} from 'resources/types/reward';
 import type {Blocked, Login, NewUser, Register, ResetPassword, User, UserStats} from 'resources/types/user';
 import type {UserSearch} from 'resources/types/global';
@@ -92,8 +92,12 @@ export const useUserStore = defineStore('user', {
             await axios.put('/user/settings/password', passwords);
             this.logout();
         },
-        async updateEmail(email: {email: string}) {
-            const {data} = await axios.put('/user/settings/email', email);
+        async updateEmail(emailSettings: EmailSettings) {
+            const {data} = await axios.put('/user/settings/email', emailSettings);
+            this.setUser(data.data.user);
+        },
+        async toggleTutorial(tutorialSettings: {show: boolean}) {
+            const {data} = await axios.put('/user/settings/tutorial', tutorialSettings);
             this.setUser(data.data.user);
         },
         async updateSettings(settings: ProfileSettings) {

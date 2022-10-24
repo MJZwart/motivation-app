@@ -14,6 +14,7 @@ export type User = {
     show_achievements: boolean;
     show_reward: boolean;
     show_friends: boolean;
+    show_tutorial: boolean;
     friends: Friend[];
     language: string;
 };

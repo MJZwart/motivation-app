@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <form v-if="!loading" @submit.prevent="submitPasswordSettings">
+    <div v-if="loading || !user" />
+    <div v-else>
+        <form @submit.prevent="submitPasswordSettings">
             <h4>{{ $t('change-password') }}</h4>
             <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
             <SimpleInput
@@ -32,7 +33,7 @@
 
         <hr />
 
-        <form v-if="!loading" @submit.prevent="submitEmailSettings">
+        <form @submit.prevent="submitEmailSettings">
             <h4>{{ $t('change-email') }}</h4>
             <!-- Todo verify e-mail and show e-mail as verified -->
             <SimpleInput
@@ -48,14 +49,28 @@
 
         <hr />
         
-        <h4>{{$t('language')}}</h4>
-        <ChangeLanguage class="large" />
+        <div>
+            <h4>{{ $t('show-or-hide-tutorials') }}</h4>
+            <ToggleButton 
+                :active="user.show_tutorial"
+                @click="toggleShowTutorial">
+                {{ user.show_tutorial ? $t('hide-tutorials') : $t('show-tutorials') }}
+            </ToggleButton>
+        </div>
+
+        <hr />
+
+        <div>
+            <h4>{{$t('language')}}</h4>
+            <ChangeLanguage class="large" />
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import {onMounted, ref, computed} from 'vue';
 import {useUserStore} from '/js/store/userStore';
+import ToggleButton from '/js/components/global/ToggleButton.vue';
 import type {PasswordSettings, EmailSettings} from 'resources/types/settings';
 import ChangeLanguage from '../../../components/global/ChangeLanguage.vue';
 
@@ -85,7 +100,11 @@ function submitPasswordSettings() {
     userStore.updatePassword(passwordSettings.value);
 }
 function submitEmailSettings() {
-    userStore.updateEmail({email: emailSettings.value.email});
+    userStore.updateEmail(emailSettings.value);
     // TODO doesn't update the page
+}
+function toggleShowTutorial() {
+    if (!user.value) return;
+    userStore.toggleTutorial({show: !user.value.show_tutorial});
 }
 </script>

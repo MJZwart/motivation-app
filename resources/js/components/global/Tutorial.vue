@@ -1,13 +1,14 @@
 <template>
-    <FaIcon :icon="['far', 'circle-question']"
-            class="icon small question"
-            :class="[colorVariant, size]"
-            @click="openTutorial" />
+    <FaIcon  v-if="tutorialActive"
+             :icon="['far', 'circle-question']"
+             class="icon small question"
+             :class="[colorVariant, size]"
+             @click="openTutorial" />
     <ClearModal :show="tutorialOpen" :item="tutorialItem" class="medium-text" @close="closeTutorial" />
 </template>
 
 <script setup>
-import {shallowRef, ref} from 'vue';
+import {shallowRef, ref, computed} from 'vue';
 import TaskListTutorial from '../tutorial/TaskListTutorial.vue';
 import StatsTutorial from '../tutorial/StatsTutorial.vue';
 import AchievementsTutorial from '../tutorial/AchievementsTutorial.vue';
@@ -18,6 +19,12 @@ import OutgoingFriendRequestsTutorial from '../tutorial/OutgoingFriendRequestsTu
 import BlocklistTutorial from '../tutorial/BlocklistTutorial.vue';
 import CharacterTutorial from '../tutorial/CharacterTutorial.vue';
 import VillageTutorial from '../tutorial/VillageTutorial.vue';
+import {useUserStore} from '/js/store/userStore';
+
+const userStore = useUserStore();
+
+const tutorialActive = computed(() => userStore.user.show_tutorial);
+
 const props = defineProps({
     tutorial: {
         type: String,
