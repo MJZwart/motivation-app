@@ -25,7 +25,7 @@
     "groups-join-tutorial": "Use the search function or look through the list of public groups to find a group that fits you. Some groups are open to join whenever, while others require approval by a group admin.",
     "groups-manage-tutorial": "Group admins can manage the group and its users, and kick those who misbehave. They can also approve or deny any join requests a group may have.",
 
-    "blocklist-tutorial": "Here you can manage your blocklist. Blocked users cannot message you. Soon they will also be unable to send friend requests, or see your profile.",
+    "blocklist-tutorial": "Here you can manage your blocklist. Blocked users cannot message you, send friend requests, or see your profile.",
     "blocklist-unblock-tutorial": "Use this button to unblock this user.",
 
     "village": "Village",
