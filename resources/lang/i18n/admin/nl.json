@@ -74,6 +74,9 @@
     "banned": "Geschorst",
     "log": "Log",
     "edit-ban-of": "Schorsing van {user} wijzigen",
+    "close-report-confirmation": "Sluit melding {report}?",
+    "close-report": "Sluit melding",
+    "suspend-user-close-reports": "Sluit alle meldingen van gebruiker?",
     
     "total-users": "Totaal aantal gebruikers",
     "active-users": "Actieve gebruikers",
