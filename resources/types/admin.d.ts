@@ -34,6 +34,7 @@ export type NewReportedUser = {
 export type ReportedUser = NewReportedUser & {
     id: number;
     created_at: Date;
-    reported_user_id: number;
-    reported_by_user_id: number;
+    reported_date: Date;
+    reported_by_name: string;
+    conversation: string;
 };

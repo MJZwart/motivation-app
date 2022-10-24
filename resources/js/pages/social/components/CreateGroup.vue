@@ -36,7 +36,7 @@
                 <small class="form-text text-muted">{{ $t('group-require-application-checkbox-desc') }}</small>
                 <BaseFormError name="require_application" />
             </div>
-            <button type="submit" class="block">{{ $t('create-group') }}</button>
+            <button id="create-new-group" type="submit" class="block">{{ $t('create-group') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>

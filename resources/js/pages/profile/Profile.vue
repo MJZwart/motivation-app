@@ -27,7 +27,7 @@
                     <Tooltip :text="$t('report-user')">
                         <FaIcon :icon="['far', 'flag']" class="icon small red" @click="reportUser" />
                     </Tooltip>
-                    <span v-if="user.admin && !userProfile.suspended">
+                    <span v-if="user && user.admin && !userProfile.suspended">
                         | {{ $t('admin-actions') }}:
                         <Tooltip :text="$t('suspend-user')">
                             <FaIcon icon="ban" class="icon small red" @click="suspendUser" />
@@ -107,11 +107,12 @@ const showSendMessageModal = ref(false);
 const showReportUserModal = ref(false);
 const showSuspendUserModal = ref(false);
 
-const user = computed<User>(() => userStore.user);
+const user = computed<User | null>(() => userStore.user);
 const requests = computed<FriendRequests | null>(() => friendStore.requests);
 
 // eslint-disable-next-line complexity
 const isConnection = computed(() => {
+    if (!user.value) return false;
     if (userProfile.value === null) return;
     const ids = [];
     if (requests.value) {
@@ -123,6 +124,7 @@ const isConnection = computed(() => {
 });
 /** Checked if this user profile is not the user currently logged in, so you can't send a request to yourself */
 const notLoggedUser = computed(() => {
+    if (!user.value) return false;
     return route.params.id != user.value.id.toString();
 });
 function sendFriendRequest() {

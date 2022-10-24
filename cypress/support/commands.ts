@@ -37,7 +37,19 @@
 // }
 // @ts-nocheck
 
-let userData = {
+import { globalLongWait, globalShortWait } from "./constants";
+
+type UserData = {
+    username: string,
+    password: string,
+    csrfCookie: undefined,
+    authCookie: undefined | string[],
+    cookies: undefined | Cypress.Cookie[],
+    localStorage: undefined | string,
+    fail3: boolean,
+}
+
+let userData: UserData = {
     username: 'test',
     password: 'password',
     csrfCookie: undefined,
@@ -45,6 +57,17 @@ let userData = {
     cookies: undefined,
     localStorage: undefined,
     fail3: false,
+}
+
+export function getRandomString(length = 5) {
+    return Math.random().toString(36).substring(2, length + 2);
+}
+
+export function waitShort() {
+    cy.wait(globalShortWait);
+}
+export function waitLong() {
+    cy.wait(globalLongWait);
 }
 
 // function validateLogin(userData) {
@@ -80,13 +103,13 @@ let userData = {
 //         });
 // }
 
-function login() {
-    cy.session('testUser', () => {
+function login(username: string, password: string) {
+    cy.session([username, password], () => {
         cy.intercept('/api/login').as('apiLogin');
         cy.intercept('/api/sanctum/csrf-cookie').as('csrfCookie');
         cy.visit('/login');
-        cy.get('#username').type('test');
-        cy.get('#password').type('password');
+        cy.get('#username').type(username);
+        cy.get('#password').type(password);
         cy.get('#login-button').click();
         // cy.wait('csrfCookie').then(intercept => {
         //     let response = intercept.response;
@@ -106,7 +129,7 @@ function login() {
     cy.visit('/');
 }
 
-Cypress.Commands.add('login', (visit = '/') => {
+Cypress.Commands.add('login', (username: string = 'test', password: string = 'password') => {
     let cookies = [];
     // Get the stored userdata
     cy.task('getUserData')
@@ -138,15 +161,14 @@ Cypress.Commands.add('login', (visit = '/') => {
         .then(() => {
             // validateLogin(userData).then(valid => {
             //     if (valid === false) {
-                    login();
+                    login(username, password);
                 // }
                 cy.wait(500);
                 cy.url().then(url => {
                     if (url !== 'http://localhost:8000/dashboard') {
-                        login();
+                        login(username, password);
                     }
                 });
-                cy.url().should('contain', 'dashboard');
             // });
         });
 });

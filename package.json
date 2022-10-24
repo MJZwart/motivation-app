@@ -1,20 +1,20 @@
 {
     "name": "questifyer",
     "author": "MJZwart",
-    "version": "0.2.4-release",
+    "version": "0.3.0",
     "private": true,
     "engines": {
         "node": "16.14.0",
         "npm": "8.3.1"
     },
     "scripts": {
-        "hot": "vite",
+        "hot": "vite --host",
         "build": "vite build",
         "dev": "npm run development",
         "prod": "npm run production",
         "lint": "eslint \"resources/js/**/*.{js,vue}\" --fix --cache",
-        "typescript-check": "tsc --noEmit -p tsconfig.json",
-        "vue-typescript-check": "vue-tsc -p tsconfig.json",
+        "typescript-check": "tsc --noEmit -p tsconfig.json --skipLibCheck",
+        "vue-typescript-check": "vue-tsc -p tsconfig.json --skipLibCheck",
         "cypress": "cypress open"
     },
     "devDependencies": {
@@ -42,7 +42,7 @@
         "vue-cli-plugin-i18n": "^0.6.1",
         "vue-loader": "^16.0.0",
         "vue-template-compiler": "^2.6.14",
-        "vue-tsc": "^0.40.9"
+        "vue-tsc": "^1.0.8"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.2.0",

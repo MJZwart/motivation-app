@@ -31,7 +31,7 @@
                         </slot>
                         <p v-for="field in fieldGroup.fields" :key="field.key">
                             <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
-                                <b>{{field.label}}:</b> {{item[field.key]}}
+                                <b>{{field.label}}:</b> {{parseItem(item[field.key])}}
                             </slot>
                         </p>
                     </div>
@@ -44,7 +44,7 @@
                         class="field-group"
                     >
                         <slot v-if="!field.hidden" v-bind="{item, index}" :name="field.key">
-                            <b>{{field.label}}:</b> {{item[field.key]}}
+                            <b>{{field.label}}:</b> {{parseItem(item[field.key])}}
                         </slot>
                     </div>
                 </div>
@@ -57,6 +57,7 @@
 import {Item, OverviewFieldGroups} from 'resources/types/global';
 import {ref, computed, PropType} from 'vue';
 import {sortValues} from '/js/services/sortService';
+import {isDateItem, parseDateTime} from '/js/services/dateService';
 
 const props = defineProps({
     items: {
@@ -102,6 +103,12 @@ function toggleExtend(index: number) {
     }
 }
 
+function parseItem(item: unknown) {
+    if (typeof item !== 'string') return item;
+    if (isDateItem(item)) return parseDateTime(item);
+    else return item;
+}
+
 const sortedItems = computed<Array<Item>>(() => {
     return sortValues(props.items, currentSort.value, currentSortDir.value);
 });
@@ -119,11 +126,11 @@ function toggleDir() {
 .overview-field-item {
     display: flex;
 }
-.content-block:nth-of-type(2n+1) {
-    background-color: rgba(0, 0, 0, .05);
+.striped .content-block:nth-of-type(2n+1) {
+    background-color: rgba(0, 0, 0, .04);
 }
-.overview-field-item.clickable:hover {
-    background-color: rgba(0, 0, 0, .09);
+.content-block.clickable:hover {
+    background-color: rgba(0, 0, 0, .1);
 }
 .field-header {
     display: flex;

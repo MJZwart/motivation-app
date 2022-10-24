@@ -2,7 +2,12 @@
     <div>
         <!-- The search bar -->
         <form class="navbar-search mb-3" @submit.prevent>
-            <input v-model="data.userSearch" type="search" :placeholder="$t('search-user')" aria-label="Search user" />
+            <input 
+                id="search-by-username" 
+                v-model="data.userSearch" 
+                type="search" 
+                :placeholder="$t('search-user')" 
+                aria-label="Search user" />
             <button type="submit" @click="searchUser">{{ $t('search') }}</button>
         </form>
 
@@ -72,8 +77,8 @@ function isConnection(id: number) {
     ids.push(...friends.value.map(friend => friend.id));
     return ids.includes(id);
 }
-async function sendFriendRequest(id: number) {
-    await friendStore.sendRequest(id.toString());
+async function sendFriendRequest(id: string) {
+    await friendStore.sendRequest(id);
     emit('reload');
 }
 function sendMessage(user: StrippedUser) {
