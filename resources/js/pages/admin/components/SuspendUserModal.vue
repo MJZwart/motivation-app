@@ -20,9 +20,7 @@
                     id="indefinite" 
                     v-model="suspension.indefinite"
                     type="checkbox" 
-                    name="indefinite" 
-                    :label="$t('indefinite')"
-                    :placeholder="$t('indefinite')" />
+                    name="indefinite" />
                 <label for="indefinite">{{ $t('indefinite') }}</label>
                 <BaseFormError name="indefinite" />
             </div>
@@ -31,9 +29,7 @@
                     id="close-reports"
                     v-model="suspension.close_reports"
                     type="checkbox"
-                    name="close-reports"
-                    :label="$t('suspend-user-close-reports')"
-                    :placeholder="$t('suspend-user-close-reports')" />
+                    name="close-reports" />
                 <label for="close-reports">{{ $t('suspend-user-close-reports') }}</label>
                 <BaseFormError name="close-reports" />
             </div>
