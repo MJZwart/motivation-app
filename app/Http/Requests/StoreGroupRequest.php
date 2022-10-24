@@ -31,15 +31,4 @@ class StoreGroupRequest extends FormRequest
             'require_application' => 'boolean|required',
         ];
     }
-
-    public function messages() {
-        return [
-            'name.required' => 'You have not entered a title.',
-            'name.*' => 'You have not entered a valid title',
-            'description.required' => 'You have not entered a description.',
-            'description.*' => 'You have not entered a valid description.',
-            'is_public.*' => 'You have not selected the publicity of your group.',
-            'require_application.*' => 'You have not selected if an application is required to join this group.'
-        ];
-    }
 }

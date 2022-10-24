@@ -30,11 +30,4 @@ class StoreReportedUserRequest extends FormRequest
             'conversation_id' => 'required_without:comment|string',
         ];
     }
-
-    public function messages(){
-        return [
-            'comment.required_without' => 'Please explain why you are reporting this user.',
-            'reason.required' => 'Please select a reason.',
-        ];
-    }
 }

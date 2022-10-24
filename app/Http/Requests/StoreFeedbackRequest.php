@@ -30,10 +30,4 @@ class StoreFeedbackRequest extends FormRequest
             'user_id' => 'nullable|exists:users,id',
         ];
     }
-
-    public function messages(){
-        return [
-            'email.required_without' => 'Please enter an e-mail address so we can contact you if we have further questions or remarks.',
-        ];
-    }
 }

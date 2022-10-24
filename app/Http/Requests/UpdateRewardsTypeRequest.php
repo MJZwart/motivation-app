@@ -31,13 +31,4 @@ class UpdateRewardsTypeRequest extends FormRequest
             'new_object_name' => [Rule::requiredIf($this->keepOldInstance == 'NEW' && $this->rewards != 'NONE'), 'nullable', 'string', 'max:255'],
         ];
     }
-
-    public function messages() {
-        return [
-            'keepOldInstance.required' => 'Please select whether to activate an existing instance or create a new one.',
-            'new_object_name.max' => 'The name is too long.',
-            'new_object_name.*' => 'Please enter a name for this new instance.',
-            'rewards.required' => 'Please pick a rewards type.',
-        ];
-    }
 }

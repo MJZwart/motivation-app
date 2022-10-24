@@ -35,6 +35,6 @@ class ValidBugType implements Rule
      */
     public function message()
     {
-        return 'You have not selected a valid type.';
+        return __('validation.custom.valid_bug_type');
     }
 }

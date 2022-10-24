@@ -36,6 +36,6 @@ class OwnerOfTaskList implements Rule
      */
     public function message()
     {
-        return 'This is not your task list.';
+        return __('messages.tasklist.unauthorized');
     }
 }

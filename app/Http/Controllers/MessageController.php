@@ -13,8 +13,6 @@ use App\Models\Friend;
 use App\Http\Resources\ConversationOverviewResource;
 use App\Http\Requests\SendMessageRequest;
 use App\Models\BlockedUser;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class MessageController extends Controller
 {
@@ -31,7 +29,7 @@ class MessageController extends Controller
         /** @var User */
         $user = Auth::user();
         if ($user->isBlocked($request['recipient_id'])) {
-            return ResponseWrapper::errorResponse('You are unable to send messages to this user.');
+            return ResponseWrapper::errorResponse(__('messages.message.unable_to_send'));
         }
         $validated = $request->validated();
         $validated['sender_id'] = $user->id;
@@ -44,7 +42,7 @@ class MessageController extends Controller
         $message->conversation->touch();
         ActionTrackingHandler::handleAction($request, 'STORE_MESSAGE', 'Sending message');
 
-        return ResponseWrapper::successResponse('Message sent.');
+        return ResponseWrapper::successResponse(__('messages.message.sent'));
     }
 
     private function getConversationId($user_id, $recipient_id)
@@ -83,7 +81,7 @@ class MessageController extends Controller
         $user = Auth::user();
         $this->makeMessageInvisibleToUser($message, $user->id);
         ActionTrackingHandler::handleAction($request, 'DELETE_MESSAGE', 'Deleting message');
-        return ResponseWrapper::successResponse('Message deleted.');
+        return ResponseWrapper::successResponse(__('messages.message.deleted'));
     }
 
     public function blockUser(Request $request, User $blockedUser)
@@ -102,7 +100,7 @@ class MessageController extends Controller
         if ($toDelete) $toDelete->delete();
 
         ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user ' . $blockedUser->username);
-        return ResponseWrapper::successResponse('User blocked.');
+        return ResponseWrapper::successResponse(__('messages.user.blocked'));
     }
 
     private function makeConversationInvisible($user, $blockedUser)

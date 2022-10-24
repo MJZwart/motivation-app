@@ -35,6 +35,6 @@ class ExistingAchievementType implements Rule
      */
     public function message()
     {
-        return 'Invalid achievement type.';
+        return __('validation.custom.achievement_type');
     }
 }

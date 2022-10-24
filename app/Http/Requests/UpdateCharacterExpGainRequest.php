@@ -36,10 +36,4 @@ class UpdateCharacterExpGainRequest extends FormRequest
             '*.charisma' => 'required|integer',
         ];
     }
-    
-    public function messages(){
-        return [
-            '*.*.required' => 'You have not set a value on :attribute',
-        ];
-    }
 }

@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use App\Http\Resources\NotificationResource;
 use App\Http\Requests\SendNotificationRequest;
 
@@ -53,10 +52,10 @@ class NotificationController extends Controller
             $notification->delete();
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
             $resource = $this->getSortedNotificationsResource();
-            return ResponseWrapper::successResponse('Notification deleted.', ['notifications' => $resource]);
+            return ResponseWrapper::successResponse(_('messages.notification.deleted'), ['notifications' => $resource]);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
-            return ResponseWrapper::forbiddenResponse('You are not authorized to do this.');
+            return ResponseWrapper::forbiddenResponse(_('messages.not_authorized'));
         }
     }
 
@@ -95,7 +94,7 @@ class NotificationController extends Controller
         foreach (User::lazy() as $user) {
             NotificationHandler::createFromAdminDashboard($user->id, $validated['title'], $validated['text'], $validated['link'] ?? null, $validated['link_text'] ?? null);
         }
-        return ResponseWrapper::successResponse('Notification sent.');
+        return ResponseWrapper::successResponse(__('messages.notification.sent'));
     }
 
     /**

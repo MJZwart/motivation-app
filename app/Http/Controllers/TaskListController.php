@@ -28,7 +28,7 @@ class TaskListController extends Controller
         ActionTrackingHandler::handleAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return ResponseWrapper::successResponse('Task list successfully created.', $taskLists);
+        return ResponseWrapper::successResponse(__('messages.tasklist.created'), $taskLists);
     }
 
     /**
@@ -43,7 +43,7 @@ class TaskListController extends Controller
         ActionTrackingHandler::handleAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return ResponseWrapper::successResponse("Task list updated.", $taskLists);
+        return ResponseWrapper::successResponse(__('messages.tasklist.updated'), $taskLists);
     }
 
     /**
@@ -58,10 +58,10 @@ class TaskListController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name);
 
             $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return ResponseWrapper::successResponse("Task list deleted.", $taskLists);
+            return ResponseWrapper::successResponse(__('messages.tasklist.deleted'), $taskLists);
         } else {
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name, 'Not authorized');
-            return ResponseWrapper::forbiddenResponse("You are not authorized to delete this task list");
+            return ResponseWrapper::forbiddenResponse(__('messages.tasklist.unauthorized'));
         }
     }
 

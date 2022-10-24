@@ -16,6 +16,6 @@ class FeedbackController extends Controller
         $validated = $request->validated();
         Feedback::create($validated);
         ActionTrackingHandler::handleAction($request, 'FEEDBACK', 'Feedback sent');
-        return ResponseWrapper::successResponse('Thank you for your feedback. We will contact you if we have any further questions or remarks.');
+        return ResponseWrapper::successResponse(__('messages.feedback.created'));
     }
 }

@@ -34,14 +34,4 @@ class StoreBugReportRequest extends FormRequest
             'comment' => 'required|string',
         ];
     }
-
-    public function messages(){
-        return [
-            'title.required' => 'You have not entered a title.',
-            'page.required' => 'You have not entered a page.',
-            'type.required' => 'You have not selected a type.',
-            'severity.*' => 'You have not selected a valid severity.',
-            'comment.required' => 'You have not entered a comment.',
-        ];
-    }
 }

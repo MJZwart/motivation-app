@@ -35,6 +35,6 @@ class ValidRepeatable implements Rule
      */
     public function message()
     {
-        return 'This is not a valid repeatable type.';
+        return __('validation.custom.valid_repeatable');
     }
 }

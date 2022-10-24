@@ -20,7 +20,7 @@ class AchievementController extends Controller
         Achievement::create($validated);
         ActionTrackingHandler::handleAction($request, 'STORE_ACHIEVEMENT', 'Created new achievement: ' . $validated['name']);
 
-        return ResponseWrapper::successResponse('Achievement added.', ['achievements' => AchievementResource::collection(Achievement::get())]);
+        return ResponseWrapper::successResponse(__('messages.achievement.created'), ['achievements' => AchievementResource::collection(Achievement::get())]);
     }
 
     /**
@@ -41,7 +41,7 @@ class AchievementController extends Controller
         $achievement->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_ACHIEVEMENT', 'Updated achievement: ' . $validated['name']);
 
-        return ResponseWrapper::successResponse("Achievement updated.", ['achievements' => AchievementResource::collection(Achievement::get())]);
+        return ResponseWrapper::successResponse(__('messages.achievement.updated'), ['achievements' => AchievementResource::collection(Achievement::get())]);
     }
 
     public function destroy(Achievement $achievement)

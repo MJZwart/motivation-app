@@ -36,6 +36,6 @@ class OwnerOfTask implements Rule
      */
     public function message()
     {
-        return 'This is not your task.';
+        return __('messages.task.unauthorized');
     }
 }

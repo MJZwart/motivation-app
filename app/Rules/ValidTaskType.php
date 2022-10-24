@@ -35,6 +35,6 @@ class ValidTaskType implements Rule
      */
     public function message()
     {
-        return 'This is not a valid task type.';
+        return __('validation.custom.valid_task_type');
     }
 }

@@ -37,6 +37,6 @@ class MatchOldPassword implements Rule
      */
     public function message()
     {
-        return 'Old password is not correct.';
+        return __('validation.custom.match_old_password');
     }
 }

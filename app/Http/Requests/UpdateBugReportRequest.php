@@ -33,15 +33,4 @@ class UpdateBugReportRequest extends FormRequest
             'title' => 'required|string',
         ];
     }
-
-    public function messages(){
-        return [
-            'type.required' => 'You have not selected a type.',
-            'type.*' => 'You have not selected a valid type',
-            'severity.*' => 'You have not selected a severity.',
-            'severity.*' => 'You have not selected a valid severity.',
-            'status.required' => 'You have not selected a status.',
-            'status.*' => 'You have not selected a valid status.',
-        ];
-    }
 }

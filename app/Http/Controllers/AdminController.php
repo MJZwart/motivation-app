@@ -78,7 +78,7 @@ class AdminController extends Controller
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
         $experiencePoints = ExperiencePoint::get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
-        return ResponseWrapper::successResponse('Experience points updated', ['experience_points' => $experiencePoints]);
+        return ResponseWrapper::successResponse(__('messages.exp.updated'), ['experience_points' => $experiencePoints]);
     }
 
     public function addNewLevel(StoreNewLevelRequest $request)
@@ -87,7 +87,7 @@ class AdminController extends Controller
         ExperiencePoint::insert($validated);
         $experiencePoints = ExperiencePoint::get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
-        return ResponseWrapper::successResponse('Level added', ['experience_points' => $experiencePoints]);
+        return ResponseWrapper::successResponse(__('messages.exp.added'), ['experience_points' => $experiencePoints]);
     }
 
     public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
@@ -96,7 +96,7 @@ class AdminController extends Controller
         DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level']);
         $characterExpGain = DB::table('character_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
-        return ResponseWrapper::successResponse('Character experience balancing updated', ['data' => $characterExpGain]);
+        return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['data' => $characterExpGain]);
     }
 
     public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
@@ -105,7 +105,7 @@ class AdminController extends Controller
         DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level']);
         $villageExpGain = DB::table('village_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
-        return ResponseWrapper::successResponse('Village experience balancing updated', ['data' => $villageExpGain]);
+        return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['data' => $villageExpGain]);
     }
 
     public function getConversationById($id)
@@ -146,7 +146,7 @@ class AdminController extends Controller
         }
         $bannedUsers = BannedUserResource::collection(BannedUser::get());
 
-        return ResponseWrapper::successResponse('User banned until ' . $bannedUntilTime, ['reported_users' => $reportedUsers, 'banned_users' => $bannedUsers]);
+        return ResponseWrapper::successResponse(__('messages.user.ban.until', ['time' => $bannedUntilTime]), ['reported_users' => $reportedUsers, 'banned_users' => $bannedUsers]);
     }
 
     /**
@@ -177,10 +177,11 @@ class AdminController extends Controller
             $bannedUser->early_release = $newDate;
             Notification::create([
                 'user_id' => $user->id,
-                'title' => 'Your suspension has been lifted.',
-                'text' => Auth::user()->username .
-                    ' has ended your suspension. Reason given: ' . $request['ban_edit_comment'] .
-                    ' You were originally banned for: ' . $bannedUser->reason
+                'title' => __('messages.user.ban.ended_notification_title'),
+                'text' => __('messages.user.ban.ended_notification', 
+                    ['admin' => Auth::user()->username,
+                    'comment' => $request['ban_edit_comment'],
+                    'reason' => $bannedUser->reason])
             ]);
         } else {
             $newDate = $bannedUser->created_at->addDays($validated['days']);
@@ -214,7 +215,7 @@ class AdminController extends Controller
         $feedback->archived = !$feedback->archived;
         $feedback->save();
         return ResponseWrapper::successResponse(
-            $feedback->archived ? 'Feedback archived' : 'Feedback unarchived',
+            $feedback->archived ? __('messages.feedback.archived') : __('messages.feedback.unarchived'),
             ['feedback' => FeedbackResource::collection(Feedback::get())]
         );
     }
