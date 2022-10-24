@@ -36,7 +36,7 @@ class TaskController extends Controller
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
-        return ResponseWrapper::successResponse("Task successfully created.", ['taskLists' => $taskLists]);
+        return ResponseWrapper::successResponse(__('messages.task.created'), ['taskLists' => $taskLists]);
     }
 
     /**

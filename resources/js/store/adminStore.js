@@ -23,7 +23,7 @@ export const useAdminStore = defineStore('admin', {
     getters: {
         isAdmin() {
             const userStore = useUserStore();
-            return userStore.isAdmin();
+            return userStore.isAdmin;
         },
         getBalancing(state) {
             return {
@@ -41,7 +41,6 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.get('/admin/dashboard');
             const achievementStore = useAchievementStore();
             achievementStore.achievements = data.achievements;
-            achievementStore.achievementTriggers = data.achievementTriggers;
             this.bugReports = data.bugReports;
             this.experiencePoints = data.balancing.experience_points;
             this.charExpGain = data.balancing.character_exp_gain;

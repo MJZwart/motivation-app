@@ -15,7 +15,6 @@ use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 

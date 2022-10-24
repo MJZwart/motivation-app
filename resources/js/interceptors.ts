@@ -5,6 +5,7 @@ import router from './router/router.js';
 
 import {useMainStore} from './store/store';
 import {useUserStore} from './store/userStore';
+import {currentLang} from '/js/services/languageService.js';
 
 declare global {
     interface Window {
@@ -17,6 +18,25 @@ window.axios = axios;
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.baseURL = '/api/';
 
+/**
+ * Request interceptors
+ */
+axios.interceptors.request.use(
+    function (config) {
+        // Do something before request is sent
+        if (config && config.headers)
+            config.headers.locale = currentLang.value;
+        return config;
+    }, 
+    function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    },
+);
+
+/**
+ * Response interceptors
+ */
 axios.interceptors.response.use(
     
     function (response) {

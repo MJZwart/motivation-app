@@ -16,6 +16,7 @@ export type User = {
     show_friends: boolean;
     show_tutorial: boolean;
     friends: Friend[];
+    language: string;
 };
 
 export type UserStats = {
@@ -93,6 +94,7 @@ export type Register = {
     password_confirmation: string;
     email: string;
     agree_to_tos: boolean;
+    language?: string;
 };
 
 export type NewUser = {

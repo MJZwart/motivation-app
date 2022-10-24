@@ -11,7 +11,6 @@ use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
 use App\Http\Requests\StoreNewLevelRequest;
 use App\Models\Achievement;
-use App\Models\AchievementTrigger;
 use App\Http\Resources\AchievementResource;
 use App\Models\BugReport;
 use App\Models\User;
@@ -37,20 +36,21 @@ class AdminController extends Controller
     public function getAdminDashboard()
     {
         $achievements = AchievementResource::collection(Achievement::get());
-        $achievementTriggers = AchievementTrigger::get();
         $bugReports = BugReportResource::collection(BugReport::all());
         $experiencePoints = ExperiencePoint::get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
         $balancing = [
             'experience_points' => $experiencePoints,
-            'character_exp_gain' => $characterExpGain, 'village_exp_gain' => $villageExpGain
+            'character_exp_gain' => $characterExpGain, 
+            'village_exp_gain' => $villageExpGain
         ];
 
         return new JsonResponse(
             [
-                'achievements' => $achievements, 'achievementTriggers' => $achievementTriggers,
-                'bugReports' => $bugReports, 'balancing' => $balancing
+                'achievements' => $achievements,
+                'bugReports' => $bugReports, 
+                'balancing' => $balancing
             ],
             Response::HTTP_OK
         );

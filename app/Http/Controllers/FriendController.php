@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\FriendNotFoundException;
 use App\Models\Friend;
 use App\Models\User;
 use App\Http\Resources\IncomingFriendRequestResource;
@@ -11,10 +12,12 @@ use App\Helpers\ActionTrackingHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
 use App\Http\Resources\FriendResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Throwable;
 
 class FriendController extends Controller
 {
@@ -73,16 +76,17 @@ class FriendController extends Controller
      * The friendship uses two database entries for both sides of the friendship
      * Returns all open requests after updating
      */
-    public function acceptFriendRequest(Request $request, Friend $friend)
+    public function acceptFriendRequest(Request $request, int $friend)
     {
-        if ($friend->accepted)
+        $friendship = $this->findFriendOrFail($friend);
+        if ($friendship->accepted)
             return ResponseWrapper::errorResponse('You have already accepted this request.');
-        $friend->accepted = true;
-        $friend->update();
-        Friend::create(['user_id' => $friend->friend_id, 'friend_id' => $friend->user_id, 'accepted' => true]);
+        $friendship->accepted = true;
+        $friendship->update();
+        Friend::create(['user_id' => $friendship->friend_id, 'friend_id' => $friendship->user_id, 'accepted' => true]);
 
         AchievementHandler::checkForAchievement('FRIENDS', Auth::user());
-        AchievementHandler::checkForAchievement('FRIENDS', $friend->friend);
+        AchievementHandler::checkForAchievement('FRIENDS', $friendship->friend);
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request accepted');
 
         $requests = $this->fetchRequests();
@@ -99,19 +103,36 @@ class FriendController extends Controller
      * When the user denies the friend request, delete the request.
      * Returns the updated list of request
      */
-    public function denyFriendRequest(Request $request, Friend $friend)
+    public function denyFriendRequest(Request $request, int $friend)
     {
-        if ($friend->accepted)
+        $friendship = $this->findFriendOrFail($friend);
+        if ($friendship->accepted)
             return ResponseWrapper::errorResponse('You have already accepted this request.');
-        $friend->delete();
+        $friendship->delete();
         $requests = $this->fetchRequests();
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request denied');
         return ResponseWrapper::successResponse('Friend request denied.', ['requests' => $requests]);
     }
 
-    public function removeFriendRequest(Request $request, Friend $friend)
+    private function findFriendOrFail(int $friendshipId)
     {
-        $friend->delete();
+        try {
+            return Friend::findOrFail($friendshipId);
+        } catch (Throwable $e) {
+            if ($e instanceof ModelNotFoundException) {
+                throw new FriendNotFoundException();
+            }
+        }
+    }
+
+    public function removeFriendRequest(Request $request, int $friend)
+    {
+        $friendship = $this->findFriendOrFail($friend);
+        if ($friendship->accepted) {
+            $requests = $this->fetchRequests();
+            return ResponseWrapper::errorResponse('Friend request already accepted', ['requests' => $requests]);
+        }
+        $friendship->delete();
         $requests = $this->fetchRequests();
         ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request cancelled');
         return ResponseWrapper::successResponse(

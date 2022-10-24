@@ -3,9 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Character;
 use App\Http\Resources\FriendResource;
-use App\Http\Resources\CharacterResource;
 
 class UserResource extends JsonResource
 {
@@ -29,6 +27,7 @@ class UserResource extends JsonResource
             'show_friends' => !!$this->show_friends,
             'show_tutorial' => !!$this->show_tutorial,
             'first' => !!$this->first_login,
+            'language' => $this->language,
         ];
     }
 }

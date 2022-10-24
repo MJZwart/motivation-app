@@ -6,16 +6,13 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\TaskListController;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\FriendController;
 use App\Http\Controllers\ExampleTaskController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\MessageController;
-use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\FeedbackController;
 
 /*
@@ -71,12 +68,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
     Route::get('/profile/{user}', [UserController::class, 'show']);
 
-    Route::put('/user/settings/email', [UserController::class, 'updateEmail']);
-    Route::put('/user/settings/password', [UserController::class, 'updatePassword']);
-    Route::put('/user/settings', [UserController::class, 'updateSettings']);
-    Route::put('/user/settings/rewards', [UserController::class, 'updateRewardsType']);
-    Route::put('/user/settings/tutorial', [UserController::class, 'toggleTutorial']);
-
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
 
     Route::post('/search', [UserController::class, 'searchUser']);
@@ -93,11 +84,5 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::delete('/message/{message}', [MessageController::class, 'deleteMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
 
-    Route::put('/user/{blockedUser}/block', [MessageController::class, 'blockUser']);
-    Route::get('/user/blocklist', [UserController::class, 'getBlocklist']);
-    Route::put('/user/{blockedUser}/unblock', [UserController::class, 'unblockUser']);
-
     Route::get('/unread', [UserController::class, 'hasUnread']);
-
-    Route::post('/user/{user}/report', [UserController::class, 'reportUser']);
 });

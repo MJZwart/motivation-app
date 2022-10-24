@@ -1,0 +1,17 @@
+{
+    "message": "Bericht",
+    "messages": "Berichten",
+    "send-message-placeholder": "Type je bericht",
+    "conversations": "Conversaties",
+    "conversation-with": "Conversatie met",
+    "last-message": "Laatste bericht",
+    "send-message": "Stuur bericht",
+    "send-reply": "Stuur reactie",
+    "type-your-reply": "Type je reactie",
+    "unread": "Ongelezen",
+    "you": "Jij",
+    "confirmation-delete-message": "Weet je zeker dat je dit bericht wil verwijderen?",
+    "no-messages": "Geen berichten op dit moment. Stuur een bericht naar je een van je vrienden!",
+
+    "no-notifications": "Geen notificaties op het moment."
+}

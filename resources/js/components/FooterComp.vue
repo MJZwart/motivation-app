@@ -6,6 +6,7 @@
             <a class="silent mb-1" :href="$t('discord-link')" target="_blank">
                 {{ $t('discord-link') }}
             </a>
+            <ChangeLanguage class="small" />
         </div>
         <div class="footer-text">
             <router-link class="silent mb-1" to="/faq">{{ $t('faq') }}</router-link>
@@ -22,6 +23,7 @@
 
 <script setup lang="ts">
 import {version} from '../../../package.json';
+import ChangeLanguage from '/js/components/global/ChangeLanguage.vue';
 </script>
 
 <style lang="scss" scoped>

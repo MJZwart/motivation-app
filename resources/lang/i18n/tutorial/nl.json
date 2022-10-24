@@ -1,0 +1,35 @@
+{
+    "manage-task-list": "Beheer je takenlijst",
+    "edit-task-tutorial": "Bewerk je taak of takenlijst. Je kunt de naam van je takenlijst of de details van je taken wanneer je wil.",
+    "delete-task-tutorial": "Verwijder je taak of takenlijst. Als je een actieve karakter of nederzetting hebt, krijg je hiermee geen punten.",
+    "new-sub-task-tutorial": "Voeg een nieuwe subtaak toe. Gebruik deze om je taken op te delen in hapklare brokken. Je kunt deze subtaken apart voltooien, of de hele taak in een keer voltooien. Houd er rekening mee dat je dan ook experience krijgt voor deze subtaken, als je ze niet al apart had voltooid.",
+    "complete-task-tutorial": "Voltooi je taak. Als je een actieve karakter of nederzetting hebt, dan krijg je experience punten hiervoor.",
+
+    "stats-tutorial": "Hier vind je een overzicht van statistieken van je account, zoals het aantal taken die je hebt voltooid, welke herhaalbare taken je het vaakst hebt voltooid, etc.",
+
+    "achievements-tutorial": "Hier vind je een overzicht van de achievements die je hebt verdiend. Je kunt achievements verdienen door taken te maken en te voltooien, of door vrienden te maken. In de toekomst komen er nog meer!",
+
+    "incoming-friend-requests-tutorial": "Bekijk en beheer al je binnenkomende vriendverzoeken die mensen je hebben gestuurd. Als je een notificatie hebt gekregen over een vriendverzoek maar deze staat hier niet tussen, dan heeft de andere gebruiker deze waarschijnlijk geannuleerd.",
+    "incoming-friend-accept-tutorial": "Wil je vrienden met deze gebruiker zijn? Klik op deze knop om het verzoek te accepteren.",
+    "incoming-friend-deny-tutorial": "Liever geen vrienden met deze gebruiker zijn? Klik op deze knop om het verzoek te weigeren. De andere gebruiker krijgt hier geen notificatie van.",
+
+    "outgoing-friend-requests-tutorial": "Bekijk en beheer alle uitgaande vriendverzoeken hier.",
+    "outgoing-friend-cancel-tutorial": "Toch liever geen vrienden worden? Klik op deze knop om het verzoek te annnuleren. Houd er rekening mee dat de andere gebruiker wel een notificatie van je verzoek heeft gekregen.",
+
+    "friends-tutorial": "Beheer je vrienden hier.",
+    "friends-remove-tutorial": "Verwijder deze gebruiker uit je vriendenlijst. Hierdoor word jij ook uit diens vriendenlijst verwijderd.",
+    "friends-message-tutorial": "Stuur een bericht naar deze gebruiker.",
+
+    "groups-tutorial": "Dit is waar je met anderen in contact komt via groepen. Op dit moment zijn de opties met groepen nog gelimiteerd, maar er zijn plannen voor meer interactiviteit.",
+    "groups-make-tutorial": "Je kunt je eigen groep creëren en beheren hoe jij het wilt, of dit een openbare groep is of een privégroep. Privégroepen zijn niet zichtbaar bij het zoeken en hebben een uitnodiging nodig om deel te nemen.",
+    "groups-join-tutorial": "Gebruik de zoekfunctie of kijk door de lijst van openbare groepen om een groep te vinden die bij je past. Sommige groepen zijn open voor iedereen, anderen vereisen goedkeuring door een groeps admin.",
+    "groups-manage-tutorial": "Groep admins kunnen de groep , leden beheren en leden die zich niet gedragen kicken. Ze kunnen ook aanmeldingen accepteren of weigeren.",
+
+    "blocklist-tutorial": "Hier kun je je blocklijst beheren. Geblokkeerde gebruikers kunnen je geen berichten of vriendschapsverzoek sturen of je profiel zien.",
+    "blocklist-unblock-tutorial": "Gebruik deze knop om gebruikers te deblokkeren.",
+
+    "village": "Nederzetting",
+    "character": "Karakter",
+    "village-tutorial": "Dit is waar je het resultaat van je werk kunt zien. De taken die je voltooid geven je punten voor je nederzetting, waarmee je nederzetting zich ontwikkeld. We zijn nog bezig met een meer interactief onderdeel van de site waar je meer met je nederzetting kunt doen.",
+    "character-tutorial": "Dit is waar je het resultaat van je werk kunt zien. De taken die je voltooid geven je punten voor je karakter, waarmee je karakter zich ontwikkeld. We zijn nog bezig om een meer interactief onderdeel van de site waar je meer met je karakter kunt doen."
+}

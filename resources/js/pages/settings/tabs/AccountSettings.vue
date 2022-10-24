@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loading" />
+    <div v-if="loading || !user" />
     <div v-else>
         <form @submit.prevent="submitPasswordSettings">
             <h4>{{ $t('change-password') }}</h4>
@@ -57,6 +57,10 @@
                 {{ user.show_tutorial ? $t('hide-tutorials') : $t('show-tutorials') }}
             </ToggleButton>
         </div>
+        <div>
+            <h4>{{$t('language')}}</h4>
+            <ChangeLanguage class="large" />
+        </div>
     </div>
 </template>
 
@@ -65,6 +69,8 @@ import {onMounted, ref, computed} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import ToggleButton from '/js/components/global/ToggleButton.vue';
 import type {PasswordSettings, EmailSettings} from 'resources/types/settings';
+import ChangeLanguage from '../../../components/global/ChangeLanguage.vue';
+
 const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
@@ -73,7 +79,7 @@ const user = computed(() => userStore.user);
 onMounted(() => setupSettings());
 
 const emailSettings = ref<EmailSettings>({
-    email: user.value.email.slice(),
+    email: user.value ? user.value.email.slice() : '',
 });
 const passwordSettings = ref<PasswordSettings>({
     old_password: '',
@@ -84,7 +90,7 @@ const loading = ref(true);
 
 /** Sets up the form with the user settings */
 function setupSettings() {
-    emailSettings.value.email = user.value.email;
+    emailSettings.value.email = user.value?.email ?? '';
     loading.value = false;
 }
 
@@ -96,6 +102,7 @@ function submitEmailSettings() {
     // TODO doesn't update the page
 }
 function toggleShowTutorial() {
+    if (!user.value) return;
     userStore.toggleTutorial({show: !user.value.show_tutorial});
 }
 </script>

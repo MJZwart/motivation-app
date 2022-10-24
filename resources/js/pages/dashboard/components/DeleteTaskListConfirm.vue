@@ -1,7 +1,7 @@
 <template>
     <div v-if="taskListToDelete">
         <form @submit.prevent="deleteTaskList">
-            <p>{{ $t('are-you-sure-delete') }} {{ taskListToDelete.name }}</p>
+            <p>{{ $t('are-you-sure-delete', [taskListToDelete.name]) }}</p>
             <div v-if="taskListHasTasks" class="form-group">
                 <p>
                     <!-- TODO fix the | -->

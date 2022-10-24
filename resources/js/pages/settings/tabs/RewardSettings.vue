@@ -213,7 +213,7 @@ async function deleteItem(instance: Reward) {
 async function load() {
     mainStore.clearErrors();
     await rewardStore.fetchAllRewardInstances();
-    rewardSetting.value.rewards = user.value.rewards;
+    rewardSetting.value.rewards = user.value?.rewards ?? '';
     loading.value = false;
 }
 </script>

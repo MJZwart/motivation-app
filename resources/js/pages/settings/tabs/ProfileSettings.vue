@@ -30,15 +30,15 @@ import {computed, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 const userStore = useUserStore();
 
-const user = computed<User>(() => userStore.user);
+const user = computed<User | null>(() => userStore.user);
 
 const settings = ref<ProfileSettings>(getUserSettings());
 
 function getUserSettings() {
     return {
-        show_achievements: user.value.show_achievements,
-        show_reward: user.value.show_reward,
-        show_friends: user.value.show_friends,
+        show_achievements: user.value?.show_achievements ?? true,
+        show_reward: user.value?.show_reward ?? true,
+        show_friends: user.value?.show_friends ?? true,
     };
 }
 

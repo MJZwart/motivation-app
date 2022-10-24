@@ -115,6 +115,7 @@
     "little-more": "Just a little more",
     "not-yet-done": "Hold up, you're not quite done yet.",
     "home": "Home",
+    "dashboard": "Dashboard",
     "overview": "Overview",
     "friends": "Friends",
     "achievements": "Achievements",
@@ -150,5 +151,12 @@
     "page-not-found": "Page not found",
     "if-mistake-submit-report": "If you believe this is an error, please submit a",
     "home-lc": "home",
-    "bug-report-lc": "bug report"
+    "bug-report-lc": "bug report",
+
+    "language": "Language",
+    "update-language": "Change language",
+
+    "error": "Error",
+    "success": "Success",
+    "info": "Info"
 }

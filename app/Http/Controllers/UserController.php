@@ -20,11 +20,11 @@ use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Http\Requests\StoreReportedUserRequest;
 use App\Helpers\RewardObjectHandler;
 use App\Http\Requests\ToggleTutorialRequest;
+use App\Http\Requests\UpdateLanguage;
 use App\Http\Resources\BlockedUserResource;
 use App\Models\BlockedUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -114,7 +114,21 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating settings');
-        return ResponseWrapper::successResponse('Your settings have been changed.', ['user' => new UserResource(Auth::user())]);
+        return ResponseWrapper::successResponse('Your settings have been changed.', ['user' => new UserResource($user->fresh())]);
+    }
+
+    /**
+     * Updates the user's language
+     * Returns the updated user
+     */
+    public function updateLanguage(UpdateLanguage $request) 
+    {
+        $validated = $request->validated();
+        /** @var User */
+        $user = Auth::user();
+        $user->update($validated);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_LANGUAGE', 'Language changed');
+        return ResponseWrapper::successResponse('Your language has been changed.', ['user' => new UserResource($user->fresh())]);
     }
 
     /**

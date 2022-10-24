@@ -3,7 +3,7 @@
         <div class="custom-toast-sidebar" :class="toastType" />
         <div class="custom-toast-content">
             <div class="custom-toast-header">
-                <h4>{{toast.title || toastTitle}}</h4>
+                <h4>{{toast.title || $t(toastType)}}</h4>
                 <button @click="dismissToast">X</button>
             </div>
             <div class="text">
@@ -42,17 +42,6 @@ const toastType = computed(() => {
         if (item == 'success' || item == 'error' || item == 'info') return item;
     }
     return 'info';
-});
-const toastTitle = computed(() => {
-    switch (toastType.value) {
-        case 'error':
-            return 'Error';
-        case 'success':
-            return 'Success';
-        case 'info':
-        default:
-            return 'Info';
-    }
 });
 </script>
 
