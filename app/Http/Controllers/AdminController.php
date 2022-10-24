@@ -73,7 +73,7 @@ class AdminController extends Controller
     }
 
     /**
-     * CLoses a ReportedUser, as in it trashes it. Also returns all reported users, sorted by User (id).
+     * Closes a ReportedUser, as in it trashes it. Also returns all reported users, sorted by User (id).
      * Each report has the user linked to the report. Then parses it into a UserReportResource,
      * with all relevant user information as its base (UserReportResourceCollection)
      * and all reports as an array in the resource (UserReportResource).
