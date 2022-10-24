@@ -72,6 +72,18 @@ class AdminController extends Controller
         return new JsonResponse(['reportedUsers' => $reportedUsers], Response::HTTP_OK);
     }
 
+    /**
+     * Closes a ReportedUser, as in it trashes it. Also returns all reported users, sorted by User (id).
+     * Each report has the user linked to the report. Then parses it into a UserReportResource,
+     * with all relevant user information as its base (UserReportResourceCollection)
+     * and all reports as an array in the resource (UserReportResource).
+     */
+    public function closeReport(ReportedUser $reportedUser)
+    {
+        $reportedUser->delete();
+        return $this->getReportedUsers();
+    }
+
     public function updateExeriencePoints(UpdateExperiencePointsRequest $request)
     {
         $validated = $request->validated();
@@ -138,6 +150,11 @@ class AdminController extends Controller
             'days' => $validated['days'],
             'banned_until' => $bannedUntilTime,
         ]);
+
+        //delete all reports of the user if checkbox 'close all reports' is checked
+        if ($validated['close_reports'] == 'true') {
+            ReportedUser::where('reported_user_id', $user->id)->delete();
+        }
 
         $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->get()->groupBy('reported_user_id');
         $reportedUsers = [];
