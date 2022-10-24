@@ -61,7 +61,7 @@ const suspension = ref<NewSuspension>({
     reason: '',
     days: 0,
     indefinite: false,
-    close_reports: false,
+    close_reports: true,
 });
 
 async function suspendUser() {
