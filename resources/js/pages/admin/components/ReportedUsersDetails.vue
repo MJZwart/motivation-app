@@ -39,6 +39,7 @@
             <span class="col header">{{ $t('date') }}</span>
             <span class="col header">{{ $t('reported-by') }}</span>
             <span class="col fg-1 header">{{ $t('conversation') }}</span>
+            <span class="col fg-1 header">{{ $t('actions') }}</span>
         </div>
         <template v-for="(report, index) in user.reports" :key="index">
             <div class="row">
@@ -68,6 +69,14 @@
                         {{ $t('no')}}
                     </div>
                 </div>
+                <div class="col fg-1">
+                    <Tooltip :text="$t('close-report')">
+                        <FaIcon 
+                            icon="trash"
+                            class="icon"
+                            @click.stop.prevent="closeReport(report)" />
+                    </Tooltip>
+                </div>
             </div>
         </template>
 
@@ -88,8 +97,13 @@ import type {UserToBan} from 'resources/types/user';
 import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMainStore} from '/js/store/store';
+import {useAdminStore} from '/js/store/adminStore';
 import ShowConversationModal from '../components/ShowConversationModal.vue';
+import {useI18n} from 'vue-i18n';
+import {ReportedUser} from 'resources/types/admin';
+const {t} = useI18n();
 const mainStore = useMainStore();
+const adminStore = useAdminStore();
 
 defineProps<{user: UserToBan}>();
 
@@ -109,5 +123,10 @@ function showConversation(conversationId: string) {
 function closeShowConversation() {
     conversationIdToShow.value = null;
     showConversationModal.value = false;
+}
+function closeReport(report: ReportedUser) {
+    if (confirm(t('close-report-confirmation', {report: report.id}))) {
+        adminStore.closeReport(report);
+    }
 }
 </script>

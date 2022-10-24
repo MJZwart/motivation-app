@@ -131,6 +131,15 @@ export const useAdminStore = defineStore('admin', {
         },
 
         /**
+         * Closes the UserReport (trashes it in the backend)
+         * @param {import('resources/types/admin').ReportedUser} report
+         */
+        async closeReport(report) {
+            const {data} = await axios.post(`/admin/reported_users/${report.id}`);
+            this.reportedUsers = data.reportedUsers;
+        },
+
+        /**
          * Fetches all the feedback from back-end
          * @returns Array<import('resources/types/feedback').Feedback>
          */

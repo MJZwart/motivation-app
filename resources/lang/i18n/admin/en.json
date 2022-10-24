@@ -74,6 +74,9 @@
     "banned": "Banned",
     "log": "Log",
     "edit-ban-of": "Edit ban of {user}",
+    "close-report-confirmation": "Close report {report}?",
+    "close-report": "Close report",
+    "suspend-user-close-reports": "Close all reports of the user?",
     
     "total-users": "Total users",
     "active-users": "Active users",
