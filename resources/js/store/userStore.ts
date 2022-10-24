@@ -5,6 +5,7 @@ import {useRewardStore} from './rewardStore';
 import {useMessageStore} from './messageStore';
 import {useAchievementStore} from './achievementStore';
 import {useFriendStore} from './friendStore';
+import {changeLang} from '../services/languageService';
 import type {PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import type {ChangeReward} from 'resources/types/reward';
 import type {Blocked, Login, NewUser, Register, ResetPassword, User, UserStats} from 'resources/types/user';
@@ -51,7 +52,12 @@ export const useUserStore = defineStore('user', {
         setUser(user: User | null, auth = true) {
             this.user = user;
             this.authenticated = auth;
+            if (auth && user) this.setLanguage(user.language);
             this.isAdmin = user?.admin ?? false;
+        },
+        setLanguage(lang: string) {
+            if (lang !== 'en' && lang !== 'nl') return;
+            changeLang(lang);
         },
 
         //New user
@@ -86,7 +92,7 @@ export const useUserStore = defineStore('user', {
             await axios.put('/user/settings/password', passwords);
             this.logout();
         },
-        async updateEmail(email: string) {
+        async updateEmail(email: {email: string}) {
             const {data} = await axios.put('/user/settings/email', email);
             this.setUser(data.data.user);
         },
@@ -94,6 +100,12 @@ export const useUserStore = defineStore('user', {
             const {data} = await axios.put('/user/settings', settings);
             this.setUser(data.data.user);
         },
+
+        async updateLanguage(language: {language: string}) {
+            const {data} = await axios.put('/user/settings/language', language);
+            this.setUser(data.data.user);
+        },
+
         async changeRewardType(change: ChangeReward) {
             const {data} = await axios.put('/user/settings/rewards', change);
             this.setUser(data.data.user);

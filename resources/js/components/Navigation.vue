@@ -10,7 +10,7 @@
 
         <div v-if="authenticated">
             <nav class="navbar box-shadow">
-                <router-link to="/">{{ $t('home') }}</router-link>
+                <router-link to="/">{{ $t('dashboard') }}</router-link>
                 <router-link to="/overview">{{ $t('overview') }}</router-link>
                 <router-link to="/social">{{$t('social')}}</router-link>
 

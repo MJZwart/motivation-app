@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ExistingAchievementType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +28,7 @@ class StoreAchievementRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'trigger_type' => 'required|exists:achievement_triggers,trigger_type',
+            'trigger_type' => ['required', new ExistingAchievementType()],
             'trigger_amount' => 'required|integer',
         ];
     }

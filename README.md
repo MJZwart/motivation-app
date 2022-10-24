@@ -44,6 +44,22 @@ Make sure both PHP and MySQL are running through XAMPP or the like
 
 If you wish to contribute to this project, you are free to fork the code and make your own additions, though no guarantees are given of its implementation. You are free to [open a new issue](https://github.com/MJZwart/motivation-app/issues/new) with any and all ideas for the project.
 
+### Adding languages
+
+In order to add a new language, first add the shorthand on the following locations:
+- `app/Http/Requests/RegisterUserRequest`
+- `app/Http/Requests/UpdateLanguage`
+- `resources/js/components/global/ChangeLanguage (l 18)`
+- Add the language option in `resources/js/services/languageService.ts` with the flag.
+- `resources/js/store/userStore.ts`
+- `resources/type/global.d.ts`
+
+Then create the json files for the language, using the shorthand (e.g. 'en.json', or 'nl.json') in each of the folders under
+`resources/lang/i18n/...`
+and add a js file like `en.js`, or `nl.js`.
+
+For the back-end translation, create a folder with the shorthand in `resources/lang`. In there, copy all the existing php files that are under 'en', and translate the strings.
+
 ## Bug reports
 
 If you spot any bugs in the code, please [open a new issue](https://github.com/MJZwart/motivation-app/issues/new). Provide the following information to help us reproduce the bug. 

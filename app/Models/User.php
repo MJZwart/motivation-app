@@ -33,6 +33,7 @@ class User extends Authenticatable
         'show_achievements',
         'show_reward',
         'show_friends',
+        'language',
     ];
 
     /**

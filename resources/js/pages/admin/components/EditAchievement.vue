@@ -22,8 +22,8 @@
                     v-model="achievementToEdit.trigger_type"
                     value-field="trigger_type"
                     text-field="trigger_type">
-                    <option v-for="(option, index) in achievementTriggers" :key="index" :value="option.trigger_type">
-                        {{option.trigger_type}}
+                    <option v-for="(option, index) in achievementTriggers" :key="index" :value="option.type">
+                        {{option.type}}
                     </option>
                 </select>
                 <BaseFormError name="trigger_type" /> 
@@ -37,7 +37,9 @@
                 :placeholder="$t('amount')"  />
             <div class="form-group">
                 <label for="trigger-description">{{$t('trigger-description')}}</label>
-                <p v-if="achievementToEdit.trigger_type" id="trigger-description">{{triggerDescription}}</p>
+                <p v-if="achievementToEdit.trigger_type" id="trigger-description">
+                    {{parseAchievementTriggerDesc(achievementToEdit)}}
+                </p>
             </div>
             <button type="submit" class="block">{{ $t('edit-achievement') }}</button>
             <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
@@ -47,9 +49,11 @@
 
 
 <script setup lang="ts">
-import {onMounted, computed, ref, PropType} from 'vue';
+import {onMounted, ref, PropType} from 'vue';
 import {useAchievementStore} from '/js/store/achievementStore';
-import {Achievement, AchievementTrigger} from 'resources/types/achievement.js'
+import {Achievement} from 'resources/types/achievement.js'
+import {parseAchievementTriggerDesc} from '/js/services/achievementService';
+import {ACHIEVEMENT_TRIGGERS} from '/js/constants/achievementsConstants';
 const achievementStore = useAchievementStore();
 
 const props = defineProps({
@@ -66,7 +70,7 @@ onMounted(() => {
 });
 
 const achievementToEdit = ref<Achievement | null>(null);
-const achievementTriggers = computed<Array<AchievementTrigger>>(() => achievementStore.achievementTriggers);
+const achievementTriggers = ACHIEVEMENT_TRIGGERS;
 
 async function updateAchievement() {
     if (!achievementToEdit.value) return;
@@ -77,13 +81,4 @@ function close() {
     achievementToEdit.value = null,
     emit('close');
 }
-
-/** Parses the achievement description from the type (eg Made {0} friends) and the amount */
-const triggerDescription = computed(() => {
-    const plural = props.achievement.trigger_amount > 1 ? 's' : '';
-    const trigger = achievementTriggers.value.find(item => item.trigger_type === props.achievement.trigger_type);
-    if (!trigger) return;
-    const desc = trigger.trigger_description.replace('%d', String(props.achievement.trigger_amount));
-    return desc.replace('%s', plural);
-});
 </script>

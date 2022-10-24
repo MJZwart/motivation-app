@@ -55,10 +55,6 @@ class AchievementSeeder extends Seeder
             ];
 
         for ($i = 0; $i < sizeOf($trigger_types); $i++) {
-            DB::table('achievement_triggers')->insert([
-                'trigger_type' => $trigger_types[$i],
-                'trigger_description' => $trigger_descriptions[$i],
-            ]);
             for ($j = 0; $j < sizeOf($trigger_amounts); $j++) {
                 $plural = $trigger_amounts[$j] > 1 ? 's' : '';
                 Achievement::create([

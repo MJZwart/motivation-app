@@ -15,6 +15,7 @@ export type User = {
     show_reward: boolean;
     show_friends: boolean;
     friends: Friend[];
+    language: string;
 };
 
 export type UserStats = {
@@ -92,6 +93,7 @@ export type Register = {
     password_confirmation: string;
     email: string;
     agree_to_tos: boolean;
+    language?: string;
 };
 
 export type NewUser = {

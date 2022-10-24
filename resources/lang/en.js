@@ -7,6 +7,7 @@ import reward from './i18n/reward/en.json';
 import admin from './i18n/admin/en.json';
 import friend from './i18n/friend/en.json';
 import message from './i18n/message/en.json';
+import achievement from './i18n/achievement/en.json';
 
 export default {
     ...general,
@@ -18,4 +19,5 @@ export default {
     ...admin,
     ...friend,
     ...message,
+    ...achievement,
 }

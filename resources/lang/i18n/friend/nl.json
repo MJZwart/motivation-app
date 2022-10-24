@@ -1,0 +1,16 @@
+{
+    "incoming-friend-requests": "Inkomend vriendverzoek",
+    "outgoing-friend-requests": "Uitgaand vriendverzoek",
+    "add-friend": "Voeg vriend toe",
+    "remove-friend": "Verwijder vriend",
+    "accept-friend-request": "Accepteer vriendverzoek",
+    "deny-friend-request": "Weiger vriendverzoek",
+    "cancel-friend-request": "Annuleer vriendverzoek",
+    "no-incoming-friend-requests": "Geen inkomend vriendverzoek",
+    "no-outgoing-friend-requests": "Geen uitgaand vriendverzoek",
+    "no-friends": "Nog geen vrienden",
+    "notifications": "Notificaties",
+    "send-friend-request": "Stuur vriendverzoek",
+    "accept": "Accepteer",
+    "deny": "Weiger"
+}

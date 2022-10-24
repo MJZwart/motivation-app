@@ -20,10 +20,13 @@
 <script setup lang="ts">
 import Summary from '/js/components/global/Summary.vue';
 import {parseDateTime} from '/js/services/dateService';
-import {useI18n} from 'vue-i18n'
-import {Achievement} from 'resources/types/achievement';
+import {useI18n} from 'vue-i18n';
 import {PropType} from 'vue';
-const {t} = useI18n() // use as global scope
+import {parseAchievementTriggerDesc} from '/js/services/achievementService';
+import type {Achievement} from 'resources/types/achievement';
+
+const {t} = useI18n();
+
 defineProps({
     achievements: {
         type: Array as PropType<Array<Achievement>>,
@@ -34,7 +37,7 @@ defineProps({
 function achievementSummary(achievement: Achievement): string {
     const date = parseDateTime(achievement.earned, true);
     const description = achievement.description ? achievement.description+' ' : '';
-    return description + achievement.trigger_description + ' '
+    return description + parseAchievementTriggerDesc(achievement) + ' '
     + t('earned-on')+': '+ date;
 }
 </script>
