@@ -104,10 +104,10 @@ function toggleDir() {
 <style lang="scss">
 @import '../../../assets/scss/variables';
 .table-striped tbody tr:nth-of-type(2n+1) {
-    background-color: rgba(0, 0, 0, .05);
+    background-color: $nth-of-type;
 }
 .table-hover tbody tr:hover {
-    background-color: rgba(0, 0, 0, .09);
+    background-color: $hover;
 }
 table {
     border-collapse: collapse;

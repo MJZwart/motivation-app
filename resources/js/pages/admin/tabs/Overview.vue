@@ -33,7 +33,7 @@ const overview = ref({});
         padding: 1rem;
         width: 15rem;
         height: 10rem;
-        background-color: white;
+        background-color: $background-2;
         box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
         .key {
             font-family: $bold-font;
@@ -41,7 +41,7 @@ const overview = ref({});
             display: block;
         }
         .item {
-            color: $primary;
+            color: $primary-as-text;
             font-size: 2.5rem;
             display: block;
         }

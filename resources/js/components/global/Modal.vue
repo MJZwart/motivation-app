@@ -82,7 +82,7 @@ defineProps({
   max-height: 95vh;
   overflow-y: auto;
   margin: 0px auto;
-  background-color: #fff;
+  background-color: $background-2;
   border-radius: 0.3rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
@@ -134,7 +134,7 @@ defineProps({
         font-size: 1.5rem;
         font-family: $bold-font;
         line-height: 1;
-        text-shadow: 0 1px 0 #fff;
+        text-shadow: 0 1px 0 $background-2;
         opacity: 0.5;
     }
 }

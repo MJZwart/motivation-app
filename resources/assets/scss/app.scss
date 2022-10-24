@@ -21,7 +21,7 @@ margin: top right bottom left;
 body {
     background-color: $background;
     margin: 0;
-    color: $dark-text
+    color: $dark-text;
 }
 
 #app-container {
@@ -46,7 +46,8 @@ label {
 }
 
 .content-block {
-    background-color: white;
+    background-color: $background-2;
+    color: $background-2-text;
     margin: 0 0 0.5rem 0;
     width: 100%;
     height: max-content;
@@ -72,7 +73,6 @@ label {
     word-wrap: break-word;
     background-color: $white;
     background-clip: border-box;
-    border: 1px solid $border-color;
     border-radius: 0.25rem;
     p {
         margin-top: 0;
@@ -86,6 +86,7 @@ label {
         margin-bottom: 0;
         background-color: rgba(0,0,0,.03);
         border-bottom: 1px solid $border-color;
+        border-radius: 0.25rem;
     }
     .card-header:first-child {
         border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
@@ -164,7 +165,7 @@ button:disabled {
     .tab-item {
         min-width:95%;
         max-width:95%;
-        color: $primary;
+        color: $primary-as-text;
         border: 1px solid transparent;
         background-color: transparent;
         margin-right:-1px;
@@ -250,7 +251,7 @@ button:disabled {
 }
 
 .icon {
-    color:$primary;
+    color:$primary-as-text;
     margin:2px;
     cursor:pointer;
 }
@@ -484,20 +485,23 @@ input, textarea {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #495057;
-    background-color: white;
+    color: $background-2-text;
+    background-color: $input-background;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+    border: 1px solid $border-color;
     border-radius: 0.25rem;
-    transition: border 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
 }
 input.invalid, textarea.invalid {
     border: 1px solid $red;
 }
-input:focus {
+input:focus, textarea:focus {
     outline: none;
     border: 1px solid #495057;
+    background-color: $input-active;
+    color: black;
     box-shadow: 0 0.15rem 0.15rem rgb(0 0 0 / 15%);
+    transition: all 0.15s ease-in-out;
 }
 .invalid-feedback {
     color: $red;

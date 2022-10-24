@@ -123,14 +123,15 @@ function toggleDir() {
 </script>
 
 <style lang="scss">
+@import '../../../assets/scss/variables';
 .overview-field-item {
     display: flex;
 }
 .striped .content-block:nth-of-type(2n+1) {
-    background-color: rgba(0, 0, 0, .04);
+    background-color: $nth-of-type;
 }
 .content-block.clickable:hover {
-    background-color: rgba(0, 0, 0, .1);
+    background-color: $hover;
 }
 .field-header {
     display: flex;

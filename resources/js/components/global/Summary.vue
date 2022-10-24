@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card-outer">
         <div class="card summary-card" :class="headerVariant">
             <div class="card-header">
                 <slot name="header">
@@ -9,7 +9,7 @@
                     </span>
                 </slot>
             </div>
-            <div class="card-body">
+            <div class="card-body" :class="{foot: !footer}">
                 <slot />
             </div>
             <div v-if="footer" class="card-footer">
@@ -44,23 +44,34 @@ defineProps({
 
 <style lang="scss" scoped>
 @import '../../../assets/scss/variables';
+.card-outer {
+    border-radius: calc(0.25rem + 0px);
+    box-shadow: $basic-shadow;
+    margin: 0.25rem;
+}
 .summary-card {
     .card-header {
-        color: white;
+        color: $primary-text;
         background-color: $primary;
         font-weight: 500;
     }
     .card-body {
+        background-color: $background-2;
+        color: $background-2-text;
         padding: 0.5rem;
         font-size: 0.9rem;
     }
+    .card-body.foot {
+        border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
+    }
     .card-footer {
         padding: 0;
+        border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
     }
 }
 .summary-card.light {
     .card-header {
-        color: black;
+        color: $primary;
         background-color: $light;
     }
 }
