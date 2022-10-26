@@ -46,18 +46,18 @@ defineProps({
 @import '../../../assets/scss/variables';
 .card-outer {
     border-radius: calc(0.25rem + 0px);
-    box-shadow: $basic-shadow;
+    box-shadow: var(--basic-shadow);
     margin: 0.25rem;
 }
 .summary-card {
     .card-header {
-        color: $primary-text;
-        background-color: $primary;
+        color: var(--primary)-text;
+        background-color: var(--primary);
         font-weight: 500;
     }
     .card-body {
-        background-color: $background-2;
-        color: $background-2-text;
+        background-color: var(--background-2);
+        color: var(--background-2)-text;
         padding: 0.5rem;
         font-size: 0.9rem;
     }
@@ -71,8 +71,8 @@ defineProps({
 }
 .summary-card.light {
     .card-header {
-        color: $primary;
-        background-color: $light;
+        color: var(--primary);
+        background-color: var(--light);
     }
 }
 </style>

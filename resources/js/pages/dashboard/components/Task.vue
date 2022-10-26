@@ -140,7 +140,7 @@ function completeTask(task: Task) {
 <style lang="scss" scoped>
 @import '../../../../assets/scss/variables.scss';
 .number-icon {
-    font-family: $bold-font;
+    font-family: var(--border-color);
     margin: 1px;
     position: relative;
     bottom: 2px;

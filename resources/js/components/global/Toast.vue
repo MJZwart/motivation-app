@@ -68,10 +68,10 @@ const toastType = computed(() => {
     border-top-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     border-top-right-radius: .5rem;
-    box-shadow: 0 0 .5rem $box-shade;
+    box-shadow: 0 0 .5rem var(--box-shade);
 
     p {
-        font-family: $light-font;
+        font-family: var(--light-font);
         margin-top: 3px;
         margin-bottom: 3px;
     } 
@@ -96,7 +96,7 @@ const toastType = computed(() => {
         border: none;
         cursor: pointer;
         background: none;
-        color: $primary;
+        color: var(--primary);
         height: fit-content;
         padding-bottom: 3px;
         border-radius: 0.2rem;
@@ -108,7 +108,7 @@ const toastType = computed(() => {
     width: 200px;
 
     p {
-        font-family: $light-font;
+        font-family: var(--light-font);
         font-size: small;
     } 
     .custom-toast-sidebar {

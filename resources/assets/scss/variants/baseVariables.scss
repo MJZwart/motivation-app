@@ -1,54 +1,34 @@
 // https://www.sessions.edu/color-calculator/
-$box-shade: rgb(0 0 0 / 25%);
 
-$primary: #1D3354; //Prussian Blue
-$primary-as-text: #1D3354;
-$primary-text: white;
-$secondary: #14233a;
-$nav-text: rgba(255, 255, 255, 0.5);
-$text-muted: #6c757d;
-$warning: #D64045; //English Vermillion
-$dark-text: rgb(29, 29, 29);
+:root {
+    --primary: #1D3354; //Prussian Blue
+    --primary-as-text: #1D3354;
+    --primary-text: white;
+    --secondary: #14233a;
+    --nav-text: rgba(255, 255, 255, 0.5);
+    --text-muted: #6c757d;
+    --warning: #D64045; //English Vermillion
+    --dark-text: rgb(29, 29, 29);
 
-$grey: grey;
-$light-green: #2d8562;
-$green: #1d543e;
-$dark-green: #123325;
-$yellow: rgb(197, 197, 0);
-$orange: rgb(201, 130, 0);
-$darkred: darkred;
-$red: $warning;
-$shadow-grey: rgb(139, 139, 139);
-$background: #f6f8fa;
-$background-darker: #dee2e6;
-$background-2: white;
-$background-2-text: black;
-$input-background: white;
-$input-active: white;
-$border-color: #dee2e6;
-$link-text: $primary;
+    --grey: grey;
+    --light-green: #2d8562;
+    --green: #1d543e;
+    --dark-green: #123325;
+    --yellow: rgb(197, 197, 0);
+    --orange: rgb(201, 130, 0);
+    --darkred: darkred;
+    --red: #D64045;
+    --shadow-grey: rgb(139, 139, 139);
+    --background: #f6f8fa;
+    --background-darker: #dee2e6;
+    --background-2: white;
+    --background-2-text: black;
+    --input-background: white;
+    --input-active: white;
+    --border-color: #dee2e6;
+    --link-text: #1D3354;
 
-$nth-of-type: rgba(0, 0, 0, .04);
-$hover: rgba(0, 0, 0, .1);
+    --nth-of-type: rgba(0, 0, 0, .04);
+    --hover: rgba(0, 0, 0, .1);
 
-$progress-background: #e9ecef;
-
-$white: white;
-$light: white;
-
-$active-shadow: 0.1rem 0.1rem 0 0 rgb(0 0 0 / 15%), inset -1px -1px 0.1rem rgb(0 0 0 / 25%);
-$light-shadow: 0.1rem 0.1rem 0 0 rgb(0 0 0 / 15%), inset 0 0 0.1rem rgb(0 0 0 / 25%);
-
-$spacer: 1rem;
-
-$bold-font: "Nunito-Bold";
-$regular-font: "Nunito";
-$light-font: "Nunito-Light";
-// $bold-font: "Raleway-Bold";
-// $regular-font: "Raleway";
-// $bold-font: "NunitoSans-Bold";
-// $regular-font: "NunitoSans";
-$header-font: "NunitoSans";
-
-$basic-shadow: 0 0.125rem 0.25rem $box-shade;
-$basic-shadow-2: 0 0.25rem 0.5rem $box-shade;
+}

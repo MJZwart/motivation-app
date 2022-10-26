@@ -1,7 +1,7 @@
 @import 'variables';
 
 option {
-    font-family: $regular-font;
+    font-family: var(--regular-font);
 }
 
 .d-flex {
@@ -17,7 +17,7 @@ option {
     text-decoration: none;
 }
 .primary-text a{
-    color: $primary-as-text;
+    color: var(--primary-as-text);
 }
 
 select, option {
@@ -25,7 +25,7 @@ select, option {
 }
 
 a {
-    color: $link-text;
+    color: var(--link-text);
     cursor: pointer;
 }
 ul {
@@ -126,13 +126,13 @@ ul {
     font-size: 2.5rem;
 }
 .display-1, .display-2, .display-3, .display-4, .display-5, .display-6  {
-    font-family: $light-font;
+    font-family: var(--light-font);
     line-height: 1.2;
 }
 
 .lead {
     font-size: 1.25rem;
-    font-family: $light-font;
+    font-family: var(--light-font);
 }
 
 .d-block{
@@ -142,7 +142,7 @@ label.option-label{
     font-weight: 400;
 }
 .text-muted {
-    color: $text-muted;
+    color: var(--text-muted);
 }
 small {
     font-weight: 300;
@@ -172,7 +172,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5rem;
     line-height: 1.2;
     font-weight: 500;
-    font-family: $header-font;
+    font-family: var(--header-font);
     color: inherit;
 }
 

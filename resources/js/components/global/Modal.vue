@@ -82,7 +82,7 @@ defineProps({
   max-height: 95vh;
   overflow-y: auto;
   margin: 0px auto;
-  background-color: $background-2;
+  background-color: var(--background-2);
   border-radius: 0.3rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
@@ -117,7 +117,7 @@ defineProps({
     align-items: flex-start;
     justify-content: space-between;
     padding: 1rem;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid var(--border-color);
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px);
     .modal-title {
@@ -132,9 +132,9 @@ defineProps({
         border: 0;
         color: black;
         font-size: 1.5rem;
-        font-family: $bold-font;
+        font-family: var(--border-color);
         line-height: 1;
-        text-shadow: 0 1px 0 $background-2;
+        text-shadow: 0 1px 0 var(--background-2);
         opacity: 0.5;
     }
 }

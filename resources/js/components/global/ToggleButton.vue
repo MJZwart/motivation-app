@@ -18,23 +18,23 @@ defineProps<{active: boolean}>();
 <style lang="scss" scoped>
 @import '../../../assets/scss/variables';
 .toggle-button {
-    background-color: $background-2;
+    background-color: var(--background-2);
     border: none;
     border-radius: 0.3rem;
-    box-shadow: $basic-shadow;
-    color: $background-2-text;
-    font-family: $bold-font;
+    box-shadow: var(--basic-shadow);
+    color: var(--background-2)-text;
+    font-family: var(--border-color);
     transition: all 0.2s ease-in-out;
 }
 .toggle-button:hover {
-    background-color: $background-darker;
+    background-color: var(--background-darker);
     transition: all 0.3s ease-in-out;
 }
 .power-button {
     margin-right: 0.5rem;
-    color: $green;
+    color: var(--green);
 }
 .power-button.active {
-    color: $red;
+    color: var(--red);
 }
 </style>

@@ -128,10 +128,10 @@ function toggleDir() {
     display: flex;
 }
 .striped .content-block:nth-of-type(2n+1) {
-    background-color: $nth-of-type;
+    background-color: var(--nth-of-type);
 }
 .content-block.clickable:hover {
-    background-color: $hover;
+    background-color: var(--hover);
 }
 .field-header {
     display: flex;

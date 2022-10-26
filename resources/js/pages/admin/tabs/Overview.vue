@@ -33,21 +33,21 @@ const overview = ref({});
         padding: 1rem;
         width: 15rem;
         height: 10rem;
-        background-color: $background-2;
+        background-color: var(--background-2);
         box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
         .key {
-            font-family: $bold-font;
+            font-family: var(--border-color);
             font-size: 1rem;
             display: block;
         }
         .item {
-            color: $primary-as-text;
+            color: var(--primary)-as-text;
             font-size: 2.5rem;
             display: block;
         }
         .details {
-            font-family: $light-font;
-            color: $grey;
+            font-family: var(--light-font);
+            color: var(--grey);
         }
     }
 }

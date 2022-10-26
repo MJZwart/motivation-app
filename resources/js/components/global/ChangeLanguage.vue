@@ -29,9 +29,9 @@ function changeLanguage(lang: 'en' | 'nl') {
     display: flex;
     padding-bottom: 1rem;
     .active {
-        background-color: $background-2;
+        background-color: var(--background-2);
         padding: 0 0.5rem 0 0.5rem;
-        box-shadow: $basic-shadow;
+        box-shadow: var(--basic-shadow);
         border-radius: 1rem;
         margin: 0 !important;
     }

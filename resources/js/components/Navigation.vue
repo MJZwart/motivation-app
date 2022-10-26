@@ -104,33 +104,33 @@ function logout() {
 <style lang="scss" scoped>
 @import '../../assets/scss/variables';
 .navbar{
-    background-color: $primary;
+    background-color: var(--primary);
     display: flex;
     align-items: center;
     padding: 0.5rem 1rem;
     height: 50px;
     a{
         margin-right: 1rem;
-        color: $nav-text;
+        color: var(--nav-text);
         text-decoration: none;
     }
     a.router-link-active{
-        font-family: $bold-font;
+        font-family: var(--border-color);
     }
     section, a {
         display: inline-block;
     }
     section a {
-        color: $primary;
+        color: var(--primary);
     }
     .nav-icon-layers {
         vertical-align: 0.5rem;
         }
 }
 .box-shadow {
-    box-shadow: 0 0.25rem 0.25rem $box-shade, inset 0 -1px 5px $box-shade;
+    box-shadow: 0 0.25rem 0.25rem var(--box-shade), inset 0 -1px 5px var(--box-shade);
 }
 .icon-nav{
-    color: $nav-text;
+    color: var(--nav-text);
 }
 </style>

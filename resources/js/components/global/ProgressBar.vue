@@ -33,11 +33,11 @@ const widthValue = computed(() => {
     display: flex;
     height: 0.5rem;
     overflow: hidden;
-    background-color: $progress-background;
+    background-color: var(--progress-background);
     border-radius: 0.5rem;
 
     .custom-progress-bar {
-        background-color: $primary;
+        background-color: var(--primary);
         transition: width 0.6s ease;
     }
 }
