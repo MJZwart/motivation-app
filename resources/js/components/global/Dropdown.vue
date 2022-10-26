@@ -84,7 +84,7 @@ function catchOutsideClick(event, dropdown)  {
     height: 100%;
     z-index: 2;
     cursor: pointer;
-    color: $primary;
+    color: $primary-as-text;
   }
 
   .dropDownMenuButton--dark {
@@ -196,7 +196,7 @@ function catchOutsideClick(event, dropdown)  {
     border-radius: 8px;
     border: 1px solid #eee;
     box-shadow: 4px 2px 0 0 rgba(black,.03);
-    background: white;
+    background: $background-2;
     padding: 5px 10px;
     animation: menu 0.3s ease forwards;
     display: flex;
@@ -210,7 +210,7 @@ function catchOutsideClick(event, dropdown)  {
       right: 10%;
       border-left: 1px solid #eee;
       border-top: 1px solid #eee;
-      background: white;
+      background: $background-2;
       transform: rotate(45deg);
       border-radius: 4px 0 0 0;
     }

@@ -16,7 +16,7 @@ import {useUserStore} from '/js/store/userStore';
 const userStore = useUserStore();
 
 function changeLanguage(lang: 'en' | 'nl') {
-    const isAuth = userStore.isAuthenticated;
+    const isAuth = userStore.authenticated;
     changeLang(lang, isAuth);
     if (isAuth)
         userStore.updateLanguage({'language': lang});
@@ -29,7 +29,7 @@ function changeLanguage(lang: 'en' | 'nl') {
     display: flex;
     padding-bottom: 1rem;
     .active {
-        background-color: white;
+        background-color: $background-2;
         padding: 0 0.5rem 0 0.5rem;
         box-shadow: $basic-shadow;
         border-radius: 1rem;

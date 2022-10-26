@@ -34,7 +34,7 @@ const widthValue = computed(() => {
     height: 0.5rem;
     overflow: hidden;
     background-color: $progress-background;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
 
     .custom-progress-bar {
         background-color: $primary;

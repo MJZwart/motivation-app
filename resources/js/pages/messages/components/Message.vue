@@ -8,7 +8,7 @@
             <span v-if="showActionButtons" class="ml-auto"> 
                 <FaIcon 
                     icon="trash"
-                    class="icon small red"
+                    class="icon small red message-icon"
                     @click="deleteMessage()" />
             </span>
         </p>
@@ -37,3 +37,9 @@ function deleteMessage() {
     emit('deleteMessage', props.message);
 }
 </script>
+
+<style lang="scss" scoped>
+.message-icon {
+    margin-bottom: -1px;
+}
+</style>

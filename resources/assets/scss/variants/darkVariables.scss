@@ -1,35 +1,37 @@
 // https://www.sessions.edu/color-calculator/
 $box-shade: rgb(0 0 0 / 25%);
 
-$primary: #1D3354; //Prussian Blue
-$primary-as-text: #1D3354;
-$primary-text: white;
+$primary: #252525; //Prussian Blue
+$primary-as-text: #cecece;
+$primary-text: #e4e4e4;
 $secondary: #14233a;
 $nav-text: rgba(255, 255, 255, 0.5);
 $text-muted: #6c757d;
 $warning: #D64045; //English Vermillion
-$dark-text: rgb(29, 29, 29);
+$dark-text: #e4e4e4;
 
 $grey: grey;
 $light-green: #2d8562;
-$green: #1d543e;
+$green: #2d815f;
 $dark-green: #123325;
 $yellow: rgb(197, 197, 0);
 $orange: rgb(201, 130, 0);
 $darkred: darkred;
 $red: $warning;
 $shadow-grey: rgb(139, 139, 139);
-$background: #f6f8fa;
-$background-darker: #dee2e6;
-$background-2: white;
-$background-2-text: black;
-$input-background: white;
-$input-active: white;
-$border-color: #dee2e6;
-$link-text: $primary;
+$background: #121212;
+$background-darker: #252525;
+$background-2: #3b3b3b;
+$background-2-text: #e9e9e9;
+$input-background: #494949;
+$input-active: #858585;
 
-$nth-of-type: rgba(0, 0, 0, .04);
-$hover: rgba(0, 0, 0, .1);
+$border-color: #494949;
+$link-text: $primary-as-text;
+//TODO Change the primary-as-text or link colour
+
+$nth-of-type: #3b3b3bb4;
+$hover: #3b3b3b81;
 
 $progress-background: #e9ecef;
 

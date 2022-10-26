@@ -17,7 +17,7 @@ option {
     text-decoration: none;
 }
 .primary-text a{
-    color: $primary;
+    color: $primary-as-text;
 }
 
 select, option {
@@ -25,6 +25,7 @@ select, option {
 }
 
 a {
+    color: $link-text;
     cursor: pointer;
 }
 ul {

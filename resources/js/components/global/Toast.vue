@@ -68,7 +68,7 @@ const toastType = computed(() => {
     border-top-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     border-top-right-radius: .5rem;
-    box-shadow: 0 0 .5rem $shadow-grey;
+    box-shadow: 0 0 .5rem $box-shade;
 
     p {
         font-family: $light-font;

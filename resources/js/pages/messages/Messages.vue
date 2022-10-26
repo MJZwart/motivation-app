@@ -11,7 +11,8 @@
                     <div class="conversations col">
                         <h5>{{ $t('conversations') }}</h5>
                         <div v-for="(conversation, index) in conversations" :key="conversation.id" 
-                             :class="['conversation', 'clickable', activeConversation?.id == conversation.id ? 'active': '']"
+                             class="conversation clickable content-block"
+                             :class="activeConversation?.id == conversation.id ? 'active': ''"
                              @click="switchActiveConversation(index)">
                             <span class="d-flex">
                                 <h6 class="mt-1 ml-2">{{conversation.recipient.username}}</h6>
@@ -31,7 +32,7 @@
                                 {{activeConversation.recipient.username}}
                             </router-link>
                             <span class="ml-auto">
-                                <Dropdown>
+                                <Dropdown color="white">
                                     <section class="option">
                                         <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
                                             {{ $t('go-to-profile') }}
@@ -66,9 +67,14 @@
                                 <button type="submit" class="block">{{ $t('send-reply') }}</button>
                             </form>
                         </div>
-                        <MessageComponent v-for="message in activeConversation.messages" :key="message.id"
-                                          :message="message" @deleteMessage="deleteMessage"
-                        />
+                        <div class="messages">
+                            <MessageComponent v-for="message in activeConversation.messages" 
+                                              :key="message.id"
+                                              :message="message" 
+                                              class="message"
+                                              @deleteMessage="deleteMessage"
+                            />
+                        </div>
                         
                     </div>
                 </div>
@@ -209,16 +215,23 @@ function closeReportUserModal() {
     hyphens: auto;
 }
 .conversation {
-    margin: 6px;
-    box-shadow: $light-shadow;
-    padding: 0.1rem;
+    background-color: $background-darker !important;
+    transition: all 0.15s ease-in-out;
 }
 .conversation:hover {
-    box-shadow: $active-shadow;
+    margin-left: 0.25rem;
+    transition: all 0.15s ease-in-out;
 }
 .conversation.active {
-    margin: 4px 6px 6px 4px;
-    background-color: $white;
-    box-shadow: $active-shadow;
+    margin-left: 0.5rem;
+    background-color: $background-2 !important;
+    transition: all 0.15s ease-in-out;
+}
+.messages {
+    background-color: $background-darker;
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    .message {
+        margin: 1px;
+    }
 }
 </style>
