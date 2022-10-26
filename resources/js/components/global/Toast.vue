@@ -22,7 +22,7 @@ import {clearToast} from '/js/services/toastService';
 
 onMounted(() => {
     setTimeout(() => {
-        // dismissToast();
+        dismissToast();
     }, 5000);
 });
 
