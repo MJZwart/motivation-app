@@ -37,7 +37,6 @@
                 <select
                     id="status" 
                     v-model="bugReportToEdit.status"
-                    type="text" 
                     name="status" >
                     <option v-for="(option, index) in bugStatus" :key="index" :value="option.value">{{$t(option.text)}}</option>
                 </select>

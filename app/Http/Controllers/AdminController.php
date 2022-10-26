@@ -187,7 +187,7 @@ class AdminController extends Controller
     {
         $validated = $request->validated();
         $newDate = Carbon::now();
-        if ($validated['end_ban']) {
+        if (array_key_exists('end_ban', $validated) && $validated['end_ban']) {
             $user = $bannedUser->user;
             $user->banned_until = $newDate;
             $user->save();

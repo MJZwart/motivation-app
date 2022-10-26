@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
 import {BannedUser} from 'resources/types/user.js';
@@ -54,6 +54,11 @@ const props = defineProps<{userBan: BannedUser}>();
 const emit = defineEmits(['close']);
 
 const userBanToEdit = ref<BannedUser>(Object.assign({}, props.userBan));
+
+onMounted(() => {
+    userBanToEdit.value.ban_edit_comment = '';
+});
+
 const bannedUntil = computed(() => {
     if (!userBanToEdit.value) return '';
     return getDateWithAddedDays(props.userBan.created_at, userBanToEdit.value.days);

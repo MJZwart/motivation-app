@@ -58,8 +58,10 @@ import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
 import {StrippedUser} from 'resources/types/user';
 import {BugReport} from 'resources/types/bug';
+import {useI18n} from 'vue-i18n';
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
+const {t} = useI18n();
 
 const bugReports = computed(() => adminStore.bugReports);
 
@@ -89,6 +91,6 @@ function closeEditBugReport() {
 }
 function parseStatus(status: number) {
     const statusElement = BUG_STATUS.find(element => element.value == status);
-    return statusElement ? statusElement.text : '';
+    return statusElement ? t(statusElement.text) : '';
 }
 </script>

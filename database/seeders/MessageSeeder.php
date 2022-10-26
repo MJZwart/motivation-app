@@ -49,6 +49,16 @@ class MessageSeeder extends Seeder
                 'recipient_id' => $recipient,
                 'conversation_id' => $conversationId,
             ]);
+            Conversation::create([
+                'user_id' => $user->id,
+                'recipient_id' => $recipient,
+                'conversation_id' => $conversationId,
+            ]);
+            Conversation::create([
+                'user_id' => $recipient,
+                'recipient_id' => $user->id,
+                'conversation_id' => $conversationId,
+            ]);
         }
     }
 }
