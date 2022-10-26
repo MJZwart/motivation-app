@@ -32,7 +32,7 @@ class BannedUserResource extends JsonResource
             'past' => Carbon::parse($this->banned_until)->lessThan(Carbon::now()),
             'banned_until_time' => Carbon::parse($this->banned_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]),            
             'early_release' => $this->early_release ? Carbon::create($this->early_release) : null,
-            'ban_edit_comment' => $this->ban_edit_comment,
+            'ban_edit_comment' => $this->ban_edit_comment ?? '',
             'ban_edit_log' => $this->ban_edit_log,
         ];
     }
