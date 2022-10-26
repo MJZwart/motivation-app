@@ -71,9 +71,11 @@ label {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: $white;
+    background-color: $background-2;
+    color: $background-2-text;
     background-clip: border-box;
     border-radius: 0.25rem;
+    box-shadow: $basic-shadow-2;
     p {
         margin-top: 0;
     }

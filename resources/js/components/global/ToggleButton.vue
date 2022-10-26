@@ -18,11 +18,11 @@ defineProps<{active: boolean}>();
 <style lang="scss" scoped>
 @import '../../../assets/scss/variables';
 .toggle-button {
-    background-color: white;
+    background-color: $background-2;
     border: none;
     border-radius: 0.3rem;
     box-shadow: $basic-shadow;
-    color: black;
+    color: $background-2-text;
     font-family: $bold-font;
     transition: all 0.2s ease-in-out;
 }

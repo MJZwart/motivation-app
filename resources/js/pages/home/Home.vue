@@ -64,11 +64,11 @@ const appLead = computed(() => t('home-introduction'));
     padding: 0.8rem;
     border: 3px solid $primary;
     border-radius: 0.5rem;
-    background-color: $background;
+    background-color: $background-2;
     width: 50%;
     transition: all 0.3s 0s ease-in-out;
     .register-button-text {
-        color: $primary;
+        color: $primary-as-text;
         text-decoration: none;
         font-family: $bold-font;
     }
