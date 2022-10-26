@@ -23,7 +23,10 @@ import {useUserStore} from '/js/store/userStore';
 
 const userStore = useUserStore();
 
-const tutorialActive = computed(() => userStore.user.show_tutorial);
+const tutorialActive = computed(() => {
+    if (!userStore.user) return false;
+    return userStore.user.show_tutorial;
+});
 
 const props = defineProps({
     tutorial: {
