@@ -519,11 +519,12 @@ select {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #495057;
+    color: $background-2-text;
     vertical-align: middle;
-    border: 1px solid #ced4da;
+    border: none;
     border-radius: 0.25rem;
     appearance: none;
+    background-color: $input-background;
     // transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.25s ease-in-out;
 }
 
