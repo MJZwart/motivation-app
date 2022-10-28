@@ -104,6 +104,7 @@
     "new": "New!",
 
     "next": "Next",
+    "previous": "Previous",
     "go-back": "Go back",
     "go-to": "Go to",
     "cancel": "Cancel",
@@ -164,5 +165,7 @@
 
     "toggle-dark-mode": "Dark/light mode",
     "dark-mode": "Dark mode",
-    "light-mode": "Light mode"
+    "light-mode": "Light mode",
+
+    "pagination-item-of": "Items {offset} - {range} of {max}"
 }

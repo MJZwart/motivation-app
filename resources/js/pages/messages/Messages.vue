@@ -68,12 +68,16 @@
                             </form>
                         </div>
                         <div class="messages">
-                            <MessageComponent v-for="message in activeConversation.messages" 
-                                              :key="message.id"
-                                              :message="message" 
-                                              class="message"
-                                              @deleteMessage="deleteMessage"
-                            />
+                            <Pagination :items="activeConversation.messages">
+                                <template #items="items">
+                                    <MessageComponent v-for="(message, index) in items" 
+                                                      :key="index"
+                                                      :message="message" 
+                                                      class="message"
+                                                      @deleteMessage="deleteMessage"
+                                    />
+                                </template>
+                            </Pagination>
                         </div>
                         
                     </div>
@@ -96,6 +100,7 @@ import {computed, ref, onMounted} from 'vue';
 import MessageComponent from './components/Message.vue';
 import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
+import Pagination from '/js/components/global/Pagination.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMessageStore} from '/js/store/messageStore';
 import {useUserStore} from '/js/store/userStore';
@@ -115,6 +120,7 @@ onMounted(() => {
 });
 
 const activeConversation = ref<Conversation | null>(null);
+
 const message = ref<NewMessage>({
     message: '',
 });
