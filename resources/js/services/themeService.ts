@@ -2,6 +2,14 @@ import {ref} from 'vue';
 
 export const currentTheme = ref('dark');
 
+export function fetchDefaultTheme() {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setCurrentTheme('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        setCurrentTheme('light');
+    }
+}
+
 export function setCurrentTheme(theme: string, override = false) {
     const storedTheme = localStorage.getItem('theme');
     if (!override && storedTheme)
@@ -31,21 +39,13 @@ const darkStyles = [
     {key: '--primary',              value: '#252525'},
     {key: '--primary-as-text',      value: '#cecece'},
     {key: '--primary-text',         value: '#e4e4e4'},
-    {key: '--secondary',            value: '#14233a'},
-    {key: '--nav-text',             value: 'rgba(255, 255, 255, 0.5)'},
-    {key: '--text-muted',           value: '#6c757d'},
-    {key: '--warning',              value: '#D64045'},
-    {key: '--dark-text',            value: '#e4e4e4'},
+    {key: '--body-text',            value: '#e4e4e4'},
 
     {key: '--grey',                 value: 'grey'},
     {key: '--light-green',          value: '#2d8562'},
     {key: '--green',                value: '#2d815f'},
     {key: '--dark-green',           value: '#123325'},
-    {key: '--yellow',               value: 'rgb(197, 197, 0)'},
-    {key: '--orange',               value: 'rgb(201, 130, 0)'},
-    {key: '--darkred',              value: 'darkred'},
-    {key: '--red',                  value: '#D64045'},
-    {key: '--shadow-grey',          value: 'rgb(139, 139, 139)'},
+
     {key: '--background',           value: '#121212'},
     {key: '--background-darker',    value: '#252525'},
     {key: '--background-2',         value: '#3b3b3b'},
@@ -64,21 +64,13 @@ const lightStyle = [
     {key: '--primary',              value: '#1D3354'},
     {key: '--primary-as-text',      value: '#1D3354'},
     {key: '--primary-text',         value: 'white'},
-    {key: '--secondary',            value: '#14233a'},
-    {key: '--nav-text',             value: 'rgba(255, 255, 255, 0.5)'},
-    {key: '--text-muted',           value: '#6c757d'},
-    {key: '--warning',              value: '#D64045'},
-    {key: '--dark-text',            value: 'rgb(29, 29, 29)'},
+    {key: '--body-text',            value: 'rgb(29, 29, 29)'},
 
     {key: '--grey',                 value: 'grey'},
     {key: '--light-green',          value: '#2d8562'},
     {key: '--green',                value: '#1d543e'},
     {key: '--dark-green',           value: '#123325'},
-    {key: '--yellow',               value: 'rgb(197, 197, 0)'},
-    {key: '--orange',               value: 'rgb(201, 130, 0)'},
-    {key: '--darkred',              value: 'darkred'},
-    {key: '--red',                  value: '#D64045'},
-    {key: '--shadow-grey',          value: 'rgb(139, 139, 139)'},
+
     {key: '--background',           value: '#f6f8fa'},
     {key: '--background-darker',    value: '#dee2e6'},
     {key: '--background-2',         value: 'white'},

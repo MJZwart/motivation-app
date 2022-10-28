@@ -1,24 +1,19 @@
 // https://www.sessions.edu/color-calculator/
 
+//NOTE changing anything here requires changing of the corresponding array in 
+// resources/js/services/themeService.ts > darkStyles
+
 :root {
     --primary: #252525; //Prussian Blue
     --primary-as-text: #cecece;
     --primary-text: #e4e4e4;
-    --secondary: #14233a;
-    --nav-text: rgba(255, 255, 255, 0.5);
-    --text-muted: #6c757d;
-    --warning: #D64045; //English Vermillion
-    --dark-text: #e4e4e4;
+    --body-text: #e4e4e4;
 
     --grey: grey;
     --light-green: #2d8562;
     --green: #2d815f;
     --dark-green: #123325;
-    --yellow: rgb(197, 197, 0);
-    --orange: rgb(201, 130, 0);
-    --darkred: darkred;
-    --red: #D64045;
-    --shadow-grey: rgb(139, 139, 139);
+
     --background: #121212;
     --background-darker: #252525;
     --background-2: #3b3b3b;

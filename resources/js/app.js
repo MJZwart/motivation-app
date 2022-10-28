@@ -4,18 +4,12 @@ import '../assets/scss/app.scss';
 
 import {createApp} from 'vue';
 import App from './App.vue';
-import {setCurrentTheme} from '/js/services/themeService';
+import {fetchDefaultTheme} from '/js/services/themeService';
 
 const app = createApp(App);
 
-// console.log(window.matchMedia('(prefers-color-scheme: dark)'));
-
 // Set colour scheme
-if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    setCurrentTheme('dark');
-} else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-    setCurrentTheme('light');
-}
+fetchDefaultTheme();
 
 // app.config.errorHandler = (err, vm) => {
 //     // eslint-disable-next-line no-console
