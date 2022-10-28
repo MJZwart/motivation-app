@@ -135,7 +135,7 @@ function showGroupsDetails(group: Group) {
 .groups-table {
     .details {
         padding: 0.6rem;
-        border: 1px solid $grey;
+        border: 1px solid var(--grey);
         border-radius: 4px;
         background-color: white;
     }

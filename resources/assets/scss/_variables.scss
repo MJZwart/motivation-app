@@ -1,3 +1,40 @@
 // @import './variants/baseVariables.scss';
 // @import './variants/newVariables.scss';
 @import './variants/darkVariables.scss';
+
+:root {
+    --nav-text: rgba(255, 255, 255, 0.5);
+    --text-muted: #6c757d;
+
+    --warning: #D64045;
+    --red: #D64045;
+    --orange: rgb(201, 130, 0);
+    --yellow: rgb(197, 197, 0);
+    --darkred: darkred;
+
+    --box-shade: rgb(0 0 0 / 25%);
+
+    --progress-background: #e9ecef;
+
+    --white: white;
+    --light: white;
+
+    --active-shadow: 0.1rem 0.1rem 0 0 rgb(0 0 0 / 15%), inset -1px -1px 0.1rem rgb(0 0 0 / 25%);
+    --light-shadow: 0.1rem 0.1rem 0 0 rgb(0 0 0 / 15%), inset 0 0 0.1rem rgb(0 0 0 / 25%);
+
+    --spacer: 1rem;
+
+    --bold-font: "Nunito-Bold";
+    --regular-font: "Nunito";
+    --light-font: "Nunito-Light";
+    // --bold-font: "Raleway-Bold";
+    // --regular-font: "Raleway";
+    // --bold-font: "NunitoSans-Bold";
+    // --regular-font: "NunitoSans";
+    --header-font: "NunitoSans";
+
+    --basic-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 25%);
+    --basic-shadow-2: 0 0.25rem 0.5rem rgb(0 0 0 / 25%);
+
+    --regular-font: "Nunito";
+}

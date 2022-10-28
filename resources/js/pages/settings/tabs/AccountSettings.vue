@@ -64,6 +64,17 @@
             <h4>{{$t('language')}}</h4>
             <ChangeLanguage class="large" />
         </div>
+
+        <hr />
+
+        <div>
+            <h4>{{ $t('toggle-dark-mode') }}</h4>
+            <ToggleButton 
+                :active="currentTheme === 'light'"
+                @click="toggleDarkMode">
+                {{ currentTheme === 'dark' ? $t('light-mode') : $t('dark-mode') }}
+            </ToggleButton>
+        </div>
     </div>
 </template>
 
@@ -73,6 +84,7 @@ import {useUserStore} from '/js/store/userStore';
 import ToggleButton from '/js/components/global/ToggleButton.vue';
 import type {PasswordSettings, EmailSettings} from 'resources/types/settings';
 import ChangeLanguage from '../../../components/global/ChangeLanguage.vue';
+import {currentTheme, setCurrentTheme} from '/js/services/themeService';
 
 const userStore = useUserStore();
 
@@ -106,5 +118,8 @@ function submitEmailSettings() {
 function toggleShowTutorial() {
     if (!user.value) return;
     userStore.toggleTutorial({show: !user.value.show_tutorial});
+}
+function toggleDarkMode() {
+    currentTheme.value === 'dark' ? setCurrentTheme('light', true) : setCurrentTheme('dark', true);
 }
 </script>

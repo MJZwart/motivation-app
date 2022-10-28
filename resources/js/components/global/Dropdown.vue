@@ -84,7 +84,7 @@ function catchOutsideClick(event, dropdown)  {
     height: 100%;
     z-index: 2;
     cursor: pointer;
-    color: $primary-as-text;
+    color: var(--primary)-as-text;
   }
 
   .dropDownMenuButton--dark {
@@ -94,7 +94,7 @@ function catchOutsideClick(event, dropdown)  {
     background: rgba(255, 255, 255, 0.5);
   }
   .iconWrapper.white .bar1--open, .iconWrapper.white .bar3--open {
-    background: $red;
+    background: var(--red);
   }
 
   .iconWrapper {
@@ -110,7 +110,7 @@ function catchOutsideClick(event, dropdown)  {
       width: 100%;
       max-width: 28px;
       height: 3px;
-      background: $primary;
+      background: var(--primary);
       position: absolute;
       top: 50%;
       left: 50%;
@@ -126,14 +126,14 @@ function catchOutsideClick(event, dropdown)  {
     .bar1--open {
       transform: translate(-50%, -50%) rotate(45deg);
       margin-top: 0;
-      background: $red;
+      background: var(--red);
     }
 
     .bar2 {
       width: 100%;
       max-width: 28px;
       height: 3px;
-      background: $primary;
+      background: var(--primary);
       position: absolute;
       top: 50%;
       left: 50%;
@@ -155,7 +155,7 @@ function catchOutsideClick(event, dropdown)  {
       width: 100%;
       max-width: 28px;
       height: 3px;
-      background: $primary;
+      background: var(--primary);
       position: absolute;
       top: 50%;
       left: 50%;
@@ -171,7 +171,7 @@ function catchOutsideClick(event, dropdown)  {
     .bar3--open {
       top: 50%;
       transform: translate(-50%, -50% ) rotate(-45deg);
-      background: $red;
+      background: var(--red);
     }
 
   }
@@ -196,7 +196,7 @@ function catchOutsideClick(event, dropdown)  {
     border-radius: 8px;
     border: 1px solid #eee;
     box-shadow: 4px 2px 0 0 rgba(black,.03);
-    background: $background-2;
+    background: var(--background-2);
     padding: 5px 10px;
     animation: menu 0.3s ease forwards;
     display: flex;
@@ -210,7 +210,7 @@ function catchOutsideClick(event, dropdown)  {
       right: 10%;
       border-left: 1px solid #eee;
       border-top: 1px solid #eee;
-      background: $background-2;
+      background: var(--background-2);
       transform: rotate(45deg);
       border-radius: 4px 0 0 0;
     }

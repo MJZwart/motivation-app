@@ -4,8 +4,12 @@ import '../assets/scss/app.scss';
 
 import {createApp} from 'vue';
 import App from './App.vue';
+import {fetchDefaultTheme} from '/js/services/themeService';
 
 const app = createApp(App);
+
+// Set colour scheme
+fetchDefaultTheme();
 
 // app.config.errorHandler = (err, vm) => {
 //     // eslint-disable-next-line no-console

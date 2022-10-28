@@ -62,21 +62,21 @@ const appLead = computed(() => t('home-introduction'));
 .register-button {
     font-size: 2rem;
     padding: 0.8rem;
-    border: 3px solid $primary;
+    border: 3px solid var(--primary);
     border-radius: 0.5rem;
-    background-color: $background-2;
+    background-color: var(--background-2);
     width: 50%;
     transition: all 0.3s 0s ease-in-out;
     .register-button-text {
-        color: $primary-as-text;
+        color: var(--primary)-as-text;
         text-decoration: none;
-        font-family: $bold-font;
+        font-family: var(--border-color);
     }
 }
 .register-button:hover {
-    background-color: $primary;
+    background-color: var(--primary);
     .register-button-text {
-        color: $primary-text;
+        color: var(--primary)-text;
     }
 }
 .display-3 {

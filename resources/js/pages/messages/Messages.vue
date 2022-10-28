@@ -215,7 +215,7 @@ function closeReportUserModal() {
     hyphens: auto;
 }
 .conversation {
-    background-color: $background-darker !important;
+    background-color: var(--background-darker) !important;
     transition: all 0.15s ease-in-out;
 }
 .conversation:hover {
@@ -224,11 +224,11 @@ function closeReportUserModal() {
 }
 .conversation.active {
     margin-left: 0.5rem;
-    background-color: $background-2 !important;
+    background-color: var(--background-2) !important;
     transition: all 0.15s ease-in-out;
 }
 .messages {
-    background-color: $background-darker;
+    background-color: var(--background-darker);
     padding: 0.2rem 0.5rem 0.2rem 0.5rem;
     .message {
         margin: 1px;

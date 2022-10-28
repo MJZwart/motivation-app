@@ -160,5 +160,9 @@
 
     "error": "Error",
     "success": "Success",
-    "info": "Info"
+    "info": "Info",
+
+    "toggle-dark-mode": "Dark/light mode",
+    "dark-mode": "Dark mode",
+    "light-mode": "Light mode"
 }

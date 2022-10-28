@@ -29,7 +29,7 @@ import ChangeLanguage from '/js/components/global/ChangeLanguage.vue';
 <style lang="scss" scoped>
 @import '../../assets/scss/variables.scss';
 #footer {
-    background-color: $background-darker;
+    background-color: var(--background-darker);
     margin-top: auto;
     width: 100%;
     height: fit-content;

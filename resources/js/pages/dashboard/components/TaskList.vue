@@ -117,14 +117,14 @@ function taskClass(index: number) {
     }
 }
 .new-task {
-    background-color: $green;
+    background-color: var(--green);
     height: 3rem;
     margin-bottom: 0;
     border: none;
     margin-top: -2px;
 }
 .new-task:hover {
-    background-color: $dark-green;
-    border-color: $dark-green;
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
 }
 </style>
