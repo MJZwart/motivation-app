@@ -34,37 +34,41 @@
                 <h3 v-if="chosen == 'ALL'">{{ $t('all-groups') }}</h3>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{ $t('create-group') }}</button>
             </div>
-            <SortableOverviewTable 
-                v-if="filteredAllGroups.length > 0" 
-                :items="filteredAllGroups" 
-                :fields="groupFields"
-                class="striped"
-                click-to-extend
-            >
-                <template #nameField="item">
-                    <h5>{{item.item.name}}</h5>
+            <Pagination :items="filteredAllGroups">
+                <template #items="items">
+                    <SortableOverviewTable 
+                        v-if="filteredAllGroups.length > 0" 
+                        :items="items" 
+                        :fields="groupFields"
+                        class="striped"
+                        click-to-extend
+                    >
+                        <template #nameField="item">
+                            <h5>{{item.item.name}}</h5>
+                        </template>
+                        <template #joined="item">
+                            <b>{{$t('member-since')}}:</b> {{ parseDateTime(item.item.joined) }}
+                        </template>
+                        <template #details="item">
+                            <Tooltip :text="$t('view')">
+                                <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item)" />
+                            </Tooltip>
+                        </template>
+                        <template #is_public="item">
+                            <b>{{item.item.is_public ? $t('public') : $t('private')}}</b>
+                        </template>
+                        <template #require_application="item">
+                            <b>{{item.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
+                        </template>
+                        <template #members="item">
+                            <b>{{$t('members')}}:</b> {{item.item.members.length}}
+                        </template>
+                    </SortableOverviewTable>
+                    <div v-else>
+                        {{ $t('no-groups-found') }}
+                    </div>
                 </template>
-                <template #joined="item">
-                    <b>{{$t('member-since')}}:</b> {{ parseDateTime(item.item.joined) }}
-                </template>
-                <template #details="item">
-                    <Tooltip :text="$t('view')">
-                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item)" />
-                    </Tooltip>
-                </template>
-                <template #is_public="item">
-                    <b>{{item.item.is_public ? $t('public') : $t('private')}}</b>
-                </template>
-                <template #require_application="item">
-                    <b>{{item.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
-                </template>
-                <template #members="item">
-                    <b>{{$t('members')}}:</b> {{item.item.members.length}}
-                </template>
-            </SortableOverviewTable>
-            <div v-else>
-                {{ $t('no-groups-found') }}
-            </div>
+            </Pagination>
             <Modal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load" />
             </Modal>
@@ -75,6 +79,7 @@
 <script setup lang="ts">
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import CreateGroup from '../components/CreateGroup.vue';
+import Pagination from '/js/components/global/Pagination.vue';
 import {computed, ref, onMounted} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {ALL_GROUP_FIELDS_OVERVIEW, MY_GROUP_FIELDS_OVERVIEW} from '/js/constants/groupConstants';

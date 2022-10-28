@@ -24,6 +24,11 @@ const props = defineProps({
         type: Array as PropType<Item[]>,
         required: true,
     },
+    itemsPerPage: {
+        type: Number,
+        required: false,
+        default: 10,
+    },
     hideControls: {
         type: Boolean,
         required: false,
@@ -38,27 +43,27 @@ const max = ref(props.items.length);
 
 const range = computed(() => {
     const calcRange = max.value - offset.value;
-    return calcRange > 10 ? offset.value + 10 : offset.value + calcRange;
+    return calcRange > props.itemsPerPage ? offset.value + props.itemsPerPage : offset.value + calcRange;
 });
 
 const controlsVisible = computed(() => {
     if (props.hideControls)
-        return max.value > 10;
+        return max.value > props.itemsPerPage;
     return true;
 });
 
 function paginate(array: Item[], offset = 0) {
-    const lastPage = array.length - offset < 10;
-    return array.slice(offset, lastPage ? undefined : offset + 10);
+    const lastPage = array.length - offset < props.itemsPerPage;
+    return array.slice(offset, lastPage ? undefined : offset + props.itemsPerPage);
 }
 
 function next() {
     if (range.value === max.value) return;
-    offset.value = offset.value + 10;
+    offset.value = offset.value + props.itemsPerPage;
 }
 function previous() {
     if (offset.value < 1) return;
-    offset.value = offset.value - 10;
+    offset.value = offset.value - props.itemsPerPage;
 }
 
 watch(
@@ -93,11 +98,11 @@ watch(
                 transition: box-shadow 0.15s ease-in-out;
             }
             button.disabled {
-                background-color: var(--primary);
+                background-color: inherit;
                 color: var(--text-muted);
             }
             button.disabled:hover {
-                background-color: var(--primary);
+                background-color: inherit;
                 box-shadow: none;
             }
         }
