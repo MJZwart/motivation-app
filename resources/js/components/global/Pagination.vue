@@ -16,8 +16,10 @@ import {PropType, ref, watch} from 'vue';
 import {Item} from 'resources/types/global';
 
 const props = defineProps({
+    //TODO remove any and find generic typing for this component
     items: {
-        type: Array as PropType<Item[]>,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        type: Array as PropType<any[]>,
         required: true,
     },
     itemsPerPage: {
@@ -32,9 +34,10 @@ const props = defineProps({
     },
 });
 
-const itemsToPaginate = ref(props.items.slice());
 
-const paginatedItems = ref<unknown[]>(props.items.slice());
+const itemsToPaginate = ref([...props.items]);
+
+const paginatedItems = ref([...props.items]);
 
 watch(
     () => props.items,
