@@ -1,6 +1,6 @@
 <template>
     <div class="overview-box">
-        <div v-for="(item, key, index) in overview" :key="index" class="overview">
+        <div v-for="(item, key, index) in overview" :key="index" class="overview content-block">
             <span class="key">{{$t(key)}}</span>
             <span class="item">{{item}}</span>
             <span class="details">{{$t(`${key}-details`)}}</span>

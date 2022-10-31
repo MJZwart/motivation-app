@@ -15,23 +15,19 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {computed, ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n'
+import type {Message} from 'resources/types/message';
 const {t} = useI18n() // use as global scope
 
-const props = defineProps({
-    message: {
-        type: Object,
-        required: true,
-    },
-});
+const props = defineProps<{message: Message}>();
 const emit = defineEmits(['deleteMessage'])
 
 const showActionButtons = ref(false);
 
-const getSender = computed(() => props.message.sent_by_user ? t('you')+': ' : props.message.sender.username + ': ');
+const getSender = computed(() => props.message.sent_by_user ? t('you')+': ' : props.message.sender?.username + ': ');
 
 function deleteMessage() {
     emit('deleteMessage', props.message);

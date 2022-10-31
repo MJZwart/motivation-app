@@ -1,22 +1,18 @@
 <template>
     <div class="paginated">
         <slot v-bind="paginatedItems" name="items" />
-        <div v-if="controlsVisible" class="controls">
-            <span class="range">{{ $t('pagination-item-of', {offset: (offset + 1), range: range, max: max})}}</span>
-            <div class="control-buttons">
-                <button class="previous" :class="{disabled: offset < 1}" @click="previous()">
-                    <FaIcon icon="angle-left" /> {{$t('previous')}}
-                </button>
-                <button class="next" :class="{disabled: range === max}" @click="next()">
-                    {{$t('next')}} <FaIcon icon="angle-right" />
-                </button>
-            </div>
-        </div>
+        
+        <PaginationControls 
+            :model-value="itemsToPaginate" 
+            :items-per-page="itemsPerPage" 
+            :hide-controls="hideControls" 
+            @update:model-value="updatePaginated" />
     </div>
 </template>
 
 <script setup lang="ts">
-import {computed, PropType, ref, watch} from 'vue';
+import PaginationControls from './PaginationControls.vue';
+import {PropType, ref, watch} from 'vue';
 import {Item} from 'resources/types/global';
 
 const props = defineProps({
@@ -36,77 +32,18 @@ const props = defineProps({
     },
 });
 
-const paginatedItems = computed(() => paginate(props.items, offset.value));
+const itemsToPaginate = ref(props.items.slice());
 
-const offset = ref(0);
-const max = ref(props.items.length);
-
-const range = computed(() => {
-    const calcRange = max.value - offset.value;
-    return calcRange > props.itemsPerPage ? offset.value + props.itemsPerPage : offset.value + calcRange;
-});
-
-const controlsVisible = computed(() => {
-    if (props.hideControls)
-        return max.value > props.itemsPerPage;
-    return true;
-});
-
-function paginate(array: Item[], offset = 0) {
-    const lastPage = array.length - offset < props.itemsPerPage;
-    return array.slice(offset, lastPage ? undefined : offset + props.itemsPerPage);
-}
-
-function next() {
-    if (range.value === max.value) return;
-    offset.value = offset.value + props.itemsPerPage;
-}
-function previous() {
-    if (offset.value < 1) return;
-    offset.value = offset.value - props.itemsPerPage;
-}
+const paginatedItems = ref<unknown[]>(props.items.slice());
 
 watch(
     () => props.items,
     () => {
-        offset.value = 0;
-        max.value = props.items.length;
+        itemsToPaginate.value = props.items.slice();
     },
 );
-</script>
 
-<style lang="scss" scoped>
-.paginated {
-    .controls {
-        display: flex;
-        flex-direction: column;
-        .range {
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .control-buttons {
-            margin-left: auto;
-            margin-right: auto;
-            button {
-                margin: 3px;
-                border: none;
-                transition: box-shadow 0.15s ease-in-out;
-            }
-            button:hover {
-                border: none;
-                box-shadow: var(--basic-shadow-2);
-                transition: box-shadow 0.15s ease-in-out;
-            }
-            button.disabled {
-                background-color: inherit;
-                color: var(--text-muted);
-            }
-            button.disabled:hover {
-                background-color: inherit;
-                box-shadow: none;
-            }
-        }
-
-    }
+function updatePaginated(value: Item[]) {
+    paginatedItems.value = value;
 }
-</style>
+</script>

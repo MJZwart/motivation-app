@@ -10,6 +10,7 @@
             :sort="currentSort"
             :sortAsc="currentSortAsc"
             :options="['table-sm', 'table-striped', 'table-hover']"
+            :items-per-page="15"
             class="font-sm"
         >
             <template #trigger="row">

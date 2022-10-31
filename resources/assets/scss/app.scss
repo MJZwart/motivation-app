@@ -537,6 +537,53 @@ select {
     text-decoration: none;
 }
 
+/**
+Pagination
+**/
+.paginated {
+    width: 100%;
+    .controls {
+        display: flex;
+        flex-direction: column;
+        .range {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .control-buttons {
+            margin-left: auto;
+            margin-right: auto;
+            button {
+                margin: 3px;
+                border: none;
+                transition: all 0.15s ease-in-out;
+                background-color: var(--background-2);
+            }
+            button:hover {
+                border: none;
+                box-shadow: var(--basic-shadow-2);
+                transition: all 0.15s ease-in-out;
+                background-color: var(--input-background);
+            }
+            button.disabled {
+                background-color: inherit;
+                color: var(--text-muted);
+            }
+            button.disabled:hover {
+                background-color: inherit;
+                box-shadow: none;
+            }
+        }
+
+    }
+}
+
+
+/**
+
+    Media queries and resizing
+
+**/
+
 @media (max-width:991px){
     .task-list{
         flex: 100%;
