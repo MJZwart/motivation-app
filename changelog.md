@@ -8,6 +8,7 @@
 -   Added an option to turn off tutorials site-wide in settings (the question mark you see in the corner of things)
 -   The groups table has changed in looks. You can now click on it to see some more details
 -   Translations! The site is now ready to add translations and started with a full Dutch translation. May have some missing translations here and there.
+-   Pagination on pages where the content may become larger than is expected and would require a lot of scrolling
 
 ### Fixes
 -   Fixed an issue where a user couldn't accept or reject a group invite when the group has already been deleted, as the user kept getting redirected to the dashboard. Now the invite link gets disabled if the group was deleted
