@@ -22,3 +22,5 @@ export const editButton = '.fa-pen-to-square';
 export const messageButton = '.fa-envelope';
 export const sendFriendRequestButton = '.fa-user-plus';
 export const acceptButton = '.fa-square-check';
+export const blockButton = '.fa-ban';
+export const unblockButton = '.fa-lock-open';

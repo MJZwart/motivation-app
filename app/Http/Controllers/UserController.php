@@ -192,7 +192,7 @@ class UserController extends Controller
         $validated['reported_by_user_id'] = Auth::user()->id;
         ReportedUser::create($validated);
         ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: ' . $user->username);
-        return ResponseWrapper::successResponse(_('messages.user.reported'));
+        return ResponseWrapper::successResponse(__('messages.user.reported'));
     }
 
     public function getBlocklist()
@@ -205,6 +205,6 @@ class UserController extends Controller
     {
         $blockedUser->delete();
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
-        return ResponseWrapper::successResponse(_('messages.user.unblocked'), ['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
+        return ResponseWrapper::successResponse(__('messages.user.unblocked'), ['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
 }
