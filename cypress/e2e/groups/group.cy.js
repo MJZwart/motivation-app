@@ -1,5 +1,5 @@
-import {getRandomString} from '../../support/commands';
-import {user1, user2, viewGroupPageButton, kickRemoveButton, globalLongWait, globalShortWait} from '../../support/constants';
+import {getRandomString, waitShort, waitLong} from '../../support/commands';
+import {user1, user2, viewGroupPageButton, kickRemoveButton} from '../../support/constants';
 
 describe('Groups', () => {
 

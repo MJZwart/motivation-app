@@ -286,7 +286,7 @@ class GroupsController extends Controller
         NotificationHandler::createFromGroupInvite(
             $validated['user_id'],
             __('messages.group.invite.new_title'),
-            __('messages.group.invite.new_title', ['name' => $group->name]),
+            __('messages.group.invite.new_text', ['name' => $group->name]),
             $groupInvite
         );
         return ResponseWrapper::successResponse(
