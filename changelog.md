@@ -16,6 +16,7 @@
 -   The page now scrolls up when switching pages (looked wonky when going from one long page to another)
 -   When editing a task, now show which task list it is in and what the supertask is (if applicable)
 -   Fixed a bug where new achievements required a description (but they don't really need it).
+-   Showing 'No results' when searching for users with no results, so the user knows the query actually went through.
 
 ### Code
 
