@@ -137,7 +137,7 @@ function canNotInvite(userId: number) {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../assets/scss/variables';
+
 .invite-friends-box {
     display: flex;
     flex-direction: column;

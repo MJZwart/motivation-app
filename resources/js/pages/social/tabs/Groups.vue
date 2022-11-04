@@ -131,7 +131,7 @@ function showGroupsDetails(group: Group) {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../assets/scss/variables';
+
 .groups-table {
     .details {
         padding: 0.6rem;

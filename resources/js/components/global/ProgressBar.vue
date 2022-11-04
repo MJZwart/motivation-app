@@ -28,7 +28,6 @@ const widthValue = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/scss/variables.scss';
 .custom-progress {
     display: flex;
     height: 0.5rem;

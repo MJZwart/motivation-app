@@ -16,7 +16,6 @@ defineProps<{active: boolean}>();
 
 
 <style lang="scss" scoped>
-@import '../../../assets/scss/variables';
 .toggle-button {
     background-color: var(--background-2);
     border: none;

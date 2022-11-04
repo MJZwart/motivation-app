@@ -58,7 +58,7 @@ defineProps({
 </script>
 
 <style lang="scss">
-@import '../../../assets/scss/variables';
+
 .modal-mask {
   position: fixed;
   z-index: 9998;

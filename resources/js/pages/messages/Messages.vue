@@ -187,8 +187,8 @@ function limitMessage(messageString: string) {
 async function deleteMessage(message: Message) {
     if (confirm(t('confirmation-delete-message'))) {
         await messageStore.deleteMessage(message.id)
-        resetConversation();
         await messageStore.getConversations();
+        resetConversation();
     }
 }
 function addFriend(userId: string) {
@@ -215,7 +215,6 @@ function closeReportUserModal() {
 </script>
 
 <style lang="scss">
-@import '../../../assets/scss/variables';
 .conversations {
     overflow-wrap: break-word;
     hyphens: auto;
@@ -235,9 +234,13 @@ function closeReportUserModal() {
 }
 .messages {
     background-color: var(--background-darker);
-    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    border-radius: 0.25rem;
     .message {
-        margin: 1px;
+        padding: 0.05rem 0.5rem 0.05rem 0.5rem;
+        border-radius: 0.25rem;
+        p {
+            margin: 0.8rem 0.5rem 0.8rem 0.5rem;
+        }
     }
 }
 </style>

@@ -46,7 +46,6 @@ const toastType = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/scss/variables';
 .success {
   background-color: #009900;
 }

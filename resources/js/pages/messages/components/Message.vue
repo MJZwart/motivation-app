@@ -1,11 +1,13 @@
 <template>
     <div v-if="message" class="break-word"
-         @mouseover="showActionButtons = true"
-         @mouseleave="showActionButtons = false">
+         :class="{hover: hover}"
+         @mouseover="hover = true"
+         @mouseleave="hover = false"
+    >
         <p class="mb-0">{{getSender}} {{message.message}}</p>
         <p class="silent d-flex">
             {{parseDateTime(message.created_at)}}
-            <span v-if="showActionButtons" class="ml-auto"> 
+            <span v-if="hover" class="ml-auto"> 
                 <FaIcon 
                     icon="trash"
                     class="icon small red message-icon"
@@ -25,7 +27,7 @@ const {t} = useI18n() // use as global scope
 const props = defineProps<{message: Message}>();
 const emit = defineEmits(['deleteMessage'])
 
-const showActionButtons = ref(false);
+const hover = ref(false);
 
 const getSender = computed(() => props.message.sent_by_user ? t('you')+': ' : props.message.sender?.username + ': ');
 
@@ -37,5 +39,8 @@ function deleteMessage() {
 <style lang="scss" scoped>
 .message-icon {
     margin-bottom: -1px;
+}
+.hover {
+    background-color: var(--hover);
 }
 </style>
