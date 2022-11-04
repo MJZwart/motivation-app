@@ -13,6 +13,10 @@ import {
 import {
     faAngleDown,
     faAnglesDown,
+    faAngleLeft,
+    faAnglesLeft,
+    faAngleRight,
+    faAnglesRight,
     faArrowTurnUp,
     faBan, 
     faBolt,
@@ -35,6 +39,10 @@ import {
 library.add(
     faAngleDown,
     faAnglesDown,
+    faAngleLeft,
+    faAnglesLeft,
+    faAngleRight,
+    faAnglesRight,
     faArrowTurnUp,
     faBan, 
     faBell, 

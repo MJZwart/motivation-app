@@ -3,8 +3,12 @@
         <h2>{{ $t('notifications') }}</h2>
         <Loading v-if="loading" />
         <div v-else>
-            <div v-if="notifications.length > 0">
-                <NotificationBlock v-for="notification in notifications" :key="notification.id" :notification="notification" />
+            <div v-if="notifications && notifications.length > 0">
+                <Pagination v-if="notifications" :items="notifications">
+                    <template #items="items">
+                        <NotificationBlock v-for="(notification, index) in items" :key="index" :notification="notification" />
+                    </template>
+                </Pagination>
             </div>
             <div v-else>
                 <h5>{{$t('no-notifications')}}</h5>
@@ -14,8 +18,8 @@
 </template>
 
 
-<script setup>// @ts-nocheck
-
+<script setup>
+import Pagination from '/js/components/global/Pagination.vue';
 import {ref, computed} from 'vue';
 import NotificationBlock from './components/NotificationBlock.vue';
 import {onMounted} from 'vue';

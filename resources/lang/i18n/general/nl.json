@@ -104,6 +104,7 @@
     "new": "Nieuw!",
 
     "next": "Volgende",
+    "previous": "Vorige",
     "go-back": "Ga terug",
     "go-to": "Ga naar",
     "cancel": "Annuleer",
@@ -164,5 +165,7 @@
 
     "toggle-dark-mode": "Donkere/lichte modus",
     "dark-mode": "Donkere modus",
-    "light-mode": "Lichte modus"
+    "light-mode": "Lichte modus",
+
+    "pagination-item-of": "Items {offset} - {range} van {max}"
 }

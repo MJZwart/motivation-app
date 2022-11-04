@@ -17,7 +17,7 @@
         </div>
 
         <!-- Content field -->
-        <template v-for="(item, idx) in sortedItems" :key="idx">
+        <template v-for="(item, idx) in paginatedItems" :key="idx">
             <div class="content-block" :class="{clickable: clickToExtend}" @click="toggleExtend(idx)">
                 <div class="overview-field-item">
                     <div 
@@ -50,6 +50,9 @@
                 </div>
             </div>
         </template>
+        <div class="paginated">
+            <PaginationControls :model-value="sortedItems" :items-per-page="itemsPerPage" @update:model-value="updatePaginated" />
+        </div>
     </div>
 </template>
 
@@ -58,6 +61,7 @@ import {Item, OverviewFieldGroups} from 'resources/types/global';
 import {ref, computed, PropType} from 'vue';
 import {sortValues} from '/js/services/sortService';
 import {isDateItem, parseDateTime} from '/js/services/dateService';
+import PaginationControls from '/js/components/global/PaginationControls.vue';
 
 const props = defineProps({
     items: {
@@ -75,6 +79,10 @@ const props = defineProps({
     singleExtend: {
         type: Boolean,
         default: false,
+    },
+    itemsPerPage: {
+        type: Number,
+        default: 10,
     },
 });
 
@@ -119,6 +127,13 @@ function toggleSort(key: string) {
 }
 function toggleDir() {
     currentSortDir.value = currentSortDir.value == 'asc' ? 'desc' : 'asc';
+}
+
+/* Pagination */
+const paginatedItems = ref(sortedItems.value.slice());
+
+function updatePaginated(value: Item[]) {
+    paginatedItems.value = value;
 }
 </script>
 
