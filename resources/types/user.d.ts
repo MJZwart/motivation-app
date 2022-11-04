@@ -70,6 +70,12 @@ export type UserToBan = {
     username: string;
 };
 
+export type SuspensionLog = {
+    date: string,
+    log: string,
+    comment: string,
+}
+
 export type UserProfile = {
     id: number;
     created_at: string;

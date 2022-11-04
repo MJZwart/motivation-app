@@ -78,12 +78,23 @@ function resetDays() {
 
 async function confirm() {
     if (bannedUntilInPast.value || !userBanToEdit.value) return;
-    let log = DateTime.now().toLocaleString(DateTime.DATETIME_MED) + ': ';
-    if (userBanToEdit.value.end_ban) log = log.concat('User has been unbanned. ');
+    let changesText = '';
+    if (userBanToEdit.value.end_ban) changesText = 'User has been unbanned.';
     else if (userBanToEdit.value.days != props.userBan.days)
-        log = log.concat(`Changed days from ${props.userBan.days} to ${userBanToEdit.value.days}. `);
-    userBanToEdit.value.ban_edit_log = log;
+        changesText = `Changed days from ${props.userBan.days} to ${userBanToEdit.value.days}.`;
+    userBanToEdit.value.ban_edit_log = parseLogIntoJson(
+        changesText, 
+        userBanToEdit.value.ban_edit_comment,
+        props.userBan.ban_edit_log, 
+    );
     await adminStore.editBan(userBanToEdit.value);
     emit('close');
+}
+function parseLogIntoJson(changes: string, comment: string, log: string) {
+    const timeStamp = DateTime.now().toLocaleString(DateTime.DATETIME_MED);
+    let parsedLog = [];
+    if (log) parsedLog = JSON.parse(log);
+    parsedLog.push({date: timeStamp, log: changes, comment: comment});
+    return JSON.stringify(parsedLog);
 }
 </script>

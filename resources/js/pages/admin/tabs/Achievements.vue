@@ -9,7 +9,7 @@
             :fields="achievementFields"
             :sort="currentSort"
             :sortAsc="currentSortAsc"
-            :options="['table-sm', 'table-striped', 'table-hover']"
+            :options="['table-sm', 'table-striped', 'table-hover', 'page-wide']"
             :items-per-page="15"
             class="font-sm"
         >
