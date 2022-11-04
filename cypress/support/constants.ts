@@ -27,3 +27,6 @@ export const messageButton = '.fa-envelope';
 export const sendFriendRequestButton = '.fa-user-plus';
 export const acceptButton = '.fa-square-check';
 export const notificationButton = '.fa-bell';
+export const banButton = '.fa-ban';
+export const unlockedButton = '.fa-lock-open';
+export const lockButton = '.fa-lock';
