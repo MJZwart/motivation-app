@@ -119,7 +119,12 @@ onMounted(() => {
     load();
 });
 
-const activeConversation = ref<Conversation | null>(null);
+const activeConversationIndex = ref<number | null>(null);
+const activeConversation = computed(() => {
+    if (!conversations.value) return null;
+    if (!activeConversationIndex.value) return conversations.value[0];
+    return conversations.value[activeConversationIndex.value];
+});
 
 const message = ref<NewMessage>({
     message: '',
@@ -152,11 +157,11 @@ async function load() {
 }
 function resetConversation() {
     if (conversations.value && conversations.value[0])
-        activeConversation.value = conversations.value[0];
+        activeConversationIndex.value = 0;
 }
 function switchActiveConversation(key: number) {
     if (!conversations.value) return;
-    activeConversation.value = conversations.value[key];
+    activeConversationIndex.value = key;
     markAsRead(conversations.value[key]);
 }
 async function sendMessage() {
@@ -186,9 +191,8 @@ function limitMessage(messageString: string) {
 }
 async function deleteMessage(message: Message) {
     if (confirm(t('confirmation-delete-message'))) {
-        await messageStore.deleteMessage(message.id)
+        await messageStore.deleteMessage(message.id);
         await messageStore.getConversations();
-        resetConversation();
     }
 }
 function addFriend(userId: string) {
