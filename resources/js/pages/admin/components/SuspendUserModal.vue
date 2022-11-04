@@ -34,7 +34,7 @@
                 <BaseFormError name="close-reports" />
             </div>
             <button type="submit" class="block">{{ $t('suspend-user') }}</button>
-            <button type="button" class="block" @click="emit('close')">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

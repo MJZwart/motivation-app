@@ -42,7 +42,7 @@
                 </p>
             </div>
             <button type="submit" class="block">{{ $t('edit-achievement') }}</button>
-            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

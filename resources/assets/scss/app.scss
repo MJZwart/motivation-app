@@ -158,6 +158,9 @@ button:disabled {
     border-color: var(--grey);
     cursor: not-allowed;
 }
+.button-cancel {
+    background-color: inherit;
+}
 .tabs {
     border-right: 1px solid var(--border-color);
     display: flex;
