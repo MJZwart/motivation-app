@@ -34,7 +34,7 @@
                 <BaseFormError name="close-reports" />
             </div>
             <button type="submit" class="block">{{ $t('suspend-user') }}</button>
-            <button type="button" class="block" @click="emit('close')">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>
@@ -62,6 +62,7 @@ const suspension = ref<NewSuspension>({
 
 async function suspendUser() {
     if (suspension.value.indefinite) suspension.value.days = null;
+    else if (suspension.value.days) suspension.value.days = parseInt(suspension.value.days.toString(), 10);
     await adminStore.suspendUser(props.userId, suspension.value);
     emit('close', true);
 }

@@ -1,5 +1,5 @@
 import {waitShort, waitLong} from '../../support/commands';
-import {user1, user2, user3, blockButton, unblockButton, kickRemoveButton, globalLongWait} from '../../support/constants';
+import {user1, user2, banButton, unlockedButton} from '../../support/constants';
 
 describe('Blocking', () => {
     
@@ -35,7 +35,7 @@ describe('Blocking', () => {
             cy.get('a').contains(user2.username).click();
             waitLong();
 
-            cy.get(blockButton).click();
+            cy.get(banButton).click();
             cy.on('window:confirm', () => true);
             waitShort();
 
@@ -62,7 +62,7 @@ describe('Blocking', () => {
             cy.get('button').contains('Blocklist').click();
             waitShort();
 
-            cy.get('a').contains(user2.username).should('exist').parent().find(unblockButton).click();
+            cy.get('a').contains(user2.username).should('exist').parent().find(unlockedButton).click();
             waitShort();
             cy.get('a').contains(user2.username).should('not.exist');
         });

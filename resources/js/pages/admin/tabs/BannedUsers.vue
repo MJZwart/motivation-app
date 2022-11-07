@@ -37,8 +37,11 @@
                     </span>
                 </template>
                 <template #log="row">
-                    {{ row.item.ban_edit_log }}
-                    {{ row.item.ban_edit_comment }}
+                    <div v-for="(log, index) in parseJsonIntoLog(row.item.ban_edit_log)" :key="index" class="ban-logs">
+                        <span><b>{{ $t('date') }}: </b> {{log.date}}</span>
+                        <span><b>{{ $t('log') }}: </b> {{log.log}}</span>
+                        <span><b>{{ $t('comment') }}: </b> {{log.comment}}</span>
+                    </div>
                 </template>
                 <template #actions="row">
                     <div v-if="!banEnded(row.item)">
@@ -66,6 +69,7 @@ import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 import {BannedUser} from 'resources/types/user';
 import {useI18n} from 'vue-i18n';
+import type {SuspensionLog} from 'resources/types/user';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 const {t} = useI18n();
@@ -102,4 +106,18 @@ function banEnded(bannedUser: BannedUser) {
         DateTime.now() > DateTime.fromFormat(bannedUser.banned_until, 'yyyy-MM-dd, HH:mm:ss')
     );
 }
+function parseJsonIntoLog(jsonString: string): SuspensionLog[] {
+    if (!jsonString) return [];
+    const changesArr = JSON.parse(jsonString);
+    return changesArr;
+}
 </script>
+
+<style lang="scss">
+.ban-logs {
+    margin-bottom: 0.5rem;
+    span {
+        display: block;
+    }
+}
+</style>

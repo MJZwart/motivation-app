@@ -53,7 +53,11 @@
             <Modal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userProfile" @close="closeReportUserModal" />
             </Modal>
-            <Modal :show="showSuspendUserModal" :footer="false" :header="false" @close="closeSuspendUserModal">
+            <Modal 
+                :show="showSuspendUserModal" 
+                :footer="false" 
+                :title="`Suspend user ${userProfile.username}`"
+                @close="closeSuspendUserModal">
                 <SuspendUserModal :userId="userProfile.id" @close="closeSuspendUserModal" />
             </Modal>
         </div>

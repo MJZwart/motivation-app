@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="m-1">
         <!-- The search bar -->
         <form class="navbar-search mb-3" @submit.prevent>
             <input 
@@ -17,7 +17,7 @@
             <Table
                 :items="searchResults"
                 :fields="searchResultsFields"
-                :options="['table-sm', 'table-striped', 'table-hover']"
+                :options="['table-striped', 'table-hover', 'page-wide']"
             >
                 <template #username="item">
                     <router-link :to="{name: 'profile', params: {id: item.item.id}}">
@@ -35,6 +35,9 @@
                     </span>
                 </template>
             </Table>
+        </div>
+        <div v-else>
+            <h3>{{$t('no-results')}}</h3>
         </div>
         <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
             <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />

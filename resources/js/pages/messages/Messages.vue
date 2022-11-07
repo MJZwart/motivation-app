@@ -119,7 +119,12 @@ onMounted(() => {
     load();
 });
 
-const activeConversation = ref<Conversation | null>(null);
+const activeConversationIndex = ref<number | null>(null);
+const activeConversation = computed(() => {
+    if (!conversations.value) return null;
+    if (!activeConversationIndex.value) return conversations.value[0];
+    return conversations.value[activeConversationIndex.value];
+});
 
 const message = ref<NewMessage>({
     message: '',
@@ -152,11 +157,11 @@ async function load() {
 }
 function resetConversation() {
     if (conversations.value && conversations.value[0])
-        activeConversation.value = conversations.value[0];
+        activeConversationIndex.value = 0;
 }
 function switchActiveConversation(key: number) {
     if (!conversations.value) return;
-    activeConversation.value = conversations.value[key];
+    activeConversationIndex.value = key;
     markAsRead(conversations.value[key]);
 }
 async function sendMessage() {
@@ -186,8 +191,7 @@ function limitMessage(messageString: string) {
 }
 async function deleteMessage(message: Message) {
     if (confirm(t('confirmation-delete-message'))) {
-        await messageStore.deleteMessage(message.id)
-        resetConversation();
+        await messageStore.deleteMessage(message.id);
         await messageStore.getConversations();
     }
 }
@@ -215,7 +219,6 @@ function closeReportUserModal() {
 </script>
 
 <style lang="scss">
-@import '../../../assets/scss/variables';
 .conversations {
     overflow-wrap: break-word;
     hyphens: auto;
@@ -235,9 +238,13 @@ function closeReportUserModal() {
 }
 .messages {
     background-color: var(--background-darker);
-    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    border-radius: 0.25rem;
     .message {
-        margin: 1px;
+        padding: 0.05rem 0.5rem 0.05rem 0.5rem;
+        border-radius: 0.25rem;
+        p {
+            margin: 0.8rem 0.5rem 0.8rem 0.5rem;
+        }
     }
 }
 </style>

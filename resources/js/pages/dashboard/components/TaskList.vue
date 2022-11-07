@@ -109,7 +109,6 @@ function taskClass(index: number) {
 </script>
 
 <style lang="scss">
-@import '../.././../../assets/scss/variables';
 .p-0 {
     .card-body {
         padding: 0 !important;

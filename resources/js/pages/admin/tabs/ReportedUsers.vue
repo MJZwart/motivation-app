@@ -2,6 +2,8 @@
     <div>
         <Loading v-if="loading" />
 
+        <h3>{{ $t('reported-users')}}</h3>
+
         <SortableOverviewTable
             v-if="sortedReportedUsers"
             :items="sortedReportedUsers"
@@ -47,7 +49,7 @@
         <Modal 
             :show="showSendMessageModal" 
             :footer="false" 
-            :title="$t('send-message')" 
+            :header="false" 
             @close="closeSendMessageToReportedUser">
             <SendMessage v-if="userToMessage !== null" :user="userToMessage" @close="closeSendMessageToReportedUser"/>
         </Modal>
@@ -121,7 +123,7 @@ function currentlyBanned(user: UserToBan) {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../assets/scss/variables';
+
 .detailed-table{
     border: 1px solid grey;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);

@@ -53,7 +53,7 @@
                 <p v-if="superTask">{{ $t('subtask-of') }}: {{superTask}}</p>
             </div>
             <button type="submit" class="block">{{ $t('edit-task') }}</button>
-            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

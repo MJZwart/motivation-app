@@ -19,7 +19,7 @@
                 :placeholder="$t('comment')"
             />
             <button type="submit" class="block">{{ $t('report-user') }}</button>
-            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

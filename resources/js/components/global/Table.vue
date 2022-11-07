@@ -120,7 +120,6 @@ function updatePaginated(value: Item[]) {
 </script>
 
 <style lang="scss">
-@import '../../../assets/scss/variables';
 .table-striped tbody tr:nth-of-type(2n+1) {
     background-color: var(--nth-of-type);
 }

@@ -13,6 +13,10 @@ export const user3 = {
     username: 'cyptest3',
     password: 'password',
 }
+export const admin = {
+    username: 'cypadmin',
+    password: 'password',
+}
 
 export const viewGroupPageButton = '.fa-magnifying-glass';
 export const kickRemoveButton = '.fa-rectangle-xmark';
@@ -22,5 +26,7 @@ export const editButton = '.fa-pen-to-square';
 export const messageButton = '.fa-envelope';
 export const sendFriendRequestButton = '.fa-user-plus';
 export const acceptButton = '.fa-square-check';
-export const blockButton = '.fa-ban';
-export const unblockButton = '.fa-lock-open';
+export const notificationButton = '.fa-bell';
+export const banButton = '.fa-ban';
+export const unlockedButton = '.fa-lock-open';
+export const lockButton = '.fa-lock';

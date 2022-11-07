@@ -1,4 +1,4 @@
-import {getRandomString} from '../../support/commands';
+import {getRandomString, waitShort, waitLong} from '../../support/commands';
 import {deleteButton, completeTaskButton, editButton} from '../../support/constants';
 
 describe('Tasks', () => {
