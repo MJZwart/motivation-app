@@ -192,6 +192,7 @@ class AdminController extends Controller
             $user->banned_until = $newDate;
             $user->save();
             $bannedUser->early_release = $newDate;
+            //NOTE This is currently the only place where ban_edit_comment is used, it may be removed later
             Notification::create([
                 'user_id' => $user->id,
                 'title' => __('messages.user.ban.ended_notification_title'),
@@ -207,8 +208,7 @@ class AdminController extends Controller
         }
         $bannedUser->days = $request['days'];
         $bannedUser->banned_until = $newDate;
-        $bannedUser->ban_edit_comment = $bannedUser->ban_edit_comment . $validated['ban_edit_comment'] . ' | ';
-        $bannedUser->ban_edit_log = $bannedUser->ban_edit_log . $validated['ban_edit_log'] . ' | ';
+        $bannedUser->ban_edit_log = $validated['ban_edit_log'];
         $bannedUser->save();
 
         return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
