@@ -15,7 +15,7 @@ class FriendSeeder extends Seeder
      */
     public function run()
     {
-        $userCount = User::count();
+        $userCount = User::count() - 4;
         for($i = 0 ; $i < 30 ; $i++){
             $userId = rand(1, $userCount);
             $friendId = rand(1, $userCount);
@@ -32,6 +32,19 @@ class FriendSeeder extends Seeder
                     'accepted' => true,
                 ]);
         }
-
+        $cyptest1 = User::where('username', 'cyptest1')->first();
+        $cyptest2 = User::where('username', 'cyptest2')->first();
+        Friend::factory()
+            ->create([
+                'user_id' => $cyptest1->id,
+                'friend_id' => $cyptest2->id,
+                'accepted' => true,
+            ]);
+        Friend::factory()
+            ->create([
+                'user_id' => $cyptest2->id,
+                'friend_id' => $cyptest1->id,
+                'accepted' => true,
+            ]);
     }
 }

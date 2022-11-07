@@ -60,5 +60,23 @@ class MessageSeeder extends Seeder
                 'conversation_id' => $conversationId,
             ]);
         }
+        $conversationId = random_int(11111, 99999);
+        $cyptest1 = User::where('username', 'cyptest1')->first();
+        $cyptest2 = User::where('username', 'cyptest2')->first();
+        Message::factory(2)->create([
+            'sender_id' => $cyptest1->id,
+            'recipient_id' => $cyptest2->id,
+            'conversation_id' => $conversationId,
+        ]);
+        Conversation::create([
+            'user_id' => $cyptest1->id,
+            'recipient_id' => $cyptest2->id,
+            'conversation_id' => $conversationId,
+        ]);
+        Conversation::create([
+            'user_id' => $cyptest2->id,
+            'recipient_id' => $cyptest1->id,
+            'conversation_id' => $conversationId,
+        ]);
     }
 }

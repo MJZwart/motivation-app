@@ -12,7 +12,7 @@
                         ])
                     }}
                 </div>
-                <div v-if="notLoggedUser" class="d-flex">
+                <div v-if="notLoggedUser" class="d-flex profile-actions">
                     <Tooltip :text="$t('message-user')">
                         <FaIcon icon="envelope" class="icon small" @click="sendMessage" />
                     </Tooltip>

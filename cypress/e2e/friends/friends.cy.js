@@ -1,13 +1,13 @@
 import {waitShort, waitLong} from '../../support/commands';
-import {user1, user2, user3, sendFriendRequestButton, acceptButton, kickRemoveButton} from '../../support/constants';
+import {user1, admin, user3, sendFriendRequestButton, acceptButton, kickRemoveButton} from '../../support/constants';
 
 describe('Friends', () => {
     
     function loginUser1() {
         cy.login(user1.username, user1.password);
     }
-    function loginUser2() {
-        cy.login(user2.username, user2.password);
+    function loginadmin() {
+        cy.login(admin.username, admin.password);
     }
     function loginUser3() {
         cy.login(user3.username, user3.password);
@@ -40,9 +40,9 @@ describe('Friends', () => {
             goToFriendsPage();
 
             //User 1 can send a friend request to user 2 and user 3
-            searchOnUsernameInFriendsPanel(user2.username);
+            searchOnUsernameInFriendsPanel(admin.username);
 
-            sendFriendRequest(user2.username);
+            sendFriendRequest(admin.username);
 
             searchOnUsernameInFriendsPanel(user3.username);
 
@@ -57,7 +57,7 @@ describe('Friends', () => {
             cy.get('.outgoing-request').contains(user3.username).find(kickRemoveButton).click();
             waitShort();
 
-            cy.get('.outgoing-request').should('contain.text', user2.username).should('not.contain.text', user3.username);
+            cy.get('.outgoing-request').should('contain.text', admin.username).should('not.contain.text', user3.username);
 
             searchOnUsernameInFriendsPanel(user3.username);
 
@@ -67,7 +67,7 @@ describe('Friends', () => {
 
     describe('Users can manage friend requests', () => {
         it('user 2 can reject a friend request through notifications', () => {
-            loginUser2();
+            loginadmin();
             cy.visit('/notifications');
             waitLong();
 
@@ -88,7 +88,7 @@ describe('Friends', () => {
             goToFriendsPage();
 
             //User 1 has 1 request from user 2
-            cy.get('#incoming-friend-requests').should('contain.text', user2.username);
+            cy.get('#incoming-friend-requests').should('contain.text', admin.username);
 
             //User 1 can accept through notifications
             cy.visit('/notifications');
@@ -98,7 +98,7 @@ describe('Friends', () => {
             waitShort();
 
             goToFriendsPage();
-            cy.get('#friendships').should('contain.text', user2.username);
+            cy.get('#friendships').should('contain.text', admin.username);
         });
         it('user 3 can accept a friend request', () => {
             //User 3
@@ -118,7 +118,7 @@ describe('Friends', () => {
             goToFriendsPage();
 
             cy.get('#friendships').contains(user3.username).parent().find(kickRemoveButton).click();
-            cy.get('#friendships').contains(user2.username).parent().find(kickRemoveButton).click();
+            cy.get('#friendships').contains(admin.username).parent().find(kickRemoveButton).click();
             cy.on('window:confirm', () => true);
             waitShort();
 

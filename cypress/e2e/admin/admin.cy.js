@@ -24,6 +24,8 @@ describe('Admin', () => {
     });
     describe('Admin can send a notification to all users', () => {
         it('can send and see a custom notification', () => {
+            //Waiting to prevent throttling errors
+            cy.wait(5000);
             const title = getRandomString();
             const text = getRandomString();
 
@@ -74,6 +76,8 @@ describe('Admin', () => {
     });
     describe('Admin can see achievements', () => {
         it('can see achievements and add a new achievement', () => {
+            //Waiting to prevent throttling errors
+            cy.wait(5000);
             const name = getRandomString();
             const desc = getRandomString();
             const amount = Math.floor(Math.random() * 10);
@@ -150,6 +154,8 @@ describe('Admin', () => {
     });
     describe('Admin can see reported users', () => {
         it('can see reported users and suspend them', () => {
+            //Waiting to prevent throttling errors
+            cy.wait(5000);
             const reason = getRandomString();
             const days = Math.floor(Math.random() * 10);
             goToTab('Reported users');
