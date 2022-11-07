@@ -114,7 +114,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update($validated);
         ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating settings');
-        return ResponseWrapper::successResponse(__('messages.user.setting_updated'), ['user' => new UserResource($user->fresh())]);
+        return ResponseWrapper::successResponse(__('messages.user.settings_updated'), ['user' => new UserResource($user->fresh())]);
     }
 
     /**

@@ -21,9 +21,9 @@ class UserProfileResource extends JsonResource
             'created_at' => $this->created_at,
             'username' => $this->username,
             'display_picture' => $this->display_picture,
-            'rewardObj' => $this->show_reward ? $this->getActiveRewardObjectResource() : false,
-            'achievements' => $this->show_achievements ? AchievementEarnedResource::collection($this->achievements) : false,
-            'friends' => $this->show_friends ? FriendResource::collection($this->friends) : false,
+            'rewardObj' => $this->show_reward ? $this->getActiveRewardObjectResource() : null,
+            'achievements' => $this->show_achievements ? AchievementEarnedResource::collection($this->achievements) : null,
+            'friends' => $this->show_friends ? FriendResource::collection($this->friends) : null,
             'suspended' => $this->isBanned() ? new UserSuspensionSummaryResource($this->getLatestSuspension()) : null,
         ];
     }

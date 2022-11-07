@@ -45,7 +45,7 @@
                     :userReward="false"
                     :rewardType="userProfile.rewardObj.rewardType"
                 />
-                <FriendsCard :message="false" :friends="userProfile.friends" />
+                <FriendsCard v-if="userProfile.friends" :message="false" :friends="userProfile.friends" />
             </div>
             <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />

@@ -30,3 +30,4 @@ export const notificationButton = '.fa-bell';
 export const banButton = '.fa-ban';
 export const unlockedButton = '.fa-lock-open';
 export const lockButton = '.fa-lock';
+export const tutorialButton = '.fa-circle-question';
