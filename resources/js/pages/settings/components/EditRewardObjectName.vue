@@ -10,7 +10,7 @@
                 :placeholder="$t('name')"
             />
             <button type="submit" class="block">{{ $t('update-reward-name') }}</button>
-            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
             <BaseFormError name="error" />
         </form>
     </div>

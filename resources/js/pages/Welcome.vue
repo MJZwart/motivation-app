@@ -48,7 +48,7 @@
                 />
                 <small class="form-text text-muted mb-3">{{ $t('change-name-later') }}</small>
                 <button class="block" @click="nextModal()">{{ $t('next') }}</button>
-                <button class="block" variant="danger" @click="logout()">{{ $t('logout') }}</button>
+                <button class="block button-cancel" @click="logout()">{{ $t('logout') }}</button>
             </div>
         </Modal>
         <Modal :show="showSecondModal" :footer="false" :header="false">
@@ -80,11 +80,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex">
-                    <button class="mr-1" @click="startFirstModal()">{{ $t('go-back') }}</button>
-                    <button @click="confirmSettings()">{{ $t('submit') }}</button>
-                    <button class="ml-auto button-red" @click="logout()">{{ $t('logout') }}</button>
-                </div>
+                <button class="block" @click="confirmSettings()">{{ $t('submit') }}</button>
+                <button class="block button-cancel" @click="startFirstModal()">{{ $t('go-back') }}</button>
+                <button class="block button-cancel" @click="logout()">{{ $t('logout') }}</button>
             </div>
         </Modal>
     </div>

@@ -37,7 +37,7 @@
                 <BaseFormError name="require_application" />
             </div>
             <button id="create-new-group" type="submit" class="block">{{ $t('create-group') }}</button>
-            <button type="button" class="block" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>

@@ -35,10 +35,8 @@
             :placeholder="$t('comment')"
         />
 
-        <div class="d-flex">
-            <button :disabled="bannedUntilInPast" @click="confirm">{{ $t('submit') }}</button>
-            <button class="ml-auto button-red" @click="emit('close')">{{ $t('cancel') }}</button>
-        </div>
+        <button :disabled="bannedUntilInPast" class="block" @click="confirm">{{ $t('submit') }}</button>
+        <button class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
     </div>
 </template>
 
