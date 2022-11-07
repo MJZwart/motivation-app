@@ -39,6 +39,7 @@ const darkStyles = [
     {key: '--primary',              value: '#252525'},
     {key: '--primary-as-text',      value: '#cecece'},
     {key: '--primary-text',         value: '#e4e4e4'},
+    {key: '--secondary',            value: '#3b3b3b'},
     {key: '--body-text',            value: '#e4e4e4'},
 
     {key: '--grey',                 value: 'grey'},
@@ -64,6 +65,7 @@ const lightStyle = [
     {key: '--primary',              value: '#1D3354'},
     {key: '--primary-as-text',      value: '#1D3354'},
     {key: '--primary-text',         value: 'white'},
+    {key: '--secondary',            value: '#15253d'},
     {key: '--body-text',            value: 'rgb(29, 29, 29)'},
 
     {key: '--grey',                 value: 'grey'},
