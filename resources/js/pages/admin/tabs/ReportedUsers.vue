@@ -2,6 +2,8 @@
     <div>
         <Loading v-if="loading" />
 
+        <h3>{{ $t('reported-users')}}</h3>
+
         <SortableOverviewTable
             v-if="sortedReportedUsers"
             :items="sortedReportedUsers"
@@ -47,7 +49,7 @@
         <Modal 
             :show="showSendMessageModal" 
             :footer="false" 
-            :title="$t('send-message')" 
+            :header="false" 
             @close="closeSendMessageToReportedUser">
             <SendMessage v-if="userToMessage !== null" :user="userToMessage" @close="closeSendMessageToReportedUser"/>
         </Modal>

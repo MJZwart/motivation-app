@@ -62,6 +62,7 @@ const suspension = ref<NewSuspension>({
 
 async function suspendUser() {
     if (suspension.value.indefinite) suspension.value.days = null;
+    else if (suspension.value.days) suspension.value.days = parseInt(suspension.value.days.toString(), 10);
     await adminStore.suspendUser(props.userId, suspension.value);
     emit('close', true);
 }
