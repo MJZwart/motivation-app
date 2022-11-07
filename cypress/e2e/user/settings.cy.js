@@ -12,6 +12,8 @@ describe('Settings', () => {
 
     describe('User settings', () => {
         it('User can change password and is logged out', () => {
+            //Waiting to prevent throttling issues
+            cy.wait(5000);
             const newPass = getRandomString(8);
             cy.visit('/settings#AccountSettings');
             waitShort();
@@ -133,6 +135,7 @@ describe('Settings', () => {
     });
 
     describe('Reward settings', () => {
+        //Waiting to prevent throttling issues
         const charName = getRandomString();
         const villName = getRandomString();
         const newCharName = getRandomString();

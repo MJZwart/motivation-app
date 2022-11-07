@@ -157,7 +157,7 @@ describe('Admin', () => {
             //Waiting to prevent throttling errors
             cy.wait(5000);
             const reason = getRandomString();
-            const days = Math.floor(Math.random() * 10);
+            const days = Math.floor(Math.random() * 10) + 1;
             goToTab('Reported users');
 
             cy.get('.content-block.clickable').first().should('exist').click();
