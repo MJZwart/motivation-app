@@ -138,7 +138,6 @@ function completeTask(task: Task) {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../assets/scss/variables.scss';
 .number-icon {
     font-family: var(--border-color);
     margin: 1px;

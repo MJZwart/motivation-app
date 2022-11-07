@@ -138,7 +138,6 @@ function updatePaginated(value: Item[]) {
 </script>
 
 <style lang="scss">
-@import '../../../assets/scss/variables';
 .overview-field-item {
     display: flex;
 }

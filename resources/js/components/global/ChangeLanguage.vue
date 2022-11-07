@@ -24,7 +24,6 @@ function changeLanguage(lang: 'en' | 'nl') {
 </script>
 
 <style scoped lang="scss">
-@import '../../../assets/scss/variables';
 .language-options {
     display: flex;
     padding-bottom: 1rem;

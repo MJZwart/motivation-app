@@ -45,7 +45,6 @@ const spinnerDelay3 = {
 </script>
 
 <style lang="scss">
-@import '../../../assets/scss/variables.scss';
 .loader-style .v-pulse {
     background-color: var(--primary);
 }

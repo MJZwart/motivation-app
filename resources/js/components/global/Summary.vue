@@ -43,7 +43,6 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/scss/variables';
 .card-outer {
     border-radius: calc(0.25rem + 0px);
     box-shadow: var(--basic-shadow);

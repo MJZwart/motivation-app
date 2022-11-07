@@ -23,7 +23,7 @@ const overview = ref({});
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../assets/scss/variables';
+
 .overview-box {
     display: flex;
     gap: 0.5rem;

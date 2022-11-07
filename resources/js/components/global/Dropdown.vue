@@ -54,7 +54,6 @@ function catchOutsideClick(event, dropdown)  {
 </script>
 
 <style lang="scss">
-@import '../../../assets/scss/variables';
 .dropDownMenuWrapper {
   position: relative;
   width: 40px;

@@ -58,7 +58,6 @@ const appLead = computed(() => t('home-introduction'));
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/scss/variables.scss';
 .register-button {
     font-size: 2rem;
     padding: 0.8rem;
