@@ -24,6 +24,7 @@
                 </span>
             </div>
             <input
+                id="filter-group-by-name"
                 v-model="search"
                 class="m-1 filter-input"
                 type="text"

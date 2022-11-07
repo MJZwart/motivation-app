@@ -20,7 +20,7 @@ describe('Messages & Notifications', () => {
             waitShort();
 
             cy.get('h3').should('contain.text', 'Messages');
-            cy.get('.conversation.clickable.content-block').should('be.visible');
+            cy.get('.conversation.clickable.content-block').should('be.visible').contains(user2.username).click();
 
             cy.get('a').contains(user2.username).click();
             waitShort();
@@ -47,6 +47,8 @@ describe('Messages & Notifications', () => {
             cy.get('.messages').should('contain.text', message);
             cy.get('#message').type(reply);
             cy.get('button').contains('Send reply').click();
+            waitShort();
+            cy.get('.messages').should('contain.text', reply);
         });
         it('User 2 can delete the received message', () => {
             loginUser2();
@@ -57,8 +59,7 @@ describe('Messages & Notifications', () => {
             cy.get('.messages').contains(message).parent().trigger('mouseover').find(deleteButton).click();
             cy.on('window:confirm', () => true);
             waitShort();
-            //NOTE Currently doesn't work because of the bug solved in PR #558 (User story #552)
-            // cy.get('.messages').should('not.contain.text', message);
+            cy.get('.messages').should('not.contain.text', message);
         });
         it('User 1 can still view this deleted message', () => {
             loginUser1();
@@ -100,7 +101,6 @@ describe('Messages & Notifications', () => {
             cy.get('.card.summary-card').should('exist');
 
             cy.contains('Items 1 -').invoke('text').then((currentItemsText) => {
-                // const items = currentItemsText.slice(-1);
                 cy.get('.card').first().find(deleteButton).first().click();
                 cy.on('window:confirm', () => true);
                 waitShort();

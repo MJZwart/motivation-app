@@ -15,7 +15,7 @@ class FriendSeeder extends Seeder
      */
     public function run()
     {
-        $userCount = User::count();
+        $userCount = User::count() - 4;
         for($i = 0 ; $i < 30 ; $i++){
             $userId = rand(1, $userCount);
             $friendId = rand(1, $userCount);

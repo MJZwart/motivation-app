@@ -1,13 +1,13 @@
 import {waitShort, waitLong} from '../../support/commands';
-import {user1, user2, banButton, unlockedButton} from '../../support/constants';
+import {user1, user3, banButton, unlockedButton} from '../../support/constants';
 
 describe('Blocking', () => {
     
     function loginUser1() {
         cy.login(user1.username, user1.password);
     }
-    function loginUser2() {
-        cy.login(user2.username, user2.password);
+    function loginUser3() {
+        cy.login(user3.username, user3.password);
     }
 
     function goToFriendsPage() {
@@ -30,9 +30,9 @@ describe('Blocking', () => {
             loginUser1();
 
             goToFriendsPage();
-            searchOnUsernameInFriendsPanel(user2.username);
+            searchOnUsernameInFriendsPanel(user3.username);
 
-            cy.get('a').contains(user2.username).click();
+            cy.get('a').contains(user3.username).click();
             waitLong();
 
             cy.get(banButton).click();
@@ -43,11 +43,11 @@ describe('Blocking', () => {
             cy.get('button').contains('Blocklist').click();
             waitShort();
 
-            cy.get('a').contains(user2.username).should('exist');
+            cy.get('a').contains(user3.username).should('exist');
         });
         it('blocks friend requests', () => {
             //User 2
-            loginUser2();
+            loginUser3();
 
             goToFriendsPage();
             searchOnUsernameInFriendsPanel(user1.username);
@@ -60,11 +60,11 @@ describe('Blocking', () => {
 
             cy.get('a').contains('Social').click();
             cy.get('button').contains('Blocklist').click();
-            waitShort();
+            waitLong();
 
-            cy.get('a').contains(user2.username).should('exist').parent().find(unlockedButton).click();
+            cy.get('a').contains(user3.username).should('exist').parent().find(unlockedButton).click();
             waitShort();
-            cy.get('a').contains(user2.username).should('not.exist');
+            cy.get('a').contains(user3.username).should('not.exist');
         });
     });
 });
