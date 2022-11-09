@@ -45,7 +45,7 @@
             <div class="form-group">
                 <p v-if="taskList">{{ $t('task-list') }}: {{ taskList.name }}</p>
                 <p v-if="superTask">{{ $t('subtask-of') }}: {{ superTask.name }}</p>
-                <span>
+                <p>
                     <FaIcon 
                         icon="heart" 
                         class="icon favourite"
@@ -53,7 +53,15 @@
                         @click="task.favourite = !task.favourite"
                     />
                     {{$t('add-to-favourites')}}
-                </span>
+                </p>
+                <div>{{$t('import-from-favourites')}}
+                    <select id="favourites" class="favourite-select" @change="selectFavourite($event)">
+                        <option :value="null"/>
+                        <option v-for="(favourite, index) in favourites" :key="index" :value="index">
+                            {{ `${favourite.name} - ${$t(favourite.type)} - ${$t('difficulty')}: ${favourite.difficulty}/5` }}
+                        </option>
+                    </select>
+                </div>
             </div>
             <button id="create-new-task-button" type="submit" class="block">{{ $t('create-new-task') }}</button>
             <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
@@ -63,9 +71,9 @@
 
 <script setup lang="ts">
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
-import {NewTask, Task, TaskList} from 'resources/types/task';
+import {NewTask, Task, TaskList, Favourite} from 'resources/types/task';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
@@ -82,6 +90,25 @@ const task = ref<NewTask>({
     favourite: false,
 });
 
+const favourites = ref<Favourite[]>([]);
+
+onMounted(async() => {
+    favourites.value = await taskStore.getFavourites();
+});
+
+function selectFavourite(event: Event) {
+    if (!event || !event.target || !(event.target as HTMLSelectElement).value) return;
+    const selected = favourites.value[(event.target as HTMLSelectElement).value];
+    copyFavouriteIntoTask(selected);
+}
+
+function copyFavouriteIntoTask(favourite: Favourite) {
+    task.value.name = favourite.name;
+    task.value.description = favourite.description;
+    task.value.difficulty = favourite.difficulty;
+    task.value.type = favourite.type;
+}
+
 const taskStore = useTaskStore();
 async function submitTask() {
     task.value.super_task_id = props.superTask ? props.superTask.id : null;
@@ -89,3 +116,11 @@ async function submitTask() {
     emit('close');
 }
 </script>
+
+<style scoped lang="scss">
+.favourite-select{
+    option {
+        line-height:100px;
+    }
+}
+</style>

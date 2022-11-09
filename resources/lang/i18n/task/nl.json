@@ -30,6 +30,10 @@
     "physical": "Fysiek",
     "mental": "Mentaal",
 
+    "GENERIC": "Generiek",
+    "PHYSICAL": "Fysiek",
+    "MENTAL": "Mentaal",
+
     "tasks-completed": "Taken voltooid",
     "most-completed-repeatable": "Vaakst voltooid: {0}. {1} keer voltooid.",
     "task-name": "Taak naam",
@@ -44,5 +48,6 @@
     "infinite": "Oneindig",
     "not-repeatable": "Eenmalig",
 
-    "add-to-favourites": "Voeg toe aan favorieten"
+    "add-to-favourites": "Voeg toe aan favorieten",
+    "import-from-favourites": "Importeer van favorieten"
 }

@@ -30,6 +30,10 @@
     "physical": "Physical",
     "mental": "Mental",
 
+    "GENERIC": "Generic",
+    "PHYSICAL": "Physical",
+    "MENTAL": "Mental",
+
     "tasks-completed": "Tasks completed",
     "most-completed-repeatable": "Most completed repeatable: {0}. Completed {1} times",
     "task-name": "Task name",
@@ -44,5 +48,6 @@
     "infinite": "Infinitely",
     "not-repeatable": "Once",
 
-    "add-to-favourites": "Add to favourites"
+    "add-to-favourites": "Add to favourites",
+    "import-from-favourites": "Import from favourites"
 }

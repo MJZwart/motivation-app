@@ -73,5 +73,10 @@ export const useTaskStore = defineStore('task', {
         mergeTasks(data) {
             axios.post('/tasks/merge/' + data.taskListId, data);
         },
+        /** @returns Array<import('resources/types/task').Favourites> */
+        async getFavourites() {
+            const {data} = await axios.get('/tasks/favourites');
+            return data.data;
+        },
     },
 });

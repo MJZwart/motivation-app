@@ -22,4 +22,11 @@ export type TaskList = NewTaskList & {
 
 export type NewTaskList = {
     name: string;
-}
+};
+
+export type Favourite = {
+    name: string;
+    description?: string;
+    difficulty: number;
+    type: string;
+};

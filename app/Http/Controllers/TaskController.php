@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
+use App\Http\Resources\FavouritesResource;
 use App\Models\RepeatableTaskCompleted;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -79,6 +80,10 @@ class TaskController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name, 'Not authorized');
             return ResponseWrapper::forbiddenResponse(__('messages.task.unauthorized'));
         }
+    }
+
+    public function getFavourites() {
+        return FavouritesResource::collection(Task::where('user_id', Auth::user()->id)->where('favourite', true)->get());
     }
 
     /**

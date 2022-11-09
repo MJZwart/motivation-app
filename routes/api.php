@@ -51,9 +51,10 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::group(['middleware' => ['valid-auth']], function () {
     Route::resource('/tasks', TaskController::class)->only([
-        'store', 'show', 'update', 'destroy'
+        'store', 'update', 'destroy'
     ]);
     Route::put('/tasks/complete/{task}', [TaskController::class, 'complete']);
+    Route::get('/tasks/favourites', [TaskController::class, 'getFavourites']);
 
     Route::resource('/tasklists', TaskListController::class)->only([
         'store', 'show', 'update', 'destroy'
