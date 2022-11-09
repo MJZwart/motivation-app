@@ -136,6 +136,7 @@ describe('Settings', () => {
 
     describe('Reward settings', () => {
         //Waiting to prevent throttling issues
+        cy.wait(5000);
         const charName = getRandomString();
         const villName = getRandomString();
         const newCharName = getRandomString();
