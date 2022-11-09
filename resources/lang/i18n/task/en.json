@@ -42,5 +42,7 @@
     "weekly": "Weekly",
     "monthly": "Monthly",
     "infinite": "Infinitely",
-    "not-repeatable": "Once"
+    "not-repeatable": "Once",
+
+    "add-to-favourites": "Add to favourites"
 }

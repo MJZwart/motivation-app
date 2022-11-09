@@ -45,6 +45,15 @@
             <div class="form-group">
                 <p v-if="taskList">{{ $t('task-list') }}: {{ taskList.name }}</p>
                 <p v-if="superTask">{{ $t('subtask-of') }}: {{ superTask.name }}</p>
+                <span>
+                    <FaIcon 
+                        icon="heart" 
+                        class="icon favourite"
+                        :class="{active: task.favourite}"
+                        @click="task.favourite = !task.favourite"
+                    />
+                    {{$t('add-to-favourites')}}
+                </span>
             </div>
             <button id="create-new-task-button" type="submit" class="block">{{ $t('create-new-task') }}</button>
             <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
@@ -70,6 +79,7 @@ const task = ref<NewTask>({
     type: 'GENERIC',
     repeatable: 'NONE',
     task_list_id: props.taskList.id,
+    favourite: false,
 });
 
 const taskStore = useTaskStore();

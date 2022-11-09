@@ -540,6 +540,18 @@ select {
     text-decoration: none;
 }
 
+.favourite {
+    color: var(--grey);
+    font-size: 2rem;
+    transition: color 0.3s ease-in-out;
+}
+.favourite.active {
+    color: var(--red);
+}
+.favourite:hover {
+    color: var(--orange);
+}
+
 /**
 Pagination
 **/

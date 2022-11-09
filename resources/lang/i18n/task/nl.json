@@ -42,5 +42,7 @@
     "weekly": "Wekelijks",
     "monthly": "Maandelijks",
     "infinite": "Oneindig",
-    "not-repeatable": "Eenmalig"
+    "not-repeatable": "Eenmalig",
+
+    "add-to-favourites": "Voeg toe aan favorieten"
 }

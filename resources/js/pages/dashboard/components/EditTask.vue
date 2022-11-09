@@ -51,6 +51,15 @@
             <div class="form-group">
                 <p v-if="taskList.name">{{ $t('task-list') }}: {{taskList.name}}</p>
                 <p v-if="superTask">{{ $t('subtask-of') }}: {{superTask}}</p>
+                <span>
+                    <FaIcon 
+                        icon="heart" 
+                        class="icon favourite"
+                        :class="{active: editedTask.favourite}"
+                        @click="editedTask!.favourite = !editedTask!.favourite"
+                    />
+                    {{$t('add-to-favourites')}}
+                </span>
             </div>
             <button type="submit" class="block">{{ $t('edit-task') }}</button>
             <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
