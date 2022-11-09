@@ -69,7 +69,7 @@ export const useAdminStore = defineStore('admin', {
          * @param {import('resources/types/bug').BugReport} bugReport
          */
         async updateBugReport(bugReport) {
-            const {data} = await axios.put('/bugreport/' + bugReport.id, bugReport);
+            const {data} = await axios.put('/admin/bugreport/' + bugReport.id, bugReport);
             this.bugReports = data.data.bugReports;
         },
 

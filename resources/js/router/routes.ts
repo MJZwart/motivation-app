@@ -102,7 +102,6 @@ export const routes = [
         path: '/bugreport',
         component: BugReport,
         meta: {
-            requiresAuth: true,
             title: 'Report a bug',
         },
     },
