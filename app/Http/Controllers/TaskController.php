@@ -11,6 +11,7 @@ use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use App\Http\Resources\FavouritesResource;
+use App\Models\Favourite;
 use App\Models\RepeatableTaskCompleted;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -31,13 +32,25 @@ class TaskController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
-        Task::create($validated);
+        $task = Task::create($validated);
+        if ($task->favourite) $this->storeFavourite($task);
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
         ActionTrackingHandler::handleAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
         return ResponseWrapper::successResponse(__('messages.task.created'), ['taskLists' => $taskLists]);
+    }
+
+    /**
+     * Creates a favourite from task
+     *
+     * @param Task $task
+     * @return void
+     */
+    public function storeFavourite(Task $task) 
+    {
+        Favourite::createFromTask($task);
     }
 
     /**
@@ -52,11 +65,29 @@ class TaskController extends Controller
     {
         $validated = $request->validated();
         $task->update($validated);
+        if (!$task->favourite && $validated['favourite']) $this->storeFavourite($task);
+        if ($task->favourite && !$validated['favourite']) $this->removeFavouriteFromTask($task);
         ActionTrackingHandler::handleAction($request, 'UPDATE_TASK', 'Updated task named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
 
         return ResponseWrapper::successResponse(__('messages.task.updated'), ['taskLists' => $taskLists]);
+    }
+
+    /**
+     * Removes the linked favourite from a given task, provided this favourite has not since 
+     * been updated. When updated, it would need to be removed manually.
+     *
+     * @param Task $task
+     * @return void
+     */
+    public function removeFavouriteFromTask(Task $task) 
+    {
+        $favouritesFromTask = Favourite::where('task_id', $task->id)->get();
+        foreach ($favouritesFromTask as $fav) {
+            if ($fav->updated_at->gt($fav->created_at)) continue;
+            $fav->delete();
+        }
     }
 
     /**

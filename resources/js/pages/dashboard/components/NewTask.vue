@@ -54,7 +54,7 @@
                     />
                     {{$t('add-to-favourites')}}
                 </p>
-                <div>{{$t('import-from-favourites')}}
+                <div v-if="favourites.length">{{$t('import-from-favourites')}}
                     <select id="favourites" class="favourite-select" @change="selectFavourite($event)">
                         <option :value="null"/>
                         <option v-for="(favourite, index) in favourites" :key="index" :value="index">
@@ -83,6 +83,7 @@ const emit = defineEmits(['close']);
 
 const task = ref<NewTask>({
     name: '',
+    description: '',
     difficulty: 3,
     type: 'GENERIC',
     repeatable: 'NONE',
@@ -104,7 +105,7 @@ function selectFavourite(event: Event) {
 
 function copyFavouriteIntoTask(favourite: Favourite) {
     task.value.name = favourite.name;
-    task.value.description = favourite.description;
+    task.value.description = favourite.description ?? '';
     task.value.difficulty = favourite.difficulty;
     task.value.type = favourite.type;
 }
