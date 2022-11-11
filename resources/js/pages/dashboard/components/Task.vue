@@ -9,10 +9,7 @@
                         class="icon medium green"
                         @click="completeTask(task)" />
                 </Tooltip>
-                {{task.name}}             
-                <FaIcon v-if="task.favourite"
-                        :icon="'heart'"
-                        class="icon" />
+                {{task.name}}
                 <span class="ml-auto">
                     <Tooltip v-if="task.repeatable != 'NONE'" :text="$t(task.repeatable)">
                         <FaIcon 
@@ -54,10 +51,7 @@
                                 class="icon medium green"
                                 @click="completeTask(subTask)" />
                         </Tooltip>
-                        {{subTask.name}}           
-                        <FaIcon v-if="subTask.favourite"
-                                :icon="'heart'"
-                                class="icon" />   
+                        {{subTask.name}}
                         <span class="ml-auto">
                             <Tooltip v-if="subTask.repeatable != 'NONE'" :text="$t(subTask.repeatable)">
                                 <FaIcon 

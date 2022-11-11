@@ -54,7 +54,8 @@ Route::group(['middleware' => ['valid-auth']], function () {
         'store', 'update', 'destroy'
     ]);
     Route::put('/tasks/complete/{task}', [TaskController::class, 'complete']);
-    Route::get('/tasks/favourites', [TaskController::class, 'getFavourites']);
+    Route::get('/tasks/templates', [TaskController::class, 'getTemplates']);
+    Route::post('/tasks/templates', [TaskController::class, 'storeTemplate']);
 
     Route::resource('/tasklists', TaskListController::class)->only([
         'store', 'show', 'update', 'destroy'

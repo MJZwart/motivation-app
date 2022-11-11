@@ -374,25 +374,25 @@ button:disabled {
     border-bottom: 1px solid var(--background-darker);
     display: flex;
 }
-.task-sidebar {
+.task-sidebar, .template-sidebar {
     width: 1.5%;
 }
 .subtask-sidebar {
     margin-left: 1.5%;
 }
-.task-sidebar.diff-1 {
+.task-sidebar.diff-1, .template-sidebar.diff-1 {
     background-color: var(--light-green)
 }
-.task-sidebar.diff-2 {
+.task-sidebar.diff-2, .template-sidebar.diff-2 {
     background-color: var(--green)
 }
-.task-sidebar.diff-3 {
+.task-sidebar.diff-3, .template-sidebar.diff-3 {
     background-color: var(--yellow)
 }
-.task-sidebar.diff-4 {
+.task-sidebar.diff-4, .template-sidebar.diff-4 {
     background-color: var(--orange)
 }
-.task-sidebar.diff-5 {
+.task-sidebar.diff-5, .template-sidebar.diff-5 {
     background-color: var(--red)
 }
 .sub-task{
@@ -412,10 +412,7 @@ button:disabled {
     font-family: var(--bold-font);
     margin-bottom:0;
 }
-.task-content {
-    width: 98.5%;
-}
-.subtask-content {
+.task-content, .template-content, .subtask-content {
     width: 98.5%;
 }
 
@@ -540,16 +537,14 @@ select {
     text-decoration: none;
 }
 
-.favourite {
-    color: var(--grey);
-    font-size: 2rem;
-    transition: color 0.3s ease-in-out;
-}
-.favourite.active {
-    color: var(--red);
-}
-.favourite:hover {
-    color: var(--orange);
+.templates {
+    .template {
+        display: flex;
+        p {
+            margin: 0.2rem 0 0.2rem 1rem;
+        }
+        margin-bottom: 0.4rem;
+    }
 }
 
 /**

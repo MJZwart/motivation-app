@@ -11,7 +11,6 @@ export type NewTask = {
     repeatable: string;
     super_task_id?: number | null;
     task_list_id: number;
-    favourite: boolean;
 };
 
 export type TaskList = NewTaskList & {
@@ -24,7 +23,7 @@ export type NewTaskList = {
     name: string;
 };
 
-export type Favourite = {
+export type Template = {
     name: string;
     description?: string;
     difficulty: number;

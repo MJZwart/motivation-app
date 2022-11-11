@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('favourites', function (Blueprint $table) {
+        Schema::create('templates', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -21,11 +21,6 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->integer('difficulty');
             $table->string('type'); 
-            $table->foreignId('task_id')->nullable()->constrained()->onDelete('set null');
-        });
-
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->boolean('favourite')->default(false);
         });
     }
 
@@ -36,9 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('favourites');
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->dropColumn('favourite');
-        });
+        Schema::dropIfExists('templates');
     }
 };

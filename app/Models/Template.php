@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Favourite extends Model
+class Template extends Model
 {
     use HasFactory;
 
@@ -20,7 +20,7 @@ class Favourite extends Model
     ];
 
     public static function createFromTask(Task $task) {
-        Favourite::create([
+        Template::create([
             'user_id' => Auth::user()->id,
             'name' => $task->name,
             'description' => $task->description,

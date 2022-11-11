@@ -31,5 +31,9 @@
     "village": "Nederzetting",
     "character": "Karakter",
     "village-tutorial": "Dit is waar je het resultaat van je werk kunt zien. De taken die je voltooid geven je punten voor je nederzetting, waarmee je nederzetting zich ontwikkeld. We zijn nog bezig met een meer interactief onderdeel van de site waar je meer met je nederzetting kunt doen.",
-    "character-tutorial": "Dit is waar je het resultaat van je werk kunt zien. De taken die je voltooid geven je punten voor je karakter, waarmee je karakter zich ontwikkeld. We zijn nog bezig om een meer interactief onderdeel van de site waar je meer met je karakter kunt doen."
+    "character-tutorial": "Dit is waar je het resultaat van je werk kunt zien. De taken die je voltooid geven je punten voor je karakter, waarmee je karakter zich ontwikkeld. We zijn nog bezig om een meer interactief onderdeel van de site waar je meer met je karakter kunt doen.",
+    
+    "templates": "Favorieten",
+    "templates-tutorial": "",
+    "templates-removing-tutorial": ""
 }

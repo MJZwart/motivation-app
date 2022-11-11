@@ -45,20 +45,11 @@
             <div class="form-group">
                 <p v-if="taskList">{{ $t('task-list') }}: {{ taskList.name }}</p>
                 <p v-if="superTask">{{ $t('subtask-of') }}: {{ superTask.name }}</p>
-                <p>
-                    <FaIcon 
-                        icon="heart" 
-                        class="icon favourite"
-                        :class="{active: task.favourite}"
-                        @click="task.favourite = !task.favourite"
-                    />
-                    {{$t('add-to-favourites')}}
-                </p>
-                <div v-if="favourites.length">{{$t('import-from-favourites')}}
-                    <select id="favourites" class="favourite-select" @change="selectFavourite($event)">
+                <div v-if="templates.length">{{$t('import-from-templates')}}
+                    <select id="templates" class="template-select" @change="selectTemplate($event)">
                         <option :value="null"/>
-                        <option v-for="(favourite, index) in favourites" :key="index" :value="index">
-                            {{ `${favourite.name} - ${$t(favourite.type)} - ${$t('difficulty')}: ${favourite.difficulty}/5` }}
+                        <option v-for="(template, index) in templates" :key="index" :value="index">
+                            {{ `${template.name} - ${$t(template.type)} - ${$t('difficulty')}: ${template.difficulty}/5` }}
                         </option>
                     </select>
                 </div>
@@ -73,7 +64,7 @@
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
 import {onMounted, ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
-import {NewTask, Task, TaskList, Favourite} from 'resources/types/task';
+import {NewTask, Task, TaskList, Template} from 'resources/types/task';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
@@ -88,26 +79,25 @@ const task = ref<NewTask>({
     type: 'GENERIC',
     repeatable: 'NONE',
     task_list_id: props.taskList.id,
-    favourite: false,
 });
 
-const favourites = ref<Favourite[]>([]);
+const templates = ref<Template[]>([]);
 
 onMounted(async() => {
-    favourites.value = await taskStore.getFavourites();
+    templates.value = await taskStore.getTemplates();
 });
 
-function selectFavourite(event: Event) {
+function selectTemplate(event: Event) {
     if (!event || !event.target || !(event.target as HTMLSelectElement).value) return;
-    const selected = favourites.value[(event.target as HTMLSelectElement).value];
-    copyFavouriteIntoTask(selected);
+    const selected = templates.value[(event.target as HTMLSelectElement).value];
+    copyTemplateIntoTask(selected);
 }
 
-function copyFavouriteIntoTask(favourite: Favourite) {
-    task.value.name = favourite.name;
-    task.value.description = favourite.description ?? '';
-    task.value.difficulty = favourite.difficulty;
-    task.value.type = favourite.type;
+function copyTemplateIntoTask(template: Template) {
+    task.value.name = template.name;
+    task.value.description = template.description ?? '';
+    task.value.difficulty = template.difficulty;
+    task.value.type = template.type;
 }
 
 const taskStore = useTaskStore();
@@ -119,7 +109,7 @@ async function submitTask() {
 </script>
 
 <style scoped lang="scss">
-.favourite-select{
+.template-select{
     option {
         line-height:100px;
     }

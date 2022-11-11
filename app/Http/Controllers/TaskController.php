@@ -10,8 +10,9 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
-use App\Http\Resources\FavouritesResource;
-use App\Models\Favourite;
+use App\Http\Requests\StoreTemplateRequest;
+use App\Http\Resources\TemplatesResource;
+use App\Models\Template;
 use App\Models\RepeatableTaskCompleted;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -33,7 +34,6 @@ class TaskController extends Controller
         $validated['user_id'] = Auth::user()->id;
 
         $task = Task::create($validated);
-        if ($task->favourite) $this->storeFavourite($task);
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
         ActionTrackingHandler::handleAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
 
@@ -43,14 +43,24 @@ class TaskController extends Controller
     }
 
     /**
-     * Creates a favourite from task
+     * Creates a template from task
      *
      * @param Task $task
      * @return void
      */
-    public function storeFavourite(Task $task) 
+    public function storeTemplate(StoreTemplateRequest $template) 
     {
-        Favourite::createFromTask($task);
+        /** @var User */
+        $userId = Auth::user()->id;
+
+
+        $validated = $template->validated();
+        $validated['user_id'] = $userId;
+        Template::create($validated);
+
+        return ResponseWrapper::successResponse(
+            __('messages.task.template.created'), 
+            TemplatesResource::collection(Template::where('user_id', $userId)->get()));
     }
 
     /**
@@ -65,8 +75,6 @@ class TaskController extends Controller
     {
         $validated = $request->validated();
         $task->update($validated);
-        if (!$task->favourite && $validated['favourite']) $this->storeFavourite($task);
-        if ($task->favourite && !$validated['favourite']) $this->removeFavouriteFromTask($task);
         ActionTrackingHandler::handleAction($request, 'UPDATE_TASK', 'Updated task named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
@@ -75,16 +83,19 @@ class TaskController extends Controller
     }
 
     /**
-     * Removes the linked favourite from a given task, provided this favourite has not since 
+     * Removes the linked template from a given task, provided this template has not since 
      * been updated. When updated, it would need to be removed manually.
      *
      * @param Task $task
      * @return void
      */
-    public function removeFavouriteFromTask(Task $task) 
+    public function removeTemplateFromTask(Task $task) 
     {
-        $favouritesFromTask = Favourite::where('task_id', $task->id)->get();
-        foreach ($favouritesFromTask as $fav) {
+
+        //TODO NOT WORKING RIGHT NOW
+        $templatesFromTask = Template::where('task_id', $task->id)->get();
+        //TODO not sure if there is an option to have multiple templates to have the same task id, will check after editing favs
+        foreach ($templatesFromTask as $fav) {
             if ($fav->updated_at->gt($fav->created_at)) continue;
             $fav->delete();
         }
@@ -113,8 +124,13 @@ class TaskController extends Controller
         }
     }
 
-    public function getFavourites() {
-        return FavouritesResource::collection(Task::where('user_id', Auth::user()->id)->where('favourite', true)->get());
+    /**
+     * Fetches all templates by user
+     *
+     * @return void
+     */
+    public function getTemplates() {
+        return TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get());
     }
 
     /**

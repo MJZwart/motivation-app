@@ -19,6 +19,7 @@ import OutgoingFriendRequestsTutorial from '../tutorial/OutgoingFriendRequestsTu
 import BlocklistTutorial from '../tutorial/BlocklistTutorial.vue';
 import CharacterTutorial from '../tutorial/CharacterTutorial.vue';
 import VillageTutorial from '../tutorial/VillageTutorial.vue';
+import TemplatesTutorial from '../tutorial/TemplatesTutorial.vue';
 import {useUserStore} from '/js/store/userStore';
 
 const userStore = useUserStore();
@@ -55,6 +56,7 @@ const tutorials = {
     'Blocklist': BlocklistTutorial,
     'CHARACTER': CharacterTutorial,
     'VILLAGE': VillageTutorial,
+    'Templates': TemplatesTutorial,
 };
 
 const tutorialItem = shallowRef({});

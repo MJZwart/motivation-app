@@ -48,6 +48,10 @@
     "infinite": "Oneindig",
     "not-repeatable": "Eenmalig",
 
-    "add-to-favourites": "Voeg toe aan favorieten",
-    "import-from-favourites": "Importeer van favorieten"
+    "add-to-templates": "Voeg toe aan templates",
+    "remove-from-templates": "Verwijder uit templates",
+    "import-from-templates": "Importeer van templates",
+    "manage-templates": "Beheer templates",
+    "new-template": "Nieuw template",
+    "create-new-template": "Maak nieuwe template"
 }

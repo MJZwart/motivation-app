@@ -33,5 +33,9 @@
     "village-tutorial": "This is where you can see the fruits of your labour. The tasks you complete will give you points towards your village, which improve your village over time. We are still working on creating a more interactive part of the site where you can do more with your village.",
     "character-tutorial": "This is where you can see the fruits of your labour. The tasks you complete will give you points towards your character, which improve your character over time. We are still working on creating a more interactive part of the site where you can do more with your character.",
 
+    "templates": "Templates",
+    "templates-tutorial": "Use this button to add a copy of this task to your templates, so that you can easily import them when making a new task. You can later manage and remove any of your templates without affecting your existing tasks, or vice versa.",
+    "templates-removing-tutorial": "If you haven't ",
+
     "": ""
 }

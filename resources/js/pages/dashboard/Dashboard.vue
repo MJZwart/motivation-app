@@ -24,6 +24,8 @@
                     />
 
                     <FriendsCard :message="true" />
+
+                    <ManageTemplates />
                 </div>
             </div>
 
@@ -39,6 +41,7 @@ import TaskList from './components/TaskList.vue';
 import NewTaskList from './components/NewTaskList.vue';
 import RewardCard from './components/RewardCard.vue';
 import FriendsCard from './components/FriendsCard.vue';
+import ManageTemplates from './components/template/ManageTemplates.vue';
 import {useMainStore} from '/js/store/store';
 import {onBeforeMount, ref, computed} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
