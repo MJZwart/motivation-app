@@ -1,9 +1,9 @@
 <template>
     <div class="w-50-flex center">
-        <Changelog />
+        <ChangelogDoc />
     </div>
 </template>
 
 <script setup lang="ts">
-import Changelog from './changelog.md';
+import ChangelogDoc from './changelog.md';
 </script>

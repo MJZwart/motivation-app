@@ -4,10 +4,20 @@
         <Modal 
             :show="showManageTemplateModal" 
             :title="$t('manage-templates')" 
+            :header=false
             :footer=false  
             class="l"
             @close="showManageTemplateModal = false"
         >
+            <template #header>
+                <div class="modal-header">
+                    <h5>
+                        {{ $t('manage-templates') }}
+                        <Tutorial tutorial="Templates" colorVariant="white" />
+                    </h5>
+                    <button class="close" @click="$emit('close')">×</button>
+                </div>
+            </template>
             <button class="block" @click="showNewTemplate = true">{{$t('new-template')}}</button>
             <NewTemplate v-if="showNewTemplate" @close="showNewTemplate = false" @submit="createNewTemplate" />
             <h5>{{$t('templates')}}</h5>
@@ -32,6 +42,7 @@ import NewTemplate from './NewTemplate.vue';
 import type {Template} from 'resources/types/task';
 import {onMounted, ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
+import Tutorial from '/js/components/global/Tutorial.vue';
 
 const taskStore = useTaskStore();
 

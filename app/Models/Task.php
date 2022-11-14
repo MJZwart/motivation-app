@@ -24,7 +24,6 @@ class Task extends Model
         'super_task_id',
         'repeatable',
         'repeatable_active',
-        'template',
     ];
 
     public function taskList(){

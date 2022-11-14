@@ -16,17 +16,5 @@ class Template extends Model
         'description',
         'difficulty',
         'type',
-        'task_id',
     ];
-
-    public static function createFromTask(Task $task) {
-        Template::create([
-            'user_id' => Auth::user()->id,
-            'name' => $task->name,
-            'description' => $task->description,
-            'difficulty' => $task->difficulty,
-            'type' => $task->type,
-            'task_id' => $task->id,
-        ]);
-    }
 }

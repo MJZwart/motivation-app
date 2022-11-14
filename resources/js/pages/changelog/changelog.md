@@ -10,6 +10,7 @@
 -   Translations! The site is now ready to add translations and started with a full Dutch translation. May have some missing translations here and there
 -   Pagination on pages where the content may become larger than is expected and would require a lot of scrolling
 -   Created this changelog
+-   Allow users to create and use templates to make it easier to re-use recurring tasks that don't quite fit as a repeatable
 
 ### Fixes
 -   Fixed an issue where a user couldn't accept or reject a group invite when the group has already been deleted, as the user kept getting redirected to the dashboard. Now the invite link gets disabled if the group was deleted

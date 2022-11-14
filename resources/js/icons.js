@@ -35,7 +35,6 @@ import {
     faSquarePlus, 
     faTrash, 
     faUserPlus,
-    faHeart,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
     faAngleDown,
@@ -69,5 +68,4 @@ library.add(
     faSort,
     faTrash, 
     faUserPlus,
-    faHeart,
 );

@@ -107,11 +107,3 @@ async function submitTask() {
     emit('close');
 }
 </script>
-
-<style scoped lang="scss">
-.template-select{
-    option {
-        line-height:100px;
-    }
-}
-</style>

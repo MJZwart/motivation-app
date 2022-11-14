@@ -47,7 +47,7 @@ class TaskController extends Controller
      * Creates a template from task
      *
      * @param Task $task
-     * @return void
+     * @return JsonResponse with success message and all user templates
      */
     public function storeTemplate(StoreTemplateRequest $template) 
     {
@@ -108,7 +108,7 @@ class TaskController extends Controller
     /**
      * Fetches all templates by user
      *
-     * @return void
+     * @return TemplateResourceCollection with all user templates
      */
     public function getTemplates() {
         return TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get());
