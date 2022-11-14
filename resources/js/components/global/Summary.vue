@@ -50,13 +50,13 @@ defineProps({
 }
 .summary-card {
     .card-header {
-        color: var(--primary)-text;
+        color: var(--primary-text);
         background-color: var(--primary);
         font-weight: 500;
     }
     .card-body {
         background-color: var(--background-2);
-        color: var(--background-2)-text;
+        color: var(--background-2-text);
         padding: 0.5rem;
         font-size: 0.9rem;
     }

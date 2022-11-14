@@ -47,7 +47,7 @@
         >
             <EditBugReport v-if="bugReportToEdit" :bugReport="bugReportToEdit" @close="closeEditBugReport" />
         </Modal>
-        <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageToBugReportAuthor">
+        <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageToBugReportAuthor">
             <SendMessage v-if="bugReportAuthor" :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor" />
         </Modal>
     </div>

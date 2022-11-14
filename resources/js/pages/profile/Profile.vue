@@ -47,15 +47,15 @@
                 />
                 <FriendsCard v-if="userProfile.friends" :message="false" :friends="userProfile.friends" />
             </div>
-            <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
+            <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />
             </Modal>
-            <Modal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
+            <Modal :show="showReportUserModal" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userProfile" @close="closeReportUserModal" />
             </Modal>
             <Modal 
                 :show="showSuspendUserModal" 
-                :footer="false" 
+                
                 :title="`Suspend user ${userProfile.username}`"
                 @close="closeSuspendUserModal">
                 <SuspendUserModal :userId="userProfile.id" @close="closeSuspendUserModal" />

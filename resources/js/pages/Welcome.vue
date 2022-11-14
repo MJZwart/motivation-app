@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal :show="showFirstModal" :footer="false" :header="false">
+        <Modal :show="showFirstModal" :header="false">
             <template #header>
                 <div class="modal-header d-block">
                     <h5 class="modal-title">{{ $t('welcome') }}</h5>
@@ -51,7 +51,7 @@
                 <button class="block button-cancel" @click="logout()">{{ $t('logout') }}</button>
             </div>
         </Modal>
-        <Modal :show="showSecondModal" :footer="false" :header="false">
+        <Modal :show="showSecondModal" :header="false">
             <template #header>
                 <div class="modal-header d-block">
                     <h4>{{ $t('little-more') }}</h4>

@@ -78,7 +78,7 @@
             
         </div>
         
-        <Modal :show="showEditTaskModal" :footer="false" :title="$t('edit-task')" @close="closeEditTask">
+        <Modal :show="showEditTaskModal" :title="$t('edit-task')" @close="closeEditTask">
             <EditTask 
                 v-if="taskToEdit" 
                 :task="taskToEdit" 

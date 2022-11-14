@@ -66,7 +66,7 @@
             <div v-else>
                 {{ $t('no-groups-found') }}
             </div>
-            <Modal :show="showCreateGroupModal" :footer="false" :title="$t('create-group')" @close="closeCreateGroup">
+            <Modal :show="showCreateGroupModal" :title="$t('create-group')" @close="closeCreateGroup">
                 <CreateGroup @close="closeCreateGroup" @reloadGroups="load" />
             </Modal>
         </div>

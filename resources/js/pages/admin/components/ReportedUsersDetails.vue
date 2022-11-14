@@ -81,7 +81,7 @@
         </template>
 
         <Modal :show="showConversationModal"
-               :footer="false" 
+               
                :title="$t('see-conversation-reporter')" 
                @close="closeShowConversation">
             <ShowConversationModal 

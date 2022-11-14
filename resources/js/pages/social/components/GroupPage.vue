@@ -64,7 +64,7 @@
                     <span class="col">{{daysSince(member.joined.toString())}}</span>
                 </div>
             </div>
-            <Modal class="xl" :show="showManageGroupModal" :footer="false" 
+            <Modal class="xl" :show="showManageGroupModal" 
                    :title="group.name" @close="closeManageGroup">
                 <ManageGroupModal :group="group" />
             </Modal>

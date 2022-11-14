@@ -1,4 +1,36 @@
-@import 'variables';
+.w-80-flex {
+    max-width: 1200px;
+}
+.w-60-flex {
+    max-width: 850px;
+}
+.w-50-flex {
+    max-width: 600px;
+}
+.w-40-flex {
+    max-width: 500px;
+}
+
+.w-40{
+    width:40%;
+}
+.w-50{
+    width:50%;
+}
+.w-60{
+    width:60%;
+}
+.w-65 {
+    width:65%;
+}
+.w-80{
+    width:80%;
+}
+
+.h-65 {
+    height: 65%;
+}
+
 .mb-0 {
     margin-bottom: 0 !important;
 }

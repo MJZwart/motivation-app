@@ -31,7 +31,7 @@
                 {{ row.item.archived ? parseDateTime(row.item.updated_at) : '' }}
             </template>
         </Table>
-        <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
+        <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
             <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />
         </Modal>
     </div>

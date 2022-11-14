@@ -63,7 +63,7 @@
             </div>
         </div>
         
-        <Modal :show="showSendMessageModal" :footer="false" :header="false" class="m-override" @close="closeSendMessageModal">
+        <Modal :show="showSendMessageModal" :header="false" class="m-override" @close="closeSendMessageModal">
             <SendMessage :user="userToMessage" @close="closeSendMessageModal" />
         </Modal>
     </div>

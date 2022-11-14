@@ -48,7 +48,7 @@
         </Modal>
         <Modal 
             :show="showSendMessageModal" 
-            :footer="false" 
+            
             :header="false" 
             @close="closeSendMessageToReportedUser">
             <SendMessage v-if="userToMessage !== null" :user="userToMessage" @close="closeSendMessageToReportedUser"/>
