@@ -11,7 +11,7 @@ export type NewBugReport = {
 
 export type BugReport = NewBugReport & {
     id: number;
-    user: StrippedUser;
+    user: StrippedUser | null;
     status: number;
     admin_comment: string;
 };
