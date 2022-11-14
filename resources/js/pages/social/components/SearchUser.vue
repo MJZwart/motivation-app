@@ -1,14 +1,15 @@
 <template>
     <div class="m-1">
         <!-- The search bar -->
-        <form class="navbar-search mb-3" @submit.prevent>
+        <form class="navbar-search mb-3 mt-2" @submit.prevent>
             <input 
                 id="search-by-username" 
                 v-model="data.userSearch" 
+                class="mr-2"
                 type="search" 
                 :placeholder="$t('search-user')" 
                 aria-label="Search user" />
-            <button type="submit" @click="searchUser">{{ $t('search') }}</button>
+            <button type="submit" class="mb-0" @click="searchUser">{{ $t('search') }}</button>
         </form>
 
         <!-- The search results -->
