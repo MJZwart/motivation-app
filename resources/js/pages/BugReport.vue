@@ -24,7 +24,7 @@
                 <label for="type">{{ $t('type') }}</label>
                 <select id="type" v-model="bugReport.type" name="type">
                     <option v-for="(option, index) in bugTypes" :key="index" :value="option.value">
-                        {{ option.text }}
+                        {{ $t(option.text) }}
                     </option>
                 </select>
                 <small class="form-text text-muted">{{ $t('bug-type-desc') }}</small>
@@ -34,7 +34,7 @@
                 <label for="severity">{{ $t('severity') }}</label>
                 <select id="severity" v-model="bugReport.severity" name="severity">
                     <option v-for="(option, index) in bugSeverity" :key="index" :value="option.value">
-                        {{ option.text }}
+                        {{ $t(option.text) }}
                     </option>
                 </select>
                 <small class="form-text text-muted">{{ $t('bug-severity-desc') }}</small>
