@@ -16,9 +16,9 @@
                     <div class="template">
                         <div class="template-sidebar" :class="`diff-${template.difficulty}`" />
                         <div class="template-content">
-                            <p><b>{{$t('name')}}</b> {{template.name}}</p>
-                            <p><b>{{$t('description')}}</b> {{template.description}}</p>
-                            <p><b>{{$t('type')}}</b> {{$t(template.type)}}</p>
+                            <p><b>{{$t('name')}}:</b> {{template.name}}</p>
+                            <p><b>{{$t('description')}}:</b> {{template.description}}</p>
+                            <p><b>{{$t('type')}}:</b> {{$t(template.type)}}</p>
                         </div>
                     </div>
                 </template>

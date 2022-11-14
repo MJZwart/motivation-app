@@ -33,7 +33,6 @@ class TaskController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
-        $task = Task::create($validated);
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
         ActionTrackingHandler::handleAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
 
@@ -52,7 +51,6 @@ class TaskController extends Controller
     {
         /** @var User */
         $userId = Auth::user()->id;
-
 
         $validated = $template->validated();
         $validated['user_id'] = $userId;
@@ -80,25 +78,6 @@ class TaskController extends Controller
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
 
         return ResponseWrapper::successResponse(__('messages.task.updated'), ['taskLists' => $taskLists]);
-    }
-
-    /**
-     * Removes the linked template from a given task, provided this template has not since 
-     * been updated. When updated, it would need to be removed manually.
-     *
-     * @param Task $task
-     * @return void
-     */
-    public function removeTemplateFromTask(Task $task) 
-    {
-
-        //TODO NOT WORKING RIGHT NOW
-        $templatesFromTask = Template::where('task_id', $task->id)->get();
-        //TODO not sure if there is an option to have multiple templates to have the same task id, will check after editing favs
-        foreach ($templatesFromTask as $fav) {
-            if ($fav->updated_at->gt($fav->created_at)) continue;
-            $fav->delete();
-        }
     }
 
     /**
