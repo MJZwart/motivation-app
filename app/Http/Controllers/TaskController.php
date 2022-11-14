@@ -33,6 +33,8 @@ class TaskController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
+        Task::create($validated);
+
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
         ActionTrackingHandler::handleAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
 
