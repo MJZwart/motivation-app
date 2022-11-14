@@ -45,6 +45,14 @@
             <div class="form-group">
                 <p v-if="taskList">{{ $t('task-list') }}: {{ taskList.name }}</p>
                 <p v-if="superTask">{{ $t('subtask-of') }}: {{ superTask.name }}</p>
+                <div v-if="templates.length">{{$t('import-from-templates')}}
+                    <select id="templates" class="template-select" @change="selectTemplate($event)">
+                        <option :value="null"/>
+                        <option v-for="(template, index) in templates" :key="index" :value="index">
+                            {{ `${template.name} - ${$t(template.type)} - ${$t('difficulty')}: ${template.difficulty}/5` }}
+                        </option>
+                    </select>
+                </div>
             </div>
             <button id="create-new-task-button" type="submit" class="block">{{ $t('create-new-task') }}</button>
             <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
@@ -54,9 +62,9 @@
 
 <script setup lang="ts">
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
-import {NewTask, Task, TaskList} from 'resources/types/task';
+import {NewTask, Task, TaskList, Template} from 'resources/types/task';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
@@ -66,11 +74,31 @@ const emit = defineEmits(['close']);
 
 const task = ref<NewTask>({
     name: '',
+    description: '',
     difficulty: 3,
     type: 'GENERIC',
     repeatable: 'NONE',
     task_list_id: props.taskList.id,
 });
+
+const templates = ref<Template[]>([]);
+
+onMounted(async() => {
+    templates.value = await taskStore.getTemplates();
+});
+
+function selectTemplate(event: Event) {
+    if (!event || !event.target || !(event.target as HTMLSelectElement).value) return;
+    const selected = templates.value[(event.target as HTMLSelectElement).value];
+    copyTemplateIntoTask(selected);
+}
+
+function copyTemplateIntoTask(template: Template) {
+    task.value.name = template.name;
+    task.value.description = template.description ?? '';
+    task.value.difficulty = template.difficulty;
+    task.value.type = template.type;
+}
 
 const taskStore = useTaskStore();
 async function submitTask() {

@@ -17,6 +17,9 @@ return [
         'deleted' => 'Task deleted',
         'completed' => 'Task completed.',
         'unauthorized' => 'This is not your task',
+        'template' => [
+            'created' => 'Template created',
+        ],
     ],
 
     'tasklist' => [

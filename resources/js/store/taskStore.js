@@ -73,5 +73,18 @@ export const useTaskStore = defineStore('task', {
         mergeTasks(data) {
             axios.post('/tasks/merge/' + data.taskListId, data);
         },
+        /** @returns Array<import('resources/types/task').Templates> */
+        async getTemplates() {
+            const {data} = await axios.get('/tasks/templates');
+            return data.data;
+        },
+        /** 
+         * @param {import('resources/types/task').Template} newTemplate
+         * @returns Array<import('resources/types/task').Templates>
+         */
+        async storeTemplate(newTemplate) {
+            const {data} = await axios.post('/tasks/templates', newTemplate);
+            return data.data;
+        },
     },
 });

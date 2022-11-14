@@ -30,6 +30,10 @@
     "physical": "Physical",
     "mental": "Mental",
 
+    "GENERIC": "Generic",
+    "PHYSICAL": "Physical",
+    "MENTAL": "Mental",
+
     "tasks-completed": "Tasks completed",
     "most-completed-repeatable": "Most completed repeatable: {0}. Completed {1} times",
     "task-name": "Task name",
@@ -42,5 +46,10 @@
     "weekly": "Weekly",
     "monthly": "Monthly",
     "infinite": "Infinitely",
-    "not-repeatable": "Once"
+    "not-repeatable": "Once",
+
+    "import-from-templates": "Import from templates",
+    "manage-templates": "Manage templates",
+    "new-template": "New template",
+    "create-new-template": "Create new template"
 }

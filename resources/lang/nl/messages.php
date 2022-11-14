@@ -17,6 +17,9 @@ return [
         'deleted' => 'Taak verwijderd.',
         'completed' => 'Taak voltooid.',
         'unauthorized' => 'Dit is niet jouw taak.',
+        'template' => [
+            'created' => 'Template aangemaakt',
+        ],
     ],
 
     'tasklist' => [

@@ -10,6 +10,9 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
+use App\Http\Requests\StoreTemplateRequest;
+use App\Http\Resources\TemplatesResource;
+use App\Models\Template;
 use App\Models\RepeatableTaskCompleted;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -31,12 +34,33 @@ class TaskController extends Controller
         $validated['user_id'] = Auth::user()->id;
 
         Task::create($validated);
+
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
         ActionTrackingHandler::handleAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
         return ResponseWrapper::successResponse(__('messages.task.created'), ['taskLists' => $taskLists]);
+    }
+
+    /**
+     * Creates a template from task
+     *
+     * @param Task $task
+     * @return JsonResponse with success message and all user templates
+     */
+    public function storeTemplate(StoreTemplateRequest $template) 
+    {
+        /** @var User */
+        $userId = Auth::user()->id;
+
+        $validated = $template->validated();
+        $validated['user_id'] = $userId;
+        Template::create($validated);
+
+        return ResponseWrapper::successResponse(
+            __('messages.task.template.created'), 
+            TemplatesResource::collection(Template::where('user_id', $userId)->get()));
     }
 
     /**
@@ -79,6 +103,15 @@ class TaskController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name, 'Not authorized');
             return ResponseWrapper::forbiddenResponse(__('messages.task.unauthorized'));
         }
+    }
+
+    /**
+     * Fetches all templates by user
+     *
+     * @return TemplateResourceCollection with all user templates
+     */
+    public function getTemplates() {
+        return TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get());
     }
 
     /**
