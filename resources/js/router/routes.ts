@@ -19,6 +19,7 @@ import PrivacyPolicy from '../pages/legal/PrivacyPolicy.vue';
 import TOS from '../pages/legal/TOS.vue';
 import ForgotPassword from '../pages/ForgotPassword.vue';
 import ResetPassword from '../pages/ResetPassword.vue';
+import Changelog from '../pages/changelog/Changelog.vue';
 // import Test from '../pages/Test.vue';
 
 export const routes = [
@@ -186,6 +187,14 @@ export const routes = [
         component: ResetPassword,
         meta: {
             title: 'Reset password',
+        },
+    },
+    {
+        name: 'Changelog',
+        path: '/changelog',
+        component: Changelog,
+        meta: {
+            title: 'Changelog',
         },
     },
     // {

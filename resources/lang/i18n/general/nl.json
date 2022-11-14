@@ -167,5 +167,7 @@
     "dark-mode": "Donkere modus",
     "light-mode": "Lichte modus",
 
-    "pagination-item-of": "Items {offset} - {range} van {max}"
+    "pagination-item-of": "Items {offset} - {range} van {max}",
+    
+    "changelog": "Changelog"
 }
