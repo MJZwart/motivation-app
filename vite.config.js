@@ -1,6 +1,7 @@
 import ViteRequireContext from '@originjs/vite-plugin-require-context';
 // @ts-ignore
 import vue from '@vitejs/plugin-vue';
+import Markdown from 'vite-plugin-md';
 
 import {defineConfig} from 'vite';
 
@@ -23,7 +24,10 @@ export default defineConfig(({command}) => {
         },
         plugins: [
             ViteRequireContext(),
-            vue(),
+            vue({
+                include: [/\.vue$/, /\.md$/],
+            }),
+            Markdown(),
         ],
         server: {
             port: 3000,
@@ -64,24 +68,3 @@ export default defineConfig(({command}) => {
         publicDir: 'random_non_existent_folder',
     };
 });
-
-
-// const resolve = {
-//     alias: {
-//         '@': '/js',
-//         'vue': '@vue/compat',
-//     },
-// };
-// const plugins = [
-//     // createVuePlugin(),
-//     ViteRequireContext(),
-//     vue({
-//         template: {
-//             compilerOptions: {
-//                 compatConfig: {
-//                     MODE: 2,
-//                 },
-//             },
-//         },
-//     }),
-// ];

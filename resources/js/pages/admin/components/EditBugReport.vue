@@ -54,11 +54,8 @@
 import {onMounted, ref, PropType} from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '/js/constants/bugConstants';
 import {BugReport} from 'resources/types/bug';
-import {NewMessage} from 'resources/types/message';
 import {useAdminStore} from '/js/store/adminStore';
-import {useMessageStore} from '/js/store/messageStore';
 const adminStore = useAdminStore();
-const messageStore = useMessageStore();
 
 const props = defineProps({
     bugReport: {
@@ -79,14 +76,7 @@ const bugStatus = BUG_STATUS;
 
 async function updateBugReport() {
     if (!bugReportToEdit.value) return;
-    await adminStore.updateBugReport(bugReportToEdit.value)
-    if (bugReportToEdit.value.status == 3) {
-        const message = {
-            message: 'Your bug report has been resolved!',
-            recipient_id: bugReportToEdit.value.user_id,
-        } as NewMessage;
-        messageStore.sendMessage(message);
-    }
+    await adminStore.updateBugReport(bugReportToEdit.value);
     close();
 }
 function close() {

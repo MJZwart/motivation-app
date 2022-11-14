@@ -21,14 +21,20 @@
                 {{ parseStatus(data.item.status) }}
             </template>
             <template #user="data">
-                <router-link :to="{name: 'profile', params: {id: data.item.user.id}}">
+                <router-link v-if="data.item.user" :to="{name: 'profile', params: {id: data.item.user.id}}">
                     {{ data.item.user.username }}
                 </router-link>
+                <span v-else>{{ $t('no-user') }}</span>
             </template>
             <template #actions="data">
                 <div style="min-width: 49px">
                     <FaIcon :icon="['far', 'pen-to-square']" class="icon medium" @click="editBugReport(data.item)" />
-                    <FaIcon icon="envelope" class="icon medium" @click="sendMessageToBugReportAuthor(data.item.user)" />
+                    <FaIcon 
+                        v-if="data.item.user" 
+                        icon="envelope" 
+                        class="icon medium" 
+                        @click="sendMessageToBugReportAuthor(data.item.user)" 
+                    />
                 </div>
             </template>
         </Table>

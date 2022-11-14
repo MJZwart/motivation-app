@@ -44,6 +44,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
     Route::post('/feedback', [FeedbackController::class, 'store']);
+    Route::post('/bugreport', [BugReportController::class, 'store']);
 
     Route::post('/send-reset-password', [AuthenticationController::class, 'getResetPasswordLink']);
     Route::post('/password/reset', [AuthenticationController::class, 'resetPassword'])->name('password.reset');
@@ -75,9 +76,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::post('/search', [UserController::class, 'searchUser']);
     Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
 
-    Route::resource('/bugreport', BugReportController::class)->only([
-        'store', 'update',
-    ]);
     Route::get('/dashboard', [DashboardController::class, 'getDashboard']);
     Route::get('/overview', [OverviewController::class, 'getOverview']);
 
