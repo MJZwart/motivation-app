@@ -39,7 +39,7 @@
         <div v-else>
             <h3>{{$t('no-results')}}</h3>
         </div>
-        <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
+        <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
             <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />
         </Modal>
     </div>

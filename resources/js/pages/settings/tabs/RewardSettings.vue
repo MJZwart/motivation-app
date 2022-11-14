@@ -93,7 +93,7 @@
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
 
-        <Modal :show="showEditRewardNameModal" :footer="false" :title="$t('edit-reward-name')" @close="closeEditReward">
+        <Modal :show="showEditRewardNameModal" :title="$t('edit-reward-name')" @close="closeEditReward">
             <EditRewardObjectName
                 v-if="rewardToEdit"
                 :rewardObj="rewardToEdit"

@@ -26,7 +26,7 @@
                 </ul>
                 <p v-else class="mb-1">{{ $t('no-friends') }}</p>
             </Summary>
-            <Modal :show="showSendMessageModal" :footer="false" :header="false" @close="closeSendMessageModal">
+            <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
                 <SendMessage v-if="friendToMessage" :user="friendToMessage" @close="closeSendMessageModal" />
             </Modal>
         </div>

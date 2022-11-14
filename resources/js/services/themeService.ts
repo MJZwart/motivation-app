@@ -12,8 +12,10 @@ export function fetchDefaultTheme() {
 
 export function setCurrentTheme(theme: string, override = false) {
     const storedTheme = localStorage.getItem('theme');
-    if (!override && storedTheme)
+    if (!override && storedTheme) {
         currentTheme.value = storedTheme;
+        setThemeVariables(storedTheme);
+    }
     else if (theme === 'dark' || theme === 'light') {
         setThemeVariables(theme);
         currentTheme.value = theme;
@@ -35,12 +37,21 @@ function setThemeVariables(theme: string) {
     }
 }
 
+/**
+ * Dark theme
+ */
 const darkStyles = [
     {key: '--primary',              value: '#252525'},
     {key: '--primary-as-text',      value: '#cecece'},
     {key: '--primary-text',         value: '#e4e4e4'},
     {key: '--secondary',            value: '#3b3b3b'},
     {key: '--body-text',            value: '#e4e4e4'},
+    {key: '--action-button',        value: '#2d8562'},
+    {key: '--action-button-hover',  value: '#22644a'},
+    {key: '--button',               value: '#252525'},
+    {key: '--button-hover',         value: '#353535'},
+    {key: '--cancel-button',        value: '#323232'},
+    {key: '--cancel-button-hover',  value: '#252525'},
 
     {key: '--grey',                 value: 'grey'},
     {key: '--light-green',          value: '#2d8562'},
@@ -50,7 +61,7 @@ const darkStyles = [
     {key: '--background',           value: '#121212'},
     {key: '--background-darker',    value: '#252525'},
     {key: '--background-2',         value: '#3b3b3b'},
-    {key: '--background-2-text',    value: '#e9e9e9;'},
+    {key: '--background-2-text',    value: '#e9e9e9'},
     {key: '--input-background',     value: '#494949'},
     {key: '--input-active',         value: '#858585'},
 
@@ -61,12 +72,21 @@ const darkStyles = [
     {key: '--hover',                value: '#3b3b3b81'},
 ];
 
+/**
+ * Light theme
+ */
 const lightStyle = [
     {key: '--primary',              value: '#1D3354'},
     {key: '--primary-as-text',      value: '#1D3354'},
     {key: '--primary-text',         value: 'white'},
     {key: '--secondary',            value: '#15253d'},
     {key: '--body-text',            value: 'rgb(29, 29, 29)'},
+    {key: '--action-button',        value: '#1D3354'},
+    {key: '--action-button-hover',  value: '#15253d'},
+    {key: '--button',               value: '#1D3354'},
+    {key: '--button-hover',         value: '#15253d'},
+    {key: '--cancel-button',        value: '#888'},
+    {key: '--cancel-button-hover',  value: '#666'},
 
     {key: '--grey',                 value: 'grey'},
     {key: '--light-green',          value: '#2d8562'},

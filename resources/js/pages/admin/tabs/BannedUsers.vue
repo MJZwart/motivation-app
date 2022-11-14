@@ -51,7 +51,7 @@
                     </div>
                 </template>
             </Table>
-            <Modal :show="showEditBanModal" :footer="false" :title="editBanModalTitle" @close="closeEditBanModal">
+            <Modal :show="showEditBanModal" :title="editBanModalTitle" @close="closeEditBanModal">
                 <EditBan v-if="editBanUser" :userBan="editBanUser" @close="closeEditBanModal" />
             </Modal>
         </div>

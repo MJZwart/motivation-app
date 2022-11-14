@@ -31,10 +31,10 @@
             </template>
         </Summary>
 
-        <Modal :show="showNewTaskModal" :footer="false" :title="$t('new-task')" @close="closeNewTask">
+        <Modal :show="showNewTaskModal" :title="$t('new-task')" @close="closeNewTask">
             <NewTask :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
         </Modal>
-        <Modal :show="showEditTaskListModal" :footer="false" :title="$t('edit-task-list')" @close="closeEditTaskList">
+        <Modal :show="showEditTaskListModal" :title="$t('edit-task-list')" @close="closeEditTaskList">
             <EditTaskList v-if="taskListToEdit" :taskList="taskListToEdit" @close="closeEditTaskList" />
         </Modal>
         <Modal
@@ -116,14 +116,14 @@ function taskClass(index: number) {
     }
 }
 .new-task {
-    background-color: var(--green);
+    background-color: var(--action-button);
     height: 3rem;
     margin-bottom: 0;
     border: none;
     margin-top: -2px;
 }
 .new-task:hover {
-    background-color: var(--dark-green);
-    border-color: var(--dark-green);
+    background-color: var(--action-button-hover);
+    border-color: var(--action-button-hover);
 }
 </style>

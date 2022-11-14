@@ -84,7 +84,7 @@
                 </div>
             </div>
             
-            <Modal :show="showReportUserModal" :footer="false" :header="false" @close="closeReportUserModal">
+            <Modal :show="showReportUserModal" :header="false" @close="closeReportUserModal">
                 <ReportUser 
                     v-if="conversationToReport && userToReport"
                     :user="userToReport" 

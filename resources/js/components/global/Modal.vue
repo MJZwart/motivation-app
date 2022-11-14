@@ -17,12 +17,12 @@
                     <slot name="footer">
                         <div v-if="footer">
                             <button 
-                                class="btn btn-primary mr-1" 
+                                class="button-cancel mr-1" 
                                 @click="$emit('close')">
                                 Cancel
                             </button>
                             <button
-                                class="btn btn-primary"
+                                class="primary"
                                 @click="$emit('close')">
                                 OK
                             </button>
@@ -47,7 +47,7 @@ defineProps({
     footer: {
         type: Boolean,
         required: false,
-        default: true,
+        default: false,
     },
     header: {
         type: Boolean,
@@ -103,12 +103,6 @@ defineProps({
     max-width: 500px !important;
 }
 
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-  display: flex;
-}
-
 .modal-default-button {
   float: right;
 }
@@ -120,19 +114,21 @@ defineProps({
     border-bottom: 1px solid var(--border-color);
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px);
+    background-color: var(--primary);
     .modal-title {
         line-height: 1.5;
         font-size: 1.25rem;
         margin: 0;
+        color: var(--primary-text);
     }
     .close {
         padding: 1rem;
         margin: -1rem -1rem -1rem auto;
         background-color: transparent;
         border: 0;
-        color: black;
+        color: var(--primary-text);
         font-size: 1.5rem;
-        font-family: var(--border-color);
+        font-family: var(--bold-font);
         line-height: 1;
         text-shadow: 0 1px 0 var(--background-2);
         opacity: 0.5;

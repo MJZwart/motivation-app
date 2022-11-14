@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <Modal :show="showNewTaskListModal" :footer="false" :title="$t('new-task-list')" @close="closeNewTaskList">
+            <Modal :show="showNewTaskListModal" :title="$t('new-task-list')" @close="closeNewTaskList">
                 <NewTaskList @close="closeNewTaskList" />
             </Modal>
         </div>
