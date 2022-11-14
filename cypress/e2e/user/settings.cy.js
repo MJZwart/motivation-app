@@ -135,12 +135,12 @@ describe('Settings', () => {
     });
 
     describe('Reward settings', () => {
-        //Waiting to prevent throttling issues
-        cy.wait(5000);
         const charName = getRandomString();
         const villName = getRandomString();
         const newCharName = getRandomString();
         it('User can make a new character and switch to it', () => {
+            //Waiting to prevent throttling issues
+            cy.wait(5000);
             cy.visit('/settings#RewardSettings');
             waitShort();
 
