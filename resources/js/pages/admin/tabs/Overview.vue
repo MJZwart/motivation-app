@@ -1,5 +1,5 @@
 <template>
-    <div class="overview-box">
+    <div v-if="overview" class="overview-box">
         <div v-for="(item, key, index) in overview" :key="index" class="overview content-block">
             <span class="key">{{$t(key)}}</span>
             <span class="item">{{item}}</span>
@@ -8,9 +8,10 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
+import type {Overview} from 'resources/types/admin';
 const adminStore = useAdminStore();
 
 onMounted(async() => {
@@ -19,7 +20,7 @@ onMounted(async() => {
 });
 
 const loading = ref(true);
-const overview = ref({});
+const overview = ref<Overview | null>(null);
 </script>
 
 <style lang="scss" scoped>

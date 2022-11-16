@@ -1,16 +1,13 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
+import {Conversation, NewMessage} from 'resources/types/message';
 
 export const useMessageStore = defineStore('message', {
     state: () => {
         return {
-            /** @type Array<import('resources/types/message').Conversation> | null */
-            conversations: [],
-            /** @type Array<import('resources/types/notification').Notification> | null */
-            notifications: null,
-            /** @type Boolean */
+            conversations: [] as Conversation[],
+            notifications: [] as Notification[],
             hasMessages: false,
-            /** @type Boolean */
             hasNotifications: false,
         }
     },
@@ -25,42 +22,27 @@ export const useMessageStore = defineStore('message', {
             this.hasMessages = data.hasMessages;
         },
 
-        /**
-         * @param {import('resources/types/message').NewMessage} message
-         */
-        async sendMessage(message) {
+        async sendMessage(message: NewMessage) {
             await axios.post('/message', message);
         },
 
-        /**
-         * @param {Number} messageId
-         */
-        async deleteMessage(messageId) {
+        async deleteMessage(messageId: number) {
             await axios.delete(`/message/${messageId}`);
         },
         async getNotifications() {
             const {data} = await axios.get('/notifications');
             this.notifications = data.data;
         },
-        /**
-         * @param {Number} notificationId
-         */
-        async deleteNotification(notificationId) {
+        async deleteNotification(notificationId: number) {
             const {data} = await axios.delete(`/notifications/${notificationId}`);
             this.notifications = data.data.notifications;
         },
 
-        /**
-         * @param {Number} conversationId
-         */
-        markConversationRead(conversationId) {
+        markConversationRead(conversationId: number) {
             axios.put(`/conversation/${conversationId}/read`);
         },
 
-        /**
-         * @param {Number} notificationId
-         */
-        async deleteNotificationAction(notificationId) {
+        async deleteNotificationAction(notificationId: number) {
             const {data} = await axios.put(`/notifications/${notificationId}/disable-action`);
             this.notifications = data.data;
         },
