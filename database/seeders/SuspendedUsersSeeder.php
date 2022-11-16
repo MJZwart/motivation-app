@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\BannedUser;
+use App\Models\SuspendedUser;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class BannedUsersSeeder extends Seeder
+class SuspendedUsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -22,32 +22,32 @@ class BannedUsersSeeder extends Seeder
             ->hasCharacters(1)
             ->hasTaskLists(3)
             ->create([
-                'username' => 'bannedYear',
-                'banned_until' => $nextYear]);
+                'username' => 'suspendedYear',
+                'suspended_until' => $nextYear]);
         User::factory(1)
             ->hasCharacters(1)
             ->hasTaskLists(3)
             ->create([
-                'username' => 'bannedWeek',
-                'banned_until' => $nextWeek]);
+                'username' => 'suspendedWeek',
+                'suspended_until' => $nextWeek]);
         
-        $bannedYear = User::where('username', 'bannedYear')->first();
-        $bannedWeek = User::where('username', 'bannedWeek')->first();
+        $suspendedYear = User::where('username', 'suspendedYear')->first();
+        $suspendedWeek = User::where('username', 'suspendedWeek')->first();
         $admin = User::where('admin', true)->first();
 
-        BannedUser::create([
-            'user_id' => $bannedYear->id,
+        SuspendedUser::create([
+            'user_id' => $suspendedYear->id,
             'admin_id' => $admin->id,
             'reason' => 'Harassment',
             'days' => 365,
-            'banned_until' => $nextYear,
+            'suspended_until' => $nextYear,
         ]);
-        BannedUser::create([
-            'user_id' => $bannedWeek->id,
+        SuspendedUser::create([
+            'user_id' => $suspendedWeek->id,
             'admin_id' => $admin->id,
             'reason' => 'Spam',
             'days' => 7,
-            'banned_until' => $nextWeek,
+            'suspended_until' => $nextWeek,
         ]);  
     }
 }

@@ -15,7 +15,7 @@
                 <li>Spam the website with the intention to damage or limit the service</li>
                 <li>Use inappropriate naming (naming that is offensive to other users such as slurs, bigotry, hatred etc.)</li>
                 <li>Attempt to do harm to other users’ content or accounts, including but not limited to hacking</li>
-                <li>Circumvent bans through unconventional means</li>
+                <li>Circumvent suspensions through unconventional means</li>
                 <li>Otherwise harm or damage other users or  the service</li>
                 <li>Any action that is otherwise illegal under Dutch or international law, or the law of the country the user 
                     resides in</li>

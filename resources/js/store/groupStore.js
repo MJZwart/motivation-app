@@ -83,8 +83,8 @@ export const useGroupStore = defineStore('group', {
         /**
          * @param {import('resources/types/group').Application} application
          */
-        async banApplication(application) {
-            const {data} = await axios.post(`/groups/applications/ban/${application.id}`);
+        async suspendApplication(application) {
+            const {data} = await axios.post(`/groups/applications/suspend/${application.id}`);
             this.group = data.data.group;
         },
         /**
@@ -124,8 +124,8 @@ export const useGroupStore = defineStore('group', {
          * @param {import('resources/types/group').GroupUser} user
          * @param {import('resources/types/group').Group} group
          */
-        async banGroupMember(user, group) {
-            const {data} = await axios.post(`/groups/ban/${group.id}`, user);
+        async suspendGroupMember(user, group) {
+            const {data} = await axios.post(`/groups/suspend/${group.id}`, user);
             this.group = data.data.group;
         },
     },

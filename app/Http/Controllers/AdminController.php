@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
-use App\Http\Requests\BanUserRequest;
-use App\Http\Requests\EditUserBanRequest;
+use App\Http\Requests\SuspendUserRequest;
+use App\Http\Requests\EditUserSuspensionRequest;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
@@ -19,13 +19,13 @@ use App\Models\Conversation;
 use App\Models\ExperiencePoint;
 use App\Http\Resources\BugReportResource;
 use App\Http\Resources\AdminConversationResource;
-use App\Http\Resources\BannedUserResource;
-use App\Models\BannedUser;
+use App\Http\Resources\SuspendedUserResource;
 use Carbon\Carbon;
 use App\Http\Resources\FeedbackResource;
 use App\Http\Resources\UserReportResource;
 use App\Models\Feedback;
 use App\Models\Notification;
+use App\Models\SuspendedUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -64,7 +64,7 @@ class AdminController extends Controller
      */
     public function getReportedUsers()
     {
-        $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->with('user.bannedUser')->get()->groupBy('reported_user_id');
+        $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->with('user.suspendedUser')->get()->groupBy('reported_user_id');
         $reportedUsers = [];
         foreach ($reportedUsersCollection as $userReport) {
             array_push($reportedUsers, UserReportResource::collection($userReport)->setUser($userReport[0]->user));
@@ -126,29 +126,29 @@ class AdminController extends Controller
     }
 
     /**
-     * Bans a user: Changes 'banned_until' to current dateTime + the amount of days the user gets banned.
-     * Created a BannedUser to document the suspension of the account, as well as deactivates the
+     * Suspends a user: Changes 'suspended_until' to current dateTime + the amount of days the user gets suspended.
+     * Created a suspendedUser to document the suspension of the account, as well as deactivates the
      * user's account.
      *
-     * @param BanUserRequest $request
+     * @param SuspendUserRequest $request
      * @param User $user
      * @return JsonResponse
      */
-    public function banUser(BanUserRequest $request, User $user)
+    public function suspendUser(SuspendUserRequest $request, User $user)
     {
         $validated = $request->validated();
         if ($validated['indefinite'] == 'true') $validated['days'] = 99999;
 
-        $bannedUntilTime = Carbon::now()->addDays($validated['days']);
-        $user->banned_until = $bannedUntilTime;
+        $suspendedUntilTime = Carbon::now()->addDays($validated['days']);
+        $user->suspended_until = $suspendedUntilTime;
         $user->save();
 
-        BannedUser::create([
+        SuspendedUser::create([
             'user_id' => $user->id,
             'reason' => $validated['reason'],
             'admin_id' => Auth::user()->id,
             'days' => $validated['days'],
-            'banned_until' => $bannedUntilTime,
+            'suspended_until' => $suspendedUntilTime,
         ]);
 
         //delete all reports of the user if checkbox 'close all reports' is checked
@@ -161,57 +161,57 @@ class AdminController extends Controller
         foreach ($reportedUsersCollection as $userReport) {
             array_push($reportedUsers, UserReportResource::collection($userReport)->setUser($userReport[0]->user));
         }
-        $bannedUsers = BannedUserResource::collection(BannedUser::get());
+        $suspendedUsers = SuspendedUserResource::collection(SuspendedUser::get());
 
-        return ResponseWrapper::successResponse(__('messages.user.ban.until', ['time' => $bannedUntilTime]), ['reported_users' => $reportedUsers, 'banned_users' => $bannedUsers]);
+        return ResponseWrapper::successResponse(__('messages.user.suspension.until', ['time' => $suspendedUntilTime]), ['reported_users' => $reportedUsers, 'suspended_users' => $suspendedUsers]);
     }
 
     /**
-     * Gets all banned users
+     * Gets all suspended users
      *
-     * @return JsonResponse with BannedUserResource collection
+     * @return JsonResponse with SuspendedUserResource collection
      */
-    public function getBannedUsers()
+    public function getsuspendedUsers()
     {
-        return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
+        return new JsonResponse(['suspended_users' => SuspendedUserResource::collection(SuspendedUser::get())]);
     }
 
     /**
-     * Edits a user ban, keeping a log of events and unbans a user if applicable.
+     * Edits a user suspension, keeping a log of events and unsuspends a user if applicable.
      *
-     * @param BannedUser $bannedUser
-     * @param EditUserBanRequest $request
-     * @return JsonResponse with BannedUserResource collection
+     * @param suspendedUser $suspendedUser
+     * @param EditUserSuspensionRequest $request
+     * @return JsonResponse with SuspendedUserResource collection
      */
-    public function editUserBan(BannedUser $bannedUser, EditUserBanRequest $request)
+    public function editUserSuspension(SuspendedUser $suspendedUser, EditUserSuspensionRequest $request)
     {
         $validated = $request->validated();
         $newDate = Carbon::now();
-        if (array_key_exists('end_ban', $validated) && $validated['end_ban']) {
-            $user = $bannedUser->user;
-            $user->banned_until = $newDate;
+        if (array_key_exists('end_suspension', $validated) && $validated['end_suspension']) {
+            $user = $suspendedUser->user;
+            $user->suspended_until = $newDate;
             $user->save();
-            $bannedUser->early_release = $newDate;
-            //NOTE This is currently the only place where ban_edit_comment is used, it may be removed later
+            $suspendedUser->early_release = $newDate;
+            //NOTE This is currently the only place where suspension_edit_comment is used, it may be removed later
             Notification::create([
                 'user_id' => $user->id,
-                'title' => __('messages.user.ban.ended_notification_title'),
-                'text' => __('messages.user.ban.ended_notification', 
+                'title' => __('messages.user.suspension.ended_notification_title'),
+                'text' => __('messages.user.suspension.ended_notification', 
                     ['admin' => Auth::user()->username,
-                    'comment' => $request['ban_edit_comment'],
-                    'reason' => $bannedUser->reason])
+                    'comment' => $request['suspension_edit_comment'],
+                    'reason' => $suspendedUser->reason])
             ]);
         } else {
-            $newDate = $bannedUser->created_at->addDays($validated['days']);
-            $user = $bannedUser->user;
-            $user->banned_until = $newDate;
+            $newDate = $suspendedUser->created_at->addDays($validated['days']);
+            $user = $suspendedUser->user;
+            $user->suspended_until = $newDate;
         }
-        $bannedUser->days = $request['days'];
-        $bannedUser->banned_until = $newDate;
-        $bannedUser->ban_edit_log = $validated['ban_edit_log'];
-        $bannedUser->save();
+        $suspendedUser->days = $request['days'];
+        $suspendedUser->suspended_until = $newDate;
+        $suspendedUser->suspension_edit_log = $validated['suspension_edit_log'];
+        $suspendedUser->save();
 
-        return new JsonResponse(['banned_users' => BannedUserResource::collection(BannedUser::get())]);
+        return new JsonResponse(['suspended_users' => SuspendedUserResource::collection(SuspendedUser::get())]);
     }
 
     /**

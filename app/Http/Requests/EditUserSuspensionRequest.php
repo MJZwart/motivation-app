@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class EditUserBanRequest extends FormRequest
+class EditUserSuspensionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,10 @@ class EditUserBanRequest extends FormRequest
     public function rules()
     {
         return [
-            'days' => 'required_if:end_ban,false|nullable|integer',
-            'end_ban' => 'boolean',
-            'ban_edit_comment' => 'required|string',
-            'ban_edit_log' => 'required|string',
+            'days' => 'required_if:end_suspension,false|nullable|integer',
+            'end_suspension' => 'boolean',
+            'suspension_edit_comment' => 'required|string',
+            'suspension_edit_log' => 'required|string',
         ];
     }
 }

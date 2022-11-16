@@ -10,8 +10,8 @@
                 <button class="m-1" @click="rejectApplication(application)">
                     {{ $t('reject-group-application') }}
                 </button>
-                <button class="m-1" @click="banApplication(application)">
-                    {{ $t('ban-group-application') }}
+                <button class="m-1" @click="suspendApplication(application)">
+                    {{ $t('suspend-group-application') }}
                 </button>
             </p>
         </template>
@@ -57,8 +57,8 @@ async function acceptApplication(application: Application) {
     load();
 }
 
-async function banApplication(application: Application) {
-    await groupStore.banApplication(application);
+async function suspendApplication(application: Application) {
+    await groupStore.suspendApplication(application);
     load();
 }
 </script>

@@ -24,7 +24,7 @@ export type UserStats = {
     tasks_completed: number;
 };
 
-export type BannedUser = {
+export type SuspendedUser = {
     id: number;
     created_at: Date;
     time_since: string;
@@ -39,13 +39,13 @@ export type BannedUser = {
         username: string;
         id: number;
     };
-    banned_until: string;
+    suspended_until: string;
     past: boolean;
-    banned_until_time: string;
+    suspended_until_time: string;
     early_release: Date;
-    ban_edit_comment: string;
-    end_ban?: boolean;
-    ban_edit_log: string;
+    suspension_edit_comment: string;
+    end_suspension?: boolean;
+    suspension_edit_log: string;
 };
 
 export type NewSuspension = {
@@ -60,11 +60,11 @@ export type StrippedUser = {
     username: string;
 };
 
-export type UserToBan = {
+export type UserToSuspend = {
     id: number;
     last_report_date: Date | string;
-    banned: Array<BannedUser> | null;
-    banned_until: string | null;
+    suspended: Array<SuspendedUser> | null;
+    suspended_until: string | null;
     report_amount: number;
     reports: ReportedUser[];
     username: string;

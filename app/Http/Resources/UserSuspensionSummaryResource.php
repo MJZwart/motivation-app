@@ -15,7 +15,7 @@ class UserSuspensionSummaryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'until' => $this->banned_until,
+            'until' => $this->suspended_until,
             'reason' => $this->reason,
         ];
     }

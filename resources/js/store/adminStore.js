@@ -16,8 +16,8 @@ export const useAdminStore = defineStore('admin', {
             reportedUsers: null,
             /** @type Array<import('resources/types/bug').BugReport> | null */
             bugReports: null,
-            /** @type Array<import('resources/types/user').BannedUser> | null */
-            bannedUsers: null,
+            /** @type Array<import('resources/types/user').SuspendedUser> | null */
+            suspendedUsers: null,
         }
     },
     getters: {
@@ -111,23 +111,23 @@ export const useAdminStore = defineStore('admin', {
         async suspendUser(userId, suspension) {
             const {data} = await axios.post(`/admin/suspend/${userId}`, suspension);
             this.reportedUsers = data.data.reported_users;
-            this.bannedUsers = data.data.banned_users;
+            this.suspendedUsers = data.data.suspended_users;
         },
         /**
-         * Gets all banned users
+         * Gets all suspended users
          */
-        async getBannedUsers() {
-            const {data} = await axios.get('/admin/bannedusers');
-            this.bannedUsers = data.banned_users;
+        async getSuspendedUsers() {
+            const {data} = await axios.get('/admin/suspendedusers');
+            this.suspendedUsers = data.suspended_users;
         },
 
         /**
          * Ends the suspension of a given user manually.
-         * @param {import('resources/types/user').BannedUser} userBan 
+         * @param {import('resources/types/user').SuspendedUser} userSuspension 
          */
-        async editBan(userBan) {
-            const {data} = await axios.post(`/admin/editban/${userBan.id}`, userBan);
-            this.bannedUsers = data.banned_users;
+        async editSuspension(userSuspension) {
+            const {data} = await axios.post(`/admin/editsuspension/${userSuspension.id}`, userSuspension);
+            this.suspendedUsers = data.suspended_users;
         },
 
         /**

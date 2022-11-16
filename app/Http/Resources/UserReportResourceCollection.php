@@ -33,8 +33,8 @@ class UserReportResourceCollection extends ResourceCollection
             'username' => $this->user->username,
             'report_amount' => count(parent::toArray($request)),
             'last_report_date' => parent::toArray($request)[0]['reported_date'],
-            'banned' => $this->user->getBannedUserResource(),
-            'banned_until' => $this->user->banned_until,
+            'suspended' => $this->user->getSuspendedUserResource(),
+            'suspended_until' => $this->user->suspended_until,
             'reports' => parent::toArray($request),
         ];
     }

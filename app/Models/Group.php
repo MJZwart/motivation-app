@@ -35,9 +35,9 @@ class Group extends Model
             ->withPivot(['applied_at']);
     }
 
-    public function bannedUsers()
+    public function suspendedUsers()
     {
-        return $this->belongsToMany('App\Models\User', 'group_bans')
+        return $this->belongsToMany('App\Models\User', 'group_suspensions')
             ->withTimestamps();
     }
 

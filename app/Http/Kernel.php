@@ -47,7 +47,7 @@ class Kernel extends HttpKernel
         ],
         'valid-auth' => [
             'auth',
-            'banned',
+            'suspended',
         ],
     ];
 
@@ -69,6 +69,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\Admin::class,
-        'banned' => \App\Http\Middleware\UserIsNotBanned::class,
+        'suspended' => \App\Http\Middleware\UserIsNotSuspended::class,
     ];
 }

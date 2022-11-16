@@ -14,7 +14,7 @@ use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
 use App\Http\Requests\SendGroupInviteRequest;
-use App\Http\Requests\BanUserFromGroupRequest;
+use App\Http\Requests\SuspendUserFromGroupRequest;
 use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupPageResource;
 use App\Http\Resources\GroupResource;
@@ -53,7 +53,7 @@ class GroupsController extends Controller
         /** @var User */
         $user = Auth::user();
         $myGroups = MyGroupResource::collection($user->groups);
-        $allGroups = GroupResource::collection(Group::where('is_public', true)->whereNotIn('id', $user->bannedGroupIds())->get());
+        $allGroups = GroupResource::collection(Group::where('is_public', true)->whereNotIn('id', $user->suspendedGroupIds())->get());
         return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
     }
 
@@ -100,8 +100,8 @@ class GroupsController extends Controller
         if ($group->require_application)
             return ResponseWrapper::errorResponse(__('messages.group.needs_application'));
         $user = Auth::user();
-        if ($group->bannedUsers()->find($user))
-            return ResponseWrapper::errorResponse(__('messages.group.banned'));
+        if ($group->suspendedUsers()->find($user))
+            return ResponseWrapper::errorResponse(__('messages.group.suspended'));
         $users = $group->users();
         if ($users->find($user))
             return ResponseWrapper::errorResponse(__('messages.group.already_member'));
@@ -129,8 +129,8 @@ class GroupsController extends Controller
         if (!$group->require_application)
             return ResponseWrapper::errorResponse(__('messages.group.no_application'));
         $user = Auth::user();
-        if ($group->bannedUsers()->find($user))
-            return ResponseWrapper::errorResponse(__('messages.group.banned'));
+        if ($group->suspendedUsers()->find($user))
+            return ResponseWrapper::errorResponse(__('messages.group.suspended'));
         if ($group->users()->find($user))
             return ResponseWrapper::errorResponse(__('messages.group.already_member'));
         $applications = $group->applications();
@@ -184,17 +184,17 @@ class GroupsController extends Controller
         );
     }
 
-    public function banGroupApplication(Request $request, GroupApplication $application): JsonResponse
+    public function suspendGroupApplication(Request $request, GroupApplication $application): JsonResponse
     {
         $group = Group::find($application->group_id);
         $user = User::find($application->user_id);
         $this->isUserGroupAdmin($group);
         $group->applications()->detach($user);
-        $group->bannedUsers()->attach($user);
+        $group->suspendedUsers()->attach($user);
         $username = User::find($user)->username;
-        ActionTrackingHandler::handleAction($request, 'BAN_GROUP_APPLICATION', $group->name . ' banned user id ' . $user);
+        ActionTrackingHandler::handleAction($request, 'SUSPEND_GROUP_APPLICATION', $group->name . ' suspended user id ' . $user);
         return ResponseWrapper::successResponse(
-            __('messages.group.rejected_and_banned', ['username' => $username]),
+            __('messages.group.rejected_and_suspended', ['username' => $username]),
             ['group' => new GroupPageResource($group->fresh())]
         );
     }
@@ -252,17 +252,17 @@ class GroupsController extends Controller
         );
     }
 
-    public function banUserFromGroup(Group $group, BanUserFromGroupRequest $request)
+    public function suspendUserFromGroup(Group $group, SuspendUserFromGroupRequest $request)
     {
         $validated = $request->validated();
         $user = $validated['id'];
         $this->isUserGroupAdmin($group);
         $group->users()->detach($user);
-        $group->bannedUsers()->attach($user);
+        $group->suspendedUsers()->attach($user);
         $username = User::find($user)->username;
-        ActionTrackingHandler::handleAction($request, 'GROUP_USER_BANNED', $group->name . ' banned user id ' . $user);
+        ActionTrackingHandler::handleAction($request, 'GROUP_USER_SUSPENDED', $group->name . ' suspended user id ' . $user);
         return ResponseWrapper::successResponse(
-            __('messages.group.removed_and_banned', ['username' => $username]),
+            __('messages.group.removed_and_suspended', ['username' => $username]),
             ['group' => new GroupPageResource($group->fresh())]
         );
     }

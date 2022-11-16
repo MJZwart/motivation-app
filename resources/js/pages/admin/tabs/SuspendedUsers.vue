@@ -2,12 +2,12 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
-            <h3>{{ $t('banned-users') }}</h3>
+            <h3>{{ $t('suspended-users') }}</h3>
 
             <Table
-                v-if="bannedUsers"
-                :items="bannedUsers"
-                :fields="bannedUsersFields"
+                v-if="suspendedUsers"
+                :items="suspendedUsers"
+                :fields="suspendedUsersFields"
                 :options="['table-striped', 'page-wide', 'body-borders']"
             >
                 <template #created_at="row">
@@ -23,36 +23,43 @@
                         {{ row.item.admin.username }}
                     </router-link>
                 </template>
-                <template #banned_until="row">
+                <template #suspended_until="row">
                     <span v-if="row.item.early_release">
                         {{ parseDateTime(row.item.early_release) }}
                     </span>
                     <span v-else>
-                        {{ parseDateTime(row.item.banned_until) }}
+                        {{ parseDateTime(row.item.suspended_until) }}
                     </span>
-                    <span v-if="banEnded(row.item)">
-                        <Tooltip :text="$t('ban-ended')">
+                    <span v-if="suspensionEnded(row.item)">
+                        <Tooltip :text="$t('suspension-ended')">
                             <FaIcon icon="lock-open" class="icon small green" />
                         </Tooltip>
                     </span>
                 </template>
                 <template #log="row">
-                    <div v-for="(log, index) in parseJsonIntoLog(row.item.ban_edit_log)" :key="index" class="ban-logs">
+                    <div 
+                        v-for="(log, index) in parseJsonIntoLog(row.item.suspension_edit_log)" 
+                        :key="index" 
+                        class="suspension-logs"
+                    >
                         <span><b>{{ $t('date') }}: </b> {{log.date}}</span>
                         <span><b>{{ $t('log') }}: </b> {{log.log}}</span>
                         <span><b>{{ $t('comment') }}: </b> {{log.comment}}</span>
                     </div>
                 </template>
                 <template #actions="row">
-                    <div v-if="!banEnded(row.item)">
-                        <Tooltip :text="$t('edit-ban')">
-                            <FaIcon :icon="['far', 'pen-to-square']" class="icon" @click="editBan(row.item)" />
+                    <div v-if="!suspensionEnded(row.item)">
+                        <Tooltip :text="$t('edit-suspension')">
+                            <FaIcon :icon="['far', 'pen-to-square']" class="icon" @click="editSuspension(row.item)" />
                         </Tooltip>
                     </div>
                 </template>
             </Table>
-            <Modal :show="showEditBanModal" :title="editBanModalTitle" @close="closeEditBanModal">
-                <EditBan v-if="editBanUser" :userBan="editBanUser" @close="closeEditBanModal" />
+            <Modal :show="showEditSuspensionModal" :title="editSuspensionModalTitle" @close="closeEditSuspensionModal">
+                <EditSuspension 
+                    v-if="editSuspensionUser" 
+                    :userSuspension="editSuspensionUser" 
+                    @close="closeEditSuspensionModal" />
             </Modal>
         </div>
     </div>
@@ -62,12 +69,12 @@
 import {computed, onMounted, ref} from 'vue';
 import {DateTime} from 'luxon';
 import Table from '/js/components/global/Table.vue';
-import EditBan from '../components/EditBan.vue';
+import EditSuspension from '../components/EditSuspension.vue';
 import {parseDateTime} from '/js/services/dateService';
-import {BANNED_USERS_FIELDS} from '/js/constants/reportUserConstants';
+import {SUSPENDED_USERS_FIELDS} from '/js/constants/reportUserConstants';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
-import {BannedUser} from 'resources/types/user';
+import {SuspendedUser} from 'resources/types/user';
 import {useI18n} from 'vue-i18n';
 import type {SuspensionLog} from 'resources/types/user';
 const adminStore = useAdminStore();
@@ -75,35 +82,35 @@ const mainStore = useMainStore();
 const {t} = useI18n();
 
 onMounted(async () => {
-    await adminStore.getBannedUsers();
+    await adminStore.getSuspendedUsers();
     loading.value = false;
 });
 
 const loading = ref(true);
 
-const bannedUsers = computed(() => adminStore.bannedUsers);
-const bannedUsersFields = BANNED_USERS_FIELDS;
+const suspendedUsers = computed(() => adminStore.suspendedUsers);
+const suspendedUsersFields = SUSPENDED_USERS_FIELDS;
 
-const showEditBanModal = ref(false);
-const editBanUser = ref<BannedUser | null>(null);
-const editBanModalTitle = computed(() => {
-    if (!editBanUser.value) return;
-    return t('edit-ban-of', {user: editBanUser.value.user.username});
+const showEditSuspensionModal = ref(false);
+const editSuspensionUser = ref<SuspendedUser | null>(null);
+const editSuspensionModalTitle = computed(() => {
+    if (!editSuspensionUser.value) return;
+    return t('edit-suspension-of', {user: editSuspensionUser.value.user.username});
 });
 
-function editBan(bannedUser: BannedUser) {
+function editSuspension(suspendedUser: SuspendedUser) {
     mainStore.clearErrors();
-    editBanUser.value = bannedUser;
-    showEditBanModal.value = true;
+    editSuspensionUser.value = suspendedUser;
+    showEditSuspensionModal.value = true;
 }
-function closeEditBanModal() {
-    showEditBanModal.value = false;
+function closeEditSuspensionModal() {
+    showEditSuspensionModal.value = false;
 }
 
-function banEnded(bannedUser: BannedUser) {
+function suspensionEnded(suspendedUser: SuspendedUser) {
     return (
-        !!bannedUser.early_release ||
-        DateTime.now() > DateTime.fromFormat(bannedUser.banned_until, 'yyyy-MM-dd, HH:mm:ss')
+        !!suspendedUser.early_release ||
+        DateTime.now() > DateTime.fromFormat(suspendedUser.suspended_until, 'yyyy-MM-dd, HH:mm:ss')
     );
 }
 function parseJsonIntoLog(jsonString: string): SuspensionLog[] {
@@ -114,7 +121,7 @@ function parseJsonIntoLog(jsonString: string): SuspensionLog[] {
 </script>
 
 <style lang="scss">
-.ban-logs {
+.suspension-logs {
     margin-bottom: 0.5rem;
     span {
         display: block;

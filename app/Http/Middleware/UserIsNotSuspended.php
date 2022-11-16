@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UserIsNotBanned
+class UserIsNotSuspended
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class UserIsNotBanned
     {
         /** @var User */
         $user = Auth::user();
-        if ($user->isBanned()){
+        if ($user->isSuspended()){
             return response('Account suspended.', 401);
         }
         return $next($request);

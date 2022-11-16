@@ -1,31 +1,31 @@
 <template>
-    <div v-if="user.banned">
-        <h5>{{ $t('bans') }}</h5>
+    <div v-if="user.suspended">
+        <h5>{{ $t('suspensions') }}</h5>
         <div class="row">
-            <span class="col header">{{ $t('start-ban') }}</span>
-            <span class="col header">{{ $t('end-ban') }}</span>
+            <span class="col header">{{ $t('start-suspension') }}</span>
+            <span class="col header">{{ $t('end-suspension') }}</span>
             <span class="col header">{{ $t('reason') }}</span>
             <span class="col fg-1 header">{{ $t('days') }}</span>
-            <span class="col fg-1 header">{{ $t('banned-by') }}</span>
+            <span class="col fg-1 header">{{ $t('suspended-by') }}</span>
         </div>
-        <template v-for="(banned, index) in user.banned" :key="index">
+        <template v-for="(suspended, index) in user.suspended" :key="index">
             <div class="row">
                 <div class="col">
-                    {{parseDateTime(banned.created_at)}} ({{banned.time_since}})
+                    {{parseDateTime(suspended.created_at)}} ({{suspended.time_since}})
                 </div>
                 <div class="col">
-                    {{banned.early_release ? 
-                        parseDateTime(banned.early_release) : parseDateTime(banned.banned_until)}} 
-                    ({{banned.banned_until_time}})
+                    {{suspended.early_release ? 
+                        parseDateTime(suspended.early_release) : parseDateTime(suspended.suspended_until)}} 
+                    ({{suspended.suspended_until_time}})
                 </div>
                 <div class="col">
-                    {{banned.reason}}
+                    {{suspended.reason}}
                 </div>
                 <div class="col fg-1">
-                    {{banned.days}}
+                    {{suspended.days}}
                 </div>
                 <div class="col fg-1">
-                    {{banned.admin.username}}
+                    {{suspended.admin.username}}
                 </div>
             </div>
         </template>
@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import type {UserToBan} from 'resources/types/user';
+import type {UserToSuspend} from 'resources/types/user';
 import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMainStore} from '/js/store/store';
@@ -105,7 +105,7 @@ const {t} = useI18n();
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
 
-defineProps<{user: UserToBan}>();
+defineProps<{user: UserToSuspend}>();
 
 function parseReason(reason: string) {
     let string = reason.replaceAll('_', ' ').toLowerCase();

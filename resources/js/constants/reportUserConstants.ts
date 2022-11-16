@@ -28,8 +28,8 @@ export const REPORTED_USER_FIELDS = [
         key: 'actions',
     },
     {
-        label: 'banned',
-        key: 'banned',
+        label: 'suspended',
+        key: 'suspended',
     },
 ];
 
@@ -63,7 +63,7 @@ export const REPORTED_USER_DETAILS_FIELDS = [
     },
 ];
 
-export const BANNED_USERS_FIELDS = [
+export const SUSPENDED_USERS_FIELDS = [
     {
         label: 'date',
         key: 'created_at',
@@ -84,13 +84,13 @@ export const BANNED_USERS_FIELDS = [
         sortable: true,
     },
     {
-        label: 'banned-by',
+        label: 'suspended-by',
         key: 'admin',
         sortable: true,
     },
     {
-        label: 'banned-until',
-        key: 'banned_until',
+        label: 'suspended-until',
+        key: 'suspended_until',
         sortable: true,
     },
     {
@@ -135,12 +135,12 @@ export const REPORTED_USER_OVERVIEW_FIELDS: OverviewFieldGroups = {
             width: 3,
         },
         {
-            label: 'banned-until',
-            key: 'banned_group',
+            label: 'suspended-until',
+            key: 'suspended_group',
             fields: [
                 {
-                    label: 'banned',
-                    key: 'banned_until',
+                    label: 'suspended',
+                    key: 'suspended_until',
                     sortable: true,
                 },
             ],

@@ -172,7 +172,7 @@ describe('Admin', () => {
             cy.get('button').contains('Suspend user').click();
             waitShort();
 
-            goToTab('Banned users');
+            goToTab('Suspended users');
 
             cy.get('td').contains(reason).should('exist').parent().contains(days);
         });
@@ -217,7 +217,7 @@ describe('Admin', () => {
 
             goToAdminPage();
             waitShort();
-            goToTab('Banned users');
+            goToTab('Suspended users');
             waitShort();
 
             cy.get('tr').contains(user1.username).should('exist').parent().parent().contains(reason).should('exist').parent().contains(days).should('exist');
@@ -230,11 +230,11 @@ describe('Admin', () => {
             const comment = getRandomString();
             const days = Math.floor(Math.random() * 10) + 1;
 
-            goToTab('Banned users');
+            goToTab('Suspended users');
             cy.get('tr').contains(user1.username).should('exist').parent().parent().find(editButton).click();
             waitShort();
 
-            cy.get('h5').should('contain.text', 'Edit ban of');
+            cy.get('h5').should('contain.text', 'Edit suspension of');
 
             cy.get('#days').type(days);
             cy.get('#comment').type(comment);
@@ -247,12 +247,12 @@ describe('Admin', () => {
         it('can end a user suspension', () => {
             const comment = getRandomString();
             
-            goToTab('Banned users');
+            goToTab('Suspended users');
             cy.get('tr').contains(user1.username).should('exist').parent().parent().find(editButton).click();
             waitShort();
 
-            cy.get('h5').should('contain.text', 'Edit ban of');
-            cy.get('#end-ban').click();
+            cy.get('h5').should('contain.text', 'Edit suspension of');
+            cy.get('#end-suspension').click();
             cy.get('#comment').type(comment);
             
             cy.get('button').contains('Submit').click();

@@ -7,7 +7,7 @@ use App\Http\Resources\StrippedUserResource;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 
-class BannedUserResource extends JsonResource
+class SuspendedUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -28,12 +28,12 @@ class BannedUserResource extends JsonResource
             'reason' => $this->reason,
             'days' => $this->days,
             'admin' => new StrippedUserResource($this->admin),
-            'banned_until' => Carbon::create($this->banned_until),
-            'past' => Carbon::parse($this->banned_until)->lessThan(Carbon::now()),
-            'banned_until_time' => Carbon::parse($this->banned_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]),            
+            'suspended_until' => Carbon::create($this->suspended_until),
+            'past' => Carbon::parse($this->suspended_until)->lessThan(Carbon::now()),
+            'suspended_until_time' => Carbon::parse($this->suspended_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]),            
             'early_release' => $this->early_release ? Carbon::create($this->early_release) : null,
-            'ban_edit_comment' => $this->ban_edit_comment ?? '',
-            'ban_edit_log' => $this->ban_edit_log,
+            'suspension_edit_comment' => $this->suspension_edit_comment ?? '',
+            'suspension_edit_log' => $this->suspension_edit_log,
         ];
     }
 }

@@ -40,10 +40,10 @@
                     {{$t('reported-users')}}
                 </button>
                 <button 
-                    :class="activeTab('BannedUsers')" 
+                    :class="activeTab('SuspendedUsers')" 
                     class="tab-item"
-                    @click="switchTab('BannedUsers')">
-                    {{$t('banned-users')}}
+                    @click="switchTab('SuspendedUsers')">
+                    {{$t('suspended-users')}}
                 </button>
                 <button 
                     :class="activeTab('Feedback')" 
@@ -67,7 +67,7 @@ import SendNotifications from './tabs/SendNotifications.vue';
 import Balancing from './tabs/Balancing.vue';
 import ReportedUsers from './tabs/ReportedUsers.vue';
 import Feedback from './tabs/Feedback.vue';
-import BannedUsers from './tabs/BannedUsers.vue';
+import SuspendedUsers from './tabs/SuspendedUsers.vue';
 import Overview from './tabs/Overview.vue';
 import ResponsiveTabs from '/js/components/global/ResponsiveTabs.vue';
 import {shallowRef, onMounted, ref} from 'vue';
@@ -93,7 +93,7 @@ const tabs = {
     'SendNotifications': SendNotifications,
     'Balancing': Balancing,
     'ReportedUsers': ReportedUsers,
-    'BannedUsers': BannedUsers,
+    'SuspendedUsers': SuspendedUsers,
     'Feedback': Feedback,
 }
 const tabKey = ref('Overview');
