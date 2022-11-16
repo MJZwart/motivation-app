@@ -85,6 +85,9 @@ label {
     color:var(--primary-as-text);
     margin:2px;
     cursor:pointer;
+    .non-clickable {
+        cursor: pointer;
+    }
 }
 .icon.small {
     font-size: 100%;
