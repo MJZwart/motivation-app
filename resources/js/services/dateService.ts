@@ -25,6 +25,12 @@ export function daysSince(date: string): string {
  * If it's not an ISO string, set SQLString to true, so it can be rezoned into UTC
  */
 export function parseDateTime(time: string | Date | null, SQLString = false): string | undefined {
+    const date = parseIntoDateTime(time, SQLString);
+    if (!date) return;
+    return parseIntoStringFormat(date);
+}
+
+function parseIntoDateTime(time: string | Date | null, SQLString: boolean) {
     if (time === null) return;
     // const timezone = localStorage.getItem('timezone') || 'system';
     // const locale = localStorage.getItem('locale') || 'en-UK';
@@ -34,7 +40,18 @@ export function parseDateTime(time: string | Date | null, SQLString = false): st
         time = DateTime.fromSQL(time.toString()).setZone('UTC', {keepLocalTime: true}).toString();
         if (time === null) return;
     }
-    const date = DateTime.fromISO(time.toString()).setZone(timezone).setLocale(locale);
+    return DateTime.fromISO(time.toString()).setZone(timezone).setLocale(locale);
+}
+
+function parseIntoStringFormat(date: DateTime) {
+    const currentDate = DateTime.now().toFormat('yyyyMMdd');
+    const time = date.toFormat('HH:mm')
+    if (date.toFormat('yyyyMMdd') === currentDate)
+        return i18n.global.t('today') + ' ' + time;
+    else if (date.plus({days: 1}).toFormat('yyyyMMdd') === currentDate)
+        return i18n.global.t('yesterday') + ' ' + time;
+    else if (date.minus({days: 1}).toFormat('yyyyMMdd') === currentDate)
+        return i18n.global.t('tomorrow') + ' ' + time;
     return date.toLocaleString(DateTime.DATETIME_MED);
 }
 
