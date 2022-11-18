@@ -86,7 +86,7 @@ label {
     margin:2px;
     cursor:pointer;
     .non-clickable {
-        cursor: pointer;
+        cursor: default;
     }
 }
 .icon.small {
