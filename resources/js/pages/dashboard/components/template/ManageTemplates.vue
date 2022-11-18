@@ -19,7 +19,7 @@
                         {{ $t('manage-templates') }}
                         <Tutorial tutorial="Templates" colorVariant="white" />
                     </h5>
-                    <button class="close" @click="$emit('close')">×</button>
+                    <button class="close" @click="showManageTemplateModal = false">×</button>
                 </div>
             </template>
             <button v-if="!showNewTemplate" class="block" @click="showNewTemplate = true">{{$t('new-template')}}</button>
