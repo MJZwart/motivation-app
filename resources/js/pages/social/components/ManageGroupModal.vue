@@ -2,7 +2,7 @@
     <div>
         <div v-if="group">
             <form @submit.prevent>
-                <label for="edit-name-comp">Name</label>
+                <label for="edit-name-comp">{{$t('name')}}</label>
                 <Editable 
                     id="edit-name-comp" 
                     :key="group.name" 
@@ -12,7 +12,7 @@
                     :name="'name'" 
                     @save="save" />
                 
-                <label for="edit-description-comp">Description</label>
+                <label for="edit-description-comp">{{$t('description')}}</label>
                 <Editable 
                     id="edit-description-comp"
                     :key="group.description"
@@ -35,7 +35,7 @@
         </div>
         <!-- Manage users -->
         <div>
-            <label for="">Members</label>
+            <label for="">{{$t('members')}}</label>
             <div v-for="member in group.members" :key="member.id" class="d-flex hover member-list">
                 <!-- TODO make a table -->
                 {{member.username}}
