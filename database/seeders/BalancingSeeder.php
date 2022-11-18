@@ -22,6 +22,7 @@ class BalancingSeeder extends Seeder
             'intelligence' => 3,
             'charisma' => 3,
             'level' => 10,
+            'coins' => 7,
         ]);
         DB::table('character_exp_gain')->insert([
             'task_type' => 'PHYSICAL',
@@ -31,6 +32,7 @@ class BalancingSeeder extends Seeder
             'intelligence' => 1,
             'charisma' => 1,
             'level' => 10,
+            'coins' => 7,
         ]);
         DB::table('character_exp_gain')->insert([
             'task_type' => 'MENTAL',
@@ -40,6 +42,7 @@ class BalancingSeeder extends Seeder
             'intelligence' => 7,
             'charisma' => 5,
             'level' => 10,
+            'coins' => 7,
         ]);
         DB::table('character_exp_gain')->insert([
             'task_type' => 'SOCIAL',
@@ -49,6 +52,7 @@ class BalancingSeeder extends Seeder
             'intelligence' => 3,
             'charisma' => 8,
             'level' => 10,
+            'coins' => 7,
         ]);
 
         DB::table('village_exp_gain')->insert([
@@ -59,6 +63,7 @@ class BalancingSeeder extends Seeder
             'art' => 3,
             'community' => 3,
             'level' => 10,
+            'coins' => 7,
         ]);
         DB::table('village_exp_gain')->insert([
             'task_type' => 'PHYSICAL',
@@ -68,6 +73,7 @@ class BalancingSeeder extends Seeder
             'art' => 1,
             'community' => 3,
             'level' => 10,
+            'coins' => 7,
         ]);
         DB::table('village_exp_gain')->insert([
             'task_type' => 'MENTAL',
@@ -77,6 +83,7 @@ class BalancingSeeder extends Seeder
             'art' => 3,
             'community' => 1,
             'level' => 10,
+            'coins' => 7,
         ]);
         DB::table('village_exp_gain')->insert([
             'task_type' => 'SOCIAL',
@@ -86,6 +93,7 @@ class BalancingSeeder extends Seeder
             'art' => 6,
             'community' => 7,
             'level' => 10,
+            'coins' => 7,
         ]);
     }
 }
