@@ -127,13 +127,13 @@ const taskStore = useTaskStore();
 function deleteTask(task: Task) {
     const confirmationText = t('confirmation-delete-task', [task.name]);
     if (confirm(confirmationText)) {
-        taskStore.deleteTask(task);
+        taskStore.deleteTask(task.id);
     }
 }
 function completeTask(task: Task) {
     if (task.tasks && task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
         return;
-    taskStore.completeTask(task);
+    taskStore.completeTask(task.id);
 }
 </script>
 

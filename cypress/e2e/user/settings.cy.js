@@ -92,9 +92,9 @@ describe('Settings', () => {
             cy.visit('/settings#AccountSettings');
             waitShort();
 
-            cy.get('button').contains('Light mode').click();
-            waitShort();
             cy.get('button').contains('Dark mode').click();
+            waitShort();
+            cy.get('button').contains('Light mode').click();
             waitShort();
         });
     });

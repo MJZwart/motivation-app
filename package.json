@@ -14,7 +14,7 @@
         "prod": "npm run production",
         "lint": "eslint \"resources/js/**/*.{js,vue}\" --fix --cache",
         "typescript-check": "tsc --noEmit -p tsconfig.json --skipLibCheck",
-        "vue-typescript-check": "vue-tsc -p tsconfig.json --skipLibCheck",
+        "vue-tsc": "vue-tsc -p tsconfig.json --skipLibCheck",
         "cypress": "cypress open",
         "cypress:run": "cypress run --record --key 747e24a5-53b0-4b35-9be1-534009ad30cc"
     },

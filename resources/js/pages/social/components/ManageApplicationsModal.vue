@@ -4,13 +4,13 @@
         <template v-for="application in applications" :key="application.id">
             <p>
                 {{`${application.username}, applied on: ${application.applied_at}`}}
-                <button class="m-1" @click="acceptApplication(application)">
+                <button class="m-1" @click="acceptApplication(application.id)">
                     {{ $t('accept-group-application') }}
                 </button>
-                <button class="m-1" @click="rejectApplication(application)">
+                <button class="m-1" @click="rejectApplication(application.id)">
                     {{ $t('reject-group-application') }}
                 </button>
-                <button class="m-1" @click="suspendApplication(application)">
+                <button class="m-1" @click="suspendApplication(application.id)">
                     {{ $t('suspend-group-application') }}
                 </button>
             </p>
@@ -36,7 +36,7 @@ onMounted(() => {
 });
 async function load() {
     loading.value = true;
-    applications.value = await groupStore.fetchApplications(props.group);
+    applications.value = await groupStore.fetchApplications(props.group.id);
     loading.value = false;
 }
 
@@ -47,18 +47,18 @@ const props = defineProps({
     },
 });
 
-async function rejectApplication(application: Application) {
-    await groupStore.rejectApplication(application);
+async function rejectApplication(applicationId: number) {
+    await groupStore.rejectApplication(applicationId);
     load();
 }
 
-async function acceptApplication(application: Application) {
-    await groupStore.acceptApplication(application);
+async function acceptApplication(applicationId: number) {
+    await groupStore.acceptApplication(applicationId);
     load();
 }
 
-async function suspendApplication(application: Application) {
-    await groupStore.suspendApplication(application);
+async function suspendApplication(applicationId: number) {
+    await groupStore.suspendApplication(applicationId);
     load();
 }
 </script>

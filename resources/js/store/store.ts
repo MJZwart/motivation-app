@@ -1,7 +1,10 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {useRewardStore} from './rewardStore.js';
-import {useTaskStore} from './taskStore.js';
+import {NewBugReport} from 'resources/types/bug';
+import {Error} from 'resources/types/error';
+import {NewFeedback} from 'resources/types/feedback';
+import {useRewardStore} from './rewardStore';
+import {useTaskStore} from './taskStore';
 
 export const useMainStore = defineStore('main', {
     state: () => {
@@ -14,10 +17,7 @@ export const useMainStore = defineStore('main', {
         };
     },
     actions: {
-        /**
-         * @param {import('resources/types/error.js').Error} errorMessages
-         */
-        setErrorMessages(errorMessages) {
+        setErrorMessages(errorMessages: Error) {
             this.errors = errorMessages;
         },
         clearErrors() {
@@ -30,17 +30,11 @@ export const useMainStore = defineStore('main', {
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.rewardObj;
         },
-        /**
-         * @param {import('resources/types/feedback.js').NewFeedback} feedback
-         */
-        async sendFeedback(feedback) {
+        async sendFeedback(feedback: NewFeedback) {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('/feedback', feedback);
         },
-        /**
-         * @param {import('resources/types/bug.js').NewBugReport} bugReport
-         */
-        async storeBugReport(bugReport) {
+        async storeBugReport(bugReport: NewBugReport) {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('/bugreport', bugReport);
         },
