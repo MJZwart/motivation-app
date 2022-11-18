@@ -93,7 +93,6 @@ async function createNewTemplate(newTemplate: NewTemplate) {
 function editTemplate(template: Template) {
     templateToEdit.value = template;
     showNewTemplate.value = true;
-    // console.log(template);
 }
 async function submitEditTemplate(template: Template) {
     templates.value = await taskStore.updateTemplate(template);
