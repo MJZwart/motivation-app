@@ -92,9 +92,9 @@ describe('Settings', () => {
             cy.visit('/settings#AccountSettings');
             waitShort();
 
-            cy.get('button').contains('Light mode').click();
-            waitShort();
             cy.get('button').contains('Dark mode').click();
+            waitShort();
+            cy.get('button').contains('Light mode').click();
             waitShort();
         });
     });
@@ -135,12 +135,12 @@ describe('Settings', () => {
     });
 
     describe('Reward settings', () => {
-        //Waiting to prevent throttling issues
-        cy.wait(5000);
         const charName = getRandomString();
         const villName = getRandomString();
         const newCharName = getRandomString();
         it('User can make a new character and switch to it', () => {
+            //Waiting to prevent throttling issues
+            cy.wait(5000);
             cy.visit('/settings#RewardSettings');
             waitShort();
 

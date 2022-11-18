@@ -128,6 +128,8 @@
     "logout": "Logout",
     "yes": "Yes",
     "no": "No",
+    "back": "Back",
+    "forward": "Forward",
 
     "feedback": "Feedback",
     "feedback-explanation": "Do you have any feedback for us? Features you'd like to suggest, new ideas for content, opinions on the site overall? Please fill in this form and we'll contact you if we have any questions or remarks.",

@@ -107,19 +107,19 @@ const group = computed((): GroupPage | null => groupStore.group);
 async function joinGroup() {
     if (group.value === null) return;
     loading.value = true;
-    await groupStore.joinGroup(group.value)
+    await groupStore.joinGroup(group.value.id)
     loading.value = false;
 }
 async function applyToGroup() {
     if (group.value === null) return;
     loading.value = true;
-    await groupStore.applyToGroup(group.value);
+    await groupStore.applyToGroup(group.value.id);
     loading.value = false;
 }
 async function deleteGroup() {
     if (group.value === null) return;
     if (confirm(t('delete-group-confirm', {group: group.value.name}))) {
-        await groupStore.deleteGroup(group.value);
+        await groupStore.deleteGroup(group.value.id);
         router.push('/social#Groups');
     }
 }
@@ -127,7 +127,7 @@ async function leaveGroup() {
     if (group.value === null) return;
     if (confirm(t('leave-group-confirm', {group: group.value.name}))) {
         loading.value = true;
-        await groupStore.leaveGroup(group.value)
+        await groupStore.leaveGroup(group.value.id)
         loading.value = false;
     }
 }
