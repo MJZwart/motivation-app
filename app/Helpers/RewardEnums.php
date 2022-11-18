@@ -32,13 +32,16 @@ class RewardEnums
     public const ART_EXP = "art_exp";
     public const COMMUNITY_EXP = "community_exp";
 
+    public const COINS = "coins";
+
     public const CHAR_STAT_EXP_ARRAY = [
         RewardEnums::STRENGTH_EXP,
         RewardEnums::AGILITY_EXP,
         RewardEnums::ENDURANCE_EXP,
         RewardEnums::INTELLIGENCE_EXP,
         RewardEnums::CHARISMA_EXP,
-        RewardEnums::EXPERIENCE
+        RewardEnums::EXPERIENCE,
+        RewardEnums::COINS
     ];
     public const CHAR_STAT_ARRAY = [
         RewardEnums::STRENGTH,
@@ -55,7 +58,8 @@ class RewardEnums
         RewardEnums::CRAFT_EXP,
         RewardEnums::ART_EXP,
         RewardEnums::COMMUNITY_EXP,
-        RewardEnums::EXPERIENCE
+        RewardEnums::EXPERIENCE,
+        RewardEnums::COINS
     ];
     public const VILL_STAT_ARRAY = [
         RewardEnums::ECONOMY,

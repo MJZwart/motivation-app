@@ -9,6 +9,7 @@
             </template>
             <div class="compact">
                 <p>{{ $t('level') }}: {{reward.level}}</p>
+                <p>{{ $t('coins') }}: <Coins :coins=reward.coins /></p>
                 <p>{{ $t('experience') }}: {{reward.experience}}
                     <ProgressBar class="level-bar" :value="reward.experience" :max="reward.level_exp_needed" />
                 </p>
@@ -36,6 +37,7 @@
 <script setup lang="ts">
 import ProgressBar from '/js/components/global/ProgressBar.vue';
 import Summary from '/js/components/global/Summary.vue';
+import Coins from './Coins.vue';
 import {PropType} from 'vue';
 import {Reward} from 'resources/types/reward';
 

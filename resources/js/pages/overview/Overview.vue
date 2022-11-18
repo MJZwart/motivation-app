@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import AchievementsCard from './components/AchievementsCard.vue';
-import RewardCard from '/js/pages/dashboard/components/RewardCard.vue';
+import RewardCard from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import UserStats from './components/UserStats.vue';
 import {computed, onMounted, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';

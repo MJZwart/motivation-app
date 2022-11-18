@@ -5,6 +5,7 @@ export type Reward = {
     rewardType: string;
     level: number;
     experience: number;
+    coins: number;
     level_exp_needed: number;
     a: number;
     a_exp: number;
@@ -29,4 +30,10 @@ export type ChangeReward = {
     keepOldInstance: string | number | null;
     // TODO And while you're at it, either pick camel case or underscore
     new_object_name?: string | null;
+};
+
+export type Coins = {
+    gold?: string | null;
+    silver?: string | null;
+    bronze: string | null;
 };
