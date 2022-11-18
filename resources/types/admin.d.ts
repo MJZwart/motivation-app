@@ -38,3 +38,14 @@ export type ReportedUser = NewReportedUser & {
     reported_by_name: string;
     conversation: string;
 };
+
+export type Overview = {
+    'total-users': number;
+    'new-users': number;
+    'active-users': number;
+    'unarchived-feedback': number;
+    'unresolved-bugs': number;
+    'new-feedback': number;
+    'new-bugs': number;
+    'new-user-reports': number;
+}

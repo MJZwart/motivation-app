@@ -52,7 +52,7 @@ async function deleteTaskList() {
         const data = {taskListId: deleteOption.value, tasks: taskListTasks.value};
         await taskStore.mergeTasks(data);
     }
-    await taskStore.deleteTaskList(taskListToDelete.value);
+    await taskStore.deleteTaskList(taskListToDelete.value.id);
     close();
 }
 function close() {

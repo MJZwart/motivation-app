@@ -115,7 +115,6 @@ const user = ref<NewUser>({
 });
 const showFirstModal = ref(false);
 const showSecondModal = ref(false);
-/** @type Array<import('resources/types/task').Task> */
 const exampleTasks = ref<Task[]>([]);
 
 const parsedLabelName = computed(() => {

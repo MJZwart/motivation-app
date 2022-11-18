@@ -112,12 +112,12 @@ function toggleRequireApplication() {
 
 function kick(user: GroupUser) {
     if (confirm(t('confirm-kick-from-group', {user: user.username})))
-        groupStore.removeGroupMember(user, props.group);
+        groupStore.removeGroupMember(user, props.group.id);
         //TODO sending a whole user, not sure if that's necessary
 }
 function ban(user: GroupUser) {
     if (confirm(t('confirm-ban-from-group', {user: user.username})))
-        groupStore.banGroupMember(user, props.group);
+        groupStore.banGroupMember(user, props.group.id);
         //TODO sending a whole user, not sure if that's necessary
 }
 function sendMessage(user: GroupUser) {

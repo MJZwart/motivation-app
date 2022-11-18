@@ -2,16 +2,14 @@ import axios from 'axios';
 import {defineStore} from 'pinia';
 import {successToast} from '/js/services/toastService';
 import {useUserStore} from './userStore';
+import {Reward} from 'resources/types/reward';
 
 export const useRewardStore = defineStore('reward', {
     state: () => {
         return {
-            /** @type import('resources/types/reward').Reward | null */
-            rewardObj: null,
-            /** @type Array<import('resources/types/reward').Reward> | null */
-            villages: null,
-            /** @type Array<import('resources/types/reward').Reward> | null */
-            characters: null,
+            rewardObj: null as Reward | null,
+            villages: [] as Reward[],
+            characters: [] as Reward[],
         }
     },
     actions: {
@@ -31,27 +29,18 @@ export const useRewardStore = defineStore('reward', {
             this.villages = data.rewards.villages;
         },
 
-        /**
-         * @param {import('resources/types/reward').Reward} rewardObj
-         */
-        async updateRewardObjName (rewardObj) {
+        async updateRewardObjName (rewardObj: Reward) {
             await axios.put('/reward/update', rewardObj);
         },
 
-        /**
-         * @param {import('resources/types/reward').Reward} rewardObj
-         */
-        async activateInstance (rewardObj) {
+        async activateInstance (rewardObj: Reward) {
             const {data} = await axios.put('/reward/activate', rewardObj);
             successToast(data.message);
             const userStore = useUserStore();
             userStore.user = data.data.user;
         },
 
-        /**
-         * @param {import('resources/types/reward').Reward} rewardObj
-         */
-        async deleteInstance (rewardObj) {
+        async deleteInstance (rewardObj: Reward) {
             await axios.put('/reward/delete', rewardObj);
         },
     },
