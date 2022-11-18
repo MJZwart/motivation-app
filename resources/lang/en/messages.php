@@ -19,6 +19,8 @@ return [
         'unauthorized' => 'This is not your task',
         'template' => [
             'created' => 'Template created',
+            'updated' => 'Template updated',
+            'deleted' => 'Template deleted',
         ],
     ],
 

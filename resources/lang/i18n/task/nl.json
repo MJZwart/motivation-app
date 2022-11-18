@@ -51,5 +51,8 @@
     "import-from-templates": "Importeer van templates",
     "manage-templates": "Beheer templates",
     "new-template": "Nieuw template",
-    "create-new-template": "Maak nieuwe template"
+    "create-new-template": "Maak nieuwe template",
+    "edit-template": "Bewerk template",
+    "delete-template": "Verwijder template",
+    "confirm-delete-template": "Weet je zeker dat je {name} wil verwijderen?"
 }

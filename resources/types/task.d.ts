@@ -23,9 +23,13 @@ export type NewTaskList = {
     name: string;
 };
 
-export type Template = {
+export type Template = NewTemplate & {
+    id: number;
+};
+
+export type NewTemplate = {
     name: string;
     description?: string;
     difficulty: number;
     type: string;
-};
+}

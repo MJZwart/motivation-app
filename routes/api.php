@@ -51,17 +51,10 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['middleware' => ['valid-auth']], function () {
-    Route::resource('/tasks', TaskController::class)->only([
-        'store', 'update', 'destroy'
-    ]);
-    Route::put('/tasks/complete/{task}', [TaskController::class, 'complete']);
-    Route::get('/tasks/templates', [TaskController::class, 'getTemplates']);
-    Route::post('/tasks/templates', [TaskController::class, 'storeTemplate']);
-
+    
     Route::resource('/tasklists', TaskListController::class)->only([
         'store', 'show', 'update', 'destroy'
     ]);
-    Route::post('/tasks/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
 
     Route::get('/rewards/all', [RewardController::class, 'fetchAllRewardInstancesByUser']);
     Route::put('/reward/activate', [RewardController::class, 'activateRewardInstance']);

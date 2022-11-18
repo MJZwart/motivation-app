@@ -32,27 +32,45 @@
             min="1"
             max="5"
         />
-        <button id="create-new-task-button" type="submit" class="block">{{ $t('create-new-template') }}</button>
+        <button id="create-new-task-button" type="submit" class="block">
+            {{ templateToEdit ? $t('edit-template') : $t('create-new-template') }}
+        </button>
         <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
     </form>
 </template>
 
 <script setup lang="ts">
 import {TASK_TYPES} from '/js/constants/taskConstants';
-import {ref} from 'vue';
+import {onMounted, PropType, ref} from 'vue';
+import {NewTemplate, Template} from 'resources/types/task';
+
+const props = defineProps({
+    templateToEdit: {
+        type: Object as PropType<Template>,
+        required: false,
+    },
+});
+
+onMounted(() => {
+    if (props.templateToEdit)
+        template.value = props.templateToEdit;
+});
 
 const taskTypes = TASK_TYPES;
 
-const template = ref({
+const template = ref<NewTemplate>({
     name: '',
     description: '',
     difficulty: 3,
     type: 'GENERIC',
 });
 
-const emit = defineEmits(['close', 'submit']);
+const emit = defineEmits(['close', 'submit', 'edit']);
 
 function createTemplate() {
-    emit('submit', template.value);
+    if (props.templateToEdit)
+        emit('edit', template.value);
+    else
+        emit('submit', template.value);
 }
 </script>
