@@ -1,5 +1,7 @@
 <template>
     <div>
+        {{parsedCoins.platinum}}
+        <span v-if="parsedCoins.platinum" class="dot platinum" />
         {{parsedCoins.gold}}
         <span v-if="parsedCoins.gold" class="dot gold" />
         {{parsedCoins.silver}}
@@ -17,14 +19,14 @@ const props = defineProps<{coins: number}>();
 
 const parsedCoins = computed<Coins>(() => parseCoins(props.coins));
 
-
 function parseCoins(coins: number): Coins
 {
     const coinString = coins.toString();
     const coinObject = {
         bronze: coinString.slice(-2),
         silver: coinString.slice(-4, -2),
-        gold: coinString.slice(0, -4),
+        gold: coinString.slice(-6, -4),
+        platinum: coinString.slice(0, -6),
     };
     return coinObject;
 }
@@ -36,6 +38,10 @@ function parseCoins(coins: number): Coins
     width: 12px;
     border-radius: 50%;
     display: inline-block;
+}
+.dot.platinum {
+    border: 1px solid #309599;
+    background-color: #42ccd1;
 }
 .dot.gold {
     border: 1px solid #976e06;

@@ -33,6 +33,7 @@ export type ChangeReward = {
 };
 
 export type Coins = {
+    platinum?: string | null;
     gold?: string | null;
     silver?: string | null;
     bronze: string | null;
