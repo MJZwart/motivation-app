@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.3.1
+Hotfix: The email service wasn't working at all, it should be set up now. Made some new tasks to fix and clear up the password reset function.
+
 ## v0.3.0
 
 ### Features
