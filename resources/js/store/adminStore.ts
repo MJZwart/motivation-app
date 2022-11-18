@@ -5,7 +5,7 @@ import {BugReport} from 'resources/types/bug';
 import {Feedback} from 'resources/types/feedback';
 import {ReportedConversation} from 'resources/types/message';
 import {NewNotification} from 'resources/types/notification';
-import {BannedUser, NewSuspension} from 'resources/types/user';
+import {SuspendedUser, NewSuspension} from 'resources/types/user';
 import {useAchievementStore} from './achievementStore';
 import {useUserStore} from './userStore';
 
@@ -17,7 +17,7 @@ export const useAdminStore = defineStore('admin', {
             villageExpGain: [] as VillageExpGain[],
             reportedUsers: null as ReportedUser[] | null,
             bugReports: null as BugReport[] | null,
-            bannedUsers: null as BannedUser[] | null,
+            suspendedUsers: null as SuspendedUser[] | null,
         }
     },
     getters: {
@@ -88,22 +88,22 @@ export const useAdminStore = defineStore('admin', {
         async suspendUser(userId: number, suspension: NewSuspension) {
             const {data} = await axios.post(`/admin/suspend/${userId}`, suspension);
             this.reportedUsers = data.data.reported_users;
-            this.bannedUsers = data.data.banned_users;
+            this.suspendedUsers = data.data.suspended_users;
         },
         /**
-         * Gets all banned users
+         * Gets all suspended users
          */
-        async getBannedUsers() {
-            const {data} = await axios.get('/admin/bannedusers');
-            this.bannedUsers = data.banned_users;
+        async getSuspendedUsers() {
+            const {data} = await axios.get('/admin/suspendedusers');
+            this.suspendedUsers = data.suspended_users;
         },
 
         /**
-         * Edits or manually ends the suspension of a given user.
+         * Ends the suspension of a given user manually.
          */
-        async editBan(userBan: BannedUser) {
-            const {data} = await axios.post(`/admin/editban/${userBan.id}`, userBan);
-            this.bannedUsers = data.banned_users;
+        async editSuspension(userSuspension: SuspendedUser) {
+            const {data} = await axios.post(`/admin/editsuspension/${userSuspension.id}`, userSuspension);
+            this.suspendedUsers = data.suspended_users;
         },
 
         /**

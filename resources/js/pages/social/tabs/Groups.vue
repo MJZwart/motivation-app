@@ -46,7 +46,7 @@
                     <h5>{{item.item.name}}</h5>
                 </template>
                 <template #joined="item">
-                    <b>{{$t('member-since')}}:</b> {{ parseDateTime(item.item.joined) }}
+                    <b>{{$t('member-since')}}:</b> {{ item.item.joined ? parseDateTime(item.item.joined) : '' }}
                 </template>
                 <template #details="item">
                     <Tooltip :text="$t('view')">

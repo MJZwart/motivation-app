@@ -42,7 +42,7 @@ return [
     ],
 
     'user' => [
-        'ban' => [
+        'suspension' => [
             'until' => 'Gebruiker geschorst tot :time',
             'ended_notification_title' => 'Je schorsing is opgeheven.',
             'ended_notification' => ':admin heeft je schorsing opgeheven. Reden hiervoor: :comment. Je was oorspronkelijk geschorst voor: :reason',
@@ -108,7 +108,7 @@ return [
         'needs_application' => 'Voor lidmaatschap van deze groep is een aanmelding vereist.',
         'no_application' => 'Voor lidmaatschap van deze groep is geen aanmelding vereist.',
         'already_applied' => 'Je hebt al een aanmelding naar deze groep gestuurd.',
-        'banned' => 'Je bent verbannen van deze groep.',
+        'suspended' => 'Je bent verbannen van deze groep.',
         'already_member' => 'Je bent al lid van deze groep.',
         'join_success' => 'Je bent nu lid van de groep :name.',
         'new_application_title' => 'Nieuwe groepaanmelding voor :name.',
@@ -118,8 +118,8 @@ return [
         'application_accepted_text' => 'Je aanmelding voor de groep :name is geaccepteerd. Je kunt de groep nu vinden onder Sociaal > Groepen > Mijn groepen.',
         'accepted_application' => 'Je hebt de aanmelding van :username geaccepteerd.',
         'rejected_application' => 'Je hebt de aanmelding van :username afgewezen.',
-        'rejected_and_banned' => 'Je hebt de aanmelding van :username afgewezen en de gebruiker verbannen van je groep.',
-        'removed_and_banned' => 'Je hebt :username verwijderd uit en verbannen van je groep.',
+        'rejected_and_suspended' => 'Je hebt de aanmelding van :username afgewezen en de gebruiker verbannen van je groep.',
+        'removed_and_suspended' => 'Je hebt :username verwijderd uit en verbannen van je groep.',
         'leave' => [
             'not_member' => 'Je bent geen lid van de groep die je probeert te verlaten.',
             'only_member' => 'Je kunt niet een groep verlaten waar jij het enige lid van bent, verwijder in plaats daarvan de groep.',

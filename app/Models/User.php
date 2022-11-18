@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
 use App\Helpers\RewardObjectHandler;
-use App\Http\Resources\BannedUserResource;
+use App\Http\Resources\SuspendedUserResource;
 use Illuminate\Support\Facades\DB;
 use App\Models\RepeatableTaskCompleted;
 use App\Models\ReportedUser;
@@ -90,9 +90,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Notification');
     }
 
-    public function bannedUser()
+    public function suspendedUser()
     {
-        return $this->hasMany('App\Models\BannedUser');
+        return $this->hasMany('App\Models\SuspendedUser');
     }
 
     public function groups()
@@ -157,15 +157,15 @@ class User extends Authenticatable
         return $this->reports->sortByDesc('created_at')->first()->created_at;
     }
 
-    public function bannedFromGroups()
+    public function suspendedFromGroups()
     {
-        return $this->belongsToMany('App\Models\Group', 'group_bans')
+        return $this->belongsToMany('App\Models\Group', 'group_suspensions')
             ->withTimestamps();
     }
 
-    public function bannedGroupIds()
+    public function suspendedGroupIds()
     {
-        return $this->bannedFromGroups()->select('group_id')->get()->map(function ($element) {
+        return $this->suspendedFromGroups()->select('group_id')->get()->map(function ($element) {
             return $element->group_id;
         })->toArray();
     }
@@ -220,27 +220,27 @@ class User extends Authenticatable
     }
 
     /**
-     * Checks if the user is suspended by matching the 'banned_until' date-time with the current date-time
+     * Checks if the user is suspended by matching the 'suspended_until' date-time with the current date-time
      *
      * @return boolean
      */
-    public function isBanned()
+    public function isSuspended()
     {
         $currentDate = Carbon::now();
-        if (!$this->banned_until) return false;
-        if ($this->banned_until > $currentDate) return true;
+        if (!$this->suspended_until) return false;
+        if ($this->suspended_until > $currentDate) return true;
         else return false;
     }
 
     /**
-     * Gets the BannedUser instance if it exists and wraps in a resource. Otherwise return null.
+     * Gets the SuspendedUser instance if it exists and wraps in a resource. Otherwise return null.
      */
-    public function getBannedUserResource()
+    public function getSuspendedUserResource()
     {
-        $bannedUser = $this->bannedUser;
-        if (count($bannedUser) < 1)
+        $suspendedUser = $this->suspendedUser;
+        if (count($suspendedUser) < 1)
             return null;
-        return BannedUserResource::collection($bannedUser);
+        return SuspendedUserResource::collection($suspendedUser);
     }
 
     /**
@@ -248,7 +248,7 @@ class User extends Authenticatable
      */
     public function getLatestSuspension()
     {
-        if (count($this->bannedUser) < 1) return null;
-        return $this->bannedUser->last();
+        if (count($this->suspendedUser) < 1) return null;
+        return $this->suspendedUser->last();
     }
 }

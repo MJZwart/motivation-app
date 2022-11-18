@@ -139,7 +139,7 @@ return [
         // ],
         'days' => [
             'min' => 'The amount of days must be more than 1 if not indefinite.',
-            'required_if' => 'If you are not lifting the ban, please fill in the amount of days.'
+            'required_if' => 'If you are not lifting the suspension, please fill in the amount of days.'
         ],
         'indefinite' => [
             'required_if' => 'If no days are selected, please check indefinite.'
@@ -148,7 +148,7 @@ return [
             'required' => 'A log is required.',
         ],
         'comment' => [
-            'required' => 'A comment is required to explain why this ban was changed/lifted.',
+            'required' => 'A comment is required to explain why this suspension was changed/lifted.',
         ],
         'agree_to_tos' => [
             'accepted' => 'You must agree to the terms of service to register an account.',

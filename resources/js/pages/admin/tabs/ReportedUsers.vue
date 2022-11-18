@@ -14,11 +14,11 @@
             <template #username="item">
                 <h5>{{item.item.username}}</h5>
             </template>
-            <template #banned_until="item">
-                {{item.item.banned ? item.item.banned[0].banned_until_time : 'Never'}}
+            <template #suspended_until="item">
+                {{item.item.suspended ? item.item.suspended[0].suspended_until_time : 'Never'}}
             </template>
             <template #actions="item">
-                <Tooltip v-if="!currentlyBanned(item.item)" :text="$t('suspend-user')">
+                <Tooltip v-if="!currentlySuspended(item.item)" :text="$t('suspend-user')">
                     <FaIcon 
                         icon="ban" 
                         class="icon red"
@@ -68,7 +68,7 @@ import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 import {REPORTED_USER_OVERVIEW_FIELDS} from '/js/constants/reportUserConstants';
-import type {User, UserToBan} from 'resources/types/user';
+import type {User, UserToSuspend} from 'resources/types/user';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
@@ -102,13 +102,13 @@ function closeSendMessageToReportedUser() {
 }
 
 /** Opens the modal to suspend a user account */
-const suspendedUser = ref<UserToBan | null>(null);
+const suspendedUser = ref<UserToSuspend | null>(null);
 const suspendUserTitle = computed(() => {
     const username = suspendedUser.value ? suspendedUser.value.username: '';
     return `Suspend user ${username}`;
 });
 const showSuspendUserModal = ref(false);
-function suspendUser(user: UserToBan) {
+function suspendUser(user: UserToSuspend) {
     mainStore.clearErrors();
     suspendedUser.value = user;
     showSuspendUserModal.value = true;
@@ -117,8 +117,8 @@ function closeSuspendUserModal() {
     showSuspendUserModal.value = false;
 }
 
-function currentlyBanned(user: UserToBan) {
-    return !!user.banned_until && DateTime.now() < DateTime.fromFormat(user.banned_until, 'yyyy-MM-dd HH:mm:ss')
+function currentlySuspended(user: UserToSuspend) {
+    return !!user.suspended_until && DateTime.now() < DateTime.fromFormat(user.suspended_until, 'yyyy-MM-dd HH:mm:ss')
 }
 </script>
 

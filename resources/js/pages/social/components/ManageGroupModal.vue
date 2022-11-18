@@ -52,11 +52,11 @@
                             class="icon small red"
                             @click="kick(member)" />
                     </Tooltip>
-                    <Tooltip :text="$t('ban')">
+                    <Tooltip :text="$t('suspend')">
                         <FaIcon
                             icon="ban"
                             class="icon small red"
-                            @click="ban(member)" />
+                            @click="suspend(member)" />
                     </Tooltip>
 
                 </span>
@@ -115,9 +115,9 @@ function kick(user: GroupUser) {
         groupStore.removeGroupMember(user, props.group.id);
         //TODO sending a whole user, not sure if that's necessary
 }
-function ban(user: GroupUser) {
-    if (confirm(t('confirm-ban-from-group', {user: user.username})))
-        groupStore.banGroupMember(user, props.group.id);
+function suspend(user: GroupUser) {
+    if (confirm(t('confirm-suspend-from-group', {user: user.username})))
+        groupStore.suspendGroupMember(user, props.group.id);
         //TODO sending a whole user, not sure if that's necessary
 }
 function sendMessage(user: GroupUser) {

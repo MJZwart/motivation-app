@@ -30,8 +30,8 @@ class AuthenticationController extends Controller
         if (Auth::attempt($credentials)) {
             /** @var User */
             $user = Auth::user();
-            if ($user->isBanned()) {
-                return $this->handleBannedUser($user, $request);
+            if ($user->isSuspended()) {
+                return $this->handleSuspendedUser($user, $request);
             }
             $request->session()->regenerate();
             ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in ' . $request['username']);
@@ -44,19 +44,19 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * Handles a banned user by logging its attempt and parsing the ban message to the user to show on the login screen.
+     * Handles a suspended user by logging its attempt and parsing the suspension message to the user to show on the login screen.
      *
      * @param User $user
      * @param Request $request
      */
-    private function handleBannedUser(User $user, Request $request): JsonResponse
+    private function handleSuspendedUser(User $user, Request $request): JsonResponse
     {
-        $timeRemaining = Carbon::parse($user->banned_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]);
-        ActionTrackingHandler::handleAction($request, 'LOGIN', 'Banned user attepted logging in ' . $request['username']);
-        $bannedUntilDate = $user->banned_until;
-        $reason = $user->bannedUser->first()->reason;
-        $errorMessage = __('messages.user.ban.login_notification', [
-            'time' => $bannedUntilDate,
+        $timeRemaining = Carbon::parse($user->suspended_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]);
+        ActionTrackingHandler::handleAction($request, 'LOGIN', 'Suspended user attepted logging in ' . $request['username']);
+        $suspendedUntilDate = $user->suspended_until;
+        $reason = $user->suspendedUser->first()->reason;
+        $errorMessage = __('messages.user.suspension.login_notification', [
+            'time' => $suspendedUntilDate,
             'reason' => $reason,
             'remaining' => $timeRemaining,
         ]);

@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BannedUser extends Model
+class SuspendedUser extends Model
 {
-    protected $table = 'banned_users';
+    protected $table = 'suspended_users';
     use HasFactory;
 
     protected $fillable = [
@@ -15,7 +15,7 @@ class BannedUser extends Model
         'admin_id',
         'reason',
         'days',
-        'banned_until',
+        'suspended_until',
     ];
 
     protected $with = ['admin', 'user'];

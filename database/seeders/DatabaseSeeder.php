@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
                 GroupSeeder::class,
                 FeedbackSeeder::class,
                 ReportedUserSeeder::class,
-                BannedUsersSeeder::class,
+                SuspendedUsersSeeder::class,
                 AchievementEarnedSeeder::class,
             ]);
         }

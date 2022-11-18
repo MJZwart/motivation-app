@@ -42,11 +42,11 @@ return [
     ],
 
     'user' => [
-        'ban' => [
-            'until' => 'User banned until :time',
+        'suspension' => [
+            'until' => 'User suspended until :time',
             'ended_notification_title' => 'Your suspension has been lifted.',
-            'ended_notification' => ':admin has ended your suspension. Reason given: :comment. You were originally banned for: :reason',
-            'login_notification' => 'You are banned until :time. Reason: :reason. If you wish to dispute your ban, contact one of the admins on our Discord. Time remaining: :remaining.'
+            'ended_notification' => ':admin has ended your suspension. Reason given: :comment. You were originally suspended for: :reason',
+            'login_notification' => 'You are suspended until :time. Reason: :reason. If you wish to dispute your suspension, contact one of the admins on our Discord. Time remaining: :remaining.'
         ],
         'password_reset' => [
             'link_sent' => 'Success, if an account with this e-mail exists, we have sent you an e-mail with the link to reset your password. Check your spam folder if you cannot find our email.',
@@ -108,7 +108,7 @@ return [
         'needs_application' => 'This group needs an application to join.',
         'no_application' => 'This group does not require applications to join.',
         'already_applied' => 'You already have a pending application for this group.',
-        'banned' => 'You are banned from this group.',
+        'suspended' => 'You are suspended from this group.',
         'already_member' => 'You are already a member of this group.',
         'join_success' => 'You successfully joined the group :name.',
         'new_application_title' => 'New group application to :name.',
@@ -118,8 +118,8 @@ return [
         'application_accepted_text' => 'Your application to :name has been accepted. You can now see it under Social > Groups > My Groups.',
         'accepted_application' => 'You successfully accepted :username\'s application.',
         'rejected_application' => 'You successfully rejected :username\'s application.',
-        'rejected_and_banned' => 'You have successfully denied :username\'s application and banned them from your group.',
-        'removed_and_banned' => 'You have successfully removed and banned :username from your group.',
+        'rejected_and_suspended' => 'You have successfully denied :username\'s application and suspended them from your group.',
+        'removed_and_suspended' => 'You have successfully removed and suspended :username from your group.',
         'leave' => [
             'not_member' => 'You are not a member of the group you are trying to leave.',
             'only_member' => 'You can\'t leave a group you are the only member of, please delete instead.',
