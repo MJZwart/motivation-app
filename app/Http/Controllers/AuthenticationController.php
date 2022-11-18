@@ -82,7 +82,7 @@ class AuthenticationController extends Controller
      *
      * @param SendResetPasswordEmailRequest $request
      */
-    public function getResetPasswordLink(SendResetPasswordEmailRequest $request): JsonResponse
+    public function getResetPasswordLink(SendResetPasswordEmailRequest $request)
     {
         $validated = $request->validated();
         $status = Password::sendResetLink($validated);
