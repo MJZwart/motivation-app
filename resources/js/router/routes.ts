@@ -128,6 +128,7 @@ export const routes = [
         meta: {
             requiresAuth: true,
             title: 'Group',
+            breadcrumbs: true,
         },
     },
     {
