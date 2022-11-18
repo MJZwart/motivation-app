@@ -215,6 +215,11 @@ label {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
 }
+.template-content:hover {
+    background-color: var(--background-darker);
+}
+
+
 
 .green{
     color: var(--green);

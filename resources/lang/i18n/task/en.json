@@ -51,5 +51,8 @@
     "import-from-templates": "Import from templates",
     "manage-templates": "Manage templates",
     "new-template": "New template",
-    "create-new-template": "Create new template"
+    "create-new-template": "Create new template",
+    "edit-template": "Edit template",
+    "delete-template": "Delete template",
+    "confirm-delete-template": "Are you sure you wish to delete {name}?"
 }

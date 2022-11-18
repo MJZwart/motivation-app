@@ -19,6 +19,8 @@ return [
         'unauthorized' => 'Dit is niet jouw taak.',
         'template' => [
             'created' => 'Template aangemaakt',
+            'updated' => 'Template aangepast',
+            'deleted' => 'Template verwijderd',
         ],
     ],
 

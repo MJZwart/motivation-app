@@ -44,26 +44,6 @@ class TaskController extends Controller
     }
 
     /**
-     * Creates a template from task
-     *
-     * @param Task $task
-     * @return JsonResponse with success message and all user templates
-     */
-    public function storeTemplate(StoreTemplateRequest $template) 
-    {
-        /** @var User */
-        $userId = Auth::user()->id;
-
-        $validated = $template->validated();
-        $validated['user_id'] = $userId;
-        Template::create($validated);
-
-        return ResponseWrapper::successResponse(
-            __('messages.task.template.created'), 
-            TemplatesResource::collection(Template::where('user_id', $userId)->get()));
-    }
-
-    /**
      * Edits the given task.
      * Tracks action.
      *
@@ -103,15 +83,6 @@ class TaskController extends Controller
             ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name, 'Not authorized');
             return ResponseWrapper::forbiddenResponse(__('messages.task.unauthorized'));
         }
-    }
-
-    /**
-     * Fetches all templates by user
-     *
-     * @return TemplateResourceCollection with all user templates
-     */
-    public function getTemplates() {
-        return TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get());
     }
 
     /**
@@ -204,5 +175,66 @@ class TaskController extends Controller
             'task_id' => $task->id,
         ]);
         AchievementHandler::checkForAchievement('REPEATABLE_COMPLETED', Auth::user());
+    }
+
+    /**
+     * Fetches all templates by user
+     *
+     * @return TemplateResourceCollection with all user templates
+     */
+    public function getTemplates() {
+        return TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get());
+    }
+
+    /**
+     * Creates a template from task
+     *
+     * @param Task $task
+     * @return JsonResponse with success message and all user templates
+     */
+    public function storeTemplate(StoreTemplateRequest $request) 
+    {
+        /** @var User */
+        $userId = Auth::user()->id;
+
+        $validated = $request->validated();
+        $validated['user_id'] = $userId;
+        Template::create($validated);
+
+        return ResponseWrapper::successResponse(
+            __('messages.task.template.created'), 
+            TemplatesResource::collection(Template::where('user_id', $userId)->get()));
+    }
+
+    /**
+     * Updates the template with the given request and returns a collection of updated templates
+     *
+     * @param StoreTemplateRequest $request
+     * @param Template $template
+     * @return JsonResponse with success message and all user templates
+     */
+    public function updateTemplate(StoreTemplateRequest $request, Template $template)
+    {
+        $validated = $request->validated();
+        $template->update($validated);
+
+        return ResponseWrapper::successResponse(
+            __('messages.task.template.updated'), 
+            TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get()));
+    }
+
+    /**
+     * Deletes the template
+     *
+     * @param Template $template
+     * @return JsonResponse with success message and all user templates
+     */
+    public function deleteTemplate(Template $template) 
+    {
+        $template->delete();
+
+        return ResponseWrapper::successResponse(
+            __('messages.task.template.deleted'), 
+            TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get()));
     }
 }

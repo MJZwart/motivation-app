@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 import axios from 'axios';
 import {useRewardStore} from './rewardStore';
-import {NewTask, NewTaskList, Task, TaskList, Template} from 'resources/types/task';
+import {NewTask, NewTaskList, NewTemplate, Task, TaskList, Template} from 'resources/types/task';
 
 export const useTaskStore = defineStore('task', {
     state: () => {
@@ -54,9 +54,19 @@ export const useTaskStore = defineStore('task', {
             const {data} = await axios.get('/tasks/templates');
             return data.data;
         },
-        async storeTemplate(newTemplate: Template) : Promise<Template[]>
+        async storeTemplate(newTemplate: NewTemplate) : Promise<Template[]>
         {
             const {data} = await axios.post('/tasks/templates', newTemplate);
+            return data.data;
+        },
+        async updateTemplate(template: Template): Promise<Template[]>
+        {
+            const {data} = await axios.put(`/tasks/templates/${template.id}`, template);
+            return data.data;
+        },
+        async deleteTemplate(templateId: number): Promise<Template[]>
+        {
+            const {data} = await axios.delete(`/tasks/templates/${templateId}`);
             return data.data;
         },
     },
