@@ -2,5 +2,9 @@
     "year": "{count} jaar |{count} jaren",
     "month": "{count} maand |{count} maanden",
     "day": "{count} dag |{count} dagen",
-    "hour": "{count} uur |{count} uren"
+    "hour": "{count} uur |{count} uren",
+
+    "yesterday": "Gisteren",
+    "today": "Vandaag",
+    "tomorrow": "Morgen"
 }
