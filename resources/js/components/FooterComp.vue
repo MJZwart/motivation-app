@@ -28,6 +28,7 @@
 import {version} from '../../../package.json';
 import ChangeLanguage from '/js/components/global/ChangeLanguage.vue';
 import DiscordLogo from '/js/components/global/small/DiscordLogo.vue';
+console.log(process.env.TEST_DATA);
 </script>
 
 <style lang="scss" scoped>
