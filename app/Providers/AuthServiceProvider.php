@@ -33,16 +33,11 @@ class AuthServiceProvider extends ServiceProvider
     }
 
     private function getResetPasswordLink(string $email, string $token) {
-        $appUrl = config('url');
-        $appEnv = config('env');
-        Log::info($appUrl);
-        Log::info($appEnv);
-        Log::info(config('url', 'questifyer-default.com'));
+        $appUrl = config('url', 'questifyer.com');
+        $appEnv = config('env', 'production');
         $query = "/reset-password?token={$token}&email={$email}";
-        if ($appEnv === 'production'){
-            Log::info('In production');
+        if ($appEnv === 'production')
             return "https://{$appUrl}{$query}";
-        }
         else if ($appEnv === 'local')
             return "{$appUrl}:8000{$query}";
         else return "http://{$appUrl}{$query}";
