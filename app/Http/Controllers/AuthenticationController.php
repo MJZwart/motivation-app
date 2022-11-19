@@ -87,19 +87,19 @@ class AuthenticationController extends Controller
     public function getResetPasswordLink(SendResetPasswordEmailRequest $request)
     {
         $validated = $request->validated();
-        $user = User::where('email', $validated['email'])->first();
-        /** @var User */
-        if($user == null) return 'No user';
-        $token = Password::createToken($user);
-        // $url = '';
+        // $user = User::where('email', $validated['email'])->first();
+        // /** @var User */
+        // if($user == null) return 'No user';
+        // $token = Password::createToken($user);
+        // // $url = '';
         
-        Mail::to($user->email)->send(new ResetPassword($token, $user->email));
-        // $status = Password::sendResetLink($validated);
+        // Mail::to($user->email)->send(new ResetPassword($token, $user->email));
+        $status = Password::sendResetLink($validated);
 
-        // if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
-        //     return ResponseWrapper::successResponse(__('messages.user.password_reset.link_sent'));
-        // else
-        //     return ResponseWrapper::errorResponse(__('messages.user.password_reset.link_error'));
+        if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
+            return ResponseWrapper::successResponse(__('messages.user.password_reset.link_sent'));
+        else
+            return ResponseWrapper::errorResponse(__('messages.user.password_reset.link_error'));
     }
 
     /** 
