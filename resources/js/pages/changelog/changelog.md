@@ -1,8 +1,9 @@
 # Changelog
 
 ### v0.3.1
-Hotfix: The email service wasn't working at all, it should be set up now. Made some new tasks to fix and clear up the password reset function.
-Hotfix: The email to reset the password wasn't working, it should be set up correctly now.
+-   Hotfix: The email service wasn't working at all, it should be set up now. Made some new tasks to fix and clear up the password reset function.
+-   Hotfix: The email to reset the password wasn't working, it should be set up correctly now.
+-   Fix: Reset password requests were throttled, but it displayed an OK message to the user, making them believe a mail was sent when it was not. This now shows the correct error.
 
 ## v0.3.0
 
