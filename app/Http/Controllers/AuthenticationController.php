@@ -14,9 +14,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
@@ -87,20 +85,12 @@ class AuthenticationController extends Controller
     public function getResetPasswordLink(SendResetPasswordEmailRequest $request)
     {
         $validated = $request->validated();
-        // $user = User::where('email', $validated['email'])->first();
-        // /** @var User */
-        // if($user == null) return 'No user';
-        // $token = Password::createToken($user);
-        // // $url = '';
-        
-        // Mail::to($user->email)->send(new ResetPassword($token, $user->email));
-        // ResetPassword::createUrlUsing(function ($user, string $token) {
-        //     return 'https://questifyer.com/reset-password?token='.$token.'&email='.$user->email;
-        // });
         $status = Password::sendResetLink($validated);
 
         if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
             return ResponseWrapper::successResponse(__('messages.user.password_reset.link_sent'));
+        else if($status === Password::RESET_THROTTLED)
+            return ResponseWrapper::errorResponse(__('messages.user.password_reset.throttled'));
         else
             return ResponseWrapper::errorResponse(__('messages.user.password_reset.link_error'));
     }
