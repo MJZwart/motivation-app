@@ -33,8 +33,8 @@ class AuthServiceProvider extends ServiceProvider
     }
 
     private function getResetPasswordLink(string $email, string $token) {
-        $appUrl = config('APP_URL');
-        $appEnv = config('APP_ENV');
+        $appUrl = config('url');
+        $appEnv = config('env');
         Log::info($appUrl);
         Log::info($appEnv);
         $query = "/reset-password?token={$token}&email={$email}";
