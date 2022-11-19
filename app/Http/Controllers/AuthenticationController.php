@@ -10,11 +10,11 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendResetPasswordEmailRequest;
-use App\Mail\ResetPassword;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
@@ -94,6 +94,9 @@ class AuthenticationController extends Controller
         // // $url = '';
         
         // Mail::to($user->email)->send(new ResetPassword($token, $user->email));
+        // ResetPassword::createUrlUsing(function ($user, string $token) {
+        //     return 'https://questifyer.com/reset-password?token='.$token.'&email='.$user->email;
+        // });
         $status = Password::sendResetLink($validated);
 
         if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
