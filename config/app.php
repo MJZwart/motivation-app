@@ -52,9 +52,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://questifyer.com'),
+    'url' => env('APP_URL', 'questifyer.com'),
 
-    'asset_url' => env('ASSET_URL', 'https://questifyer.com'),
+    'asset_url' => env('ASSET_URL', 'questifyer.com'),
 
     /*
     |--------------------------------------------------------------------------
