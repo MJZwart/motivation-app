@@ -7,6 +7,8 @@ import App from './App.vue';
 import {fetchDefaultTheme} from '/js/services/themeService';
 
 const app = createApp(App);
+console.log(import.meta.env.MODE);
+console.log(import.meta.env.BASE_URL);
 
 // Set colour scheme
 fetchDefaultTheme();
