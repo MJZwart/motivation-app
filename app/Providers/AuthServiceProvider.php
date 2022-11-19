@@ -37,9 +37,12 @@ class AuthServiceProvider extends ServiceProvider
         $appEnv = config('env');
         Log::info($appUrl);
         Log::info($appEnv);
+        Log::info(config('url', 'questifyer-default.com'));
         $query = "/reset-password?token={$token}&email={$email}";
-        if ($appEnv === 'production')
+        if ($appEnv === 'production'){
+            Log::info('In production');
             return "https://{$appUrl}{$query}";
+        }
         else if ($appEnv === 'local')
             return "{$appUrl}:8000{$query}";
         else return "http://{$appUrl}{$query}";
