@@ -23,6 +23,7 @@ use App\Http\Resources\SuspendedUserResource;
 use Carbon\Carbon;
 use App\Http\Resources\FeedbackResource;
 use App\Http\Resources\UserReportResource;
+use App\Models\ActionTracking;
 use App\Models\Feedback;
 use App\Models\Notification;
 use App\Models\SuspendedUser;
@@ -263,5 +264,13 @@ class AdminController extends Controller
             'new-user-reports' => $newUserReports
         ];
         return new JsonResponse(['overview' => $overview]);
+    }
+
+    public function getActionFilters()
+    {
+        return new JsonResponse([
+            'types' => ActionTracking::select('action_type')->distinct()->get(),
+            'users' => User::select('id', 'username')->get()
+        ]);
     }
 }

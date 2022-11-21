@@ -140,5 +140,11 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.get('/admin/overview');
             return data.overview;
         },
+
+        async getActionFilters()//: Promise<>
+        {
+            const {data} = await axios.get('/admin/action/filters');
+            return data;
+        },
     },
 });

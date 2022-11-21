@@ -51,10 +51,16 @@
                     @click="switchTab('Feedback')">
                     {{$t('feedback')}}
                 </button>
+                <button 
+                    :class="activeTab('Actions')" 
+                    class="tab-item"
+                    @click="switchTab('Actions')">
+                    {{$t('actions')}}
+                </button>
             </ResponsiveTabs>
-            <KeepAlive class="tab-content col-10">
+            <div class="tab-content col-10">
                 <component :is="currentTabComponent" :key="tabKey" />
-            </KeepAlive>
+            </div>
         </div>
     </div>
 </template>
@@ -69,6 +75,7 @@ import ReportedUsers from './tabs/ReportedUsers.vue';
 import Feedback from './tabs/Feedback.vue';
 import SuspendedUsers from './tabs/SuspendedUsers.vue';
 import Overview from './tabs/Overview.vue';
+import Actions from './tabs/Actions.vue';
 import ResponsiveTabs from '/js/components/global/ResponsiveTabs.vue';
 import {shallowRef, onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
@@ -95,6 +102,7 @@ const tabs = {
     'ReportedUsers': ReportedUsers,
     'SuspendedUsers': SuspendedUsers,
     'Feedback': Feedback,
+    'Actions': Actions,
 }
 const tabKey = ref('Overview');
 
