@@ -110,8 +110,7 @@ class TaskController extends Controller
             $returnValue = null;
             if ($user->rewards != 'NONE') {
                 $returnValue = $activeReward->applyReward($task);
-                //TODO Refactor the response that includes level up notifications
-                return ResponseWrapper::successResponse($returnValue->message->success, ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]);
+                return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]]);
             } else {
                 return ResponseWrapper::successResponse(__('messages.task.completed'), ['taskLists' => $taskLists]);
             }

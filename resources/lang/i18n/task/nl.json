@@ -33,6 +33,7 @@
     "GENERIC": "Generiek",
     "PHYSICAL": "Fysiek",
     "MENTAL": "Mentaal",
+    "SOCIAL": "Sociaal",
 
     "tasks-completed": "Taken voltooid",
     "most-completed-repeatable": "Vaakst voltooid: {0}. {1} keer voltooid.",

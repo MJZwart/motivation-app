@@ -7,8 +7,8 @@
                 <button @click="dismissToast">X</button>
             </div>
             <div class="text">
-                <p v-for="(toastDetail, index) in Object.values(toast)" :key="index">
-                    {{getToastMessage(toastDetail)}}
+                <p v-for="(toastMessage, index) in Object.values(toast)" :key="index">
+                    {{toastMessage}}
                 </p>
             </div>
         </div>
@@ -30,11 +30,6 @@ const props = defineProps<{toast: Toast}>();
 
 function dismissToast() {
     clearToast();
-}
-
-function getToastMessage(toast: string | Array<string>) {
-    if (Array.isArray(toast)) return toast[0];
-    return toast;
 }
 
 const toastType = computed(() => {

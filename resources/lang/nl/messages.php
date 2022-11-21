@@ -152,6 +152,17 @@ return [
         'name_changed' => 'Je hebt de naam gewijzigd.',
         'activated' => 'Je hebt :name geactiveerd',
         'deleted' => 'Je hebt :name verwijderd',
+        'level' => [
+            'village' => [
+                'levelup' => 'Je nederzetting is nu level :level',
+                'statup' => 'Je :stat is nu level :level',
+            ],
+            'character' => [
+                'levelup' => 'Je karakter is nu level :level',
+                'statup' => 'Je :stat is nu level :level',
+            ],
+        ],
+        'coinsEarned' => 'Je hebt :coins verdiend',
     ],
 
     'not_authorized' => 'Je bent onbevoegd om dit te doen.',

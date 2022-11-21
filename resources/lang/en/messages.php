@@ -152,6 +152,17 @@ return [
         'name_changed' => 'You have changed the name.',
         'activated' => 'You have activated :name',
         'deleted' => 'You have deleted :name',
+        'level' => [
+            'village' => [
+                'levelup' => 'Your village is now level :level',
+                'statup' => 'Your :stat is now level :level',
+            ],
+            'character' => [
+                'levelup' => 'Your character is now level :level',
+                'statup' => 'Your :stat is now level :level',
+            ],
+        ],
+        'coinsEarned' => 'You earned :coins',
     ],
 
     'not_authorized' => 'You are not authorized to do this.',
