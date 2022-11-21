@@ -57,6 +57,7 @@ return [
             'invalid_token' => 'Invalid token. Please revisit the original link from your email and try again.',
             'invalid_user' => 'Invalid user. Check your e-mailaddress and try again.',
             'reset_error' => 'Something went wrong. Try again later or contact an admin.',
+            'throttled' => 'Please wait before retrying.',
         ],
         'blocked' => 'User blocked',
         'unblocked' => 'User has been unblocked',

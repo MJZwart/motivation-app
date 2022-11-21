@@ -89,6 +89,8 @@ class AuthenticationController extends Controller
 
         if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
             return ResponseWrapper::successResponse(__('messages.user.password_reset.link_sent'));
+        else if($status === Password::RESET_THROTTLED)
+            return ResponseWrapper::errorResponse(__('messages.user.password_reset.throttled'));
         else
             return ResponseWrapper::errorResponse(__('messages.user.password_reset.link_error'));
     }
