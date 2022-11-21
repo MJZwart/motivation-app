@@ -7,8 +7,9 @@
                 <button @click="dismissToast">X</button>
             </div>
             <div class="text">
-                <p v-for="(toastMessage, index) in Object.values(toast)" :key="index">
-                    {{toastMessage}}
+                <p v-for="(toastArr, index) in Object.entries(toast)" :key="index">
+                    <span v-if="toastArr[0] !== 'coinsEarned'">{{toastArr[1]}}</span>
+                    <span v-else>{{$t('coins-earned')}}: <Coins :coins="parseInt(toastArr[1])" /></span>
                 </p>
             </div>
         </div>
@@ -19,6 +20,7 @@
 import {computed, onMounted} from 'vue';
 import {Toast} from 'resources/types/toast';
 import {clearToast} from '/js/services/toastService';
+import Coins from '/js/pages/dashboard/components/reward/Coins.vue';
 
 onMounted(() => {
     setTimeout(() => {

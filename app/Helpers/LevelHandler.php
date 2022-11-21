@@ -123,7 +123,7 @@ class LevelHandler
                 $returnMessage->$key = $message;
             }
         }
-        $returnMessage->coinsEarned = __('messages.reward.coinsEarned', ['coins'=> $coinsEarned]);
+        $returnMessage->coinsEarned =  $coinsEarned;
         $returnMessage->success = __('messages.task.completed');
         $returnValue = new \stdClass();
         $returnValue->activeReward = $activeReward; //Add the newly levelled character or village on the return value
