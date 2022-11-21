@@ -41,7 +41,8 @@ class RewardHandler
             RewardEnums::ENDURANCE_EXP => ($balance->endurance * $difficulty) * rand(5, 20),
             RewardEnums::INTELLIGENCE_EXP => ($balance->intelligence * $difficulty) * rand(5, 20),
             RewardEnums::CHARISMA_EXP => ($balance->charisma * $difficulty) * rand(5, 20),
-            RewardEnums::EXPERIENCE => ($balance->level * $difficulty) * rand(5, 20)
+            RewardEnums::EXPERIENCE => ($balance->level * $difficulty) * rand(5, 20),
+            RewardEnums::COINS => ($balance->coins * $difficulty) * rand(5, 20)
         ];
     }
 
@@ -60,7 +61,8 @@ class RewardHandler
             RewardEnums::CRAFT_EXP => ($balance->craft * $difficulty) * rand(5, 20),
             RewardEnums::ART_EXP => ($balance->art * $difficulty) * rand(5, 20),
             RewardEnums::COMMUNITY_EXP => ($balance->community * $difficulty) * rand(5, 20),
-            RewardEnums::EXPERIENCE => ($balance->level * $difficulty) * rand(5, 20)
+            RewardEnums::EXPERIENCE => ($balance->level * $difficulty) * rand(5, 20),
+            RewardEnums::COINS => ($balance->coins * $difficulty) * rand(5, 20)
         ];
     }
 }

@@ -27,6 +27,7 @@ class VillageResource extends JsonResource
             'd' => $this->art,
             'e' => $this->community,
             'experience' => $this->experience,
+            'coins' => $this->coins,
             'a_exp' => $this->economy_exp,
             'b_exp' => $this->labour_exp,
             'c_exp' => $this->craft_exp,

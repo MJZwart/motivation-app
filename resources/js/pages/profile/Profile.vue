@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import {onMounted, ref, computed, watch} from 'vue';
 import AchievementsCard from '/js/pages/overview/components/AchievementsCard.vue';
-import RewardCard from '/js/pages/dashboard/components/RewardCard.vue';
+import RewardCard from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import ReportUser from '/js/pages/messages/components/ReportUser.vue';
 import FriendsCard from '/js/pages/dashboard/components/FriendsCard.vue';

@@ -30,6 +30,7 @@ class Village extends Model
         'art',
         'community',
         'level',
+        'coins',
     ];
 
     public function user(){

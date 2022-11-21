@@ -34,6 +34,7 @@ class UpdateVillageExpGainRequest extends FormRequest
             '*.craft' => 'required|integer',
             '*.art' => 'required|integer',
             '*.community' => 'required|integer',
+            '*.coins' => 'required|integer',
         ];
     }
 }

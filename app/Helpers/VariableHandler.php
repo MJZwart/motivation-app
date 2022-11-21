@@ -24,12 +24,12 @@ class VariableHandler
     {
         return DB::table('character_exp_gain')
             ->where('task_type', $type)
-            ->select('strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level')->first();
+            ->select('strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins')->first();
     }
     public static function getVillageExpGain(String $type)
     {
         return DB::table('village_exp_gain')
             ->where('task_type', $type)
-            ->select('economy', 'labour', 'craft', 'art', 'community', 'level')->first();
+            ->select('economy', 'labour', 'craft', 'art', 'community', 'level', 'coins')->first();
     }
 }

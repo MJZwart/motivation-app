@@ -29,6 +29,7 @@ class Character extends Model
         'intelligence',
         'charisma',
         'level',
+        'coins',
     ];
 
     public function user(){

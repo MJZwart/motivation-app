@@ -46,6 +46,7 @@ export const DUMMY_CHARACTER = {
     e_exp: 800,
     e_exp_needed: 1150,
     experience: 500,
+    coins: 13264,
     level: 1,
     level_exp_needed: 1000,
     rewardType: 'CHARACTER',
