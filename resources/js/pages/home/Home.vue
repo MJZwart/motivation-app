@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import TaskList from './DummyTaskList.vue';
-import Character from '/js/pages/dashboard/components/RewardCard.vue';
+import Character from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import {DUMMY_TASK_LIST, DUMMY_CHARACTER} from '/js/constants/dummyConstants.js';
 import {computed} from 'vue';
 import {useI18n} from 'vue-i18n';

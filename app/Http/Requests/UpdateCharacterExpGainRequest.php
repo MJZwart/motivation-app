@@ -34,6 +34,7 @@ class UpdateCharacterExpGainRequest extends FormRequest
             '*.endurance' => 'required|integer',
             '*.intelligence' => 'required|integer',
             '*.charisma' => 'required|integer',
+            '*.coins' => 'required|integer',
         ];
     }
 }

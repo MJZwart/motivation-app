@@ -52,6 +52,11 @@ export const CHARACTER_EXP_GAIN_FIELDS = [
         label: 'level',
         editable: true,
     },
+    {
+        key: 'coins',
+        label: 'coins',
+        editable: true,
+    },
 ];
 
 export const VILLAGE_EXP_GAIN_FIELDS = [
@@ -88,6 +93,11 @@ export const VILLAGE_EXP_GAIN_FIELDS = [
     {
         key: 'level',
         label: 'level',
+        editable: true,
+    },
+    {
+        key: 'coins',
+        label: 'coins',
         editable: true,
     },
 ];

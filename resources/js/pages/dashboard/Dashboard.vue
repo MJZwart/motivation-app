@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import TaskList from './components/TaskList.vue';
 import NewTaskList from './components/NewTaskList.vue';
-import RewardCard from './components/RewardCard.vue';
+import RewardCard from './components/reward/RewardCard.vue';
 import FriendsCard from './components/FriendsCard.vue';
 import ManageTemplates from './components/template/ManageTemplates.vue';
 import {useMainStore} from '/js/store/store';

@@ -105,7 +105,7 @@ class AdminController extends Controller
     public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
     {
         $validated = $request->validated();
-        DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level']);
+        DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins']);
         $characterExpGain = DB::table('character_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
         return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['data' => $characterExpGain]);
@@ -114,7 +114,7 @@ class AdminController extends Controller
     public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
     {
         $validated = $request->validated();
-        DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level']);
+        DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level', 'coins']);
         $villageExpGain = DB::table('village_exp_gain')->get();
         ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
         return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['data' => $villageExpGain]);
