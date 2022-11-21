@@ -8,6 +8,7 @@
             </div>
             <div class="text">
                 <p v-for="(toastArr, index) in Object.entries(toast)" :key="index">
+                    <!-- If the toast value in this case is not a string but an array or object, it will cause problems -->
                     <span v-if="toastArr[0] !== 'coinsEarned'">{{toastArr[1]}}</span>
                     <span v-else>{{$t('coins-earned')}}: <Coins :coins="parseInt(toastArr[1])" /></span>
                 </p>
