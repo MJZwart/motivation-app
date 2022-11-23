@@ -117,5 +117,16 @@
     "update-vill-exp-gain": "Update village experience gain",
     "add-new-level": "Add a new level",
     "add-level": "Add level",
-    "points": "Points"
+    "points": "Points",
+
+    "filter-by": "Filter by",
+    "users": "Users",
+
+    "select-action-type": "Select action type(s)",
+    "select-users": "Select user(s)",
+    "action": "Action",
+    "action-type": "Action type",
+    "user-agent": "User agent",
+    "none": "None",
+    "date-range": "Date range"
 }

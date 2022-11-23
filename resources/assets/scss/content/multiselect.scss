@@ -1,0 +1,12 @@
+
+.multiselect {
+    --ms-bg: var(--input-background);
+    --ms-border-color: var(--border-color);
+    --ms-caret-color: var(--primary-as-text);
+    --ms-tag-bg: var(--primary);
+    --ms-tag-font-weight: 400;
+
+    --ms-dropdown-bg: var(--input-background);
+    --ms-dropdown-border-color: var(--border-color);
+    --ms-ring-width: 0;
+}

@@ -88,7 +88,7 @@
     "new-user-reports": "Nieuwe gemelde gebruikers",
     "new-users": "Nieuwe gebruikers",
     "total-users-details": "",
-    "active-users-details": "Ingelogt in de laatste 24 uur",
+    "active-users-details": "Ingelogd in de laatste 24 uur",
     "unarchived-feedback-details": "",
     "unresolved-bugs-details": "",
     "new-feedback-details": "Laatste 7 dagen",
@@ -117,5 +117,16 @@
     "update-vill-exp-gain": "Update nederzetting experience winst",
     "add-new-level": "Voeg een nieuwe level toe",
     "add-level": "Voeg level toe",
-    "points": "Punten"
+    "points": "Punten",
+
+    "filter-by": "Filter op",
+    "users": "Gebruikers",
+
+    "select-action-type": "Selecteer actie type(s)",
+    "select-users": "Selecteer gebruiker(s)",
+    "action": "Actie",
+    "action-type": "Actie type",
+    "user-agent": "User agent",
+    "none": "Geen",
+    "date-range": "Periode"
 }

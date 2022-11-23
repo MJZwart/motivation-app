@@ -64,5 +64,8 @@ import Textarea from '/js/components/global/Textarea.vue';
 app.component('SimpleTextarea', Textarea);
 import Tutorial from '/js/components/global/Tutorial.vue';
 app.component('Tutorial', Tutorial);
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+app.component('Datepicker', Datepicker);
 
 app.mount('#app');

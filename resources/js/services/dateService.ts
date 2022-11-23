@@ -65,3 +65,9 @@ export function getDateWithAddedDays(date: Date, daysToAdd: number, parsed = tru
 export function isDateItem(item: string) {
     return DateTime.fromISO(item).isValid;
 }
+
+export function getYesterdayDate(): Date {
+    const date = new Date();
+    date.setDate(date.getDate()-1);
+    return date;
+}

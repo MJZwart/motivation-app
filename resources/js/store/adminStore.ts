@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ActionFilters} from 'pages/admin/tabs/Actions.vue';
 import {defineStore} from 'pinia';
 import {CharExpGain, ExperiencePoint, Overview, ReportedUser, VillageExpGain} from 'resources/types/admin';
 import {BugReport} from 'resources/types/bug';
@@ -145,6 +146,11 @@ export const useAdminStore = defineStore('admin', {
         {
             const {data} = await axios.get('/admin/action/filters');
             return data;
+        },
+        async getActionsWithFilters(filters: ActionFilters)//: Promise<>
+        {
+            const {data} = await axios.post('/admin/action/filters', filters);
+            return data.data;
         },
     },
 });

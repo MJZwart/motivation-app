@@ -6,12 +6,14 @@ use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use App\Http\Requests\SuspendUserRequest;
 use App\Http\Requests\EditUserSuspensionRequest;
+use App\Http\Requests\FetchActionsWithFilters;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
 use App\Http\Requests\StoreNewLevelRequest;
 use App\Models\Achievement;
 use App\Http\Resources\AchievementResource;
+use App\Http\Resources\ActionTrackingResource;
 use App\Models\BugReport;
 use App\Models\User;
 use App\Models\ReportedUser;
@@ -272,5 +274,20 @@ class AdminController extends Controller
             'types' => ActionTracking::select('action_type')->distinct()->get(),
             'users' => User::select('id', 'username')->get()
         ]);
+    }
+
+    public function getActionsWithFilters(FetchActionsWithFilters $request) 
+    {
+        $validated = $request->validated();
+
+        $actions = ActionTracking::when(!empty($validated['users']), function ($query) use ($validated){
+            $query->whereIn('user_id', $validated['users']);
+        })->when(!empty($validated['type']), function ($query) use ($validated){
+            $query->whereIn('action_type', $validated['type']);
+        })->when(!empty($validated['date']), function ($query) use ($validated){
+            $query->whereBetween('created_at', $validated['date']);
+        })->orderBy('created_at', 'desc')->get();
+
+        return ActionTrackingResource::collection($actions);
     }
 }

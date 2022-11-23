@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.0
+
+### Features
+-   Characters and villages now earn coins! There's nothing you can do with it yet, but it looks cool if you ask me.
+
 ## v0.3.0
 
 ### Features
