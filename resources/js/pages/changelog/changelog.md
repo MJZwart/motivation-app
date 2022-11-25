@@ -5,6 +5,9 @@
 ### Features
 -   Characters and villages now earn coins! There's nothing you can do with it yet, but it looks cool if you ask me.
 
+### Code
+-   Refactored the back-end experience gain calculations, it was kind of a mess.
+
 ---
 
 ### v0.3.1
