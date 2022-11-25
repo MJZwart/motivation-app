@@ -29,7 +29,7 @@ function createToast(toastMessage: string, type: string): Toast {
 /**
  * Sends the toast into the toastbucket to be displayed
  */
-function sendToast(toast: Toast) {
+export function sendToast(toast: Toast) {
     toasts.value.push(toast);
 }
 

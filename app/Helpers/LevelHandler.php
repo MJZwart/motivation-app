@@ -16,10 +16,12 @@ class LevelHandler
      */
     public static function addCharacterExperience($character, $parsedRewards)
     {
+        $coinsEarned = 0;
         foreach (RewardEnums::CHAR_STAT_EXP_ARRAY as $value) {
+            if ($value === 'coins') $coinsEarned = $parsedRewards[$value];
             $character[$value] += $parsedRewards[$value];
         }
-        return LevelHandler::checkCharacterLevelUp($character);
+        return LevelHandler::checkCharacterLevelUp($character, $coinsEarned);
     }
 
     /**
@@ -35,7 +37,7 @@ class LevelHandler
      * @param Character $character
      * @return Object
      */
-    public static function checkCharacterLevelUp($character)
+    public static function checkCharacterLevelUp($character, $coinsEarned)
     {
         $messages = [];
         $maxLevel = ExperiencePoint::max('level');
@@ -46,13 +48,13 @@ class LevelHandler
                 $character[RewardEnums::CHAR_STAT_EXP_ARRAY[$i]] -= $expNeeded; //Subtract the exp needed to level
                 $expNeeded = ExperiencePoint::getCurrentOrMaxExp($character[RewardEnums::CHAR_STAT_ARRAY[$i]], $maxLevel); //Recheck the experience needed after leveling up
                 if (RewardEnums::CHAR_STAT_ARRAY[$i] !== 'level') { //Add messages to an array to give back to the user, letting them know they levelled up.
-                    array_push($messages, 'Your ' . RewardEnums::CHAR_STAT_ARRAY[$i] . ' is now level ' . $character[RewardEnums::CHAR_STAT_ARRAY[$i]] . '!');
+                    array_push($messages, __('messages.reward.level.character.statup', ['stat' => RewardEnums::CHAR_STAT_ARRAY[$i], 'level' => $character[RewardEnums::CHAR_STAT_ARRAY[$i]]]));
                 } else {
-                    array_push($messages, 'Your character is now level ' . $character[RewardEnums::CHAR_STAT_ARRAY[$i]] . '!');
+                    array_push($messages, __('messages.reward.level.character.levelup', ['level' => $character[RewardEnums::CHAR_STAT_ARRAY[$i]]]));
                 }
             }
         }
-        return LevelHandler::parseReturnValues($character, $messages, 'CHARACTER');
+        return LevelHandler::parseReturnValues($character, $messages, $coinsEarned);
     }
 
     /**
@@ -65,10 +67,12 @@ class LevelHandler
      */
     public static function addVillageExperience($village, $parsedRewards)
     {
+        $coinsEarned = 0;
         foreach (RewardEnums::VILL_STAT_EXP_ARRAY as $value) {
+            if ($value === 'coins') $coinsEarned = $parsedRewards[$value];
             $village[$value] += $parsedRewards[$value];
         }
-        return LevelHandler::checkVillageLevelUp($village);
+        return LevelHandler::checkVillageLevelUp($village, $coinsEarned);
     }
 
     /**
@@ -82,7 +86,7 @@ class LevelHandler
      * @param Village $village
      * @return Object
      */
-    public static function checkVillageLevelUp($village)
+    public static function checkVillageLevelUp($village, $coinsEarned)
     {
         $messages = [];
         $experienceTable =  ExperiencePoint::get();
@@ -93,13 +97,13 @@ class LevelHandler
                 $village[RewardEnums::VILL_STAT_EXP_ARRAY[$i]] -= $expNeeded; //Subtract the exp needed to level
                 $expNeeded = $experienceTable->firstWhere('level', $village[RewardEnums::VILL_STAT_ARRAY[$i]])->experience_points; //Recheck the experience needed after leveling up
                 if (RewardEnums::VILL_STAT_ARRAY[$i] !== 'level') { //Add messages to an array to give back to the user, letting them know they levelled up.
-                    array_push($messages, 'Your ' . RewardEnums::VILL_STAT_ARRAY[$i] . ' is now level ' . $village[RewardEnums::VILL_STAT_ARRAY[$i]] . '!');
+                    array_push($messages, __('messages.reward.level.village.statup', ['stat' => RewardEnums::VILL_STAT_ARRAY[$i], 'level' => $village[RewardEnums::VILL_STAT_ARRAY[$i]]]));
                 } else {
-                    array_push($messages, 'Your village is now level ' . $village[RewardEnums::VILL_STAT_ARRAY[$i]] . '!');
+                    array_push($messages, __('messages.reward.level.village.levelup', ['level' => $village[RewardEnums::VILL_STAT_ARRAY[$i]]]));
                 }
             }
         }
-        return LevelHandler::parseReturnValues($village, $messages, 'VILLAGE');
+        return LevelHandler::parseReturnValues($village, $messages, $coinsEarned);
     }
 
     /**
@@ -111,15 +115,16 @@ class LevelHandler
      * @param Array $messages
      * @return Object
      */
-    public static function parseReturnValues($activeReward, $messages, $type)
+    public static function parseReturnValues($activeReward, $messages, $coinsEarned)
     {
         $returnMessage = new \stdClass();
         if (!empty($messages)) {
             foreach ($messages as $key => $message) {
-                $returnMessage->$key = (array)$message;
+                $returnMessage->$key = $message;
             }
         }
-        $returnMessage->success = 'Task completed.';
+        $returnMessage->coinsEarned =  $coinsEarned;
+        $returnMessage->success = __('messages.task.completed');
         $returnValue = new \stdClass();
         $returnValue->activeReward = $activeReward; //Add the newly levelled character or village on the return value
         $returnValue->message = $returnMessage; //As well as the messages for the user.

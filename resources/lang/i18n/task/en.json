@@ -33,6 +33,7 @@
     "GENERIC": "Generic",
     "PHYSICAL": "Physical",
     "MENTAL": "Mental",
+    "SOCIAL": "Social",
 
     "tasks-completed": "Tasks completed",
     "most-completed-repeatable": "Most completed repeatable: {0}. Completed {1} times",

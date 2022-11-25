@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import axios, {AxiosStatic} from 'axios';
-import {errorToast, storeToastInLocalStorage, successToast} from '/js/services/toastService';
+import {errorToast, sendToast, storeToastInLocalStorage, successToast} from '/js/services/toastService';
 import router from './router/router.js';
 
 import {useMainStore} from './store/store';
@@ -43,6 +43,8 @@ axios.interceptors.response.use(
         if (response.status == 200) {
             if (response.data.message) {
                 successToast(response.data.message);
+            } else if (response.data.messageObject) {
+                sendToast(response.data.messageObject)
             }
         }
         // Any status code that lie within the range of 2xx cause this function to trigger

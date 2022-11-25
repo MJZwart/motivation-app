@@ -7,8 +7,10 @@
                 <button @click="dismissToast">X</button>
             </div>
             <div class="text">
-                <p v-for="(toastDetail, index) in Object.values(toast)" :key="index">
-                    {{getToastMessage(toastDetail)}}
+                <p v-for="(toastArr, index) in Object.entries(toast)" :key="index">
+                    <!-- If the toast value in this case is not a string but an array or object, it will cause problems -->
+                    <span v-if="toastArr[0] === 'coinsEarned'">{{toastArr[1]}}</span>
+                    <span v-else>{{$t('coins-earned')}}: <Coins :coins="parseInt(toastArr[1])" /></span>
                 </p>
             </div>
         </div>
@@ -19,6 +21,7 @@
 import {computed, onMounted} from 'vue';
 import {Toast} from 'resources/types/toast';
 import {clearToast} from '/js/services/toastService';
+import Coins from '/js/pages/dashboard/components/reward/Coins.vue';
 
 onMounted(() => {
     setTimeout(() => {
@@ -30,11 +33,6 @@ const props = defineProps<{toast: Toast}>();
 
 function dismissToast() {
     clearToast();
-}
-
-function getToastMessage(toast: string | Array<string>) {
-    if (Array.isArray(toast)) return toast[0];
-    return toast;
 }
 
 const toastType = computed(() => {
