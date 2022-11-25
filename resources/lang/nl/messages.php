@@ -57,6 +57,7 @@ return [
             'invalid_token' => 'Token ongeldig. Klik opnieuw op de link in je email om het nogmaals te probleren.',
             'invalid_user' => 'Gebruiker ongeldig. Controlleer of je e-mailadres klopt en probeer het nogmaals.',
             'reset_error' => 'Er is iets misgegaan. Probeer het later nogmaals of neem contact op met een admin.',
+            'throttled' => 'Wacht even voordat je het opnieuw probeert.',
         ],
         'blocked' => 'Gebruiker geblokkeerd',
         'unblocked' => 'Gebruiker gedeblokkeerd',

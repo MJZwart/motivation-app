@@ -5,6 +5,13 @@
 ### Features
 -   Characters and villages now earn coins! There's nothing you can do with it yet, but it looks cool if you ask me.
 
+---
+
+### v0.3.1
+-   Hotfix: The email service wasn't working at all, it should be set up now. Made some new tasks to fix and clear up the password reset function.
+-   Hotfix: The email to reset the password wasn't working, it should be set up correctly now.
+-   Fix: Reset password requests were throttled, but it displayed an OK message to the user, making them believe a mail was sent when it was not. This now shows the correct error.
+
 ## v0.3.0
 
 ### Features
@@ -38,7 +45,7 @@
 -   Renamed 'ban' to 'suspend' throughout the code for consistency
 -   Switched all stores from 'js' files to 'ts' files and made some fixes here and there where too much data was sent when only an id was necessary
 
-
+---
 ## v0.2.4-release
 
 -   First release of the site
