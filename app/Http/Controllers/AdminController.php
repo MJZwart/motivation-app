@@ -268,14 +268,24 @@ class AdminController extends Controller
         return new JsonResponse(['overview' => $overview]);
     }
 
+    /**
+     * Gets all applicable action tracking filters and returns them.
+     */
     public function getActionFilters()
     {
         return new JsonResponse([
             'types' => ActionTracking::select('action_type')->distinct()->get(),
-            'users' => User::select('id', 'username')->get()
+            'users' => User::select('id', 'username')->get(),
+            'minDate' => ActionTracking::select('created_at')->first()->created_at,
         ]);
     }
 
+    /**
+     * Gets all actions tracked with given filters
+     *
+     * @param FetchActionsWithFilters $request
+     * @return ActionTrackingResourceCollection
+     */
     public function getActionsWithFilters(FetchActionsWithFilters $request) 
     {
         $validated = $request->validated();
@@ -286,7 +296,7 @@ class AdminController extends Controller
             $query->whereIn('action_type', $validated['type']);
         })->when(!empty($validated['date']), function ($query) use ($validated){
             $query->whereBetween('created_at', $validated['date']);
-        })->orderBy('created_at', 'desc')->get();
+        })->with('user')->orderBy('created_at', 'desc')->get();
 
         return ActionTrackingResource::collection($actions);
     }

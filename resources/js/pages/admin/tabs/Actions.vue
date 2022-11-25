@@ -7,7 +7,7 @@
                 {{$t('type')}}
                 <Multiselect
                     v-model="activeFilters.type"
-                    :options="actionTypes"
+                    :options="possibleFilters.types"
                     mode="tags"
                     valueProp="action_type"
                     label="action_type"
@@ -18,7 +18,7 @@
                 {{$t('users')}}
                 <Multiselect
                     v-model="activeFilters.users"
-                    :options="users"
+                    :options="possibleFilters.users"
                     searchable
                     label="username"
                     valueProp="id"
@@ -29,10 +29,11 @@
                 {{$t('date-range')}}
                 <Datepicker 
                     v-model="activeFilters.date" 
-                    range autoApply :maxDate="new Date()" :locale="currentLang"
+                    range autoApply :locale="currentLang"
+                    :minDate="possibleFilters.minDate" :maxDate="new Date()"
                 />
             </div>
-            <button @click="filterActions">Go</button>
+            <button @click="filterActions">{{$t('search')}}</button>
         </div>
         <Table
             v-if="filteredActions[0]"
@@ -69,8 +70,11 @@ import {filteredActionsFields} from '/js/constants/adminConstants';
 
 const adminStore = useAdminStore();
 
-const actionTypes = ref<ActionType[]>([]);
-const users = ref<StrippedUser[]>([]);
+const possibleFilters = ref<{types: ActionType[], users: StrippedUser[], minDate: Date | null}>({
+    types: [],
+    users: [],
+    minDate: null,
+});
 const activeFilters = ref<ActionFilters>({
     type: [],
     users: [],
@@ -82,8 +86,7 @@ const filteredActions = ref<Actions[]>([]);
 
 onMounted(async() => {
     const data = await adminStore.getActionFilters();
-    actionTypes.value = data.types;
-    users.value = data.users;
+    possibleFilters.value = data;
     filteredActions.value = await adminStore.getActionsWithFilters(activeFilters.value);
 });
 
