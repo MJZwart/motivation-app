@@ -1,3 +1,5 @@
+import {StrippedUser} from './user';
+
 export type ExperiencePoint = {
     level: number;
     experience_points: number;
@@ -48,4 +50,21 @@ export type Overview = {
     'new-feedback': number;
     'new-bugs': number;
     'new-user-reports': number;
+}
+
+export type ActionType = {
+    action_type: string;
+}
+export type ActionFilters = {
+    type: string[] | null,
+    users: StrippedUser[] | null,
+    date: Date[],
+}
+export type Actions = { 
+    action: string,
+    action_type: string,
+    error?: string,
+    timestamp: string,
+    user: StrippedUser,
+    user_agent: string,
 }

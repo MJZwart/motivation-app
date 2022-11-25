@@ -34,7 +34,7 @@ class AuthenticationController extends Controller
                 return $this->handleSuspendedUser($user, $request);
             }
             $request->session()->regenerate();
-            ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in ' . $request['username']);
+            ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in');
             $user->last_login = Carbon::now();
             $user->save();
             return new JsonResponse(['user' => new UserResource($user)]);

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {CharExpGain, ExperiencePoint, Overview, ReportedUser, VillageExpGain} from 'resources/types/admin';
-import {BugReport} from 'resources/types/bug';
-import {Feedback} from 'resources/types/feedback';
-import {ReportedConversation} from 'resources/types/message';
-import {NewNotification} from 'resources/types/notification';
-import {SuspendedUser, NewSuspension} from 'resources/types/user';
 import {useAchievementStore} from './achievementStore';
 import {useUserStore} from './userStore';
+import type {CharExpGain, ExperiencePoint, Overview, ReportedUser, VillageExpGain, ActionFilters} from 'resources/types/admin';
+import type {BugReport} from 'resources/types/bug';
+import type {Feedback} from 'resources/types/feedback';
+import type {ReportedConversation} from 'resources/types/message';
+import type {NewNotification} from 'resources/types/notification';
+import type {SuspendedUser, NewSuspension} from 'resources/types/user';
 
 export const useAdminStore = defineStore('admin', {
     state: () => {
@@ -139,6 +139,17 @@ export const useAdminStore = defineStore('admin', {
         {
             const {data} = await axios.get('/admin/overview');
             return data.overview;
+        },
+
+        async getActionFilters()//: Promise<>
+        {
+            const {data} = await axios.get('/admin/action/filters');
+            return data;
+        },
+        async getActionsWithFilters(filters: ActionFilters)//: Promise<>
+        {
+            const {data} = await axios.post('/admin/action/filters', filters);
+            return data.data;
         },
     },
 });
