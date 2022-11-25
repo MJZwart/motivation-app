@@ -58,9 +58,9 @@
                     {{$t('actions')}}
                 </button>
             </ResponsiveTabs>
-            <div class="tab-content col-10">
+            <KeepAlive class="tab-content col-10">
                 <component :is="currentTabComponent" :key="tabKey" />
-            </div>
+            </KeepAlive>
         </div>
     </div>
 </template>
