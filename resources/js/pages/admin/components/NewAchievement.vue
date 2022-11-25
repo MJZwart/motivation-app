@@ -43,7 +43,7 @@
                 <label for="trigger-description">{{ $t('trigger-description') }}</label>
                 <p v-if="achievement.trigger_type" id="trigger-description">{{ parseAchievementTriggerDesc(achievement) }}</p>
             </div>
-            <button type="submit" class="block">{{ $t('create-new-achievement') }}</button>
+            <SubmitButton class="block">{{ $t('create-new-achievement') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>

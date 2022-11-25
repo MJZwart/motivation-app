@@ -18,7 +18,7 @@
                 :label="$t('report-comment')"
                 :placeholder="$t('comment')"
             />
-            <button type="submit" class="block">{{ $t('report-user') }}</button>
+            <SubmitButton class="block">{{ $t('report-user') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>

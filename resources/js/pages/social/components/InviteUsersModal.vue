@@ -29,7 +29,7 @@
                         :placeholder="$t('search-user')"
                         aria-label="Search user"
                     />
-                    <button type="submit" @click="searchUser">{{ $t('search') }}</button>
+                    <SubmitButton @click="searchUser">{{ $t('search') }}</SubmitButton>
                 </form>
 
                 <!-- The search results -->

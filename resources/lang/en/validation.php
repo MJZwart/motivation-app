@@ -147,9 +147,6 @@ return [
         'log' => [
             'required' => 'A log is required.',
         ],
-        'comment' => [
-            'required' => 'A comment is required to explain why this suspension was changed/lifted.',
-        ],
         'agree_to_tos' => [
             'accepted' => 'You must agree to the terms of service to register an account.',
         ],

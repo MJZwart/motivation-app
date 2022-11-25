@@ -64,7 +64,7 @@
                                     name="message" 
                                     :rows=3
                                     :placeholder="$t('type-your-reply')" />
-                                <button type="submit" class="block">{{ $t('send-reply') }}</button>
+                                <SubmitButton class="block">{{ $t('send-reply') }}</SubmitButton>
                             </form>
                         </div>
                         <div class="messages">
