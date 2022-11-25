@@ -10,10 +10,12 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
+use App\Helpers\RewardHandler;
 use App\Http\Requests\StoreTemplateRequest;
 use App\Http\Resources\TemplatesResource;
 use App\Models\Template;
 use App\Models\RepeatableTaskCompleted;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
@@ -106,10 +108,9 @@ class TaskController extends Controller
             AchievementHandler::checkForAchievement('TASKS_COMPLETED', $user);
 
             $taskLists = TaskListResource::collection($user->taskLists);
-            $activeReward = $user->getActiveRewardObject();
             $returnValue = null;
             if ($user->rewards != 'NONE') {
-                $returnValue = $activeReward->applyReward($task);
+                $returnValue = RewardHandler::handleTaskRewards($task, $user);
                 return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]]);
             } else {
                 return ResponseWrapper::successResponse(__('messages.task.completed'), ['taskLists' => $taskLists]);
