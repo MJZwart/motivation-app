@@ -6,7 +6,7 @@ import router from './router/router.js';
 import {useMainStore} from './store/store';
 import {useUserStore} from './store/userStore';
 import {currentLang} from '/js/services/languageService.js';
-import {globalLoading} from '/js/services/loadingService.js';
+import {waitingOnResponse} from '/js/services/loadingService.js';
 
 declare global {
     interface Window {
@@ -41,7 +41,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     
     function (response) {
-        globalLoading.value = false;
+        waitingOnResponse.value = false;
         if (response.status == 200) {
             if (response.data.message) {
                 successToast(response.data.message);
@@ -55,7 +55,7 @@ axios.interceptors.response.use(
     },
     // eslint-disable-next-line complexity
     function (error) {
-        globalLoading.value = false;
+        waitingOnResponse.value = false;
         const userStore = useUserStore();
         const mainStore = useMainStore();
         if (!error.response) {

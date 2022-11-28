@@ -5,4 +5,4 @@ import {ref} from 'vue';
  * Turned on manually (automatically through SubmitButton) and turned
  * off as soon as a response is in.
  */
-export const globalLoading = ref(false);
+export const waitingOnResponse = ref(false);
