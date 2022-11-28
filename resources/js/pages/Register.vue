@@ -42,7 +42,7 @@
                 </label>
                 <BaseFormError name="agree_to_tos" />
             </div>
-            <button type="submit" block>{{ $t('register-new-account') }}</button>
+            <SubmitButton block>{{ $t('register-new-account') }}</SubmitButton>
         </form> 
     </div>
 </template>

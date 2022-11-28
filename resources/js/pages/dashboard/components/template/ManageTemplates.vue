@@ -15,7 +15,7 @@
         >
             <template #header>
                 <div class="modal-header">
-                    <h5>
+                    <h5 class="modal-title">
                         {{ $t('manage-templates') }}
                         <Tutorial tutorial="Templates" colorVariant="white" />
                     </h5>

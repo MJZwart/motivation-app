@@ -32,9 +32,9 @@
             min="1"
             max="5"
         />
-        <button id="create-new-task-button" type="submit" class="block">
+        <SubmitButton id="create-new-task-button" class="block">
             {{ templateToEdit ? $t('edit-template') : $t('create-new-template') }}
-        </button>
+        </SubmitButton>
         <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
     </form>
 </template>

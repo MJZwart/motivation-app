@@ -28,7 +28,7 @@
                 :label="$t('repeat-new-password')"
                 :placeholder="$t('repeat-password')"
             />
-            <button type="submit" class="block">{{ $t('update-password') }}</button>
+            <SubmitButton class="block">{{ $t('update-password') }}</SubmitButton>
         </form>
 
         <hr />
@@ -44,7 +44,7 @@
                 :label="$t('change-email')"
                 :placeholder="$t('email')"
             />
-            <button type="submit" class="block">{{ $t('update-email') }}</button>
+            <SubmitButton class="block">{{ $t('update-email') }}</SubmitButton>
         </form>
 
         <hr />

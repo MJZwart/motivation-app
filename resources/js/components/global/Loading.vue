@@ -1,87 +1,59 @@
 <template>
-    <div class="d-flex justify-content-center loader-style">
-        <div class="v-pulse v-pulse1" v-bind:style="[spinnerStyle,spinnerDelay1]" />
-        <div class="v-pulse v-pulse2" v-bind:style="[spinnerStyle,spinnerDelay2]" />
-        <div class="v-pulse v-pulse3" v-bind:style="[spinnerStyle,spinnerDelay3]" />
-    </div>
+    <span class="justify-content-center" :class="{'d-flex': !button, 'button-spinner': button}">
+        <span class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </span>
+    </span>
 </template>
 
 <script setup>
-const props = defineProps({
-    size: {
-        type: String,
-        default: '15px',
-    },
-    margin: {
-        type: String,
-        default: '2px',
-    },
-    radius: {
-        type: String,
-        default: '100%',
+defineProps({
+    button: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
 });
-const spinnerStyle = {
-    width: props.size,
-    height: props.size,
-    margin: props.margin,
-    borderRadius: props.radius,
-    display: 'inline-block',
-    animationName: 'v-pulseStretchDelay',
-    animationDuration: '0.75s',
-    animationIterationCount: 'infinite',
-    animationTimingFunction: 'cubic-bezier(.2,.68,.18,1.08)',
-    animationFillMode: 'both',
-};
-const spinnerDelay1 = {
-    animationDelay: '0.12s',
-}
-const spinnerDelay2 = {
-    animationDelay: '0.24s',
-}
-const spinnerDelay3 = {
-    animationDelay: '0.36s',
-}
 </script>
 
 <style lang="scss">
-.loader-style .v-pulse {
-    background-color: var(--primary);
-}
-@-webkit-keyframes v-pulseStretchDelay
-{
-    0%,
-    80%
-    {
-        -webkit-transform: scale(1);
-                transform: scale(1);
-        -webkit-opacity: 1;             
-                opacity: 1;
-    }
-    45%
-    {
-        -webkit-transform: scale(0.1);
-                transform: scale(0.1);
-        -webkit-opacity: 0.7;             
-                opacity: 0.7;
+.button-spinner {
+    margin-left: 0.5rem;
+    .spinner-border {
+        width: 1.2rem;
+        height: 1.2rem;
+        border-width: 0.2em;
+        margin-bottom: 0.15rem;
     }
 }
-@keyframes v-pulseStretchDelay
-{
-    0%,
-    80%
-    {
-        -webkit-transform: scale(1);
-                transform: scale(1);
-        -webkit-opacity: 1;             
-                opacity: 1;
+.spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: .25em solid currentColor;
+    border-right-color: currentcolor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+    animation: spinner-border .75s linear infinite;
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
     }
-    45%
-    {
-        -webkit-transform: scale(0.1);
-                transform: scale(0.1);
-        -webkit-opacity: 0.7;             
-                opacity: 0.7;
+}
+
+@keyframes spinner-border {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
     }
 }
 </style>

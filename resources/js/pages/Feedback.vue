@@ -18,7 +18,7 @@
             </div>
             <SimpleTextarea id="feedback" v-model="feedback.text" :rows="4" :label="$t('feedback')" name="feedback" />
             <SimpleInput v-if="!auth" id="email" v-model="feedback.email" name="email" :label="$t('email')" />
-            <button type="submit">Send feedback</button>
+            <SubmitButton>{{$t('send-feedback')}}</SubmitButton>
         </form>
     </div>
 </template>
