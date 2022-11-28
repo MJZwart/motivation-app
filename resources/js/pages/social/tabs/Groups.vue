@@ -26,7 +26,7 @@
             <input
                 id="filter-group-by-name"
                 v-model="search"
-                class="m-1 filter-input"
+                class="mb-1 mt-1 filter-input"
                 type="text"
                 :placeholder="$t('group-search-placeholder')"
             />
@@ -149,7 +149,6 @@ function showGroupsDetails(group: Group) {
 </script>
 
 <style lang="scss" scoped>
-
 .groups-table {
     .details {
         padding: 0.6rem;
@@ -162,6 +161,5 @@ function showGroupsDetails(group: Group) {
     background-color: var(--primary);
     padding: 0.5rem;
     border-radius: 0.5rem;
-    margin-left: 0.2rem;
 }
 </style>
