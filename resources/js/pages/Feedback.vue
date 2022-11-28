@@ -23,29 +23,30 @@
                 <label for="diagnostics">{{$t('send-diagnostics-information')}}</label>
                 <small class="silent">{{$t('send-diagnostics-information-explanation')}}</small>
             </div>
-            <button type="submit">Send feedback</button>
+            <button type="submit">{{ $t('send-feedback') }}</button>
         </form>
     </div>
 </template>
 
 <script setup lang="ts">
 import type {NewFeedback} from 'resources/types/feedback';
-import type {Diagnostics} from 'resources/types/global';
 import {ref, computed} from 'vue';
 import {FEEDBACK_TYPES} from '/js/constants/feedbackConstants.js';
 import {useMainStore} from '/js/store/store';
 import {useUserStore} from '/js/store/userStore';
-import platform from 'platform';
+import {getDiagnostics} from '/js/services/platformService';
 
 const mainStore = useMainStore();
 const userStore = useUserStore();
 
-const feedback = ref<NewFeedback>({
+const emptyFeedback = {
     type: 'FEEDBACK',
     text: '',
     email: '',
     diagnostics_approval: false,
-});
+};
+
+const feedback = ref<NewFeedback>({...emptyFeedback});
 const feedbackTypes = FEEDBACK_TYPES;
 
 const user = computed(() => userStore.user);
@@ -57,14 +58,7 @@ async function sendFeedback() {
     if (user.value) {
         feedback.value.user_id = user.value.id;
     }
-    mainStore.sendFeedback(feedback.value);
-}
-
-function getDiagnostics() {
-    let diagnostics ={} as Diagnostics;
-    diagnostics.description = platform.description;
-    diagnostics.windowHeight = window.innerHeight;
-    diagnostics.windowWidth = window.innerWidth;
-    return JSON.stringify(diagnostics);
+    await mainStore.sendFeedback(feedback.value);
+    delete feedback.value.diagnostics;
 }
 </script>

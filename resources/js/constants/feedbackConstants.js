@@ -37,4 +37,8 @@ export const FEEDBACK_FIELDS = [
         key: 'archived',
         sortable: true,
     },
+    {
+        label: 'diagnostics',
+        key: 'diagnostics',
+    },
 ];

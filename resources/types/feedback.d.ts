@@ -1,12 +1,10 @@
-import {Diagnostics} from './global';
-
 export type NewFeedback = {
     type: string;
     text: string;
     email?: string;
     user_id?: number;
     diagnostics_approval: boolean;
-    diagnostics?: Diagnostics | string;
+    diagnostics?: string;
 };
 
 export type Feedback = NewFeedback & {

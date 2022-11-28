@@ -27,6 +27,7 @@ class BugReportResource extends JsonResource
             'comment' => $this->comment,
             'admin_comment' => $this->admin_comment,
             'status' => $this->status,
+            'diagnostics' => $this->diagnostics,
         ];
     }
 }

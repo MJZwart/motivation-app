@@ -19,6 +19,7 @@ class BugReport extends Model
         'comment',
         'admin_comment',
         'status',
+        'diagnostics',
     ];
 
     protected $with = ['user'];

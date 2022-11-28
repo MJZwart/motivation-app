@@ -28,6 +28,7 @@ class StoreFeedbackRequest extends FormRequest
             'text' => 'required|string',
             'email' => 'required_without:user_id|nullable|email',
             'user_id' => 'nullable|exists:users,id',
+            'diagnostics' => 'sometimes|string',
         ];
     }
 }

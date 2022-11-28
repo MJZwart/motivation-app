@@ -26,6 +26,9 @@
                 </router-link>
                 <span v-else>{{ $t('no-user') }}</span>
             </template>
+            <template #diagnostics="data">
+                <Diagnostics :diagnostics="data.item.diagnostics" />
+            </template>
             <template #actions="data">
                 <div style="min-width: 49px">
                     <FaIcon :icon="['far', 'pen-to-square']" class="icon medium" @click="editBugReport(data.item)" />
@@ -54,11 +57,12 @@
 </template>
 
 <script setup lang="ts">
-import Table from '/js/components/global/Table.vue';
 import {BUG_REPORT_OVERVIEW_FIELDS, BUG_DEFAULTS, BUG_STATUS} from '/js/constants/bugConstants';
 import {ref, computed} from 'vue';
+import Table from '/js/components/global/Table.vue';
 import EditBugReport from './../components/EditBugReport.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
+import Diagnostics from '/js/components/global/small/Diagnostics.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';

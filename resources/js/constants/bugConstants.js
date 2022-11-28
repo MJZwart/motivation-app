@@ -22,6 +22,7 @@ export const BUG_REPORT_OVERVIEW_FIELDS = [
     {label: 'image', key: 'image'},
     {label: 'comment', key: 'comment'},
     {label: 'admin-comment', key: 'admin_comment'},
+    {label: 'diagnostics', key: 'diagnostics'},
     {label: 'actions', key: 'actions'},
 ];
 

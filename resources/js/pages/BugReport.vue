@@ -59,6 +59,11 @@
                 :placeholder="$t('comment')"
             />
             <small class="form-text text-muted">{{ $t('bug-comment-desc') }}</small>
+            <div class="form-group">
+                <input id="diagnostics" v-model="bugReport.diagnostics_approval" type="checkbox" />
+                <label for="diagnostics">{{$t('send-diagnostics-information')}}</label>
+                <small class="silent">{{$t('send-diagnostics-information-explanation')}}</small>
+            </div>
             <button type="submit" class="block">{{ $t('submit-bug-report') }}</button>
         </form>
     </div>
@@ -69,6 +74,7 @@ import {BUG_TYPES, BUG_SEVERITY} from '/js/constants/bugConstants';
 import {ref} from 'vue';
 import {useMainStore} from '/js/store/store';
 import {NewBugReport} from 'resources/types/bug';
+import {getDiagnostics} from '/js/services/platformService';
 const mainStore = useMainStore();
 const emptyBugReport = {
     title: '',
@@ -77,6 +83,7 @@ const emptyBugReport = {
     severity: 1,
     image_link: '',
     comment: '',
+    diagnostics_approval: false,
 };
 
 const bugReport = ref<NewBugReport>({...emptyBugReport});
@@ -84,6 +91,8 @@ const bugTypes = BUG_TYPES;
 const bugSeverity = BUG_SEVERITY;
 
 async function submitBugReport() {
+    if (bugReport.value.diagnostics_approval)
+        bugReport.value.diagnostics = getDiagnostics();
     await mainStore.storeBugReport(bugReport.value);
     resetForm();
 }
