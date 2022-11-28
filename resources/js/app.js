@@ -67,5 +67,7 @@ app.component('Tutorial', Tutorial);
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 app.component('Datepicker', Datepicker);
+import SubmitButton from '/js/components/global/small/SubmitButton.vue';
+app.component('SubmitButton', SubmitButton);
 
 app.mount('#app');

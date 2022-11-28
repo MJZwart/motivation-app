@@ -141,6 +141,7 @@
     "send-diagnostics-information": "Send diagnostics information (window size, operating system and browser version)",
     "send-diagnostics-information-explanation": "Sending this information can help us fix problems which may not occur on our own machine and helps us debugging much quicker.",
     "height-width": "Height x width",
+    "send-feedback": "Send feedback",
     
     "suggestion": "Suggestion",
     "question": "Question",

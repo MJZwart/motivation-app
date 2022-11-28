@@ -141,6 +141,7 @@
     "send-diagnostics-information": "Stuur diagnostische informatie (pagina grootte, OS en browser versie)",
     "send-diagnostics-information-explanation": "Deze informatie kan ons helpen met het fixen van bugs die mogelijk niet op onze machine te vinden zijn en helpt ons het probleem veel sneller te vinden.",
     "height-width": "Hoogte x breedte",
+    "send-feedback": "Stuur feedback",
     
     "suggestion": "Suggestion",
     "question": "Question",  

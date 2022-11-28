@@ -23,7 +23,7 @@
                 <label for="diagnostics">{{$t('send-diagnostics-information')}}</label>
                 <small class="silent">{{$t('send-diagnostics-information-explanation')}}</small>
             </div>
-            <button type="submit">{{ $t('send-feedback') }}</button>
+            <SubmitButton>{{$t('send-feedback')}}</SubmitButton>
         </form>
     </div>
 </template>

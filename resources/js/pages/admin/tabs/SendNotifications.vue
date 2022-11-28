@@ -39,7 +39,7 @@
                         <button class="ml-auto button-red" @click="removeLink">{{$t('remove-link')}}</button>
                     </div>
                 </div>
-                <button id="send-notification-button" type="submit" class="block">{{ $t('send-notification') }}</button>
+                <SubmitButton id="send-notification-button" class="block">{{ $t('send-notification') }}</SubmitButton>
             </form>
         </div>
     </div>

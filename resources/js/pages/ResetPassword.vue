@@ -25,7 +25,7 @@
                 name="password_confirmation" 
                 :label="$t('repeat-password')"
                 :placeholder="$t('repeat-password')" />
-            <button type="submit" class="block">{{ $t('reset-password') }}</button>
+            <SubmitButton class="block">{{ $t('reset-password') }}</SubmitButton>
         </form>
     </div>
 </template>

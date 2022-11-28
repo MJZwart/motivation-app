@@ -33,7 +33,7 @@
                 <label for="close-reports">{{ $t('suspend-user-close-reports') }}</label>
                 <BaseFormError name="close-reports" />
             </div>
-            <button type="submit" class="block">{{ $t('suspend-user') }}</button>
+            <SubmitButton class="block">{{ $t('suspend-user') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
         </form>
     </div>

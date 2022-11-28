@@ -64,7 +64,7 @@
                 <label for="diagnostics">{{$t('send-diagnostics-information')}}</label>
                 <small class="silent">{{$t('send-diagnostics-information-explanation')}}</small>
             </div>
-            <button type="submit" class="block">{{ $t('submit-bug-report') }}</button>
+            <SubmitButton class="block">{{ $t('submit-bug-report') }}</SubmitButton>
         </form>
     </div>
 </template>
@@ -93,6 +93,7 @@ const bugSeverity = BUG_SEVERITY;
 async function submitBugReport() {
     if (bugReport.value.diagnostics_approval)
         bugReport.value.diagnostics = getDiagnostics();
+    mainStore.clearErrors();
     await mainStore.storeBugReport(bugReport.value);
     resetForm();
 }

@@ -9,7 +9,7 @@
                 :label="parsedLabelName"
                 :placeholder="$t('name')"
             />
-            <button type="submit" class="block">{{ $t('update-reward-name') }}</button>
+            <SubmitButton class="block">{{ $t('update-reward-name') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
             <BaseFormError name="error" />
         </form>

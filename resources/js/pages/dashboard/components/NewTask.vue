@@ -54,7 +54,7 @@
                     </select>
                 </div>
             </div>
-            <button id="create-new-task-button" type="submit" class="block">{{ $t('create-new-task') }}</button>
+            <SubmitButton id="create-new-task-button" class="block">{{ $t('create-new-task') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
         </form>
     </div>

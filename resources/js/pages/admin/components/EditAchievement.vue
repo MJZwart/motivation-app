@@ -41,7 +41,7 @@
                     {{parseAchievementTriggerDesc(achievementToEdit)}}
                 </p>
             </div>
-            <button type="submit" class="block">{{ $t('edit-achievement') }}</button>
+            <SubmitButton class="block">{{ $t('edit-achievement') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>
