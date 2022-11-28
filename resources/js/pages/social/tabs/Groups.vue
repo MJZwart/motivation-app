@@ -32,7 +32,7 @@
             />
             <div class="group-filters">
                 <h5>{{$t('filter-by')}}:</h5>
-                <div class="form-group">
+                <div class="form-group mb-1">
                     <input id="public-groups-filter" v-model="groupFilter.noApplicationReq" type="checkbox" />
                     <label for="public-groups-filter">{{$t('free-to-join')}}</label>
                 </div>
