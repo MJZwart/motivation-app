@@ -30,6 +30,13 @@
                 type="text"
                 :placeholder="$t('group-search-placeholder')"
             />
+            <div class="group-filters">
+                <h5>{{$t('filter-by')}}:</h5>
+                <div class="form-group">
+                    <input id="public-groups-filter" v-model="groupFilter.noApplicationReq" type="checkbox" />
+                    <label for="public-groups-filter">{{$t('free-to-join')}}</label>
+                </div>
+            </div>
             <div class="mt-2 mb-1">
                 <h3 v-if="chosen == 'MY'">{{ $t('my-groups') }}</h3>
                 <h3 v-if="chosen == 'ALL'">{{ $t('all-groups') }}</h3>
@@ -105,8 +112,18 @@ async function load() {
 
 const search = ref('');
 const filteredAllGroups = computed(() => {
-    return chosenGroups.value.filter((group: Group) => group.name.toLowerCase().includes(search.value.toLowerCase()));
+    return chosenGroups.value.filter(filterGroups);
 });
+
+const groupFilter = ref({
+    noApplicationReq: false,
+});
+
+function filterGroups(group: Group) {
+    if (!group.name.toLowerCase().includes(search.value.toLowerCase())) return false;
+    if (groupFilter.value.noApplicationReq && group.require_application) return false;
+    return true;
+}
 
 const myGroups = computed(() => groupStore.myGroups);
 const allGroups = computed(() => groupStore.allGroups);
@@ -140,5 +157,11 @@ function showGroupsDetails(group: Group) {
         border-radius: 4px;
         background-color: white;
     }
+}
+.group-filters {
+    background-color: var(--primary);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-left: 0.2rem;
 }
 </style>
