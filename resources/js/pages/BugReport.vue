@@ -59,7 +59,7 @@
                 :placeholder="$t('comment')"
             />
             <small class="form-text text-muted">{{ $t('bug-comment-desc') }}</small>
-            <button type="submit" class="block">{{ $t('submit-bug-report') }}</button>
+            <SubmitButton class="block">{{ $t('submit-bug-report') }}</SubmitButton>
         </form>
     </div>
 </template>
@@ -84,6 +84,7 @@ const bugTypes = BUG_TYPES;
 const bugSeverity = BUG_SEVERITY;
 
 async function submitBugReport() {
+    mainStore.clearErrors();
     await mainStore.storeBugReport(bugReport.value);
     resetForm();
 }

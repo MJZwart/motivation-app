@@ -43,7 +43,7 @@
                 <small class="form-text text-muted">{{$t('bug-status-desc')}}</small>
                 <BaseFormError name="status" /> 
             </div>
-            <button type="submit" class="block">{{$t('update-bug-report')}}</button>
+            <SubmitButton class="block">{{$t('update-bug-report')}}</SubmitButton>
             <button type="button" class="block button-cancel" @click="close">{{$t('cancel')}}</button>
         </form>
     </div>

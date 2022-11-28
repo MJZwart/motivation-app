@@ -10,7 +10,7 @@
                 :label="$t('email')"
                 :placeholder="$t('email')"
             />
-            <button type="submit" class="block">{{ $t('send-password-reset') }}</button>
+            <SubmitButton class="block">{{ $t('send-password-reset') }}</SubmitButton>
         </form>
         <div v-if="resetLinkSent" class="success-text">
             {{ $t('password-reset-link-sent') }}

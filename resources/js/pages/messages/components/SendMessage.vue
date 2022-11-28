@@ -13,7 +13,7 @@
                 />
                 <BaseFormError name="message" />
             </div>
-            <button type="submit" class="block">{{ $t('send-message') }}</button>
+            <SubmitButton class="block">{{ $t('send-message') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>
     </div>

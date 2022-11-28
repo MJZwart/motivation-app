@@ -18,7 +18,7 @@
                 <label for="show_friends" class="option-label">{{ $t('show-friends-on-profile') }}</label>
                 <BaseFormError name="show_friends" />
             </div>
-            <button type="submit" class="block">{{ $t('save-profile-settings') }}</button>
+            <SubmitButton class="block">{{ $t('save-profile-settings') }}</SubmitButton>
         </form>
     </div>
 </template>
