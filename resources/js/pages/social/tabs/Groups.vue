@@ -23,18 +23,29 @@
                     <Tutorial tutorial="Groups" colorVariant="primary" size="medium" />
                 </span>
             </div>
-            <input
-                id="filter-group-by-name"
-                v-model="search"
-                class="mb-1 mt-1 filter-input"
-                type="text"
-                :placeholder="$t('group-search-placeholder')"
-            />
-            <div class="group-filters">
+            <div class="group-filters mt-1">
                 <h5>{{$t('filter-by')}}:</h5>
                 <div class="form-group mb-1">
+                    <input
+                        id="filter-group-by-name"
+                        v-model="groupFilter.name"
+                        class="mb-1 filter-input"
+                        type="text"
+                        :placeholder="$t('group-search-name-placeholder')"
+                    />
+                </div>
+                <div class="form-group mb-1">
+                    <input
+                        id="filter-group-by-name"
+                        v-model="groupFilter.desc"
+                        class="mb-1 filter-input"
+                        type="text"
+                        :placeholder="$t('group-search-description-placeholder')"
+                    />
+                </div>
+                <div class="form-group mb-1">
                     <input id="public-groups-filter" v-model="groupFilter.noApplicationReq" type="checkbox" />
-                    <label for="public-groups-filter">{{$t('free-to-join')}}</label>
+                    <label for="public-groups-filter">{{$t('free-to-join-only')}}</label>
                 </div>
             </div>
             <div class="mt-2 mb-1">
@@ -110,18 +121,20 @@ async function load() {
     loading.value = false;
 }
 
-const search = ref('');
 const filteredAllGroups = computed(() => {
     return chosenGroups.value.filter(filterGroups);
 });
 
 const groupFilter = ref({
     noApplicationReq: false,
+    name: '',
+    desc: '',
 });
 
 function filterGroups(group: Group) {
-    if (!group.name.toLowerCase().includes(search.value.toLowerCase())) return false;
+    if (!group.name.toLowerCase().includes(groupFilter.value.name.toLowerCase())) return false;
     if (groupFilter.value.noApplicationReq && group.require_application) return false;
+    if (!group.description.toLowerCase().includes(groupFilter.value.desc.toLowerCase())) return false;
     return true;
 }
 
