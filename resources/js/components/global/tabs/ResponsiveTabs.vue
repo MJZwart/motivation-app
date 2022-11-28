@@ -33,7 +33,10 @@ const props = defineProps({
 });
 
 onMounted(async() => {
-    if (window.location.hash) currentTab.value.name = window.location.hash.slice(1);
+    if (window.location.hash) {
+        const tabName = window.location.hash.slice(1);
+        currentTab.value = props.tabs[props.tabs.findIndex(tab => tab.name === tabName)];
+    }
     window.addEventListener('resize', handleResize);
 });
 const currentTab = shallowRef(props.tabs[0]);
