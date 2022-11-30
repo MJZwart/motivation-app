@@ -8,18 +8,20 @@
             </a>
             <ChangeLanguage class="small" />
         </div>
-        <div class="footer-links">
-            <router-link class="silent mb-1" to="/faq">{{ $t('faq') }}</router-link>
-            <router-link class="silent mb-1" to="/bugreport">{{ $t('report-bug') }}</router-link>
-            <router-link class="silent mb-1" to="/feedback">{{ $t('feedback') }}</router-link>
-        </div>
-        <div class="footer-links">
-            <router-link class="silent mb-1" to="/privacy">{{ $t('privacy-policy') }}</router-link>
-            <router-link class="silent mb-1" to="/tos">{{ $t('tos') }}</router-link>
-            <router-link class="silent mb-1" to="/changelog">{{ $t('changelog') }}</router-link>
-            <a class="silent mb-1" href="https://github.com/MJZwart/motivation-app#roadmap" target="_blank">
-                {{ $t('roadmap') }}
-            </a>
+        <div class="footer-links-group">
+            <div class="footer-links">
+                <router-link class="silent mb-1" to="/faq">{{ $t('faq') }}</router-link>
+                <router-link class="silent mb-1" to="/bugreport">{{ $t('report-bug') }}</router-link>
+                <router-link class="silent mb-1" to="/feedback">{{ $t('feedback') }}</router-link>
+            </div>
+            <div class="footer-links">
+                <router-link class="silent mb-1" to="/privacy">{{ $t('privacy-policy') }}</router-link>
+                <router-link class="silent mb-1" to="/tos">{{ $t('tos') }}</router-link>
+                <router-link class="silent mb-1" to="/changelog">{{ $t('changelog') }}</router-link>
+                <a class="silent mb-1" href="https://github.com/MJZwart/motivation-app#roadmap" target="_blank">
+                    {{ $t('roadmap') }}
+                </a>
+            </div>
         </div>
     </div>
 </template>
@@ -40,14 +42,19 @@ import DiscordLogo from '/js/components/global/small/DiscordLogo.vue';
     a{
         width: fit-content;
     }
-    .footer-links{
+    .footer-links-group{
         margin-top: 1rem;
         margin-bottom: auto;
-        margin-right: 2rem;
         position: relative;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         min-width: 8rem;
+        .footer-links{
+            display: flex;
+            flex-direction: column;
+            margin-right: 2rem;
+            width: fit-content;
+        }
     }
     .footer-text-left {
         position: relative;
@@ -57,5 +64,12 @@ import DiscordLogo from '/js/components/global/small/DiscordLogo.vue';
             margin: 0.5rem auto;
         }
     }
+}
+@media(max-width: 800px) {
+    #footer {
+        .footer-links-group{
+        flex-direction: column;
+    }
+}
 }
 </style>

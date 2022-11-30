@@ -6,8 +6,8 @@
                 <p class="lead">{{ appLead }}</p>
             </div>
         </div>
-        <div class="card-deck mb-3 text-center">
-            <div class="card mb-3">
+        <div class="card-deck text-center">
+            <div class="card home-card">
                 <div class="card-header">{{ $t('explanation-tasks-header') }}</div>
                 <div class="card-body">
                     <TaskList :taskList="dummyList" class="task-list" />
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-3 ml-3">
+            <div class="card home-card">
                 <div class="card-header">{{ $t('explanation-reward-header') }}</div>
                 <div class="card-body">
                     <Character :reward="dummyCharacter" :rewardType="'CHARACTER'" :userReward="true" />
@@ -25,15 +25,15 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div deck class="card-deck w-50 text-center center">
-            <div class="card">
+            <div class="card home-card">
                 <div class="card-header">{{ $t('explanation-social-header') }}</div>
                 <div class="card-body">
                     <p>{{ $t('explanation-social') }}</p>
                 </div>
             </div>
         </div>
+        <!-- <div deck class="card-deck w-50 text-center center"> -->
+        <!-- </div> -->
         <div class="d-flex">
             <button class="register-button center mt-3">
                 <router-link to="/register" class="register-button-text">{{ $t('create-account-today') }}</router-link>
@@ -64,7 +64,7 @@ const appLead = computed(() => t('home-introduction'));
     border: 3px solid var(--primary);
     border-radius: 0.5rem;
     background-color: var(--background-2);
-    width: 50%;
+    min-width: 50%;
     transition: all 0.3s 0s ease-in-out;
     .register-button-text {
         color: var(--primary)-as-text;
@@ -84,9 +84,10 @@ const appLead = computed(() => t('home-introduction'));
 .w-60-flex {
     max-width: 850px;
 }
-@media (max-width: 650px) {
-    .card-deck {
-        flex-flow: column wrap;
+
+@media (max-width: 400px) {
+    .display-3 {
+        font-size: 3rem;
     }
 }
 </style>

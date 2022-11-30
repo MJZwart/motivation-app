@@ -4,11 +4,16 @@
  .card-deck {
     display: flex;
     flex-flow: row wrap;
+    gap: 0.5rem;
 
     .card {
         flex: 1 0 0%;
     }
+    .home-card {
+        min-width: 300px;
+    }
 }
+
 .card {
     position: relative;
     display: flex;
@@ -56,5 +61,16 @@
     padding: 5px;
     p{
         margin-bottom:1px;
+    }
+}
+
+@media (max-width: 650px) {
+    .card-deck {
+        flex-flow: column wrap;
+    }
+}
+@media (max-width: 400px) {
+    .card-deck .card{
+        min-width: 100%;
     }
 }
