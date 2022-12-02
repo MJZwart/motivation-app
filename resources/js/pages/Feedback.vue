@@ -18,6 +18,11 @@
             </div>
             <SimpleTextarea id="feedback" v-model="feedback.text" :rows="4" :label="$t('feedback')" name="feedback" />
             <SimpleInput v-if="!auth" id="email" v-model="feedback.email" name="email" :label="$t('email')" />
+            <div class="form-group">
+                <input id="diagnostics" v-model="feedback.diagnostics_approval" type="checkbox" />
+                <label for="diagnostics">{{$t('send-diagnostics-information')}}</label>
+                <small class="silent">{{$t('send-diagnostics-information-explanation')}}</small>
+            </div>
             <SubmitButton>{{$t('send-feedback')}}</SubmitButton>
         </form>
     </div>
@@ -29,23 +34,31 @@ import {ref, computed} from 'vue';
 import {FEEDBACK_TYPES} from '/js/constants/feedbackConstants.js';
 import {useMainStore} from '/js/store/store';
 import {useUserStore} from '/js/store/userStore';
+import {getDiagnostics} from '/js/services/platformService';
+
 const mainStore = useMainStore();
 const userStore = useUserStore();
 
-const feedback = ref<NewFeedback>({
+const emptyFeedback = {
     type: 'FEEDBACK',
     text: '',
     email: '',
-});
+    diagnostics_approval: false,
+};
+
+const feedback = ref<NewFeedback>({...emptyFeedback});
 const feedbackTypes = FEEDBACK_TYPES;
 
 const user = computed(() => userStore.user);
 const auth = computed(() => userStore.authenticated);
 
 async function sendFeedback() {
+    if (feedback.value.diagnostics_approval)
+        feedback.value.diagnostics = getDiagnostics();
     if (user.value) {
         feedback.value.user_id = user.value.id;
     }
-    mainStore.sendFeedback(feedback.value);
+    await mainStore.sendFeedback(feedback.value);
+    delete feedback.value.diagnostics;
 }
 </script>

@@ -23,10 +23,12 @@
     "group-desc": "Description",
     "group-description-desc": "How would you describe this group?",
     "group-name-desc": "How do you want to call this group?",
-    "group-search-placeholder": "Filter groups by name",
+    "group-search-name-placeholder": "Filter groups by name",
+    "group-search-description-placeholder": "Filter groups by description",
     "group-information": "Group Information",
     "requires-application": "Requires application",
     "free-to-join": "Free to join",
+    "free-to-join-only": "Free to join only",
 
     "join-group": "Join group",
     "apply-to-group": "Request to join group",

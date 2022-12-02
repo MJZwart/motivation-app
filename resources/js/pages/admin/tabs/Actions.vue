@@ -63,10 +63,10 @@ import type {StrippedUser} from 'resources/types/user';
 import type {ActionType, Actions, ActionFilters} from 'resources/types/admin';
 import Multiselect from '@vueform/multiselect';
 import Table from '/js/components/global/Table.vue';
-import platform from 'platform';
 import {currentLang} from '/js/services/languageService';
 import {getYesterdayDate} from '/js/services/dateService';
 import {filteredActionsFields} from '/js/constants/adminConstants';
+import {parseUserAgent} from '/js/services/platformService';
 
 const adminStore = useAdminStore();
 
@@ -92,10 +92,6 @@ onMounted(async() => {
 
 async function filterActions() {
     filteredActions.value = await adminStore.getActionsWithFilters(activeFilters.value);
-}
-
-function parseUserAgent(userAgent: string) {
-    return platform.parse(userAgent);
 }
 </script>
 <style src="@vueform/multiselect/themes/default.css"></style>

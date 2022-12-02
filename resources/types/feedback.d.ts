@@ -3,6 +3,8 @@ export type NewFeedback = {
     text: string;
     email?: string;
     user_id?: number;
+    diagnostics_approval: boolean;
+    diagnostics?: string;
 };
 
 export type Feedback = NewFeedback & {
