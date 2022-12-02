@@ -7,6 +7,8 @@ export type NewBugReport = {
     severity: number;
     image_link: string;
     comment: string;
+    diagnostics_approval: boolean,
+    diagnostics?: string,
 };
 
 export type BugReport = NewBugReport & {

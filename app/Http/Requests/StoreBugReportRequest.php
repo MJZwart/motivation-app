@@ -22,6 +22,7 @@ class StoreBugReportRequest extends FormRequest
             'severity' => 'required|integer|min:1|max:5',
             'image_link' => 'nullable|string',
             'comment' => 'required|string',
+            'diagnostics' => 'sometimes|string',
         ];
     }
 }

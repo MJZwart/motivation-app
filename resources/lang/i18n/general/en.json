@@ -137,8 +137,14 @@
     "feedback-features": "Do you have ideas for a new feature? Try to describe your idea as detailed as possible. What do you want it to do? Where would you like to see it? We can further discuss these ideas on our Discord.",
     "feedback-accessibility": "Do you have feedback regarding accessibility? Please describe the problem you are facing and what would help you in this matter. If you use any programs that provides accessibility but encounter problems on this website, please leave the name of the program as well.",
     "feedback-accessibility-header": "Accessibility",
+    "diagnostics": "Diagnostics",
+    "send-diagnostics-information": "Send diagnostics information (window size, operating system and browser version)",
+    "send-diagnostics-information-explanation": "Sending this information can help us fix problems which may not occur on our own machine and helps us debugging much quicker.",
+    "height-width": "Height x width",
     "send-feedback": "Send feedback",
     
+    "suggestion": "Suggestion",
+    "question": "Question",
     "archive" : "Archive",
     "unarchive" : "Unarchive",
 

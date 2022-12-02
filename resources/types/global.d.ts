@@ -30,3 +30,9 @@ export type LanguageOption = {
     label: string,
     flag: string,
 }
+
+export type Diagnostics = {
+    description: string | undefined;
+    windowHeight: number;
+    windowWidth: number;
+}

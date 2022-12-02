@@ -14,6 +14,7 @@ class Feedback extends Model
         'text',
         'user_id',
         'email',
+        'diagnostics',
     ];
 
     public function user() { //Inverse does not exist, currently no need for it

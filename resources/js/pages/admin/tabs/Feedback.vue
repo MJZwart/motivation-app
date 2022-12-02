@@ -2,7 +2,14 @@
     <div>
         <h3>{{ $t('feedback') }}</h3>
         <button @click="archived = !archived">{{ archived ? 'Hide archived' : 'Show archived' }}</button>
-        <Table :items="filteredFeedback" :fields="feedbackFields" :options="['table-striped', 'page-wide']">
+        <Table 
+            :items="filteredFeedback" 
+            :fields="feedbackFields" 
+            :options="['table-striped', 'page-wide']" 
+            class="font-sm" 
+            sort="created_at"
+            :sortAsc="false"
+        >
             <template #user="row">
                 <router-link v-if="row.item.user" :to="{name: 'profile', params: {id: row.item.user.id}}">
                     {{ row.item.user.username }}
@@ -30,6 +37,9 @@
             <template #archived="row">
                 {{ row.item.archived ? parseDateTime(row.item.updated_at) : '' }}
             </template>
+            <template #diagnostics="row">
+                <Diagnostics :diagnostics="row.item.diagnostics"/>
+            </template>
         </Table>
         <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
             <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />
@@ -41,6 +51,7 @@
 import {ref, onMounted, computed} from 'vue';
 import Table from '/js/components/global/Table.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
+import Diagnostics from '/js/components/global/small/Diagnostics.vue';
 import {FEEDBACK_FIELDS} from '/js/constants/feedbackConstants.js';
 import {parseDateTime} from '/js/services/dateService';
 import {useAdminStore} from '/js/store/adminStore';
