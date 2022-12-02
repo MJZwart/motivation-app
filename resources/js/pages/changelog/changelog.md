@@ -9,6 +9,7 @@
 -   You can now filter for groups that require no application.
 -   When sending feedback or a bug report, you now have the option to send diagnostics about your screen size/system to help us hunt bugs quicker.
 -   Added a spinner to buttons when waiting for server response to show the user something is happening.
+-   Made some pages look a bit better on mobile. Still a work in progress.
 
 ### Bugs
 -   
