@@ -307,7 +307,7 @@ class GroupsController extends Controller
         $groupInvite->group->users()->attach($user);
         $groupInvite->delete();
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $groupInvite->group->name);
-        return ResponseWrapper::successResponse(__('messages.group.join_success'));
+        return ResponseWrapper::successResponse(__('messages.group.join_success', ['name' => $groupInvite->group->name]));
     }
 
     public function rejectGroupInvite(int $invite, Request $request)
