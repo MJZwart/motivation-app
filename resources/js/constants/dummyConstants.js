@@ -1,5 +1,5 @@
 export const DUMMY_TASK_LIST = {
-    name: 'Tasks',
+    name: 'Task examples',
     tasks: [
         {id: 0, name: 'Take the stairs', description: 'Take the stairs instead of the elevator.', difficulty: 1},
         {

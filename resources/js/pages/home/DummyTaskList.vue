@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="dummy-tasks">
         <Summary :footer="true" class="p-0">
             <template #header>
                 <span class="d-flex">
@@ -57,6 +57,11 @@ function taskClass(/** @type {number} */ index) {
     .card-body {
         padding: 0 !important;
         min-height: 0;
+    }
+}
+.dummy-tasks {
+    svg, button {
+        cursor: default;
     }
 }
 </style>

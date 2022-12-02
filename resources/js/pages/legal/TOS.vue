@@ -1,5 +1,5 @@
 <template>
-    <div class="w-50 center">
+    <div class="w-50-flex center">
         <h2>Terms of Service</h2>
 
         <h4>Terms of Service</h4>
