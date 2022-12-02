@@ -136,6 +136,8 @@ return [
             'not_yours' => 'Dit is niet jouw uitnodiging.',
             'rejected' => 'Je hebt de uitnodiging afgewezen.',
         ],
+        'unblocked' => 'Je hebt :username gedeblokkeerd',
+        'user_not_blocked' => 'Deze gebruiker is niet geblokkeerd',
     ],
 
     'message' => [

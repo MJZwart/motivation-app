@@ -28,6 +28,7 @@
                         {{ $t('manage-group-applications') }}
                     </button>
                     <button type="button" class="m-1 box-shadow" @click="inviteUsers()">{{ $t('invite-users') }}</button>
+                    <button type="button" class="m-1 box-shadow" @click="showBlocklist()">{{$t('blocklist')}}</button>
                 </div>
                 <div v-if="group.rank == 'member'">
                     <button type="button" class="m-1 box-shadow" @click="leaveGroup()">{{ $t('leave-group') }}</button>
@@ -76,6 +77,10 @@
                    :title="$t('invite-users-to', {group: group.name})" @close="closeInviteUsersModal">
                 <InviteUsersModal :group="group" />
             </Modal>
+            <Modal class="l" :show="showBlocklistModal" :footer="false"
+                   :title="$t('blocklist')" @close="closeBlocklistModal">
+                <Blocklist :group-id="group.id" />
+            </Modal>
         </div>
     </div>
 </template>
@@ -85,6 +90,7 @@ import {onBeforeMount, ref, computed} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
 import ManageApplicationsModal from './ManageApplicationsModal.vue';
 import InviteUsersModal from './InviteUsersModal.vue';
+import Blocklist from './Blocklist.vue';
 import {daysSince, parseDateTime} from '/js/services/dateService';
 import {useGroupStore} from '/js/store/groupStore';
 import {useRoute, useRouter} from 'vue-router';
@@ -154,5 +160,13 @@ function inviteUsers() {
 }
 function closeInviteUsersModal() {
     showInviteUsersModal.value = false;
+}
+
+const showBlocklistModal = ref(false);
+function showBlocklist() {
+    showBlocklistModal.value = true;
+}
+function closeBlocklistModal() {
+    showBlocklistModal.value = false;
 }
 </script>

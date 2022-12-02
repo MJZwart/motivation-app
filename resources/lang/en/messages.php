@@ -136,6 +136,8 @@ return [
             'not_yours' => 'This is not your invitation.',
             'rejected' => 'You have rejected the invitation.',
         ],
+        'unblocked' => 'You have successfully unblocked :username',
+        'user_not_blocked' => 'This user is not blocked',
     ],
 
     'message' => [

@@ -80,7 +80,7 @@ function updateModelValue(event: Event) {
 }
 </script>
 
-<style>
+<style scoped>
 .disabled {
     color: grey;
     background-color: #f0f0f0;

@@ -15,6 +15,7 @@ use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
 use App\Http\Requests\SendGroupInviteRequest;
 use App\Http\Requests\SuspendUserFromGroupRequest;
+use App\Http\Resources\BlockedUserFromGroupResource;
 use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupPageResource;
 use App\Http\Resources\GroupResource;
@@ -184,6 +185,13 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Rejects the application and bans the user from sending another request
+     *
+     * @param Request $request
+     * @param GroupApplication $application
+     * @return JsonResponse
+     */
     public function suspendGroupApplication(Request $request, GroupApplication $application): JsonResponse
     {
         $group = Group::find($application->group_id);
@@ -196,6 +204,27 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(
             __('messages.group.rejected_and_suspended', ['username' => $username]),
             ['group' => new GroupPageResource($group->fresh())]
+        );
+    }
+
+    /**
+     * Fetches all suspended users
+     *
+     * @param Group $group
+     * @return JsonResponse with blocked users
+     */
+    public function getBlockedUsers(Group $group) {
+        return new JsonResponse(['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]);
+    }
+
+    public function unblockUserFromGroup(Group $group, Request $request) {
+        $user = User::find($request->userId);
+        if (!$group->suspendedUsers()->where('user_id', $request->userId)->exists()) 
+            return ResponseWrapper::errorResponse(__('messages.group.user_not_blocked'));
+        $group->suspendedUsers()->detach($user);
+        return ResponseWrapper::successResponse(
+            __('messages.group.unblocked', ['username' => $user->username]),
+            ['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]
         );
     }
 
