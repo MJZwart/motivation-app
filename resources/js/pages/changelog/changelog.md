@@ -5,8 +5,17 @@
 ### Features
 -   Characters and villages now earn coins! There's nothing you can do with it yet, but it looks cool if you ask me.
 
+### Quality of life
+-   You can now filter for groups that require no application.
+-   When sending feedback or a bug report, you now have the option to send diagnostics about your screen size/system to help us hunt bugs quicker.
+-   Added a spinner to buttons when waiting for server response to show the user something is happening.
+
+### Bugs
+-   
+
 ### Code
 -   Refactored the back-end experience gain calculations, it was kind of a mess.
+-   Made the sub-tabs more reusable and reduced duplicate code related to this.
 
 ---
 
