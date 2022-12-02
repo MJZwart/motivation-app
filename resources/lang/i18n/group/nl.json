@@ -23,10 +23,12 @@
     "group-desc": "Omschrijving",
     "group-description-desc": "Hoe zou je deze groep omschrijven?",
     "group-name-desc": "Hoe wil je deze groep noemen?",
-    "group-search-placeholder": "Filter groepen op naam",
+    "group-search-name-placeholder": "Filter groepen op naam",
+    "group-search-description-placeholder": "Filter groepen op omschrijving",
     "group-information": "Groep informatie",
     "requires-application": "Aanmelding vereist",
     "free-to-join": "Open lidmaatschap",
+    "free-to-join-only": "Alleen open lidmaatschap",
 
     "join-group": "Lid worden van groep",
     "apply-to-group": "Aanmelden voor groep",
