@@ -218,6 +218,8 @@ class GroupsController extends Controller
     }
 
     public function unblockUserFromGroup(Group $group, Request $request) {
+        if (!$group->isAdminById(Auth::user()->id)) 
+            return ResponseWrapper::errorResponse(__('messages.group.not_admin'));
         $user = User::find($request->userId);
         if (!$group->suspendedUsers()->where('user_id', $request->userId)->exists()) 
             return ResponseWrapper::errorResponse(__('messages.group.user_not_blocked'));

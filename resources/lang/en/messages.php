@@ -138,6 +138,7 @@ return [
         ],
         'unblocked' => 'You have successfully unblocked :username',
         'user_not_blocked' => 'This user is not blocked',
+        'not_admin' => 'You are not an admin of this group',
     ],
 
     'message' => [
