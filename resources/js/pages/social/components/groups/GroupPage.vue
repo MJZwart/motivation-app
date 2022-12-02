@@ -85,7 +85,7 @@ import {onBeforeMount, ref, computed} from 'vue';
 import ManageGroupModal from './ManageGroupModal.vue';
 import ManageApplicationsModal from './ManageApplicationsModal.vue';
 import InviteUsersModal from './InviteUsersModal.vue';
-import {daysSince, parseDateTime} from '../../../services/dateService';
+import {daysSince, parseDateTime} from '/js/services/dateService';
 import {useGroupStore} from '/js/store/groupStore';
 import {useRoute, useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
