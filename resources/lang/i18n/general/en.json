@@ -138,6 +138,8 @@
     "feedback-accessibility": "Do you have feedback regarding accessibility? Please describe the problem you are facing and what would help you in this matter. If you use any programs that provides accessibility but encounter problems on this website, please leave the name of the program as well.",
     "feedback-accessibility-header": "Accessibility",
     "send-feedback": "Send feedback",
+    "suggestion": "Suggestion",
+    "question": "Question",
     
     "archive" : "Archive",
     "unarchive" : "Unarchive",

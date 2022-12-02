@@ -1,6 +1,6 @@
 
 <template>
-    <div class="w-50 center">
+    <div class="w-50-flex center">
         <h2>Privacy policy</h2>
 
         <h4>The information we collect</h4>

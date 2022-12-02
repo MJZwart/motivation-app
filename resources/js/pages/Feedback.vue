@@ -1,5 +1,5 @@
 <template>
-    <div class="w-50 center">
+    <div class="w-50-flex center">
         <h2>{{ $t('feedback') }}</h2>
         <p>{{ $t('feedback-explanation') }}</p>
         <b>{{ $t('feedback-features-header') }}</b>
@@ -11,7 +11,7 @@
                 <label for="type">{{ $t('type') }}</label>
                 <select id="type" v-model="feedback.type" name="type">
                     <option v-for="(option, index) in feedbackTypes" :key="index" :value="option.value">
-                        {{ option.text }}
+                        {{ $t(option.text) }}
                     </option>
                 </select>
                 <BaseFormError name="type" />

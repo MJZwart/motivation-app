@@ -1,5 +1,5 @@
 <template>
-    <div class="w-60 center">
+    <div class="w-50-flex center">
         <h2>{{ $t('submit-bug-report') }}</h2>
 
         <form @submit.prevent="submitBugReport">
