@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 class GroupsController extends Controller
@@ -59,7 +60,6 @@ class GroupsController extends Controller
 
     public function showApplications(Group $group)
     {
-        $this->isUserGroupAdmin($group);
         $applications = GroupApplicationResource::collection(DB::table('group_applications')->where('group_id', $group->id)->get());
         return new JsonResponse(['applications' => $applications]);
     }
@@ -77,7 +77,6 @@ class GroupsController extends Controller
 
     public function destroy(Request $request, Group $group): JsonResponse
     {
-        $this->isUserGroupAdmin($group);
         $group->users()->detach();
         $group->applications()->detach();
         $group->delete();
@@ -150,11 +149,9 @@ class GroupsController extends Controller
         );
     }
 
-    public function acceptGroupApplication(Request $request, GroupApplication $application): JsonResponse
+    public function acceptGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
-        $group = Group::find($application->group_id);
-        $this->isUserGroupAdmin($group);
         $group->applications()->detach($user);
         $group->users()->attach($user);
         Notification::create([
@@ -170,11 +167,9 @@ class GroupsController extends Controller
         );
     }
 
-    public function rejectGroupApplication(Request $request, GroupApplication $application): JsonResponse
+    public function rejectGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
-        $group = Group::find($application->group_id);
-        $this->isUserGroupAdmin($group);
         $group->applications()->detach($user);
 
         ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "User rejected {$user->username}'s group application into {$group->name}.");
@@ -184,14 +179,12 @@ class GroupsController extends Controller
         );
     }
 
-    public function suspendGroupApplication(Request $request, GroupApplication $application): JsonResponse
+    public function suspendGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
-        $group = Group::find($application->group_id);
         $user = User::find($application->user_id);
-        $this->isUserGroupAdmin($group);
         $group->applications()->detach($user);
         $group->suspendedUsers()->attach($user);
-        $username = User::find($user)->username;
+        $username = $user->username;
         ActionTrackingHandler::handleAction($request, 'SUSPEND_GROUP_APPLICATION', $group->name . ' suspended user id ' . $user);
         return ResponseWrapper::successResponse(
             __('messages.group.rejected_and_suspended', ['username' => $username]),
@@ -228,7 +221,6 @@ class GroupsController extends Controller
 
     public function update(Group $group, UpdateGroupsRequest $request)
     {
-        $this->isUserGroupAdmin($group);
         $validated = $request->validated();
         $group->update($validated);
         $myGroups = MyGroupResource::collection(Auth::user()->groups);
@@ -241,7 +233,6 @@ class GroupsController extends Controller
 
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request)
     {
-        $this->isUserGroupAdmin($group);
         if (!$group->hasMember($request['id']))
             return ResponseWrapper::errorResponse("This user is not a member of this group");
         $group->removeMemberFromGroup($request['id']);
@@ -256,7 +247,6 @@ class GroupsController extends Controller
     {
         $validated = $request->validated();
         $user = $validated['id'];
-        $this->isUserGroupAdmin($group);
         $group->users()->detach($user);
         $group->suspendedUsers()->attach($user);
         $username = User::find($user)->username;
@@ -273,10 +263,8 @@ class GroupsController extends Controller
      * 
      */
 
-    public function sendGroupInvite(SendGroupInviteRequest $request)
+    public function sendGroupInvite(SendGroupInviteRequest $request, Group $group)
     {
-        $group = Group::find($request['group_id']);
-        $this->isUserGroupAdmin($group);
         if (GroupInvite::where('group_id', $group->id)->where('user_id', $request['user_id'])->exists())
             return ResponseWrapper::errorResponse('This user has already been invited.');
         if ($group->hasMember($request['user_id']))
@@ -295,7 +283,7 @@ class GroupsController extends Controller
         );
     }
 
-    public function acceptGroupInvite(int $invite, Request $request)
+    public function acceptGroupInvite(Group $group, int $invite, Request $request)
     {
         $groupInvite = $this->getGroupInviteOrFail($invite);
         /** @var User */
@@ -304,23 +292,23 @@ class GroupsController extends Controller
             return ResponseWrapper::errorResponse(__('messages.group.invite.not_yours'));
         if ($groupInvite->group->hasMember($user->id))
             return ResponseWrapper::errorResponse(__('messages.group.already_member'));
-        $groupInvite->group->users()->attach($user);
+        $group->users()->attach($user);
         $groupInvite->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $groupInvite->group->name);
+        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.join_success'));
     }
 
-    public function rejectGroupInvite(int $invite, Request $request)
+    public function rejectGroupInvite(Group $group, int $invite, Request $request)
     {
         $groupInvite = $this->getGroupInviteOrFail($invite);
         /** @var User */
         $user = Auth::user();
         if ($user->id !== $groupInvite->user_id)
             return ResponseWrapper::errorResponse(__('messages.group.invite.not_yours'));
-        if ($groupInvite->group->hasMember($user->id))
+        if ($group->hasMember($user->id))
             return ResponseWrapper::errorResponse(__('messages.group.already_member'));
         $groupInvite->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $groupInvite->group->name);
+        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.invite.rejected'));
     }
 
@@ -333,11 +321,5 @@ class GroupsController extends Controller
                 throw new GroupNotFoundException();
             }
         }
-    }
-
-    private function isUserGroupAdmin(Group $group)
-    {
-        if (!$group->isAdminById(Auth::user()->id))
-            throw new GroupNotAuthorizedException();
     }
 }

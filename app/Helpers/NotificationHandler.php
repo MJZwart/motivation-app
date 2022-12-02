@@ -61,8 +61,8 @@ class NotificationHandler
      */
     public static function createFromGroupInvite(int $userId, string $title, string $text, GroupInvite $groupInvite)
     {
-        $acceptLink = NotificationLink::create(__('messages.accept'), "/groups/invite/accept/$groupInvite->id", 'POST');
-        $rejectLink = NotificationLink::create(__('messages.reject'), "/groups/invite/reject/$groupInvite->id", 'POST');
+        $acceptLink = NotificationLink::create(__('messages.accept'), "/groups/invite/$groupInvite->group_id/accept/$groupInvite->id", 'POST');
+        $rejectLink = NotificationLink::create(__('messages.reject'), "/groups/invite/$groupInvite->group_id/reject/$groupInvite->id", 'POST');
         $linkGroup = NotificationHandler::createJson($acceptLink, $rejectLink);
         NotificationHandler::create($userId, $title, $text, $linkGroup, true);
     }

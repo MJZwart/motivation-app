@@ -48,17 +48,17 @@ const props = defineProps({
 });
 
 async function rejectApplication(applicationId: number) {
-    await groupStore.rejectApplication(applicationId);
+    await groupStore.rejectApplication(applicationId, props.group.id);
     load();
 }
 
 async function acceptApplication(applicationId: number) {
-    await groupStore.acceptApplication(applicationId);
+    await groupStore.acceptApplication(applicationId, props.group.id);
     load();
 }
 
 async function suspendApplication(applicationId: number) {
-    await groupStore.suspendApplication(applicationId);
+    await groupStore.suspendApplication(applicationId, props.group.id);
     load();
 }
 </script>

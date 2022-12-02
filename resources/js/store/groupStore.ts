@@ -38,16 +38,16 @@ export const useGroupStore = defineStore('group', {
             const {data} = await axios.get(`/groups/applications/show/${groupId}`);
             return data.applications;
         },
-        async rejectApplication(applicationId: number) {
-            const {data} = await axios.post(`/groups/applications/reject/${applicationId}`);
+        async rejectApplication(applicationId: number, groupId: number) {
+            const {data} = await axios.post(`/groups/applications/${groupId}/reject/${applicationId}`);
             this.group = data.data.group;
         },
-        async acceptApplication(applicationId: number) {
-            const {data} = await axios.post(`/groups/applications/accept/${applicationId}`);
+        async acceptApplication(applicationId: number, groupId: number) {
+            const {data} = await axios.post(`/groups/applications/${groupId}/accept/${applicationId}`);
             this.group = data.data.group;
         },
-        async suspendApplication(applicationId: number) {
-            const {data} = await axios.post(`/groups/applications/suspend/${applicationId}`);
+        async suspendApplication(applicationId: number, groupId: number) {
+            const {data} = await axios.post(`/groups/applications/${groupId}/suspend/${applicationId}`);
             this.group = data.data.group;
         },
         async leaveGroup(groupId: number) {
@@ -65,7 +65,7 @@ export const useGroupStore = defineStore('group', {
         },
 
         async inviteUser(invitation: {group_id: number, user_id: number}) {
-            const {data} = await axios.post('/groups/invite', invitation);
+            const {data} = await axios.post(`/groups/invite/${invitation.group_id}`, invitation);
             this.group = data.data.group;
         },
 
