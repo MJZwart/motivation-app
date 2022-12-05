@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GroupsController;
-use App\Models\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,24 +15,28 @@ use App\Models\Group;
 
 Route::group(['middleware' => ['valid-auth']], function () {
     Route::get('/dashboard', [GroupsController::class, 'dashboard']);
-    Route::post('/', [GroupsController::class, 'store']);
 
-    Route::get('/{group}', [GroupsController::class, 'show']);
+    Route::group(['middleware' => ['can:view,group']], function () {
+        Route::get('/{group}', [GroupsController::class, 'show']);
+    });
+
+    Route::post('/', [GroupsController::class, 'store']);
 
     Route::group(['middleware' => ['can:join,group']], function () {
         Route::post('/join/{group}', [GroupsController::class, 'join']);
         Route::post('/apply/{group}', [GroupsController::class, 'apply']);
     });
 
-    Route::post('/leave/{group}', [GroupsController::class, 'leave']);
+    Route::post('/leave/{group}', [GroupsController::class, 'leave'])->can('leave', 'group');
 
-    Route::group(['middleware' => ['can:joinPrivate,group']], function () {
-        Route::post('/invite/{group}/accept/{invite}', [GroupsController::class, 'acceptGroupInvite']);
-        Route::post('/invite/{group}/reject/{invite}', [GroupsController::class, 'rejectGroupInvite']);
-    });
+    Route::post('/invite/{group}/accept/{invite}', [GroupsController::class, 'acceptGroupInvite'])->can('joinPrivate', 'group');
+    Route::post('/invite/{group}/reject/{invite}', [GroupsController::class, 'rejectGroupInvite']);
     
     Route::group(['middleware' => ['can:update,group']], function () {
-        Route::delete('/{group}', [GroupsController::class, 'destroy']);
+        Route::put('/edit/{group}', [GroupsController::class, 'update']);
+    });
+
+    Route::group(['middleware' => ['can:recruit,group']], function () {
         Route::get('/applications/show/{group}', [GroupsController::class, 'showApplications']);
 
         Route::post('/invite/{group}', [GroupsController::class, 'sendGroupInvite']);
@@ -42,8 +45,9 @@ Route::group(['middleware' => ['valid-auth']], function () {
         Route::post('/applications/{group}/accept/{application}', [GroupsController::class, 'acceptGroupApplication']);
         Route::post('/applications/{group}/suspend/{application}', [GroupsController::class, 'suspendGroupApplication']);
 
-        Route::put('/edit/{group}', [GroupsController::class, 'update']);
         Route::post('/kick/{group}', [GroupsController::class, 'removeUserFromGroup']);
         Route::post('/suspend/{group}', [GroupsController::class, 'suspendUserFromGroup']);
     });
+    
+    Route::delete('/{group}', [GroupsController::class, 'destroy'])->can('delete', 'group');
 });
