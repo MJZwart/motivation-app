@@ -30,8 +30,8 @@ import {onBeforeMount, ref, computed} from 'vue';
 import {useGroupStore} from '/js/store/groupStore';
 import {useRoute} from 'vue-router';
 import {GroupPage} from 'resources/types/group';
-import JoinGroupActions from './JoinGroupActions.vue';
-import MemberGroupPageData from './MemberGroupPageData.vue';
+import JoinGroupActions from './page-components/JoinGroupActions.vue';
+import MemberGroupPageData from './page-components/MemberGroupPageData.vue';
 import PublicGroupInformation from './page-components/PublicGroupInformation.vue';
 import MemberList from './page-components/MemberList.vue';
 import AdminActions from './page-components/AdminActions.vue';
@@ -72,6 +72,9 @@ function selectTab(tabName: string) {
     flex-wrap: nowrap;
     .group-page-content {
         width: 100%;
+    }
+    .content-block {
+        padding: 0.8rem;
     }
 }
 </style>
