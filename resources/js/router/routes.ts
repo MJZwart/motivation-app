@@ -1,35 +1,13 @@
-import Home from '../pages/home/Home.vue';
-import Dashboard from '../pages/dashboard/Dashboard.vue';
-import Login from '../pages/Login.vue';
-import Register from '../pages/Register.vue';
-import Overview from '../pages/overview/Overview.vue';
-import Notifications from '../pages/notifications/Notifications.vue';
-import Settings from '../pages/settings/Settings.vue';
-import Profile from '../pages/profile/Profile.vue';
-import AdminDashboard from '../pages/admin/AdminDashboard.vue';
-import Welcome from '../pages/Welcome.vue';
-import BugReport from '../pages/BugReport.vue';
-import Messages from '../pages/messages/Messages.vue';
-import Social from '../pages/social/Social.vue';
-import Faq from '../pages/Faq.vue';
-import Feedback from '../pages/Feedback.vue';
-import Group from '../pages/social/components/groups/GroupPage.vue';
-import ErrorPage from '../pages/ErrorPage.vue';
-import PrivacyPolicy from '../pages/legal/PrivacyPolicy.vue';
-import TOS from '../pages/legal/TOS.vue';
-import ForgotPassword from '../pages/ForgotPassword.vue';
-import ResetPassword from '../pages/ResetPassword.vue';
-import Changelog from '../pages/changelog/Changelog.vue';
 // import Test from '../pages/Test.vue';
 
 export const routes = [
     {
         path: '/',
-        component: Home,
+        component: () => import('../pages/home/Home.vue'),
     },
     {
         path: '/dashboard',
-        component: Dashboard,
+        component: () => import('../pages/dashboard/Dashboard.vue'),
         meta: {
             requiresAuth: true,
             title: 'Dashboard',
@@ -38,21 +16,21 @@ export const routes = [
     {
         name: 'login',
         path: '/login',
-        component: Login,
+        component: () => import('../pages/Login.vue'),
         meta: {
             title: 'Login',
         },
     },
     {
         path: '/register',
-        component: Register,
+        component: () => import('../pages/Register.vue'),
         meta: {
             title: 'Register',
         },
     },
     {
         path: '/overview',
-        component: Overview,
+        component: () => import('../pages/overview/Overview.vue'),
         meta: {
             requiresAuth: true,
             title: 'Overview',
@@ -60,7 +38,7 @@ export const routes = [
     },
     {
         path: '/notifications',
-        component: Notifications,
+        component: () => import('../pages/notifications/Notifications.vue'),
         meta: {
             requiresAuth: true,
             title: 'Notifications',
@@ -68,7 +46,7 @@ export const routes = [
     },
     {
         path: '/settings',
-        component: Settings,
+        component: () => import('../pages/settings/Settings.vue'),
         meta: {
             requiresAuth: true,
             title: 'Settings',
@@ -77,14 +55,14 @@ export const routes = [
     {
         name: 'profile',
         path: '/profile/:id',
-        component: Profile,
+        component: () => import('../pages/profile/Profile.vue'),
         meta: {
             title: 'Profile',
         },
     },
     {
         path: '/admindashboard',
-        component: AdminDashboard,
+        component: () => import('../pages/admin/AdminDashboard.vue'),
         meta: {
             requiresAuth: true, 
             requiresAdmin: true,
@@ -93,7 +71,7 @@ export const routes = [
     },
     {
         path: '/welcome',
-        component: Welcome,
+        component: () => import('../pages/Welcome.vue'),
         meta: {
             requiresAuth: true,
             title: 'Welcome',
@@ -101,14 +79,14 @@ export const routes = [
     },
     {
         path: '/bugreport',
-        component: BugReport,
+        component: () => import('../pages/BugReport.vue'),
         meta: {
             title: 'Report a bug',
         },
     },
     {
         path: '/messages',
-        component: Messages,
+        component: () => import('../pages/messages/Messages.vue'),
         meta: {
             requiresAuth: true,
             title: 'Messages',
@@ -116,7 +94,7 @@ export const routes = [
     },
     {
         path: '/social',
-        component: Social,
+        component: () => import('../pages/social/Social.vue'),
         meta: {
             requiresAuth: true,
             title: 'Social',
@@ -124,7 +102,7 @@ export const routes = [
     },
     {
         path: '/group/:id',
-        component: Group,
+        component: () => import('../pages/social/components/groups/GroupPage.vue'),
         meta: {
             requiresAuth: true,
             title: 'Group',
@@ -133,35 +111,35 @@ export const routes = [
     },
     {
         path: '/faq',
-        component: Faq,
+        component: () => import('../pages/Faq.vue'),
         meta: {
             title: 'Frequently asked questions',
         },
     },
     {
         path: '/feedback',
-        component: Feedback,
+        component: () => import('../pages/Feedback.vue'),
         meta: {
             title: 'Feedback',
         },
     },
     {
         path: '/privacy',
-        component: PrivacyPolicy,
+        component: () => import('../pages/legal/PrivacyPolicy.vue'),
         meta: {
             title: 'Privacy Policy',
         },
     },
     {
         path: '/tos',
-        component: TOS,
+        component: () => import('../pages/legal/TOS.vue'),
         meta: {
             title: 'Terms of Service',
         },
     },
     {
         path: '/:pathMatch(.*)*',
-        component: ErrorPage,
+        component: () => import('../pages/ErrorPage.vue'),
         meta: {
             title: 'Error',
         },
@@ -169,7 +147,7 @@ export const routes = [
     {
         name: 'Error',
         path: '/error',
-        component: ErrorPage,
+        component: () => import('../pages/ErrorPage.vue'),
         meta: {
             title: 'Error',
         },
@@ -177,7 +155,7 @@ export const routes = [
     {
         name: 'ForgotPassword',
         path: '/forgot-password',
-        component: ForgotPassword,
+        component: () => import('../pages/ForgotPassword.vue'),
         meta: {
             title: 'Forgot password',
         },
@@ -185,7 +163,7 @@ export const routes = [
     {
         name: 'ResetPassword',
         path: '/reset-password',
-        component: ResetPassword,
+        component: () => import('../pages/ResetPassword.vue'),
         meta: {
             title: 'Reset password',
         },
@@ -193,7 +171,7 @@ export const routes = [
     {
         name: 'Changelog',
         path: '/changelog',
-        component: Changelog,
+        component: () => import('../pages/changelog/Changelog.vue'),
         meta: {
             title: 'Changelog',
         },

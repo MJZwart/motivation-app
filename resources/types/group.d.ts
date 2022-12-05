@@ -17,6 +17,7 @@ export type NewGroup = {
 export type GroupPage = Group & {
     admin: StrippedUser;
     is_member: boolean;
+    is_admin: boolean;
     rank: string;
     joined: string;
     has_application: boolean;

@@ -26,6 +26,7 @@ class GroupPageResource extends JsonResource
             'require_application' => (bool) $this->require_application,
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
+            'is_admin' => $this->getAdmin()->id === Auth::user()->id,
             'is_member' => !!$this->findLoggedUser(),
             'rank' => $this->findLoggedUser() ? $this->findLoggedUser()->pivot->rank : null,
             'joined' => $this->findLoggedUser() ? Carbon::create($this->findLoggedUser()->pivot->joined) : null,
