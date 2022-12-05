@@ -164,5 +164,6 @@ function canNotInvite(userId: number) {
 .invite-friends-action.disabled,
 span.disabled {
     text-decoration: line-through;
+    cursor: default !important;
 }
 </style>

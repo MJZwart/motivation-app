@@ -93,7 +93,7 @@
 
 <script setup lang="ts">
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
-import CreateGroup from '../components/CreateGroup.vue';
+import CreateGroup from '../components/groups/CreateGroup.vue';
 import {computed, ref, onMounted} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {ALL_GROUP_FIELDS_OVERVIEW, MY_GROUP_FIELDS_OVERVIEW} from '/js/constants/groupConstants';

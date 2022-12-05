@@ -13,7 +13,7 @@ import Messages from '../pages/messages/Messages.vue';
 import Social from '../pages/social/Social.vue';
 import Faq from '../pages/Faq.vue';
 import Feedback from '../pages/Feedback.vue';
-import Group from '../pages/social/components/GroupPage.vue';
+import Group from '../pages/social/components/groups/GroupPage.vue';
 import ErrorPage from '../pages/ErrorPage.vue';
 import PrivacyPolicy from '../pages/legal/PrivacyPolicy.vue';
 import TOS from '../pages/legal/TOS.vue';
