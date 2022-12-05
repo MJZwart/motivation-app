@@ -139,8 +139,8 @@ class GroupsController extends Controller
         $applications->attach($user);
         Notification::create([
             'user_id' => $group->getAdmin()->id,
-            'title' => __('messages.group.already_applied', ['name' => $group->name]),
-            'text' => __('messages.group.already_applied', ['username' => $user->username, 'groupname' => $group->name]),
+            'title' => __('messages.group.new_application_title', ['name' => $group->name]),
+            'text' => __('messages.group.new_application_text', ['username' => $user->username, 'groupname' => $group->name]),
         ]);
 
         ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "User applied to group {$group->name}");
