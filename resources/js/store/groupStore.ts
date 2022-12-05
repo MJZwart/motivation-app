@@ -73,5 +73,13 @@ export const useGroupStore = defineStore('group', {
             const {data} = await axios.post(`/groups/suspend/${groupId}`, user);
             this.group = data.data.group;
         },
+        async getBlockedUsers(groupId: number) {
+            const {data} = await axios.get(`/groups/blocked/${groupId}`);
+            return data.blockedUsers;
+        },
+        async unblockUser(groupId: number, userId: number) {
+            const {data} = await axios.post(`/groups/unblock/${groupId}`, {userId: userId});
+            return data.data.blockedUsers;
+        },
     },
 });
