@@ -37,4 +37,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::put('/edit/{group}', [GroupsController::class, 'update']);
     Route::post('/kick/{group}', [GroupsController::class, 'removeUserFromGroup']);
     Route::post('/suspend/{group}', [GroupsController::class, 'suspendUserFromGroup']);
+
+    Route::get('/blocked/{group}', [GroupsController::class, 'getBlockedUsers']);
+    Route::post('/unblock/{group}', [GroupsController::class, 'unblockUserFromGroup']);
 });

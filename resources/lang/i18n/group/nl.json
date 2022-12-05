@@ -54,8 +54,9 @@
     "leave-group-confirm": "Weet je zeker dat je de groep {group} wil verlaten?",
     "no-groups-found": "Geen groepen op dit moment. Word lid van een of maak er zelf een!",
     "confirm-kick-from-group": "Weet je zeker dat je {user} wil kicken?",
-    "confirm-suspension-from-group": "Weet je zeker dat je {user} wil verbannen?",
+    "confirm-suspend-from-group": "Weet je zeker dat je {user} wil verbannen?",
     "suspend-group-application": "Wijs af en verban",
     "suspend": "Verban",
-    "no-applications": "Nog geen aanmeldingen."
+    "no-applications": "Nog geen aanmeldingen.",
+    "blocked-users": "Geblokkeerde gebruikers"
 }
