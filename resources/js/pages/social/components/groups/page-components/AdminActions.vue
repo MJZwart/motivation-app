@@ -142,17 +142,17 @@ function toggleRequireApplication() {
  * Manage applications
  */
 async function rejectApplication(applicationId: number) {
-    await groupStore.rejectApplication(applicationId);
+    await groupStore.rejectApplication(applicationId, props.group.id);
     loadApplications();
 }
 
 async function acceptApplication(applicationId: number) {
-    await groupStore.acceptApplication(applicationId);
+    await groupStore.acceptApplication(applicationId, props.group.id);
     loadApplications();
 }
 
 async function suspendApplication(applicationId: number) {
-    await groupStore.suspendApplication(applicationId);
+    await groupStore.suspendApplication(applicationId, props.group.id);
     loadApplications();
 }
 
