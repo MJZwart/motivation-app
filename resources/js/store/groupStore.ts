@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {Group, GroupPage, GroupUser, NewGroup} from 'resources/types/group';
+import {Group, GroupPage, NewGroup} from 'resources/types/group';
 
 export const useGroupStore = defineStore('group', {
     state: () => {
@@ -59,8 +59,8 @@ export const useGroupStore = defineStore('group', {
             this.group = data.data.groups.current;
             this.myGroups = data.data.groups.my;
         },
-        async removeGroupMember(user: GroupUser, groupId: number) {
-            const {data} = await axios.post(`/groups/kick/${groupId}`, user);
+        async removeGroupMember(userId: number, groupId: number) {
+            const {data} = await axios.post(`/groups/kick/${groupId}`, {id: userId});
             this.group = data.data.group;
         },
 
@@ -69,8 +69,8 @@ export const useGroupStore = defineStore('group', {
             this.group = data.data.group;
         },
 
-        async suspendGroupMember(user: GroupUser, groupId: number) {
-            const {data} = await axios.post(`/groups/suspend/${groupId}`, user);
+        async suspendGroupMember(userId: number, groupId: number) {
+            const {data} = await axios.post(`/groups/suspend/${groupId}`, {id: userId});
             this.group = data.data.group;
         },
         async getBlockedUsers(groupId: number) {
