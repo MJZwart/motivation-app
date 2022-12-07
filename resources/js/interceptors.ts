@@ -98,9 +98,9 @@ axios.interceptors.response.use(
             case 403:
                 userStore.getMe();
                 if (router.currentRoute.value.name !== 'login') {
-                    router.push('/dashboard');
+                    router.back();
                 }
-                errorToast('You are not authorized for this action');
+                errorToast(error.response.data.message);
                 return Promise.reject(error);
             /**
              * In the case of a 404, the user tried to find a user, group or other that no
