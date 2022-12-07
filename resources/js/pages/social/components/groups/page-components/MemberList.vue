@@ -9,8 +9,9 @@
         </div>
         <div v-for="(member, index) in group.members" :key="index" class="row">
             <span class="col">{{member.username}}</span>
-            <span class="col"><FaIcon :icon="member.rank == 'admin' ? 'angles-down' : 'angle-down'" />
-                {{member.rank}}</span>
+            <span class="col"><FaIcon :icon="member.rank.owner ? 'angles-down' : 'angle-down'" />
+                <!-- TODO Will require a rework -->
+                {{member.rank.name}}</span>
             <span class="col">{{daysSince(member.joined.toString())}}</span>
             <span v-if="group.is_admin" class="col">
                 <span v-if="member.id != user?.id" class="ml-auto mr-3">

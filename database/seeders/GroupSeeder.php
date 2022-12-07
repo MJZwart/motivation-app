@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\GroupRoleHandler;
 use Illuminate\Database\Seeder;
 use App\Models\Group;
+use App\Models\GroupRole;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -21,20 +23,21 @@ class GroupSeeder extends Seeder
         $groups = Group::get();
         $users = User::pluck('id')->toArray();
         foreach($groups as $group) {
+            GroupRoleHandler::createStandardGroupRoles($group->id);
             $amountOfUsers = rand(1, 10);
             shuffle($users);
             DB::table('group_user')->insert([
                 'group_id' => $group->id,
                 'user_id' => $users[0],
                 'joined' => Carbon::now()->subDays(rand(1, 365)),
-                'rank' => 'admin',
+                'rank' => GroupRole::where('group_id', $group->id)->where('owner', true)->first()->id,
             ]);
             for($i = 1 ; $i < $amountOfUsers ; $i++) {
                 DB::table('group_user')->insert([
                     'group_id' => $group->id,
                     'user_id' => $users[$i],
                     'joined' => Carbon::now()->subDays(rand(1, 365)),
-                    'rank' => 'member',
+                    'rank' => GroupRole::where('group_id', $group->id)->where('member', true)->first()->id,
                 ]);
             }
         }
@@ -47,9 +50,11 @@ class GroupSeeder extends Seeder
             'updated_at' => now(),
         ]);
         $group = Group::where('name', 'application_test')->first();
+        GroupRoleHandler::createStandardGroupRoles($group->id);
+        $adminRole = GroupRole::where('group_id', $group->id)->where('owner', true)->first();
         DB::table('group_user')->insert([
             'user_id' => 21,
-            'rank' => 'admin',
+            'rank' => $adminRole->id,
             'group_id' => $group->id,
         ]);
         shuffle($users);

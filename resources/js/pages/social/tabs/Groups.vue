@@ -74,6 +74,10 @@
                 <template #is_public="item">
                     <b>{{item.item.is_public ? $t('public') : $t('private')}}</b>
                 </template>
+                <template #rank="item">
+                    <b>{{$t('rank')}}: </b>{{item.item.rank.name}}
+                </template>
+
                 <template #require_application="item">
                     <b>{{item.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
                 </template>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\GroupNotFoundException;
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\GroupRoleHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
 use App\Models\Group;
@@ -68,7 +69,9 @@ class GroupsController extends Controller
         $validated = $request->validated();
 
         $group = Group::create($validated);
-        $group->users()->attach(Auth::user()->id, ['rank' => 'admin']);
+        GroupRoleHandler::createStandardGroupRoles($group->id);
+        $adminRank = GroupRoleHandler::getAdminRank($group->id);
+        $group->users()->attach(Auth::user()->id, ['rank' => $adminRank->id]);
         ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
 
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]));
@@ -96,7 +99,8 @@ class GroupsController extends Controller
         if ($group->require_application)
             return ResponseWrapper::errorResponse(__('messages.group.needs_application'));
         $user = Auth::user();
-        $group->users()->attach($user);
+        $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
+        // $group->users()->attach($user);
 
         ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', 'Joined group ' . $group->name);
         return ResponseWrapper::successResponse(
@@ -139,7 +143,7 @@ class GroupsController extends Controller
     {
         $user = User::find($application->user_id);
         $group->applications()->detach($user);
-        $group->users()->attach($user);
+        $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
         Notification::create([
             'user_id' => $user->id,
             'title' => __('messages.group.application_accepted_title', ['name' => $group->name]),
@@ -298,7 +302,7 @@ class GroupsController extends Controller
         $user = Auth::user();
         if ($user->id !== $groupInvite->user_id)
             return ResponseWrapper::errorResponse(__('messages.group.invite.not_yours'));
-        $group->users()->attach($user);
+        $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
         $groupInvite->delete();
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.join_success', ['name' => $groupInvite->group->name]));

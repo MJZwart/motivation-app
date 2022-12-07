@@ -2,8 +2,9 @@
     <div>
         <div class="content-block">
             <p><b>{{ $t('your-rank')}}</b>: 
-                <FaIcon :icon="group.rank == 'admin' ? 'angles-down' : 'angle-down'" />
-                {{group.rank}}
+                <FaIcon :icon="group.rank.owner ? 'angles-down' : 'angle-down'" />
+                <!-- TODO icons will require a rework -->
+                {{group.rank.name}}
             </p>
             <p><b>{{ $t('joined')}}</b>: {{parseDateTime(group.joined)}} ({{daysSince(group.joined)}})</p>
         </div>
