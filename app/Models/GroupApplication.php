@@ -11,5 +11,12 @@ class GroupApplication extends Pivot
 
     public $incrementing = true;
 
+    public $timestamps = false;
+
     public $table = 'group_applications';
+
+    public static function newApplication(int $groupId, int $userId)
+    {
+        GroupApplication::create(['group_id' => $groupId, 'user_id' => $userId]);
+    }
 }

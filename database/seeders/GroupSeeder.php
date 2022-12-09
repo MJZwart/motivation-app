@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Helpers\GroupRoleHandler;
 use Illuminate\Database\Seeder;
 use App\Models\Group;
+use App\Models\GroupApplication;
 use App\Models\GroupRole;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -59,7 +60,10 @@ class GroupSeeder extends Seeder
         ]);
         shuffle($users);
         for($i = 0; $i < 6; $i++) {
-            $group->applications()->attach($users[$i]);
+            GroupApplication::create([
+                'group_id' => $group->id,
+                'user_id' => $users[$i],
+            ]);
         };
     }
 }

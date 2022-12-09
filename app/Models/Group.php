@@ -18,7 +18,7 @@ class Group extends Model
         'require_application',
     ];
 
-    protected $with = ['users', 'invites', 'applications'];
+    protected $with = ['users'];
 
     public function users()
     {
@@ -34,9 +34,7 @@ class Group extends Model
 
     public function applications()
     {
-        return $this->belongsToMany('App\Models\User', 'group_applications')
-            ->using('App\Models\GroupApplication')
-            ->withPivot(['applied_at']);
+        return $this->hasMany('App\Models\GroupApplication');
     }
 
     public function suspendedUsers()
@@ -75,7 +73,7 @@ class Group extends Model
         return GroupRole::find($this->groupUser->where('user_id', $id)->first()->rank)->owner;
     }
 
-    public function rankOfMemberById(int $id): string
+    public function rankOfMemberById(int $id): GroupRole
     {
         return GroupRole::find($this->groupUser->where('user_id', $id)->first()->rank);
     }
@@ -94,6 +92,7 @@ class Group extends Model
     public function getAdmin()
     {
         $adminRole = $this->roles->where('owner', true)->first();
+        if (!GroupUser::where('rank', $adminRole->id)->first()) dd($this);
         return GroupUser::where('rank', $adminRole->id)->first()->user;
     }
 

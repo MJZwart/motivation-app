@@ -1,5 +1,8 @@
 <?php
 
+use App\Helpers\GroupRoleHandler;
+use App\Models\Group;
+use App\Models\GroupRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,7 +28,19 @@ return new class extends Migration
             
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
         });
-        
+
+        $groups = Group::all();
+        foreach ($groups as $group) {
+            GroupRoleHandler::createStandardGroupRoles($group->id);
+            $roles = $group->roles;
+            foreach($group->groupUser as $member) {
+                if($member->rank === 'admin')
+                    $member->rank = $roles->where('owner', true)->first()->id;
+                else
+                    $member->rank = $roles->where('member', true)->first()->id;
+                    $member->save();
+            }
+        }
     }
 
     /**
@@ -35,6 +50,17 @@ return new class extends Migration
      */
     public function down()
     {
+        $groups = Group::all();
+        foreach ($groups as $group) {
+            $roles = $group->roles;
+            foreach($group->groupUser as $member) {
+                if($member->rank === $roles->where('owner', true)->first()->id)
+                    $member->rank = 'admin';
+                else
+                    $member->rank = 'member';
+                $member->save();
+            }
+        }
         Schema::dropIfExists('group_roles');
     }
 };
