@@ -61,7 +61,7 @@ return [
         ],
         'blocked' => 'User blocked',
         'unblocked' => 'User has been unblocked',
-        'created' => 'You have successfully registered. You can now login with your chosen username.',
+        'created' => 'Your account has been made!',
         'setup' => 'You have successfully set up your account.',
         'profile_unavailable' => 'Unable to view this user\'s profile.',
         'not_admin' => 'You are not admin.',

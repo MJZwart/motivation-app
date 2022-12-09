@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
+use Carbon\Carbon;
+use stdClass;
 
 class RegisteredUserController extends Controller
 {
@@ -28,9 +30,22 @@ class RegisteredUserController extends Controller
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
-        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Deleting ' . $request['rewardType'] . ' ' . $request['id']);
-        $successMessage = __('messages.user.created');
-        return ResponseWrapper::successResponse($successMessage);
+        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Registering user ' . $request['username']);
+        return $this->loginUser($request, ['username' => $request['username'], 'password' => $request['password']]);
+    }
+
+    private function loginUser($request, $credentials)
+    {
+        if (Auth::attempt($credentials)) {
+            /** @var User */
+            $user = Auth::user();
+            $request->session()->regenerate();
+            ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in');
+            $user->last_login = Carbon::now();
+            $user->save();
+            return ResponseWrapper::successResponse(__('messages.user.created'), ['user' => new UserResource($user)]);
+        }
+        return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 
     /**
