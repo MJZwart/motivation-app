@@ -8,7 +8,7 @@
             </p>
             <p><b>{{ $t('joined')}}</b>: {{parseDateTime(group.joined)}} ({{daysSince(group.joined)}})</p>
         </div>
-        <div v-if="!group.is_admin" class="d-flex m-2">
+        <div v-if="!group.rank.owner" class="d-flex m-2">
             <button type="button" class="m-1 box-shadow" @click="leaveGroup()">{{ $t('leave-group') }}</button>
         </div>
     </div>
