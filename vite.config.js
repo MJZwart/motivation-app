@@ -61,6 +61,8 @@ export default defineConfig(({command}) => {
                 '@fortawesome/free-solid-svg-icons',
                 'pinia',
                 'luxon',
+                '@vueform/multiselect',
+                'platform',
             ],
         },
 
