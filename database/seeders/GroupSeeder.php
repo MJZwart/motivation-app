@@ -31,14 +31,14 @@ class GroupSeeder extends Seeder
                 'group_id' => $group->id,
                 'user_id' => $users[0],
                 'joined' => Carbon::now()->subDays(rand(1, 365)),
-                'rank' => GroupRole::where('group_id', $group->id)->where('owner', true)->first()->id,
+                'rank' => GroupRoleHandler::getAdminRank($group->id)->id,
             ]);
             for($i = 1 ; $i < $amountOfUsers ; $i++) {
                 DB::table('group_user')->insert([
                     'group_id' => $group->id,
                     'user_id' => $users[$i],
                     'joined' => Carbon::now()->subDays(rand(1, 365)),
-                    'rank' => GroupRole::where('group_id', $group->id)->where('member', true)->first()->id,
+                    'rank' => GroupRoleHandler::getMemberRank($group->id)->id,
                 ]);
             }
         }
@@ -52,7 +52,7 @@ class GroupSeeder extends Seeder
         ]);
         $group = Group::where('name', 'application_test')->first();
         GroupRoleHandler::createStandardGroupRoles($group->id);
-        $adminRole = GroupRole::where('group_id', $group->id)->where('owner', true)->first();
+        $adminRole = GroupRoleHandler::getAdminRank($group->id);
         DB::table('group_user')->insert([
             'user_id' => 21,
             'rank' => $adminRole->id,
