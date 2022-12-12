@@ -111,6 +111,18 @@ class GroupPolicy
     }
 
     /**
+     * Whether the user can view and send messages
+     *
+     * @param User $user
+     * @param Group $group
+     * @return Boolean
+     */
+    public function message(User $user, Group $group)
+    {
+        return $this->alreadyMember($user, $group) ? Response::allow() : Response::denyWithStatus(422, __('gate.groups.not_member'));
+    }
+
+    /**
      * Whether or not the user is already a member
      *
      * @param User $user

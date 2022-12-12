@@ -61,6 +61,11 @@ class Group extends Model
         return $this->hasMany('App\Models\GroupRole');
     }
 
+    public function messages()
+    {
+        return $this->hasMany('App\Models\GroupMessage');
+    }
+
     public function invitesAsId()
     {
         return $this->invites->map(function ($item, $key) {
