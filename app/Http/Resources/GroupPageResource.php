@@ -30,7 +30,7 @@ class GroupPageResource extends JsonResource
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
             'rank' => $rank ? new GroupRoleResource($rank) : null,
-            'joined' => $groupUser ? Carbon::create($this->findLoggedUser()->pivot->joined) : null,
+            'joined' => $groupUser ? Carbon::create($groupUser->pivot->joined) : null,
             'has_application' => $this->require_application ? $this->hasUserApplied() : false,
             'invites' => $rank && $rank->can_manage_members ? $this->invitesAsId() : null,
         ];
