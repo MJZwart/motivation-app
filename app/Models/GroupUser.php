@@ -15,4 +15,9 @@ class GroupUser extends Pivot
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function group()
+    {
+        return $this->belongsTo('App\Models\Group');
+    }
 }
