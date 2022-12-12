@@ -33,7 +33,7 @@ return new class extends Migration
         foreach ($groups as $group) {
             GroupRoleHandler::createStandardGroupRoles($group->id);
             $roles = $group->roles;
-            foreach($group->groupUser as $member) {
+            foreach($group->groupUsers as $member) {
                 if($member->rank === 'admin')
                     $member->rank = $roles->where('owner', true)->first()->id;
                 else
@@ -53,7 +53,7 @@ return new class extends Migration
         $groups = Group::all();
         foreach ($groups as $group) {
             $roles = $group->roles;
-            foreach($group->groupUser as $member) {
+            foreach($group->groupUsers as $member) {
                 if($member->rank === $roles->where('owner', true)->first()->id)
                     $member->rank = 'admin';
                 else

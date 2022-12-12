@@ -27,7 +27,7 @@ class Group extends Model
             ->withPivot(['joined']);
     }
 
-    public function groupUser() 
+    public function groupUsers() 
     {
         return $this->hasMany('App\Models\GroupUser');
     }
@@ -70,12 +70,12 @@ class Group extends Model
 
     public function isAdminById(int $id): bool
     {
-        return GroupRole::find($this->groupUser->where('user_id', $id)->first()->rank)->owner;
+        return GroupRole::find($this->groupUsers->where('user_id', $id)->first()->rank)->owner;
     }
 
     public function rankOfMemberById(int $id): GroupRole
     {
-        return GroupRole::find($this->groupUser->where('user_id', $id)->first()->rank);
+        return GroupRole::find($this->groupUsers->where('user_id', $id)->first()->rank);
     }
 
     public function findLoggedUser()
@@ -85,7 +85,7 @@ class Group extends Model
 
     public function loggedUserRank()
     {
-        $groupUser = $this->groupUser->where('user_id', Auth::user()->id)->first();
+        $groupUser = $this->groupUsers->where('user_id', Auth::user()->id)->first();
         return $groupUser ? GroupRole::find($groupUser->rank) : null;
     }
 
