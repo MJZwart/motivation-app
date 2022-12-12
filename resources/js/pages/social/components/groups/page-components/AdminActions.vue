@@ -34,7 +34,7 @@
                 <!-- TODO turn this into a 'turn off button' -->
             </form>
         </div>
-        <div v-if="group.require_application" class="content-block">
+        <div v-if="(group.require_application && group.rank.can_manage_members)" class="content-block">
             <h4>{{ $t('manage-group-applications') }}</h4>
             <Loading v-if="loading" />
             <template v-for="application in applications" :key="application.id">
@@ -56,10 +56,16 @@
             </div>
         </div>
         <div class="d-flex m-2">
-            <div v-if="group.rank == 'admin'">
-                <button type="button" class="m-1 box-shadow" @click="deleteGroup()">{{ $t('delete-group') }}</button>
-                <button type="button" class="m-1 box-shadow" @click="inviteUsers()">{{ $t('invite-users') }}</button>
-                <button type="button" class="m-1 box-shadow" @click="showBlocklist()">{{$t('blocklist')}}</button>
+            <div>
+                <button v-if="group.rank.can_delete" type="button" class="m-1 box-shadow" @click="deleteGroup()">
+                    {{ $t('delete-group') }}
+                </button>
+                <button v-if="group.rank.can_manage_members" type="button" class="m-1 box-shadow" @click="inviteUsers()">
+                    {{ $t('invite-users') }}
+                </button>
+                <button v-if="group.rank.can_manage_members" type="button" class="m-1 box-shadow" @click="showBlocklist()">
+                    {{$t('blocklist')}}
+                </button>
             </div>
         </div>
         <Modal class="xl" :show="showInviteUsersModal" :footer="false"

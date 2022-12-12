@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 use App\Models\GroupUser;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +18,7 @@ class Group extends Model
         'require_application',
     ];
 
-    protected $with = ['users', 'invites', 'applications'];
+    protected $with = ['users'];
 
     public function users()
     {
@@ -28,11 +27,14 @@ class Group extends Model
             ->withPivot(['joined']);
     }
 
+    public function groupUsers() 
+    {
+        return $this->hasMany('App\Models\GroupUser');
+    }
+
     public function applications()
     {
-        return $this->belongsToMany('App\Models\User', 'group_applications')
-            ->using('App\Models\GroupApplication')
-            ->withPivot(['applied_at']);
+        return $this->hasMany('App\Models\GroupApplication');
     }
 
     public function suspendedUsers()
@@ -54,6 +56,11 @@ class Group extends Model
         return $this->hasMany('App\Models\GroupInvite');
     }
 
+    public function roles()
+    {
+        return $this->hasMany('App\Models\GroupRole');
+    }
+
     public function invitesAsId()
     {
         return $this->invites->map(function ($item, $key) {
@@ -63,22 +70,29 @@ class Group extends Model
 
     public function isAdminById(int $id): bool
     {
-        return $this->users()->find($id)->pivot->rank == 'admin';
+        return GroupRole::find($this->groupUsers->where('user_id', $id)->first()->rank)->owner;
     }
 
-    public function rankOfMemberById(int $id): string
+    public function rankOfMemberById(int $id): GroupRole
     {
-        return $this->users->find($id)->pivot->rank;
+        return GroupRole::find($this->groupUsers->where('user_id', $id)->first()->rank);
     }
 
-    public function findLoggedUser()
+    public function findLoggedGroupUser()
     {
-        return $this->users->where('id', Auth::user()->id)->first();
+        return GroupUser::where('group_id', $this->id)->where('user_id', Auth::user()->id)->first();
+    }
+
+    public function loggedUserRank()
+    {
+        $groupUser = $this->groupUsers->where('user_id', Auth::user()->id)->first();
+        return $groupUser ? GroupRole::find($groupUser->rank) : null;
     }
 
     public function getAdmin()
     {
-        return $this->users->where('pivot.rank', 'admin')->first();
+        $adminRole = $this->roles->where('owner', true)->first();
+        return GroupUser::where('rank', $adminRole->id)->first()->user;
     }
 
     public function hasMember(int $id)

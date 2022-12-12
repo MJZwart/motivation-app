@@ -5,14 +5,15 @@
             <b class="col">{{ $t('username')}}</b>
             <b class="col">{{ $t('rank')}}</b>
             <b class="col">{{ $t('member-for')}}</b>
-            <b v-if="group.is_admin" class="col">{{$t('actions')}}</b>
+            <b v-if="group.rank.can_manage_members" class="col">{{$t('actions')}}</b>
         </div>
         <div v-for="(member, index) in group.members" :key="index" class="row">
             <span class="col">{{member.username}}</span>
-            <span class="col"><FaIcon :icon="member.rank == 'admin' ? 'angles-down' : 'angle-down'" />
-                {{member.rank}}</span>
+            <span class="col"><FaIcon :icon="member.rank.owner ? 'angles-down' : 'angle-down'" />
+                <!-- TODO Will require a rework -->
+                {{member.rank.name}}</span>
             <span class="col">{{daysSince(member.joined.toString())}}</span>
-            <span v-if="group.is_admin" class="col">
+            <span v-if="group.rank.can_manage_members" class="col">
                 <span v-if="member.id != user?.id" class="ml-auto mr-3">
                     <Tooltip :text="$t('send-message')">
                         <FaIcon 

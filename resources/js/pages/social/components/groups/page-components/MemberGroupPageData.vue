@@ -2,12 +2,13 @@
     <div>
         <div class="content-block">
             <p><b>{{ $t('your-rank')}}</b>: 
-                <FaIcon :icon="group.rank == 'admin' ? 'angles-down' : 'angle-down'" />
-                {{group.rank}}
+                <FaIcon :icon="group.rank.owner ? 'angles-down' : 'angle-down'" />
+                <!-- TODO icons will require a rework -->
+                {{group.rank.name}}
             </p>
             <p><b>{{ $t('joined')}}</b>: {{parseDateTime(group.joined)}} ({{daysSince(group.joined)}})</p>
         </div>
-        <div v-if="!group.is_admin" class="d-flex m-2">
+        <div v-if="!group.rank.owner" class="d-flex m-2">
             <button type="button" class="m-1 box-shadow" @click="leaveGroup()">{{ $t('leave-group') }}</button>
         </div>
     </div>

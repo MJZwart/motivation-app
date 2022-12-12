@@ -11,13 +11,13 @@
         </div>
         
         <KeepAlive class="tab-content col-10">
-            <component :is="currentTab.component" :key="currentTab.name" />
+            <component :is="currentTab.component" v-show="currentTab" :key="currentTab.name" />
         </KeepAlive>
     </div>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, PropType, ref, shallowRef} from 'vue';
+import {computed, onBeforeMount, PropType, ref, shallowRef} from 'vue';
 import type {Component} from 'vue';
 
 export type Tab = {
@@ -32,17 +32,18 @@ const props = defineProps({
     },
 });
 
-onMounted(async() => {
+onBeforeMount(async() => {
     if (window.location.hash) {
         const tabName = window.location.hash.slice(1);
-        currentTab.value = props.tabs[props.tabs.findIndex(tab => tab.name === tabName)];
+        currentTab.value = props.tabs[props.tabs.findIndex(tab => tab.name === tabName.toLowerCase())];
+        if (!currentTab.value) currentTab.value = props.tabs[0];
     }
     window.addEventListener('resize', handleResize);
 });
 const currentTab = shallowRef(props.tabs[0]);
 
 function isActive(tabName: string) {
-    return tabName === currentTab.value.name ? 'active-tab':'tab';
+    return currentTab.value && tabName === currentTab.value.name ? 'active-tab':'tab';
 }
 function selectTab(tab: Tab) {
     currentTab.value = tab;

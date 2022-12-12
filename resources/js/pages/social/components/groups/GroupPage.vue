@@ -14,8 +14,8 @@
                 <div class="group-page-content">
                     <div v-if="currentTab === 'public'">
                         <PublicGroupInformation :group="group" />
-                        <JoinGroupActions v-if="!group.is_member" :group="group" />
-                        <MemberGroupPageData v-if="group.is_member" :group="group" />
+                        <JoinGroupActions v-if="!group.rank" :group="group" />
+                        <MemberGroupPageData v-if="group.rank" :group="group" />
                     </div>
                     <MemberList v-if="currentTab === 'members'" :group="group" />
                     <AdminActions v-if="currentTab === 'admin'" :group="group" />
@@ -52,10 +52,15 @@ const group = computed((): GroupPage | null => groupStore.group);
  */
 const tabs = computed(() => {
     let computedTabs = ['public'];
-    if (group.value?.is_member) computedTabs.push('members');
-    if (group.value?.is_admin) computedTabs.push('admin');
+    if (group.value?.rank) computedTabs.push('members');
+    if (canSeeAdminTab()) computedTabs.push('admin');
     return computedTabs;
 });
+function canSeeAdminTab() {
+    const rank = group.value?.rank;
+    if (!rank) return;
+    return rank.can_delete || rank.can_edit || rank.can_manage_members;
+}
 const currentTab = ref('public');
 function isActive(tabName: string) {
     return tabName === currentTab.value ? 'active-tab':'tab';

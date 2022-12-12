@@ -18,7 +18,7 @@ export type GroupPage = Group & {
     admin: StrippedUser;
     is_member: boolean;
     is_admin: boolean;
-    rank: string;
+    rank: Rank;
     joined: string;
     has_application: boolean;
     invites: number[] | null;
@@ -27,9 +27,18 @@ export type GroupPage = Group & {
 export type GroupUser = {
     id: number;
     username: string;
-    rank: string;
+    rank: Rank;
     joined: Date;
 };
+
+export type Rank = {
+    name: string;
+    can_delete: boolean;
+    can_edit: boolean;
+    can_manage_members: boolean;
+    owner: boolean;
+    member: boolean;
+}
 
 export type Application = {
     id: number;

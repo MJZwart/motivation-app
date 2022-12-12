@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\GroupNotFoundException;
 use App\Helpers\ActionTrackingHandler;
+use App\Helpers\GroupRoleHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
 use App\Models\Group;
@@ -59,7 +60,7 @@ class GroupsController extends Controller
 
     public function showApplications(Group $group)
     {
-        $applications = GroupApplicationResource::collection(DB::table('group_applications')->where('group_id', $group->id)->get());
+        $applications = GroupApplicationResource::collection($group->applications);
         return new JsonResponse(['applications' => $applications]);
     }
 
@@ -68,7 +69,9 @@ class GroupsController extends Controller
         $validated = $request->validated();
 
         $group = Group::create($validated);
-        $group->users()->attach(Auth::user()->id, ['rank' => 'admin']);
+        GroupRoleHandler::createStandardGroupRoles($group->id);
+        $adminRank = GroupRoleHandler::getAdminRank($group->id);
+        $group->users()->attach(Auth::user()->id, ['rank' => $adminRank->id]);
         ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
 
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]));
@@ -77,7 +80,7 @@ class GroupsController extends Controller
     public function destroy(Request $request, Group $group): JsonResponse
     {
         $group->users()->detach();
-        $group->applications()->detach();
+        GroupApplication::where('group_id', $group->id)->delete();
         $group->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $group->name]));
@@ -96,7 +99,7 @@ class GroupsController extends Controller
         if ($group->require_application)
             return ResponseWrapper::errorResponse(__('messages.group.needs_application'));
         $user = Auth::user();
-        $group->users()->attach($user);
+        $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
 
         ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', 'Joined group ' . $group->name);
         return ResponseWrapper::successResponse(
@@ -118,10 +121,9 @@ class GroupsController extends Controller
         if (!$group->require_application)
             return ResponseWrapper::errorResponse(__('messages.group.no_application'));
         $user = Auth::user();
-        $applications = $group->applications();
-        if ($applications->find($user))
+        if (GroupApplication::where('group_id', $group->id)->where('user_id', $user->id)->exists())
             return ResponseWrapper::errorResponse(__('messages.group.already_applied'));
-        $applications->attach($user);
+        GroupApplication::newApplication($group->id, $user->id);
         Notification::create([
             'user_id' => $group->getAdmin()->id,
             'title' => __('messages.group.new_application_title', ['name' => $group->name]),
@@ -138,8 +140,8 @@ class GroupsController extends Controller
     public function acceptGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
-        $group->applications()->detach($user);
-        $group->users()->attach($user);
+        $application->delete();
+        $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
         Notification::create([
             'user_id' => $user->id,
             'title' => __('messages.group.application_accepted_title', ['name' => $group->name]),
@@ -156,7 +158,7 @@ class GroupsController extends Controller
     public function rejectGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
-        $group->applications()->detach($user);
+        $application->delete();
 
         ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "User rejected {$user->username}'s group application into {$group->name}.");
         return ResponseWrapper::successResponse(
@@ -174,7 +176,7 @@ class GroupsController extends Controller
     public function suspendGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
-        $group->applications()->detach($user);
+        $application->delete();
         $group->suspendedUsers()->attach($user);
         $username = $user->username;
         ActionTrackingHandler::handleAction($request, 'SUSPEND_GROUP_APPLICATION', $group->name . ' suspended user id ' . $user);
@@ -298,7 +300,7 @@ class GroupsController extends Controller
         $user = Auth::user();
         if ($user->id !== $groupInvite->user_id)
             return ResponseWrapper::errorResponse(__('messages.group.invite.not_yours'));
-        $group->users()->attach($user);
+        $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
         $groupInvite->delete();
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.join_success', ['name' => $groupInvite->group->name]));

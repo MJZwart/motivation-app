@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\GroupRole;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 class GroupPageResource extends JsonResource
 {
@@ -16,6 +16,9 @@ class GroupPageResource extends JsonResource
      */
     public function toArray($request)
     {
+        $groupUser = $this->findLoggedGroupUser();
+        $rank = null;
+        if ($groupUser) $rank = GroupRole::find($groupUser->rank);
         return [
             'id' => $this->id,
             'time_created' => $this->created_at,
@@ -26,12 +29,10 @@ class GroupPageResource extends JsonResource
             'require_application' => (bool) $this->require_application,
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
-            'is_admin' => $this->getAdmin()->id === Auth::user()->id,
-            'is_member' => !!$this->findLoggedUser(),
-            'rank' => $this->findLoggedUser() ? $this->findLoggedUser()->pivot->rank : null,
-            'joined' => $this->findLoggedUser() ? Carbon::create($this->findLoggedUser()->pivot->joined) : null,
+            'rank' => $rank ? new GroupRoleResource($rank) : null,
+            'joined' => $groupUser ? Carbon::create($groupUser->joined) : null,
             'has_application' => $this->require_application ? $this->hasUserApplied() : false,
-            'invites' => Auth::user()->id === $this->getAdmin()->id ? $this->invitesAsId() : null,
+            'invites' => $rank && $rank->can_manage_members ? $this->invitesAsId() : null,
         ];
     }
 }

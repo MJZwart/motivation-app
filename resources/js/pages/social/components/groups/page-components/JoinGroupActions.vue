@@ -1,6 +1,5 @@
 <template>
     <div class="d-flex m-2">
-        Join group actions
         <button 
             v-if="!group.require_application" 
             type="button" 

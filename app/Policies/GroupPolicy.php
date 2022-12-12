@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Helpers\GroupRoleHandler;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -41,7 +42,7 @@ class GroupPolicy
      */
     public function update(User $user, Group $group) 
     {
-        return $group->isAdminById($user->id) ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_update'));
+        return $group->rankOfMemberById($user->id)->can_edit ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_update'));
     }
     /**
      * Whether or not the user can delete a group. Generally admin only
@@ -52,7 +53,7 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group)
     {
-        return $group->isAdminById($user->id) ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_owner'));
+        return $group->rankOfMemberById($user->id)->can_delete ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_owner'));
     }
     /**
      * Whether or not the user can recruit members, eg invite, manage applications
@@ -63,7 +64,7 @@ class GroupPolicy
      */
     public function recruit(User $user, Group $group)
     {
-        return $group->isAdminById($user->id) ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_recruit'));
+        return $group->rankOfMemberById($user->id)->can_manage_members ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_recruit'));
     }
     
     /**
