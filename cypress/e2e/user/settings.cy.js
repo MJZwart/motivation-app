@@ -10,12 +10,15 @@ describe('Settings', () => {
         loginUser1();
     });
 
+    const accountSettingsUrl = '/settings#account-settings';
+    const rewardSettingsUrl = '/settings#reward-settings';
+    const profileSettingsUrl = '/settings#profile-settings';
     describe('User settings', () => {
         it('User can change password and is logged out', () => {
             //Waiting to prevent throttling issues
             cy.wait(5000);
             const newPass = getRandomString(8);
-            cy.visit('/settings#AccountSettings');
+            cy.visit(accountSettingsUrl);
             waitShort();
 
             cy.get('#old_password').type(user1.password);
@@ -30,7 +33,7 @@ describe('Settings', () => {
             cy.login(user1.username, newPass);
             waitShort();
 
-            cy.visit('/settings#AccountSettings');
+            cy.visit(accountSettingsUrl);
             waitShort();
 
             cy.get('#old_password').type(newPass);
@@ -42,7 +45,7 @@ describe('Settings', () => {
         });
         it('User can change email', () => {
             const newEmail = getRandomString() + '@email.com';
-            cy.visit('/settings#AccountSettings');
+            cy.visit(accountSettingsUrl);
             waitShort();
 
             cy.get('#email').invoke('val').then((currentEmail) => {
@@ -54,7 +57,7 @@ describe('Settings', () => {
             });
         });
         it('User can show or hide tutorials', () => {
-            cy.visit('/settings#AccountSettings');
+            cy.visit(accountSettingsUrl);
             waitShort();
 
             cy.get('button').contains('Hide tutorials').click();
@@ -65,7 +68,7 @@ describe('Settings', () => {
 
             cy.get('.card-header').first().should('not.have.descendants', 'svg');
 
-            cy.visit('/settings#AccountSettings');
+            cy.visit('/settings#account-settings');
             waitShort();
 
             cy.get('button').contains('Turn on tutorials').click();
@@ -77,7 +80,7 @@ describe('Settings', () => {
             cy.get('.card-header').first().should('have.descendants', 'svg');
         });
         it('User can change language', () => {
-            cy.visit('/settings#AccountSettings');
+            cy.visit(accountSettingsUrl);
             waitShort();
 
             cy.get('span.clickable.fi.fi-nl').first().click();
@@ -89,7 +92,7 @@ describe('Settings', () => {
             cy.get('h4').contains('Language').should('exist');
         });
         it('User can switch light and dark mode', () => {
-            cy.visit('/settings#AccountSettings');
+            cy.visit(accountSettingsUrl);
             waitShort();
 
             cy.get('button').contains('Dark mode').click();
@@ -101,7 +104,7 @@ describe('Settings', () => {
 
     describe('Profile settings', () => {
         it('User can show and hide various items on profile', () => {
-            cy.visit('/settings#ProfileSettings');
+            cy.visit(profileSettingsUrl);
             waitShort();
 
             cy.get('#show_reward').uncheck();
@@ -116,7 +119,7 @@ describe('Settings', () => {
 
             cy.get('.card-header').should('not.exist');
 
-            cy.visit('/settings#ProfileSettings');
+            cy.visit(profileSettingsUrl);
             waitShort();
 
             cy.get('#show_reward').check();
@@ -141,7 +144,7 @@ describe('Settings', () => {
         it('User can make a new character and switch to it', () => {
             //Waiting to prevent throttling issues
             cy.wait(5000);
-            cy.visit('/settings#RewardSettings');
+            cy.visit(rewardSettingsUrl);
             waitShort();
 
             cy.get('#CHARACTER').check();
@@ -151,7 +154,7 @@ describe('Settings', () => {
             waitShort();
         });
         it('User can switch to village', () => {
-            cy.visit('/settings#RewardSettings');
+            cy.visit(rewardSettingsUrl);
             waitShort();
 
             cy.get('#VILLAGE').check();
@@ -161,7 +164,7 @@ describe('Settings', () => {
             waitShort();
         });
         it('User can switch back to character', () => {
-            cy.visit('/settings#RewardSettings');
+            cy.visit(rewardSettingsUrl);
             waitShort();
 
             cy.get('#CHARACTER').check();
@@ -170,7 +173,7 @@ describe('Settings', () => {
             waitShort();
         });
         it('User can rename a character', () => {
-            cy.visit('/settings#RewardSettings');
+            cy.visit(rewardSettingsUrl);
             waitShort();
 
             cy.get('table').contains(charName).parent().find(editButton).click();
@@ -183,7 +186,7 @@ describe('Settings', () => {
             cy.get('table').should('contain.text', newCharName);
         });
         it('User can delete a character', () => {
-            cy.visit('/settings#RewardSettings');
+            cy.visit(rewardSettingsUrl);
             waitShort();
 
             cy.get('table').contains(newCharName).parent().find(deleteButton).click();

@@ -23,6 +23,7 @@ describe('Friends', () => {
         cy.intercept('get', '/api/friend').as('getFriends');
 
         cy.get('a').contains('Social').click();
+        waitShort();
         cy.get('button').contains('Friends').click();
         cy.wait('@getFriends');
         waitShort();
