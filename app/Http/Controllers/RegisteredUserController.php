@@ -12,13 +12,11 @@ use App\Models\TaskList;
 use App\Models\ExampleTask;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use Carbon\Carbon;
-use stdClass;
 
 class RegisteredUserController extends Controller
 {
