@@ -26,7 +26,7 @@ class MyGroupResource extends JsonResource
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
             'rank' => $this->loggedUserRank(),
-            'joined' => Carbon::create($this->findLoggedUser()->pivot->joined),
+            'joined' => Carbon::create($this->findLoggedGroupUser()->joined),
         ];
     }
 }

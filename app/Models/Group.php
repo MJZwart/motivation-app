@@ -78,9 +78,9 @@ class Group extends Model
         return GroupRole::find($this->groupUsers->where('user_id', $id)->first()->rank);
     }
 
-    public function findLoggedUser()
+    public function findLoggedGroupUser()
     {
-        return $this->users->where('id', Auth::user()->id)->first();
+        return GroupUser::where('group_id', $this->id)->where('user_id', Auth::user()->id)->first();
     }
 
     public function loggedUserRank()

@@ -16,9 +16,9 @@ class GroupPageResource extends JsonResource
      */
     public function toArray($request)
     {
-        $groupUser = $this->findLoggedUser();
+        $groupUser = $this->findLoggedGroupUser();
         $rank = null;
-        if ($groupUser) $rank = GroupRole::find($groupUser->pivot->rank);
+        if ($groupUser) $rank = GroupRole::find($groupUser->rank);
         return [
             'id' => $this->id,
             'time_created' => $this->created_at,
@@ -30,7 +30,7 @@ class GroupPageResource extends JsonResource
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
             'rank' => $rank ? new GroupRoleResource($rank) : null,
-            'joined' => $groupUser ? Carbon::create($groupUser->pivot->joined) : null,
+            'joined' => $groupUser ? Carbon::create($groupUser->joined) : null,
             'has_application' => $this->require_application ? $this->hasUserApplied() : false,
             'invites' => $rank && $rank->can_manage_members ? $this->invitesAsId() : null,
         ];
