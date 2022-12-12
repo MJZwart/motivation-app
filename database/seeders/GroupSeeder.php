@@ -60,10 +60,7 @@ class GroupSeeder extends Seeder
         ]);
         shuffle($users);
         for($i = 0; $i < 6; $i++) {
-            GroupApplication::create([
-                'group_id' => $group->id,
-                'user_id' => $users[$i],
-            ]);
+            GroupApplication::newApplication($group->id, $users[$i]);
         };
     }
 }
