@@ -1,4 +1,4 @@
-import {getRandomString} from '../../support/commands';
+import {getRandomString, waitShort} from '../../support/commands';
 
 describe('New user', () => {
     
@@ -65,13 +65,7 @@ describe('New user', () => {
             
             //Click register
             cy.contains('Register new account').should('exist').click();
-
-            //Assert that the user gets redirected to the login screen
-            cy.url().should('contain', 'login');
-            //Login
-            cy.get('#username').type(username);
-            cy.get('#password').type(password);
-            cy.get('#login-button').click();
+            waitShort();
 
             //Assert that the user gets logged in and gets sent to the welcome screen
             cy.url().should('contain', 'welcome');
@@ -110,15 +104,9 @@ describe('New user', () => {
             
             //Click register
             cy.contains('Register new account').should('exist').click();
+            waitShort();
 
-            //Assert that the user gets redirected to the login screen
-            cy.url().should('contain', 'login');
-            //Login
-            cy.get('#username').type(username1);
-            cy.get('#password').type(password1);
-            cy.get('#login-button').click();
-
-            //Assert that the user gets logged in and gets sent to the welcome screen
+            //Assert that the user gets logged in and redirected to the welcome screen
             cy.url().should('contain', 'welcome');
 
             //Choose village and enter no name
@@ -155,13 +143,7 @@ describe('New user', () => {
             
             //Click register
             cy.contains('Register new account').should('exist').click();
-
-            //Assert that the user gets redirected to the login screen
-            cy.url().should('contain', 'login');
-            //Login
-            cy.get('#username').type(username2);
-            cy.get('#password').type(password2);
-            cy.get('#login-button').click();
+            waitShort();
 
             //Assert that the user gets logged in and gets sent to the welcome screen
             cy.url().should('contain', 'welcome');

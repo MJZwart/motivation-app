@@ -11,11 +11,9 @@ describe('Blocking', () => {
     }
 
     function goToFriendsPage() {
-        cy.intercept('get', '/api/friend').as('getFriends');
-
         cy.get('a').contains('Social').click();
+        waitShort();
         cy.get('button').contains('Friends').click();
-        cy.wait('@getFriends');
         waitShort();
     }
     function searchOnUsernameInFriendsPanel(username) {
@@ -40,6 +38,7 @@ describe('Blocking', () => {
             waitShort();
 
             cy.get('a').contains('Social').click();
+            waitShort();
             cy.get('button').contains('Blocklist').click();
             waitShort();
 
@@ -59,6 +58,7 @@ describe('Blocking', () => {
             loginUser1();
 
             cy.get('a').contains('Social').click();
+            waitShort();
             cy.get('button').contains('Blocklist').click();
             waitLong();
 
