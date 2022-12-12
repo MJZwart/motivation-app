@@ -81,5 +81,17 @@ export const useGroupStore = defineStore('group', {
             const {data} = await axios.post(`/groups/unblock/${groupId}`, {userId: userId});
             return data.data.blockedUsers;
         },
+
+        /*
+        Group messages
+        */
+        async getMessages(groupId: number) {
+            const {data} = await axios.get(`/groups/${groupId}/messages`);
+            return data.data;
+        },
+        async postMessage(groupId: number, groupMessage: {message: string}) {
+            const {data} = await axios.post(`/groups/${groupId}/messages`, groupMessage);
+            return data.data.messages;
+        },
     },
 });
