@@ -40,6 +40,7 @@
     "in-progress": "In behandeling",
     "done": "Fix klaar",
     "resolved": "Fix uitgerold",
+    "send-message-to-reporter": "Laat melder weten dat de bug is opgelost.",
     
     "reported-users": "Gemelde gebruikers",
     "number-of-reports": "Aantal meldingen",
