@@ -14,5 +14,8 @@
     "confirmation-delete-message": "Weet je zeker dat je dit bericht wil verwijderen?",
     "no-messages": "Geen berichten op dit moment. Stuur een bericht naar je een van je vrienden!",
 
-    "no-notifications": "Geen notificaties op het moment."
+    "no-notifications": "Geen notificaties op het moment.",
+
+    "new-message": "Nieuw bericht",
+    "no-messages-group": "Geen berichten op dit moment"
 }

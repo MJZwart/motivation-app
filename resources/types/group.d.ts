@@ -47,3 +47,9 @@ export type Application = {
     username: string;
     group_id: number;
 };
+
+export type GroupMessage = {
+    message: string;
+    user: StrippedUser;
+    created_at: Date;
+}
