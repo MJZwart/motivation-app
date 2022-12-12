@@ -140,7 +140,6 @@ class GroupsController extends Controller
     public function acceptGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
-        // $group->applications()->detach($user);
         $application->delete();
         $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
         Notification::create([
@@ -159,7 +158,6 @@ class GroupsController extends Controller
     public function rejectGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
-        // $group->applications()->detach($user);
         $application->delete();
 
         ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "User rejected {$user->username}'s group application into {$group->name}.");
@@ -178,7 +176,6 @@ class GroupsController extends Controller
     public function suspendGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
-        // $group->applications()->detach($user);
         $application->delete();
         $group->suspendedUsers()->attach($user);
         $username = $user->username;
