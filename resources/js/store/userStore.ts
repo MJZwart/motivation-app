@@ -28,7 +28,6 @@ export const useUserStore = defineStore('user', {
          */
         async login(user: Login): Promise<string | null> {
             await axios.get('/sanctum/csrf-cookie');
-            // @ts-ignore
             const {data} = await axios.post('/login', user);
             this.setUser(data.user);
             const friendStore = useFriendStore();
@@ -63,8 +62,12 @@ export const useUserStore = defineStore('user', {
         //New user
         async register(user: Register) {
             await axios.get('/sanctum/csrf-cookie');
-            await axios.post('/register', user);
-            router.push('/login');
+            const {data} = await axios.post('/register', user);
+            this.setUser(data.data.user);
+            const friendStore = useFriendStore();
+            friendStore.friends = data.data.user.friends;
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            router.push('/dashboard').catch(() => {});
         },
         async confirmRegister(user: NewUser) {
             const {data} = await axios.post('/register/confirm', user);

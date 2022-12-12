@@ -61,7 +61,7 @@ return [
         ],
         'blocked' => 'Gebruiker geblokkeerd',
         'unblocked' => 'Gebruiker gedeblokkeerd',
-        'created' => 'Je account is aangemaakt. Je kunt nu inloggen met je gekozen gebruikersnaam en wachtwoord.',
+        'created' => 'Je account is aangemaakt!',
         'setup' => 'Je hebt je account ingesteld.',
         'profile_unavailable' => 'Dit profiel is niet zichtbaar.',
         'not_admin' => 'Je bent geen admin.',
