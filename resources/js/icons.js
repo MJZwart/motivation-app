@@ -33,6 +33,7 @@ import {
     faRepeat,
     faSort,
     faSquarePlus, 
+    faStar,
     faTrash, 
     faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
@@ -63,9 +64,10 @@ library.add(
     faPowerOff,
     faRectangleXmark,
     faRepeat,
+    faSort,
     faSquareCheck, 
     faSquarePlus, 
-    faSort,
+    faStar,
     faTrash, 
     faUserPlus,
 );

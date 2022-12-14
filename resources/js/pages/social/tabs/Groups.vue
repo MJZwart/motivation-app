@@ -62,6 +62,10 @@
             >
                 <template #nameField="item">
                     <h5>{{item.item.name}}</h5>
+                    <span v-if="item.item.is_member" class="silent">
+                        <GroupRoleIcon v-if="item.item.rank" :role="item.item.rank" />
+                        {{$t('your-group')}}
+                    </span>
                 </template>
                 <template #joined="item">
                     <b>{{$t('member-since')}}:</b> {{ item.item.joined ? parseDateTime(item.item.joined) : '' }}
@@ -105,6 +109,7 @@ import {useGroupStore} from '/js/store/groupStore';
 import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
 import type {Group} from 'resources/types/group';
+import GroupRoleIcon from '../components/groups/page-components/GroupRoleIcon.vue';
 
 const groupStore = useGroupStore();
 const mainStore = useMainStore();
