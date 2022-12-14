@@ -6,6 +6,7 @@ describe('Groups', () => {
     const publicGroupName = getRandomString();
     const groupWithApplicationName1 = getRandomString();
     const groupWithApplicationName2 = getRandomString();
+    const groupMessage = getRandomString();
 
     function loginUser1() {
         cy.login(user1.username, user1.password);
@@ -85,6 +86,20 @@ describe('Groups', () => {
             cy.get('button').contains('Require application').click();
             waitShort();
             cy.get('button').contains('Do not require application').should('exist');
+        });
+        it('can send messages within the group', () => {
+            loginUser1();
+
+            openGroupPage(publicGroupName);
+            
+            cy.get('.tab').contains('Messages').click();
+            waitShort();
+
+            cy.get('#message').type(groupMessage);
+            cy.get('#send-message-button').click();
+            waitShort();
+
+            cy.get('.group-message').contains(groupMessage).should('exist');
         });
     });
     describe('User 2 can join groups', () => {

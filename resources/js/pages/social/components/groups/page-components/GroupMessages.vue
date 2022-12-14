@@ -9,7 +9,7 @@
                 name="message"
                 :placeholder="$t('new-message')"
             />
-            <SubmitButton class="ml-auto" @click="sendMessage">{{$t('send-message')}}</SubmitButton>
+            <SubmitButton id="send-message-button" class="ml-auto" @click="sendMessage">{{$t('send-message')}}</SubmitButton>
         </div>
         <div v-if="messages && messages[0]" class="group-messages">
             <div v-for="(message, index) in messages" :key="index" class="group-message">
