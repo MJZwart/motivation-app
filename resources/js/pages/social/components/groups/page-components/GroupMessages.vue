@@ -13,7 +13,12 @@
         </div>
         <div v-if="messages && messages[0]" class="group-messages">
             <div v-for="(message, index) in messages" :key="index" class="group-message">
-                <GroupMessageComp :message="message" :can-delete="canDelete(message)" @delete-message="deleteMessage" />
+                <GroupMessageComp 
+                    :message="message" 
+                    :can-delete="canDelete(message)" 
+                    :user-id="user!.id" 
+                    @delete-message="deleteMessage"
+                />
             </div>
         </div>
         <div v-else>

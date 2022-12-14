@@ -49,6 +49,7 @@
     "member-list": "Ledenlijst",
     "show-details": "Toon details",
     "manage-group": "Groep beheren",
+    "delete-message": "Bericht verwijderen",
 
     "delete-group-confirm": "Weet je zeker dat je de groep {group} wil verwijderen?",
     "leave-group-confirm": "Weet je zeker dat je de groep {group} wil verlaten?",

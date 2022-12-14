@@ -6,31 +6,51 @@
     >
         <p>{{message.message}}</p>
         <p class="silent d-flex">
-            <router-link class="silent" :to="{name: 'profile', params: {id: message.user.id}}">
+            <router-link class="silent clear-link" :to="{name: 'profile', params: {id: message.user.id}}">
                 {{message.user.username}}
             </router-link> - {{parseDateTime(message.created_at)}}
             <span v-if="canDelete && hover" class="ml-auto"> 
-                <FaIcon 
-                    icon="trash"
-                    class="icon small red message-icon"
-                    @click="deleteMessage()" />
+                <Tooltip :text="$t('delete-message')">
+                    <FaIcon 
+                        icon="trash"
+                        class="icon small red message-icon"
+                        @click="deleteMessage()" />
+                </Tooltip>
+                <Tooltip v-if="message.user.id !== userId" :text="$t('report-user')">
+                    <FaIcon 
+                        :icon="['far', 'flag']"
+                        class="icon small red message-icon"
+                        @click="reportMessage()" />
+                </Tooltip>
             </span>
         </p>
+        <Modal :show="showReportUserModal" :header="false" @close="closeReportUserModal">
+            <ReportUser :user="message.user" @close="closeReportUserModal" />
+        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
+import ReportUser from '/js/pages/messages/components/ReportUser.vue';
 import type {GroupMessage} from 'resources/types/group';
 import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 
-const props = defineProps<{message: GroupMessage, canDelete: boolean}>();
+const props = defineProps<{message: GroupMessage, canDelete: boolean, userId: number}>();
 const emit = defineEmits(['deleteMessage'])
 
 const hover = ref(false);
 
 function deleteMessage() {
     emit('deleteMessage', props.message);
+}
+
+const showReportUserModal = ref(false);
+function reportMessage() {
+    showReportUserModal.value = true;
+}
+function closeReportUserModal() {
+    showReportUserModal.value = false;
 }
 </script>
 
