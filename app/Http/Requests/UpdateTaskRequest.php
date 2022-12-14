@@ -8,20 +8,9 @@ use App\Rules\OwnerOfTaskList;
 use App\Rules\OwnerOfTask;
 use App\Rules\ValidRepeatable;
 use App\Rules\ValidTaskType;
-use App\Models\Task;
 
 class UpdateTaskRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return $this->task->user_id == Auth::user()->id;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
