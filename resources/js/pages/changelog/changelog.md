@@ -4,6 +4,7 @@
 
 ### Features
 -   Characters and villages now earn coins! There's nothing you can do with it yet, but it looks cool if you ask me.
+-   Added a messaging board to groups. All members of a group can now chat with each other. Admins and moderators can delete message and any user can delete their own message. In case of abuse users can report a message.
 
 ### Quality of life
 -   You can now filter for groups that require no application.
