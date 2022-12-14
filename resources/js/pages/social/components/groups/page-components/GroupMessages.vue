@@ -13,7 +13,7 @@
         </div>
         <div v-if="messages && messages[0]" class="group-messages">
             <div v-for="(message, index) in messages" :key="index" class="group-message">
-                <GroupMessageComp :message="message" />
+                <GroupMessageComp :message="message" :can-delete="canDelete(message)" @delete-message="deleteMessage" />
             </div>
         </div>
         <div v-else>
@@ -24,15 +24,19 @@
 
 <script setup lang="ts">
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
-import type {Group, GroupMessage} from 'resources/types/group';
-import {onMounted, ref} from 'vue';
+import type {GroupMessage, GroupPage} from 'resources/types/group';
+import {computed, onMounted, ref} from 'vue';
 import {useGroupStore} from '/js/store/groupStore';
 import GroupMessageComp from './GroupMessage.vue';
+import {useUserStore} from '/js/store/userStore';
 
-const props = defineProps<{group: Group}>();
+const props = defineProps<{group: GroupPage}>();
 
 const groupStore = useGroupStore();
+const userStore = useUserStore();
 const loading = ref(true);
+
+const user = computed(() => userStore.user);
 
 const messages = ref<GroupMessage[]>([]);
 const newMessage = ref({
@@ -47,6 +51,15 @@ onMounted(async() => {
 async function sendMessage() {
     messages.value = await groupStore.postMessage(props.group.id, newMessage.value);
     newMessage.value.message = '';
+}
+
+function canDelete(message: GroupMessage) {
+    if (props.group.rank.can_moderate_messages) return true;
+    return message.user.id === user.value?.id;
+}
+
+async function deleteMessage(message: GroupMessage) {
+    messages.value = await groupStore.deleteMessage(props.group.id, message.id);
 }
 </script>
 

@@ -6,8 +6,10 @@
     >
         <p>{{message.message}}</p>
         <p class="silent d-flex">
-            {{message.user.username}} - {{parseDateTime(message.created_at)}}
-            <span v-if="hover" class="ml-auto"> 
+            <router-link class="silent" :to="{name: 'profile', params: {id: message.user.id}}">
+                {{message.user.username}}
+            </router-link> - {{parseDateTime(message.created_at)}}
+            <span v-if="canDelete && hover" class="ml-auto"> 
                 <FaIcon 
                     icon="trash"
                     class="icon small red message-icon"
@@ -22,7 +24,7 @@ import type {GroupMessage} from 'resources/types/group';
 import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 
-const props = defineProps<{message: GroupMessage}>();
+const props = defineProps<{message: GroupMessage, canDelete: boolean}>();
 const emit = defineEmits(['deleteMessage'])
 
 const hover = ref(false);
