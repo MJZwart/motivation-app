@@ -58,4 +58,5 @@ Route::group(['middleware' => ['valid-auth']], function () {
         Route::get('/{group}/messages', [GroupsController::class, 'getMessages']);
         Route::post('/{group}/messages', [GroupsController::class, 'storeMessage']);
     });
+    Route::delete('/{group}/messages/{groupMessage}', [GroupsController::class, 'deleteMessage'])->can('manageMessage', ['group', 'groupMessage']);
 });

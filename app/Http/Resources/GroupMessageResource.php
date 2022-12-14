@@ -16,6 +16,7 @@ class GroupMessageResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'message' => $this->message,
             'user' => new StrippedUserResource($this->user),
             'created_at' => $this->created_at,

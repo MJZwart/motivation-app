@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\GroupRoleHandler;
 use App\Models\Group;
+use App\Models\GroupMessage;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -120,6 +121,12 @@ class GroupPolicy
     public function message(User $user, Group $group)
     {
         return $this->alreadyMember($user, $group) ? Response::allow() : Response::denyWithStatus(422, __('gate.groups.not_member'));
+    }
+
+    public function manageMessage(User $user, Group $group, GroupMessage $groupMessage)
+    {
+        if ($groupMessage->user_id === $user->id) return Response::allow();
+        return $group->rankOfMemberById($user->id)->can_moderate_messages ? Response::allow() : Response::denyWithStatus(422, __('gate.groups.not_allowed_moderate'));
     }
 
     /**

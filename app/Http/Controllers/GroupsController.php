@@ -352,6 +352,19 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.message.created'), ['messages' => GroupMessageResource::collection($group->fresh()->messages)]);
     }
 
+    /**
+     * Deletes the message if the user is authorized to do so
+     *
+     * @param Group $group
+     * @param GroupMessage $groupMessage
+     * @return void
+     */
+    public function deleteMessage(Group $group, GroupMessage $groupMessage)
+    {
+        $groupMessage->delete();
+        return ResponseWrapper::successResponse(__('messages.group.message.deleted'), ['messages' => GroupMessageResource::collection($group->fresh()->messages)]);
+    }
+
     private function getGroupInviteOrFail(int $invite)
     {
         try {
