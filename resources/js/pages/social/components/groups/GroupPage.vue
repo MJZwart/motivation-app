@@ -59,7 +59,7 @@ const tabs = computed(() => {
 function canSeeAdminTab() {
     const rank = group.value?.rank;
     if (!rank) return;
-    return rank.can_delete || rank.can_edit || rank.can_manage_members;
+    return rank.owner || rank.can_edit || rank.can_manage_members;
 }
 const currentTab = ref('public');
 function isActive(tabName: string) {

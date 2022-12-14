@@ -10,7 +10,6 @@ class GroupRoleHandler
     {
         GroupRole::create([
             'name' => 'Admin',
-            'can_delete' => true,
             'can_edit' => true,
             'can_manage_members' => true,
             'owner' => true,
@@ -18,14 +17,12 @@ class GroupRoleHandler
         ]);
         GroupRole::create([
             'name' => 'Moderator',
-            'can_delete' => false,
             'can_edit' => true,
             'can_manage_members' => true,
             'group_id' => $groupId,
         ]);
         GroupRole::create([
             'name' => 'Member',
-            'can_delete' => false,
             'can_edit' => false,
             'can_manage_members' => false,
             'group_id' => $groupId,

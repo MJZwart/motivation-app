@@ -57,7 +57,7 @@
         </div>
         <div class="d-flex m-2">
             <div>
-                <button v-if="group.rank.can_delete" type="button" class="m-1 box-shadow" @click="deleteGroup()">
+                <button v-if="group.rank.owner" type="button" class="m-1 box-shadow" @click="deleteGroup()">
                     {{ $t('delete-group') }}
                 </button>
                 <button v-if="group.rank.can_manage_members" type="button" class="m-1 box-shadow" @click="inviteUsers()">
