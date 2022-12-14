@@ -141,6 +141,7 @@ return [
         'not_admin' => 'You are not an admin of this group',
         'message' => [
             'created' => 'Message posted',
+            'deleted' => 'Message deleted',
         ],
     ],
 
