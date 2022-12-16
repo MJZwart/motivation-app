@@ -14,5 +14,8 @@
     "confirmation-delete-message": "Are you sure you want to delete this message?",
     "no-messages": "No messages found at this time. Maybe send a message to one of your friends first!",
 
-    "no-notifications": "No notifications at this time."
+    "no-notifications": "No notifications at this time.",
+
+    "new-message": "New message",
+    "no-messages-group": "No messages at this time"
 }

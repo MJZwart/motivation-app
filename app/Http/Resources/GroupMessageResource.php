@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\StrippedUserResource;
 
-class GroupRoleResource extends JsonResource
+class GroupMessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +16,10 @@ class GroupRoleResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
-            'can_edit' => $this->can_edit,
-            'can_manage_members' => $this->can_manage_members,
-            'can_moderate_messages' => $this->can_moderate_messages,
-            'owner' => $this->owner,
-            'member' => $this->member,
+            'id' => $this->id,
+            'message' => $this->message,
+            'user' => new StrippedUserResource($this->user),
+            'created_at' => $this->created_at,
         ];
     }
 }

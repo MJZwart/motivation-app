@@ -19,6 +19,7 @@
                     </div>
                     <MemberList v-if="currentTab === 'members'" :group="group" />
                     <AdminActions v-if="currentTab === 'admin'" :group="group" />
+                    <GroupMessages v-if="currentTab === 'messages'" :group="group" />
                 </div>
             </div>
         </div>
@@ -35,6 +36,7 @@ import MemberGroupPageData from './page-components/MemberGroupPageData.vue';
 import PublicGroupInformation from './page-components/PublicGroupInformation.vue';
 import MemberList from './page-components/MemberList.vue';
 import AdminActions from './page-components/AdminActions.vue';
+import GroupMessages from './page-components/GroupMessages.vue';
 
 const groupStore = useGroupStore();
 const route = useRoute();
@@ -52,14 +54,17 @@ const group = computed((): GroupPage | null => groupStore.group);
  */
 const tabs = computed(() => {
     let computedTabs = ['public'];
-    if (group.value?.rank) computedTabs.push('members');
+    if (group.value?.rank) {
+        computedTabs.push('members');
+        computedTabs.push('messages');
+    }
     if (canSeeAdminTab()) computedTabs.push('admin');
     return computedTabs;
 });
 function canSeeAdminTab() {
     const rank = group.value?.rank;
     if (!rank) return;
-    return rank.can_delete || rank.can_edit || rank.can_manage_members;
+    return rank.owner || rank.can_edit || rank.can_manage_members;
 }
 const currentTab = ref('public');
 function isActive(tabName: string) {

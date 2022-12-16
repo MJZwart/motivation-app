@@ -4,6 +4,7 @@
     "members": "Leden",
     "all-groups": "Alle groepen", 
     "my-groups": "Mijn groepen",
+    "your-group": "Jouw groep",
     "social": "Sociaal",
     "create-group": "Nieuwe groep oprichten",
     "your-rank": "Je rang",
@@ -49,6 +50,7 @@
     "member-list": "Ledenlijst",
     "show-details": "Toon details",
     "manage-group": "Groep beheren",
+    "delete-message": "Bericht verwijderen",
 
     "delete-group-confirm": "Weet je zeker dat je de groep {group} wil verwijderen?",
     "leave-group-confirm": "Weet je zeker dat je de groep {group} wil verlaten?",

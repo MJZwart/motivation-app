@@ -11,7 +11,6 @@ class GroupRole extends Model
 
     protected $fillable = [
         'name',
-        'can_delete',
         'can_edit',
         'can_manage_members',
         'owner',

@@ -40,6 +40,7 @@
     "in-progress": "In behandeling",
     "done": "Fix klaar",
     "resolved": "Fix uitgerold",
+    "send-message-to-reporter": "Laat melder weten dat de bug is opgelost.",
     
     "reported-users": "Gemelde gebruikers",
     "number-of-reports": "Aantal meldingen",
@@ -70,6 +71,10 @@
     "end-suspension": "Schorsing beëindigen",
     "suspension-ended": "Deze schorsing is beëindigd.",
     "suspended-until-reason": "Geschorst tot {0} voor {1}.",
+
+    "harassment": "Intimidatie",
+    "spam": "Spam",
+    "inappropriate-naming": "Ongepaste naam",
 
     "report-amount": "Aantal meldingen",
     "suspended": "Geschorst",

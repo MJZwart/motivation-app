@@ -6,7 +6,7 @@
                 <label for="reason">{{ $t('report-reason') }}</label>
                 <select id="reason" v-model="report.reason" name="reason">
                     <option v-for="(option, index) in reportReasons" :key="index" :value="option.value">
-                        {{ option.text }}
+                        {{ $t(option.text) }}
                     </option>
                 </select>
                 <BaseFormError name="reason" />
