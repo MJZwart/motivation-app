@@ -11,7 +11,7 @@
             />
             <SubmitButton id="send-message-button" class="ml-auto" @click="sendMessage">{{$t('send-message')}}</SubmitButton>
         </div>
-        <div v-if="messages && messages[0]" class="group-messages">
+        <div v-if="messages && messages[0]" class="group-messages content-block">
             <div v-for="(message, index) in messages" :key="index" class="group-message">
                 <GroupMessageComp 
                     :message="message" 
@@ -75,9 +75,5 @@ async function deleteMessage(message: GroupMessage) {
     .message-input{
         width: 100%;
     }
-}
-.group-messages {
-    background-color: var(--background-darker);
-    border-radius: 0.25rem;
 }
 </style>

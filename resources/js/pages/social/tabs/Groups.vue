@@ -180,7 +180,6 @@ function showGroupsDetails(group: Group) {
     }
 }
 .group-filters {
-    background-color: var(--primary);
     padding: 0.5rem;
     border-radius: 0.5rem;
 }
