@@ -12,6 +12,7 @@
 -   Added a spinner to buttons when waiting for server response to show the user something is happening.
 -   Made some pages look a bit better on mobile. Still a work in progress.
 -   After registering a new account, you are now logged in straight away.
+-   More icons!
 -   On the page with all groups, easily see that you are already a member of this group + which rank you are.
 
 ### Bugs
