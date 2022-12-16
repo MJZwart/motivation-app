@@ -43,6 +43,16 @@
                 <small class="form-text text-muted">{{$t('bug-status-desc')}}</small>
                 <BaseFormError name="status" /> 
             </div>
+            
+            <div v-if="bugReportToEdit.status == 3" class="form-group">
+                <input 
+                    id="send-message-to-reporter" 
+                    v-model="bugReportToEdit.sendMessageToReporter"
+                    type="checkbox" 
+                    name="send-message-to-reporter" />
+                <label for="send-message-to-reporter">{{$t('send-message-to-reporter')}}</label>
+            </div>
+
             <SubmitButton class="block">{{$t('update-bug-report')}}</SubmitButton>
             <button type="button" class="block button-cancel" @click="close">{{$t('cancel')}}</button>
         </form>
@@ -67,6 +77,7 @@ const emit = defineEmits(['close']);
 
 onMounted(() => {
     bugReportToEdit.value = Object.assign({}, props.bugReport);
+    bugReportToEdit.value.sendMessageToReporter = true;
 });
 
 const bugReportToEdit = ref<BugReport | null>(null);

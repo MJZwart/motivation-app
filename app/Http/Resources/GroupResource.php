@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\GroupUserResource;
 use App\Http\Resources\StrippedUserResource;
+use App\Models\GroupRole;
 
 class GroupResource extends JsonResource
 {
@@ -16,6 +17,7 @@ class GroupResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = $this->findLoggedGroupUser();
         return [
             'id' => $this->id,
             'time_created' => $this->created_at,
@@ -26,6 +28,8 @@ class GroupResource extends JsonResource
             'require_application' => (boolean) $this->require_application,
             'members' => GroupUserResource::collection($this->users),
             'admin' => new StrippedUserResource($this->getAdmin()),
+            'is_member' => !!$user,
+            'rank' => $user ? new GroupRoleResource(GroupRole::find($user->rank)) : null,
         ];
     }
 }

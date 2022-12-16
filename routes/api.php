@@ -52,9 +52,12 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::group(['middleware' => ['valid-auth']], function () {
     
-    Route::resource('/tasklists', TaskListController::class)->only([
-        'store', 'show', 'update', 'destroy'
-    ]);
+    Route::post('/tasklists', [TaskListController::class, 'store']);
+
+    Route::group(['middleware' => ['can:update,tasklist']], function () {
+        Route::put('/tasklists/{tasklist}', [TaskListController::class, 'update']);
+        Route::delete('/tasklists/{tasklist}', [TaskListController::class, 'destroy']);
+    });
 
     Route::get('/rewards/all', [RewardController::class, 'fetchAllRewardInstancesByUser']);
     Route::put('/reward/activate', [RewardController::class, 'activateRewardInstance']);

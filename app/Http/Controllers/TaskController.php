@@ -74,17 +74,12 @@ class TaskController extends Controller
      */
     public function destroy(Request $request, Task $task): JsonResponse
     {
-        if (Auth::user()->id === $task->user_id) {
-            $task->subTasks()->delete();
-            $task->delete();
-            ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name);
+        $task->subTasks()->delete();
+        $task->delete();
+        ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name);
 
-            $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return ResponseWrapper::successResponse(__('messages.task.deleted'), ['taskLists' => $taskLists]);
-        } else {
-            ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name, 'Not authorized');
-            return ResponseWrapper::forbiddenResponse(__('messages.task.unauthorized'));
-        }
+        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
+        return ResponseWrapper::successResponse(__('messages.task.deleted'), ['taskLists' => $taskLists]);
     }
 
     /**
@@ -99,25 +94,20 @@ class TaskController extends Controller
     {
         /** @var User */
         $user = Auth::user();
-        if ($user->id === $task->user_id) {
-            $this->completeTask($request, $task);
-            foreach ($task->activeSubTasks() as $subtask) {
-                $this->completeTask($request, $subtask);
-            }
+        $this->completeTask($request, $task);
+        foreach ($task->activeSubTasks() as $subtask) {
+            $this->completeTask($request, $subtask);
+        }
 
-            AchievementHandler::checkForAchievement('TASKS_COMPLETED', $user);
+        AchievementHandler::checkForAchievement('TASKS_COMPLETED', $user);
 
-            $taskLists = TaskListResource::collection($user->taskLists);
-            $returnValue = null;
-            if ($user->rewards != 'NONE') {
-                $returnValue = RewardHandler::handleTaskRewards($task, $user);
-                return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]]);
-            } else {
-                return ResponseWrapper::successResponse(__('messages.task.completed'), ['taskLists' => $taskLists]);
-            }
+        $taskLists = TaskListResource::collection($user->taskLists);
+        $returnValue = null;
+        if ($user->rewards != 'NONE') {
+            $returnValue = RewardHandler::handleTaskRewards($task, $user);
+            return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]]);
         } else {
-            ActionTrackingHandler::handleAction($request, 'COMPLETE_TASK', 'Completing task named: ' . $task->name, 'Not authorized');
-            return ResponseWrapper::forbiddenResponse(__('messages.task.unauthorized'));
+            return ResponseWrapper::successResponse(__('messages.task.completed'), ['taskLists' => $taskLists]);
         }
     }
 

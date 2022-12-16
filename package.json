@@ -20,6 +20,7 @@
     },
     "devDependencies": {
         "@babel/types": "^7.19.0",
+        "@iconify/vue": "^4.0.2",
         "@kazupon/vue-i18n-loader": "^0.5.0",
         "@originjs/vite-plugin-require-context": "^1.0.9",
         "@types/luxon": "^3.0.1",

@@ -33,7 +33,7 @@ class BugReportController extends Controller
 
         $bugReport->update($validated);
 
-        if ($bugReport->status === 3 && $bugReport->user_id) {
+        if ($bugReport->status === 3 && $bugReport->user_id && $request['sendMessageToReporter']) {
             NotificationHandler::create(
                 $bugReport->user_id,
                 __('messages.bug.resolved_title'),

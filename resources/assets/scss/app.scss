@@ -104,6 +104,12 @@ label {
     font-size: 2em;
     line-height: 0.03125em;
 }
+.rank-icon {
+    font-size: 120%;
+    margin-bottom: -3px;
+    margin-top: 2px;
+    color: var(--primary-as-text);
+}
 .pointer{
     cursor:pointer;
 }

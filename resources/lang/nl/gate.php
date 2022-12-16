@@ -20,6 +20,7 @@ return [
         'not_owner' => 'Je bent geen eigenaar van deze groep',
         'not_allowed_recruit' => 'Je bent niet gemachtigd om leden te beheren',
         'not_allowed_join' => 'Je kunt niet tot deze groep toetreden',
+        'not_allowed_moderate' => 'Je bent niet gemachtigd om berichten te beheren',
         'leave_admin' => 'Je bent de eigenaar van deze groep. Verwijder de groep of geef eigendom van de groep aan een ander lid',
     ],
 
