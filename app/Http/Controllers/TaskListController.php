@@ -52,17 +52,12 @@ class TaskListController extends Controller
      */
     public function destroy(Request $request, TaskList $tasklist): JsonResponse
     {
-        if (Auth::user()->id === $tasklist->user_id) {
-            $tasklist->tasks()->delete();
-            $tasklist->delete();
-            ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name);
+        $tasklist->tasks()->delete();
+        $tasklist->delete();
+        ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name);
 
-            $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-            return ResponseWrapper::successResponse(__('messages.tasklist.deleted'), $taskLists);
-        } else {
-            ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name, 'Not authorized');
-            return ResponseWrapper::forbiddenResponse(__('messages.tasklist.unauthorized'));
-        }
+        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
+        return ResponseWrapper::successResponse(__('messages.tasklist.deleted'), $taskLists);
     }
 
     /**

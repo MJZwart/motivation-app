@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['valid-auth']], function () {
     Route::post('/', [TaskController::class, 'store']);
-    Route::delete('/{task}', [TaskController::class, 'destroy']);
-    Route::put('/{task}', [TaskController::class, 'update']);
-    Route::put('/complete/{task}', [TaskController::class, 'complete']);
+    Route::group(['middleware' => ['can:update,task']], function() {
+        Route::delete('/{task}', [TaskController::class, 'destroy']);
+        Route::put('/{task}', [TaskController::class, 'update']);
+        Route::put('/complete/{task}', [TaskController::class, 'complete']);
+    });
     
     Route::get('/templates', [TaskController::class, 'getTemplates']);
     Route::post('/templates', [TaskController::class, 'storeTemplate']);
