@@ -40,6 +40,7 @@
     "in-progress": "In progress",
     "done": "Fix ready",
     "resolved": "Fix published",
+    "send-message-to-reporter": "Notify bug reporter that this bug is resolved",
     
     "reported-users": "Reported users",
     "number-of-reports": "# of reports",

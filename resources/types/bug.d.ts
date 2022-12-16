@@ -16,4 +16,5 @@ export type BugReport = NewBugReport & {
     user: StrippedUser | null;
     status: number;
     admin_comment: string;
+    sendMessageToReporter?: boolean;
 };
