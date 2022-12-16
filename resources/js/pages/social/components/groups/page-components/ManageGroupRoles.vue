@@ -12,12 +12,15 @@
             <tbody>
                 <tr v-for="role in groupRoles" :key="role.id">
                     <td>
-                        <Editable 
-                            :item="role.name" 
-                            :index="role.id"
-                            inline
-                            name="name" 
-                            @save="updateName(role.id, $event)" />
+                        <div class="d-flex">
+                            <GroupRankIcon :rank="role" />
+                            <Editable 
+                                :item="role.name" 
+                                :index="role.id"
+                                inline
+                                name="name" 
+                                @save="updateName(role.id, $event)" />
+                        </div>
                         <span v-if="role.member" class="silent">{{$t('default-role')}}</span>
                     </td>
                     <td>
@@ -75,6 +78,7 @@ import {GROUP_ROLE_FIELDS} from '/js/constants/groupConstants';
 import {useGroupStore} from '/js/store/groupStore';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {useI18n} from 'vue-i18n';
+import GroupRankIcon from './GroupRankIcon.vue';
 const groupStore = useGroupStore();
 const {t} = useI18n();
 
