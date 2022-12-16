@@ -42,4 +42,17 @@ class GroupRoleHandler
     {
         return GroupRole::where('group_id', $groupId)->where('member', true)->first();
     }
+
+    public static function createGroupWithName(int $groupId, string $roleName)
+    {
+        GroupRole::create([
+            'name' => $roleName,
+            'can_edit' => false,
+            'can_manage_members' => false,
+            'can_moderate_messages' => false,
+            'group_id' => $groupId,
+            'member' => false,
+            'owner' => false,
+        ]);
+    }
 }

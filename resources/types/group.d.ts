@@ -32,6 +32,7 @@ export type GroupUser = {
 };
 
 export type Rank = {
+    id: number;
     name: string;
     can_edit: boolean;
     can_manage_members: boolean;

@@ -13,6 +13,7 @@ class GroupRole extends Model
         'name',
         'can_edit',
         'can_manage_members',
+        'can_moderate_messages',
         'owner',
         'member',
         'group_id',
