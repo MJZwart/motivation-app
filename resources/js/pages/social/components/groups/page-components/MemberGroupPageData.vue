@@ -2,8 +2,7 @@
     <div>
         <div class="content-block">
             <p><b>{{ $t('your-rank')}}</b>: 
-                <FaIcon :icon="group.rank.owner ? 'angles-down' : 'angle-down'" />
-                <!-- TODO icons will require a rework -->
+                <GroupRankIcon :rank="group.rank" />
                 {{group.rank.name}}
             </p>
             <p><b>{{ $t('joined')}}</b>: {{parseDateTime(group.joined)}} ({{daysSince(group.joined)}})</p>
@@ -20,6 +19,7 @@ import {daysSince, parseDateTime} from '/js/services/dateService';
 import {useGroupStore} from '/js/store/groupStore';
 import {useI18n} from 'vue-i18n';
 import type {GroupPage} from 'resources/types/group';
+import GroupRankIcon from './GroupRankIcon.vue';
 
 const {t} = useI18n();
 
