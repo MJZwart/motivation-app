@@ -10,8 +10,7 @@
         <div v-for="(member, index) in group.members" :key="index" class="row">
             <span class="col">{{member.username}}</span>
             <span class="col">
-                <Icon :icon="getRankIcon(member)" class="rank-icon" />
-                <!-- TODO Will require a rework -->
+                <GroupRankIcon :rank="member.rank" />
                 {{member.rank.name}}</span>
             <span class="col">{{daysSince(member.joined.toString())}}</span>
             <span v-if="group.rank.can_manage_members" class="col">
@@ -53,7 +52,7 @@ import {useUserStore} from '/js/store/userStore';
 import {useGroupStore} from '/js/store/groupStore';
 import {useI18n} from 'vue-i18n';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
-import {Icon} from '@iconify/vue';
+import GroupRankIcon from './GroupRankIcon.vue';
 
 const userStore = useUserStore();
 const groupStore = useGroupStore();
@@ -85,11 +84,5 @@ function sendMessage(user: GroupUser) {
 }
 function closeSendMessageModal() {
     showSendMessageModal.value = false;
-}
-
-function getRankIcon(member: GroupUser) {
-    if (member.rank.owner) return 'game-icons:rank-3';
-    if (member.rank.can_edit || member.rank.can_manage_members) return 'game-icons:rank-2';
-    return 'game-icons:rank-1';
 }
 </script>
