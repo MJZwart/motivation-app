@@ -49,6 +49,7 @@
     "member-list": "Member list",
     "show-details": "Show details",
     "manage-group": "Manage group",
+    "delete-message": "Delete message",
 
     "delete-group-confirm": "Are you sure you want to delete the group {group}?",
     "leave-group-confirm": "Are you sure you want to leave the group {group}?",

@@ -72,6 +72,10 @@
     "suspension-ended": "This suspension has ended",
     "suspended-until-reason": "Suspended until {0} for {1}.",
 
+    "harassment": "Harassment",
+    "spam": "Spam",
+    "inappropriate-naming": "Inappropriate naming",
+
     "report-amount": "# of reports",
     "suspended": "Suspended",
     "log": "Log",

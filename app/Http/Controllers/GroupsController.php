@@ -7,6 +7,7 @@ use App\Helpers\ActionTrackingHandler;
 use App\Helpers\GroupRoleHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
+use App\Http\Requests\GroupMessageRequest;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\GroupApplication;
@@ -17,10 +18,12 @@ use App\Http\Requests\SendGroupInviteRequest;
 use App\Http\Requests\SuspendUserFromGroupRequest;
 use App\Http\Resources\BlockedUserFromGroupResource;
 use App\Http\Resources\GroupApplicationResource;
+use App\Http\Resources\GroupMessageResource;
 use App\Http\Resources\GroupPageResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MyGroupResource;
 use App\Models\GroupInvite;
+use App\Models\GroupMessage;
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -316,6 +319,50 @@ class GroupsController extends Controller
         $groupInvite->delete();
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.invite.rejected'));
+    }
+
+    /**
+     * Gets all messages from a group
+     *
+     * @param Group $group
+     * @return JsonResponse with the group messages in a resource
+     */
+    public function getMessages(Group $group)
+    {
+        return GroupMessageResource::collection($group->messages);
+    }
+
+    /**
+     * Creates a group message
+     *
+     * @param Group $group
+     * @param GroupMessageRequest $request
+     * @return JsonResponse with the updated group messages in a resource
+     */
+    public function storeMessage(Group $group, GroupMessageRequest $request) 
+    {
+        $validated = $request->validated();
+
+        GroupMessage::create([
+            'message' => $validated['message'],
+            'group_id' => $group->id,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return ResponseWrapper::successResponse(__('messages.group.message.created'), ['messages' => GroupMessageResource::collection($group->fresh()->messages)]);
+    }
+
+    /**
+     * Deletes the message if the user is authorized to do so
+     *
+     * @param Group $group
+     * @param GroupMessage $groupMessage
+     * @return void
+     */
+    public function deleteMessage(Group $group, GroupMessage $groupMessage)
+    {
+        $groupMessage->delete();
+        return ResponseWrapper::successResponse(__('messages.group.message.deleted'), ['messages' => GroupMessageResource::collection($group->fresh()->messages)]);
     }
 
     private function getGroupInviteOrFail(int $invite)

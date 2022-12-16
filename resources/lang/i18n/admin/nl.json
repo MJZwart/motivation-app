@@ -72,6 +72,10 @@
     "suspension-ended": "Deze schorsing is beëindigd.",
     "suspended-until-reason": "Geschorst tot {0} voor {1}.",
 
+    "harassment": "Intimidatie",
+    "spam": "Spam",
+    "inappropriate-naming": "Ongepaste naam",
+
     "report-amount": "Aantal meldingen",
     "suspended": "Geschorst",
     "log": "Log",

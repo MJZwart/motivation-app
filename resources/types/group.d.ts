@@ -36,6 +36,7 @@ export type Rank = {
     can_delete: boolean;
     can_edit: boolean;
     can_manage_members: boolean;
+    can_moderate_messages: boolean;
     owner: boolean;
     member: boolean;
 }
@@ -47,3 +48,13 @@ export type Application = {
     username: string;
     group_id: number;
 };
+
+export type NewGroupMessage = {
+    message: string;
+}
+
+export type GroupMessage = NewGroupMessage & {
+    id: number;
+    user: StrippedUser;
+    created_at: Date;
+}

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Helpers\GroupRoleHandler;
 use App\Models\Group;
+use App\Models\GroupMessage;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -108,6 +109,24 @@ class GroupPolicy
     {
         if (!$this->alreadyMember($user, $group)) return Response::denyWithStatus(422, __('gate.groups.not_member'));
         return $group->isAdminById($user->id) ? Response::denyWithStatus(422, __('gate.groups.leave_admin')) : Response::allow();
+    }
+
+    /**
+     * Whether the user can view and send messages
+     *
+     * @param User $user
+     * @param Group $group
+     * @return Boolean
+     */
+    public function message(User $user, Group $group)
+    {
+        return $this->alreadyMember($user, $group) ? Response::allow() : Response::denyWithStatus(422, __('gate.groups.not_member'));
+    }
+
+    public function manageMessage(User $user, Group $group, GroupMessage $groupMessage)
+    {
+        if ($groupMessage->user_id === $user->id) return Response::allow();
+        return $group->rankOfMemberById($user->id)->can_moderate_messages ? Response::allow() : Response::denyWithStatus(422, __('gate.groups.not_allowed_moderate'));
     }
 
     /**

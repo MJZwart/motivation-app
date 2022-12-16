@@ -53,4 +53,10 @@ Route::group(['middleware' => ['valid-auth']], function () {
     });
     
     Route::delete('/{group}', [GroupsController::class, 'destroy'])->can('delete', 'group');
+
+    Route::group(['middleware' => ['can:message,group']], function () {
+        Route::get('/{group}/messages', [GroupsController::class, 'getMessages']);
+        Route::post('/{group}/messages', [GroupsController::class, 'storeMessage']);
+    });
+    Route::delete('/{group}/messages/{groupMessage}', [GroupsController::class, 'deleteMessage'])->can('manageMessage', ['group', 'groupMessage']);
 });

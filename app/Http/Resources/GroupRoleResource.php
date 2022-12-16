@@ -19,6 +19,7 @@ class GroupRoleResource extends JsonResource
             'can_delete' => $this->can_delete,
             'can_edit' => $this->can_edit,
             'can_manage_members' => $this->can_manage_members,
+            'can_moderate_messages' => $this->can_moderate_messages,
             'owner' => $this->owner,
             'member' => $this->member,
         ];

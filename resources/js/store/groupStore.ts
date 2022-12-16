@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {Group, GroupPage, NewGroup} from 'resources/types/group';
+import {Group, GroupPage, NewGroup, NewGroupMessage} from 'resources/types/group';
 
 export const useGroupStore = defineStore('group', {
     state: () => {
@@ -80,6 +80,22 @@ export const useGroupStore = defineStore('group', {
         async unblockUser(groupId: number, userId: number) {
             const {data} = await axios.post(`/groups/unblock/${groupId}`, {userId: userId});
             return data.data.blockedUsers;
+        },
+
+        /*
+        Group messages
+        */
+        async getMessages(groupId: number) {
+            const {data} = await axios.get(`/groups/${groupId}/messages`);
+            return data.data;
+        },
+        async postMessage(groupId: number, groupMessage: NewGroupMessage) {
+            const {data} = await axios.post(`/groups/${groupId}/messages`, groupMessage);
+            return data.data.messages;
+        },
+        async deleteMessage(groupId: number, groupMessageId: number) {
+            const {data} = await axios.delete(`/groups/${groupId}/messages/${groupMessageId}`);
+            return data.data.messages;
         },
     },
 });

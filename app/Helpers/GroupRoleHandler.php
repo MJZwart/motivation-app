@@ -13,6 +13,7 @@ class GroupRoleHandler
             'can_delete' => true,
             'can_edit' => true,
             'can_manage_members' => true,
+            'can_moderate_messages' => true,
             'owner' => true,
             'group_id' => $groupId,
         ]);
@@ -21,6 +22,7 @@ class GroupRoleHandler
             'can_delete' => false,
             'can_edit' => true,
             'can_manage_members' => true,
+            'can_moderate_messages' => true,
             'group_id' => $groupId,
         ]);
         GroupRole::create([
@@ -28,6 +30,7 @@ class GroupRoleHandler
             'can_delete' => false,
             'can_edit' => false,
             'can_manage_members' => false,
+            'can_moderate_messages' => false,
             'group_id' => $groupId,
             'member' => true,
         ]);
