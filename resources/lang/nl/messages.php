@@ -145,6 +145,8 @@ return [
         ],
         'role' => [
             'updated' => 'Rol bewerkt',
+            'created' => 'Rol aangemaakt',
+            'deleted' => 'Rol verwijderd',
         ],
     ],
 

@@ -56,6 +56,10 @@
     "can-edit": "Edit",
     "can-manage-members": "Manage members",
     "can-moderate-messages": "Moderate messages",
+    "delete-role-confirmation": "Are you sure you wish to delete {role}?",
+    "add-role": "Add role",
+    "new-role": "New role",
+    "add": "Add",
 
     "delete-group-confirm": "Are you sure you want to delete the group {group}?",
     "leave-group-confirm": "Are you sure you want to leave the group {group}?",

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {Group, GroupPage, NewGroup, NewGroupMessage} from 'resources/types/group';
+import {Group, GroupPage, NewGroup, NewGroupMessage, Rank} from 'resources/types/group';
 
 export const useGroupStore = defineStore('group', {
     state: () => {
@@ -91,6 +91,22 @@ export const useGroupStore = defineStore('group', {
         },
         async updateRoleName(groupId: number, roleId: number, role: {name: string}) {
             const {data} = await axios.put(`groups/roles/${groupId}/update/${roleId}/name`, role);
+            this.group = data.data.group;
+            return data.data.roles;
+        },
+        async updateRoles(groupId: number, roles: Rank[]) {
+            const {data} = await axios.put(`groups/roles/${groupId}/update/`, roles);
+            this.group = data.data.group;
+            return data.data.roles;
+        },
+        async createRole(groupId: number, role: {name: string}) {
+            const {data} = await axios.post(`groups/roles/${groupId}`, role);
+            this.group = data.data.group;
+            return data.data.roles;
+        },
+        async deleteRole(groupId: number, roleId: number) {
+            const {data} = await axios.delete(`groups/roles/${groupId}/delete/${roleId}`);
+            this.group = data.data.group;
             return data.data.roles;
         },
 

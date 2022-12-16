@@ -108,7 +108,7 @@ export const GROUP_ROLE_FIELDS = [
     {
         label: 'name',
         key: 'name',
-        width: '55%',
+        width: '45%',
     },
     {
         label: 'can-edit',
@@ -124,5 +124,10 @@ export const GROUP_ROLE_FIELDS = [
         label: 'can-moderate-messages',
         key: 'can_moderate_messages',
         width: '15%',
+    },
+    {
+        label: 'actions',
+        key: 'actions',
+        width: '10%',
     },
 ]

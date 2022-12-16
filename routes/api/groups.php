@@ -36,6 +36,9 @@ Route::group(['middleware' => ['valid-auth']], function () {
         Route::put('/edit/{group}', [GroupsController::class, 'update']);
         Route::get('/roles/{group}', [GroupsController::class, 'getRoles']);
         Route::put('/roles/{group}/update/{role}/name', [GroupsController::class, 'updateRoleName']);
+        Route::put('/roles/{group}/update/', [GroupsController::class, 'updateRoles']);
+        Route::post('/roles/{group}', [GroupsController::class, 'storeRole']);
+        Route::delete('/roles/{group}/delete/{role}', [GroupsController::class, 'destroyRole']);
     });
 
     Route::group(['middleware' => ['can:recruit,group']], function () {
