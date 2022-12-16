@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['valid-auth']], function () {
     Route::get('/', [NotificationController::class, 'show']);
+    Route::group(['middleware' => ['can:update,notification']], function () {
+        Route::delete('/{notification}', [NotificationController::class, 'destroy']);
+        Route::put('/{notification}/disable-action', [NotificationController::class, 'disableAction']);
+    });
+});
+Route::group(['middleware' => ['admin']], function () {
     Route::post('/all', [NotificationController::class, 'sendNotificationToAll']);
-    Route::delete('/{notification}', [NotificationController::class, 'destroy']);
-    Route::put('/{notification}/disable-action', [NotificationController::class, 'disableAction']);
 });
