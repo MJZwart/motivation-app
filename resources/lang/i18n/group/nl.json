@@ -52,6 +52,11 @@
     "manage-group": "Groep beheren",
     "delete-message": "Bericht verwijderen",
 
+    "manage-group-roles": "Beheer groep rollen",
+    "can-edit": "Bewerken",
+    "can-manage-members": "Leden beheren",
+    "can-moderate-messages": "Berichten beheren",
+
     "delete-group-confirm": "Weet je zeker dat je de groep {group} wil verwijderen?",
     "leave-group-confirm": "Weet je zeker dat je de groep {group} wil verlaten?",
     "no-groups-found": "Geen groepen op dit moment. Word lid van een of maak er zelf een!",

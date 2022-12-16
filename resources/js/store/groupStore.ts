@@ -83,6 +83,18 @@ export const useGroupStore = defineStore('group', {
         },
 
         /*
+        Group roles
+        */
+        async fetchRoles(groupId: number) {
+            const {data} = await axios.get(`/groups/roles/${groupId}`);
+            return data.data;
+        },
+        async updateRoleName(groupId: number, roleId: number, role: {name: string}) {
+            const {data} = await axios.put(`groups/roles/${groupId}/update/${roleId}/name`, role);
+            return data.data.roles;
+        },
+
+        /*
         Group messages
         */
         async getMessages(groupId: number) {

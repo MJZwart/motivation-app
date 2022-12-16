@@ -34,6 +34,8 @@ Route::group(['middleware' => ['valid-auth']], function () {
     
     Route::group(['middleware' => ['can:update,group']], function () {
         Route::put('/edit/{group}', [GroupsController::class, 'update']);
+        Route::get('/roles/{group}', [GroupsController::class, 'getRoles']);
+        Route::put('/roles/{group}/update/{role}/name', [GroupsController::class, 'updateRoleName']);
     });
 
     Route::group(['middleware' => ['can:recruit,group']], function () {

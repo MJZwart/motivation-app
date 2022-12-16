@@ -55,6 +55,9 @@
                 {{$t('no-applications')}}
             </div>
         </div>
+        <div class="content-block">
+            <h4>{{ $t('manage-group-roles') }}</h4>
+            <ManageGroupRoles :group-id="group.id"/></div>
         <div class="d-flex m-2">
             <div>
                 <button v-if="group.rank.owner" type="button" class="m-1 box-shadow" @click="deleteGroup()">
@@ -88,6 +91,7 @@ import {useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
 import {Application, Group, GroupPage} from 'resources/types/group';
 import Editable from '/js/components/global/Editable.vue';
+import ManageGroupRoles from './ManageGroupRoles.vue';
 
 const groupStore = useGroupStore();
 const router = useRouter();
@@ -110,7 +114,7 @@ const props = defineProps({
     },
 });
 
-const applications = ref<Array<Application> | null>(null);
+const applications = ref<Application[] | null>(null);
 
 const loading = ref(true);
 

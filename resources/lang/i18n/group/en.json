@@ -52,6 +52,11 @@
     "manage-group": "Manage group",
     "delete-message": "Delete message",
 
+    "manage-group-roles": "Manage group roles",
+    "can-edit": "Edit",
+    "can-manage-members": "Manage members",
+    "can-moderate-messages": "Moderate messages",
+
     "delete-group-confirm": "Are you sure you want to delete the group {group}?",
     "leave-group-confirm": "Are you sure you want to leave the group {group}?",
     "no-groups-found": "No groups at this time. Join or make one!",
