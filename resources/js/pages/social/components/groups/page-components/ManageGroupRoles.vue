@@ -18,6 +18,7 @@
                             inline
                             name="name" 
                             @save="updateName(role.id, $event)" />
+                        <span v-if="role.member" class="silent">{{$t('default-role')}}</span>
                     </td>
                     <td>
                         <input 
