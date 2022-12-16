@@ -54,7 +54,7 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group)
     {
-        return $group->rankOfMemberById($user->id)->can_delete ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_owner'));
+        return $group->rankOfMemberById($user->id)->owner ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_owner'));
     }
     /**
      * Whether or not the user can recruit members, eg invite, manage applications

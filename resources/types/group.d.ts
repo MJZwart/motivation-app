@@ -33,7 +33,6 @@ export type GroupUser = {
 
 export type Rank = {
     name: string;
-    can_delete: boolean;
     can_edit: boolean;
     can_manage_members: boolean;
     can_moderate_messages: boolean;
