@@ -5,7 +5,7 @@
 ### Features
 -   Characters and villages now earn coins! There's nothing you can do with it yet, but it looks cool if you ask me.
 -   Added a messaging board to groups. All members of a group can now chat with each other. Admins and moderators can delete message and any user can delete their own message. In case of abuse users can report a message.
--   Overhauled the group roles: three separate icons, the standard addition of a 'moderator' role, plus the ability for admins and moderators to edit these roles as they see fit. They can change the names and permissions of these roles and even add more roles with their own names.
+-   Overhauled the group roles: three separate icons, the standard addition of a 'moderator' role, plus the ability for admins and moderators to edit these roles as they see fit. They can change the names and permissions of these roles and even add more roles with their own names and permissions.
 
 ### Quality of life
 -   You can now filter for groups that require no application.
