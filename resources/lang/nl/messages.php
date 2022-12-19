@@ -143,6 +143,11 @@ return [
             'created' => 'Message posted',
             'deleted' => 'Bericht verwijderd',
         ],
+        'role' => [
+            'updated' => 'Rol bewerkt',
+            'created' => 'Rol aangemaakt',
+            'deleted' => 'Rol verwijderd',
+        ],
     ],
 
     'message' => [

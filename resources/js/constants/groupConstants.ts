@@ -103,3 +103,31 @@ export const MY_GROUP_FIELDS_OVERVIEW: OverviewFieldGroups = {
         },
     ],
 }
+
+export const GROUP_ROLE_FIELDS = [
+    {
+        label: 'name',
+        key: 'name',
+        width: '45%',
+    },
+    {
+        label: 'can-edit',
+        key: 'can_edit',
+        width: '15%',
+    },
+    {
+        label: 'can-manage-members',
+        key: 'can_manage_members',
+        width: '15%',
+    },
+    {
+        label: 'can-moderate-messages',
+        key: 'can_moderate_messages',
+        width: '15%',
+    },
+    {
+        label: 'actions',
+        key: 'actions',
+        width: '10%',
+    },
+]

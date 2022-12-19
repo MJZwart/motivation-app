@@ -16,18 +16,22 @@ use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
 use App\Http\Requests\SendGroupInviteRequest;
 use App\Http\Requests\SuspendUserFromGroupRequest;
+use App\Http\Requests\UpdateGroupRoleNameRequest;
+use App\Http\Requests\UpdateGroupRoles;
 use App\Http\Resources\BlockedUserFromGroupResource;
 use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupMessageResource;
 use App\Http\Resources\GroupPageResource;
 use App\Http\Resources\GroupResource;
+use App\Http\Resources\GroupRoleResource;
 use App\Http\Resources\MyGroupResource;
 use App\Models\GroupInvite;
 use App\Models\GroupMessage;
+use App\Models\GroupRole;
+use App\Models\GroupUser;
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Throwable;
@@ -244,6 +248,50 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Roles
+     */
+    public function getRoles(Group $group)
+    {
+        return GroupRoleResource::collection($group->roles);
+    }
+
+    public function updateRoleName(Group $group, GroupRole $role, UpdateGroupRoleNameRequest $request) {
+        $validated = $request->validated();
+        $role->update(['name' => $validated['name']]);
+        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
+    }
+
+    public function updateRoles(Group $group, UpdateGroupRoles $request)
+    {
+        $validated = $request->validated();
+        foreach ($validated as $role) {
+            GroupRole::find($role['id'])->update($role);
+        }
+        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
+    }
+
+    public function storeRole(Group $group, UpdateGroupRoleNameRequest $request)
+    {
+        $validated = $request->validated();
+        GroupRoleHandler::createGroupRoleWithName($group->id, $validated['name']);
+        return ResponseWrapper::successResponse(__('messages.group.role.created'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
+    }
+
+    public function destroyRole(Group $group, GroupRole $role) 
+    {
+        $usersWithRank = GroupUser::where('group_id', $group->id)->where('rank', $role->id)->get();
+        $memberRank = GroupRoleHandler::getMemberRank($group->id);
+        foreach($usersWithRank as $groupUser) {
+            $groupUser->update(['rank' => $memberRank->id]);
+        }
+        $role->delete();
+        return ResponseWrapper::successResponse(__('messages.group.role.deleted'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
+    }
+
+    /**
+     * 
+     */
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request)
     {
         if (!$group->hasMember($request['id']))

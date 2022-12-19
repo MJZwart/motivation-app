@@ -11,22 +11,26 @@
                 />
             </Tooltip>
         </div>
-        <div v-else>
-            <SimpleInput v-if="type == 'input'" :id="name" v-model="itemToEdit" :name="name" />
-            <SimpleTextarea v-if="type == 'textarea'" :id="name" v-model="itemToEdit" :name="name" :rows="rows" />
+        <div v-else :class="{inline: inline}">
+            <div class="input">
+                <SimpleInput v-if="type == 'input'" :id="name" v-model="itemToEdit" :name="name" />
+                <SimpleTextarea v-if="type == 'textarea'" :id="name" v-model="itemToEdit" :name="name" :rows="rows" />
+            </div>
 
-            <Tooltip :text="$t('save')">
-                <FaIcon :id="'save-' + index" :icon="['far', 'square-check']" class="icon small green" @click="save" />
-            </Tooltip>
-
-            <Tooltip :text="$t('cancel')">
-                <FaIcon
-                    :id="'cancel-' + index"
-                    :icon="['far', 'rectangle-xmark']"
-                    class="icon small red"
-                    @click="close"
-                />
-            </Tooltip>
+            <div class="controls">
+                <Tooltip :text="$t('save')">
+                    <FaIcon :id="'save-' + index" :icon="['far', 'square-check']" class="icon small green" @click="save" />
+                </Tooltip>
+                
+                <Tooltip :text="$t('cancel')">
+                    <FaIcon
+                        :id="'cancel-' + index"
+                        :icon="['far', 'rectangle-xmark']"
+                        class="icon small red"
+                        @click="close"
+                    />
+                </Tooltip>
+            </div>
         </div>
     </div>
 </template>
@@ -64,6 +68,11 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: true,
+    },
+    inline: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
 });
 const emit = defineEmits(['save']);
@@ -117,3 +126,15 @@ function setValue() {
     itemToEdit.value = props.item;
 }
 </script>
+
+<style lang="scss" scoped>
+.inline {
+    display: flex;
+    .input {
+        flex-grow: 3;
+    }
+    .controls {
+        flex-grow: 1;
+    }
+}
+</style>
