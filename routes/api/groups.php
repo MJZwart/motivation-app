@@ -55,6 +55,8 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
         Route::get('/blocked/{group}', [GroupsController::class, 'getBlockedUsers']);
         Route::post('/unblock/{group}', [GroupsController::class, 'unblockUserFromGroup']);
+
+        Route::put('/roles/{group}/user/{groupUser}/role/{role}', [GroupsController::class, 'updateGroupUserRole']);
     });
     
     Route::delete('/{group}', [GroupsController::class, 'destroy'])->can('delete', 'group');

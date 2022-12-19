@@ -289,6 +289,12 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.role.deleted'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
     }
 
+    public function updateGroupUserRole(Group $group, GroupUser $groupUser, GroupRole $role) 
+    {
+        $groupUser->update(['rank' => $role->id]);
+        return ResponseWrapper::successResponse(__('messages.group.role.member_updated'), ['group' => new GroupPageResource($group->fresh())]);
+    }
+
     /**
      * 
      */

@@ -14,7 +14,7 @@
                 {{member.rank.name}}</span>
             <span class="col">{{daysSince(member.joined.toString())}}</span>
             <span v-if="group.rank.can_manage_members" class="col">
-                <span v-if="member.id != user?.id" class="ml-auto mr-3">
+                <span v-if="member.user_id != user?.id" class="ml-auto mr-3">
                     <Tooltip :text="$t('send-message')">
                         <FaIcon 
                             icon="envelope"
@@ -33,6 +33,9 @@
                             class="icon small red"
                             @click="suspend(member)" />
                     </Tooltip>
+                    <Tooltip :text="$t('manage-rank')">
+                        <Icon icon="mdi:rank" class="iconify small" @click="openPromoteModal(member)" />
+                    </Tooltip>
 
                 </span>
             </span>
@@ -41,18 +44,23 @@
         <Modal :show="showSendMessageModal" :header="false" class="m-override" @close="closeSendMessageModal">
             <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />
         </Modal>
+        <Modal :show="promoteModalOpen" :title="$t('manage-rank')" @close="promoteModalOpen = false">
+            <ManageGroupUserRole v-if="memberToManage" :groupUser="memberToManage" :groupRoles="allRoles" @promote="promote" />
+        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
-import {computed, PropType, ref} from 'vue';
+import {computed, onMounted, PropType, ref} from 'vue';
 import {daysSince} from '/js/services/dateService';
-import type {GroupPage, GroupUser} from 'resources/types/group';
+import type {GroupPage, GroupUser, Rank} from 'resources/types/group';
 import {useUserStore} from '/js/store/userStore';
 import {useGroupStore} from '/js/store/groupStore';
 import {useI18n} from 'vue-i18n';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import GroupRankIcon from './GroupRankIcon.vue';
+import {Icon} from '@iconify/vue';
+import ManageGroupUserRole from './ManageGroupUserRole.vue';
 
 const userStore = useUserStore();
 const groupStore = useGroupStore();
@@ -63,6 +71,11 @@ const props = defineProps({
         type: Object as PropType<GroupPage>,
         required: true,
     },
+});
+
+onMounted(async() => {
+    if (props.group.rank.can_manage_members)
+        allRoles.value = await groupStore.fetchRoles(props.group.id);
 });
 
 const user = computed(() => userStore.user);
@@ -84,5 +97,22 @@ function sendMessage(user: GroupUser) {
 }
 function closeSendMessageModal() {
     showSendMessageModal.value = false;
+}
+
+const allRoles = ref<Rank[]>([]);
+
+const promoteModalOpen = ref(false);
+const memberToManage = ref<GroupUser | null>(null);
+
+function openPromoteModal(member: GroupUser) {
+    memberToManage.value = member;
+    promoteModalOpen.value = true;
+}
+async function promote(rankId: number) {
+    if (memberToManage.value) {
+        await groupStore.updateGroupUserRole(props.group.id, memberToManage.value?.id, rankId);
+        promoteModalOpen.value = false;
+        memberToManage.value = null;
+    }
 }
 </script>

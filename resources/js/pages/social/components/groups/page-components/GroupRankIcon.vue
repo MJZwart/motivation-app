@@ -1,5 +1,5 @@
 <template>
-    <Icon :icon="getRankIcon()" class="rank-icon" />
+    <Icon :icon="getRankIcon()" class="rank-icon iconify non-clickable" />
 </template>
 
 <script setup lang="ts">
