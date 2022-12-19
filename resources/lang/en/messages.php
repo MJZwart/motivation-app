@@ -147,6 +147,7 @@ return [
             'updated' => 'Role updated',
             'created' => 'Role created',
             'deleted' => 'Role deleted',
+            'member_updated' => 'Member role updated',
         ],
     ],
 
