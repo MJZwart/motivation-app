@@ -251,8 +251,6 @@ class GroupsController extends Controller
     /**
      * Roles
      */
-
-
     public function getRoles(Group $group)
     {
         return GroupRoleResource::collection($group->roles);
@@ -276,7 +274,7 @@ class GroupsController extends Controller
     public function storeRole(Group $group, UpdateGroupRoleNameRequest $request)
     {
         $validated = $request->validated();
-        GroupRoleHandler::createGroupWithName($group->id, $validated['name']);
+        GroupRoleHandler::createGroupRoleWithName($group->id, $validated['name']);
         return ResponseWrapper::successResponse(__('messages.group.role.created'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
     }
 
@@ -294,7 +292,6 @@ class GroupsController extends Controller
     /**
      * 
      */
-
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request)
     {
         if (!$group->hasMember($request['id']))

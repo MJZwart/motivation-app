@@ -43,7 +43,7 @@ class GroupRoleHandler
         return GroupRole::where('group_id', $groupId)->where('member', true)->first();
     }
 
-    public static function createGroupWithName(int $groupId, string $roleName)
+    public static function createGroupRoleWithName(int $groupId, string $roleName)
     {
         GroupRole::create([
             'name' => $roleName,
