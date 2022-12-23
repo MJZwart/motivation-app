@@ -18,13 +18,10 @@ class GroupUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
-            'rank' => $this->whenPivotLoaded('group_user', function() {
-                return new GroupRoleResource(GroupRole::find($this->pivot->rank));
-            }),
-            'joined' => $this->whenPivotLoaded('group_user', function() {
-                return Carbon::create($this->pivot->joined);
-            })
+            'user_id' => $this->user_id,
+            'username' => $this->user->username,
+            'rank' => new GroupRoleResource(GroupRole::find($this->rank)),
+            'joined' => Carbon::create($this->joined),
         ];
     }
 }

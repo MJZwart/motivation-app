@@ -31,3 +31,4 @@ export const banButton = '.fa-ban';
 export const unlockedButton = '.fa-lock-open';
 export const lockButton = '.fa-lock';
 export const tutorialButton = '.fa-circle-question';
+export const promoteButton = '.promote-icon';

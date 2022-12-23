@@ -290,6 +290,22 @@ class GroupsController extends Controller
     }
 
     /**
+     * Changes the user's role/rank in a group
+     *
+     * @param Group $group
+     * @param GroupUser $groupUser
+     * @param GroupRole $role
+     * @param Request $request
+     * @return JsonResponse with GroupPageResource of updated group
+     */
+    public function updateGroupUserRole(Group $group, GroupUser $groupUser, GroupRole $role, Request $request) 
+    {
+        $groupUser->update(['rank' => $role->id]);
+        ActionTrackingHandler::handleAction($request, 'GROUP_UPDATE_ROLES', 'Gave user '.$groupUser->user->username.' the role '.$role->name .' in group '.$group->name);
+        return ResponseWrapper::successResponse(__('messages.group.role.member_updated'), ['group' => new GroupPageResource($group->fresh())]);
+    }
+
+    /**
      * 
      */
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request)
