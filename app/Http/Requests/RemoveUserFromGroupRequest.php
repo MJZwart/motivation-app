@@ -8,16 +8,6 @@ use Illuminate\Support\Facades\Auth;
 class RemoveUserFromGroupRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return Auth::user();
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -25,7 +15,7 @@ class RemoveUserFromGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:users,id',
+            'id' => 'required|exists:group_user,id',
         ];
     }
 }

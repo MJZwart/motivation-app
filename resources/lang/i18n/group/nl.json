@@ -61,6 +61,8 @@
     "new-role": "Nieuwe rol",
     "add": "Toevoegen",
     "default-role": "Standaard rol voor nieuwe leden",
+    "update-role": "Update rol",
+    "manage-rank": "Rang beheren",
 
     "transfer-ownership": "Eigendom overdragen",
     "no-user-selected": "Geen gebruiker geselecteerd",

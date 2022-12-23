@@ -1,5 +1,5 @@
 import {getRandomString, waitShort} from '../../support/commands';
-import {user1, user2, viewGroupPageButton, kickRemoveButton} from '../../support/constants';
+import {user1, user2, viewGroupPageButton, kickRemoveButton, promoteButton} from '../../support/constants';
 
 describe('Groups', () => {
 
@@ -7,6 +7,7 @@ describe('Groups', () => {
     const groupWithApplicationName1 = getRandomString();
     const groupWithApplicationName2 = getRandomString();
     const groupMessage = getRandomString();
+    const roleName = getRandomString();
 
     function loginUser1() {
         cy.login(user1.username, user1.password);
@@ -150,6 +151,47 @@ describe('Groups', () => {
             cy.get('button').contains('Request to join group').click();
             waitShort();
             cy.get('button').contains('Application pending').should('exist').should('have.attr', 'disabled');
+        });
+    });
+    describe('User 1 can manage group roles and permissions', () => {
+        it('User 1 can add a new role and set permissions', () => {
+            loginUser1();
+            
+            openGroupPage(publicGroupName);
+
+            goToAdminTab();
+
+            cy.get('h4').contains('Manage group roles').should('exist');
+            cy.get('button').contains('Add role').click();
+            cy.get('#new-role-name').type(roleName);
+            cy.get('button').contains('Add').click();
+            waitShort();
+
+            cy.get('.role-name').contains(roleName).parent().parent().parent().parent().find('input[type=checkbox]').first().click();
+            cy.get('button').contains('Submit').click();
+            waitShort();
+        });
+        it('User 1 can give this new role to another member, who can then edit the group', () => {
+            loginUser1();
+            openGroupPage(publicGroupName);
+            
+            cy.get('.tab').contains('Members').click();
+            waitShort();
+
+            cy.get('span').contains(user2.username).parent().find(promoteButton).click();
+            waitShort();
+
+            cy.get('#role-select').select(roleName);
+            cy.get('button').contains('Update role').click();
+            waitShort();
+            
+            cy.get('span').contains(user2.username).parent().should('contain.text', roleName);
+        });
+        it('User 2 can see the admin page', () => {
+            loginUser2();
+            openGroupPage(publicGroupName);
+            goToAdminTab();
+            cy.get('h4').contains('Manage group').should('exist');
         });
     });
     describe('User 1 can manage applications and invites', () => {

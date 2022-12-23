@@ -61,6 +61,8 @@
     "new-role": "New role",
     "add": "Add",
     "default-role": "Default role for new members",
+    "update-role": "Update role",
+    "manage-rank": "Manage rank",
 
     "transfer-ownership": "Transfer ownership",
     "no-user-selected": "No user selected",

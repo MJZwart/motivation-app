@@ -147,6 +147,7 @@ return [
             'updated' => 'Rol bewerkt',
             'created' => 'Rol aangemaakt',
             'deleted' => 'Rol verwijderd',
+            'member_updated' => 'Ledenrol bewerkt',
         ],
         'ownership_transferred' => 'Eigendom overgedragen',
     ],

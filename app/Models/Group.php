@@ -102,10 +102,10 @@ class Group extends Model
 
     public function hasMember(int $id)
     {
-        return $this->users->contains('id', $id);
+        return $this->groupUsers->contains('id', $id);
     }
     public function removeMemberFromGroup(int $id)
     {
-        GroupUser::where('user_id', $id)->where('group_id', $this->id)->delete();
+        GroupUser::find($id)->delete();
     }
 }

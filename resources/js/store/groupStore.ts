@@ -109,6 +109,10 @@ export const useGroupStore = defineStore('group', {
             this.group = data.data.group;
             return data.data.roles;
         },
+        async updateGroupUserRole(groupId: number, groupUserId: number, roleId: number) {
+            const {data} = await axios.put(`groups/roles/${groupId}/user/${groupUserId}/role/${roleId}`);
+            this.group = data.data.group;
+        },
 
         /*
         Group messages
