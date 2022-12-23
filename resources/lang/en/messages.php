@@ -148,6 +148,7 @@ return [
             'created' => 'Role created',
             'deleted' => 'Role deleted',
         ],
+        'ownership_transferred' => 'Ownership transferred',
     ],
 
     'message' => [

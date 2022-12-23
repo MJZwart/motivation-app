@@ -62,6 +62,9 @@
     "add": "Toevoegen",
     "default-role": "Standaard rol voor nieuwe leden",
 
+    "transfer-ownership": "Eigendom overdragen",
+    "no-user-selected": "Geen gebruiker geselecteerd",
+
     "delete-group-confirm": "Weet je zeker dat je de groep {group} wil verwijderen?",
     "leave-group-confirm": "Weet je zeker dat je de groep {group} wil verlaten?",
     "no-groups-found": "Geen groepen op dit moment. Word lid van een of maak er zelf een!",

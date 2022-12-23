@@ -97,7 +97,7 @@ class Group extends Model
     public function getAdmin()
     {
         $adminRole = $this->roles->where('owner', true)->first();
-        return GroupUser::where('rank', $adminRole->id)->first()->user;
+        return GroupUser::where('rank', $adminRole->id)->first();
     }
 
     public function hasMember(int $id)

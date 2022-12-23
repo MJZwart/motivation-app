@@ -148,6 +148,7 @@ return [
             'created' => 'Rol aangemaakt',
             'deleted' => 'Rol verwijderd',
         ],
+        'ownership_transferred' => 'Eigendom overgedragen',
     ],
 
     'message' => [

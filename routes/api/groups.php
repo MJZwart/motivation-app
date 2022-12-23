@@ -58,6 +58,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
     });
     
     Route::delete('/{group}', [GroupsController::class, 'destroy'])->can('delete', 'group');
+    Route::put('/{group}/transfer/{groupUser}', [GroupsController::class, 'transferOwnership'])->can('delete', 'group');
 
     Route::group(['middleware' => ['can:message,group']], function () {
         Route::get('/{group}/messages', [GroupsController::class, 'getMessages']);
