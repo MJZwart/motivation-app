@@ -11,7 +11,7 @@ const props = defineProps<{rank: Rank}>();
 function getRankIcon() {
     if (!props.rank) return '';
     if (props.rank.owner) return 'game-icons:rank-3';
-    if (props.rank.can_edit || props.rank.can_manage_members) return 'game-icons:rank-2';
-    return 'game-icons:rank-1';
+    if (props.rank.member) return 'game-icons:rank-1';
+    return 'game-icons:rank-2';
 }
 </script>

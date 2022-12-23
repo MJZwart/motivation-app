@@ -33,7 +33,7 @@
                             class="icon small red"
                             @click="suspend(member)" />
                     </Tooltip>
-                    <Tooltip :text="$t('manage-rank')">
+                    <Tooltip v-if="!member.rank.owner && member.rank.id !== group.rank.id" :text="$t('manage-rank')">
                         <Icon icon="mdi:rank" class="iconify small" @click="openPromoteModal(member)" />
                     </Tooltip>
 
