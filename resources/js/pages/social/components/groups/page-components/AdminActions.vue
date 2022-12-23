@@ -82,7 +82,7 @@
         <div v-if="group.rank.owner && transferOwnership" class="content-block">
             <h4>{{ $t('transfer-ownership') }}</h4>
             <select id="group-owner-users" v-model="newOwner" name="group-owner-user" :class="{invalid: noUserSelectedError}">
-                <option v-for="groupUser in group.members" :key="groupUser.id" :value="groupUser.id">
+                <option v-for="groupUser in eligibleMembersForTransfer" :key="groupUser.id" :value="groupUser.id">
                     {{ groupUser.username }}
                 </option>
             </select>
@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref, PropType} from 'vue';
+import {onBeforeMount, ref, PropType, computed} from 'vue';
 import InviteUsersModal from '../modals/InviteUsersModal.vue';
 import Blocklist from '../modals/Blocklist.vue';
 import {useGroupStore} from '/js/store/groupStore';
@@ -213,15 +213,15 @@ const transferOwnership = ref(false);
 const newOwner = ref<number | null>(null);
 const noUserSelectedError = ref(false);
 
+const eligibleMembersForTransfer = computed(() => props.group.members.filter(member => !member.rank.owner));
+
 async function transferOwnershipToUser() {
     if (!newOwner.value) {
         noUserSelectedError.value = true;
         waitingOnResponse.value = false;
         return;
     }
-    loading.value = true;
     await groupStore.transferOwnership(props.group.id, newOwner.value);
     emit('reload');
-    loading.value = false;
 }
 </script>

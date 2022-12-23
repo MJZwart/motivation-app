@@ -150,6 +150,13 @@ return [
             'member_updated' => 'Ledenrol bewerkt',
         ],
         'ownership_transferred' => 'Eigendom overgedragen',
+        'transfer_failed' => 'Overdracht mislukt',
+        'transfer' => [
+            'success' => 'Eigendom overgedragen',
+            'failed' => 'Overdracht mislukt',
+            'notification_title' => 'Groep eigendom overgedragen naar jou',
+            'notification_text' => '{admin} heeft het eigendom van de groep {group} overgedragen aan jou.',
+        ],
     ],
 
     'message' => [

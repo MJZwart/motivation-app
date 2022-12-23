@@ -95,16 +95,17 @@ class GroupsController extends Controller
 
     public function transferOwnership(Request $request, Group $group, GroupUser $groupUser): JsonResponse
     {
-        error_log('Starting');
+        if ($groupUser->user_id === Auth::user()->id) return ResponseWrapper::errorResponse(__('messages.group.transfer.failed'));
         $currentAdmin = $group->getAdmin();
-        error_log('Current admin rank '.$currentAdmin->rank);
-        error_log('Group user rank '.$groupUser->rank);
         $currentAdmin->update(['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
-        error_log('Current admin rank '.$currentAdmin->rank);
         $groupUser->update(['rank' => GroupRoleHandler::getAdminRank($group->id)->id]);
-        error_log('Group user rank '.$groupUser->rank);
+        NotificationHandler::create(
+            $groupUser->user_id,
+            __('messages.group.transfer.notification_title'),
+            __('messages.group.transfer.notification_text', ['admin' => $currentAdmin->user->username, 'group' => $group->name])
+        );
         ActionTrackingHandler::handleAction($request, 'TRANSFER_GROUP', 'Transferred ownership of ' . $group->name . ' to ' .$groupUser->user->username);
-        return ResponseWrapper::successResponse(__('messages.group.ownership_transferred'), ['group' => new GroupPageResource($group->fresh())]);
+        return ResponseWrapper::successResponse(__('messages.group.transfer.success'), ['group' => new GroupPageResource($group->fresh())]);
     }
 
     /**
