@@ -12,7 +12,7 @@
             <tbody>
                 <tr v-for="role in groupRoles" :key="role.id">
                     <td>
-                        <div class="d-flex">
+                        <div class="d-flex role-name">
                             <GroupRankIcon :rank="role" />
                             <Editable 
                                 :item="role.name" 
@@ -55,6 +55,7 @@
         <div class="d-flex m-1">
             <div v-if="newRoleOpen" class="new-role-inline">
                 <input
+                    id="new-role-name"
                     v-model="newRole"
                     type="text"
                     :placeholder="$t('new-role')"
