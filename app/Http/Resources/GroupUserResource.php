@@ -18,7 +18,7 @@ class GroupUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user->id,
+            'user_id' => $this->user_id,
             'username' => $this->user->username,
             'rank' => new GroupRoleResource(GroupRole::find($this->rank)),
             'joined' => Carbon::create($this->joined),
