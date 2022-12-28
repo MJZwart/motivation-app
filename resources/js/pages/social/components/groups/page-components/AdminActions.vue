@@ -81,7 +81,11 @@
         </div>
         <div v-if="group.rank.owner && transferOwnership" class="content-block">
             <h4>{{ $t('transfer-ownership') }}</h4>
-            <select id="group-owner-users" v-model="newOwner" name="group-owner-user" :class="{invalid: noUserSelectedError}">
+            <select 
+                id="group-owner-users" 
+                v-model="newOwner" 
+                name="group-owner-user" 
+                :class="{invalid: noUserSelectedError, 'mb-4': !noUserSelectedError}">
                 <option v-for="groupUser in eligibleMembersForTransfer" :key="groupUser.id" :value="groupUser.id">
                     {{ groupUser.username }}
                 </option>
