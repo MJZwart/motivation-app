@@ -65,6 +65,15 @@
                                 @click.stop.prevent="showConversation(report.conversation)" />
                         </Tooltip>
                     </div>
+                    <div v-if="report.group_id">
+                        {{ $t('group') }}
+                        <Tooltip :text="$t('show-group-messages')">
+                            <FaIcon 
+                                icon="magnifying-glass" 
+                                class="icon"
+                                @click.stop.prevent="showGroupMessages(report.group_id!)" />
+                        </Tooltip>
+                    </div>
                     <div v-else>
                         {{ $t('no')}}
                     </div>
@@ -81,13 +90,17 @@
         </template>
 
         <Modal :show="showConversationModal"
-               
                :title="$t('see-conversation-reporter')" 
                @close="closeShowConversation">
             <ShowConversationModal 
                 v-if="conversationIdToShow !== null" 
                 :conversationId="parseInt(conversationIdToShow)" 
                 @close="closeShowConversation"/>
+        </Modal>
+        <Modal :show="showGroupMessagesModal"
+               :title="$t('see-group-messages')"
+               @close="closeShowGroupMessages">
+            <ShowGroupMessagesModal />
         </Modal>
     </div>
 </template>
@@ -98,9 +111,10 @@ import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
-import ShowConversationModal from '../components/ShowConversationModal.vue';
+import ShowConversationModal from './ShowConversationModal.vue';
 import {useI18n} from 'vue-i18n';
 import {ReportedUser} from 'resources/types/admin';
+import ShowGroupMessagesModal from './ShowGroupMessagesModal.vue';
 const {t} = useI18n();
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
@@ -123,6 +137,16 @@ function showConversation(conversationId: string) {
 function closeShowConversation() {
     conversationIdToShow.value = null;
     showConversationModal.value = false;
+}
+const groupToShow = ref<number | null>(null);
+const showGroupMessagesModal = ref(false);
+function showGroupMessages(group_id: number) {
+    groupToShow.value = group_id;
+    showGroupMessagesModal.value = true;
+}
+function closeShowGroupMessages() {
+    groupToShow.value = null;
+    showGroupMessagesModal.value = false;
 }
 function closeReport(report: ReportedUser) {
     if (confirm(t('close-report-confirmation', {report: report.id}))) {

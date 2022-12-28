@@ -40,6 +40,7 @@ export type ReportedUser = NewReportedUser & {
     reported_date: Date;
     reported_by_name: string;
     conversation: string;
+    group_id?: number;
 };
 
 export type Overview = {
