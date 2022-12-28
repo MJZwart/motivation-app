@@ -10,7 +10,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="role in groupRoles" :key="role.id">
+                <tr v-for="role in sortedGroupRoles" :key="role.id" class="role-row">
                     <td>
                         <div class="d-flex role-name">
                             <GroupRankIcon :rank="role" />
@@ -22,6 +22,20 @@
                                 @save="updateName(role.id, $event)" />
                         </div>
                         <span v-if="role.member" class="silent">{{$t('default-role')}}</span>
+                    </td>
+                    <td>
+                        <div class="stacked-icons">
+                            <Icon 
+                                v-if="role.position > 2 && !role.member" 
+                                :icon="ARROW_UP" 
+                                class="icon medium" 
+                                @click="rankUp(role)" />
+                            <Icon 
+                                v-if="role.position < (groupRoles.length - 1) && !role.owner" 
+                                :icon="ARROW_DOWN" 
+                                class="icon medium" 
+                                @click="rankDown(role)" />
+                        </div>
                     </td>
                     <td>
                         <input 
@@ -74,12 +88,15 @@
 <script setup lang="ts">
 import Editable from '/js/components/global/Editable.vue';
 import type {Rank} from 'resources/types/group';
-import {onMounted, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {GROUP_ROLE_FIELDS} from '/js/constants/groupConstants';
 import {useGroupStore} from '/js/store/groupStore';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
+import {Icon} from '@iconify/vue';
+import {ARROW_UP, ARROW_DOWN} from '/js/constants/iconConstants';
+import {sortValues} from '/js/services/sortService';
 const groupStore = useGroupStore();
 const {t} = useI18n();
 
@@ -93,6 +110,7 @@ onMounted(async() => {
 const props = defineProps<{groupId: number}>();
 
 const groupRoles = ref<Rank[]>([]);
+const sortedGroupRoles = computed(() => sortValues(groupRoles.value, 'position', 'asc'));
 
 async function updateName(roleId: number, role: {name: string}) {
     groupRoles.value = await groupStore.updateRoleName(props.groupId, roleId, role);
@@ -113,6 +131,14 @@ async function deleteRole(role: Rank) {
     if (confirm(t('delete-role-confirmation', {role: role.name}))) 
         groupRoles.value = await groupStore.deleteRole(props.groupId, role.id);
 }
+
+async function rankUp(role: Rank) {
+    groupRoles.value = await groupStore.rankUp(props.groupId, role.id);
+}
+
+async function rankDown(role: Rank) {
+    groupRoles.value = await groupStore.rankDown(props.groupId, role.id);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -128,5 +154,17 @@ async function deleteRole(role: Rank) {
     button {
         margin: 0.2rem;
     }
+}
+.filler-icon {
+    width: 24px;
+    height: 24px;
+    margin: 2px;
+}
+.stacked-icons {
+    display: flex;
+    flex-direction: column;
+}
+.role-row {
+    border-bottom: 1px solid var(--border-color);
 }
 </style>

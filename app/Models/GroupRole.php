@@ -17,6 +17,7 @@ class GroupRole extends Model
         'owner',
         'member',
         'group_id',
+        'position',
     ];
     
     public function group()

@@ -129,6 +129,12 @@ class GroupPolicy
         return $group->rankOfMemberById($user->id)->can_moderate_messages ? Response::allow() : Response::denyWithStatus(422, __('gate.groups.not_allowed_moderate'));
     }
 
+    public function manageRoles(User $user, Group $group) 
+    {
+        $rank = $group->rankOfMemberById($user->id);
+        return $rank->can_manage_members ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_recruit'));
+    }
+
     /**
      * Whether or not the user is already a member
      *
