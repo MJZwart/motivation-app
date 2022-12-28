@@ -93,6 +93,21 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $group->name]));
     }
 
+    public function transferOwnership(Request $request, Group $group, GroupUser $groupUser): JsonResponse
+    {
+        if ($groupUser->user_id === Auth::user()->id) return ResponseWrapper::errorResponse(__('messages.group.transfer.failed'));
+        $currentAdmin = $group->getAdmin();
+        $currentAdmin->update(['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
+        $groupUser->update(['rank' => GroupRoleHandler::getAdminRank($group->id)->id]);
+        NotificationHandler::create(
+            $groupUser->user_id,
+            __('messages.group.transfer.notification_title'),
+            __('messages.group.transfer.notification_text', ['admin' => $currentAdmin->user->username, 'group' => $group->name])
+        );
+        ActionTrackingHandler::handleAction($request, 'TRANSFER_GROUP', 'Transferred ownership of ' . $group->name . ' to ' .$groupUser->user->username);
+        return ResponseWrapper::successResponse(__('messages.group.transfer.success'), ['group' => new GroupPageResource($group->fresh())]);
+    }
+
     /**
      * If the group is public and does not require application, instantly joins the group.
      * Returns a success message and the group with the updated membership.
@@ -132,7 +147,7 @@ class GroupsController extends Controller
             return ResponseWrapper::errorResponse(__('messages.group.already_applied'));
         GroupApplication::newApplication($group->id, $user->id);
         Notification::create([
-            'user_id' => $group->getAdmin()->id,
+            'user_id' => $group->getAdmin()->user_id,
             'title' => __('messages.group.new_application_title', ['name' => $group->name]),
             'text' => __('messages.group.new_application_text', ['username' => $user->username, 'groupname' => $group->name]),
         ]);
@@ -210,6 +225,7 @@ class GroupsController extends Controller
         if (!$group->suspendedUsers()->where('user_id', $request->userId)->exists()) 
             return ResponseWrapper::errorResponse(__('messages.group.user_not_blocked'));
         $group->suspendedUsers()->detach($user);
+        ActionTrackingHandler::handleAction($request, 'GROUP_UNBLOCK', 'User ' . $user->username .' unblocked from group ' .$group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.unblocked', ['username' => $user->username]),
             ['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]
@@ -259,6 +275,7 @@ class GroupsController extends Controller
     public function updateRoleName(Group $group, GroupRole $role, UpdateGroupRoleNameRequest $request) {
         $validated = $request->validated();
         $role->update(['name' => $validated['name']]);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Updated group role name '.$validated['name'].' in group '.$group->name);
         return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
     }
 
@@ -268,6 +285,7 @@ class GroupsController extends Controller
         foreach ($validated as $role) {
             GroupRole::find($role['id'])->update($role);
         }
+        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Updated group roles permissions in group '.$group->name);
         return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
     }
 
@@ -275,16 +293,18 @@ class GroupsController extends Controller
     {
         $validated = $request->validated();
         GroupRoleHandler::createGroupRoleWithName($group->id, $validated['name']);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Created role with name '. $validated['name'].' in group '.$group->name);
         return ResponseWrapper::successResponse(__('messages.group.role.created'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
     }
 
-    public function destroyRole(Group $group, GroupRole $role) 
+    public function destroyRole(Group $group, GroupRole $role, Request $request) 
     {
         $usersWithRank = GroupUser::where('group_id', $group->id)->where('rank', $role->id)->get();
         $memberRank = GroupRoleHandler::getMemberRank($group->id);
         foreach($usersWithRank as $groupUser) {
             $groupUser->update(['rank' => $memberRank->id]);
         }
+        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Deleted role '.$role->name.' in group '.$group->name);
         $role->delete();
         return ResponseWrapper::successResponse(__('messages.group.role.deleted'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
     }
@@ -354,6 +374,7 @@ class GroupsController extends Controller
             __('messages.group.invite.new_text', ['name' => $group->name]),
             $groupInvite
         );
+        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE', 'Invited user to group '.$group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.invite.sent'),
             ['group' => new GroupPageResource($group->fresh())]
@@ -413,6 +434,8 @@ class GroupsController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
+        ActionTrackingHandler::handleAction($request, 'GROUP_MESSAGE', 'Created message in group '.$group->name);
+
         return ResponseWrapper::successResponse(__('messages.group.message.created'), ['messages' => GroupMessageResource::collection($group->fresh()->messages)]);
     }
 
@@ -423,9 +446,10 @@ class GroupsController extends Controller
      * @param GroupMessage $groupMessage
      * @return void
      */
-    public function deleteMessage(Group $group, GroupMessage $groupMessage)
+    public function deleteMessage(Group $group, GroupMessage $groupMessage, Request $request)
     {
         $groupMessage->delete();
+        ActionTrackingHandler::handleAction($request, 'GROUP_MESSAGE', 'Deleted message in group '.$group->name);
         return ResponseWrapper::successResponse(__('messages.group.message.deleted'), ['messages' => GroupMessageResource::collection($group->fresh()->messages)]);
     }
 

@@ -67,3 +67,7 @@ select {
     background-position: right .75rem center;
     background-size: 16px 12px;
 }
+
+select.invalid {
+    border: 1px solid var(--red);
+}

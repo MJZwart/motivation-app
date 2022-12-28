@@ -149,6 +149,12 @@ return [
             'deleted' => 'Rol verwijderd',
             'member_updated' => 'Ledenrol bewerkt',
         ],
+        'transfer' => [
+            'success' => 'Eigendom overgedragen',
+            'failed' => 'Overdracht mislukt',
+            'notification_title' => 'Groep eigendom overgedragen naar jou',
+            'notification_text' => '{admin} heeft het eigendom van de groep {group} overgedragen aan jou.',
+        ],
     ],
 
     'message' => [

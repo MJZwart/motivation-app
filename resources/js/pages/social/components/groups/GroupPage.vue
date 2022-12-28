@@ -18,7 +18,7 @@
                         <MemberGroupPageData v-if="group.rank" :group="group" />
                     </div>
                     <MemberList v-if="currentTab === 'members'" :group="group" />
-                    <AdminActions v-if="currentTab === 'admin'" :group="group" />
+                    <AdminActions v-if="currentTab === 'admin'" :group="group" @reload="reload" />
                     <GroupMessages v-if="currentTab === 'messages'" :group="group" />
                 </div>
             </div>
@@ -48,6 +48,10 @@ onBeforeMount(async() => {
 
 const loading = ref(true);
 const group = computed((): GroupPage | null => groupStore.group);
+
+function reload() {
+    currentTab.value = 'public';
+}
 
 /** 
  * Tabs 

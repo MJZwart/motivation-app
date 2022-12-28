@@ -129,5 +129,13 @@ export const useGroupStore = defineStore('group', {
             const {data} = await axios.delete(`/groups/${groupId}/messages/${groupMessageId}`);
             return data.data.messages;
         },
+
+        /*
+        Transfer ownership
+        */
+        async transferOwnership(groupId: number, newOwnerId: number) {
+            const {data} = await axios.put(`groups/${groupId}/transfer/${newOwnerId}`);
+            this.group = data.data.group;
+        },
     },
 });

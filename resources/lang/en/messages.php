@@ -149,6 +149,12 @@ return [
             'deleted' => 'Role deleted',
             'member_updated' => 'Member role updated',
         ],
+        'transfer' => [
+            'success' => 'Ownership transferred',
+            'failed' => 'Transfer failed',
+            'notification_title' => 'Group ownership transferred to you',
+            'notification_text' => ':admin transferred ownership of the group :group to you.',
+        ],
     ],
 
     'message' => [

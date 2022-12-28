@@ -57,7 +57,7 @@
         </div>
         <div v-if="group.rank.owner" class="content-block">
             <h4>{{ $t('manage-group-roles') }}</h4>
-            <ManageGroupRoles :group-id="group.id" />
+            <ManageGroupRoles :group-id="group.id"/>
         </div>
         <div class="d-flex m-2">
             <div>
@@ -70,7 +70,30 @@
                 <button v-if="group.rank.can_manage_members" type="button" class="m-1 box-shadow" @click="showBlocklist()">
                     {{$t('blocklist')}}
                 </button>
+                <button 
+                    v-if="group.rank.owner" 
+                    type="button" 
+                    class="m-1 box-shadow" 
+                    @click="transferOwnership = !transferOwnership">
+                    {{ $t('transfer-ownership') }}
+                </button>
             </div>
+        </div>
+        <div v-if="group.rank.owner && transferOwnership" class="content-block">
+            <h4>{{ $t('transfer-ownership') }}</h4>
+            <select 
+                id="group-owner-users" 
+                v-model="newOwner" 
+                name="group-owner-user" 
+                :class="{invalid: noUserSelectedError, 'mb-4': !noUserSelectedError}">
+                <option v-for="groupUser in eligibleMembersForTransfer" :key="groupUser.id" :value="groupUser.id">
+                    {{ groupUser.username }}
+                </option>
+            </select>
+            <span v-if="noUserSelectedError" class="d-block invalid-feedback">{{ $t('no-user-selected') }}</span>
+            <span class="d-flex">
+                <SubmitButton class="ml-auto" @click="transferOwnershipToUser()" />
+            </span>
         </div>
         <Modal class="xl" :show="showInviteUsersModal" :footer="false"
                :title="$t('invite-users-to', {group: group.name})" @close="closeInviteUsersModal">
@@ -84,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref, PropType} from 'vue';
+import {onBeforeMount, ref, PropType, computed} from 'vue';
 import InviteUsersModal from '../modals/InviteUsersModal.vue';
 import Blocklist from '../modals/Blocklist.vue';
 import {useGroupStore} from '/js/store/groupStore';
@@ -93,6 +116,8 @@ import {useI18n} from 'vue-i18n';
 import {Application, Group, GroupPage} from 'resources/types/group';
 import Editable from '/js/components/global/Editable.vue';
 import ManageGroupRoles from './ManageGroupRoles.vue';
+import SubmitButton from '/js/components/global/small/SubmitButton.vue';
+import {waitingOnResponse} from '/js/services/loadingService';
 
 const groupStore = useGroupStore();
 const router = useRouter();
@@ -101,6 +126,8 @@ const {t} = useI18n();
 onBeforeMount(() => {
     if (props.group.require_application) loadApplications();
 });
+
+const emit = defineEmits(['reload']);
 
 async function loadApplications() {
     loading.value = true;
@@ -183,4 +210,22 @@ function closeBlocklistModal() {
     showBlocklistModal.value = false;
 }
 
+/**
+ * Manage ownership
+ */
+const transferOwnership = ref(false);
+const newOwner = ref<number | null>(null);
+const noUserSelectedError = ref(false);
+
+const eligibleMembersForTransfer = computed(() => props.group.members.filter(member => !member.rank.owner));
+
+async function transferOwnershipToUser() {
+    if (!newOwner.value) {
+        noUserSelectedError.value = true;
+        waitingOnResponse.value = false;
+        return;
+    }
+    await groupStore.transferOwnership(props.group.id, newOwner.value);
+    emit('reload');
+}
 </script>
