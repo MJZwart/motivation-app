@@ -31,6 +31,7 @@ export type NewReportedUser = {
     comment: string;
     reason: string;
     conversation_id?: string;
+    group_id?: number;
 };
 
 export type ReportedUser = NewReportedUser & {

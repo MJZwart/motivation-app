@@ -38,6 +38,7 @@ const emit = defineEmits(['close']);
 const props = defineProps<{
     user: StrippedUser;
     conversation_id?: string;
+    group_id?: number;
 }>();
 
 const reportTitle = computed(() => t('report-user-name', {user: props.user.username}));
@@ -47,6 +48,7 @@ const report = ref<NewReportedUser>({reason: '', comment: ''});
 
 async function reportUser() {
     if (props.conversation_id) report.value.conversation_id = props.conversation_id;
+    if (props.group_id) report.value.group_id = props.group_id;
     await userStore.reportUser(props.user.id, report.value);
     close();
 }

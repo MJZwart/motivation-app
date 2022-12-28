@@ -8,16 +8,6 @@ use Illuminate\Support\Facades\Auth;
 class StoreReportedUserRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return Auth::user();
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -25,9 +15,10 @@ class StoreReportedUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'comment' => 'required_without:conversation_id|string|nullable',
+            'comment' => 'required|string|nullable',
             'reason' => 'required|string|max:255',
-            'conversation_id' => 'required_without:comment|string',
+            'conversation_id' => 'sometimes|string',
+            'group_id' => 'sometimes|integer',
         ];
     }
 }

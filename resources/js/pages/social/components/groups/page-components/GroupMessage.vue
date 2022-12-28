@@ -9,8 +9,8 @@
             <router-link class="silent clear-link" :to="{name: 'profile', params: {id: message.user.id}}">
                 {{message.user.username}}
             </router-link> - {{parseDateTime(message.created_at)}}
-            <span v-if="canDelete && hover" class="ml-auto"> 
-                <Tooltip :text="$t('delete-message')">
+            <span v-if="hover" class="ml-auto"> 
+                <Tooltip v-if="canDelete" :text="$t('delete-message')">
                     <FaIcon 
                         icon="trash"
                         class="icon small red message-icon"
@@ -25,7 +25,7 @@
             </span>
         </p>
         <Modal :show="showReportUserModal" :header="false" @close="closeReportUserModal">
-            <ReportUser :user="message.user" @close="closeReportUserModal" />
+            <ReportUser :user="message.user" :group_id="groupId" @close="closeReportUserModal" />
         </Modal>
     </div>
 </template>
@@ -36,7 +36,7 @@ import type {GroupMessage} from 'resources/types/group';
 import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 
-const props = defineProps<{message: GroupMessage, canDelete: boolean, userId: number}>();
+const props = defineProps<{message: GroupMessage, canDelete: boolean, userId: number, groupId: number}>();
 const emit = defineEmits(['deleteMessage'])
 
 const hover = ref(false);
