@@ -7,28 +7,16 @@ use App\Helpers\ActionTrackingHandler;
 use App\Helpers\GroupRoleHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
-use App\Http\Requests\GroupMessageRequest;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\GroupApplication;
-use App\Http\Requests\StoreGroupRequest;
-use App\Http\Requests\UpdateGroupsRequest;
 use App\Http\Requests\RemoveUserFromGroupRequest;
 use App\Http\Requests\SendGroupInviteRequest;
 use App\Http\Requests\SuspendUserFromGroupRequest;
-use App\Http\Requests\UpdateGroupRoleNameRequest;
-use App\Http\Requests\UpdateGroupRoles;
 use App\Http\Resources\BlockedUserFromGroupResource;
 use App\Http\Resources\GroupApplicationResource;
-use App\Http\Resources\GroupMessageResource;
 use App\Http\Resources\GroupPageResource;
-use App\Http\Resources\GroupResource;
-use App\Http\Resources\GroupRoleResource;
-use App\Http\Resources\MyGroupResource;
 use App\Models\GroupInvite;
-use App\Models\GroupMessage;
-use App\Models\GroupRole;
-use App\Models\GroupUser;
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -36,78 +24,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
-class GroupsController extends Controller
+class GroupUserController extends Controller
 {
-    // public function show($argument){
-    //     if ($argument == 'all')
-    //         return GroupResource::collection(Group::where('is_public', true)->get());
-    //     if ($argument == 'my')
-    //         return MyGroupResource::collection(Auth::user()->groups);
-    //     if ($argument == 'dashboard') {
-    //         $myGroups = MyGroupResource::collection(Auth::user()->groups);
-    //         $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
-    //         return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
-    //     }
-    //     return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
-    // }
-
-    public function show(Group $group)
-    {
-        return new JsonResponse(['group' => new GroupPageResource($group)]);
-    }
-
-    public function dashboard()
-    {
-        /** @var User */
-        $user = Auth::user();
-        $myGroups = MyGroupResource::collection($user->groups);
-        $allGroups = GroupResource::collection(Group::where('is_public', true)->whereNotIn('id', $user->suspendedGroupIds())->get());
-        return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
-    }
-
-    public function showApplications(Group $group)
-    {
-        $applications = GroupApplicationResource::collection($group->applications);
-        return new JsonResponse(['applications' => $applications]);
-    }
-
-    public function store(StoreGroupRequest $request): JsonResponse
-    {
-        $validated = $request->validated();
-
-        $group = Group::create($validated);
-        GroupRoleHandler::createStandardGroupRoles($group->id);
-        $adminRank = GroupRoleHandler::getAdminRank($group->id);
-        $group->users()->attach(Auth::user()->id, ['rank' => $adminRank->id]);
-        ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
-
-        return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]));
-    }
-
-    public function destroy(Request $request, Group $group): JsonResponse
-    {
-        $group->users()->detach();
-        GroupApplication::where('group_id', $group->id)->delete();
-        $group->delete();
-        ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
-        return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $group->name]));
-    }
-
-    public function transferOwnership(Request $request, Group $group, GroupUser $groupUser): JsonResponse
-    {
-        if ($groupUser->user_id === Auth::user()->id) return ResponseWrapper::errorResponse(__('messages.group.transfer.failed'));
-        $currentAdmin = $group->getAdmin();
-        $currentAdmin->update(['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
-        $groupUser->update(['rank' => GroupRoleHandler::getAdminRank($group->id)->id]);
-        NotificationHandler::create(
-            $groupUser->user_id,
-            __('messages.group.transfer.notification_title'),
-            __('messages.group.transfer.notification_text', ['admin' => $currentAdmin->user->username, 'group' => $group->name])
-        );
-        ActionTrackingHandler::handleAction($request, 'TRANSFER_GROUP', 'Transferred ownership of ' . $group->name . ' to ' .$groupUser->user->username);
-        return ResponseWrapper::successResponse(__('messages.group.transfer.success'), ['group' => new GroupPageResource($group->fresh())]);
-    }
-
     /**
      * If the group is public and does not require application, instantly joins the group.
      * Returns a success message and the group with the updated membership.
@@ -128,6 +46,18 @@ class GroupsController extends Controller
             __('messages.group.join_success', ['name' => $group->name]),
             ['group' => new GroupPageResource($group->fresh())]
         );
+    }
+    
+    /**
+     * Show all active applications to a group
+     *
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function showApplications(Group $group)
+    {
+        $applications = GroupApplicationResource::collection($group->applications);
+        return new JsonResponse(['applications' => $applications]);
     }
 
     /**
@@ -159,6 +89,14 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Accept a group application
+     *
+     * @param Request $request
+     * @param Group $group
+     * @param GroupApplication $application
+     * @return JsonResponse
+     */
     public function acceptGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
@@ -177,6 +115,14 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Reject a group application
+     *
+     * @param Request $request
+     * @param Group $group
+     * @param GroupApplication $application
+     * @return JsonResponse
+     */
     public function rejectGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
@@ -209,6 +155,10 @@ class GroupsController extends Controller
     }
 
     /**
+     * Managing blocked users
+     */
+
+    /**
      * Fetches all suspended users
      *
      * @param Group $group
@@ -218,6 +168,13 @@ class GroupsController extends Controller
         return new JsonResponse(['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]);
     }
 
+    /**
+     * Lift the suspension from the group for the user
+     *
+     * @param Group $group
+     * @param Request $request
+     * @return void
+     */
     public function unblockUserFromGroup(Group $group, Request $request) {
         if (!$group->isAdminById(Auth::user()->id)) 
             return ResponseWrapper::errorResponse(__('messages.group.not_admin'));
@@ -252,119 +209,12 @@ class GroupsController extends Controller
         );
     }
 
-    public function update(Group $group, UpdateGroupsRequest $request)
-    {
-        $validated = $request->validated();
-        $group->update($validated);
-        $myGroups = MyGroupResource::collection(Auth::user()->groups);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP', $group->name . ' updated.');
-        return ResponseWrapper::successResponse(
-            __('messages.group.updated'),
-            ['groups' => ['my' => $myGroups, 'current' => new GroupPageResource($group->fresh())]]
-        );
-    }
-
     /**
-     * Roles
-     */
-    public function getRoles(Group $group)
-    {
-        return GroupRoleResource::collection($group->roles->sortBy('position'));
-    }
-
-    public function updateRoleName(Group $group, GroupRole $role, UpdateGroupRoleNameRequest $request) {
-        $validated = $request->validated();
-        $role->update(['name' => $validated['name']]);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Updated group role name '.$validated['name'].' in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
-    }
-
-    public function updateRoles(Group $group, UpdateGroupRoles $request)
-    {
-        $validated = $request->validated();
-        foreach ($validated as $role) {
-            $groupRole = GroupRole::find($role['id']);
-            if ($groupRole->owner || $groupRole->member) continue;
-            $groupRole->update($role);
-        }
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Updated group roles permissions in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
-    }
-
-    public function storeRole(Group $group, UpdateGroupRoleNameRequest $request)
-    {
-        $validated = $request->validated();
-        GroupRoleHandler::createGroupRoleWithName($group->id, $validated['name']);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Created role with name '. $validated['name'].' in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.created'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
-    }
-
-    public function destroyRole(Group $group, GroupRole $role, Request $request) 
-    {
-        $usersWithRank = GroupUser::where('group_id', $group->id)->where('rank', $role->id)->get();
-        $memberRank = GroupRoleHandler::getMemberRank($group->id);
-        foreach($usersWithRank as $groupUser) {
-            $groupUser->update(['rank' => $memberRank->id]);
-        }
-        GroupRoleHandler::deleteRoleAtPosition($group->id, $role->position);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Deleted role '.$role->name.' in group '.$group->name);
-        $role->delete();
-        return ResponseWrapper::successResponse(__('messages.group.role.deleted'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
-    }
-
-    /**
-     * Changes the position to a lower number (up in the ranking)
+     * Removes the user from the group
      *
      * @param Group $group
-     * @param GroupRole $role
-     * @param Request $request
-     * @return void
-     */
-    public function rankUp(Group $group, GroupRole $role, Request $request)
-    {
-        $newPosition = $role->position - 1;
-        $group->roles()->where('position', $newPosition)->first()->update(['position' => $newPosition + 1]);
-        $role->update(['position' => $newPosition]);
-        
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Role '.$role->name.' moved up a position in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position'))]);
-    }
-
-    /**
-     * Changes the position to a higher number (down in the ranking)
-     *
-     * @param Group $group
-     * @param GroupRole $role
-     * @param Request $request
-     * @return void
-     */
-    public function rankDown(Group $group, GroupRole $role, Request $request)
-    {
-        $newPosition = $role->position + 1;
-        $group->roles()->where('position', $newPosition)->first()->update(['position' => $newPosition - 1]);
-        $role->update(['position' => $newPosition]);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Role '.$role->name.' moved down a position in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position'))]);
-    }
-
-    /**
-     * Changes the user's role/rank in a group
-     *
-     * @param Group $group
-     * @param GroupUser $groupUser
-     * @param GroupRole $role
-     * @param Request $request
-     * @return JsonResponse with GroupPageResource of updated group
-     */
-    public function updateGroupUserRole(Group $group, GroupUser $groupUser, GroupRole $role, Request $request) 
-    {
-        $groupUser->update(['rank' => $role->id]);
-        ActionTrackingHandler::handleAction($request, 'GROUP_UPDATE_ROLES', 'Gave user '.$groupUser->user->username.' the role '.$role->name .' in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.member_updated'), ['group' => new GroupPageResource($group->fresh())]);
-    }
-
-    /**
-     * 
+     * @param RemoveUserFromGroupRequest $request
+     * @return JsonResponse
      */
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request)
     {
@@ -378,6 +228,13 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Removes the user from the group and bans it from reapplying or joining
+     *
+     * @param Group $group
+     * @param SuspendUserFromGroupRequest $request
+     * @return JsonResponse
+     */
     public function suspendUserFromGroup(Group $group, SuspendUserFromGroupRequest $request)
     {
         $validated = $request->validated();
@@ -391,13 +248,20 @@ class GroupsController extends Controller
             ['group' => new GroupPageResource($group->fresh())]
         );
     }
-
+    
     /**
      * 
      * Group invites
      * 
      */
 
+    /**
+     * Sends a group invite and automatically sends them a notification
+     *
+     * @param SendGroupInviteRequest $request
+     * @param Group $group
+     * @return JsonResponse
+     */
     public function sendGroupInvite(SendGroupInviteRequest $request, Group $group)
     {
         if (GroupInvite::where('group_id', $group->id)->where('user_id', $request['user_id'])->exists())
@@ -419,6 +283,14 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Accepts the sent invite and becomes a part of the group
+     *
+     * @param Group $group
+     * @param integer $invite
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function acceptGroupInvite(Group $group, int $invite, Request $request)
     {
         $groupInvite = $this->getGroupInviteOrFail($invite);
@@ -432,6 +304,14 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.join_success', ['name' => $groupInvite->group->name]));
     }
 
+    /**
+     * Rejects the group invite and removes the invitation
+     *
+     * @param Group $group
+     * @param integer $invite
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function rejectGroupInvite(Group $group, int $invite, Request $request)
     {
         $groupInvite = $this->getGroupInviteOrFail($invite);
@@ -443,54 +323,12 @@ class GroupsController extends Controller
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.invite.rejected'));
     }
-
     /**
-     * Gets all messages from a group
+     * Fetches the group invite or throws a GroupNotFoundException if it no longer exists
      *
-     * @param Group $group
-     * @return JsonResponse with the group messages in a resource
+     * @param integer $invite
+     * @return GroupInvite or void
      */
-    public function getMessages(Group $group)
-    {
-        return GroupMessageResource::collection($group->messages->sortByDesc('created_at'));
-    }
-
-    /**
-     * Creates a group message
-     *
-     * @param Group $group
-     * @param GroupMessageRequest $request
-     * @return JsonResponse with the updated group messages in a resource
-     */
-    public function storeMessage(Group $group, GroupMessageRequest $request) 
-    {
-        $validated = $request->validated();
-
-        GroupMessage::create([
-            'message' => $validated['message'],
-            'group_id' => $group->id,
-            'user_id' => Auth::user()->id,
-        ]);
-
-        ActionTrackingHandler::handleAction($request, 'GROUP_MESSAGE', 'Created message in group '.$group->name);
-
-        return ResponseWrapper::successResponse(__('messages.group.message.created'), ['messages' => GroupMessageResource::collection($group->fresh()->messages->sortByDesc('created_at'))]);
-    }
-
-    /**
-     * Deletes the message if the user is authorized to do so
-     *
-     * @param Group $group
-     * @param GroupMessage $groupMessage
-     * @return void
-     */
-    public function deleteMessage(Group $group, GroupMessage $groupMessage, Request $request)
-    {
-        $groupMessage->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_MESSAGE', 'Deleted message in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.message.deleted'), ['messages' => GroupMessageResource::collection($group->fresh()->messages->sortByDesc('created_at'))]);
-    }
-
     private function getGroupInviteOrFail(int $invite)
     {
         try {
