@@ -1,9 +1,7 @@
 <template>
     <div class="checkbox-wrapper">
-        <span class="checkbox" @click="emit('update:modelValue', !modelValue)">
-            <Icon :icon="getIcon()" 
-                  :class="{green: modelValue, red: !modelValue}"
-            />
+        <span class="checkbox" :class="{green: modelValue, red: !modelValue}" @click="emit('update:modelValue', !modelValue)">
+            <Icon :icon="getIcon()" />
         </span>
         <label @click="emit('update:modelValue', !modelValue)">{{ label }}</label>
     </div>
@@ -28,18 +26,30 @@ function getIcon() {
         width: 18px;
         height: 18px;
         display: inline-flex;
-        background-color: var(--input-background);
+        background-color: var(--box-shade);
         border-radius: 0.25rem;
         margin: 0.25rem;
         border: 1px solid var(--border-color);
         .iconify {
             display: flex;
             align-self: center;
-            width: 21px;
-            height: 21px;
+            width: 20px;
+            height: 20px;
             overflow:visible;
             margin-left: -2px;
             margin-top: -1px;
+        }
+    }
+    .checkbox.green {
+        border: 1px solid var(--green);
+        .iconify {
+            color: var(--green);
+        }
+    }
+    .checkbox.red {
+        border: 1px solid var(--red);
+        .iconify {
+            color: var(--red);
         }
     }
 }
