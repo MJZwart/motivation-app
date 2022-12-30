@@ -38,24 +38,22 @@ use Throwable;
 
 class GroupsController extends Controller
 {
-    // public function show($argument){
-    //     if ($argument == 'all')
-    //         return GroupResource::collection(Group::where('is_public', true)->get());
-    //     if ($argument == 'my')
-    //         return MyGroupResource::collection(Auth::user()->groups);
-    //     if ($argument == 'dashboard') {
-    //         $myGroups = MyGroupResource::collection(Auth::user()->groups);
-    //         $allGroups = GroupResource::collection(Group::where('is_public', true)->get());
-    //         return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
-    //     }
-    //     return new JsonResponse(['message' => "Only 'all', 'my' and 'dashboard' are permitted."], Response::HTTP_BAD_REQUEST);
-    // }
-
+    /**
+     * See an individual group
+     *
+     * @param Group $group
+     * @return JsonResponse
+     */
     public function show(Group $group)
     {
         return new JsonResponse(['group' => new GroupPageResource($group)]);
     }
 
+    /**
+     * See an overview of all groups plus all groups you're in
+     *
+     * @return JsonResponse
+     */
     public function dashboard()
     {
         /** @var User */
@@ -65,12 +63,12 @@ class GroupsController extends Controller
         return new JsonResponse(['groups' => ['my' => $myGroups, 'all' => $allGroups]]);
     }
 
-    public function showApplications(Group $group)
-    {
-        $applications = GroupApplicationResource::collection($group->applications);
-        return new JsonResponse(['applications' => $applications]);
-    }
-
+    /**
+     * Create a new group
+     *
+     * @param StoreGroupRequest $request
+     * @return JsonResponse
+     */
     public function store(StoreGroupRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -84,6 +82,13 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]));
     }
 
+    /**
+     * Delete a group
+     *
+     * @param Request $request
+     * @param Group $group
+     * @return JsonResponse
+     */
     public function destroy(Request $request, Group $group): JsonResponse
     {
         $group->users()->detach();
@@ -93,6 +98,14 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $group->name]));
     }
 
+    /**
+     * Transfer ownership of a group to another user
+     *
+     * @param Request $request
+     * @param Group $group
+     * @param GroupUser $groupUser
+     * @return JsonResponse
+     */
     public function transferOwnership(Request $request, Group $group, GroupUser $groupUser): JsonResponse
     {
         if ($groupUser->user_id === Auth::user()->id) return ResponseWrapper::errorResponse(__('messages.group.transfer.failed'));
@@ -107,6 +120,10 @@ class GroupsController extends Controller
         ActionTrackingHandler::handleAction($request, 'TRANSFER_GROUP', 'Transferred ownership of ' . $group->name . ' to ' .$groupUser->user->username);
         return ResponseWrapper::successResponse(__('messages.group.transfer.success'), ['group' => new GroupPageResource($group->fresh())]);
     }
+
+    /**
+     * Joining, applying and inviting
+     */
 
     /**
      * If the group is public and does not require application, instantly joins the group.
@@ -128,6 +145,18 @@ class GroupsController extends Controller
             __('messages.group.join_success', ['name' => $group->name]),
             ['group' => new GroupPageResource($group->fresh())]
         );
+    }
+    
+    /**
+     * Show all active applications to a group
+     *
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function showApplications(Group $group)
+    {
+        $applications = GroupApplicationResource::collection($group->applications);
+        return new JsonResponse(['applications' => $applications]);
     }
 
     /**
@@ -159,6 +188,14 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Accept a group application
+     *
+     * @param Request $request
+     * @param Group $group
+     * @param GroupApplication $application
+     * @return JsonResponse
+     */
     public function acceptGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
@@ -177,6 +214,14 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Reject a group application
+     *
+     * @param Request $request
+     * @param Group $group
+     * @param GroupApplication $application
+     * @return JsonResponse
+     */
     public function rejectGroupApplication(Request $request, Group $group, GroupApplication $application): JsonResponse
     {
         $user = User::find($application->user_id);
@@ -209,6 +254,10 @@ class GroupsController extends Controller
     }
 
     /**
+     * Managing blocked users
+     */
+
+    /**
      * Fetches all suspended users
      *
      * @param Group $group
@@ -218,6 +267,13 @@ class GroupsController extends Controller
         return new JsonResponse(['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]);
     }
 
+    /**
+     * Lift the suspension from the group for the user
+     *
+     * @param Group $group
+     * @param Request $request
+     * @return void
+     */
     public function unblockUserFromGroup(Group $group, Request $request) {
         if (!$group->isAdminById(Auth::user()->id)) 
             return ResponseWrapper::errorResponse(__('messages.group.not_admin'));
@@ -252,6 +308,13 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Edits the group
+     *
+     * @param Group $group
+     * @param UpdateGroupsRequest $request
+     * @return JsonResponse
+     */
     public function update(Group $group, UpdateGroupsRequest $request)
     {
         $validated = $request->validated();
@@ -267,11 +330,26 @@ class GroupsController extends Controller
     /**
      * Roles
      */
+
+    /**
+     * Fetches all roles belonging to a group
+     *
+     * @param Group $group
+     * @return void
+     */
     public function getRoles(Group $group)
     {
         return GroupRoleResource::collection($group->roles->sortBy('position'));
     }
 
+    /**
+     * Updates the role name
+     *
+     * @param Group $group
+     * @param GroupRole $role
+     * @param UpdateGroupRoleNameRequest $request
+     * @return JsonResponse
+     */
     public function updateRoleName(Group $group, GroupRole $role, UpdateGroupRoleNameRequest $request) {
         $validated = $request->validated();
         $role->update(['name' => $validated['name']]);
@@ -279,6 +357,13 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
     }
 
+    /**
+     * Updates the roles permissions
+     *
+     * @param Group $group
+     * @param UpdateGroupRoles $request
+     * @return JsonResponse
+     */
     public function updateRoles(Group $group, UpdateGroupRoles $request)
     {
         $validated = $request->validated();
@@ -291,6 +376,13 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
     }
 
+    /**
+     * Creates a new role
+     *
+     * @param Group $group
+     * @param UpdateGroupRoleNameRequest $request
+     * @return JsonResponse
+     */
     public function storeRole(Group $group, UpdateGroupRoleNameRequest $request)
     {
         $validated = $request->validated();
@@ -299,6 +391,14 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.role.created'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
     }
 
+    /**
+     * Deletes the role
+     *
+     * @param Group $group
+     * @param GroupRole $role
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function destroyRole(Group $group, GroupRole $role, Request $request) 
     {
         $usersWithRank = GroupUser::where('group_id', $group->id)->where('rank', $role->id)->get();
@@ -364,7 +464,11 @@ class GroupsController extends Controller
     }
 
     /**
-     * 
+     * Removes the user from the group
+     *
+     * @param Group $group
+     * @param RemoveUserFromGroupRequest $request
+     * @return JsonResponse
      */
     public function removeUserFromGroup(Group $group, RemoveUserFromGroupRequest $request)
     {
@@ -378,6 +482,13 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Removes the user from the group and bans it from reapplying or joining
+     *
+     * @param Group $group
+     * @param SuspendUserFromGroupRequest $request
+     * @return JsonResponse
+     */
     public function suspendUserFromGroup(Group $group, SuspendUserFromGroupRequest $request)
     {
         $validated = $request->validated();
@@ -398,6 +509,13 @@ class GroupsController extends Controller
      * 
      */
 
+    /**
+     * Sends a group invite and automatically sends them a notification
+     *
+     * @param SendGroupInviteRequest $request
+     * @param Group $group
+     * @return JsonResponse
+     */
     public function sendGroupInvite(SendGroupInviteRequest $request, Group $group)
     {
         if (GroupInvite::where('group_id', $group->id)->where('user_id', $request['user_id'])->exists())
@@ -419,6 +537,14 @@ class GroupsController extends Controller
         );
     }
 
+    /**
+     * Accepts the sent invite and becomes a part of the group
+     *
+     * @param Group $group
+     * @param integer $invite
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function acceptGroupInvite(Group $group, int $invite, Request $request)
     {
         $groupInvite = $this->getGroupInviteOrFail($invite);
@@ -432,6 +558,14 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.join_success', ['name' => $groupInvite->group->name]));
     }
 
+    /**
+     * Rejects the group invite and removes the invitation
+     *
+     * @param Group $group
+     * @param integer $invite
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function rejectGroupInvite(Group $group, int $invite, Request $request)
     {
         $groupInvite = $this->getGroupInviteOrFail($invite);
@@ -443,6 +577,10 @@ class GroupsController extends Controller
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.invite.rejected'));
     }
+
+    /**
+     * Group messages
+     */
 
     /**
      * Gets all messages from a group
@@ -491,6 +629,12 @@ class GroupsController extends Controller
         return ResponseWrapper::successResponse(__('messages.group.message.deleted'), ['messages' => GroupMessageResource::collection($group->fresh()->messages->sortByDesc('created_at'))]);
     }
 
+    /**
+     * Fetches the group invite or throws a GroupNotFoundException if it no longer exists
+     *
+     * @param integer $invite
+     * @return GroupInvite or void
+     */
     private function getGroupInviteOrFail(int $invite)
     {
         try {
