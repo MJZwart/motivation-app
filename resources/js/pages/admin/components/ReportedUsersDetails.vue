@@ -65,7 +65,7 @@
                                 @click.stop.prevent="showConversation(report.conversation)" />
                         </Tooltip>
                     </div>
-                    <div v-if="report.group_id">
+                    <div v-else-if="report.group_id">
                         {{ $t('group') }}
                         <Tooltip :text="$t('show-group-messages')">
                             <FaIcon 

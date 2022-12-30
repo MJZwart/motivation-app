@@ -4,7 +4,6 @@
         <Loading v-if="loading" />
         <div v-else>
             <Pagination v-if="groupMessages" :items="groupMessages">
-            
                 <template #items="items">
                     <div 
                         v-for="message in items" 
