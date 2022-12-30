@@ -45,12 +45,11 @@
             </div>
             
             <div v-if="bugReportToEdit.status == 3" class="form-group">
-                <input 
+                <SimpleCheckbox
                     id="send-message-to-reporter" 
                     v-model="bugReportToEdit.sendMessageToReporter"
-                    type="checkbox" 
-                    name="send-message-to-reporter" />
-                <label for="send-message-to-reporter">{{$t('send-message-to-reporter')}}</label>
+                    name="send-message-to-reporter"
+                    :label="$t('send-message-to-reporter')" />
             </div>
 
             <SubmitButton class="block">{{$t('update-bug-report')}}</SubmitButton>

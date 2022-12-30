@@ -60,8 +60,10 @@
             />
             <small class="form-text text-muted">{{ $t('bug-comment-desc') }}</small>
             <div class="form-group">
-                <input id="diagnostics" v-model="bugReport.diagnostics_approval" type="checkbox" />
-                <label for="diagnostics">{{$t('send-diagnostics-information')}}</label>
+                <SimpleCheckbox 
+                    id="diagnostics" 
+                    v-model="bugReport.diagnostics_approval" 
+                    :label="$t('send-diagnostics-information')" />
                 <small class="silent">{{$t('send-diagnostics-information-explanation')}}</small>
             </div>
             <SubmitButton class="block">{{ $t('submit-bug-report') }}</SubmitButton>

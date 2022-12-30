@@ -19,8 +19,10 @@
             <SimpleTextarea id="feedback" v-model="feedback.text" :rows="4" :label="$t('feedback')" name="feedback" />
             <SimpleInput v-if="!auth" id="email" v-model="feedback.email" name="email" :label="$t('email')" />
             <div class="form-group">
-                <input id="diagnostics" v-model="feedback.diagnostics_approval" type="checkbox" />
-                <label for="diagnostics">{{$t('send-diagnostics-information')}}</label>
+                <SimpleCheckbox 
+                    id="diagnostics" 
+                    v-model="feedback.diagnostics_approval" 
+                    :label="$t('send-diagnostics-information')" />
                 <small class="silent">{{$t('send-diagnostics-information-explanation')}}</small>
             </div>
             <SubmitButton>{{$t('send-feedback')}}</SubmitButton>

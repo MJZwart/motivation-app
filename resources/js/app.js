@@ -69,5 +69,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 app.component('Datepicker', Datepicker);
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 app.component('SubmitButton', SubmitButton);
+import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
+app.component('SimpleCheckbox', SimpleCheckbox);
 
 app.mount('#app');

@@ -102,7 +102,6 @@ import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
 import {ARROW_UP, ARROW_DOWN} from '/js/constants/iconConstants';
-import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
 
 const groupStore = useGroupStore();
 const {t} = useI18n();
