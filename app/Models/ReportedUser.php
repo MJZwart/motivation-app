@@ -18,6 +18,7 @@ class ReportedUser extends Model
         'comment',
         'reason',
         'conversation_id',
+        'group_id',
     ];
 
     protected $with = ['user', 'reporter'];

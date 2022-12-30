@@ -21,6 +21,7 @@ class UserReportResource extends JsonResource
             'reported_by_id' => $this->reported_by_user_id,
             'reported_by_name' => $this->reporter->username,
             'conversation' => (int) $this->conversation_id,
+            'group_id' => $this->group_id,
             'id' => $this->id,
             'reason' => $this->reason,
         ];

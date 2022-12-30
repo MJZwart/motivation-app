@@ -137,6 +137,10 @@ export const useGroupStore = defineStore('group', {
             const {data} = await axios.delete(`/groups/${groupId}/messages/${groupMessageId}`);
             return data.data.messages;
         },
+        async fetchGroupMessagesByDateRange(groupId: number, dateRange: Date) {
+            const {data} = await axios.put(`/admin/groups/${groupId}/messages/daterange`, {date: dateRange});
+            return data.data.messages;
+        },
 
         /*
         Transfer ownership

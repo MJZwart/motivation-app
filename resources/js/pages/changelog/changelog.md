@@ -6,6 +6,8 @@
 -   Characters and villages now earn coins! There's nothing you can do with it yet, but it looks cool if you ask me.
 -   Added a messaging board to groups. All members of a group can now chat with each other. Admins and moderators can delete message and any user can delete their own message. In case of abuse users can report a message.
 -   Overhauled the group roles: three separate icons, the standard addition of a 'moderator' role, plus the ability for admins and moderators to edit these roles as they see fit. They can change the names and permissions of these roles and even add more roles with their own names and permissions.
+-   Ranked these roles by position. Admin/owner is always the highest and 'member' (default for new members) is always the lowest. All other ranks can be switched in position to sort these.
+-   Added the option for group admins to give ownership to another group member.
 
 ### Quality of life
 -   You can now filter for groups that require no application.
@@ -17,12 +19,15 @@
 -   On the page with all groups, easily see that you are already a member of this group + which rank you are.
 
 ### Bugs
--   
+-   Fixed a few viewing problems on smaller screens and changed some classes to fit better (subjectively).
+-   Reinstated the 'level up' messages after finishing tasks and gaining enough exp for level ups.
+-   Probably some more bugs that weren't noted and got fixed when working on features. Sorry, forgot to write them down.
 
 ### Code
 -   Refactored the back-end experience gain calculations, it was kind of a mess.
 -   Made the sub-tabs more reusable and reduced duplicate code related to this.
 -   Reworked the group rank/role system to account for more roles (such as moderators/recruiters) and making it easier to update these permissions
+-   Started using a new framework for icons
 
 ---
 

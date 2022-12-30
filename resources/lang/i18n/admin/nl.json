@@ -72,6 +72,11 @@
     "suspension-ended": "Deze schorsing is beëindigd.",
     "suspended-until-reason": "Geschorst tot {0} voor {1}.",
 
+    "group": "Groep",
+    "show-group-messages": "Toon groep berichten",
+    "group-messages": "Groep berichten",
+    "reported-user": "Gemelde gebruiker",
+
     "harassment": "Intimidatie",
     "spam": "Spam",
     "inappropriate-naming": "Ongepaste naam",
