@@ -1,8 +1,8 @@
 <template>
     <div>
         <Loading v-if="loading || userProfile == null" />
-        <div v-else class="profile-grid">
-            <div class="right-column">
+        <div v-else class="w-50-flex center">
+            <div>
                 <h2>{{ userProfile.username }}</h2>
                 <div v-if="userProfile.suspended">
                     {{
@@ -35,17 +35,19 @@
                     </span>
                 </div>
                 <p class="silent">{{ $t('member-since') }}: {{ parseDateTime(userProfile.created_at) }}</p>
-                <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" />
+                <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" :tutorial="false" />
             </div>
-            <div class="left-column">
+            <div v-if="userProfile.rewardObj">
                 <RewardCard
-                    v-if="userProfile.rewardObj"
                     class="summary-tab"
                     :reward="userProfile.rewardObj"
                     :userReward="false"
                     :rewardType="userProfile.rewardObj.rewardType"
+                    :tutorial="false"
                 />
-                <FriendsCard v-if="userProfile.friends" :message="false" :friends="userProfile.friends" />
+            </div>
+            <div v-if="userProfile.friends">
+                <FriendsCard :message="false" :friends="userProfile.friends" />
             </div>
             <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />
@@ -76,10 +78,11 @@ import axios from 'axios';
 import {useRoute} from 'vue-router';
 import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
-import {User, UserProfile} from 'resources/types/user';
-import {useI18n} from 'vue-i18n';
-import {FriendRequests, Friend} from 'resources/types/friend';
 import {parseDateTime} from '/js/services/dateService';
+import {breadcrumbsVisible} from '/js/services/breadcrumbService';
+import {useI18n} from 'vue-i18n';
+import type {User, UserProfile} from 'resources/types/user';
+import type {FriendRequests, Friend} from 'resources/types/friend';
 
 const {t} = useI18n();
 const route = useRoute();
@@ -92,6 +95,7 @@ const userProfile = ref<UserProfile | null>(null);
 
 onMounted(async () => {
     await getUserProfile();
+    breadcrumbsVisible.value = true;
     loading.value = false;
 });
 

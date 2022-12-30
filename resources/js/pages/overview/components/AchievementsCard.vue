@@ -1,5 +1,5 @@
 <template>
-    <Summary :title="$t('achievements')">
+    <Summary :title="$t('achievements')" :tutorial-off="!tutorial">
         <div v-if="achievements && achievements[0]">
             <ul class="no-list-style">
                 <li v-for="(achievement, index) in achievements" :key="index">
@@ -31,6 +31,11 @@ defineProps({
     achievements: {
         type: Array as PropType<Array<Achievement>>,
         required: false,
+    },
+    tutorial: {
+        type: Boolean,
+        required: false,
+        default: true,
     },
 });
 

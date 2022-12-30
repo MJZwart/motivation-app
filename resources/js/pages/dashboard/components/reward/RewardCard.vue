@@ -4,7 +4,7 @@
             <template #header>
                 <span class="d-flex">
                     {{reward.name}}
-                    <Tutorial :tutorial="rewardType" colorVariant="white" />
+                    <Tutorial v-if="tutorial" :tutorial="rewardType" colorVariant="white" />
                 </span>
             </template>
             <div class="compact">
@@ -49,6 +49,11 @@ defineProps({
     rewardType: {
         type: String,
         required: true,
+    },
+    tutorial: {
+        type: Boolean,
+        required: false,
+        default: true,
     },
 });
 </script>
