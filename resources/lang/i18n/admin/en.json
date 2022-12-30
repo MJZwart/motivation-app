@@ -72,6 +72,11 @@
     "suspension-ended": "This suspension has ended",
     "suspended-until-reason": "Suspended until {0} for {1}.",
 
+    "group": "Group",
+    "show-group-messages": "Show group messages",
+    "group-messages": "Group messages",
+    "reported-user": "Reported user",
+
     "harassment": "Harassment",
     "spam": "Spam",
     "inappropriate-naming": "Inappropriate naming",
