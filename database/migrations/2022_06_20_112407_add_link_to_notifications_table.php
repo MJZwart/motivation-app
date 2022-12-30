@@ -28,7 +28,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            $table->dropColumn('link');
+            $table->dropColumn('links');
             $table->dropColumn('link_active');
             $table->dropColumn('delete_links_on_action');
         });

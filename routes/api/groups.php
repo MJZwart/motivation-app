@@ -39,6 +39,8 @@ Route::group(['middleware' => ['valid-auth']], function () {
         Route::put('/roles/{group}/update/', [GroupsController::class, 'updateRoles']);
         Route::post('/roles/{group}', [GroupsController::class, 'storeRole']);
         Route::delete('/roles/{group}/delete/{role}', [GroupsController::class, 'destroyRole']);
+        Route::put('/roles/{group}/role/{role}/up', [GroupsController::class, 'rankUp']);
+        Route::put('/roles/{group}/role/{role}/down', [GroupsController::class, 'rankDown']);
     });
 
     Route::group(['middleware' => ['can:recruit,group']], function () {
@@ -56,8 +58,9 @@ Route::group(['middleware' => ['valid-auth']], function () {
         Route::get('/blocked/{group}', [GroupsController::class, 'getBlockedUsers']);
         Route::post('/unblock/{group}', [GroupsController::class, 'unblockUserFromGroup']);
 
-        Route::put('/roles/{group}/user/{groupUser}/role/{role}', [GroupsController::class, 'updateGroupUserRole']);
     });
+
+    Route::put('/roles/{group}/user/{groupUser}/role/{role}', [GroupsController::class, 'updateGroupUserRole'])->can('manageRoles', 'group');
     
     Route::delete('/{group}', [GroupsController::class, 'destroy'])->can('delete', 'group');
     Route::put('/{group}/transfer/{groupUser}', [GroupsController::class, 'transferOwnership'])->can('delete', 'group');
