@@ -38,30 +38,24 @@
                         </div>
                     </td>
                     <td>
-                        <input 
-                            v-if="!role.owner && !role.member"
-                            v-model="role.can_edit" 
-                            type="checkbox"  />
+                        <SimpleCheckbox  v-if="!role.owner && !role.member"
+                                         v-model="role.can_edit" />
                         <Icon v-else 
                               :icon="getRoleIcon(role.can_edit)"
                               class="icon non-clickable" 
                               :class="{green: role.can_edit, red: !role.can_edit}" />
                     </td>
                     <td>
-                        <input 
-                            v-if="!role.owner && !role.member" 
-                            v-model="role.can_manage_members" 
-                            type="checkbox" />
+                        <SimpleCheckbox  v-if="!role.owner && !role.member"
+                                         v-model="role.can_manage_members"  />
                         <Icon v-else 
                               :icon="getRoleIcon(role.can_manage_members)" 
                               class="icon non-clickable" 
                               :class="{green: role.can_manage_members, red: !role.can_manage_members}" />
                     </td>
                     <td>
-                        <input 
-                            v-if="!role.owner && !role.member" 
-                            v-model="role.can_moderate_messages" 
-                            type="checkbox" />
+                        <SimpleCheckbox  v-if="!role.owner && !role.member"
+                                         v-model="role.can_moderate_messages" />
                         <Icon v-else 
                               :icon="getRoleIcon(role.can_moderate_messages)"
                               class="icon non-clickable" 
@@ -108,6 +102,7 @@ import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
 import {ARROW_UP, ARROW_DOWN} from '/js/constants/iconConstants';
+import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
 
 const groupStore = useGroupStore();
 const {t} = useI18n();
