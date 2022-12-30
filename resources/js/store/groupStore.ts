@@ -95,7 +95,7 @@ export const useGroupStore = defineStore('group', {
             return data.data.roles;
         },
         async updateRoles(groupId: number, roles: Rank[]) {
-            const {data} = await axios.put(`groups/roles/${groupId}/update/`, roles);
+            const {data} = await axios.put(`groups/roles/${groupId}/update`, roles);
             this.group = data.data.group;
             return data.data.roles;
         },
