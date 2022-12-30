@@ -60,7 +60,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
     });
 
-    Route::put('/roles/{group}/user/{groupUser}/role/{role}', [GroupsController::class, 'updateGroupUserRole'])->can('manageRoles', 'group');
+    Route::put('/roles/{group}/user/{groupUser}/role/{role}', [GroupsController::class, 'updateGroupUserRole'])->can('manageUserRoles', ['group', 'groupUser']);
     
     Route::delete('/{group}', [GroupsController::class, 'destroy'])->can('delete', 'group');
     Route::put('/{group}/transfer/{groupUser}', [GroupsController::class, 'transferOwnership'])->can('delete', 'group');

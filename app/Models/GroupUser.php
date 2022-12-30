@@ -22,4 +22,9 @@ class GroupUser extends Pivot
     {
         return $this->belongsTo('App\Models\Group');
     }
+
+    public function role()
+    {
+        return $this->belongsTo('App\Models\GroupRole', 'rank', 'id');
+    }
 }
