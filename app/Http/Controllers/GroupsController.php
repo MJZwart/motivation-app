@@ -269,7 +269,7 @@ class GroupsController extends Controller
      */
     public function getRoles(Group $group)
     {
-        return GroupRoleResource::collection($group->roles);
+        return GroupRoleResource::collection($group->roles->sortBy('position'));
     }
 
     public function updateRoleName(Group $group, GroupRole $role, UpdateGroupRoleNameRequest $request) {

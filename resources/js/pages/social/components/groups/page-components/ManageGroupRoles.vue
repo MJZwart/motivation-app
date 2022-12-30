@@ -5,7 +5,7 @@
             <thead>
                 <tr>
                     <th v-for="(field, index) in GROUP_ROLE_FIELDS" :key="index" :style="{width: field.width}">
-                        {{$t(field.label)}}
+                        {{ field.label ? $t(field.label) : ''}}
                     </th>
                 </tr>
             </thead>

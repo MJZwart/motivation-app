@@ -111,7 +111,7 @@ export const GROUP_ROLE_FIELDS = [
         width: '50%',
     },
     {
-        label: 'position',
+        label: null,
         key: 'position',
         width: '10%',
     },
