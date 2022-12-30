@@ -153,11 +153,6 @@ async function rankDown(role: Rank) {
         margin: 0.2rem;
     }
 }
-.filler-icon {
-    width: 24px;
-    height: 24px;
-    margin: 2px;
-}
 .stacked-icons {
     display: flex;
     flex-direction: column;
