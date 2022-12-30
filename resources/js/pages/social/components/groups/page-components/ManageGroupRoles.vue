@@ -25,21 +25,33 @@
                     </td>
                     <td>
                         <input 
+                            v-if="!role.owner && !role.member"
                             v-model="role.can_edit" 
-                            type="checkbox" 
-                            :disabled="role.owner || role.member" />
+                            type="checkbox"  />
+                        <Icon v-else 
+                              :icon="getRoleIcon(role.can_edit)"
+                              class="icon non-clickable" 
+                              :class="{green: role.can_edit, red: !role.can_edit}" />
                     </td>
                     <td>
                         <input 
+                            v-if="!role.owner && !role.member" 
                             v-model="role.can_manage_members" 
-                            type="checkbox" 
-                            :disabled="role.owner || role.member" />
+                            type="checkbox" />
+                        <Icon v-else 
+                              :icon="getRoleIcon(role.can_manage_members)" 
+                              class="icon non-clickable" 
+                              :class="{green: role.can_manage_members, red: !role.can_manage_members}" />
                     </td>
                     <td>
                         <input 
+                            v-if="!role.owner && !role.member" 
                             v-model="role.can_moderate_messages" 
-                            type="checkbox" 
-                            :disabled="role.owner || role.member" />
+                            type="checkbox" />
+                        <Icon v-else 
+                              :icon="getRoleIcon(role.can_moderate_messages)"
+                              class="icon non-clickable" 
+                              :class="{green: role.can_moderate_messages, red: !role.can_moderate_messages}"/>
                     </td>
                     <td>
                         <FaIcon 
@@ -80,6 +92,7 @@ import {useGroupStore} from '/js/store/groupStore';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
+import {Icon} from '@iconify/vue';
 const groupStore = useGroupStore();
 const {t} = useI18n();
 
@@ -99,6 +112,10 @@ async function updateName(roleId: number, role: {name: string}) {
 }
 async function updateRoles() {
     groupRoles.value = await groupStore.updateRoles(props.groupId, groupRoles.value);
+}
+
+function getRoleIcon(permission: boolean) {
+    return permission ? 'material-symbols:check-small-rounded' : 'charm:cross';
 }
 
 const newRole = ref('');

@@ -283,7 +283,9 @@ class GroupsController extends Controller
     {
         $validated = $request->validated();
         foreach ($validated as $role) {
-            GroupRole::find($role['id'])->update($role);
+            $groupRole = GroupRole::find($role['id']);
+            if ($groupRole->owner || $groupRole->member) continue;
+            $groupRole->update($role);
         }
         ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Updated group roles permissions in group '.$group->name);
         return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
