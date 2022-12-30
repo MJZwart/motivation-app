@@ -450,7 +450,7 @@ class GroupsController extends Controller
      */
     public function getMessages(Group $group)
     {
-        return GroupMessageResource::collection($group->messages);
+        return GroupMessageResource::collection($group->messages->sortByDesc('created_at'));
     }
 
     /**
@@ -472,7 +472,7 @@ class GroupsController extends Controller
 
         ActionTrackingHandler::handleAction($request, 'GROUP_MESSAGE', 'Created message in group '.$group->name);
 
-        return ResponseWrapper::successResponse(__('messages.group.message.created'), ['messages' => GroupMessageResource::collection($group->fresh()->messages)]);
+        return ResponseWrapper::successResponse(__('messages.group.message.created'), ['messages' => GroupMessageResource::collection($group->fresh()->messages->sortByDesc('created_at'))]);
     }
 
     /**
@@ -486,7 +486,7 @@ class GroupsController extends Controller
     {
         $groupMessage->delete();
         ActionTrackingHandler::handleAction($request, 'GROUP_MESSAGE', 'Deleted message in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.message.deleted'), ['messages' => GroupMessageResource::collection($group->fresh()->messages)]);
+        return ResponseWrapper::successResponse(__('messages.group.message.deleted'), ['messages' => GroupMessageResource::collection($group->fresh()->messages->sortByDesc('created_at'))]);
     }
 
     private function getGroupInviteOrFail(int $invite)
