@@ -54,9 +54,9 @@ function closeReportUserModal() {
 }
 </script>
 
-<style lang="scss" scoped>
-.hover {
-    background-color: var(--hover);
+<style lang="scss">
+.group-message.hover {
+    background-color: var(--background-darker);
 }
 .message-icon {
     margin-bottom: -1px;

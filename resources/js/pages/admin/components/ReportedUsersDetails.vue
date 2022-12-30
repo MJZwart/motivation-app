@@ -71,7 +71,7 @@
                             <FaIcon 
                                 icon="magnifying-glass" 
                                 class="icon"
-                                @click.stop.prevent="showGroupMessages(report.group_id!)" />
+                                @click.stop.prevent="showGroupMessages(report.id)" />
                         </Tooltip>
                     </div>
                     <div v-else>
@@ -98,9 +98,10 @@
                 @close="closeShowConversation"/>
         </Modal>
         <Modal :show="showGroupMessagesModal"
-               :title="$t('see-group-messages')"
-               @close="closeShowGroupMessages">
-            <ShowGroupMessagesModal />
+               :title="$t('group-messages')"
+               @close="closeShowGroupMessages"
+               @click.stop>
+            <ShowGroupMessagesModal v-if="reportToShowId" :reported-user="user" :report-id="reportToShowId" />
         </Modal>
     </div>
 </template>
@@ -138,14 +139,14 @@ function closeShowConversation() {
     conversationIdToShow.value = null;
     showConversationModal.value = false;
 }
-const groupToShow = ref<number | null>(null);
+const reportToShowId = ref<number | null>(null);
 const showGroupMessagesModal = ref(false);
-function showGroupMessages(group_id: number) {
-    groupToShow.value = group_id;
+function showGroupMessages(reportId: number) {
+    reportToShowId.value = reportId;
     showGroupMessagesModal.value = true;
 }
 function closeShowGroupMessages() {
-    groupToShow.value = null;
+    reportToShowId.value = null;
     showGroupMessagesModal.value = false;
 }
 function closeReport(report: ReportedUser) {
