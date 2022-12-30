@@ -33,7 +33,7 @@ return new class extends Migration
     public function down()
     {
         Schema::rename('suspended_users', 'banned_users');
-        Schema::table('suspended_users', function(Blueprint $table) {
+        Schema::table('banned_users', function(Blueprint $table) {
             $table->renameColumn('suspended_until', 'banned_until');
             $table->renameColumn('suspension_edit_comment', 'ban_edit_comment');
             $table->renameColumn('suspension_edit_log', 'ban_edit_log');

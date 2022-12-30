@@ -12,14 +12,19 @@
             <SubmitButton id="send-message-button" class="ml-auto" @click="sendMessage">{{$t('send-message')}}</SubmitButton>
         </div>
         <div v-if="messages && messages[0]" class="group-messages content-block">
-            <div v-for="(message, index) in messages" :key="index" class="group-message">
-                <GroupMessageComp 
-                    :message="message" 
-                    :can-delete="canDelete(message)" 
-                    :user-id="user!.id" 
-                    @delete-message="deleteMessage"
-                />
-            </div>
+            <Pagination :items="messages">
+                <template #items="paginatedMessages">
+                    <div v-for="(message, index) in paginatedMessages" :key="index" class="group-message">
+                        <GroupMessageComp 
+                            :message="message" 
+                            :can-delete="canDelete(message)" 
+                            :user-id="user!.id" 
+                            :group-id="group.id"
+                            @delete-message="deleteMessage"
+                        />
+                    </div>
+                </template>
+            </Pagination>
         </div>
         <div v-else>
             {{$t('no-messages-group')}}
@@ -34,6 +39,7 @@ import {computed, onMounted, ref} from 'vue';
 import {useGroupStore} from '/js/store/groupStore';
 import GroupMessageComp from './GroupMessage.vue';
 import {useUserStore} from '/js/store/userStore';
+import Pagination from '/js/components/global/Pagination.vue';
 
 const props = defineProps<{group: GroupPage}>();
 

@@ -5,12 +5,12 @@
             <thead>
                 <tr>
                     <th v-for="(field, index) in GROUP_ROLE_FIELDS" :key="index" :style="{width: field.width}">
-                        {{$t(field.label)}}
+                        {{ field.label ? $t(field.label) : ''}}
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="role in groupRoles" :key="role.id">
+                <tr v-for="role in groupRoles" :key="role.id" class="role-row">
                     <td>
                         <div class="d-flex role-name">
                             <GroupRankIcon :rank="role" />
@@ -22,6 +22,20 @@
                                 @save="updateName(role.id, $event)" />
                         </div>
                         <span v-if="role.member" class="silent">{{$t('default-role')}}</span>
+                    </td>
+                    <td>
+                        <div class="stacked-icons">
+                            <Icon 
+                                v-if="role.position > 2 && !role.member" 
+                                :icon="ARROW_UP" 
+                                class="icon medium" 
+                                @click="rankUp(role)" />
+                            <Icon 
+                                v-if="role.position < (groupRoles.length - 1) && !role.owner" 
+                                :icon="ARROW_DOWN" 
+                                class="icon medium" 
+                                @click="rankDown(role)" />
+                        </div>
                     </td>
                     <td>
                         <input 
@@ -93,6 +107,8 @@ import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
+import {ARROW_UP, ARROW_DOWN} from '/js/constants/iconConstants';
+
 const groupStore = useGroupStore();
 const {t} = useI18n();
 
@@ -130,6 +146,14 @@ async function deleteRole(role: Rank) {
     if (confirm(t('delete-role-confirmation', {role: role.name}))) 
         groupRoles.value = await groupStore.deleteRole(props.groupId, role.id);
 }
+
+async function rankUp(role: Rank) {
+    groupRoles.value = await groupStore.rankUp(props.groupId, role.id);
+}
+
+async function rankDown(role: Rank) {
+    groupRoles.value = await groupStore.rankDown(props.groupId, role.id);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -145,5 +169,12 @@ async function deleteRole(role: Rank) {
     button {
         margin: 0.2rem;
     }
+}
+.stacked-icons {
+    display: flex;
+    flex-direction: column;
+}
+.role-row {
+    border-bottom: 1px solid var(--border-color);
 }
 </style>

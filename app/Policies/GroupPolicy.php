@@ -107,8 +107,8 @@ class GroupPolicy
      */
     public function leave(User $user, Group $group)
     {
-        if (!$this->alreadyMember($user, $group)) return Response::denyWithStatus(422, __('gate.groups.not_member'));
-        return $group->isAdminById($user->id) ? Response::denyWithStatus(422, __('gate.groups.leave_admin')) : Response::allow();
+        if (!$this->alreadyMember($user, $group)) return Response::denyWithStatus(422, __('gate.group.not_member'));
+        return $group->isAdminById($user->id) ? Response::denyWithStatus(422, __('gate.group.leave_admin')) : Response::allow();
     }
 
     /**
@@ -120,13 +120,19 @@ class GroupPolicy
      */
     public function message(User $user, Group $group)
     {
-        return $this->alreadyMember($user, $group) ? Response::allow() : Response::denyWithStatus(422, __('gate.groups.not_member'));
+        return $this->alreadyMember($user, $group) ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_member'));
     }
 
     public function manageMessage(User $user, Group $group, GroupMessage $groupMessage)
     {
         if ($groupMessage->user_id === $user->id) return Response::allow();
-        return $group->rankOfMemberById($user->id)->can_moderate_messages ? Response::allow() : Response::denyWithStatus(422, __('gate.groups.not_allowed_moderate'));
+        return $group->rankOfMemberById($user->id)->can_moderate_messages ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_moderate'));
+    }
+
+    public function manageRoles(User $user, Group $group) 
+    {
+        $rank = $group->rankOfMemberById($user->id);
+        return $rank->can_manage_members ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_recruit'));
     }
 
     /**

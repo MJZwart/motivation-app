@@ -22,6 +22,7 @@ class GroupRoleResource extends JsonResource
             'can_moderate_messages' => !!$this->can_moderate_messages,
             'owner' => !!$this->owner,
             'member' => !!$this->member,
+            'position' => $this->position,
         ];
     }
 }

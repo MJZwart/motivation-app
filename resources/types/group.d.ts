@@ -38,6 +38,7 @@ export type Rank = {
     can_moderate_messages: boolean;
     owner: boolean;
     member: boolean;
+    position: number;
 }
 
 export type Application = {
