@@ -72,7 +72,7 @@
                 </template>
                 <template #details="item">
                     <Tooltip :text="$t('view')">
-                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item)" />
+                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item.id)" />
                     </Tooltip>
                 </template>
                 <template #is_public="item">
@@ -112,7 +112,6 @@ import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
 import type {Group} from 'resources/types/group';
 import GroupRankIcon from '../components/groups/page-components/GroupRankIcon.vue';
-import {Item} from 'resources/types/global';
 
 const groupStore = useGroupStore();
 const mainStore = useMainStore();
@@ -168,8 +167,8 @@ function closeCreateGroup() {
     showCreateGroupModal.value = false;
 }
 
-function showGroupsDetails(group: Group | Item) {
-    router.push({path: `/group/${group.id}`});
+function showGroupsDetails(groupId: number) {
+    router.push({path: `/group/${groupId}`});
 }
 </script>
 
