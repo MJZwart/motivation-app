@@ -94,6 +94,11 @@ class Group extends Model
         return $groupUser ? GroupRole::find($groupUser->rank) : null;
     }
 
+    /**
+     * Gets the group's admin
+     *
+     * @return GroupUser
+     */
     public function getAdmin()
     {
         $adminRole = $this->roles->where('owner', true)->first();

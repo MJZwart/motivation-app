@@ -18,7 +18,8 @@ export type OverviewFieldGroups = {
 }
 
 export type Item = {
-    [key: string]: string | number | unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: string | number | unknown | any,
 }
 
 export type UserSearch = {

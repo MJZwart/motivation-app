@@ -88,7 +88,7 @@
                     <b>{{item.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
                 </template>
                 <template #members="item">
-                    <b>{{$t('members')}}:</b> {{item.item.members.length}}
+                    <b>{{$t('members')}}:</b> {{item.item.members}}
                 </template>
             </SortableOverviewTable>
             <div v-else>
@@ -112,6 +112,7 @@ import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
 import type {Group} from 'resources/types/group';
 import GroupRankIcon from '../components/groups/page-components/GroupRankIcon.vue';
+import {Item} from 'resources/types/global';
 
 const groupStore = useGroupStore();
 const mainStore = useMainStore();
@@ -167,7 +168,7 @@ function closeCreateGroup() {
     showCreateGroupModal.value = false;
 }
 
-function showGroupsDetails(group: Group) {
+function showGroupsDetails(group: Group | Item) {
     router.push({path: `/group/${group.id}`});
 }
 </script>

@@ -28,7 +28,7 @@ class GroupPageResource extends JsonResource
             'is_public' => (bool) $this->is_public,
             'require_application' => (bool) $this->require_application,
             'members' => GroupUserResource::collection($this->groupUsers),
-            'admin' => new StrippedUserResource($this->getAdmin()),
+            'admin' => new StrippedUserResource($this->getAdmin()->user),
             'rank' => $rank ? new GroupRoleResource($rank) : null,
             'joined' => $groupUser ? Carbon::create($groupUser->joined) : null,
             'has_application' => $this->require_application ? $this->hasUserApplied() : false,
