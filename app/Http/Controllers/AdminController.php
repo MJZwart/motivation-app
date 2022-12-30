@@ -7,6 +7,7 @@ use App\Helpers\ResponseWrapper;
 use App\Http\Requests\SuspendUserRequest;
 use App\Http\Requests\EditUserSuspensionRequest;
 use App\Http\Requests\FetchActionsWithFilters;
+use App\Http\Requests\GroupMessageRequest;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
@@ -24,12 +25,16 @@ use App\Http\Resources\AdminConversationResource;
 use App\Http\Resources\SuspendedUserResource;
 use Carbon\Carbon;
 use App\Http\Resources\FeedbackResource;
+use App\Http\Resources\GroupMessageResource;
 use App\Http\Resources\UserReportResource;
 use App\Models\ActionTracking;
 use App\Models\Feedback;
+use App\Models\Group;
+use App\Models\GroupMessage;
 use App\Models\Notification;
 use App\Models\SuspendedUser;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -299,5 +304,20 @@ class AdminController extends Controller
         })->with('user')->orderBy('created_at', 'desc')->get();
 
         return ActionTrackingResource::collection($actions);
+    }
+
+    /**
+     * Gets all group messages in a range around a given date
+     *
+     * @param Request $request
+     * @param Group $group
+     * @return GroupMessageResourceCollection
+     */
+    public function getGroupMessagesByDateRange(Request $request, Group $group)
+    {
+        $startDate = Carbon::parse($request['date'])->startOf('day');
+        $endDate = Carbon::parse($request['date'])->endOf('day');
+        $messages = $group->messages()->where('created_at', '>', $startDate)->where('created_at', '<', $endDate)->get();
+        return ResponseWrapper::successResponse(null, ['messages' => GroupMessageResource::collection($messages)]);
     }
 }

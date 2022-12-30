@@ -46,4 +46,6 @@ Route::group(['middleware' => ['admin']], function () {
 
     Route::get('/action/filters', [AdminController::class, 'getActionFilters']);
     Route::post('/action/filters', [AdminController::class, 'getActionsWithFilters']);
+
+    Route::put('/groups/{group}/messages/daterange', [AdminController::class, 'getGroupMessagesByDateRange']);
 });
