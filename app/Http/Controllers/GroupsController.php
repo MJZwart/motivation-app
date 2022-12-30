@@ -338,12 +338,11 @@ class GroupsController extends Controller
      */
     public function rankDown(Group $group, GroupRole $role, Request $request)
     {
-        
         $newPosition = $role->position + 1;
         $group->roles()->where('position', $newPosition)->first()->update(['position' => $newPosition - 1]);
         $role->update(['position' => $newPosition]);
         ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Role '.$role->name.' moved down a position in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles)]);
+        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position'))]);
     }
 
     /**

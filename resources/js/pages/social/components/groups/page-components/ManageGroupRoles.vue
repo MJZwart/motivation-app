@@ -10,7 +10,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="role in sortedGroupRoles" :key="role.id" class="role-row">
+                <tr v-for="role in groupRoles" :key="role.id" class="role-row">
                     <td>
                         <div class="d-flex role-name">
                             <GroupRankIcon :rank="role" />
@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import Editable from '/js/components/global/Editable.vue';
 import type {Rank} from 'resources/types/group';
-import {computed, onMounted, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {GROUP_ROLE_FIELDS} from '/js/constants/groupConstants';
 import {useGroupStore} from '/js/store/groupStore';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
@@ -96,7 +96,6 @@ import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
 import {ARROW_UP, ARROW_DOWN} from '/js/constants/iconConstants';
-import {sortValues} from '/js/services/sortService';
 const groupStore = useGroupStore();
 const {t} = useI18n();
 
@@ -110,7 +109,6 @@ onMounted(async() => {
 const props = defineProps<{groupId: number}>();
 
 const groupRoles = ref<Rank[]>([]);
-const sortedGroupRoles = computed(() => sortValues(groupRoles.value, 'position', 'asc'));
 
 async function updateName(roleId: number, role: {name: string}) {
     groupRoles.value = await groupStore.updateRoleName(props.groupId, roleId, role);
