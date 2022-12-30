@@ -33,7 +33,7 @@
                             class="icon small red"
                             @click="suspend(member)" />
                     </Tooltip>
-                    <Tooltip v-if="!member.rank.owner && member.rank.id !== group.rank.id" :text="$t('manage-rank')">
+                    <Tooltip v-if="canManageMemberRank(member)" :text="$t('manage-rank')">
                         <Icon icon="mdi:rank" class="iconify small promote-icon" @click="openPromoteModal(member)" />
                     </Tooltip>
 
@@ -45,7 +45,11 @@
             <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />
         </Modal>
         <Modal :show="promoteModalOpen" :title="$t('manage-rank')" @close="promoteModalOpen = false">
-            <ManageGroupUserRole v-if="memberToManage" :groupUser="memberToManage" :groupRoles="allRoles" @promote="promote" />
+            <ManageGroupUserRole 
+                v-if="memberToManage" 
+                :groupUser="memberToManage" 
+                :groupRoles="allRolesAvailable"
+                @promote="promote" />
         </Modal>
     </div>
 </template>
@@ -100,10 +104,16 @@ function closeSendMessageModal() {
 }
 
 const allRoles = ref<Rank[]>([]);
+const allRolesAvailable = computed(() => allRoles.value.filter(role => role.position > props.group.rank.position));
 
 const promoteModalOpen = ref(false);
 const memberToManage = ref<GroupUser | null>(null);
 
+function canManageMemberRank(member: GroupUser) {
+    if (member.rank.owner || member.rank.position < props.group.rank.position) return false;
+    if (member.rank.id == props.group.rank.id) return false;
+    return true;
+}
 function openPromoteModal(member: GroupUser) {
     memberToManage.value = member;
     promoteModalOpen.value = true;

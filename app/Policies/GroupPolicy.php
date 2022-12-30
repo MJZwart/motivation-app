@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Helpers\GroupRoleHandler;
 use App\Models\Group;
 use App\Models\GroupMessage;
+use App\Models\GroupUser;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -123,16 +124,46 @@ class GroupPolicy
         return $this->alreadyMember($user, $group) ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_member'));
     }
 
+    /**
+     * Allow the user to manage a message if they wrote it, or they have the 'moderate_messages' permission
+     *
+     * @param User $user
+     * @param Group $group
+     * @param GroupMessage $groupMessage
+     * @return Boolean
+     */
     public function manageMessage(User $user, Group $group, GroupMessage $groupMessage)
     {
         if ($groupMessage->user_id === $user->id) return Response::allow();
         return $group->rankOfMemberById($user->id)->can_moderate_messages ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_moderate'));
     }
 
-    public function manageRoles(User $user, Group $group) 
+    /**
+     * Allow a user to manage another user's role if they are a lower rank than them and the user
+     * has the 'manage_members' permission.
+     *
+     * @param User $user
+     * @param Group $group
+     * @param GroupUser $groupUser
+     * @return Boolean
+     */
+    public function manageUserRoles(User $user, Group $group, GroupUser $groupUser) 
     {
         $rank = $group->rankOfMemberById($user->id);
+        if ($groupUser->role->position < $rank->position) return Response::denyWithStatus(422, __('gate.group.outranked'));
         return $rank->can_manage_members ? Response::allow() : Response::denyWithStatus(422, __('gate.group.not_allowed_recruit'));
+    }
+
+    /**
+     * Only allow a user to update the group roles if they are admin
+     *
+     * @param User $user
+     * @param Group $group
+     * @return Boolean
+     */
+    public function updateRoles(User $user, Group $group)
+    {
+        return $group->rankOfMemberById($user->id)->owner;
     }
 
     /**

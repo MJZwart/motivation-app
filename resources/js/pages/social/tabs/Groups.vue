@@ -72,7 +72,7 @@
                 </template>
                 <template #details="item">
                     <Tooltip :text="$t('view')">
-                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item)" />
+                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item.id)" />
                     </Tooltip>
                 </template>
                 <template #is_public="item">
@@ -88,7 +88,7 @@
                     <b>{{item.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
                 </template>
                 <template #members="item">
-                    <b>{{$t('members')}}:</b> {{item.item.members.length}}
+                    <b>{{$t('members')}}:</b> {{item.item.members}}
                 </template>
             </SortableOverviewTable>
             <div v-else>
@@ -167,8 +167,8 @@ function closeCreateGroup() {
     showCreateGroupModal.value = false;
 }
 
-function showGroupsDetails(group: Group) {
-    router.push({path: `/group/${group.id}`});
+function showGroupsDetails(groupId: number) {
+    router.push({path: `/group/${groupId}`});
 }
 </script>
 
