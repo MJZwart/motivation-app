@@ -113,6 +113,14 @@ export const useGroupStore = defineStore('group', {
             const {data} = await axios.put(`groups/roles/${groupId}/user/${groupUserId}/role/${roleId}`);
             this.group = data.data.group;
         },
+        async rankUp(groupId: number, roleId: number) {
+            const {data} = await axios.put(`groups/roles/${groupId}/role/${roleId}/up`);
+            return data.data.roles;
+        },
+        async rankDown(groupId: number, roleId: number) {
+            const {data} = await axios.put(`groups/roles/${groupId}/role/${roleId}/down`);
+            return data.data.roles;
+        },
 
         /*
         Group messages
@@ -127,6 +135,10 @@ export const useGroupStore = defineStore('group', {
         },
         async deleteMessage(groupId: number, groupMessageId: number) {
             const {data} = await axios.delete(`/groups/${groupId}/messages/${groupMessageId}`);
+            return data.data.messages;
+        },
+        async fetchGroupMessagesByDateRange(groupId: number, dateRange: Date) {
+            const {data} = await axios.put(`/admin/groups/${groupId}/messages/daterange`, {date: dateRange});
             return data.data.messages;
         },
 

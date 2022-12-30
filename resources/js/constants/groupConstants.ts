@@ -108,22 +108,27 @@ export const GROUP_ROLE_FIELDS = [
     {
         label: 'name',
         key: 'name',
-        width: '45%',
+        width: '50%',
+    },
+    {
+        label: null,
+        key: 'position',
+        width: '10%',
     },
     {
         label: 'can-edit',
         key: 'can_edit',
-        width: '15%',
+        width: '10%',
     },
     {
         label: 'can-manage-members',
         key: 'can_manage_members',
-        width: '15%',
+        width: '10%',
     },
     {
         label: 'can-moderate-messages',
         key: 'can_moderate_messages',
-        width: '15%',
+        width: '10%',
     },
     {
         label: 'actions',

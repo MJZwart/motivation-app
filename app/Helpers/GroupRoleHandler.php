@@ -15,6 +15,7 @@ class GroupRoleHandler
             'can_moderate_messages' => true,
             'owner' => true,
             'group_id' => $groupId,
+            'position' => 1,
         ]);
         GroupRole::create([
             'name' => 'Moderator',
@@ -22,6 +23,7 @@ class GroupRoleHandler
             'can_manage_members' => true,
             'can_moderate_messages' => true,
             'group_id' => $groupId,
+            'position' => 2,
         ]);
         GroupRole::create([
             'name' => 'Member',
@@ -30,6 +32,7 @@ class GroupRoleHandler
             'can_moderate_messages' => false,
             'group_id' => $groupId,
             'member' => true,
+            'position' => 3,
         ]);
     }
 
@@ -45,6 +48,7 @@ class GroupRoleHandler
 
     public static function createGroupRoleWithName(int $groupId, string $roleName)
     {
+        $memberRole = GroupRoleHandler::getMemberRank($groupId);
         GroupRole::create([
             'name' => $roleName,
             'can_edit' => false,
@@ -53,6 +57,16 @@ class GroupRoleHandler
             'group_id' => $groupId,
             'member' => false,
             'owner' => false,
+            'position' => $memberRole->position,
         ]);
+        $memberRole->update(['position' => $memberRole->position + 1]);
     }
+
+    public static function deleteRoleAtPosition(int $groupId, int $position) {
+        $lowerRoles = GroupRole::where('group_id', $groupId)->where('position', '>', $position);
+        foreach($lowerRoles as $role) {
+            $role->update(['position' => $role->position - 1]);
+        }
+    }
+
 }

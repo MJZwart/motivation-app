@@ -19,6 +19,7 @@
                             :message="message" 
                             :can-delete="canDelete(message)" 
                             :user-id="user!.id" 
+                            :group-id="group.id"
                             @delete-message="deleteMessage"
                         />
                     </div>

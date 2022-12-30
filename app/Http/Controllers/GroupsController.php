@@ -269,14 +269,14 @@ class GroupsController extends Controller
      */
     public function getRoles(Group $group)
     {
-        return GroupRoleResource::collection($group->roles);
+        return GroupRoleResource::collection($group->roles->sortBy('position'));
     }
 
     public function updateRoleName(Group $group, GroupRole $role, UpdateGroupRoleNameRequest $request) {
         $validated = $request->validated();
         $role->update(['name' => $validated['name']]);
         ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Updated group role name '.$validated['name'].' in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
+        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
     }
 
     public function updateRoles(Group $group, UpdateGroupRoles $request)
@@ -286,7 +286,7 @@ class GroupsController extends Controller
             GroupRole::find($role['id'])->update($role);
         }
         ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Updated group roles permissions in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
+        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
     }
 
     public function storeRole(Group $group, UpdateGroupRoleNameRequest $request)
@@ -294,7 +294,7 @@ class GroupsController extends Controller
         $validated = $request->validated();
         GroupRoleHandler::createGroupRoleWithName($group->id, $validated['name']);
         ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Created role with name '. $validated['name'].' in group '.$group->name);
-        return ResponseWrapper::successResponse(__('messages.group.role.created'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
+        return ResponseWrapper::successResponse(__('messages.group.role.created'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
     }
 
     public function destroyRole(Group $group, GroupRole $role, Request $request) 
@@ -304,9 +304,45 @@ class GroupsController extends Controller
         foreach($usersWithRank as $groupUser) {
             $groupUser->update(['rank' => $memberRank->id]);
         }
+        GroupRoleHandler::deleteRoleAtPosition($group->id, $role->position);
         ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Deleted role '.$role->name.' in group '.$group->name);
         $role->delete();
-        return ResponseWrapper::successResponse(__('messages.group.role.deleted'), ['roles' => GroupRoleResource::collection($group->fresh()->roles), 'group' => new GroupPageResource($group->fresh())]);
+        return ResponseWrapper::successResponse(__('messages.group.role.deleted'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position')), 'group' => new GroupPageResource($group->fresh())]);
+    }
+
+    /**
+     * Changes the position to a lower number (up in the ranking)
+     *
+     * @param Group $group
+     * @param GroupRole $role
+     * @param Request $request
+     * @return void
+     */
+    public function rankUp(Group $group, GroupRole $role, Request $request)
+    {
+        $newPosition = $role->position - 1;
+        $group->roles()->where('position', $newPosition)->first()->update(['position' => $newPosition + 1]);
+        $role->update(['position' => $newPosition]);
+        
+        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Role '.$role->name.' moved up a position in group '.$group->name);
+        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position'))]);
+    }
+
+    /**
+     * Changes the position to a higher number (down in the ranking)
+     *
+     * @param Group $group
+     * @param GroupRole $role
+     * @param Request $request
+     * @return void
+     */
+    public function rankDown(Group $group, GroupRole $role, Request $request)
+    {
+        $newPosition = $role->position + 1;
+        $group->roles()->where('position', $newPosition)->first()->update(['position' => $newPosition - 1]);
+        $role->update(['position' => $newPosition]);
+        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP_ROLE', 'Role '.$role->name.' moved down a position in group '.$group->name);
+        return ResponseWrapper::successResponse(__('messages.group.role.updated'), ['roles' => GroupRoleResource::collection($group->fresh()->roles->sortBy('position'))]);
     }
 
     /**

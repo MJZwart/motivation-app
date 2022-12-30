@@ -31,6 +31,7 @@ export type NewReportedUser = {
     comment: string;
     reason: string;
     conversation_id?: string;
+    group_id?: number;
 };
 
 export type ReportedUser = NewReportedUser & {
@@ -39,6 +40,7 @@ export type ReportedUser = NewReportedUser & {
     reported_date: Date;
     reported_by_name: string;
     conversation: string;
+    group_id?: number;
 };
 
 export type Overview = {
