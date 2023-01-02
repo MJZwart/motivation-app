@@ -167,7 +167,7 @@ describe('Groups', () => {
             cy.get('button').contains('Add').click();
             waitShort();
 
-            cy.get('.role-name').contains(roleName).parent().parent().parent().parent().find('input[type=checkbox]').first().click();
+            cy.get('.role-name').contains(roleName).parent().parent().parent().parent().find('.checkbox').first().click();
             cy.get('button').contains('Submit').click();
             waitShort();
         });
