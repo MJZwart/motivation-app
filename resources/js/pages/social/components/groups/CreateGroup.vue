@@ -9,6 +9,7 @@
                 :placeholder="$t('name')"
             />
             <small class="form-text text-muted">{{ $t('group-name-desc') }}</small>
+
             <SimpleTextarea
                 id="description"
                 v-model="groupToCreate.description"
@@ -16,26 +17,25 @@
                 :label="$t('group-desc')"
                 :placeholder="$t('description')"
             />
-            <small class="form-text text-muted">{{ $t('group-description-desc') }}</small>
-            <div class="form-group">
-                <input id="public-checkbox" v-model="groupToCreate.is_public" type="checkbox" name="is_public" />
-                <label for="public-checkbox" class="option-label">{{ $t('group-public-checkbox') }}</label>
-                <small class="form-text text-muted">{{ $t('group-public-checkbox-desc') }}</small>
-                <BaseFormError name="is_public" />
-            </div>
-            <div v-if="groupToCreate.is_public" class="form-group">
-                <input
-                    id="require-application-checkbox"
-                    v-model="groupToCreate.require_application"
-                    type="checkbox"
-                    name="require_application"
-                />
-                <label for="require-application-checkbox" class="options-label">
-                    {{ $t('group-require-application-checkbox') }}
-                </label>
-                <small class="form-text text-muted">{{ $t('group-require-application-checkbox-desc') }}</small>
-                <BaseFormError name="require_application" />
-            </div>
+            <small class="form-text text-muted mb-3">{{ $t('group-description-desc') }}</small>
+
+            <SimpleFormCheckbox 
+                id="public-checkbox" 
+                v-model="groupToCreate.is_public" 
+                name="is_public" 
+                class="mb-0"
+                :label="$t('group-public-checkbox')" />
+            <small class="form-text text-muted mb-3">{{ $t('group-public-checkbox-desc') }}</small>
+            
+            <SimpleFormCheckbox 
+                v-if="groupToCreate.is_public"
+                id="require-application-checkbox" 
+                v-model="groupToCreate.require_application" 
+                name="require_application" 
+                class="mb-0"
+                :label="$t('group-require-application-checkbox')" />
+            <small class="form-text text-muted mb-3">{{ $t('group-require-application-checkbox-desc') }}</small>
+            
             <SubmitButton id="create-new-group" class="block">{{ $t('create-group') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
         </form>

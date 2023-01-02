@@ -20,11 +20,7 @@
             {{ $t('automatically-end-suspension-warning') }}
         </span>
 
-        <div class="form-group">
-            <input id="end-suspension" v-model="userSuspensionToEdit.end_suspension" name="end-suspension" type="checkbox" />
-            <label for="end-suspension">{{ $t('end-suspension') }}</label>
-            <BaseFormError name="end-suspension" />
-        </div>
+        <SimpleFormCheckbox v-model="userSuspensionToEdit.end_suspension" name="end-suspension" :label="$t('end-suspension')" />
 
         <SimpleTextarea
             id="comment"

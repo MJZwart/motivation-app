@@ -31,12 +31,11 @@
                 :label="$t('repeat-password')"
                 :placeholder="$t('repeat-password')" />
             <div class="form-group">
-                <input
-                    id="agree_to_tos"
-                    v-model="register.agree_to_tos"
-                    type="checkbox"
+                <SimpleCheckbox 
+                    id="agree_to_tos" 
+                    v-model="register.agree_to_tos" 
                     name="agree_to_tos" />
-                <label for="agree_to_tos">
+                <label for="agree_to_tos" class="pointer" @click="register.agree_to_tos = !register.agree_to_tos">
                     {{$t('agree-to-tos-pre')}}
                     <router-link to="/tos" target="_blank">{{$t('tos')}}</router-link>
                 </label>

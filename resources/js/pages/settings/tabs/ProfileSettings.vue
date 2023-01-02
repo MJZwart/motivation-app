@@ -3,20 +3,12 @@
         <form @submit.prevent="submitSettings">
             <h4>{{ $t('profile-settings') }}</h4>
             <div class="form-group">
-                <input id="show_reward" v-model="settings.show_reward" type="checkbox" name="show_reward" />
-                <label for="show_reward" class="option-label">{{ $t('show-reward-on-profile') }}</label>
-                <BaseFormError name="show_reward" />
-                <input
-                    id="show_achievements"
-                    v-model="settings.show_achievements"
-                    type="checkbox"
-                    name="show_achievements"
-                />
-                <label for="show_achievements" class="option-label">{{ $t('show-achievements-on-profile') }}</label>
-                <BaseFormError name="show_achievements" />
-                <input id="show_friends" v-model="settings.show_friends" type="checkbox" name="show_friends" />
-                <label for="show_friends" class="option-label">{{ $t('show-friends-on-profile') }}</label>
-                <BaseFormError name="show_friends" />
+                <SimpleFormCheckbox v-model="settings.show_reward" name="show_reward" :label="$t('show-reward-on-profile')" />
+                <SimpleFormCheckbox 
+                    v-model="settings.show_achievements" 
+                    name="show_achievements" 
+                    :label="$t('show-achievements-on-profile')" />
+                <SimpleFormCheckbox v-model="settings.show_friends" name="show_friends" :label="$t('show-friends-on-profile')" />
             </div>
             <SubmitButton class="block">{{ $t('save-profile-settings') }}</SubmitButton>
         </form>

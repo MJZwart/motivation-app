@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.5.0
+
+### Features
+
+
+### Design
+-  Changed the look of the checkboxes
+
+
+### Bugs
+
+
+
 ## v0.4.0
 
 ### Features
