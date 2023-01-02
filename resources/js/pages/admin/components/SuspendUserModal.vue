@@ -15,24 +15,14 @@
                 name="days" 
                 :label="$t('days')"
                 :placeholder="$t('days')"  />
-            <div class="form-group">
-                <input 
-                    id="indefinite" 
-                    v-model="suspension.indefinite"
-                    type="checkbox" 
-                    name="indefinite" />
-                <label for="indefinite">{{ $t('indefinite') }}</label>
-                <BaseFormError name="indefinite" />
-            </div>
-            <div class="form-group">
-                <input
-                    id="close-reports"
-                    v-model="suspension.close_reports"
-                    type="checkbox"
-                    name="close-reports" />
-                <label for="close-reports">{{ $t('suspend-user-close-reports') }}</label>
-                <BaseFormError name="close-reports" />
-            </div>
+            <SimpleFormCheckbox 
+                v-model="suspension.indefinite" 
+                :label="$t('indefinite')" 
+                name="indefinite" />
+            <SimpleFormCheckbox 
+                v-model="suspension.close_reports" 
+                :label="$t('suspend-user-close-reports')" 
+                name="close-reports" />
             <SubmitButton class="block">{{ $t('suspend-user') }}</SubmitButton>
             <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
         </form>

@@ -58,14 +58,12 @@
                 :label="$t('comment')"
                 :placeholder="$t('comment')"
             />
-            <small class="form-text text-muted">{{ $t('bug-comment-desc') }}</small>
-            <div class="form-group">
-                <SimpleCheckbox 
-                    id="diagnostics" 
-                    v-model="bugReport.diagnostics_approval" 
-                    :label="$t('send-diagnostics-information')" />
-                <small class="silent">{{$t('send-diagnostics-information-explanation')}}</small>
-            </div>
+            <small class="form-text text-muted mb-3">{{ $t('bug-comment-desc') }}</small>
+            <SimpleFormCheckbox 
+                id="diagnostics" 
+                v-model="bugReport.diagnostics_approval" 
+                :label="$t('send-diagnostics-information')" />
+            <small class="form-text text-muted mb-3">{{$t('send-diagnostics-information-explanation')}}</small>
             <SubmitButton class="block">{{ $t('submit-bug-report') }}</SubmitButton>
         </form>
     </div>

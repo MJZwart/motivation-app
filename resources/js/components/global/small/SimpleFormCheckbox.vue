@@ -13,6 +13,6 @@ const emit = defineEmits(['update:modelValue']);
 
 <style lang="scss" scoped>
 .checkbox-label {
-    line-height:normal;
+    margin-top: 0.2rem;
 }
 </style>

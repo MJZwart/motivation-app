@@ -43,10 +43,13 @@
                         :placeholder="$t('group-search-description-placeholder')"
                     />
                 </div>
-                <div class="form-group mb-1">
-                    <input id="public-groups-filter" v-model="groupFilter.noApplicationReq" type="checkbox" />
-                    <label for="public-groups-filter">{{$t('free-to-join-only')}}</label>
-                </div>
+                
+                <SimpleFormCheckbox 
+                    id="public-groups-filter" 
+                    v-model="groupFilter.noApplicationReq" 
+                    name="require_application" 
+                    class="mb-0"
+                    :label="$t('free-to-join-only')" />
             </div>
             <div class="mt-2 mb-1">
                 <h3 v-if="chosen == 'MY'">{{ $t('my-groups') }}</h3>
