@@ -75,7 +75,7 @@
                 </template>
                 <template #details="item">
                     <Tooltip :text="$t('view')">
-                        <FaIcon icon="magnifying-glass" class="icon" @click="showGroupsDetails(item.item.id)" />
+                        <Icon :icon="DETAILS" class="details-icon" @click="showGroupsDetails(item.item.id)" />
                     </Tooltip>
                 </template>
                 <template #is_public="item">
@@ -115,6 +115,7 @@ import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
 import type {Group} from 'resources/types/group';
 import GroupRankIcon from '../components/groups/page-components/GroupRankIcon.vue';
+import {DETAILS} from '/js/constants/iconConstants';
 
 const groupStore = useGroupStore();
 const mainStore = useMainStore();

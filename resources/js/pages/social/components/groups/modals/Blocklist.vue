@@ -7,9 +7,9 @@
                 {{user.username}}
                 <span class="ml-auto mr-3">
                     <Tooltip :text="$t('unblock')">
-                        <FaIcon
-                            icon="lock-open"
-                            class="icon small green"
+                        <Icon
+                            :icon="UNLOCK"
+                            class="unblock-icon green"
                             @click="unblock(user.id)" />
                     </Tooltip>
                 </span>
@@ -25,6 +25,7 @@
 import Loading from '/js/components/global/Loading.vue';
 import {onMounted, ref} from 'vue';
 import {useGroupStore} from '/js/store/groupStore';
+import {UNLOCK} from '/js/constants/iconConstants';
 
 export type GroupBlockedUser = {
     id: number;

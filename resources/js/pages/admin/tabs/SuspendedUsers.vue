@@ -32,7 +32,7 @@
                     </span>
                     <span v-if="suspensionEnded(row.item)">
                         <Tooltip :text="$t('suspension-ended')">
-                            <FaIcon icon="lock-open" class="icon small green" />
+                            <Icon :icon="UNLOCK" class="icon small green" />
                         </Tooltip>
                     </span>
                 </template>
@@ -50,7 +50,7 @@
                 <template #actions="row">
                     <div v-if="!suspensionEnded(row.item)">
                         <Tooltip :text="$t('edit-suspension')">
-                            <FaIcon :icon="['far', 'pen-to-square']" class="icon" @click="editSuspension(row.item)" />
+                            <Icon :icon="EDIT" class="icon" @click="editSuspension(row.item)" />
                         </Tooltip>
                     </div>
                 </template>
@@ -77,6 +77,7 @@ import {useMainStore} from '/js/store/store';
 import {SuspendedUser} from 'resources/types/user';
 import {useI18n} from 'vue-i18n';
 import type {SuspensionLog} from 'resources/types/user';
+import {EDIT, UNLOCK} from '/js/constants/iconConstants';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 const {t} = useI18n();

@@ -12,7 +12,7 @@
         />
         <p>
             <Tooltip :text="$t('reset-days')" placement="right">
-                <FaIcon icon="repeat" class="icon small" @click="resetDays" />
+                <Icon :icon="RESET" class="icon" @click="resetDays" />
             </Tooltip>
             {{ $t('suspended-until') }}: {{ suspendedUntil }}
         </p>
@@ -31,7 +31,7 @@
             :placeholder="$t('comment')"
         />
 
-        <button :disabled="suspendedUntilInPast" class="block" @click="confirm">{{ $t('submit') }}</button>
+        <SubmitButton :disabled="suspendedUntilInPast" class="block" @click="confirm">{{ $t('submit') }}</SubmitButton>
         <button class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
     </div>
 </template>
@@ -42,6 +42,7 @@ import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
 import {SuspendedUser} from 'resources/types/user.js';
 import {getDateWithAddedDays} from '/js/services/dateService';
+import {RESET} from '/js/constants/iconConstants';
 const adminStore = useAdminStore();
 
 const props = defineProps<{userSuspension: SuspendedUser}>();

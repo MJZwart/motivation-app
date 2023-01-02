@@ -41,15 +41,15 @@
                                     <b>{{template.name}} </b> ({{$t(template.type)}})
                                     <span class="ml-auto mr-2">
                                         <Tooltip :text="$t('edit-template')" placement="left">
-                                            <FaIcon 
-                                                :icon="['far', 'pen-to-square']"
-                                                class="icon small"
+                                            <Icon 
+                                                :icon="EDIT"
+                                                class="edit-icon small"
                                                 @click="editTemplate(template)" />
                                         </Tooltip>
                                         <Tooltip :text="$t('delete-template')" placement="left">
-                                            <FaIcon 
-                                                icon="trash"
-                                                class="icon small red"
+                                            <Icon 
+                                                :icon="TRASH"
+                                                class="delete-icon small red"
                                                 @click="deleteTemplate(template)" />
                                         </Tooltip>
                                     </span>
@@ -71,6 +71,7 @@ import {onMounted, ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useI18n} from 'vue-i18n'
 import type {NewTemplate, Template} from 'resources/types/task';
+import {EDIT, TRASH} from '/js/constants/iconConstants';
 const {t} = useI18n() // use as global scope
 
 const taskStore = useTaskStore();

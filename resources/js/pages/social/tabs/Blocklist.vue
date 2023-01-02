@@ -7,7 +7,7 @@
                     <div v-if="blocklist[0]">
                         <li v-for="(blockedUser, index) in blocklist" :key="index" class="mb-1 ml-0 d-flex flex-wrap">
                             <Tooltip :text="$t('unblock')">
-                                <FaIcon icon="lock-open" class="icon green" @click="unblock(blockedUser.id)" />
+                                <Icon :icon="UNLOCK" class="unlock-icon green" @click="unblock(blockedUser.id)" />
                             </Tooltip>
                             <router-link
                                 :to="{name: 'profile', params: {id: blockedUser.blocked_user_id}}"
@@ -34,6 +34,7 @@ import {onMounted, ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useUserStore} from '/js/store/userStore';
 import type {Blocked} from 'resources/types/user';
+import {UNLOCK} from '/js/constants/iconConstants';
 
 const userStore = useUserStore();
 

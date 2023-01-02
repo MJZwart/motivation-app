@@ -4,27 +4,27 @@
         <div class="task-content">
             <p class="task-title d-flex">
                 <Tooltip :text="$t('complete-task')">
-                    <FaIcon 
-                        :icon="['far', 'square-check']"
-                        class="icon medium green" />
+                    <Icon 
+                        :icon="CHECK_SQUARE"
+                        class="complete-icon green" />
                 </Tooltip>
         
                 {{task.name}}             
                 <span class="ml-auto">
                     <Tooltip :text="$t('new-sub-task')">
-                        <FaIcon 
-                            icon="square-plus"
-                            class="icon small green" />
+                        <Icon 
+                            :icon="CREATE"
+                            class="create-icon green" />
                     </Tooltip>
                     <Tooltip :text="$t('edit-task')">
-                        <FaIcon 
-                            :icon="['far', 'pen-to-square']"
-                            class="icon small" />
+                        <Icon 
+                            :icon="EDIT"
+                            class="edit-icon" />
                     </Tooltip>
                     <Tooltip :text="$t('delete-task')">
-                        <FaIcon 
-                            icon="trash"
-                            class="icon small red" />
+                        <Icon 
+                            :icon="TRASH"
+                            class="delete-icon red" />
                     </Tooltip>
                 </span>
                 
@@ -33,22 +33,22 @@
         
             <div v-for="subTask in task.tasks" :key="subTask.id" class="sub-task">
                 <p class="task-title d-flex">
-                    <FaIcon icon="arrow-turn-up" rotation="90" />
+                    <Icon :icon="ARROW_DOWN_RIGHT" rotation="90" />
                     <Tooltip :text="$t('complete-sub-task')" class="ml-1">
-                        <FaIcon 
-                            :icon="['far', 'square-check']"
-                            class="icon medium green" />
+                        <Icon 
+                            :icon="CHECK_SQUARE"
+                            class="complete-icon green" />
                     </Tooltip>
                     {{subTask.name}}
                     <Tooltip :text="$t('edit-sub-task')" class="ml-auto">
-                        <FaIcon 
-                            :icon="['far', 'pen-to-square']"
-                            class="icon small" />
+                        <Icon 
+                            :icon="EDIT"
+                            class="edit-icon" />
                     </Tooltip>
                     <Tooltip :text="$t('delete-sub-task')">
-                        <FaIcon 
-                            icon="trash"
-                            class="icon small red" />
+                        <Icon 
+                            :icon="TRASH"
+                            class="delete-icon red" />
                     </Tooltip>
                 </p>
                 <p class="task-description">{{subTask.description}}</p>
@@ -60,6 +60,7 @@
 
 <script setup lang="ts">
 import type {Task} from 'resources/types/task';
+import {ARROW_DOWN_RIGHT, CHECK_SQUARE, CREATE, EDIT, TRASH} from '/js/constants/iconConstants';
 
 defineProps<{task: Task}>();
 </script>

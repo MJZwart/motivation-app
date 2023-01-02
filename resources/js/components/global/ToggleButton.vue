@@ -2,8 +2,8 @@
     <button
         class="toggle-button"
         :class="{active: active}">
-        <FaIcon 
-            icon="fa-power-off" 
+        <Icon 
+            :icon="POWER" 
             class="power-button"
             :class="{active: active}" />
         <slot />
@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+import {POWER} from '/js/constants/iconConstants';
+
 defineProps<{active: boolean}>();
 </script>
 

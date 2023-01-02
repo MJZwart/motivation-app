@@ -31,11 +31,11 @@
             </template>
             <template #actions="data">
                 <div style="min-width: 49px">
-                    <FaIcon :icon="['far', 'pen-to-square']" class="icon medium" @click="editBugReport(data.item)" />
-                    <FaIcon 
+                    <Icon :icon="EDIT" class="icon" @click="editBugReport(data.item)" />
+                    <Icon 
                         v-if="data.item.user" 
-                        icon="envelope" 
-                        class="icon medium" 
+                        :icon="MAIL" 
+                        class="icon" 
                         @click="sendMessageToBugReportAuthor(data.item.user)" 
                     />
                 </div>
@@ -69,6 +69,7 @@ import {useAdminStore} from '/js/store/adminStore';
 import {StrippedUser} from 'resources/types/user';
 import {BugReport} from 'resources/types/bug';
 import {useI18n} from 'vue-i18n';
+import {EDIT, MAIL} from '/js/constants/iconConstants';
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
 const {t} = useI18n();

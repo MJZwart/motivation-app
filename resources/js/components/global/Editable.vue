@@ -3,12 +3,11 @@
         <div v-if="!edit">
             {{ item }}
             <Tooltip :text="$t('edit')">
-                <FaIcon
+                <Icon 
                     :id="'edit-item-' + index"
-                    :icon="['far', 'pen-to-square']"
+                    :icon="EDIT"
                     class="icon small"
-                    @click="edit = true"
-                />
+                    @click="edit = true" />
             </Tooltip>
         </div>
         <div v-else :class="{inline: inline}">
@@ -19,16 +18,19 @@
 
             <div class="controls">
                 <Tooltip :text="$t('save')">
-                    <FaIcon :id="'save-' + index" :icon="['far', 'square-check']" class="icon small green" @click="save" />
+                    <Icon 
+                        :id="'save-' + index" 
+                        :icon="CHECK_SQUARE" 
+                        class="green medium"
+                        @click="save" />
                 </Tooltip>
                 
                 <Tooltip :text="$t('cancel')">
-                    <FaIcon
-                        :id="'cancel-' + index"
-                        :icon="['far', 'rectangle-xmark']"
-                        class="icon small red"
-                        @click="close"
-                    />
+                    <Icon 
+                        :id="'cancel-' + index" 
+                        :icon="CROSS_SQUARE" 
+                        class="red medium"
+                        @click="close" />
                 </Tooltip>
             </div>
         </div>
@@ -38,6 +40,7 @@
 <script setup lang="ts">
 import {Error} from 'resources/types/error';
 import {onMounted, ref} from 'vue';
+import {EDIT, CHECK_SQUARE, CROSS_SQUARE} from '/js/constants/iconConstants';
 import {useMainStore} from '/js/store/store';
 const mainStore = useMainStore();
 

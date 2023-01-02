@@ -20,16 +20,16 @@
             </template>
             <template #actions="row">
                 <Tooltip v-if="!row.item.archived" :text="$t('archive')">
-                    <FaIcon icon="lock" class="icon small red" @click="toggleArchiveFeedback(row.item.id)" />
+                    <Icon :icon="LOCK" class="icon red" @click="toggleArchiveFeedback(row.item.id)" />
                 </Tooltip>
                 <Tooltip v-if="row.item.archived" :text="$t('unarchive')">
-                    <FaIcon icon="lock-open" class="icon small green" @click="toggleArchiveFeedback(row.item.id)" />
+                    <Icon :icon="UNLOCK" class="icon green" @click="toggleArchiveFeedback(row.item.id)" />
                 </Tooltip>
                 <Tooltip :text="$t('message-user')">
-                    <FaIcon
+                    <Icon
                         v-if="row.item.user"
-                        icon="envelope"
-                        class="icon small"
+                        :icon="MAIL"
+                        class="icon"
                         @click="sendMessageToUser(row.item.user)"
                     />
                 </Tooltip>
@@ -57,6 +57,7 @@ import {parseDateTime} from '/js/services/dateService';
 import {useAdminStore} from '/js/store/adminStore';
 import type {StrippedUser} from 'resources/types/user';
 import type {Feedback} from 'resources/types/feedback';
+import {LOCK, MAIL, UNLOCK} from '/js/constants/iconConstants';
 const adminStore = useAdminStore();
 
 onMounted(async () => {

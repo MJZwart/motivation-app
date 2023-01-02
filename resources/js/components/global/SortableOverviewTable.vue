@@ -8,7 +8,7 @@
                         <slot v-bind="subField" :name="'head'">
                             <span v-if="subField.sortable" class="clickable block header" @click="toggleSort(subField.key)">
                                 {{ $t(subField.label) }} 
-                                <FaIcon icon="sort"  />
+                                <Icon :icon="SORT" />
                             </span>
                         </slot>
                     </template>
@@ -62,6 +62,7 @@ import {ref, computed, PropType} from 'vue';
 import {sortValues} from '/js/services/sortService';
 import {isDateItem, parseDateTime} from '/js/services/dateService';
 import PaginationControls from '/js/components/global/PaginationControls.vue';
+import {SORT} from '/js/constants/iconConstants';
 
 const props = defineProps({
     items: {

@@ -5,12 +5,17 @@
             {{ $t('incoming-friend-requests-tutorial') }}
         </p>
         <p>
-            <FaIcon :icon="['far', 'square-check']" class="icon small green" />
+            <Icon :icon="CHECK_SQUARE" class="icon green" />
             {{ $t('incoming-friend-accept-tutorial')}}
         </p>
         <p>
-            <FaIcon :icon="['far', 'rectangle-xmark']" class="icon small red" />
+            <Icon :icon="CROSS_SQUARE" class="icon red" />
             {{ $t('incoming-friend-deny-tutorial')}}
         </p>
     </div>
 </template>
+
+<script setup lang="ts">
+import {CHECK_SQUARE, CROSS_SQUARE} from '/js/constants/iconConstants';
+
+</script>

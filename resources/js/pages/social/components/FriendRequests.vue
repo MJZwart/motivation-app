@@ -6,16 +6,16 @@
                     <div v-if="requests.incoming[0]">
                         <li v-for="(request, index) in requests.incoming" :key="index" class="incoming-request">
                             <Tooltip :text="$t('accept-friend-request')">
-                                <FaIcon
-                                    :icon="['far', 'square-check']"
-                                    class="icon small green"
+                                <Icon
+                                    :icon="CHECK_SQUARE"
+                                    class="accept-icon green"
                                     @click="acceptFriendRequest(request.friendship_id)"
                                 />
                             </Tooltip>
                             <Tooltip :text="$t('deny-friend-request')">
-                                <FaIcon
-                                    :icon="['far', 'rectangle-xmark']"
-                                    class="icon small red"
+                                <Icon
+                                    :icon="CROSS_SQUARE"
+                                    class="deny-icon red"
                                     @click="denyFriendRequest(request.friendship_id)"
                                 />
                             </Tooltip>
@@ -33,9 +33,9 @@
                     <div v-if="requests.outgoing[0]">
                         <li v-for="(request, index) in requests.outgoing" :key="index" class="outgoing-request">
                             <Tooltip :text="$t('cancel-friend-request')">
-                                <FaIcon
-                                    :icon="['far', 'rectangle-xmark']"
-                                    class="icon small red"
+                                <Icon
+                                    :icon="CROSS_SQUARE"
+                                    class="cancel-icon red"
                                     @click="removeFriendRequest(request.friendship_id)"
                                 />
                             </Tooltip>
@@ -53,6 +53,7 @@
 <script setup lang="ts">
 import {computed} from 'vue';
 import Summary from '/js/components/global/Summary.vue';
+import {CHECK_SQUARE, CROSS_SQUARE} from '/js/constants/iconConstants';
 import {useFriendStore} from '/js/store/friendStore';
 const friendStore = useFriendStore();
 

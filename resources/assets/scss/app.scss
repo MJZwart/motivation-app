@@ -75,8 +75,6 @@ label {
 }
 
 
-
-
 @media (max-width: 450px) {
     .font-small-responsive {
         font-size: small;
@@ -94,6 +92,8 @@ label {
     .non-clickable {
         cursor: default;
     }
+    display: inline;
+    vertical-align: sub;
 }
 .icon.small {
     font-size: 100%;
@@ -117,9 +117,22 @@ label {
 .iconify {
     color:var(--primary-as-text);
     cursor:pointer;
+    display: inline;
+    vertical-align: sub;
+    font-size: 150%;
+    margin: 2px;
 }
 .iconify.non-clickable {
     cursor: default;
+}
+.iconify.small {
+    font-size: 100%;
+}
+.iconify.medium {
+    font-size: 150%;
+}
+.iconify.large {
+    font-size: 200% !important;
 }
 .pointer{
     cursor:pointer;
@@ -328,6 +341,10 @@ Pagination
             button.disabled {
                 background-color: inherit;
                 color: var(--text-muted);
+                cursor: default;
+                .iconify {
+                    cursor: default;
+                }
             }
             button.disabled:hover {
                 background-color: inherit;

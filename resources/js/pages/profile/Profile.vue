@@ -14,23 +14,23 @@
                 </div>
                 <div v-if="notLoggedUser" class="d-flex profile-actions">
                     <Tooltip :text="$t('message-user')">
-                        <FaIcon icon="envelope" class="icon small" @click="sendMessage" />
+                        <Icon :icon="MAIL" class="mail-icon" @click="sendMessage" />
                     </Tooltip>
                     <span v-if="!isConnection">
                         <Tooltip :text="$t('send-friend-request')">
-                            <FaIcon icon="user-plus" class="icon small" @click="sendFriendRequest" />
+                            <Icon :icon="FRIEND" class="friend-icon" @click="sendFriendRequest" />
                         </Tooltip>
                     </span>
                     <Tooltip :text="$t('block-user')">
-                        <FaIcon icon="ban" class="icon small red" @click="blockUser" />
+                        <Icon :icon="LOCK" class="block-icon red" @click="blockUser" />
                     </Tooltip>
                     <Tooltip :text="$t('report-user')">
-                        <FaIcon :icon="['far', 'flag']" class="icon small red" @click="reportUser" />
+                        <Icon :icon="REPORT" class="report-icon red" @click="reportUser" />
                     </Tooltip>
                     <span v-if="user && user.admin && !userProfile.suspended">
                         | {{ $t('admin-actions') }}:
                         <Tooltip :text="$t('suspend-user')">
-                            <FaIcon icon="ban" class="icon small red" @click="suspendUser" />
+                            <Icon :icon="BAN" class="ban-icon red" @click="suspendUser" />
                         </Tooltip>
                     </span>
                 </div>
@@ -83,6 +83,7 @@ import {breadcrumbsVisible} from '/js/services/breadcrumbService';
 import {useI18n} from 'vue-i18n';
 import type {User, UserProfile} from 'resources/types/user';
 import type {FriendRequests, Friend} from 'resources/types/friend';
+import {MAIL, FRIEND, LOCK, REPORT, BAN} from '/js/constants/iconConstants';
 
 const {t} = useI18n();
 const route = useRoute();

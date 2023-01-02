@@ -15,13 +15,13 @@
                     </template>
                     <template #actions="item">
                         <Tooltip :text="$t('change-name')">
-                            <FaIcon :icon="['far', 'pen-to-square']" class="icon" @click="showEditReward(item.item)" />
+                            <Icon :icon="EDIT" class="edit-icon" @click="showEditReward(item.item)" />
                         </Tooltip>
                         <Tooltip v-if="!item.item.active" :text="$t('activate')">
-                            <FaIcon :icon="['far', 'play-circle']" class="icon" @click="activateReward(item.item)" />
+                            <Icon :icon="ACTIVATE" class="acivate-icon" @click="activateReward(item.item)" />
                         </Tooltip>
                         <Tooltip v-if="!item.item.active" :text="$t('delete')">
-                            <FaIcon icon="trash" class="icon small red" @click="deleteItem(item.item)" />
+                            <Icon :icon="TRASH" class="delete-icon red" @click="deleteItem(item.item)" />
                         </Tooltip>
                     </template>
                 </Table>
@@ -115,6 +115,7 @@ import {useMainStore} from '/js/store/store';
 import {useI18n} from 'vue-i18n';
 import {capitalizeOnlyFirst} from '/js/services/stringService';
 import type {Reward, ChangeReward} from 'resources/types/reward';
+import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
 
 const userStore = useUserStore();
 const rewardStore = useRewardStore();

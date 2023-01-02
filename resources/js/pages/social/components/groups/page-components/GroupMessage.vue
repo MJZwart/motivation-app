@@ -11,15 +11,15 @@
             </router-link> - {{parseDateTime(message.created_at)}}
             <span v-if="hover" class="ml-auto"> 
                 <Tooltip v-if="canDelete" :text="$t('delete-message')">
-                    <FaIcon 
-                        icon="trash"
-                        class="icon small red message-icon"
+                    <Icon 
+                        :icon="TRASH"
+                        class="delete-icon red message-icon"
                         @click="deleteMessage()" />
                 </Tooltip>
                 <Tooltip v-if="message.user.id !== userId" :text="$t('report-user')">
-                    <FaIcon 
-                        :icon="['far', 'flag']"
-                        class="icon small red message-icon"
+                    <Icon 
+                        :icon="REPORT"
+                        class="report-icon red message-icon"
                         @click="reportMessage()" />
                 </Tooltip>
             </span>
@@ -35,6 +35,7 @@ import ReportUser from '/js/pages/messages/components/ReportUser.vue';
 import type {GroupMessage} from 'resources/types/group';
 import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
+import {REPORT, TRASH} from '/js/constants/iconConstants';
 
 const props = defineProps<{message: GroupMessage, canDelete: boolean, userId: number, groupId: number}>();
 const emit = defineEmits(['deleteMessage'])

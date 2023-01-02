@@ -5,12 +5,23 @@
             {{ $t('friends-tutorial') }}
         </p>
         <p>                            
-            <FaIcon :icon="['far', 'rectangle-xmark']" class="icon small red" />
+            <Icon :icon="CROSS_SQUARE" class="icon red" />
             {{ $t('friends-remove-tutorial') }}
         </p>
         <p>
-            <FaIcon icon="envelope" class="icon small" />
+            <Icon :icon="MAIL" class="icon primary" />
             {{ $t('friends-message-tutorial') }}
         </p>
     </div>
 </template>
+
+<script setup lang="ts">
+import {CROSS_SQUARE, MAIL} from '/js/constants/iconConstants';
+
+</script>
+
+<style scoped>
+.primary {
+    color: var(--primary);
+}
+</style>

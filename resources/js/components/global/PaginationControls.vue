@@ -3,10 +3,11 @@
         <span class="range">{{ $t('pagination-item-of', {offset: (offset + 1), range: range, max: max})}}</span>
         <div class="control-buttons">
             <button class="previous" :class="{disabled: offset < 1}" @click="previous()">
-                <FaIcon icon="angle-left" /> {{$t('previous')}}
+                <Icon :icon="ARROW_LEFT" />
+                {{$t('previous')}}
             </button>
             <button class="next" :class="{disabled: range === max}" @click="next()">
-                {{$t('next')}} <FaIcon icon="angle-right" />
+                {{$t('next')}} <Icon :icon="ARROW_RIGHT" />
             </button>
         </div>
     </div>
@@ -15,6 +16,7 @@
 <script setup lang="ts">
 import {computed, onMounted, PropType, ref, watch} from 'vue';
 import {Item} from 'resources/types/global';
+import {ARROW_LEFT, ARROW_RIGHT} from '/js/constants/iconConstants';
 
 const props = defineProps({
     modelValue: {
