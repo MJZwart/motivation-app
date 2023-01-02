@@ -16,10 +16,12 @@
                 :label="$t('days')"
                 :placeholder="$t('days')"  />
             <SimpleFormCheckbox 
+                id="indefinite"
                 v-model="suspension.indefinite" 
                 :label="$t('indefinite')" 
                 name="indefinite" />
             <SimpleFormCheckbox 
+                id="close-reports"
                 v-model="suspension.close_reports" 
                 :label="$t('suspend-user-close-reports')" 
                 name="close-reports" />
