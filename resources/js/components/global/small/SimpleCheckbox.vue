@@ -25,7 +25,6 @@ function getIcon() {
         width: 18px;
         height: 18px;
         display: inline-flex;
-        background-color: var(--box-shade);
         border-radius: 0.25rem;
         margin: 0.25rem;
         border: 1px solid var(--border-color);
