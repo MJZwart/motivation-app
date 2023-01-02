@@ -71,5 +71,7 @@ import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 app.component('SubmitButton', SubmitButton);
 import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
 app.component('SimpleCheckbox', SimpleCheckbox);
+import SimpleFormCheckbox from '/js/components/global/small/SimpleFormCheckbox.vue';
+app.component('SimpleFormCheckbox', SimpleFormCheckbox);
 
 app.mount('#app');

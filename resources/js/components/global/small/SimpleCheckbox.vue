@@ -3,14 +3,13 @@
         <span class="checkbox" :class="{green: modelValue, red: !modelValue}" @click="emit('update:modelValue', !modelValue)">
             <Icon :icon="getIcon()" />
         </span>
-        <label @click="emit('update:modelValue', !modelValue)">{{ label }}</label>
     </div>
 </template>
 
 <script setup lang="ts">
 import {Icon} from '@iconify/vue';
 
-const props = defineProps<{modelValue?: boolean, label?: string}>();
+const props = defineProps<{modelValue?: boolean}>();
 const emit = defineEmits(['update:modelValue']);
 
 function getIcon() {
@@ -37,7 +36,7 @@ function getIcon() {
             height: 20px;
             overflow:visible;
             margin-left: -2px;
-            margin-top: -1px;
+            margin-top: 0;
         }
     }
     .checkbox.green {
