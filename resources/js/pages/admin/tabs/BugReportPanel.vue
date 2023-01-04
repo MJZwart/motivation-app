@@ -31,11 +31,11 @@
             </template>
             <template #actions="data">
                 <div style="min-width: 49px">
-                    <Icon :icon="EDIT" class="icon" @click="editBugReport(data.item)" />
+                    <Icon :icon="EDIT" class="edit-icon" @click="editBugReport(data.item)" />
                     <Icon 
                         v-if="data.item.user" 
                         :icon="MAIL" 
-                        class="icon" 
+                        class="mail-icon" 
                         @click="sendMessageToBugReportAuthor(data.item.user)" 
                     />
                 </div>

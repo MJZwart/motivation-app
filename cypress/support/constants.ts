@@ -18,17 +18,17 @@ export const admin = {
     password: 'password',
 }
 
-export const viewGroupPageButton = '.fa-magnifying-glass';
-export const kickRemoveButton = '.fa-rectangle-xmark';
-export const deleteButton = '.fa-trash';
-export const completeTaskButton = '.fa-square-check';
-export const editButton = '.fa-pen-to-square';
-export const messageButton = '.fa-envelope';
-export const sendFriendRequestButton = '.fa-user-plus';
-export const acceptButton = '.fa-square-check';
-export const notificationButton = '.fa-bell';
-export const banButton = '.fa-ban';
-export const unlockedButton = '.fa-lock-open';
-export const lockButton = '.fa-lock';
-export const tutorialButton = '.fa-circle-question';
+export const viewGroupPageButton = '.details-icon';
+export const kickRemoveButton = '.cross-square-icon';
+export const deleteButton = '.delete-icon';
+export const completeTaskButton = '.check-square-icon';
+export const editButton = '.edit-icon';
+export const messageButton = '.mail-icon';
+export const sendFriendRequestButton = '.friend-icon';
+export const acceptButton = '.check-square-icon';
+export const notificationButton = '.notification-icon';
+export const banButton = '.ban-icon';
+export const unlockedButton = '.unlock-icon';
+export const lockButton = '.lock-icon';
+export const tutorialButton = '.question-icon';
 export const promoteButton = '.promote-icon';

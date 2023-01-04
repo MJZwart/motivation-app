@@ -9,14 +9,14 @@
                             <Tooltip :text="$t('remove-friend')">
                                 <Icon
                                     :icon="CROSS_SQUARE"
-                                    class="icon small red"
+                                    class="cross-square-icon small red"
                                     @click="removeFriend(friend)"
                                 />
                             </Tooltip>
                         </span>
                         <span v-if="message">
                             <Tooltip :text="$t('send-message')">
-                                <Icon :icon="MAIL" class="message-icon small" @click="sendMessage(friend)" />
+                                <Icon :icon="MAIL" class="mail-icon small" @click="sendMessage(friend)" />
                             </Tooltip>
                         </span>
                         <router-link :to="{name: 'profile', params: {id: friend.id}}">

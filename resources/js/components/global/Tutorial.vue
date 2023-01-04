@@ -1,7 +1,7 @@
 <template>
     <Icon  v-if="tutorialActive"
            :icon="QUESTION"
-           class="icon small question"
+           class="question-icon small question"
            :class="[colorVariant, size]"
            @click="openTutorial" />
     <ClearModal :show="tutorialOpen" :item="tutorialItem" class="medium-text" @close="closeTutorial" />

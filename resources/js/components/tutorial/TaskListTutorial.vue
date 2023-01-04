@@ -2,11 +2,11 @@
     <div>
         <b>{{ $t('manage-task-list') }}</b>
         <p>
-            <Icon :icon="EDIT" class="primary" />
+            <Icon :icon="EDIT" class="primary edit-icon" />
             {{ $t('edit-task-tutorial') }}
         </p>
         <p>
-            <Icon :icon="TRASH" class="red" />
+            <Icon :icon="TRASH" class="red delete-icon" />
             {{ $t('delete-task-tutorial') }}
         </p>
         <p>
@@ -14,7 +14,7 @@
             {{ $t('new-sub-task-tutorial') }}
         </p>
         <p>
-            <Icon :icon="CHECK_SQUARE" class="green" />
+            <Icon :icon="CHECK_SQUARE" class="check-square-icon green" />
             {{ $t('complete-task-tutorial') }}
         </p>
     </div>

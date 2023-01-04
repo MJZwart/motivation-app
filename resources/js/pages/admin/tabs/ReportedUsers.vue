@@ -21,13 +21,13 @@
                 <Tooltip v-if="!currentlySuspended(item.item)" :text="$t('suspend-user')">
                     <Icon 
                         :icon="BAN" 
-                        class="icon red"
+                        class="ban-icon red"
                         @click.stop.prevent="suspendUser(item.item)" />                        
                 </Tooltip>
                 <Tooltip :text="$t('message-reported-user')">
                     <Icon 
                         :icon="MAIL"
-                        class="icon"
+                        class="mail-icon"
                         @click.stop.prevent="sendMessageToReportedUser(item.item)" />
                 </Tooltip>
             </template>

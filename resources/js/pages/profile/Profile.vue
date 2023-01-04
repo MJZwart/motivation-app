@@ -22,7 +22,7 @@
                         </Tooltip>
                     </span>
                     <Tooltip :text="$t('block-user')">
-                        <Icon :icon="LOCK" class="block-icon red" @click="blockUser" />
+                        <Icon :icon="LOCK" class="block-icon lock-icon red" @click="blockUser" />
                     </Tooltip>
                     <Tooltip :text="$t('report-user')">
                         <Icon :icon="REPORT" class="report-icon red" @click="reportUser" />

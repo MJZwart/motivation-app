@@ -32,7 +32,7 @@
                     </span>
                     <span v-if="suspensionEnded(row.item)">
                         <Tooltip :text="$t('suspension-ended')">
-                            <Icon :icon="UNLOCK" class="icon small green" />
+                            <Icon :icon="UNLOCK" class="unlock-icon small green" />
                         </Tooltip>
                     </span>
                 </template>
@@ -50,7 +50,7 @@
                 <template #actions="row">
                     <div v-if="!suspensionEnded(row.item)">
                         <Tooltip :text="$t('edit-suspension')">
-                            <Icon :icon="EDIT" class="icon" @click="editSuspension(row.item)" />
+                            <Icon :icon="EDIT" class="edit-icon" @click="editSuspension(row.item)" />
                         </Tooltip>
                     </div>
                 </template>

@@ -61,7 +61,7 @@
                         <Tooltip :text="$t('show-conversation')">
                             <Icon 
                                 :icon="DETAILS" 
-                                class="icon"
+                                class="details-icon"
                                 @click.stop.prevent="showConversation(report.conversation)" />
                         </Tooltip>
                     </div>
@@ -70,7 +70,7 @@
                         <Tooltip :text="$t('show-group-messages')">
                             <Icon 
                                 :icon="DETAILS" 
-                                class="icon"
+                                class="details-icon"
                                 @click.stop.prevent="showGroupMessages(report.id)" />
                         </Tooltip>
                     </div>
@@ -82,7 +82,7 @@
                     <Tooltip :text="$t('close-report')">
                         <Icon 
                             :icon="TRASH"
-                            class="icon"
+                            class="delete-icon"
                             @click.stop.prevent="closeReport(report)" />
                     </Tooltip>
                 </div>

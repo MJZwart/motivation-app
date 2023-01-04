@@ -24,7 +24,7 @@
                     <Tooltip :text="$t('kick')">
                         <Icon 
                             :icon="CROSS_SQUARE"
-                            class="kick-icon red"
+                            class="kick-icon cross-square-icon red"
                             @click="kick(member)" />
                     </Tooltip>
                     <Tooltip :text="$t('suspend')">

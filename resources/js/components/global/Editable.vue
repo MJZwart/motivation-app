@@ -6,7 +6,7 @@
                 <Icon 
                     :id="'edit-item-' + index"
                     :icon="EDIT"
-                    class="icon small"
+                    class="icon small edit-icon"
                     @click="edit = true" />
             </Tooltip>
         </div>
@@ -21,7 +21,7 @@
                     <Icon 
                         :id="'save-' + index" 
                         :icon="CHECK_SQUARE" 
-                        class="green medium"
+                        class="check-square-icon green medium"
                         @click="save" />
                 </Tooltip>
                 
@@ -29,7 +29,7 @@
                     <Icon 
                         :id="'cancel-' + index" 
                         :icon="CROSS_SQUARE" 
-                        class="red medium"
+                        class="red medium cross-square-icon"
                         @click="close" />
                 </Tooltip>
             </div>

@@ -5,7 +5,7 @@
             {{ $t('blocklist-tutorial') }}
         </p>
         <p>
-            <Icon :icon="UNLOCK" class="icon green" />
+            <Icon :icon="UNLOCK" class="unlock-icon green" />
             {{ $t('blocklist-unblock-tutorial') }}
         </p>
     </div>

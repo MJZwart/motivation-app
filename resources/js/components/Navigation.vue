@@ -21,13 +21,13 @@
                 <div class="ml-auto">
                     <router-link v-if="windowWidth > 450" to="/messages">
                         <span class="icon-stack">
-                            <Icon :icon="MAIL" class="icon-nav"/>
+                            <Icon :icon="MAIL" class="icon-nav mail-icon"/>
                             <Icon v-if="hasMessages" :icon="DOT" class="red icon-dot" />
                         </span>
                     </router-link>
                     <router-link v-if="windowWidth > 450" to="/notifications">
                         <span class="icon-stack">
-                            <Icon :icon="NOTIFICATION" class="icon-nav" />
+                            <Icon :icon="NOTIFICATION" class="icon-nav notification-icon" />
                             <Icon v-if="hasNotifications" :icon="DOT" class="red icon-dot" />
                         </span>
                     </router-link>

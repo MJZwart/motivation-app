@@ -5,11 +5,11 @@
             {{ $t('incoming-friend-requests-tutorial') }}
         </p>
         <p>
-            <Icon :icon="CHECK_SQUARE" class="icon green" />
+            <Icon :icon="CHECK_SQUARE" class="check-square-icon green" />
             {{ $t('incoming-friend-accept-tutorial')}}
         </p>
         <p>
-            <Icon :icon="CROSS_SQUARE" class="icon red" />
+            <Icon :icon="CROSS_SQUARE" class="cross-square-icon red" />
             {{ $t('incoming-friend-deny-tutorial')}}
         </p>
     </div>

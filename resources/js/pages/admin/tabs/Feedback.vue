@@ -20,16 +20,16 @@
             </template>
             <template #actions="row">
                 <Tooltip v-if="!row.item.archived" :text="$t('archive')">
-                    <Icon :icon="LOCK" class="icon red" @click="toggleArchiveFeedback(row.item.id)" />
+                    <Icon :icon="LOCK" class="lock-icon red" @click="toggleArchiveFeedback(row.item.id)" />
                 </Tooltip>
                 <Tooltip v-if="row.item.archived" :text="$t('unarchive')">
-                    <Icon :icon="UNLOCK" class="icon green" @click="toggleArchiveFeedback(row.item.id)" />
+                    <Icon :icon="UNLOCK" class="unlock-icon green" @click="toggleArchiveFeedback(row.item.id)" />
                 </Tooltip>
                 <Tooltip :text="$t('message-user')">
                     <Icon
                         v-if="row.item.user"
                         :icon="MAIL"
-                        class="icon"
+                        class="mail-icon"
                         @click="sendMessageToUser(row.item.user)"
                     />
                 </Tooltip>

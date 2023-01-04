@@ -6,7 +6,7 @@
                 <Tooltip :text="$t('complete-task')" placement="right">
                     <Icon 
                         :icon="CHECK_SQUARE"
-                        class="complete-icon green"
+                        class="complete-icon check-square-icon green"
                         @click="completeTask(task)" />
                 </Tooltip>
                 {{task.name}}
@@ -48,7 +48,7 @@
                         <Tooltip :text="$t('complete-sub-task')" class="ml-1">
                             <Icon 
                                 :icon="CHECK_SQUARE"
-                                class="complete-icon green"
+                                class="complete-icon check-square-icon green"
                                 @click="completeTask(subTask)" />
                         </Tooltip>
                         {{subTask.name}}

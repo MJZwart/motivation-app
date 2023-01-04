@@ -17,7 +17,7 @@
                 {{parseAchievementTriggerDesc(row.item)}}
             </template>
             <template #actions="row">
-                <Icon :icon="EDIT" class="icon small" @click="showEditAchievement(row.item)" />
+                <Icon :icon="EDIT" class="icon small edit-icon" @click="showEditAchievement(row.item)" />
             </template>
         </Table>
 

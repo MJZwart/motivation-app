@@ -5,7 +5,7 @@
             {{ $t('outgoing-friend-requests-tutorial') }}
         </p>
         <p>
-            <Icon :icon="CROSS_SQUARE" class="icon red" />
+            <Icon :icon="CROSS_SQUARE" class="cross-square-icon red" />
             {{ $t('outgoing-friend-cancel-tutorial')}}
         </p>
     </div>

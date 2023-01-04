@@ -8,14 +8,14 @@
                             <Tooltip :text="$t('accept-friend-request')">
                                 <Icon
                                     :icon="CHECK_SQUARE"
-                                    class="accept-icon green"
+                                    class="accept-icon check-square-icon green"
                                     @click="acceptFriendRequest(request.friendship_id)"
                                 />
                             </Tooltip>
                             <Tooltip :text="$t('deny-friend-request')">
                                 <Icon
                                     :icon="CROSS_SQUARE"
-                                    class="deny-icon red"
+                                    class="deny-icon cross-square-icon red"
                                     @click="denyFriendRequest(request.friendship_id)"
                                 />
                             </Tooltip>
@@ -35,7 +35,7 @@
                             <Tooltip :text="$t('cancel-friend-request')">
                                 <Icon
                                     :icon="CROSS_SQUARE"
-                                    class="cancel-icon red"
+                                    class="cancel-icon cross-square-icon red"
                                     @click="removeFriendRequest(request.friendship_id)"
                                 />
                             </Tooltip>

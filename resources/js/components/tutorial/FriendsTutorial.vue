@@ -5,11 +5,11 @@
             {{ $t('friends-tutorial') }}
         </p>
         <p>                            
-            <Icon :icon="CROSS_SQUARE" class="icon red" />
+            <Icon :icon="CROSS_SQUARE" class="cross-square-icon red" />
             {{ $t('friends-remove-tutorial') }}
         </p>
         <p>
-            <Icon :icon="MAIL" class="icon primary" />
+            <Icon :icon="MAIL" class="mail-icon primary" />
             {{ $t('friends-message-tutorial') }}
         </p>
     </div>

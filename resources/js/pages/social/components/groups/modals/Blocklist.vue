@@ -9,7 +9,7 @@
                     <Tooltip :text="$t('unblock')">
                         <Icon
                             :icon="UNLOCK"
-                            class="unblock-icon green"
+                            class="unlock-icon green"
                             @click="unblock(user.id)" />
                     </Tooltip>
                 </span>
