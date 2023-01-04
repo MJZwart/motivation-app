@@ -34,7 +34,7 @@
                             @click="suspend(member)" />
                     </Tooltip>
                     <Tooltip v-if="canManageMemberRank(member)" :text="$t('manage-rank')">
-                        <Icon icon="mdi:rank" class="iconify small promote-icon" @click="openPromoteModal(member)" />
+                        <Icon :icon="PROMOTE" class="iconify small promote-icon" @click="openPromoteModal(member)" />
                     </Tooltip>
 
                 </span>
@@ -65,7 +65,7 @@ import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
 import ManageGroupUserRole from './ManageGroupUserRole.vue';
-import {BAN, CROSS_SQUARE, MAIL} from '/js/constants/iconConstants';
+import {BAN, CROSS_SQUARE, MAIL, PROMOTE} from '/js/constants/iconConstants';
 
 const userStore = useUserStore();
 const groupStore = useGroupStore();

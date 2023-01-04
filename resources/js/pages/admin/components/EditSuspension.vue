@@ -20,7 +20,11 @@
             {{ $t('automatically-end-suspension-warning') }}
         </span>
 
-        <SimpleFormCheckbox v-model="userSuspensionToEdit.end_suspension" name="end-suspension" :label="$t('end-suspension')" />
+        <SimpleFormCheckbox 
+            id="end-suspension" 
+            v-model="userSuspensionToEdit.end_suspension" 
+            name="end-suspension" 
+            :label="$t('end-suspension')" />
 
         <SimpleTextarea
             id="comment"

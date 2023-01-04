@@ -36,3 +36,5 @@ export const DETAILS = 'fa6-solid:magnifying-glass';
 export const FRIEND = 'mdi:user-heart';
 
 export const ACTIVATE = 'material-symbols:play-circle-outline-rounded';
+
+export const PROMOTE = 'mdi:rank';

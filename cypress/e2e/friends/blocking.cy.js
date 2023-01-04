@@ -1,5 +1,5 @@
 import {waitShort, waitLong} from '../../support/commands';
-import {user1, user3, banButton, unlockedButton} from '../../support/constants';
+import {user1, user3, lockButton, unlockedButton} from '../../support/constants';
 
 describe('Blocking', () => {
     
@@ -33,7 +33,7 @@ describe('Blocking', () => {
             cy.get('a').contains(user3.username).click();
             waitLong();
 
-            cy.get(banButton).click();
+            cy.get(lockButton).click();
             cy.on('window:confirm', () => true);
             waitShort();
 
