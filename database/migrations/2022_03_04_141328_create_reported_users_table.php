@@ -40,6 +40,6 @@ class CreateReportedUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reported_user');
+        Schema::dropIfExists('reported_users');
     }
 }
