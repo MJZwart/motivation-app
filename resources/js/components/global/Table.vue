@@ -99,7 +99,8 @@ const className = computed(() => {
 const currentSortDir = ref('');
 const currentSort = ref('');
 
-const sortedItems = computed<Array<Item>>(() => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const sortedItems = computed<any[]>(() => {
     return sortValues(props.items, currentSort.value, currentSortDir.value);
 });
 

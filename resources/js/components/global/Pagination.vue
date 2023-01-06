@@ -13,10 +13,8 @@
 <script setup lang="ts">
 import PaginationControls from './PaginationControls.vue';
 import {PropType, ref, watch} from 'vue';
-import {Item} from 'resources/types/global';
 
 const props = defineProps({
-    //TODO remove any and find generic typing for this component
     items: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         type: Array as PropType<any[]>,
@@ -46,7 +44,8 @@ watch(
     },
 );
 
-function updatePaginated(value: Item[]) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function updatePaginated(value: any[]) {
     paginatedItems.value = value;
 }
 </script>

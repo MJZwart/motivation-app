@@ -117,7 +117,8 @@ function parseItem(item: unknown) {
     else return item;
 }
 
-const sortedItems = computed<Array<Item>>(() => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const sortedItems = computed<any[]>(() => {
     return sortValues(props.items, currentSort.value, currentSortDir.value);
 });
 
