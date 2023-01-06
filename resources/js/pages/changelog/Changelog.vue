@@ -5,11 +5,13 @@
             <div class="version-header" @click="expand(version.name)">
                 <h2 class="d-flex">
                     {{ version.name }}
-                    <Icon class="ml-auto" :icon="isExpanded(version.name) ? ARROW_UP : ARROW_DOWN" />
+                    <Icon class="ml-auto primary-text" :icon="isExpanded(version.name) ? ARROW_UP : ARROW_DOWN" />
                 </h2>
             </div>
-            <div v-if="isExpanded(version.name)" class="version-doc">
-                <Component :is="version.component"  />
+            <div class="version-doc" :class="{expanded: isExpanded(version.name)}">
+                <div class="version-doc-inner">
+                    <Component :is="version.component"  />
+                </div>
             </div>
         </div>
     </div>
@@ -64,12 +66,22 @@ function expand(versionName: string) {
     border-radius: 0.25rem;
     .version-header {
         cursor: pointer;
-        background-color: var(--background-darker);
+        background-color: var(--primary);
+        color: var(--primary-text);
         padding: 0.5rem 1rem 0 1rem;
         border-bottom: 1px solid var(--border-color);
         border-radius: 0.25rem 0.25rem 0 0;
     }
     .version-doc {
+        max-height: 0px;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+    }
+    .version-doc.expanded {
+        max-height: 100rem;
+        transition: max-height 0.3s ease-in-out;
+    }
+    .version-doc-inner {
         padding: 1rem;
     }
 }
