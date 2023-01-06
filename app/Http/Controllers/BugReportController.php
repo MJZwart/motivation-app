@@ -14,6 +14,11 @@ use Illuminate\Http\JsonResponse;
 
 class BugReportController extends Controller
 {
+    public function getBugReports() 
+    {
+        return BugReportResource::collection(BugReport::orderByDesc('created_at')->get());
+    }
+
     public function store(StoreBugReportRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -41,9 +46,9 @@ class BugReportController extends Controller
             );
         }
 
-        $return = BugReportResource::collection(BugReport::all());
         ActionTrackingHandler::handleAction($request, 'UPDATE_BUG_REPORT', 'Bug report updated: ' . $validated['title']);
 
-        return ResponseWrapper::successResponse(__('messages.bug.updated'), ['bugReports' => $return]);
+        return ResponseWrapper::successResponse(__('messages.bug.updated'), 
+            ['bugReports' => BugReportResource::collection(BugReport::orderByDesc('created_at')->get())]);
     }
 }

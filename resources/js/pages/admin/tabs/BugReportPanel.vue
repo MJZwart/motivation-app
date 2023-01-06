@@ -46,7 +46,11 @@
             :title="$t('edit-bug-report')"
             @close="closeEditBugReport"
         >
-            <EditBugReport v-if="bugReportToEdit" :bugReport="bugReportToEdit" @close="closeEditBugReport" />
+            <EditBugReport 
+                v-if="bugReportToEdit" 
+                :bugReport="bugReportToEdit" 
+                @close="closeEditBugReport" 
+                @submit="submitUpdateBugReport" />
         </Modal>
         <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageToBugReportAuthor">
             <SendMessage v-if="bugReportAuthor" :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor" />
@@ -56,7 +60,7 @@
 
 <script setup lang="ts">
 import {BUG_REPORT_OVERVIEW_FIELDS, BUG_STATUS} from '/js/constants/bugConstants';
-import {computed, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import EditBugReport from './../components/EditBugReport.vue';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import Diagnostics from '/js/components/global/small/Diagnostics.vue';
@@ -71,7 +75,11 @@ const mainStore = useMainStore();
 const adminStore = useAdminStore();
 const {t} = useI18n();
 
-const bugReports = computed(() => adminStore.bugReports);
+onMounted(async() => {
+    bugReports.value = await adminStore.getBugReports();
+});
+
+const bugReports = ref<BugReport[]>([]);
 
 const newBugReportFields = BUG_REPORT_OVERVIEW_FIELDS;
 const bugReportToEdit = ref<BugReport | null>(null);
@@ -94,6 +102,9 @@ function editBugReport(bugReport: BugReport) {
 }
 function closeEditBugReport() {
     showEditBugReportModal.value = false;
+}
+async function submitUpdateBugReport(updatedBugReport: BugReport) {
+    bugReports.value = await adminStore.updateBugReport(updatedBugReport);
 }
 function parseStatus(status: number) {
     const statusElement = BUG_STATUS.find(element => element.value == status);

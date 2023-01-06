@@ -42,6 +42,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/suspend/{user}', [AdminController::class, 'suspendUser']);
     Route::post('/editsuspension/{suspendedUser}', [AdminController::class, 'editUserSuspension']);
 
+    Route::get('/bugreport', [BugReportController::class, 'getBugReports']);
     Route::put('/bugreport/{bugReport}', [BugReportController::class, 'update']);
 
     Route::get('/action/filters', [AdminController::class, 'getActionFilters']);

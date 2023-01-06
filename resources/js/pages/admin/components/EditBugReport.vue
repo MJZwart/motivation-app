@@ -63,8 +63,6 @@
 import {onMounted, ref, PropType} from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '/js/constants/bugConstants';
 import {BugReport} from 'resources/types/bug';
-import {useAdminStore} from '/js/store/adminStore';
-const adminStore = useAdminStore();
 
 const props = defineProps({
     bugReport: {
@@ -72,7 +70,7 @@ const props = defineProps({
         required: true,
     },
 });
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submit']);
 
 onMounted(() => {
     bugReportToEdit.value = Object.assign({}, props.bugReport);
@@ -86,7 +84,7 @@ const bugStatus = BUG_STATUS;
 
 async function updateBugReport() {
     if (!bugReportToEdit.value) return;
-    await adminStore.updateBugReport(bugReportToEdit.value);
+    emit('submit', bugReportToEdit.value);
     close();
 }
 function close() {
