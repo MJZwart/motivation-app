@@ -45,7 +45,7 @@
             </div>
             
             <div v-if="bugReportToEdit.status == 3" class="form-group">
-                <SimpleCheckbox
+                <SimpleFormCheckbox
                     id="send-message-to-reporter" 
                     v-model="bugReportToEdit.sendMessageToReporter"
                     name="send-message-to-reporter"

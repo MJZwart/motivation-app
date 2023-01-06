@@ -42,7 +42,7 @@ class AdminController extends Controller
     public function getAdminDashboard()
     {
         $achievements = AchievementResource::collection(Achievement::get());
-        $bugReports = BugReportResource::collection(BugReport::all());
+        $bugReports = BugReportResource::collection(BugReport::orderByDesc('created_at')->get());
         $experiencePoints = ExperiencePoint::get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
