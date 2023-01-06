@@ -55,30 +55,30 @@ class CreateForeignKeyConstraints extends Migration
     public function down()
     {
         Schema::table('tasks', function (Blueprint $table){
-            $table->dropForeign('user_id');
-            $table->dropForeign('super_task_id');
-            $table->dropForeign('task_list_id');
+            $table->dropForeign('tasks_user_id_foreign');
+            $table->dropForeign('tasks_super_task_id_foreign');
+            $table->dropForeign('tasks_task_list_id_foreign');
         });
         Schema::table('task_lists', function (Blueprint $table){
-            $table->dropForeign('user_id');
+            $table->dropForeign('task_lists_user_id_foreign');
         });
         Schema::table('notifications', function (Blueprint $table){
-            $table->dropForeign('user_id');
+            $table->dropForeign('notifications_user_id_foreign');
         });
         Schema::table('friends', function (Blueprint $table){
-            $table->dropForeign('user_id');
-            $table->dropForeign('friend_id');
+            $table->dropForeign('friends_user_id_foreign');
+            $table->dropForeign('friends_friend_id_foreign');
         });
         Schema::table('characters', function (Blueprint $table){
-            $table->dropForeign('user_id');
+            $table->dropForeign('characters_user_id_foreign');
         });
         Schema::table('repeatable_tasks_completed', function (Blueprint $table){
-            $table->dropForeign('user_id');
-            $table->dropForeign('task_id');
+            $table->dropForeign('repeatable_tasks_completed_user_id_foreign');
+            $table->dropForeign('repeatable_tasks_completed_task_id_foreign');
         });
         Schema::table('achievements_earned', function (Blueprint $table){
-            $table->dropForeign('user_id');
-            $table->dropForeign('achievement_id');
+            $table->dropForeign('achievements_earned_user_id_foreign');
+            $table->dropForeign('achievements_earned_achievement_id_foreign');
         });
     }
 }
