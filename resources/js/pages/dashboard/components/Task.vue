@@ -4,34 +4,34 @@
         <div class="task-content">
             <p class="task-title d-flex">
                 <Tooltip :text="$t('complete-task')" placement="right">
-                    <FaIcon 
-                        :icon="['far', 'square-check']"
-                        class="icon medium green"
+                    <Icon 
+                        :icon="CHECK_SQUARE"
+                        class="complete-icon check-square-icon green"
                         @click="completeTask(task)" />
                 </Tooltip>
                 {{task.name}}
                 <span class="ml-auto">
                     <Tooltip v-if="task.repeatable != 'NONE'" :text="$t(task.repeatable)">
-                        <FaIcon 
-                            icon="repeat"
-                            class="icon small" />
+                        <Icon 
+                            :icon="REPEAT"
+                            class="repeat-icon" />
                     </Tooltip>
                     <Tooltip :text="$t('new-sub-task')">
-                        <FaIcon 
-                            icon="square-plus"
-                            class="icon small green"
+                        <Icon 
+                            :icon="CREATE"
+                            class="create-icon green"
                             @click="openNewTask(task)" />
                     </Tooltip>
                     <Tooltip :text="$t('edit-task')">
-                        <FaIcon 
-                            :icon="['far', 'pen-to-square']"
-                            class="icon small"
+                        <Icon 
+                            :icon="EDIT"
+                            class="edit-icon"
                             @click="editTask(task)" />
                     </Tooltip>
                     <Tooltip :text="$t('delete-task')">
-                        <FaIcon 
-                            icon="trash"
-                            class="icon small red"
+                        <Icon 
+                            :icon="TRASH"
+                            class="delete-icon red"
                             @click="deleteTask(task)" />
                     </Tooltip>
                 </span>
@@ -44,30 +44,30 @@
                 <div class="subtask-sidebar task-sidebar" :class="`diff-${subTask.difficulty}`" />
                 <div class="subtask-content">
                     <p class="task-title d-flex">
-                        <FaIcon icon="arrow-turn-up" rotation="90" />
+                        <Icon :icon="ARROW_DOWN_RIGHT" rotation="90" />
                         <Tooltip :text="$t('complete-sub-task')" class="ml-1">
-                            <FaIcon 
-                                :icon="['far', 'square-check']"
-                                class="icon medium green"
+                            <Icon 
+                                :icon="CHECK_SQUARE"
+                                class="complete-icon check-square-icon green"
                                 @click="completeTask(subTask)" />
                         </Tooltip>
                         {{subTask.name}}
                         <span class="ml-auto">
                             <Tooltip v-if="subTask.repeatable != 'NONE'" :text="$t(subTask.repeatable)">
-                                <FaIcon 
-                                    icon="repeat"
-                                    class="icon small" />
+                                <Icon 
+                                    :icon="REPEAT"
+                                    class="repeat-icon" />
                             </Tooltip>
                             <Tooltip :text="$t('edit-sub-task')">
-                                <FaIcon 
-                                    :icon="['far', 'pen-to-square']"
-                                    class="icon small"
+                                <Icon 
+                                    :icon="EDIT"
+                                    class="edit-icon"
                                     @click="editTask(subTask, task.name)" />
                             </Tooltip>
                             <Tooltip :text="$t('delete-sub-task')">
-                                <FaIcon 
-                                    icon="trash"
-                                    class="icon small red"
+                                <Icon 
+                                    :icon="TRASH"
+                                    class="delete-icon red"
                                     @click="deleteTask(subTask)" />
                             </Tooltip>
                         </span>
@@ -96,8 +96,9 @@ import {ref} from 'vue';
 import EditTask from './EditTask.vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useMainStore} from '/js/store/store';
-import {useI18n} from 'vue-i18n'
-const {t} = useI18n() // use as global scope
+import {useI18n} from 'vue-i18n';
+import {CREATE, EDIT, REPEAT, TRASH, ARROW_DOWN_RIGHT, CHECK_SQUARE} from '/js/constants/iconConstants';
+const {t} = useI18n();
 const mainStore = useMainStore();
 
 defineProps<{task: Task, taskList: TaskList}>();

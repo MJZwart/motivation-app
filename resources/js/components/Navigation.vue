@@ -20,28 +20,16 @@
 
                 <div class="ml-auto">
                     <router-link v-if="windowWidth > 450" to="/messages">
-                        <FaIconLayers class="mr-3 nav-icon-layers">
-                            <FaIcon 
-                                icon="envelope" 
-                                class="icon-nav icon-2xl" />
-                            <FaIcon 
-                                v-if="hasMessages" 
-                                icon="circle" 
-                                class="red" 
-                                style="left: 22px; top: -20px;" />
-                        </FaIconLayers>
+                        <span class="icon-stack">
+                            <Icon :icon="MAIL" class="icon-nav mail-icon"/>
+                            <Icon v-if="hasMessages" :icon="DOT" class="red icon-dot" />
+                        </span>
                     </router-link>
                     <router-link v-if="windowWidth > 450" to="/notifications">
-                        <FaIconLayers class="mr-3 nav-icon-layers">
-                            <FaIcon 
-                                :icon="['far', 'bell']" 
-                                class="icon-nav icon-2xl" />
-                            <FaIcon 
-                                v-if="hasNotifications" 
-                                icon="circle" 
-                                class="red" 
-                                style="left: 17px; top: -20px;" />
-                        </FaIconLayers>
+                        <span class="icon-stack">
+                            <Icon :icon="NOTIFICATION" class="icon-nav notification-icon" />
+                            <Icon v-if="hasNotifications" :icon="DOT" class="red icon-dot" />
+                        </span>
                     </router-link>
                     <Dropdown color="white">
                         <section v-if="admin && windowWidth < 350" class="option">
@@ -77,6 +65,7 @@ import Dropdown from '/js/components/global/Dropdown.vue';
 import {useUserStore} from '/js/store/userStore';
 import {useMessageStore} from '/js/store/messageStore';
 import {computed, onMounted, ref} from 'vue';
+import {MAIL, DOT, NOTIFICATION} from '../constants/iconConstants';
 
 onMounted(() => window.addEventListener('resize', handleResize));
 
@@ -131,5 +120,19 @@ function logout() {
 }
 .icon-nav{
     color: var(--nav-text);
+}
+.iconify.icon-nav {
+    font-size: 2.2rem;
+}
+.icon-stack {
+    display: inline-flex;
+    position: relative;
+    margin-top: 0.25rem;
+    .icon-dot {
+        position: absolute;
+        left: 14px;
+        top: -8px;
+        font-size: 2rem;
+    }
 }
 </style>

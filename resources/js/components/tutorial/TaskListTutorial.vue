@@ -2,20 +2,31 @@
     <div>
         <b>{{ $t('manage-task-list') }}</b>
         <p>
-            <FaIcon :icon="['far', 'pen-to-square']" class="small primary" />
+            <Icon :icon="EDIT" class="primary edit-icon" />
             {{ $t('edit-task-tutorial') }}
         </p>
         <p>
-            <FaIcon icon="trash" class="small red" />
+            <Icon :icon="TRASH" class="red delete-icon" />
             {{ $t('delete-task-tutorial') }}
         </p>
         <p>
-            <FaIcon icon="square-plus" class="small green" />
+            <Icon :icon="CREATE" class="green" />
             {{ $t('new-sub-task-tutorial') }}
         </p>
         <p>
-            <FaIcon :icon="['far', 'square-check']" class="small green" />
+            <Icon :icon="CHECK_SQUARE" class="check-square-icon green" />
             {{ $t('complete-task-tutorial') }}
         </p>
     </div>
 </template>
+
+<script setup lang="ts">
+import {CREATE, CHECK_SQUARE, TRASH, EDIT} from '/js/constants/iconConstants';
+
+</script>
+
+<style scoped>
+.primary {
+    color: var(--primary);
+}
+</style>

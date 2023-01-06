@@ -6,14 +6,14 @@
                     {{ taskList.name }}
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')" placement="bottom">
-                            <FaIcon
-                                :icon="['far', 'pen-to-square']"
-                                class="icon white small"
+                            <Icon
+                                :icon="EDIT"
+                                class="edit-icon small white"
                                 @click="showEditTaskList()"
                             />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')" placement="bottom">
-                            <FaIcon icon="trash" class="icon small white" @click="showDeleteTaskList()" />
+                            <Icon :icon="TRASH" class="delete-icon small white" @click="showDeleteTaskList()" />
                         </Tooltip>
                         <Tutorial tutorial="TaskList" colorVariant="white" />
                     </span>
@@ -57,6 +57,7 @@ import DeleteTaskListConfirm from './DeleteTaskListConfirm.vue';
 import {ref} from 'vue';
 import {useMainStore} from '/js/store/store';
 import type {TaskList, Task} from 'resources/types/task';
+import {EDIT, TRASH} from '/js/constants/iconConstants';
 
 const props = defineProps<{taskList: TaskList}>();
 

@@ -27,11 +27,11 @@
                 </template>
                 <template #actions="item">
                     <Tooltip :text="$t('send-message')">
-                        <FaIcon icon="envelope" class="icon small" @click="sendMessage(item.item)" />
+                        <Icon :icon="MAIL" class="mail-icon" @click="sendMessage(item.item)" />
                     </Tooltip>
                     <span v-if="!isConnection(item.item.id)">
                         <Tooltip :text="$t('send-friend-request')">
-                            <FaIcon icon="user-plus" class="icon small" @click="sendFriendRequest(item.item.id)" />
+                            <Icon :icon="FRIEND" class="friend-icon" @click="sendFriendRequest(item.item.id)" />
                         </Tooltip>
                     </span>
                 </template>
@@ -54,6 +54,7 @@ import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 import type {StrippedUser} from 'resources/types/user';
+import {FRIEND, MAIL} from '/js/constants/iconConstants';
 const userStore = useUserStore();
 const friendStore = useFriendStore();
 

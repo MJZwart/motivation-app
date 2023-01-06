@@ -95,9 +95,9 @@ describe('Settings', () => {
             cy.visit(accountSettingsUrl);
             waitShort();
 
-            cy.get('button').contains('Dark mode').click();
-            waitShort();
             cy.get('button').contains('Light mode').click();
+            waitShort();
+            cy.get('button').contains('Dark mode').click();
             waitShort();
         });
     });
@@ -107,9 +107,9 @@ describe('Settings', () => {
             cy.visit(profileSettingsUrl);
             waitShort();
 
-            cy.get('#show_reward').uncheck();
-            cy.get('#show_achievements').uncheck();
-            cy.get('#show_friends').uncheck();
+            cy.get('#show-reward').click();
+            cy.get('#show-achievements').click();
+            cy.get('#show-friends').click();
             cy.get('button').contains('Save profile settings').click();
             waitShort();
 
@@ -122,9 +122,9 @@ describe('Settings', () => {
             cy.visit(profileSettingsUrl);
             waitShort();
 
-            cy.get('#show_reward').check();
-            cy.get('#show_achievements').check();
-            cy.get('#show_friends').check();
+            cy.get('#show-reward').click();
+            cy.get('#show-achievements').click();
+            cy.get('#show-friends').click();
             cy.get('button').contains('Save profile settings').click();
             waitShort();
 

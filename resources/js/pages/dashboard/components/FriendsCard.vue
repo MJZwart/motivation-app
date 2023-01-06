@@ -7,16 +7,16 @@
                     <li v-for="(friend, index) in friends" :key="index">
                         <span v-if="manage">
                             <Tooltip :text="$t('remove-friend')">
-                                <FaIcon
-                                    :icon="['far', 'rectangle-xmark']"
-                                    class="icon small red"
+                                <Icon
+                                    :icon="CROSS_SQUARE"
+                                    class="cross-square-icon small red"
                                     @click="removeFriend(friend)"
                                 />
                             </Tooltip>
                         </span>
                         <span v-if="message">
                             <Tooltip :text="$t('send-message')">
-                                <FaIcon icon="envelope" class="icon small" @click="sendMessage(friend)" />
+                                <Icon :icon="MAIL" class="mail-icon small" @click="sendMessage(friend)" />
                             </Tooltip>
                         </span>
                         <router-link :to="{name: 'profile', params: {id: friend.id}}">
@@ -39,6 +39,7 @@ import Summary from '/js/components/global/Summary.vue';
 import {ref, computed, onMounted, PropType} from 'vue';
 import {useFriendStore} from '/js/store/friendStore';
 import {Friend} from 'resources/types/friend';
+import {CROSS_SQUARE, MAIL} from '/js/constants/iconConstants';
 
 const friendStore = useFriendStore();
 

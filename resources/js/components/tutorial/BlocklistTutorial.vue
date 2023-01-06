@@ -5,8 +5,12 @@
             {{ $t('blocklist-tutorial') }}
         </p>
         <p>
-            <FaIcon icon="lock-open" class="icon small green" />
+            <Icon :icon="UNLOCK" class="unlock-icon green" />
             {{ $t('blocklist-unblock-tutorial') }}
         </p>
     </div>
 </template>
+
+<script setup lang="ts">
+import {UNLOCK} from '/js/constants/iconConstants';
+</script>

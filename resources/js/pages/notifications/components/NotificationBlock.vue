@@ -5,10 +5,12 @@
                 <span class="d-flex">
                     {{notification.title}}
                     <span class="ml-auto">
-                        <span v-if="!notification.read">{{ $t('new') }} </span>
-                        <FaIcon 
-                            icon="trash"
-                            class="icon small red"
+                        <span v-if="!notification.read">
+                            <Icon :icon="NEW" class="non-clickable" />
+                        </span>
+                        <Icon 
+                            :icon="TRASH"
+                            class="delete-icon red"
                             @click="deleteNotification()" />
                     </span>
                 </span>
@@ -41,6 +43,7 @@ import {useMessageStore} from '/js/store/messageStore';
 import {computed, PropType} from 'vue';
 import {handleNotificationLink} from '/js/services/notificationLinkService';
 import {Notification} from 'resources/types/notification';
+import {NEW, TRASH} from '/js/constants/iconConstants';
 
 const {t} = useI18n();
 const messageStore = useMessageStore();

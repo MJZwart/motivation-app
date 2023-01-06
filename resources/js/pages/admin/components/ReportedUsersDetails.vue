@@ -59,18 +59,18 @@
                     <div v-if="report.conversation">
                         {{ $t('yes')}}
                         <Tooltip :text="$t('show-conversation')">
-                            <FaIcon 
-                                icon="magnifying-glass" 
-                                class="icon"
+                            <Icon 
+                                :icon="DETAILS" 
+                                class="details-icon"
                                 @click.stop.prevent="showConversation(report.conversation)" />
                         </Tooltip>
                     </div>
                     <div v-else-if="report.group_id">
                         {{ $t('group') }}
                         <Tooltip :text="$t('show-group-messages')">
-                            <FaIcon 
-                                icon="magnifying-glass" 
-                                class="icon"
+                            <Icon 
+                                :icon="DETAILS" 
+                                class="details-icon"
                                 @click.stop.prevent="showGroupMessages(report.id)" />
                         </Tooltip>
                     </div>
@@ -80,9 +80,9 @@
                 </div>
                 <div class="col fg-1">
                     <Tooltip :text="$t('close-report')">
-                        <FaIcon 
-                            icon="trash"
-                            class="icon"
+                        <Icon 
+                            :icon="TRASH"
+                            class="delete-icon"
                             @click.stop.prevent="closeReport(report)" />
                     </Tooltip>
                 </div>
@@ -116,6 +116,7 @@ import ShowConversationModal from './ShowConversationModal.vue';
 import {useI18n} from 'vue-i18n';
 import {ReportedUser} from 'resources/types/admin';
 import ShowGroupMessagesModal from './ShowGroupMessagesModal.vue';
+import {DETAILS, TRASH} from '/js/constants/iconConstants';
 const {t} = useI18n();
 const mainStore = useMainStore();
 const adminStore = useAdminStore();

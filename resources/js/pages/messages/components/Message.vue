@@ -8,9 +8,9 @@
         <p class="silent d-flex">
             {{parseDateTime(message.created_at)}}
             <span v-if="hover" class="ml-auto"> 
-                <FaIcon 
-                    icon="trash"
-                    class="icon small red message-icon"
+                <Icon 
+                    :icon="TRASH"
+                    class="delete-icon red message-icon"
                     @click="deleteMessage()" />
             </span>
         </p>
@@ -22,6 +22,7 @@ import {computed, ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n'
 import type {Message} from 'resources/types/message';
+import {TRASH} from '/js/constants/iconConstants';
 const {t} = useI18n() // use as global scope
 
 const props = defineProps<{message: Message}>();
@@ -38,7 +39,7 @@ function deleteMessage() {
 
 <style lang="scss" scoped>
 .message-icon {
-    margin-bottom: -1px;
+    margin-bottom: -7px;
 }
 .hover {
     background-color: var(--hover);

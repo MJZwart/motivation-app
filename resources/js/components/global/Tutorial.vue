@@ -1,9 +1,9 @@
 <template>
-    <FaIcon  v-if="tutorialActive"
-             :icon="['far', 'circle-question']"
-             class="icon small question"
-             :class="[colorVariant, size]"
-             @click="openTutorial" />
+    <Icon  v-if="tutorialActive"
+           :icon="QUESTION"
+           class="question-icon small question"
+           :class="[colorVariant, size]"
+           @click="openTutorial" />
     <ClearModal :show="tutorialOpen" :item="tutorialItem" class="medium-text" @close="closeTutorial" />
 </template>
 
@@ -21,6 +21,7 @@ import CharacterTutorial from '../tutorial/CharacterTutorial.vue';
 import VillageTutorial from '../tutorial/VillageTutorial.vue';
 import TemplatesTutorial from '../tutorial/TemplatesTutorial.vue';
 import {useUserStore} from '/js/store/userStore';
+import {QUESTION} from '/js/constants/iconConstants';
 
 const userStore = useUserStore();
 

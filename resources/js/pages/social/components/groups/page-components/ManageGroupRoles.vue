@@ -62,10 +62,10 @@
                               :class="{green: role.can_moderate_messages, red: !role.can_moderate_messages}"/>
                     </td>
                     <td>
-                        <FaIcon 
+                        <Icon 
                             v-if="!role.owner && !role.member" 
-                            icon="trash" 
-                            class="icon small red" 
+                            :icon="TRASH" 
+                            class="delete-icon red" 
                             @click="deleteRole(role)" 
                         />
                     </td>
@@ -101,7 +101,7 @@ import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
-import {ARROW_UP, ARROW_DOWN} from '/js/constants/iconConstants';
+import {ARROW_UP, ARROW_DOWN, TRASH} from '/js/constants/iconConstants';
 
 const groupStore = useGroupStore();
 const {t} = useI18n();

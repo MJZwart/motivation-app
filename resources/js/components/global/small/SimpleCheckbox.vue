@@ -1,6 +1,10 @@
 <template>
     <div class="checkbox-wrapper">
-        <span class="checkbox" :class="{green: modelValue, red: !modelValue}" @click="emit('update:modelValue', !modelValue)">
+        <span 
+            :id="id" 
+            class="checkbox" 
+            :class="{green: modelValue, red: !modelValue}" 
+            @click="emit('update:modelValue', !modelValue)">
             <Icon :icon="getIcon()" />
         </span>
     </div>
@@ -9,7 +13,7 @@
 <script setup lang="ts">
 import {Icon} from '@iconify/vue';
 
-const props = defineProps<{modelValue?: boolean}>();
+const props = defineProps<{modelValue?: boolean, id?: string}>();
 const emit = defineEmits(['update:modelValue']);
 
 function getIcon() {

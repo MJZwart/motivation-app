@@ -17,7 +17,7 @@
                 {{parseAchievementTriggerDesc(row.item)}}
             </template>
             <template #actions="row">
-                <FaIcon :icon="['far', 'pen-to-square']" class="icon small" @click="showEditAchievement(row.item)" />
+                <Icon :icon="EDIT" class="icon small edit-icon" @click="showEditAchievement(row.item)" />
             </template>
         </Table>
 
@@ -50,6 +50,7 @@ import {useAchievementStore} from '/js/store/achievementStore';
 import {useMainStore} from '/js/store/store';
 import {Achievement} from 'resources/types/achievement';
 import {parseAchievementTriggerDesc} from '/js/services/achievementService';
+import {EDIT} from '/js/constants/iconConstants';
 const achievementStore = useAchievementStore();
 const mainStore = useMainStore();
 

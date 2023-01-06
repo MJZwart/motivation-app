@@ -16,25 +16,25 @@
             <span v-if="group.rank.can_manage_members" class="col">
                 <span v-if="member.user_id != user?.id" class="ml-auto mr-3">
                     <Tooltip :text="$t('send-message')">
-                        <FaIcon 
-                            icon="envelope"
-                            class="icon small"
+                        <Icon 
+                            :icon="MAIL"
+                            class="mail-icon"
                             @click="sendMessage(member)" />
                     </Tooltip>
                     <Tooltip :text="$t('kick')">
-                        <FaIcon 
-                            :icon="['far', 'rectangle-xmark']"
-                            class="icon small red"
+                        <Icon 
+                            :icon="CROSS_SQUARE"
+                            class="kick-icon cross-square-icon red"
                             @click="kick(member)" />
                     </Tooltip>
                     <Tooltip :text="$t('suspend')">
-                        <FaIcon
-                            icon="ban"
-                            class="icon small red"
+                        <Icon
+                            :icon="BAN"
+                            class="ban-icon red"
                             @click="suspend(member)" />
                     </Tooltip>
                     <Tooltip v-if="canManageMemberRank(member)" :text="$t('manage-rank')">
-                        <Icon icon="mdi:rank" class="iconify small promote-icon" @click="openPromoteModal(member)" />
+                        <Icon :icon="PROMOTE" class="iconify small promote-icon" @click="openPromoteModal(member)" />
                     </Tooltip>
 
                 </span>
@@ -65,6 +65,7 @@ import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
 import ManageGroupUserRole from './ManageGroupUserRole.vue';
+import {BAN, CROSS_SQUARE, MAIL, PROMOTE} from '/js/constants/iconConstants';
 
 const userStore = useUserStore();
 const groupStore = useGroupStore();

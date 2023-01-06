@@ -6,14 +6,14 @@
                     {{taskList.name}}
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')">
-                            <FaIcon 
-                                :icon="['far', 'pen-to-square']"
-                                class="icon white small" />
+                            <Icon 
+                                :icon="EDIT"
+                                class="edit-icon white" />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')">
-                            <FaIcon 
-                                icon="trash"
-                                class="icon small white" />
+                            <Icon 
+                                :icon="TRASH"
+                                class="delete-icon white" />
                         </Tooltip>
                     </span>
                 </span>
@@ -39,6 +39,7 @@
 <script setup>
 import Task from './DummyTask.vue';
 import Summary from '/js/components/global/Summary.vue';
+import {EDIT, TRASH} from '/js/constants/iconConstants';
 
 const props = defineProps({
     taskList: {

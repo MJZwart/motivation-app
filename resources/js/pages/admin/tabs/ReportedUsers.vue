@@ -19,15 +19,15 @@
             </template>
             <template #actions="item">
                 <Tooltip v-if="!currentlySuspended(item.item)" :text="$t('suspend-user')">
-                    <FaIcon 
-                        icon="ban" 
-                        class="icon red"
+                    <Icon 
+                        :icon="BAN" 
+                        class="ban-icon red"
                         @click.stop.prevent="suspendUser(item.item)" />                        
                 </Tooltip>
                 <Tooltip :text="$t('message-reported-user')">
-                    <FaIcon 
-                        icon="envelope"
-                        class="icon"
+                    <Icon 
+                        :icon="MAIL"
+                        class="mail-icon"
                         @click.stop.prevent="sendMessageToReportedUser(item.item)" />
                 </Tooltip>
             </template>
@@ -69,6 +69,7 @@ import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 import {REPORTED_USER_OVERVIEW_FIELDS} from '/js/constants/reportUserConstants';
 import type {User, UserToSuspend} from 'resources/types/user';
+import {BAN, MAIL} from '/js/constants/iconConstants';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
