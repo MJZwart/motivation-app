@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {useAchievementStore} from './achievementStore';
 import {useUserStore} from './userStore';
 import type {CharExpGain, ExperiencePoint, Overview, ReportedUser, VillageExpGain, ActionFilters} from 'resources/types/admin';
 import type {BugReport} from 'resources/types/bug';
@@ -30,11 +29,6 @@ export const useAdminStore = defineStore('admin', {
         checkAdmin() {
             axios.get('/isadmin');
         },
-        async getAdminDashboard() {
-            const {data} = await axios.get('/admin/dashboard');
-            const achievementStore = useAchievementStore();
-            achievementStore.achievements = data.achievements;
-        },
 
         async getReportedUsers() {
             const {data} = await axios.get('/admin/reported_users');
@@ -60,6 +54,18 @@ export const useAdminStore = defineStore('admin', {
         },
 
         //Balancing
+        async getExperiencePoints() {
+            const {data} = await axios.get('admin/experience_points');
+            return data.data;
+        },
+        async getCharacterExpGain() {
+            const {data} = await axios.get('admin/character_exp_gain');
+            return data.data;
+        },
+        async getVillageExpGain() {
+            const {data} = await axios.get('admin/village_exp_gain');
+            return data.data;
+        },
         async getBalancing() {
             const {data} = await axios.get('/admin/balancing');
             this.experiencePoints = data.experience_points;
@@ -68,19 +74,19 @@ export const useAdminStore = defineStore('admin', {
         },
         async updateExpPoints(experiencePoints: ExperiencePoint[]) {
             const {data} = await axios.put('/admin/experience_points', experiencePoints);
-            this.experiencePoints = data.data.experience_points;
+            return data.data.experience_points;
         },
         async addNewLevel(newLevel: ExperiencePoint) {
             const {data} = await axios.post('/admin/experience_points', newLevel);
-            this.experiencePoints = data.data.experience_points;
+            return data.data.experience_points;
         },
         async updateCharExpGain(charExpGain: CharExpGain[]) {
             const {data} = await axios.put('/admin/character_exp_gain', charExpGain);
-            this.charExpGain = data.data;
+            return data.data.balancing;
         },
         async updateVillageExpGain(villageExpGain: VillageExpGain[]) {
             const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
-            this.villageExpGain = data.data;
+            return data.data.balancing;
         },
 
         /**

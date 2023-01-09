@@ -22,14 +22,16 @@ Route::group(['middleware' => ['admin']], function () {
     Route::resource('/achievements', AchievementController::class)->only([
         'store', 'update',
     ]);
-    Route::get('/dashboard', [AdminController::class, 'getAdminDashboard']);
+    Route::get('/achievements', [AchievementController::class, 'getAllAchievements']);
     Route::get('/overview', [AdminController::class, 'getOverview']);  
 
     Route::get('/reported_users', [AdminController::class, 'getReportedUsers']);
     Route::post('/reported_users/{reportedUser}', [AdminController::class, 'closeReport']);
     Route::get('/conversation/{id}', [AdminController::class, 'getConversationById']);
 
-    Route::get('/balancing', [AdminController::class, 'getBalancing']);
+    Route::get('/experience_points', [AdminController::class, 'getExperiencePoints']);
+    Route::get('/character_exp_gain', [AdminController::class, 'getCharacterExpGain']);
+    Route::get('/village_exp_gain', [AdminController::class, 'getVillageExpGain']);
     Route::put('/experience_points', [AdminController::class, 'updateExperiencePoints']);
     Route::put('/character_exp_gain', [AdminController::class, 'updateCharacterExpGain']);
     Route::put('/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);

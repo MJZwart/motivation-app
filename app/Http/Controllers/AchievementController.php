@@ -10,6 +10,16 @@ use App\Http\Requests\StoreAchievementRequest;
 
 class AchievementController extends Controller
 {
+    /**
+     * Fetches all achievements
+     *
+     * @return ResourceCollection
+     */
+    public function getAllAchievements()
+    {
+        return AchievementResource::collection(Achievement::get());
+    }
+
     /** 
      * Create a new achievement. Only available to admins.
      * Returns all available achievements

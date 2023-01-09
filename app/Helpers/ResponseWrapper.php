@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -15,7 +16,7 @@ class ResponseWrapper
      * @param string $message
      * @param array $returnData
      */
-    public static function successResponse(string $message = null, array | ResourceCollection $returnData = null): JsonResponse
+    public static function successResponse(string $message = null, array | ResourceCollection | Collection $returnData = null): JsonResponse
     {
         return ResponseWrapper::constructJsonResponse($message, $returnData, Response::HTTP_OK);
     }
@@ -24,7 +25,7 @@ class ResponseWrapper
      * Returns a 422 response with message. The message will automatically be picked up by an error toast.
      * @param string $message
      */
-    public static function errorResponse(string $message = null, array | ResourceCollection $returnData = null): JsonResponse
+    public static function errorResponse(string $message = null, array | ResourceCollection | Collection $returnData = null): JsonResponse
     {
         return ResponseWrapper::constructJsonResponse($message, $returnData, Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -42,7 +43,7 @@ class ResponseWrapper
      * @param integer $response
      * @return JsonResponse
      */
-    private static function constructJsonResponse(string $message = null, array | ResourceCollection $returnData = null, int $response): JsonResponse
+    private static function constructJsonResponse(string $message = null, array | ResourceCollection | Collection $returnData = null, int $response): JsonResponse
     {
         $data = null;
         if ($message && !$data)

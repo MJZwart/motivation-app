@@ -42,7 +42,7 @@
                 </p>
             </div>
             <SubmitButton class="block">{{ $t('edit-achievement') }}</SubmitButton>
-            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="$emit('close')">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>
@@ -50,11 +50,11 @@
 
 <script setup lang="ts">
 import {onMounted, ref, PropType} from 'vue';
-import {useAchievementStore} from '/js/store/achievementStore';
+// import {useAchievementStore} from '/js/store/achievementStore';
 import {Achievement} from 'resources/types/achievement.js'
 import {parseAchievementTriggerDesc} from '/js/services/achievementService';
 import {ACHIEVEMENT_TRIGGERS} from '/js/constants/achievementsConstants';
-const achievementStore = useAchievementStore();
+// const achievementStore = useAchievementStore();
 
 const props = defineProps({
     achievement: {
@@ -63,7 +63,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submit']);
 
 onMounted(() => {
     achievementToEdit.value = Object.assign({}, props.achievement);
@@ -74,11 +74,11 @@ const achievementTriggers = ACHIEVEMENT_TRIGGERS;
 
 async function updateAchievement() {
     if (!achievementToEdit.value) return;
-    await achievementStore.editAchievement(achievementToEdit.value)
-    close();
+    emit('submit', achievementToEdit.value);
+    // close();
 }
-function close() {
-    achievementToEdit.value = null,
-    emit('close');
-}
+// function close() {
+//     achievementToEdit.value = null,
+//     emit('close');
+// }
 </script>

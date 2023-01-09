@@ -35,13 +35,17 @@
             :title="$t('edit-achievement')"
             @close="closeEditAchievement"
         >
-            <EditAchievement v-if="achievementToEdit" :achievement="achievementToEdit" @close="closeEditAchievement" />
+            <EditAchievement 
+                v-if="achievementToEdit" 
+                :achievement="achievementToEdit" 
+                @close="closeEditAchievement" 
+                @submit="editAchievement" />
         </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
-import {ref, computed} from 'vue';
+import {ref, onMounted} from 'vue';
 import Table from '/js/components/global/Table.vue';
 import EditAchievement from '/js/pages/admin/components/EditAchievement.vue';
 import NewAchievement from '/js/pages/admin/components/NewAchievement.vue';
@@ -54,6 +58,12 @@ import {EDIT} from '/js/constants/iconConstants';
 const achievementStore = useAchievementStore();
 const mainStore = useMainStore();
 
+onMounted(async() => {
+    achievements.value = await achievementStore.getAllAchievements();
+});
+
+const achievements = ref<Achievement[]>([]);
+
 const achievementToEdit = ref<Achievement | null>(null);
 const achievementFields = ACHIEVEMENT_FIELDS;
 const currentSort = ref(ACHIEVEMENT_DEFAULTS.currentSort);
@@ -61,7 +71,7 @@ const currentSortAsc = ref(true);
 const showNewAchievementModal = ref(false);
 const showEditAchievementModal = ref(false);
 
-const achievements = computed(() => achievementStore.achievements);
+// const achievements = computed(() => achievementStore.achievements);
 
 /** Shows and hides the modal to create a new achievement */
 function showNewAchievement() {
@@ -79,5 +89,9 @@ function showEditAchievement(achievement: Achievement) {
 }
 function closeEditAchievement() {
     showEditAchievementModal.value = false;
+}
+async function editAchievement(achievement: Achievement) {
+    achievements.value = await achievementStore.editAchievement(achievement);
+    closeEditAchievement();
 }
 </script>

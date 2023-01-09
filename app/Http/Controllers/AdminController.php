@@ -39,31 +39,100 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    public function getAdminDashboard()
-    {
-        $achievements = AchievementResource::collection(Achievement::get());
-    }
+/**
+ * Balancing
+ */
 
     /**
-     * Fetches the experience points table, as well as the exp-gain tables for characters and villages
+     * Fetches the experience points table
      *
      * @return JsonResponse
      */
-    public function getBalancing() 
+    public function getExperiencePoints() 
     {
-        $experiencePoints = ExperiencePoint::get();
-        $characterExpGain = DB::table('character_exp_gain')->get();
-        $villageExpGain = DB::table('village_exp_gain')->get();
-
-        return new JsonResponse(
-            [
-                'experience_points' => $experiencePoints,
-                'character_exp_gain' => $characterExpGain, 
-                'village_exp_gain' => $villageExpGain
-            ],
-            Response::HTTP_OK
-        );
+        return ResponseWrapper::successResponse(null, ExperiencePoint::orderBy('level')->get());
     }
+    /**
+     * Fetches the exp-gain tables for characters
+     *
+     * @return JsonResponse
+     */
+    public function getCharacterExpGain() 
+    {
+        return ResponseWrapper::successResponse(null, DB::table('character_exp_gain')->get()->toArray());
+    }
+    /**
+     * Fetches the exp-gain tables for villages
+     *
+     * @return JsonResponse
+     */
+    public function getVillageExpGain() 
+    {
+        return ResponseWrapper::successResponse(null, DB::table('village_exp_gain')->get()->toArray());
+    }
+    /**
+     * Updates the experience points table
+     *
+     * @param UpdateExperiencePointsRequest $request
+     * @return JsonResponse
+     */
+    public function updateExperiencePoints(UpdateExperiencePointsRequest $request)
+    {
+        $validated = $request->validated();
+        ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
+        $experiencePoints = ExperiencePoint::orderBy('level')->get();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
+        return ResponseWrapper::successResponse(__('messages.exp.updated'), ['experience_points' => $experiencePoints]);
+    }
+
+    /**
+     * Adds new level to the experience points table
+     *
+     * @param StoreNewLevelRequest $request
+     * @return JsonResponse
+     */
+    public function addNewLevel(StoreNewLevelRequest $request)
+    {
+        $validated = $request->validated();
+        ExperiencePoint::insert($validated);
+        $experiencePoints = ExperiencePoint::orderBy('level')->get();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
+        return ResponseWrapper::successResponse(__('messages.exp.added'), ['experience_points' => $experiencePoints]);
+    }
+
+    /**
+     * Updates the balancing in character exp gain
+     *
+     * @param UpdateCharacterExpGainRequest $request
+     * @return JsonResponse
+     */
+    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
+    {
+        $validated = $request->validated();
+        DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins']);
+        $characterExpGain = DB::table('character_exp_gain')->get()->toArray();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
+        return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['balancing' => $characterExpGain]);
+    }
+
+    /**
+     * Updates the balancing in village exp gain
+     *
+     * @param UpdateVillageExpGainRequest $request
+     * @return JsonResponse
+     */
+    public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
+    {
+        $validated = $request->validated();
+        DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level', 'coins']);
+        $villageExpGain = DB::table('village_exp_gain')->get()->toArray();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
+        return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['balancing' => $villageExpGain]);
+    }
+
+/**
+ * Reported users / Suspended users
+ */
 
     /** 
      * Gets all reported users, sorted by User (id). Each report has the user linked to the report.
@@ -93,65 +162,7 @@ class AdminController extends Controller
         return $this->getReportedUsers();
     }
 
-    /**
-     * Updates the experience points table
-     *
-     * @param UpdateExperiencePointsRequest $request
-     * @return JsonResponse
-     */
-    public function updateExperiencePoints(UpdateExperiencePointsRequest $request)
-    {
-        $validated = $request->validated();
-        ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
-        $experiencePoints = ExperiencePoint::get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
-        return ResponseWrapper::successResponse(__('messages.exp.updated'), ['experience_points' => $experiencePoints]);
-    }
 
-    /**
-     * Adds new level to the experience points table
-     *
-     * @param StoreNewLevelRequest $request
-     * @return JsonResponse
-     */
-    public function addNewLevel(StoreNewLevelRequest $request)
-    {
-        $validated = $request->validated();
-        ExperiencePoint::insert($validated);
-        $experiencePoints = ExperiencePoint::get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
-        return ResponseWrapper::successResponse(__('messages.exp.added'), ['experience_points' => $experiencePoints]);
-    }
-
-    /**
-     * Updates the balancing in character exp gain
-     *
-     * @param UpdateCharacterExpGainRequest $request
-     * @return JsonResponse
-     */
-    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
-    {
-        $validated = $request->validated();
-        DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins']);
-        $characterExpGain = DB::table('character_exp_gain')->get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
-        return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['data' => $characterExpGain]);
-    }
-
-    /**
-     * Updates the balancing in village exp gain
-     *
-     * @param UpdateVillageExpGainRequest $request
-     * @return JsonResponse
-     */
-    public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
-    {
-        $validated = $request->validated();
-        DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level', 'coins']);
-        $villageExpGain = DB::table('village_exp_gain')->get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
-        return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['data' => $villageExpGain]);
-    }
 
     /**
      * Fetches the conversation by the given conversation ID. Only one is necessary, so we pick the first

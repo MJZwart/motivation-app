@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, computed, ref, shallowRef} from 'vue';
+import {onMounted, ref} from 'vue';
 import {
     CHARACTER_EXP_GAIN_FIELDS, 
 } from '/js/constants/balancingConstants.js';
@@ -41,8 +41,8 @@ import {CharExpGain} from 'resources/types/admin.js';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
-onMounted(() => {
-    characterExpGain.value = shallowRef(character_exp_gain).value;
+onMounted(async() => {
+    characterExpGain.value = await adminStore.getCharacterExpGain();
     loading.value = false;
 }); 
 
@@ -51,11 +51,10 @@ const loading = ref(true);
 const characterExpGain = ref<Array<CharExpGain>>([]);
 const characterExpGainFields = CHARACTER_EXP_GAIN_FIELDS;
 
-const character_exp_gain = computed<Array<CharExpGain>>(() => adminStore.charExpGain);
 
-function updateCharExpGain() {
+async function updateCharExpGain() {
     clearErrors();
-    adminStore.updateCharExpGain(characterExpGain.value);
+    characterExpGain.value = await adminStore.updateCharExpGain(characterExpGain.value);
 }
 function clearErrors() {
     mainStore.clearErrors();

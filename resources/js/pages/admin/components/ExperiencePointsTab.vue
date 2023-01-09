@@ -32,7 +32,8 @@
         <!-- 
             The Experience points table
             -->
-        <div class="col">
+        <Loading v-if="loading" />
+        <div v-else class="col">
             <table class="table table-sm table-striped">
                 <thead>
                     <tr>
@@ -55,36 +56,34 @@
 
 <script setup lang="ts">
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
-import {shallowRef, onMounted, computed, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {ExperiencePoint} from 'resources/types/admin';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
+import Loading from '/js/components/global/Loading.vue';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
-onMounted(() => {
-    experiencePoints.value = shallowRef(experience_points.value).value;
+onMounted(async() => {
+    experiencePoints.value = await adminStore.getExperiencePoints();
     loading.value = false;
 });
 
 const experiencePoints = ref<Array<ExperiencePoint> | []>([]);
 const newLevel = ref<ExperiencePoint>({level: 0, experience_points: 0});
 
-const experience_points = computed(() => adminStore.experiencePoints);
-
 const loading = ref(true);
 
-function updateExpPoints() {
+async function updateExpPoints() {
     if (!experiencePoints.value) return;
     clearErrors();
-    adminStore.updateExpPoints(experiencePoints.value);
+    experiencePoints.value = await adminStore.updateExpPoints(experiencePoints.value);
 }
 
 async function addNewLevel() {
     if (!newLevel.value) return;
     clearErrors();
-    await adminStore.addNewLevel(newLevel.value);
-    experiencePoints.value = shallowRef(experience_points).value;
+    experiencePoints.value = await adminStore.addNewLevel(newLevel.value);
 }
 function clearErrors() {
     mainStore.clearErrors();

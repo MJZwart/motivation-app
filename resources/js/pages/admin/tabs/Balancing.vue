@@ -1,6 +1,5 @@
 <template>
-    <Loading v-if="loading" />
-    <div v-else>
+    <div>
         <div class="tabs tabs-horizontal">
             <button :class="activeTab('ExperiencePoints')" class="tab-item" @click="switchTab('ExperiencePoints')">
                 {{ $t('exp-points') }}
@@ -19,21 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, shallowRef} from 'vue';
+import {ref, shallowRef} from 'vue';
 import ExperiencePoints from './../components/ExperiencePointsTab.vue';
 import CharExpGain from './../components/CharExpGainTab.vue';
 import VillExpGain from './../components/VillExpGainTab.vue';
-import {useAdminStore} from '/js/store/adminStore';
-import Loading from '/js/components/global/Loading.vue';
-
-const adminStore = useAdminStore();
-
-const loading = ref(true);
-
-onMounted(async() => {
-    await adminStore.getBalancing();
-    loading.value = false;
-});
 
 const componentNames = {
     ExperiencePoints: ExperiencePoints,
