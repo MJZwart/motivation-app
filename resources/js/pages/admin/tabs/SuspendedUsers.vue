@@ -59,7 +59,8 @@
                 <EditSuspension 
                     v-if="editSuspensionUser" 
                     :userSuspension="editSuspensionUser" 
-                    @close="closeEditSuspensionModal" />
+                    @close="closeEditSuspensionModal"
+                    @submit="submitEditSuspension" />
             </Modal>
         </div>
     </div>
@@ -83,13 +84,13 @@ const mainStore = useMainStore();
 const {t} = useI18n();
 
 onMounted(async () => {
-    await adminStore.getSuspendedUsers();
+    suspendedUsers.value = await adminStore.getSuspendedUsers();
     loading.value = false;
 });
 
 const loading = ref(true);
 
-const suspendedUsers = computed(() => adminStore.suspendedUsers);
+const suspendedUsers = ref<SuspendedUser[]>([]);
 const suspendedUsersFields = SUSPENDED_USERS_FIELDS;
 
 const showEditSuspensionModal = ref(false);
@@ -103,6 +104,10 @@ function editSuspension(suspendedUser: SuspendedUser) {
     mainStore.clearErrors();
     editSuspensionUser.value = suspendedUser;
     showEditSuspensionModal.value = true;
+}
+async function submitEditSuspension(suspendedUser: SuspendedUser) {
+    suspendedUsers.value = await adminStore.editSuspension(suspendedUser);
+    closeEditSuspensionModal();
 }
 function closeEditSuspensionModal() {
     showEditSuspensionModal.value = false;

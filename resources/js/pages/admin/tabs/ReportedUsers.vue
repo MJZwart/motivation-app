@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Loading v-if="loading" />
-
         <h3>{{ $t('reported-users')}}</h3>
 
+        <Loading v-if="loading" />
+
         <SortableOverviewTable
-            v-if="sortedReportedUsers"
+            v-if="sortedReportedUsers && sortedReportedUsers[0]"
             :items="sortedReportedUsers"
             :fields="REPORTED_USER_OVERVIEW_FIELDS"
             class="striped"
@@ -32,7 +32,7 @@
                 </Tooltip>
             </template>
             <template #extend="item">
-                <ReportedUserDetails :user="item.item" />
+                <ReportedUserDetails :user="item.item" @close-report="closeReport" />
             </template>
         </SortableOverviewTable>
 
@@ -44,7 +44,8 @@
             <SuspendUserModal 
                 v-if="suspendedUser !== null"
                 :userId="suspendedUser.id" 
-                @close="closeSuspendUserModal" />
+                @close="closeSuspendUserModal"
+                @submit="submitSuspendUser" />
         </Modal>
         <Modal 
             :show="showSendMessageModal" 
@@ -68,19 +69,20 @@ import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 import {REPORTED_USER_OVERVIEW_FIELDS} from '/js/constants/reportUserConstants';
-import type {User, UserToSuspend} from 'resources/types/user';
+import type {NewSuspension, User, UserToSuspend} from 'resources/types/user';
 import {BAN, MAIL} from '/js/constants/iconConstants';
+import {ReportedUser} from 'resources/types/admin';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
 onMounted(async() => {
-    await adminStore.getReportedUsers();
+    reportedUsers.value = await adminStore.getReportedUsers();
     loading.value = false;
 });
 
 const loading = ref(true);
 
-const reportedUsers = computed(() => adminStore.reportedUsers);
+const reportedUsers = ref<ReportedUser[]>([]);
 const currentSort = ref('last_report_date');
 const currentSortDir = ref('desc');
 
@@ -114,8 +116,16 @@ function suspendUser(user: UserToSuspend) {
     suspendedUser.value = user;
     showSuspendUserModal.value = true;
 }
+async function submitSuspendUser(userSuspension: NewSuspension) {
+    reportedUsers.value = await adminStore.suspendUser(userSuspension);
+    closeSuspendUserModal();
+}
 function closeSuspendUserModal() {
     showSuspendUserModal.value = false;
+}
+
+async function closeReport(report: ReportedUser) {
+    reportedUsers.value = await adminStore.closeReport(report);
 }
 
 function currentlySuspended(user: UserToSuspend) {

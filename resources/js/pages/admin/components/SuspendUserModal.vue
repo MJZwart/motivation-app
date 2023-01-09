@@ -34,8 +34,6 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import {NewSuspension} from 'resources/types/user';
-import {useAdminStore} from '/js/store/adminStore';
-const adminStore = useAdminStore();
 
 const props = defineProps({
     userId: {
@@ -43,20 +41,19 @@ const props = defineProps({
         required: true,
     },
 });
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submit']);
 
 const suspension = ref<NewSuspension>({
     reason: '',
     days: 0,
     indefinite: false,
     close_reports: true,
+    user_id: props.userId,
 });
 
 async function suspendUser() {
     if (suspension.value.indefinite) suspension.value.days = null;
     else if (suspension.value.days) suspension.value.days = parseInt(suspension.value.days.toString(), 10);
-    await adminStore.suspendUser(props.userId, suspension.value);
-    emit('close', true);
+    emit('submit', suspension.value);
 }
-
 </script>

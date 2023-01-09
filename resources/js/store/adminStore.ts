@@ -9,13 +9,6 @@ import type {NewNotification} from 'resources/types/notification';
 import type {SuspendedUser, NewSuspension} from 'resources/types/user';
 
 export const useAdminStore = defineStore('admin', {
-    state: () => {
-        return {
-            reportedUsers: null as ReportedUser[] | null,
-            bugReports: null as BugReport[] | null,
-            suspendedUsers: null as SuspendedUser[] | null,
-        }
-    },
     getters: {
         isAdmin() {
             const userStore = useUserStore();
@@ -23,13 +16,22 @@ export const useAdminStore = defineStore('admin', {
         },
     },
     actions: {
+        /**
+         * Sends a single call to server to check if the user is admin. Will send an error if not,
+         * which the interceptor will pick up
+         */
         checkAdmin() {
             axios.get('/isadmin');
         },
 
-        async getReportedUsers() {
-            const {data} = await axios.get('/admin/reported_users');
-            this.reportedUsers = data.reportedUsers;
+        /**
+         * Fetches an overview of numbers related to the site, like users, new bug reports, etc.
+         * @returns Object
+         */
+        async getOverview(): Promise<Overview>
+        {
+            const {data} = await axios.get('/admin/overview');
+            return data.overview;
         },
         async sendNotification(notification: NewNotification) {
             await axios.post('/notifications/all', notification);
@@ -51,49 +53,86 @@ export const useAdminStore = defineStore('admin', {
         },
 
         // * Balancing
+        /**
+         * Get the experience points table
+         * @returns {ExperiencePoint[]}
+         */
         async getExperiencePoints() {
             const {data} = await axios.get('admin/experience_points');
             return data.data;
         },
-        async getCharacterExpGain() {
-            const {data} = await axios.get('admin/character_exp_gain');
-            return data.data;
-        },
-        async getVillageExpGain() {
-            const {data} = await axios.get('admin/village_exp_gain');
-            return data.data;
-        },
+        /**
+         * Get the experience points table
+         * @returns {ExperiencePoint[]}
+         */
         async updateExpPoints(experiencePoints: ExperiencePoint[]) {
             const {data} = await axios.put('/admin/experience_points', experiencePoints);
             return data.data.experience_points;
         },
+        /**
+         * Get the experience points table
+         * @returns {ExperiencePoint[]}
+         */
         async addNewLevel(newLevel: ExperiencePoint) {
             const {data} = await axios.post('/admin/experience_points', newLevel);
             return data.data.experience_points;
         },
+        /**
+         * Get the exp gain table for characters
+         * @returns {CharExpGain[]}
+         */
+        async getCharacterExpGain() {
+            const {data} = await axios.get('admin/character_exp_gain');
+            return data.data;
+        },
+        /**
+         * Updates the exp gain table for characters
+         * @param {CharExpGain[]} charExpGain
+         * @returns {CharExpGain[]}
+         */
         async updateCharExpGain(charExpGain: CharExpGain[]) {
             const {data} = await axios.put('/admin/character_exp_gain', charExpGain);
             return data.data.balancing;
         },
+        /**
+         * Get the exp gain table for villages
+         * @returns {VillageExpGain[]}
+         */
+        async getVillageExpGain() {
+            const {data} = await axios.get('admin/village_exp_gain');
+            return data.data;
+        },
+        /**
+         * Updates the exp gain table for villages
+         * @param {VillageExpGain[]} villageExpGain
+         * @returns {VillageExpGain[]}
+         */
         async updateVillageExpGain(villageExpGain: VillageExpGain[]) {
             const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
             return data.data.balancing;
         },
 
+        // * Reported / suspended users
+        /**
+         * Gets the reported users
+         */
+        async getReportedUsers() {
+            const {data} = await axios.get('/admin/reported_users');
+            return data.reportedUsers;
+        },
         /**
          * Suspends a user account for x amount of days, or indefinite
          */
-        async suspendUser(userId: number, suspension: NewSuspension) {
-            const {data} = await axios.post(`/admin/suspend/${userId}`, suspension);
-            this.reportedUsers = data.data.reported_users;
-            this.suspendedUsers = data.data.suspended_users;
+        async suspendUser(suspension: NewSuspension) {
+            const {data} = await axios.post(`/admin/suspend/${suspension.user_id}`, suspension);
+            return data.data.reported_users;
         },
         /**
          * Gets all suspended users
          */
         async getSuspendedUsers() {
             const {data} = await axios.get('/admin/suspendedusers');
-            this.suspendedUsers = data.suspended_users;
+            return data.suspended_users;
         },
 
         /**
@@ -101,7 +140,7 @@ export const useAdminStore = defineStore('admin', {
          */
         async editSuspension(userSuspension: SuspendedUser) {
             const {data} = await axios.post(`/admin/editsuspension/${userSuspension.id}`, userSuspension);
-            this.suspendedUsers = data.suspended_users;
+            return data.suspended_users;
         },
 
         /**
@@ -109,9 +148,10 @@ export const useAdminStore = defineStore('admin', {
          */
         async closeReport(report: ReportedUser) {
             const {data} = await axios.post(`/admin/reported_users/${report.id}`);
-            this.reportedUsers = data.reportedUsers;
+            return data.reportedUsers;
         },
 
+        // * Feedback
         /**
          * Fetches all the feedback from back-end
          */
@@ -129,16 +169,7 @@ export const useAdminStore = defineStore('admin', {
             return data.data.feedback;
         },
 
-        /**
-         * Fetches an overview of numbers related to the site, like users, new bug reports, etc.
-         * @returns Object
-         */
-        async getOverview(): Promise<Overview>
-        {
-            const {data} = await axios.get('/admin/overview');
-            return data.overview;
-        },
-
+        // * Action filters
         async getActionFilters()//: Promise<>
         {
             const {data} = await axios.get('/admin/action/filters');

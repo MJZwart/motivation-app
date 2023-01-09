@@ -53,6 +53,7 @@ export type NewSuspension = {
     days: number | null;
     indefinite: boolean;
     close_reports: boolean;
+    user_id: number;
 };
 
 export type StrippedUser = {
