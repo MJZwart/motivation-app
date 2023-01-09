@@ -42,19 +42,24 @@ class AdminController extends Controller
     public function getAdminDashboard()
     {
         $achievements = AchievementResource::collection(Achievement::get());
+    }
+
+    /**
+     * Fetches the experience points table, as well as the exp-gain tables for characters and villages
+     *
+     * @return JsonResponse
+     */
+    public function getBalancing() 
+    {
         $experiencePoints = ExperiencePoint::get();
         $characterExpGain = DB::table('character_exp_gain')->get();
         $villageExpGain = DB::table('village_exp_gain')->get();
-        $balancing = [
-            'experience_points' => $experiencePoints,
-            'character_exp_gain' => $characterExpGain, 
-            'village_exp_gain' => $villageExpGain
-        ];
 
         return new JsonResponse(
             [
-                'achievements' => $achievements,
-                'balancing' => $balancing
+                'experience_points' => $experiencePoints,
+                'character_exp_gain' => $characterExpGain, 
+                'village_exp_gain' => $villageExpGain
             ],
             Response::HTTP_OK
         );
@@ -88,7 +93,13 @@ class AdminController extends Controller
         return $this->getReportedUsers();
     }
 
-    public function updateExeriencePoints(UpdateExperiencePointsRequest $request)
+    /**
+     * Updates the experience points table
+     *
+     * @param UpdateExperiencePointsRequest $request
+     * @return JsonResponse
+     */
+    public function updateExperiencePoints(UpdateExperiencePointsRequest $request)
     {
         $validated = $request->validated();
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
@@ -97,6 +108,12 @@ class AdminController extends Controller
         return ResponseWrapper::successResponse(__('messages.exp.updated'), ['experience_points' => $experiencePoints]);
     }
 
+    /**
+     * Adds new level to the experience points table
+     *
+     * @param StoreNewLevelRequest $request
+     * @return JsonResponse
+     */
     public function addNewLevel(StoreNewLevelRequest $request)
     {
         $validated = $request->validated();
@@ -106,6 +123,12 @@ class AdminController extends Controller
         return ResponseWrapper::successResponse(__('messages.exp.added'), ['experience_points' => $experiencePoints]);
     }
 
+    /**
+     * Updates the balancing in character exp gain
+     *
+     * @param UpdateCharacterExpGainRequest $request
+     * @return JsonResponse
+     */
     public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
     {
         $validated = $request->validated();
@@ -115,6 +138,12 @@ class AdminController extends Controller
         return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['data' => $characterExpGain]);
     }
 
+    /**
+     * Updates the balancing in village exp gain
+     *
+     * @param UpdateVillageExpGainRequest $request
+     * @return JsonResponse
+     */
     public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
     {
         $validated = $request->validated();
@@ -124,7 +153,13 @@ class AdminController extends Controller
         return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['data' => $villageExpGain]);
     }
 
-    public function getConversationById($id)
+    /**
+     * Fetches the conversation by the given conversation ID. Only one is necessary, so we pick the first
+     *
+     * @param String $id
+     * @return ResourceCollection
+     */
+    public function getConversationById(String $id)
     {
         return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
     }

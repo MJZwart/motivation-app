@@ -25,13 +25,6 @@ export const useAdminStore = defineStore('admin', {
             const userStore = useUserStore();
             return userStore.isAdmin;
         },
-        getBalancing(state) {
-            return {
-                'experience_points': state.experiencePoints,
-                'character_exp_gain': state.charExpGain,
-                'village_exp_gain': state.villageExpGain,
-            };
-        },
     },
     actions: {
         checkAdmin() {
@@ -41,10 +34,6 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.get('/admin/dashboard');
             const achievementStore = useAchievementStore();
             achievementStore.achievements = data.achievements;
-            this.bugReports = data.bugReports;
-            this.experiencePoints = data.balancing.experience_points;
-            this.charExpGain = data.balancing.character_exp_gain;
-            this.villageExpGain = data.balancing.village_exp_gain;
         },
 
         async getReportedUsers() {
@@ -71,6 +60,12 @@ export const useAdminStore = defineStore('admin', {
         },
 
         //Balancing
+        async getBalancing() {
+            const {data} = await axios.get('/admin/balancing');
+            this.experiencePoints = data.experience_points;
+            this.charExpGain = data.character_exp_gain;
+            this.villageExpGain = data.village_exp_gain;
+        },
         async updateExpPoints(experiencePoints: ExperiencePoint[]) {
             const {data} = await axios.put('/admin/experience_points', experiencePoints);
             this.experiencePoints = data.data.experience_points;

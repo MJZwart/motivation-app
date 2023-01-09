@@ -2,9 +2,9 @@
     <div>
         <h3>{{ $t('bug-report-panel-title') }}</h3>
         
-
+        <Loading v-if="!bugReports[0]" />
         <SortableOverviewTable
-            v-if="bugReports"
+            v-else
             :items="bugReports"
             :fields="newBugReportFields"
         >

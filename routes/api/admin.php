@@ -29,7 +29,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/reported_users/{reportedUser}', [AdminController::class, 'closeReport']);
     Route::get('/conversation/{id}', [AdminController::class, 'getConversationById']);
 
-    Route::put('/experience_points', [AdminController::class, 'updateExeriencePoints']);
+    Route::get('/balancing', [AdminController::class, 'getBalancing']);
+    Route::put('/experience_points', [AdminController::class, 'updateExperiencePoints']);
     Route::put('/character_exp_gain', [AdminController::class, 'updateCharacterExpGain']);
     Route::put('/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);
 
