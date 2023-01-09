@@ -8,12 +8,12 @@
                         <Tooltip :text="$t('edit-task-list')">
                             <Icon 
                                 :icon="EDIT"
-                                class="edit-icon white" />
+                                class="edit-icon small white" />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')">
                             <Icon 
                                 :icon="TRASH"
-                                class="delete-icon white" />
+                                class="delete-icon small white" />
                         </Tooltip>
                     </span>
                 </span>
