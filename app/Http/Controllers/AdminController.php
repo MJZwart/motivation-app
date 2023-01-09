@@ -11,15 +11,12 @@ use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
 use App\Http\Requests\StoreNewLevelRequest;
-use App\Models\Achievement;
-use App\Http\Resources\AchievementResource;
 use App\Http\Resources\ActionTrackingResource;
 use App\Models\BugReport;
 use App\Models\User;
 use App\Models\ReportedUser;
 use App\Models\Conversation;
 use App\Models\ExperiencePoint;
-use App\Http\Resources\BugReportResource;
 use App\Http\Resources\AdminConversationResource;
 use App\Http\Resources\SuspendedUserResource;
 use Carbon\Carbon;
@@ -39,9 +36,11 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-/**
- * Balancing
- */
+    /*
+    * *
+    * * Balancing
+    * *
+    */ 
 
     /**
      * Fetches the experience points table
@@ -130,9 +129,11 @@ class AdminController extends Controller
         return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['balancing' => $villageExpGain]);
     }
 
-/**
- * Reported users / Suspended users
- */
+    /*
+    * *
+    * * Reported users / Suspended users
+    * *
+    */ 
 
     /** 
      * Gets all reported users, sorted by User (id). Each report has the user linked to the report.
@@ -263,6 +264,12 @@ class AdminController extends Controller
 
         return new JsonResponse(['suspended_users' => SuspendedUserResource::collection(SuspendedUser::get())]);
     }
+
+    /*
+    * *
+    * * Feedback
+    * *
+    */ 
 
     /**
      * Fetches all existing feedback and returns it in a Resource collection
