@@ -11,9 +11,6 @@ import type {SuspendedUser, NewSuspension} from 'resources/types/user';
 export const useAdminStore = defineStore('admin', {
     state: () => {
         return {
-            experiencePoints: [] as ExperiencePoint[],
-            charExpGain: [] as CharExpGain[],
-            villageExpGain: [] as VillageExpGain[],
             reportedUsers: null as ReportedUser[] | null,
             bugReports: null as BugReport[] | null,
             suspendedUsers: null as SuspendedUser[] | null,
@@ -43,7 +40,7 @@ export const useAdminStore = defineStore('admin', {
             return data.data;
         },
 
-        //Bug reports
+        // * Bug reports
         async getBugReports(): Promise<BugReport[]> {
             const {data} = await axios.get('/admin/bugreport');
             return data.data;
@@ -53,7 +50,7 @@ export const useAdminStore = defineStore('admin', {
             return data.data.bugReports;
         },
 
-        //Balancing
+        // * Balancing
         async getExperiencePoints() {
             const {data} = await axios.get('admin/experience_points');
             return data.data;
@@ -65,12 +62,6 @@ export const useAdminStore = defineStore('admin', {
         async getVillageExpGain() {
             const {data} = await axios.get('admin/village_exp_gain');
             return data.data;
-        },
-        async getBalancing() {
-            const {data} = await axios.get('/admin/balancing');
-            this.experiencePoints = data.experience_points;
-            this.charExpGain = data.character_exp_gain;
-            this.villageExpGain = data.village_exp_gain;
         },
         async updateExpPoints(experiencePoints: ExperiencePoint[]) {
             const {data} = await axios.put('/admin/experience_points', experiencePoints);
