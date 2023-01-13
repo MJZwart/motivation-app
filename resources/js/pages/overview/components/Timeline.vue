@@ -8,6 +8,7 @@
                         {{ parseDateTime(action.timestamp, true) }}
                     </span>
                     <span class="timeline-type">
+                        <TimelineIcon :type="action.type" />
                         {{ $t(action.type.toLowerCase()) }}
                     </span>
                     {{ parseTimelineAction(action) }}
@@ -23,6 +24,7 @@ import {onMounted, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n';
+import TimelineIcon from './TimelineIcon.vue';
 const {t} = useI18n();
 
 const userStore = useUserStore();
@@ -58,7 +60,6 @@ function parseTimelineAction(action: TimelineAction) {
             margin: 10px 0;
             padding-left: 20px;
             position: relative;
-            font-size: 0.8rem;
         }
     }
     .timeline-list::before {
@@ -88,7 +89,7 @@ function parseTimelineAction(action: TimelineAction) {
         display: inline-block;
     }
     .timeline-type{
-        min-width: 100px;
+        min-width: 110px;
         display: inline-block;
     }
 }
