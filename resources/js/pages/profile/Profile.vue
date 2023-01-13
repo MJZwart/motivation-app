@@ -60,7 +60,7 @@
                 
                 :title="`Suspend user ${userProfile.username}`"
                 @close="closeSuspendUserModal">
-                <SuspendUserModal :userId="userProfile.id" @close="closeSuspendUserModal" />
+                <SuspendUserModal :userId="userProfile.id" @close="closeSuspendUserModal" @submit="submitSuspendUser" />
             </Modal>
         </div>
     </div>
@@ -81,14 +81,16 @@ import {useFriendStore} from '/js/store/friendStore';
 import {parseDateTime} from '/js/services/dateService';
 import {breadcrumbsVisible} from '/js/services/breadcrumbService';
 import {useI18n} from 'vue-i18n';
-import type {User, UserProfile} from 'resources/types/user';
+import type {NewSuspension, User, UserProfile} from 'resources/types/user';
 import type {FriendRequests, Friend} from 'resources/types/friend';
 import {MAIL, FRIEND, LOCK, REPORT, BAN} from '/js/constants/iconConstants';
+import {useAdminStore} from '/js/store/adminStore';
 
 const {t} = useI18n();
 const route = useRoute();
 const userStore = useUserStore();
 const friendStore = useFriendStore();
+const adminStore = useAdminStore();
 
 /** Setup the user profile on page load */
 const loading = ref(true);
@@ -158,6 +160,10 @@ function blockUser() {
 }
 function suspendUser() {
     showSuspendUserModal.value = true;
+}
+async function submitSuspendUser(userSuspension: NewSuspension) {
+    await adminStore.suspendUser(userSuspension);
+    closeSuspendUserModal(true);
 }
 function closeSuspendUserModal(reload: boolean) {
     showSuspendUserModal.value = false;

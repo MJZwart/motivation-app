@@ -22,11 +22,9 @@ import UserStats from './components/UserStats.vue';
 import {computed, onMounted, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {useRewardStore} from '/js/store/rewardStore';
-import {useAchievementStore} from '/js/store/achievementStore';
 
 const userStore = useUserStore();
 const rewardStore = useRewardStore();
-const achievementStore = useAchievementStore();
 
 const loading = ref(true);
 
@@ -36,6 +34,6 @@ onMounted(async () => {
 });
 
 const rewardObj = computed(() => rewardStore.rewardObj);
-const achievements = computed(() => achievementStore.achievementsByUser);
+const achievements = computed(() => userStore.achievementsByUser);
 const userStats = computed(() => userStore.userStats);
 </script>

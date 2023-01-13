@@ -111,7 +111,6 @@ import type {UserToSuspend} from 'resources/types/user';
 import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMainStore} from '/js/store/store';
-import {useAdminStore} from '/js/store/adminStore';
 import ShowConversationModal from './ShowConversationModal.vue';
 import {useI18n} from 'vue-i18n';
 import {ReportedUser} from 'resources/types/admin';
@@ -119,9 +118,9 @@ import ShowGroupMessagesModal from './ShowGroupMessagesModal.vue';
 import {DETAILS, TRASH} from '/js/constants/iconConstants';
 const {t} = useI18n();
 const mainStore = useMainStore();
-const adminStore = useAdminStore();
 
 defineProps<{user: UserToSuspend}>();
+const emit = defineEmits(['close-report']);
 
 function parseReason(reason: string) {
     let string = reason.replaceAll('_', ' ').toLowerCase();
@@ -152,7 +151,7 @@ function closeShowGroupMessages() {
 }
 function closeReport(report: ReportedUser) {
     if (confirm(t('close-report-confirmation', {report: report.id}))) {
-        adminStore.closeReport(report);
+        emit('close-report', report);
     }
 }
 </script>

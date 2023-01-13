@@ -34,15 +34,15 @@ import {
     VILLAGE_EXP_GAIN_FIELDS,
 } from '/js/constants/balancingConstants.js';
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
-import {shallowRef, computed, onMounted, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 import {VillageExpGain} from 'resources/types/admin.js';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
-onMounted(() => {
-    villageExpGain.value = shallowRef(village_exp_gain).value;
+onMounted(async() => {
+    villageExpGain.value = await adminStore.getVillageExpGain();
     loading.value = false;
 });
 
@@ -51,11 +51,10 @@ const loading = ref(true);
 const villageExpGain = ref<Array<VillageExpGain>>([]);
 const villageExpGainFields = VILLAGE_EXP_GAIN_FIELDS;
 
-const village_exp_gain = computed<Array<VillageExpGain>>(() => adminStore.villageExpGain);
 
-function updateVillageExpGain() {
+async function updateVillageExpGain() {
     clearErrors();
-    adminStore.updateVillageExpGain(villageExpGain.value);
+    villageExpGain.value = await adminStore.updateVillageExpGain(villageExpGain.value);
 }
 function clearErrors() {
     mainStore.clearErrors();

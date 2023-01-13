@@ -11,15 +11,12 @@ use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
 use App\Http\Requests\StoreNewLevelRequest;
-use App\Models\Achievement;
-use App\Http\Resources\AchievementResource;
 use App\Http\Resources\ActionTrackingResource;
 use App\Models\BugReport;
 use App\Models\User;
 use App\Models\ReportedUser;
 use App\Models\Conversation;
 use App\Models\ExperiencePoint;
-use App\Http\Resources\BugReportResource;
 use App\Http\Resources\AdminConversationResource;
 use App\Http\Resources\SuspendedUserResource;
 use Carbon\Carbon;
@@ -39,36 +36,88 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    public function getAdminDashboard()
-    {
-        $achievements = AchievementResource::collection(Achievement::get());
-        $bugReports = BugReportResource::collection(BugReport::orderByDesc('created_at')->get());
-        $experiencePoints = ExperiencePoint::get();
-        $characterExpGain = DB::table('character_exp_gain')->get();
-        $villageExpGain = DB::table('village_exp_gain')->get();
-        $balancing = [
-            'experience_points' => $experiencePoints,
-            'character_exp_gain' => $characterExpGain, 
-            'village_exp_gain' => $villageExpGain
-        ];
+    /*
+    * *
+    * * Balancing
+    * *
+    */ 
 
-        return new JsonResponse(
-            [
-                'achievements' => $achievements,
-                'bugReports' => $bugReports, 
-                'balancing' => $balancing
-            ],
-            Response::HTTP_OK
-        );
+    public function getExperiencePoints(): JsonResponse
+    {
+        return ResponseWrapper::successResponse(null, ExperiencePoint::orderBy('level')->get());
     }
+
+    public function getCharacterExpGain() : JsonResponse
+    {
+        return ResponseWrapper::successResponse(null, DB::table('character_exp_gain')->get()->toArray());
+    }
+
+    public function getVillageExpGain(): JsonResponse
+    {
+        return ResponseWrapper::successResponse(null, DB::table('village_exp_gain')->get()->toArray());
+    }
+
+    /**
+     * Updates the entire experience points table and returns the entire Experience Point table
+     */
+    public function updateExperiencePoints(UpdateExperiencePointsRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
+        $experiencePoints = ExperiencePoint::orderBy('level')->get();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
+        return ResponseWrapper::successResponse(__('messages.exp.updated'), ['experience_points' => $experiencePoints]);
+    }
+
+    /**
+     * Adds new level to the experience points table and returns the entire Experience Point table
+     */
+    public function addNewLevel(StoreNewLevelRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        ExperiencePoint::insert($validated);
+        $experiencePoints = ExperiencePoint::orderBy('level')->get();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
+        return ResponseWrapper::successResponse(__('messages.exp.added'), ['experience_points' => $experiencePoints]);
+    }
+
+    /**
+     * Updates the balancing in character exp gain and returns the character exp gain table
+     */
+    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins']);
+        $characterExpGain = DB::table('character_exp_gain')->get()->toArray();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
+        return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['balancing' => $characterExpGain]);
+    }
+
+    /**
+     * Updates the balancing in village exp gain and returns the village exp gain table
+     */
+    public function updateVillageExpGain(UpdateVillageExpGainRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level', 'coins']);
+        $villageExpGain = DB::table('village_exp_gain')->get()->toArray();
+        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
+        return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['balancing' => $villageExpGain]);
+    }
+
+    /*
+    * *
+    * * Reported users / Suspended users
+    * *
+    */ 
 
     /** 
      * Gets all reported users, sorted by User (id). Each report has the user linked to the report.
      * Then parses it into a UserReportResource, with all relevant user information as its base (UserReportResourceCollection)
      * and all reports as an array in the resource (UserReportResource).
-     * @return JsonResponse with a UserReportResource collection
+     * @return JsonResponse with all reported users
      */
-    public function getReportedUsers()
+    public function getReportedUsers(): JsonResponse
     {
         $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->with('user.suspendedUser')->get()->groupBy('reported_user_id');
         $reportedUsers = [];
@@ -83,6 +132,7 @@ class AdminController extends Controller
      * Each report has the user linked to the report. Then parses it into a UserReportResource,
      * with all relevant user information as its base (UserReportResourceCollection)
      * and all reports as an array in the resource (UserReportResource).
+     * @return JsonResponse with all reported users
      */
     public function closeReport(ReportedUser $reportedUser)
     {
@@ -90,43 +140,13 @@ class AdminController extends Controller
         return $this->getReportedUsers();
     }
 
-    public function updateExeriencePoints(UpdateExperiencePointsRequest $request)
-    {
-        $validated = $request->validated();
-        ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
-        $experiencePoints = ExperiencePoint::get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
-        return ResponseWrapper::successResponse(__('messages.exp.updated'), ['experience_points' => $experiencePoints]);
-    }
 
-    public function addNewLevel(StoreNewLevelRequest $request)
-    {
-        $validated = $request->validated();
-        ExperiencePoint::insert($validated);
-        $experiencePoints = ExperiencePoint::get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
-        return ResponseWrapper::successResponse(__('messages.exp.added'), ['experience_points' => $experiencePoints]);
-    }
 
-    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
-    {
-        $validated = $request->validated();
-        DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins']);
-        $characterExpGain = DB::table('character_exp_gain')->get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
-        return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['data' => $characterExpGain]);
-    }
-
-    public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
-    {
-        $validated = $request->validated();
-        DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level', 'coins']);
-        $villageExpGain = DB::table('village_exp_gain')->get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
-        return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['data' => $villageExpGain]);
-    }
-
-    public function getConversationById($id)
+    /**
+     * Fetches the conversation by the given conversation ID. Only one is necessary, so we pick the first
+     * @return AdminConversationResource with one conversation
+     */
+    public function getConversationById(String $id): AdminConversationResource
     {
         return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
     }
@@ -135,12 +155,9 @@ class AdminController extends Controller
      * Suspends a user: Changes 'suspended_until' to current dateTime + the amount of days the user gets suspended.
      * Created a suspendedUser to document the suspension of the account, as well as deactivates the
      * user's account.
-     *
-     * @param SuspendUserRequest $request
-     * @param User $user
-     * @return JsonResponse
+     * @return JsonResponse with all reported users
      */
-    public function suspendUser(SuspendUserRequest $request, User $user)
+    public function suspendUser(SuspendUserRequest $request, User $user): JsonResponse
     {
         $validated = $request->validated();
         if ($validated['indefinite'] == 'true') $validated['days'] = 99999;
@@ -169,13 +186,11 @@ class AdminController extends Controller
         }
         $suspendedUsers = SuspendedUserResource::collection(SuspendedUser::get());
 
-        return ResponseWrapper::successResponse(__('messages.user.suspension.until', ['time' => $suspendedUntilTime]), ['reported_users' => $reportedUsers, 'suspended_users' => $suspendedUsers]);
+        return ResponseWrapper::successResponse(__('messages.user.suspension.until', ['time' => $suspendedUntilTime]), ['reported_users' => $reportedUsers]);
     }
 
     /**
-     * Gets all suspended users
-     *
-     * @return JsonResponse with SuspendedUserResource collection
+     * @return SuspendedUserResource with all suspended users
      */
     public function getsuspendedUsers()
     {
@@ -184,10 +199,7 @@ class AdminController extends Controller
 
     /**
      * Edits a user suspension, keeping a log of events and unsuspends a user if applicable.
-     *
-     * @param suspendedUser $suspendedUser
-     * @param EditUserSuspensionRequest $request
-     * @return JsonResponse with SuspendedUserResource collection
+     * @return SuspendedUserResource with all suspended users
      */
     public function editUserSuspension(SuspendedUser $suspendedUser, EditUserSuspensionRequest $request)
     {
@@ -220,9 +232,14 @@ class AdminController extends Controller
         return new JsonResponse(['suspended_users' => SuspendedUserResource::collection(SuspendedUser::get())]);
     }
 
+    /*
+    * *
+    * * Feedback
+    * *
+    */ 
+
     /**
-     * Fetches all existing feedback and returns it in a Resource collection
-     * @return JsonResponse with FeedbackResource collection
+     * @return FeedbackResource with all feedback
      */
     public function getFeedback()
     {
@@ -231,7 +248,7 @@ class AdminController extends Controller
 
     /**
      * Toggles the feedback's archive column. True to false and vice versa. Returns the updated collection.
-     * @return JsonResponse with string and FeedbackResource collection
+     * @return FeedbackResource with all feedback
      */
     public function toggleArchiveFeedback(Feedback $feedback)
     {
@@ -284,10 +301,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Gets all actions tracked with given filters
-     *
-     * @param FetchActionsWithFilters $request
-     * @return ActionTrackingResourceCollection
+     * @return ActionTrackingResourceCollection with all actions that fit within the given filters
      */
     public function getActionsWithFilters(FetchActionsWithFilters $request) 
     {
@@ -305,11 +319,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Gets all group messages in a range around a given date
-     *
-     * @param Request $request
-     * @param Group $group
-     * @return GroupMessageResourceCollection
+     * @return GroupMessageResourceCollection with all group messages in a range around a given date - for admin purpose
      */
     public function getGroupMessagesByDateRange(Request $request, Group $group)
     {

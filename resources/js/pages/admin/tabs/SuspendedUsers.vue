@@ -8,8 +8,8 @@
                 {{ showUnsuspended ? $t('hide-unsuspended') : $t('show-unsuspended') }}
             </button>
             <Table
-                v-if="suspendedUsers"
-                :items="suspendedUsers"
+                v-if="filteredSuspendedUsers"
+                :items="filteredSuspendedUsers"
                 :fields="suspendedUsersFields"
                 :options="['table-striped', 'page-wide', 'body-borders', 'table-hover']"
                 sort="created_at" 
@@ -69,7 +69,8 @@
                 <EditSuspension 
                     v-if="editSuspensionUser" 
                     :userSuspension="editSuspensionUser" 
-                    @close="closeEditSuspensionModal" />
+                    @close="closeEditSuspensionModal"
+                    @submit="submitEditSuspension" />
             </Modal>
         </div>
     </div>
@@ -93,17 +94,18 @@ const mainStore = useMainStore();
 const {t} = useI18n();
 
 onMounted(async () => {
-    await adminStore.getSuspendedUsers();
+    suspendedUsers.value = await adminStore.getSuspendedUsers();
     loading.value = false;
 });
 
 const loading = ref(true);
 
-const suspendedUsers = computed(() => {
-    if (!adminStore.suspendedUsers) return;
-    if (showUnsuspended.value) return adminStore.suspendedUsers;
-    return adminStore.suspendedUsers.filter(user => !user.past);
-});
+const suspendedUsers = ref<SuspendedUser[]>([]);
+const filteredSuspendedUsers = computed(() => {
+    if (!suspendedUsers.value[0]) return;
+    if (showUnsuspended.value) return suspendedUsers.value;
+    return suspendedUsers.value.filter(user => !user.past);
+})
 const suspendedUsersFields = SUSPENDED_USERS_FIELDS;
 
 const showUnsuspended = ref(false);
@@ -119,6 +121,10 @@ function editSuspension(suspendedUser: SuspendedUser) {
     mainStore.clearErrors();
     editSuspensionUser.value = suspendedUser;
     showEditSuspensionModal.value = true;
+}
+async function submitEditSuspension(suspendedUser: SuspendedUser) {
+    suspendedUsers.value = await adminStore.editSuspension(suspendedUser);
+    closeEditSuspensionModal();
 }
 function closeEditSuspensionModal() {
     showEditSuspensionModal.value = false;

@@ -1,5 +1,4 @@
 <template>
-    <Loading v-if="loading" />
     <ResponsiveTabs :tabs="tabs" />
 </template>
 
@@ -14,16 +13,6 @@ import SuspendedUsers from './tabs/SuspendedUsers.vue';
 import Overview from './tabs/Overview.vue';
 import Actions from './tabs/Actions.vue';
 import ResponsiveTabs from '/js/components/global/tabs/ResponsiveTabs.vue';
-import {onMounted, ref} from 'vue';
-import {useAdminStore} from '/js/store/adminStore';
-
-const loading = ref(true);
-const adminStore = useAdminStore();
-
-onMounted(async() => {
-    await adminStore.getAdminDashboard();
-    loading.value = false;
-});
 
 const tabs = [
     {name: 'overview', component: Overview},

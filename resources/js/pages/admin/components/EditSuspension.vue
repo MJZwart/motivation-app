@@ -43,14 +43,12 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
 import {DateTime} from 'luxon';
-import {useAdminStore} from '/js/store/adminStore';
 import {SuspendedUser} from 'resources/types/user.js';
 import {getDateWithAddedDays} from '/js/services/dateService';
 import {RESET} from '/js/constants/iconConstants';
-const adminStore = useAdminStore();
 
 const props = defineProps<{userSuspension: SuspendedUser}>();
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submit']);
 
 const userSuspensionToEdit = ref<SuspendedUser>(Object.assign({}, props.userSuspension));
 
@@ -86,8 +84,7 @@ async function confirm() {
         userSuspensionToEdit.value.suspension_edit_comment,
         props.userSuspension.suspension_edit_log, 
     );
-    await adminStore.editSuspension(userSuspensionToEdit.value);
-    emit('close');
+    emit('submit', userSuspensionToEdit.value);
 }
 function parseLogIntoJson(changes: string, comment: string, log: string) {
     const timeStamp = DateTime.now().toLocaleString(DateTime.DATETIME_MED);

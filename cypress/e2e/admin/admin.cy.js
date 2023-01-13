@@ -24,8 +24,6 @@ describe('Admin', () => {
     });
     describe('Admin can send a notification to all users', () => {
         it('can send and see a custom notification', () => {
-            //Waiting to prevent throttling errors
-            waitLong();
             const title = getRandomString();
             const text = getRandomString();
 
@@ -76,8 +74,6 @@ describe('Admin', () => {
     });
     describe('Admin can see achievements', () => {
         it('can see achievements and add a new achievement', () => {
-            //Waiting to prevent throttling errors
-            waitLong();
             const name = getRandomString();
             const desc = getRandomString();
             const amount = Math.floor(Math.random() * 10);
@@ -120,27 +116,25 @@ describe('Admin', () => {
 
     describe('Admin can see bug reports', () => {
         it('can see and edit bug reports', () => {
-            //Waiting to prevent throttling errors
-            waitLong();
             const comment = getRandomString();
             goToTab('Bug reports');
 
             cy.get('h3').contains('Manage bug reports');
 
-            cy.get('tr').contains('Reported').parent().first().find(editButton).click();
+            cy.get('.content-block').contains('Page').parent().parent().parent().first().find(editButton).click();
             waitShort();
 
             cy.get('#admin-comment').type(comment);
             cy.get('button').contains('Update').click();
             waitShort();
 
-            cy.get('td').contains(comment).should('exist');
+            cy.get('p').contains(comment).should('exist');
         });
         it('can send an email to a bug report author', () => {
             const message = getRandomString();
             goToTab('Bug reports');
 
-            cy.get('tr').contains('Reported').parent().first().find(messageButton).click();
+            cy.get('.content-block').contains('Page').parent().parent().parent().first().find(messageButton).click();
             waitShort();
 
             cy.get('h5').contains('Send message to').should('exist');
@@ -154,8 +148,6 @@ describe('Admin', () => {
     });
     describe('Admin can see reported users', () => {
         it('can see reported users and suspend them', () => {
-            //Waiting to prevent throttling errors
-            waitLong();
             const reason = getRandomString();
             const days = Math.floor(Math.random() * 10) + 1;
             goToTab('Reported users');
@@ -192,8 +184,6 @@ describe('Admin', () => {
             cy.get('.messages').contains(message).should('exist');
         });
         it('can suspend a user through their profile', () => {
-            //Waiting to prevent throttling errors
-            waitLong();
             const reason = getRandomString();
             const days = Math.floor(Math.random() * 10) + 1;
 
@@ -225,8 +215,6 @@ describe('Admin', () => {
     });
     describe('Admins can handle suspensions', () => {
         it('can edit a suspension', () => {
-            //Waiting to prevent throttling errors
-            waitLong();
             const comment = getRandomString();
             const days = Math.floor(Math.random() * 10) + 1;
 

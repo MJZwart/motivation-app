@@ -58,9 +58,9 @@ export type ActionType = {
     action_type: string;
 }
 export type ActionFilters = {
-    type: string[] | null,
+    types: string[] | null,
     users: StrippedUser[] | null,
-    date: Date[],
+    minDate: Date[] | null,
 }
 export type Actions = { 
     action: string,
