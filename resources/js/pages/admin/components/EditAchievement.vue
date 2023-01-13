@@ -50,11 +50,9 @@
 
 <script setup lang="ts">
 import {onMounted, ref, PropType} from 'vue';
-// import {useAchievementStore} from '/js/store/achievementStore';
 import {Achievement} from 'resources/types/achievement.js'
 import {parseAchievementTriggerDesc} from '/js/services/achievementService';
 import {ACHIEVEMENT_TRIGGERS} from '/js/constants/achievementsConstants';
-// const achievementStore = useAchievementStore();
 
 const props = defineProps({
     achievement: {
@@ -75,10 +73,5 @@ const achievementTriggers = ACHIEVEMENT_TRIGGERS;
 async function updateAchievement() {
     if (!achievementToEdit.value) return;
     emit('submit', achievementToEdit.value);
-    // close();
 }
-// function close() {
-//     achievementToEdit.value = null,
-//     emit('close');
-// }
 </script>
