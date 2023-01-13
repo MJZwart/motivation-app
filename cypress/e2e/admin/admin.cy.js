@@ -236,6 +236,7 @@ describe('Admin', () => {
             const comment = getRandomString();
             
             goToTab('Suspended users');
+            cy.get('button').contains('Show unsuspended').click();
             cy.get('tr').contains(user1.username).should('exist').parent().parent().find(editButton).click();
             waitShort();
 

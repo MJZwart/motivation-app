@@ -63,6 +63,8 @@
     "suspended-by": "Suspended by",
     "suspended-until": "Suspended until",
     "suspended-users": "Suspended users",
+    "hide-unsuspended": "Hide unsuspended",
+    "show-unsuspended": "Show unsuspended",
     "unsuspend": "End suspension",
     "edit-suspension": "Edit suspension",
     "end-suspension-confirm": "Are you sure you wish to end the suspension of this user?",
