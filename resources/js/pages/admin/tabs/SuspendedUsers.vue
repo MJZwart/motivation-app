@@ -4,13 +4,23 @@
         <div v-else>
             <h3>{{ $t('suspended-users') }}</h3>
 
+            <button @click="showUnsuspended = !showUnsuspended">
+                {{ showUnsuspended ? $t('hide-unsuspended') : $t('show-unsuspended') }}
+            </button>
             <Table
                 v-if="suspendedUsers"
                 :items="suspendedUsers"
                 :fields="suspendedUsersFields"
-                :options="['table-striped', 'page-wide', 'body-borders']"
+                :options="['table-striped', 'page-wide', 'body-borders', 'table-hover']"
+                sort="created_at" 
+                :sortAsc="false"
             >
                 <template #created_at="row">
+                    <span v-if="suspensionEnded(row.item)">
+                        <Tooltip :text="$t('suspension-ended')">
+                            <Icon :icon="UNLOCK" class="unlock-icon small green" />
+                        </Tooltip>
+                    </span>
                     {{ parseDateTime(row.item.created_at) }}
                 </template>
                 <template #user="row">
@@ -89,8 +99,14 @@ onMounted(async () => {
 
 const loading = ref(true);
 
-const suspendedUsers = computed(() => adminStore.suspendedUsers);
+const suspendedUsers = computed(() => {
+    if (!adminStore.suspendedUsers) return;
+    if (showUnsuspended.value) return adminStore.suspendedUsers;
+    return adminStore.suspendedUsers.filter(user => !user.past);
+});
 const suspendedUsersFields = SUSPENDED_USERS_FIELDS;
+
+const showUnsuspended = ref(false);
 
 const showEditSuspensionModal = ref(false);
 const editSuspensionUser = ref<SuspendedUser | null>(null);

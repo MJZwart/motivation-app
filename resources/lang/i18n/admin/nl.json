@@ -63,6 +63,8 @@
     "suspended-by": "Geschorst door",
     "suspended-until": "Geschorst tot",
     "suspended-users": "Geschorsde gebruikers",
+    "hide-unsuspended": "Verberg ongeschorste gebruikers",
+    "show-unsuspended": "Toon ongeschorste gebruikers",
     "unsuspend": "Einde schorsing",
     "edit-suspension": "Schorsing wijzigen",
     "end-suspension-confirm": "Weet je zeker dat je de schorsing van deze gebruiker wilt beëindigen?",
