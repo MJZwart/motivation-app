@@ -42,40 +42,25 @@ class AdminController extends Controller
     * *
     */ 
 
-    /**
-     * Fetches the experience points table
-     *
-     * @return JsonResponse
-     */
-    public function getExperiencePoints() 
+    public function getExperiencePoints(): JsonResponse
     {
         return ResponseWrapper::successResponse(null, ExperiencePoint::orderBy('level')->get());
     }
-    /**
-     * Fetches the exp-gain tables for characters
-     *
-     * @return JsonResponse
-     */
-    public function getCharacterExpGain() 
+
+    public function getCharacterExpGain() : JsonResponse
     {
         return ResponseWrapper::successResponse(null, DB::table('character_exp_gain')->get()->toArray());
     }
-    /**
-     * Fetches the exp-gain tables for villages
-     *
-     * @return JsonResponse
-     */
-    public function getVillageExpGain() 
+
+    public function getVillageExpGain(): JsonResponse
     {
         return ResponseWrapper::successResponse(null, DB::table('village_exp_gain')->get()->toArray());
     }
+
     /**
-     * Updates the experience points table
-     *
-     * @param UpdateExperiencePointsRequest $request
-     * @return JsonResponse
+     * Updates the entire experience points table and returns the entire Experience Point table
      */
-    public function updateExperiencePoints(UpdateExperiencePointsRequest $request)
+    public function updateExperiencePoints(UpdateExperiencePointsRequest $request): JsonResponse
     {
         $validated = $request->validated();
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
@@ -85,12 +70,9 @@ class AdminController extends Controller
     }
 
     /**
-     * Adds new level to the experience points table
-     *
-     * @param StoreNewLevelRequest $request
-     * @return JsonResponse
+     * Adds new level to the experience points table and returns the entire Experience Point table
      */
-    public function addNewLevel(StoreNewLevelRequest $request)
+    public function addNewLevel(StoreNewLevelRequest $request): JsonResponse
     {
         $validated = $request->validated();
         ExperiencePoint::insert($validated);
@@ -100,12 +82,9 @@ class AdminController extends Controller
     }
 
     /**
-     * Updates the balancing in character exp gain
-     *
-     * @param UpdateCharacterExpGainRequest $request
-     * @return JsonResponse
+     * Updates the balancing in character exp gain and returns the character exp gain table
      */
-    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request)
+    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request): JsonResponse
     {
         $validated = $request->validated();
         DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins']);
@@ -115,12 +94,9 @@ class AdminController extends Controller
     }
 
     /**
-     * Updates the balancing in village exp gain
-     *
-     * @param UpdateVillageExpGainRequest $request
-     * @return JsonResponse
+     * Updates the balancing in village exp gain and returns the village exp gain table
      */
-    public function updateVillageExpGain(UpdateVillageExpGainRequest $request)
+    public function updateVillageExpGain(UpdateVillageExpGainRequest $request): JsonResponse
     {
         $validated = $request->validated();
         DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level', 'coins']);
@@ -139,9 +115,9 @@ class AdminController extends Controller
      * Gets all reported users, sorted by User (id). Each report has the user linked to the report.
      * Then parses it into a UserReportResource, with all relevant user information as its base (UserReportResourceCollection)
      * and all reports as an array in the resource (UserReportResource).
-     * @return JsonResponse with a UserReportResource collection
+     * @return JsonResponse with all reported users
      */
-    public function getReportedUsers()
+    public function getReportedUsers(): JsonResponse
     {
         $reportedUsersCollection = ReportedUser::orderBy('created_at', 'desc')->with('user.suspendedUser')->get()->groupBy('reported_user_id');
         $reportedUsers = [];
@@ -156,6 +132,7 @@ class AdminController extends Controller
      * Each report has the user linked to the report. Then parses it into a UserReportResource,
      * with all relevant user information as its base (UserReportResourceCollection)
      * and all reports as an array in the resource (UserReportResource).
+     * @return JsonResponse with all reported users
      */
     public function closeReport(ReportedUser $reportedUser)
     {
@@ -167,11 +144,9 @@ class AdminController extends Controller
 
     /**
      * Fetches the conversation by the given conversation ID. Only one is necessary, so we pick the first
-     *
-     * @param String $id
-     * @return ResourceCollection
+     * @return AdminConversationResource with one conversation
      */
-    public function getConversationById(String $id)
+    public function getConversationById(String $id): AdminConversationResource
     {
         return new AdminConversationResource(Conversation::where('conversation_id', $id)->first());
     }
@@ -180,12 +155,9 @@ class AdminController extends Controller
      * Suspends a user: Changes 'suspended_until' to current dateTime + the amount of days the user gets suspended.
      * Created a suspendedUser to document the suspension of the account, as well as deactivates the
      * user's account.
-     *
-     * @param SuspendUserRequest $request
-     * @param User $user
-     * @return JsonResponse
+     * @return JsonResponse with all reported users
      */
-    public function suspendUser(SuspendUserRequest $request, User $user)
+    public function suspendUser(SuspendUserRequest $request, User $user): JsonResponse
     {
         $validated = $request->validated();
         if ($validated['indefinite'] == 'true') $validated['days'] = 99999;
@@ -214,13 +186,11 @@ class AdminController extends Controller
         }
         $suspendedUsers = SuspendedUserResource::collection(SuspendedUser::get());
 
-        return ResponseWrapper::successResponse(__('messages.user.suspension.until', ['time' => $suspendedUntilTime]), ['reported_users' => $reportedUsers, 'suspended_users' => $suspendedUsers]);
+        return ResponseWrapper::successResponse(__('messages.user.suspension.until', ['time' => $suspendedUntilTime]), ['reported_users' => $reportedUsers]);
     }
 
     /**
-     * Gets all suspended users
-     *
-     * @return JsonResponse with SuspendedUserResource collection
+     * @return SuspendedUserResource with all suspended users
      */
     public function getsuspendedUsers()
     {
@@ -229,10 +199,7 @@ class AdminController extends Controller
 
     /**
      * Edits a user suspension, keeping a log of events and unsuspends a user if applicable.
-     *
-     * @param suspendedUser $suspendedUser
-     * @param EditUserSuspensionRequest $request
-     * @return JsonResponse with SuspendedUserResource collection
+     * @return SuspendedUserResource with all suspended users
      */
     public function editUserSuspension(SuspendedUser $suspendedUser, EditUserSuspensionRequest $request)
     {
@@ -272,8 +239,7 @@ class AdminController extends Controller
     */ 
 
     /**
-     * Fetches all existing feedback and returns it in a Resource collection
-     * @return JsonResponse with FeedbackResource collection
+     * @return FeedbackResource with all feedback
      */
     public function getFeedback()
     {
@@ -282,7 +248,7 @@ class AdminController extends Controller
 
     /**
      * Toggles the feedback's archive column. True to false and vice versa. Returns the updated collection.
-     * @return JsonResponse with string and FeedbackResource collection
+     * @return FeedbackResource with all feedback
      */
     public function toggleArchiveFeedback(Feedback $feedback)
     {
@@ -335,10 +301,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Gets all actions tracked with given filters
-     *
-     * @param FetchActionsWithFilters $request
-     * @return ActionTrackingResourceCollection
+     * @return ActionTrackingResourceCollection with all actions that fit within the given filters
      */
     public function getActionsWithFilters(FetchActionsWithFilters $request) 
     {
@@ -356,11 +319,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Gets all group messages in a range around a given date
-     *
-     * @param Request $request
-     * @param Group $group
-     * @return GroupMessageResourceCollection
+     * @return GroupMessageResourceCollection with all group messages in a range around a given date - for admin purpose
      */
     public function getGroupMessagesByDateRange(Request $request, Group $group)
     {
