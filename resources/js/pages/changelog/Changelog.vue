@@ -1,10 +1,10 @@
 <template>
     <div class="w-50-flex center">
         <h1>{{ $t('changelog') }}</h1>
-        <div v-for="(version, index) in versions" :key="index" class="version">
+        <div v-for="(version, index) in sortedVersions" :key="index" class="version">
             <div class="version-header" @click="expand(version.name)">
                 <h2 class="d-flex">
-                    {{ version.name }}
+                    v{{ version.name }}
                     <Icon class="ml-auto primary-text" :icon="isExpanded(version.name) ? ARROW_UP : ARROW_DOWN" />
                 </h2>
             </div>
@@ -18,35 +18,26 @@
 </template>
 
 <script setup lang="ts">
-import v02 from './versions/0.2.md';
-import v03 from './versions/0.3.md';
-import v04 from './versions/0.4.md';
-import v05 from './versions/0.5.md';
 import {ARROW_DOWN, ARROW_UP} from '/js/constants/iconConstants';
 import {Icon} from '@iconify/vue';
-import {ref} from 'vue';
-// import v06 from './versions/0.6.md';
+import {computed, ref} from 'vue';
+import {sortValues} from '/js/services/sortService';
 
-const expanded = ref<string | null>('v0.5.0');
+const versions = import.meta.glob('./versions/*.*.md', {eager: true});
 
-const versions = [
-    {
-        name: 'v0.5.0',
-        component: v05,
-    },
-    {
-        name: 'v0.4.0',
-        component: v04,
-    },
-    {
-        name: 'v0.3.0',
-        component: v03,
-    },
-    {
-        name: 'v0.2.0',
-        component: v02,
-    },
-];
+const converted = computed(() => {
+    // Disabled because typing here is unnecessary
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any 
+    return Object.entries(versions).map((version: Record<string, any>) => ({
+        name: version[1].default.__name,
+        component: version[1].default,
+    }));
+});
+const sortedVersions = computed(() => {
+    return sortValues(converted.value, 'name', 'desc');
+})
+
+const expanded = ref<string | null>(sortedVersions.value[0].name);
 
 function isExpanded(versionName: string) {
     return expanded.value === versionName;
