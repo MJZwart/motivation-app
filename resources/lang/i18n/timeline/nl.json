@@ -1,0 +1,9 @@
+{
+    "timeline": "Tijdlijn",
+    "achievement": "Achievement",
+    "join": "Lid geworden",
+    "user-joined": "Gebruiker is lid geworden van het platform",
+    "joined-group": "Lid geworden van de groep {name}",
+    "character-created": "Het karakter {name} aangemaakt",
+    "achievement-earned": "De achievement \"{name}\" verdiend"
+}

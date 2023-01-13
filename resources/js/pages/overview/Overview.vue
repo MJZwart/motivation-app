@@ -11,6 +11,7 @@
             />
             <UserStats v-if="userStats" class="mb-2" :user-stats="userStats" />
             <AchievementsCard v-if="achievements" :achievements="achievements" />
+            <Timeline />
         </div>
     </div>
 </template>
@@ -19,6 +20,7 @@
 import AchievementsCard from './components/AchievementsCard.vue';
 import RewardCard from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import UserStats from './components/UserStats.vue';
+import Timeline from './components/Timeline.vue';
 import {computed, onMounted, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {useRewardStore} from '/js/store/rewardStore';

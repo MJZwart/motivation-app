@@ -1,0 +1,9 @@
+{
+    "timeline": "Timeline",
+    "achievement": "Achievement",
+    "join": "Joined",
+    "user-joined": "User joined the platform",
+    "joined-group": "Joined the group {name}",
+    "character-created": "Created the character {name}",
+    "achievement-earned": "Earned the achievement \"{name}\""
+}

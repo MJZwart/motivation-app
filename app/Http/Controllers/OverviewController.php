@@ -7,6 +7,7 @@ use App\Http\Resources\AchievementEarnedResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\StatsResource;
+use App\Http\Resources\TimelineResource;
 
 class OverviewController extends Controller
 {
@@ -21,5 +22,12 @@ class OverviewController extends Controller
         $achievements = AchievementEarnedResource::collection($user->achievements);
         $stats = new StatsResource($user);
         return new JsonResponse(['rewardObj' => $rewardObj, 'achievements' => $achievements, 'stats' => $stats]);
+    }
+
+    public function getTimeline()
+    {
+        /** @var User */
+        $user = Auth::user();
+        return TimelineResource::collection($user->timeline->sortByDesc('timestamp'));
     }
 }

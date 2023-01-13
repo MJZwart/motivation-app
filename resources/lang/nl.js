@@ -8,6 +8,7 @@ import admin from './i18n/admin/nl.json';
 import friend from './i18n/friend/nl.json';
 import message from './i18n/message/nl.json';
 import achievement from './i18n/achievement/nl.json';
+import timeline from './i18n/timeline/nl.json';
 
 export default {
     ...general,
@@ -20,4 +21,5 @@ export default {
     ...friend,
     ...message,
     ...achievement,
+    ...timeline,
 }

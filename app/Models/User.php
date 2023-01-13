@@ -95,6 +95,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\SuspendedUser');
     }
 
+    public function timeline()
+    {
+        return $this->hasMany('App\Models\TimelineAction', 'user_id');
+    }
+
     public function groups()
     {
         return $this->belongsToMany('App\Models\Group')

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OverviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +31,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::put('/{blockedUser}/block', [MessageController::class, 'blockUser']);
     Route::get('/blocklist', [UserController::class, 'getBlocklist']);
     Route::put('/{blockedUser}/unblock', [UserController::class, 'unblockUser']);
+
+    //Overview
+    Route::get('/timeline', [OverviewController::class, 'getTimeline']);
 });
