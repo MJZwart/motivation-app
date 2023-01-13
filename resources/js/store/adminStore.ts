@@ -1,7 +1,13 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
 import {useUserStore} from './userStore';
-import type {CharExpGain, ExperiencePoint, Overview, ReportedUser, VillageExpGain, ActionFilters} from 'resources/types/admin';
+import type {
+    CharExpGain, 
+    ExperiencePoint, 
+    Overview, ReportedUser, 
+    VillageExpGain, 
+    ActionFilters,
+    Actions} from 'resources/types/admin';
 import type {BugReport} from 'resources/types/bug';
 import type {Feedback} from 'resources/types/feedback';
 import type {ReportedConversation} from 'resources/types/message';
@@ -26,18 +32,15 @@ export const useAdminStore = defineStore('admin', {
 
         /**
          * Fetches an overview of numbers related to the site, like users, new bug reports, etc.
-         * @returns Object
          */
-        async getOverview(): Promise<Overview>
-        {
+        async getOverview(): Promise<Overview> {
             const {data} = await axios.get('/admin/overview');
             return data.overview;
         },
-        async sendNotification(notification: NewNotification) {
+        async sendNotification(notification: NewNotification): Promise<void> {
             await axios.post('/notifications/all', notification);
         },
-        async fetchConversation(id: number): Promise<ReportedConversation | null>
-        {
+        async fetchConversation(id: number): Promise<ReportedConversation | null> {
             const {data} = await axios.get(`/admin/conversation/${id}`);
             return data.data;
         },
@@ -47,122 +50,72 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.get('/admin/bugreport');
             return data.data;
         },
-        async updateBugReport(bugReport: BugReport) {
+        async updateBugReport(bugReport: BugReport): Promise<BugReport[]> {
             const {data} = await axios.put('/admin/bugreport/' + bugReport.id, bugReport);
             return data.data.bugReports;
         },
 
         // * Balancing
-        /**
-         * Get the experience points table
-         * @returns {ExperiencePoint[]}
-         */
-        async getExperiencePoints() {
+        async getExperiencePoints(): Promise<ExperiencePoint[]> {
             const {data} = await axios.get('admin/experience_points');
             return data.data;
         },
-        /**
-         * Get the experience points table
-         * @returns {ExperiencePoint[]}
-         */
-        async updateExpPoints(experiencePoints: ExperiencePoint[]) {
+        async updateExpPoints(experiencePoints: ExperiencePoint[]): Promise<ExperiencePoint[]> {
             const {data} = await axios.put('/admin/experience_points', experiencePoints);
             return data.data.experience_points;
         },
-        /**
-         * Get the experience points table
-         * @returns {ExperiencePoint[]}
-         */
-        async addNewLevel(newLevel: ExperiencePoint) {
+        async addNewLevel(newLevel: ExperiencePoint): Promise<ExperiencePoint[]> {
             const {data} = await axios.post('/admin/experience_points', newLevel);
             return data.data.experience_points;
         },
-        /**
-         * Get the exp gain table for characters
-         * @returns {CharExpGain[]}
-         */
-        async getCharacterExpGain() {
+        async getCharacterExpGain(): Promise<CharExpGain[]> {
             const {data} = await axios.get('admin/character_exp_gain');
             return data.data;
         },
-        /**
-         * Updates the exp gain table for characters
-         * @param {CharExpGain[]} charExpGain
-         * @returns {CharExpGain[]}
-         */
-        async updateCharExpGain(charExpGain: CharExpGain[]) {
+        async updateCharExpGain(charExpGain: CharExpGain[]): Promise<CharExpGain[]> {
             const {data} = await axios.put('/admin/character_exp_gain', charExpGain);
             return data.data.balancing;
         },
-        /**
-         * Get the exp gain table for villages
-         * @returns {VillageExpGain[]}
-         */
-        async getVillageExpGain() {
+        async getVillageExpGain(): Promise<VillageExpGain[]> {
             const {data} = await axios.get('admin/village_exp_gain');
             return data.data;
         },
-        /**
-         * Updates the exp gain table for villages
-         * @param {VillageExpGain[]} villageExpGain
-         * @returns {VillageExpGain[]}
-         */
-        async updateVillageExpGain(villageExpGain: VillageExpGain[]) {
+        async updateVillageExpGain(villageExpGain: VillageExpGain[]): Promise<VillageExpGain[]> {
             const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
             return data.data.balancing;
         },
 
         // * Reported / suspended users
-        /**
-         * Gets the reported users
-         */
-        async getReportedUsers() {
+        async getReportedUsers(): Promise<ReportedUser[]> {
             const {data} = await axios.get('/admin/reported_users');
             return data.reportedUsers;
         },
         /**
          * Suspends a user account for x amount of days, or indefinite
          */
-        async suspendUser(suspension: NewSuspension) {
+        async suspendUser(suspension: NewSuspension): Promise<ReportedUser[]> {
             const {data} = await axios.post(`/admin/suspend/${suspension.user_id}`, suspension);
             return data.data.reported_users;
         },
-        /**
-         * Gets all suspended users
-         */
-        async getSuspendedUsers() {
+        async closeReport(report: ReportedUser): Promise<ReportedUser[]> {
+            const {data} = await axios.post(`/admin/reported_users/${report.id}`);
+            return data.reportedUsers;
+        },
+        async getSuspendedUsers(): Promise<SuspendedUser[]> {
             const {data} = await axios.get('/admin/suspendedusers');
             return data.suspended_users;
         },
-
-        /**
-         * Ends the suspension of a given user manually.
-         */
-        async editSuspension(userSuspension: SuspendedUser) {
+        async editSuspension(userSuspension: SuspendedUser): Promise<SuspendedUser[]> {
             const {data} = await axios.post(`/admin/editsuspension/${userSuspension.id}`, userSuspension);
             return data.suspended_users;
         },
 
-        /**
-         * Closes the UserReport (trashes it in the backend)
-         */
-        async closeReport(report: ReportedUser) {
-            const {data} = await axios.post(`/admin/reported_users/${report.id}`);
-            return data.reportedUsers;
-        },
-
         // * Feedback
-        /**
-         * Fetches all the feedback from back-end
-         */
         async getFeedback(): Promise<Feedback[]>
         {
             const {data} = await axios.get('/admin/feedback');
             return data.feedback;
         },
-        /**
-         * Toggles the feedback's archived status
-         */
         async toggleArchiveFeedback(id: number): Promise<Feedback[]>
         {
             const {data} = await axios.post(`/admin/feedback/archive/${id}`);
@@ -170,12 +123,18 @@ export const useAdminStore = defineStore('admin', {
         },
 
         // * Action filters
-        async getActionFilters()//: Promise<>
+        /**
+         * Gets all applicable filters for action tracking
+         */
+        async getActionFilters(): Promise<ActionFilters>
         {
             const {data} = await axios.get('/admin/action/filters');
             return data;
         },
-        async getActionsWithFilters(filters: ActionFilters)//: Promise<>
+        /**
+         * Gets all actions that fall under the given filters
+         */
+        async getActionsWithFilters(filters: ActionFilters): Promise<Actions[]>
         {
             const {data} = await axios.post('/admin/action/filters', filters);
             return data.data;

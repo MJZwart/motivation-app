@@ -6,7 +6,7 @@
             <div class="form-group">
                 {{$t('type')}}
                 <Multiselect
-                    v-model="activeFilters.type"
+                    v-model="activeFilters.types"
                     :options="possibleFilters.types"
                     mode="tags"
                     valueProp="action_type"
@@ -28,7 +28,7 @@
             <div class="form-group">
                 {{$t('date-range')}}
                 <Datepicker 
-                    v-model="activeFilters.date" 
+                    v-model="activeFilters.minDate" 
                     range autoApply :locale="currentLang"
                     :minDate="possibleFilters.minDate" :maxDate="new Date()"
                 />
@@ -59,8 +59,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
-import type {StrippedUser} from 'resources/types/user';
-import type {ActionType, Actions, ActionFilters} from 'resources/types/admin';
+import type {Actions, ActionFilters} from 'resources/types/admin';
 import Multiselect from '@vueform/multiselect';
 import Table from '/js/components/global/Table.vue';
 import {currentLang} from '/js/services/languageService';
@@ -70,15 +69,15 @@ import {parseUserAgent} from '/js/services/platformService';
 
 const adminStore = useAdminStore();
 
-const possibleFilters = ref<{types: ActionType[], users: StrippedUser[], minDate: Date | null}>({
+const possibleFilters = ref<ActionFilters>({
     types: [],
     users: [],
     minDate: null,
 });
 const activeFilters = ref<ActionFilters>({
-    type: [],
+    types: [],
     users: [],
-    date: [
+    minDate: [
         getYesterdayDate(), new Date(),
     ],
 });
