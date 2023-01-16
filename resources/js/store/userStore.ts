@@ -23,6 +23,7 @@ export const useUserStore = defineStore('user', {
         };
     },
     actions: {
+        // * Authentication
         /**
          * User authentication. If user login is valid but the account is otherwise invalidated,
          * instead return info the Login screen.
@@ -60,7 +61,7 @@ export const useUserStore = defineStore('user', {
             changeLang(lang);
         },
 
-        //New user
+        // * New user
         async register(user: Register) {
             await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/register', user);
@@ -77,12 +78,13 @@ export const useUserStore = defineStore('user', {
             router.push('/').catch(() => {});
         },
 
-        //Public user profile
+        // * Public user profile
         async getUserProfile(userId: number) {
             const {data} = await axios.get('/profile/' + userId);
             return data.data;
         },
 
+        // * Overview
         async getOverview() {
             const {data} = await axios.get('/overview');
             this.userStats = data.stats;
@@ -90,7 +92,12 @@ export const useUserStore = defineStore('user', {
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.rewardObj;
         },
+        async getTimeline() {
+            const {data} = await axios.get('/user/timeline');
+            return data.data;
+        },
 
+        // * Settings
         async updatePassword(passwords: PasswordSettings) {
             await axios.put('/user/settings/password', passwords);
             this.logout();
