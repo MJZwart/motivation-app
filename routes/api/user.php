@@ -34,4 +34,5 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
     //Overview
     Route::get('/timeline', [OverviewController::class, 'getTimeline']);
+    Route::get('/timeline/{user}', [OverviewController::class, 'getTimelineFromUser']);
 });

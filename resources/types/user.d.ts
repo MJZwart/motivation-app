@@ -14,6 +14,7 @@ export type User = {
     show_achievements: boolean;
     show_reward: boolean;
     show_friends: boolean;
+    show_timeline: boolean;
     show_tutorial: boolean;
     friends: Friend[];
     language: string;
@@ -85,6 +86,7 @@ export type UserProfile = {
     rewardObj?: Reward | null;
     achievements?: Achievement[];
     friends?: Friend[];
+    timeline?: boolean;
     suspended?: {
         until: Date;
         reason: string;

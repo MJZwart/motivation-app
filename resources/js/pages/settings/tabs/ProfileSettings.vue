@@ -18,6 +18,11 @@
                     v-model="settings.show_friends" 
                     name="show_friends" 
                     :label="$t('show-friends-on-profile')" />
+                <SimpleFormCheckbox 
+                    id="show-timeline"
+                    v-model="settings.show_timeline" 
+                    name="show_timeline" 
+                    :label="$t('show-timeline-on-profile')" />
             </div>
             <SubmitButton class="block">{{ $t('save-profile-settings') }}</SubmitButton>
         </form>
@@ -40,6 +45,7 @@ function getUserSettings() {
         show_achievements: user.value?.show_achievements ?? true,
         show_reward: user.value?.show_reward ?? true,
         show_friends: user.value?.show_friends ?? true,
+        show_timeline: user.value?.show_timeline ?? false,
     };
 }
 

@@ -92,9 +92,11 @@ export const useUserStore = defineStore('user', {
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.rewardObj;
         },
-        async getTimeline() {
-            const {data} = await axios.get('/user/timeline');
-            return data;
+        async getTimeline(userId: number | undefined) {
+            let data = null;
+            if (userId) data = await axios.get(`/user/timeline/${userId}`);
+            else data = await axios.get('/user/timeline');
+            return data.data;
         },
 
         // * Settings
