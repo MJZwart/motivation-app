@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\TimelineResource;
+use App\Models\TimelineAction;
 
 class OverviewController extends Controller
 {
@@ -28,6 +29,8 @@ class OverviewController extends Controller
     {
         /** @var User */
         $user = Auth::user();
-        return TimelineResource::collection($user->timeline->sortByDesc('timestamp'));
+        $timeline = $user->timeline->sortByDesc('timestamp');
+        $types = TimelineAction::where('user_id', $user->id)->select('type')->distinct()->get();
+        return new JsonResponse(['timeline' => TimelineResource::collection($timeline), 'types' => $types]);
     }
 }
