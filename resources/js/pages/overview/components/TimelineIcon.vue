@@ -1,5 +1,5 @@
 <template>
-    <Icon :icon="getIcon" class="icon non-clickable" />
+    <Icon :icon="getIcon" class="timeline-icon icon non-clickable" />
 </template>
 
 <script setup lang="ts">
@@ -27,3 +27,9 @@ const getIcon = computed(() => {
     }
 });
 </script>
+
+<style lang="scss" scoped>
+.timeline-icon {
+    font-size: 120%;
+}
+</style>
