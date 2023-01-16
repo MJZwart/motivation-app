@@ -85,11 +85,11 @@ function parseTimelineAction(action: TimelineAction) {
         height: 8px;
     }
     .timeline-timestamp {
-        min-width: 140px;
+        min-width: 150px;
         display: inline-block;
     }
     .timeline-type{
-        min-width: 110px;
+        min-width: 120px;
         display: inline-block;
     }
 }

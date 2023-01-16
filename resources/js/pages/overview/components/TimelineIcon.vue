@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import {computed} from 'vue';
-import {ARROW_UP, ACHIEVEMENT, GROUP, GAME} from '/js/constants/iconConstants';
+import {ARROW_UP, ACHIEVEMENT, GROUP, GAME, POWER} from '/js/constants/iconConstants';
 
 const props = defineProps<{type: string}>();
 
@@ -20,6 +20,8 @@ const getIcon = computed(() => {
         case 'CHARACTER':
         case 'VILLAGE':
             return GAME;
+        case 'JOIN':
+            return POWER;
         default:
             return '';
     }
