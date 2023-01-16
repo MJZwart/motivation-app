@@ -67,7 +67,7 @@ function parseTimelineAction(action: TimelineAction) {
         background: var(--border-color);
         display: inline-block;
         position: absolute;
-        top: 4px;
+        top: 8px;
         left: 7px;
         width: 2px;
         height: calc(100% - 11px);
@@ -80,7 +80,7 @@ function parseTimelineAction(action: TimelineAction) {
         border-radius: 50%;
         border: 2px solid var(--primary-as-text);
         left: 3px;
-        top: 3px;
+        top: 8px;
         width: 8px;
         height: 8px;
     }
