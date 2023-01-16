@@ -94,7 +94,7 @@ export const useUserStore = defineStore('user', {
         },
         async getTimeline() {
             const {data} = await axios.get('/user/timeline');
-            return data.data;
+            return data;
         },
 
         // * Settings

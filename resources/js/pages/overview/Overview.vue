@@ -10,8 +10,8 @@
                 :rewardType="rewardObj.rewardType"
             />
             <UserStats v-if="userStats" class="mb-2" :user-stats="userStats" />
-            <AchievementsCard v-if="achievements" :achievements="achievements" />
-            <Timeline />
+            <Timeline class="mb-2" />
+            <AchievementsCard v-if="achievements" class="mb-2" :achievements="achievements" />
         </div>
     </div>
 </template>
