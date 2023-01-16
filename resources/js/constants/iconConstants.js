@@ -1,5 +1,8 @@
 export const ARROW_UP = 'material-symbols:keyboard-arrow-up-rounded';
 export const ARROW_DOWN = 'material-symbols:keyboard-arrow-down-rounded';
+export const ARROW_LEFT = 'material-symbols:chevron-left-rounded';
+export const ARROW_RIGHT = 'material-symbols:chevron-right-rounded';
+export const ARROW_DOWN_RIGHT = 'material-symbols:subdirectory-arrow-right-rounded';
 
 export const MAIL = 'bi:envelope-fill';
 export const NOTIFICATION = 'mdi:bell';
@@ -10,10 +13,6 @@ export const CHECK_SQUARE = 'material-symbols:check-box-outline';
 export const CROSS_SQUARE = 'charm:square-cross';
 export const TRASH = 'mingcute:delete-2-fill';
 export const CREATE = 'mdi:plus-box';
-
-export const ARROW_LEFT = 'material-symbols:chevron-left-rounded';
-export const ARROW_RIGHT = 'material-symbols:chevron-right-rounded';
-export const ARROW_DOWN_RIGHT = 'material-symbols:subdirectory-arrow-right-rounded';
 
 export const SORT = 'tabler:arrows-sort';
 
@@ -34,7 +33,12 @@ export const RESET = 'fa:repeat';
 export const DETAILS = 'fa6-solid:magnifying-glass';
 
 export const FRIEND = 'mdi:user-heart';
+export const GROUP = 'mdi:account-group';
 
 export const ACTIVATE = 'material-symbols:play-circle-outline-rounded';
 
 export const PROMOTE = 'mdi:rank';
+
+export const ACHIEVEMENT = 'grommet-icons:achievement';
+
+export const GAME = 'ion:dice-outline';
