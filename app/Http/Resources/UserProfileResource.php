@@ -24,6 +24,7 @@ class UserProfileResource extends JsonResource
             'rewardObj' => $this->show_reward ? $this->getActiveRewardObjectResource() : null,
             'achievements' => $this->show_achievements ? AchievementEarnedResource::collection($this->achievements) : null,
             'friends' => $this->show_friends ? FriendResource::collection($this->friends) : null,
+            'timeline' => !!$this->show_timeline,
             'suspended' => $this->isSuspended() ? new UserSuspensionSummaryResource($this->getLatestSuspension()) : null,
         ];
     }

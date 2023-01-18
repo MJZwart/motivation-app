@@ -49,6 +49,9 @@
             <div v-if="userProfile.friends">
                 <FriendsCard :message="false" :friends="userProfile.friends" />
             </div>
+            <div v-if="userProfile.timeline">
+                <Timeline :user-id="userProfile.id" />
+            </div>
             <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />
             </Modal>
@@ -85,6 +88,7 @@ import type {NewSuspension, User, UserProfile} from 'resources/types/user';
 import type {FriendRequests, Friend} from 'resources/types/friend';
 import {MAIL, FRIEND, LOCK, REPORT, BAN} from '/js/constants/iconConstants';
 import {useAdminStore} from '/js/store/adminStore';
+import Timeline from '/js/pages/overview/components/Timeline.vue';
 
 const {t} = useI18n();
 const route = useRoute();

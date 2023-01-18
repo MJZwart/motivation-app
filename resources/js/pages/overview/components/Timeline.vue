@@ -35,6 +35,8 @@ import {useI18n} from 'vue-i18n';
 import TimelineIcon from './TimelineIcon.vue';
 const {t} = useI18n();
 
+const props = defineProps<{userId: number}>();
+
 const userStore = useUserStore();
 
 type TimelineAction = {
@@ -52,7 +54,7 @@ const filteredTimeline = computed(() => {
 });
 
 onMounted(async() => {
-    const data = await userStore.getTimeline();
+    const data = await userStore.getTimeline(props.userId);
     timeline.value = data.timeline;
     timelineTypes.value = data.types
 });

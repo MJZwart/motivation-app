@@ -18,6 +18,7 @@ class UpdateUserSettingsRequest extends FormRequest
             'show_reward' => [Rule::requiredIf($this->rewards != 'NONE'),'boolean'],
             'show_achievements' => 'required|boolean',
             'show_friends' => 'required|boolean',
+            'show_timeline' => 'required|boolean',
         ];
     }
 }

@@ -33,5 +33,5 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::put('/{blockedUser}/unblock', [UserController::class, 'unblockUser']);
 
     //Overview
-    Route::get('/timeline', [OverviewController::class, 'getTimeline']);
+    Route::get('/timeline/{user}', [OverviewController::class, 'getTimelineFromUser']);
 });

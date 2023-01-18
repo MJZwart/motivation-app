@@ -10,7 +10,7 @@
                 :rewardType="rewardObj.rewardType"
             />
             <UserStats v-if="userStats" class="mb-2" :user-stats="userStats" />
-            <Timeline class="mb-2" />
+            <Timeline v-if="userId" :user-id="userId" class="mb-2" />
             <AchievementsCard v-if="achievements" class="mb-2" :achievements="achievements" />
         </div>
     </div>
@@ -34,6 +34,8 @@ onMounted(async () => {
     await userStore.getOverview();
     loading.value = false;
 });
+
+const userId = computed(() => userStore.user?.id);
 
 const rewardObj = computed(() => rewardStore.rewardObj);
 const achievements = computed(() => userStore.achievementsByUser);

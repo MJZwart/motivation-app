@@ -8,6 +8,7 @@ export type ProfileSettings = {
     show_achievements: boolean;
     show_friends: boolean;
     show_reward: boolean;
+    show_timeline: boolean;
 };
 
 export type EmailSettings = {

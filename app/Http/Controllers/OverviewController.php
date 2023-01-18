@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\TimelineResource;
 use App\Models\TimelineAction;
+use App\Models\User;
 
 class OverviewController extends Controller
 {
@@ -25,10 +26,7 @@ class OverviewController extends Controller
         return new JsonResponse(['rewardObj' => $rewardObj, 'achievements' => $achievements, 'stats' => $stats]);
     }
 
-    public function getTimeline()
-    {
-        /** @var User */
-        $user = Auth::user();
+    public function getTimelineFromUser(User $user) {
         $timeline = $user->timeline->sortByDesc('timestamp');
         $types = TimelineAction::where('user_id', $user->id)->select('type')->distinct()->get();
         return new JsonResponse(['timeline' => TimelineResource::collection($timeline), 'types' => $types]);

@@ -39,7 +39,7 @@ function getIcon() {
             height: 20px;
             overflow:visible;
             margin-left: -2px;
-            margin-top: 0;
+            margin-top: 2px;
         }
     }
     .checkbox.green {
