@@ -35,7 +35,7 @@ import {useI18n} from 'vue-i18n';
 import TimelineIcon from './TimelineIcon.vue';
 const {t} = useI18n();
 
-const props = defineProps<{userId?: number}>();
+const props = defineProps<{userId: number}>();
 
 const userStore = useUserStore();
 
