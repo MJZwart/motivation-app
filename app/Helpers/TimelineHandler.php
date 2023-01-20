@@ -44,27 +44,10 @@ class TimelineHandler
             ['name' => $achievement->name]);
     }
 
-    public static function addCharacterCreationToTimeline(Character $character) {
-        TimelineHandler::addToTimeline(
-            $character->created_at, 
-            $character->user_id, 
-            TimelineHandler::CHARACTER, 
-            TimelineHandler::CHARACTER_CREATED, 
-            ['name' => $character->name]);
-    }
-    public static function addVillageCreationToTimeline(Village $village) {
-        TimelineHandler::addToTimeline(
-            $village->created_at, 
-            $village->user_id, 
-            TimelineHandler::VILLAGE, 
-            TimelineHandler::VILLAGE_CREATED, 
-            ['name' => $village->name]);
-    }
-
-    public static function addGroupJoiningToTimeline(Group $group, int $userId = null) {
+    public static function addGroupJoiningToTimeline(Group $group, int $userId) {
         TimelineHandler::addToTimeline(
             $group->pivot->joined, 
-            $userId ? $userId : $group->pivot->user_id, 
+            $userId, 
             TimelineHandler::GROUP, 
             TimelineHandler::JOINED_GROUP, 
             ['name' => $group->name]);
@@ -84,6 +67,16 @@ class TimelineHandler
             TimelineHandler::GROUP,
             TimelineHandler::LEFT_GROUP,
             ['name' => $group->name]);
+    }
+
+    public static function addNewRewardToTimeline(string $rewardName, int $userId, string $type, string $message) {
+        TimelineHandler::addToTimeline(
+            Carbon::now()->toString(),
+            $userId,
+            $type,
+            $message,
+            ['name' => $rewardName]
+        );
     }
 
     public static function addToTimeline(string $timestamp, int $userId, string $type, string $action, string | array $params = null) {

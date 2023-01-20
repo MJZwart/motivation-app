@@ -3,8 +3,6 @@
 use App\Helpers\TimelineHandler;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -17,22 +15,46 @@ return new class extends Migration
     {
         $users = User::all();
         foreach($users as $user) {
-            TimelineHandler::addJoinDateToTimeline($user);
+            TimelineHandler::addToTimeline(
+                $user->created_at, 
+                $user->id, 
+                TimelineHandler::JOIN, 
+                TimelineHandler::USER_JOINED);
             $achievements = $user->achievements;
             foreach($achievements as $achievement) {
-                TimelineHandler::addAchievementToTimeline($achievement);
+                TimelineHandler::addToTimeline(
+                    $achievement->pivot->earned, 
+                    $achievement->pivot->user_id, 
+                    TimelineHandler::ACHIEVEMENT, 
+                    TimelineHandler::ACHIEVEMENT_EARNED, 
+                    ['name' => $achievement->name]);
             }
             $characters = $user->characters;
             foreach($characters as $character) {
-                TimelineHandler::addCharacterCreationToTimeline($character);
+                TimelineHandler::addToTimeline(
+                    $character->created_at, 
+                    $character->user_id, 
+                    TimelineHandler::CHARACTER, 
+                    TimelineHandler::CHARACTER_CREATED, 
+                    ['name' => $character->name]);
             }
             $villages = $user->villages;
             foreach($villages as $village) {
-                TimelineHandler::addVillageCreationToTimeline($village);
+                TimelineHandler::addToTimeline(
+                    $village->created_at, 
+                    $village->user_id, 
+                    TimelineHandler::VILLAGE, 
+                    TimelineHandler::VILLAGE_CREATED, 
+                    ['name' => $village->name]);
             }
             $groups = $user->groups;
             foreach($groups as $group) {
-                TimelineHandler::addGroupJoiningToTimeline($group);
+                TimelineHandler::addToTimeline(
+                    $group->pivot->joined, 
+                    $group->pivot->user_id, 
+                    TimelineHandler::GROUP, 
+                    TimelineHandler::JOINED_GROUP, 
+                    ['name' => $group->name]);
             }
         }
     }

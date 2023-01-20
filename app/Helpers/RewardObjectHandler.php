@@ -42,9 +42,11 @@ class RewardObjectHandler
     public static function createNewObjectAndActivate(String $type, User $user, String $objectName)
     {
         if ($type == 'VILLAGE') {
+            TimelineHandler::addNewRewardToTimeline($objectName, $user->id, TimelineHandler::VILLAGE, TimelineHandler::VILLAGE_CREATED);
             CharacterHandler::deactivateAllCharacters($user);
             return new VillageResource(VillageHandler::createNewVillageAndActivate($user->id, $objectName));
         } else if ($type == 'CHARACTER') {
+            TimelineHandler::addNewRewardToTimeline($objectName, $user->id, TimelineHandler::CHARACTER, TimelineHandler::CHARACTER_CREATED);
             VillageHandler::deactivateAllVillages($user);
             return new CharacterResource(CharacterHandler::createNewCharacterAndActivate($user->id, $objectName));
         } else {
