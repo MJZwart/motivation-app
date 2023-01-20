@@ -25,7 +25,7 @@ class TimelineHandler
     public const JOINED_GROUP = 'joined-group';
     public const CREATED_GROUP = 'created-group';
     public const LEFT_GROUP = 'left-group';
-
+    public const LEVEL_UP = 'level-up';
 
     public static function addJoinDateToTimeline(User $user) {
         TimelineHandler::addToTimeline(
@@ -35,10 +35,10 @@ class TimelineHandler
             TimelineHandler::USER_JOINED);
     }
 
-    public static function addAchievementToTimeline(Achievement $achievement) {
+    public static function addAchievementToTimeline(Achievement $achievement, int $userId) {
         TimelineHandler::addToTimeline(
-            $achievement->pivot->earned, 
-            $achievement->pivot->user_id, 
+            Carbon::now()->toString(),
+            $userId, 
             TimelineHandler::ACHIEVEMENT, 
             TimelineHandler::ACHIEVEMENT_EARNED, 
             ['name' => $achievement->name]);
@@ -76,6 +76,15 @@ class TimelineHandler
             $type,
             $message,
             ['name' => $rewardName]
+        );
+    }
+    public static function addLevelUpToTimeline(string $rewardName, int $userId, int $level, $type) {
+        TimelineHandler::addToTimeline(
+            Carbon::now()->toString(),
+            $userId,
+            $type,
+            TimelineHandler::LEVEL_UP,
+            ['level' => $level, 'name' => $rewardName]
         );
     }
 

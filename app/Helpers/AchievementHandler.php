@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\Achievement;
 use App\Models\Notification;
 use App\Models\AchievementEarned;
+use App\Models\TimelineAction;
 
 class AchievementHandler
 {
@@ -79,6 +80,7 @@ class AchievementHandler
     public static function awardAchievement($user, $achievement)
     {
         AchievementEarned::create(['user_id' => $user->id, 'achievement_id' => $achievement->id]);
+        TimelineHandler::addAchievementToTimeline($achievement, $user->id);
         AchievementHandler::sendAwardNotification($user, $achievement);
     }
 
