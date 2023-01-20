@@ -12,23 +12,25 @@ export const useMessageStore = defineStore('message', {
         }
     },
     actions: {
-        async getConversations() {
-            const {data} = await axios.get('/conversations');
-            this.conversations = data.data;
-        },
         async hasUnread() {
-            const {data} = await axios.get('/unread');
+            const {data} = await axios.get('/message/unread');
             this.hasNotifications = data.hasNotifications;
             this.hasMessages = data.hasMessages;
         },
-
+        async getConversations() {
+            const {data} = await axios.get('/message/conversations');
+            this.conversations = data.data;
+        },
         async sendMessage(message: NewMessage) {
             await axios.post('/message', message);
         },
-
         async deleteMessage(messageId: number) {
             await axios.delete(`/message/${messageId}`);
         },
+        markConversationRead(conversationId: number) {
+            axios.put(`/message/conversation/${conversationId}/read`);
+        },
+
         async getNotifications() {
             const {data} = await axios.get('/notifications');
             this.notifications = data.data;
@@ -37,15 +39,9 @@ export const useMessageStore = defineStore('message', {
             const {data} = await axios.delete(`/notifications/${notificationId}`);
             this.notifications = data.data.notifications;
         },
-
-        markConversationRead(conversationId: number) {
-            axios.put(`/conversation/${conversationId}/read`);
-        },
-
         async deleteNotificationAction(notificationId: number) {
             const {data} = await axios.put(`/notifications/${notificationId}/disable-action`);
             this.notifications = data.data;
         },
-
     },
 });
