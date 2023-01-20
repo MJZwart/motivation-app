@@ -63,35 +63,35 @@
                 class="striped"
                 click-to-extend
             >
-                <template #nameField="item">
-                    <h5>{{item.item.name}}</h5>
-                    <span v-if="item.item.is_member" class="silent">
-                        <GroupRankIcon v-if="item.item.rank" :rank="item.item.rank" />
+                <template #nameField="row">
+                    <h5>{{row.item.name}}</h5>
+                    <span v-if="row.item.is_member" class="silent">
+                        <GroupRankIcon v-if="row.item.rank" :rank="row.item.rank" />
                         {{$t('your-group')}}
                     </span>
                 </template>
-                <template #joined="item">
-                    <b>{{$t('member-since')}}:</b> {{ item.item.joined ? parseDateTime(item.item.joined) : '' }}
+                <template #joined="row">
+                    <b>{{$t('member-since')}}:</b> {{ row.item.joined ? parseDateTime(row.item.joined) : '' }}
                 </template>
-                <template #details="item">
+                <template #details="row">
                     <Tooltip :text="$t('view')">
-                        <Icon :icon="DETAILS" class="details-icon" @click="showGroupsDetails(item.item.id)" />
+                        <Icon :icon="DETAILS" class="details-icon" @click="showGroupsDetails(row.item.id)" />
                     </Tooltip>
                 </template>
-                <template #is_public="item">
-                    <b>{{item.item.is_public ? $t('public') : $t('private')}}</b>
+                <template #is_public="row">
+                    <b>{{row.item.is_public ? $t('public') : $t('private')}}</b>
                 </template>
-                <template #rank="item">
+                <template #rank="row">
                     <b>{{$t('rank')}}: </b>
-                    <GroupRankIcon :rank="item.item.rank" />
-                    {{item.item.rank?.name}}
+                    <GroupRankIcon :rank="row.item.rank" />
+                    {{row.item.rank?.name}}
                 </template>
 
-                <template #require_application="item">
-                    <b>{{item.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
+                <template #require_application="row">
+                    <b>{{row.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
                 </template>
-                <template #members="item">
-                    <b>{{$t('members')}}:</b> {{item.item.members}}
+                <template #members="row">
+                    <b>{{$t('members')}}:</b> {{row.item.members}}
                 </template>
             </SortableOverviewTable>
             <div v-else>

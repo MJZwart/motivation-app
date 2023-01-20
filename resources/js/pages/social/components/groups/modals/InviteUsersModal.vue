@@ -40,16 +40,16 @@
                         :fields="searchResultsFields"
                         :options="['table-sm', 'table-striped', 'table-hover']"
                     >
-                        <template #username="item">
-                            <router-link :to="{name: 'profile', params: {id: item.item.id}}">
-                                {{ item.item.username }}
+                        <template #username="row">
+                            <router-link :to="{name: 'profile', params: {id: row.item.id}}">
+                                {{ row.item.username }}
                             </router-link>
                         </template>
-                        <template #actions="item">
+                        <template #actions="row">
                             <span
-                                :class="{disabled: canNotInvite(item.item.id)}"
+                                :class="{disabled: canNotInvite(row.item.id)}"
                                 class="clickable"
-                                @click="inviteUser(item.item.id)"
+                                @click="inviteUser(row.item.id)"
                             >
                                 {{ $t('invite') }}
                             </span>

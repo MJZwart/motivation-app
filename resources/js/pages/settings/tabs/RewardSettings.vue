@@ -7,21 +7,21 @@
             <h5>{{ $t('manage-rewards') }}</h5>
             <div>
                 <Table :items="rewardItems" :fields="rewardFields">
-                    <template #rewardType="item">
-                        {{ capitalizeOnlyFirst(item.item.rewardType) }}
+                    <template #rewardType="row">
+                        {{ capitalizeOnlyFirst(row.item.rewardType) }}
                     </template>
-                    <template #active="item">
-                        {{ item.item.active ? 'Yes' : 'No' }}
+                    <template #active="row">
+                        {{ row.item.active ? 'Yes' : 'No' }}
                     </template>
-                    <template #actions="item">
+                    <template #actions="row">
                         <Tooltip :text="$t('change-name')">
-                            <Icon :icon="EDIT" class="edit-icon" @click="showEditReward(item.item)" />
+                            <Icon :icon="EDIT" class="edit-icon" @click="showEditReward(row.item)" />
                         </Tooltip>
-                        <Tooltip v-if="!item.item.active" :text="$t('activate')">
-                            <Icon :icon="ACTIVATE" class="acivate-icon" @click="activateReward(item.item)" />
+                        <Tooltip v-if="!row.item.active" :text="$t('activate')">
+                            <Icon :icon="ACTIVATE" class="acivate-icon" @click="activateReward(row.item)" />
                         </Tooltip>
-                        <Tooltip v-if="!item.item.active" :text="$t('delete')">
-                            <Icon :icon="TRASH" class="delete-icon red" @click="deleteItem(item.item)" />
+                        <Tooltip v-if="!row.item.active" :text="$t('delete')">
+                            <Icon :icon="TRASH" class="delete-icon red" @click="deleteItem(row.item)" />
                         </Tooltip>
                     </template>
                 </Table>

@@ -44,11 +44,11 @@
             sort="timestamp"
             :sortAsc=false
         >
-            <template #user="item">
-                {{item.item.user ? item.item.user.username : $t('none')}}
+            <template #user="row">
+                {{row.item.user ? row.item.user.username : $t('none')}}
             </template>
-            <template #user_agent="item">
-                {{parseUserAgent(item.item.user_agent)}}
+            <template #user_agent="row">
+                {{parseUserAgent(row.item.user_agent)}}
             </template>
         </Table>
         <span v-else>{{$t('no-results')}}</span>

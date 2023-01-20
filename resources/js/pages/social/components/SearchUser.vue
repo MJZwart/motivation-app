@@ -20,18 +20,18 @@
                 :fields="searchResultsFields"
                 :options="['table-striped', 'table-hover', 'page-wide']"
             >
-                <template #username="item">
-                    <router-link :to="{name: 'profile', params: {id: item.item.id}}">
-                        {{ item.item.username }}
+                <template #username="row">
+                    <router-link :to="{name: 'profile', params: {id: row.item.id}}">
+                        {{ row.item.username }}
                     </router-link>
                 </template>
-                <template #actions="item">
+                <template #actions="row">
                     <Tooltip :text="$t('send-message')">
-                        <Icon :icon="MAIL" class="mail-icon" @click="sendMessage(item.item)" />
+                        <Icon :icon="MAIL" class="mail-icon" @click="sendMessage(row.item)" />
                     </Tooltip>
-                    <span v-if="!isConnection(item.item.id)">
+                    <span v-if="!isConnection(row.item.id)">
                         <Tooltip :text="$t('send-friend-request')">
-                            <Icon :icon="FRIEND" class="friend-icon" @click="sendFriendRequest(item.item.id)" />
+                            <Icon :icon="FRIEND" class="friend-icon" @click="sendFriendRequest(row.item.id)" />
                         </Tooltip>
                     </span>
                 </template>
