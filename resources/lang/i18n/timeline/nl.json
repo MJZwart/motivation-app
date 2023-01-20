@@ -6,6 +6,8 @@
     "joined-group": "Lid geworden van de groep {name}",
     "created-group": "De groep {name} aangemaakt",
     "left-group": "De groep {name} verlaten",
+    "disbanded-group": "De groep {name} verwijderd",
+    "level-up": "{name} heeft level {level} bereikt",
     "character-created": "Het karakter {name} aangemaakt",
     "village-created": "De nederzetting {name} aangemaakt",
     "achievement-earned": "De achievement \"{name}\" verdiend"

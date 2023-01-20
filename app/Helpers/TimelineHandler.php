@@ -25,6 +25,7 @@ class TimelineHandler
     public const JOINED_GROUP = 'joined-group';
     public const CREATED_GROUP = 'created-group';
     public const LEFT_GROUP = 'left-group';
+    public const DISBANDED_GROUP = 'disbanded-group';
     public const LEVEL_UP = 'level-up';
 
     public static function addJoinDateToTimeline(User $user) {
@@ -67,6 +68,14 @@ class TimelineHandler
             TimelineHandler::GROUP,
             TimelineHandler::LEFT_GROUP,
             ['name' => $group->name]);
+    }
+    public static function addGroupDisbandingToTimeline(string $groupName, int $userId) {
+        TimelineHandler::addToTimeline(
+            Carbon::now()->toString(),
+            $userId,
+            TimelineHandler::GROUP,
+            TimelineHandler::DISBANDED_GROUP,
+            ['name' => $groupName]);
     }
 
     public static function addNewRewardToTimeline(string $rewardName, int $userId, string $type, string $message) {
