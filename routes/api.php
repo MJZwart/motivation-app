@@ -59,12 +59,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
         Route::delete('/tasklists/{tasklist}', [TaskListController::class, 'destroy']);
     });
 
-    Route::get('/rewards/all', [RewardController::class, 'fetchAllRewardInstancesByUser']);
-    Route::put('/reward/activate', [RewardController::class, 'activateRewardInstance']);
-    Route::put('/reward/delete', [RewardController::class, 'deleteInstance']);
-
-    Route::put('/reward/update', [RewardController::class, 'updateRewardObj']);
-
     Route::get('/profile/{user}', [UserController::class, 'show']);
 
     Route::get('/isadmin', [UserController::class, 'isAdmin']);
