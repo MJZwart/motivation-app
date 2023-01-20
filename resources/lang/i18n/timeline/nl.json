@@ -4,6 +4,8 @@
     "join": "Lid geworden",
     "user-joined": "Gebruiker is lid geworden van het platform",
     "joined-group": "Lid geworden van de groep {name}",
+    "created-group": "De groep {name} aangemaakt",
+    "left-group": "De groep {name} verlaten",
     "character-created": "Het karakter {name} aangemaakt",
     "village-created": "De nederzetting {name} aangemaakt",
     "achievement-earned": "De achievement \"{name}\" verdiend"

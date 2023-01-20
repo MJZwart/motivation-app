@@ -6,6 +6,7 @@ use App\Helpers\ActionTrackingHandler;
 use App\Helpers\GroupRoleHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
+use App\Helpers\TimelineHandler;
 use App\Http\Requests\GroupMessageRequest;
 use App\Models\Group;
 use App\Models\User;
@@ -59,10 +60,12 @@ class GroupController extends Controller
     {
         $validated = $request->validated();
 
+        $userId = Auth::user()->id;
         $group = Group::create($validated);
         GroupRoleHandler::createStandardGroupRoles($group->id);
         $adminRank = GroupRoleHandler::getAdminRank($group->id);
-        $group->users()->attach(Auth::user()->id, ['rank' => $adminRank->id]);
+        $group->users()->attach($userId, ['rank' => $adminRank->id]);
+        TimelineHandler::addGroupCreationToTimeline($group, $userId);
         ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
 
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]));

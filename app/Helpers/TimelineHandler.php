@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\TimelineAction;
 use App\Models\User;
 use App\Models\Village;
+use Carbon\Carbon;
 
 class TimelineHandler
 {
@@ -22,7 +23,8 @@ class TimelineHandler
     public const CHARACTER_CREATED = 'character-created';
     public const VILLAGE_CREATED = 'village-created';
     public const JOINED_GROUP = 'joined-group';
-    
+    public const CREATED_GROUP = 'created-group';
+    public const LEFT_GROUP = 'left-group';
 
 
     public static function addJoinDateToTimeline(User $user) {
@@ -59,12 +61,28 @@ class TimelineHandler
             ['name' => $village->name]);
     }
 
-    public static function addGroupJoiningToTimeline(Group $group) {
+    public static function addGroupJoiningToTimeline(Group $group, int $userId = null) {
         TimelineHandler::addToTimeline(
             $group->pivot->joined, 
-            $group->pivot->user_id, 
+            $userId ? $userId : $group->pivot->user_id, 
             TimelineHandler::GROUP, 
             TimelineHandler::JOINED_GROUP, 
+            ['name' => $group->name]);
+    }
+    public static function addGroupCreationToTimeline(Group $group, int $userId) {
+        TimelineHandler::addToTimeline(
+            $group->created_at,
+            $userId,
+            TimelineHandler::GROUP,
+            TimelineHandler::CREATED_GROUP,
+            ['name' => $group->name]);
+    }
+    public static function addGroupLeavingToTimeline(Group $group, int $userId) {
+        TimelineHandler::addToTimeline(
+            Carbon::now()->toString(),
+            $userId,
+            TimelineHandler::GROUP,
+            TimelineHandler::LEFT_GROUP,
             ['name' => $group->name]);
     }
 

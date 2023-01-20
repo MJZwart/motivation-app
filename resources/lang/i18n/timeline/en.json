@@ -4,6 +4,8 @@
     "join": "Joined",
     "user-joined": "User joined the platform",
     "joined-group": "Joined the group {name}",
+    "created-group": "Created the group {name}",
+    "left-group": "Left the group {name}",
     "character-created": "Created the character {name}",
     "village-created": "Created the village {name}",
     "achievement-earned": "Earned the achievement \"{name}\""
