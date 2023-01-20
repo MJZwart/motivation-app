@@ -6,7 +6,7 @@
                 <div :class="'width-'+fieldGroup.width">
                     <template v-for="(subField, idx) in fieldGroup.fields" :key="idx">
                         <slot v-bind="subField" :name="'head'">
-                            <span v-if="subField.sortable" class="clickable block header" @click="toggleSort(subField.key)">
+                            <span v-if="subField.sortable" class="clickable block header" @click="toggleSort(subField)">
                                 {{ $t(subField.label) }} 
                                 <Icon :icon="SORT" />
                             </span>
@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import {Item, OverviewFieldGroups} from 'resources/types/global';
+import {Field, Item, OverviewFieldGroups} from 'resources/types/global';
 import {ref, computed, PropType} from 'vue';
 import {sortValues} from '/js/services/sortService';
 import {isDateItem, parseDateTime} from '/js/services/dateService';
@@ -92,6 +92,7 @@ const singleExtendedIndex = ref<number | null>(null);
 
 const currentSortDir = ref('');
 const currentSort = ref('');
+const currentDeepSort = ref<string | null>(null);
 
 function isExtended(index: number) {
     if (props.singleExtend) return singleExtendedIndex.value === index;
@@ -120,12 +121,15 @@ function parseItem(item: unknown) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const sortedItems = computed<any[]>(() => {
-    return sortValues(props.items, currentSort.value, currentSortDir.value);
+    return sortValues(props.items, currentSort.value, currentDeepSort.value, currentSortDir.value);
 });
 
-function toggleSort(key: string) {
-    key == currentSort.value ? toggleDir() : currentSort.value = key;
-    return sortValues(props.items, currentSort.value, currentSortDir.value);
+function toggleSort(item: Field) {
+    item.key == currentSort.value ? toggleDir() : currentSort.value = item.key;
+    if (item.sortKey) {
+        currentDeepSort.value = item.sortKey;
+    }
+    else currentDeepSort.value = null;
 }
 function toggleDir() {
     currentSortDir.value = currentSortDir.value == 'asc' ? 'desc' : 'asc';

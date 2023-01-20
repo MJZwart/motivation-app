@@ -3,6 +3,7 @@ export type Field = {
     label: string,
     sortable?: boolean,
     hidden?: boolean,
+    sortKey?: string,
 }
 
 export type OverviewField = {
@@ -10,6 +11,7 @@ export type OverviewField = {
     key?: string,
     fields: Field[],
     width: number,
+    sortKey?: string,
 }
 
 export type OverviewFieldGroups = {

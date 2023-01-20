@@ -13,6 +13,7 @@ export const filteredActionsFields = [
         key: 'user',
         label: 'user',
         sortable: true,
+        sortKey: 'username',
     },
     {
         key: 'action',

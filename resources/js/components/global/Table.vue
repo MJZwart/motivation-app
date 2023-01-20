@@ -5,7 +5,7 @@
                 <tr>
                     <th v-for="(field, index) in fields" :key="index">
                         <slot v-bind="field" :name="'head'">
-                            <span v-if="field.sortable" class="clickable block" @click="toggleSort(field.key)">
+                            <span v-if="field.sortable" class="clickable block" @click="toggleSort(field)">
                                 {{ $t(field.label) }} 
                                 <Icon 
                                     :icon="SORT" />
@@ -99,15 +99,19 @@ const className = computed(() => {
 /* Sorting */
 const currentSortDir = ref('');
 const currentSort = ref('');
+const currentDeepSort = ref<string | null>(null);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const sortedItems = computed<any[]>(() => {
-    return sortValues(props.items, currentSort.value, currentSortDir.value);
+    return sortValues(props.items, currentSort.value, currentDeepSort.value, currentSortDir.value);
 });
 
-function toggleSort(key: string) {
-    key == currentSort.value ? toggleDir() : currentSort.value = key;
-    return sortValues(props.items, currentSort.value, currentSortDir.value);
+function toggleSort(item: Field) {
+    item.key == currentSort.value ? toggleDir() : currentSort.value = item.key;
+    if (item.sortKey) {
+        currentDeepSort.value = item.sortKey;
+    }
+    else currentDeepSort.value = null;
 }
 function toggleDir() {
     currentSortDir.value = currentSortDir.value == 'asc' ? 'desc' : 'asc';

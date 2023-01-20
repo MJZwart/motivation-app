@@ -73,6 +73,7 @@ export const SUSPENDED_USERS_FIELDS = [
         label: 'user',
         key: 'user',
         sortable: true,
+        sortKey: 'username',
     },
     {
         label: 'reason',
