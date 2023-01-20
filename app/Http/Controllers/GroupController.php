@@ -84,7 +84,7 @@ class GroupController extends Controller
         GroupApplication::where('group_id', $group->id)->delete();
         $group->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
-        return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $group->name]));
+        return ResponseWrapper::successResponse(__('messages.group.deleted', ['name' => $group->name]));
     }
 
     /**
