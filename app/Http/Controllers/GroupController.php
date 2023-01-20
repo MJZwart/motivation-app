@@ -82,6 +82,7 @@ class GroupController extends Controller
     {
         $group->users()->detach();
         GroupApplication::where('group_id', $group->id)->delete();
+        TimelineHandler::addGroupDisbandingToTimeline($group->name, Auth::user()->id);
         $group->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.deleted', ['name' => $group->name]));

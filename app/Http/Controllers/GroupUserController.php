@@ -208,7 +208,7 @@ class GroupUserController extends Controller
         TimelineHandler::addGroupLeavingToTimeline($group, $user->id);
         ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', 'User left group ' . $group->name);
         return ResponseWrapper::successResponse(
-            __('messages.group.leave.admin', ['name' => $group->name]),
+            __('messages.group.leave.success', ['name' => $group->name]),
             ['group' => new GroupPageResource($group->fresh())]
         );
     }

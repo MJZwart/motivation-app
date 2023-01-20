@@ -38,7 +38,7 @@ class TimelineHandler
 
     public static function addAchievementToTimeline(Achievement $achievement, int $userId) {
         TimelineHandler::addToTimeline(
-            Carbon::now()->toString(),
+            Carbon::now(),
             $userId, 
             TimelineHandler::ACHIEVEMENT, 
             TimelineHandler::ACHIEVEMENT_EARNED, 
@@ -47,7 +47,7 @@ class TimelineHandler
 
     public static function addGroupJoiningToTimeline(Group $group, int $userId) {
         TimelineHandler::addToTimeline(
-            $group->pivot->joined, 
+            Carbon::now(), 
             $userId, 
             TimelineHandler::GROUP, 
             TimelineHandler::JOINED_GROUP, 
@@ -63,7 +63,7 @@ class TimelineHandler
     }
     public static function addGroupLeavingToTimeline(Group $group, int $userId) {
         TimelineHandler::addToTimeline(
-            Carbon::now()->toString(),
+            Carbon::now(),
             $userId,
             TimelineHandler::GROUP,
             TimelineHandler::LEFT_GROUP,
@@ -71,7 +71,7 @@ class TimelineHandler
     }
     public static function addGroupDisbandingToTimeline(string $groupName, int $userId) {
         TimelineHandler::addToTimeline(
-            Carbon::now()->toString(),
+            Carbon::now(),
             $userId,
             TimelineHandler::GROUP,
             TimelineHandler::DISBANDED_GROUP,
@@ -80,7 +80,7 @@ class TimelineHandler
 
     public static function addNewRewardToTimeline(string $rewardName, int $userId, string $type, string $message) {
         TimelineHandler::addToTimeline(
-            Carbon::now()->toString(),
+            Carbon::now(),
             $userId,
             $type,
             $message,
@@ -89,7 +89,7 @@ class TimelineHandler
     }
     public static function addLevelUpToTimeline(string $rewardName, int $userId, int $level, $type) {
         TimelineHandler::addToTimeline(
-            Carbon::now()->toString(),
+            Carbon::now(),
             $userId,
             $type,
             TimelineHandler::LEVEL_UP,
@@ -102,7 +102,7 @@ class TimelineHandler
         TimelineAction::create([
             'timestamp' => $timestamp,
             'user_id' => $userId,
-            'type' => $type,
+            'type' => strtoupper($type),
             'action' => $action,
             'params' => $encodedParams,
         ]);
