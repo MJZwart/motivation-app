@@ -61,18 +61,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
     Route::get('/profile/{user}', [UserController::class, 'show']);
 
-    Route::get('/isadmin', [UserController::class, 'isAdmin']);
-
     Route::post('/search', [UserController::class, 'searchUser']);
     Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
-
-    Route::get('/dashboard', [DashboardController::class, 'getDashboard']);
-    Route::get('/overview', [OverviewController::class, 'getOverview']);
-
-    Route::get('/conversations', [MessageController::class, 'getConversations']);
-    Route::post('/message', [MessageController::class, 'sendMessage']);
-    Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
-    Route::delete('/message/{message}', [MessageController::class, 'deleteMessage'])->can('update', ['message']);
-
-    Route::get('/unread', [UserController::class, 'hasUnread']);
 });

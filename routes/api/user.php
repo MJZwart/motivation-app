@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OverviewController;
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['valid-auth']], function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'getDashboard']);
+    Route::get('/overview', [OverviewController::class, 'getOverview']);
+
     //Settings
     Route::put('/settings/email', [UserController::class, 'updateEmail']);
     Route::put('/settings/password', [UserController::class, 'updatePassword']);

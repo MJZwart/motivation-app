@@ -18,6 +18,8 @@ use App\Http\Controllers\BugReportController;
 
 //Middleware for admin
 Route::group(['middleware' => ['admin']], function () {
+    
+    Route::get('/isadmin', [AdminController::class, 'isAdmin']);
 
     Route::resource('/achievements', AchievementController::class)->only([
         'store', 'update',

@@ -50,17 +50,6 @@ class UserController extends Controller
     }
 
     /**
-     * Checks if authenticated user is admin
-     * Returns boolean
-     */
-    public function isAdmin()
-    {
-        if (!Auth::user()->admin) {
-            return ResponseWrapper::forbiddenResponse(__('messages.user.not_admin'));
-        }
-    }
-
-    /**
      * Updates the authenticated user's email as given in the request
      * Returns updated user
      */

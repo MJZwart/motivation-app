@@ -27,7 +27,7 @@ export const useAdminStore = defineStore('admin', {
          * which the interceptor will pick up
          */
         checkAdmin() {
-            axios.get('/isadmin');
+            axios.get('/admin/isadmin');
         },
 
         /**
