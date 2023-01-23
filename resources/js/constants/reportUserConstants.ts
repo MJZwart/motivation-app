@@ -71,7 +71,7 @@ export const SUSPENDED_USERS_FIELDS = [
     },
     {
         label: 'user',
-        key: 'user',
+        key: 'username',
         sortable: true,
     },
     {
@@ -85,7 +85,7 @@ export const SUSPENDED_USERS_FIELDS = [
     },
     {
         label: 'suspended-by',
-        key: 'admin',
+        key: 'admin_username',
         sortable: true,
     },
     {

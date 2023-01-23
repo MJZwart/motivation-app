@@ -23,14 +23,14 @@
                     </span>
                     {{ parseDateTime(row.item.created_at) }}
                 </template>
-                <template #user="row">
-                    <router-link :to="{name: 'profile', params: {id: row.item.user.id}}">
-                        {{ row.item.user.username }}
+                <template #username="row">
+                    <router-link :to="{name: 'profile', params: {id: row.item.user_id}}">
+                        {{ row.item.username }}
                     </router-link>
                 </template>
-                <template #admin="row">
-                    <router-link :to="{name: 'profile', params: {id: row.item.admin.id}}">
-                        {{ row.item.admin.username }}
+                <template #admin_username="row">
+                    <router-link :to="{name: 'profile', params: {id: row.item.admin_id}}">
+                        {{ row.item.admin_username }}
                     </router-link>
                 </template>
                 <template #suspended_until="row">

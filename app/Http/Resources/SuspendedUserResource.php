@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\StrippedUserResource;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 
@@ -24,10 +23,12 @@ class SuspendedUserResource extends JsonResource
                 'syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW,
             ]),
             'updated_at' => $this->updated_at,
-            'user' => new StrippedUserResource($this->user),
+            'user_id' => $this->user->id,
+            'username' => $this->user->username,
             'reason' => $this->reason,
             'days' => $this->days,
-            'admin' => new StrippedUserResource($this->admin),
+            'admin_id' => $this->admin->id,
+            'admin_username' => $this->admin->username,
             'suspended_until' => Carbon::create($this->suspended_until),
             'past' => Carbon::parse($this->suspended_until)->lessThan(Carbon::now()),
             'suspended_until_time' => Carbon::parse($this->suspended_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]),            
