@@ -247,7 +247,7 @@ class AdminController extends Controller
      */
     public function getFeedback()
     {
-        return new JsonResponse(['feedback' => FeedbackResource::collection(Feedback::get())]);
+        return new JsonResponse(['feedback' => FeedbackResource::collection(Feedback::with('user')->get())]);
     }
 
     /**
@@ -260,7 +260,7 @@ class AdminController extends Controller
         $feedback->save();
         return ResponseWrapper::successResponse(
             $feedback->archived ? __('messages.feedback.archived') : __('messages.feedback.unarchived'),
-            ['feedback' => FeedbackResource::collection(Feedback::get())]
+            ['feedback' => FeedbackResource::collection(Feedback::with('user')->get())]
         );
     }
 

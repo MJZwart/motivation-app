@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\StrippedUserResource;
 
 class FeedbackResource extends JsonResource
 {
@@ -22,7 +21,8 @@ class FeedbackResource extends JsonResource
             'type' => $this->type,
             'text' => $this->text,
             'email' => $this->email,
-            'user' => new StrippedUserResource($this->user),
+            'user_id' => $this->user->id,
+            'username' => $this->user->username,
             'archived' => !!$this->archived,
             'diagnostics' => $this->diagnostics,
         ];

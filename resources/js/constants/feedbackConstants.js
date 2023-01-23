@@ -21,7 +21,7 @@ export const FEEDBACK_FIELDS = [
     },
     {
         label: 'user', 
-        key: 'user',
+        key: 'username',
     },
     {
         label: 'email', 

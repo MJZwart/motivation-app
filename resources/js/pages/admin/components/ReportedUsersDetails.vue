@@ -25,7 +25,7 @@
                     {{suspended.days}}
                 </div>
                 <div class="col fg-1">
-                    {{suspended.admin.username}}
+                    {{suspended.admin_username}}
                 </div>
             </div>
         </template>
