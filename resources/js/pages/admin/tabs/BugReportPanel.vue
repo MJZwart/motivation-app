@@ -31,10 +31,10 @@
                 <div style="min-width: 49px">
                     <Icon :icon="EDIT" class="edit-icon" @click="editBugReport(row.item)" />
                     <Icon 
-                        v-if="row.item.user" 
+                        v-if="row.item.user_id" 
                         :icon="MAIL" 
                         class="mail-icon" 
-                        @click="sendMessageToBugReportAuthor(row.item.user)" 
+                        @click="sendMessageToBugReportAuthor(row.item.user_id, row.item.username)" 
                     />
                 </div>
             </template>
@@ -66,11 +66,11 @@ import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import Diagnostics from '/js/components/global/small/Diagnostics.vue';
 import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
-import {StrippedUser} from 'resources/types/user';
 import {BugReport} from 'resources/types/bug';
 import {useI18n} from 'vue-i18n';
 import {EDIT, MAIL} from '/js/constants/iconConstants';
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
+import {StrippedUser} from 'resources/types/user';
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
 const {t} = useI18n();
@@ -87,9 +87,9 @@ const bugReportAuthor = ref<StrippedUser | null>(null);
 const showEditBugReportModal = ref(false);
 const showSendMessageModal = ref(false);
 
-function sendMessageToBugReportAuthor(author: StrippedUser) {
+function sendMessageToBugReportAuthor(user_id: number, username: string) {
     mainStore.clearErrors();
-    bugReportAuthor.value = author;
+    bugReportAuthor.value = {username: username, id: user_id};
     showSendMessageModal.value = true;
 }
 function closeSendMessageToBugReportAuthor() {
