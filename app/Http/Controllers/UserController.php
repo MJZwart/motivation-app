@@ -23,6 +23,7 @@ use App\Http\Requests\ToggleTutorialRequest;
 use App\Http\Requests\UpdateLanguage;
 use App\Http\Resources\BlockedUserResource;
 use App\Models\BlockedUser;
+use App\Models\Friend;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 
@@ -188,6 +189,25 @@ class UserController extends Controller
     {
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
         return new JsonResponse(['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
+    }
+    
+    public function blockUser(Request $request, User $blockedUser)
+    {
+        /** @var User */
+        $user = Auth::user();
+        BlockedUser::create([
+            'user_id' => $user->id,
+            'blocked_user_id' => $blockedUser->id,
+        ]);
+        MessageController::makeConversationInvisible($user, $blockedUser);
+        //delete friendship and inverse friendship
+        $toDelete = Friend::where('user_id', $user->id)->where('friend_id', $blockedUser->id)->first();
+        if ($toDelete) $toDelete->delete();
+        $toDelete = Friend::where('user_id', $blockedUser->id)->where('friend_id', $user->id)->first();
+        if ($toDelete) $toDelete->delete();
+
+        ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user ' . $blockedUser->username);
+        return ResponseWrapper::successResponse(__('messages.user.blocked'));
     }
 
     public function unblockUser(BlockedUser $blockedUser)

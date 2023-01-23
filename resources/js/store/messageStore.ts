@@ -1,12 +1,10 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
-import {Conversation, NewMessage} from 'resources/types/message';
+import {NewMessage} from 'resources/types/message';
 
 export const useMessageStore = defineStore('message', {
     state: () => {
         return {
-            conversations: [] as Conversation[],
-            notifications: [] as Notification[],
             hasMessages: false,
             hasNotifications: false,
         }
@@ -19,7 +17,7 @@ export const useMessageStore = defineStore('message', {
         },
         async getConversations() {
             const {data} = await axios.get('/message/conversations');
-            this.conversations = data.data;
+            return data.data;
         },
         async sendMessage(message: NewMessage) {
             await axios.post('/message', message);
@@ -33,15 +31,15 @@ export const useMessageStore = defineStore('message', {
 
         async getNotifications() {
             const {data} = await axios.get('/notifications');
-            this.notifications = data.data;
+            return data.data;
         },
         async deleteNotification(notificationId: number) {
             const {data} = await axios.delete(`/notifications/${notificationId}`);
-            this.notifications = data.data.notifications;
+            return data.data.notifications;
         },
         async deleteNotificationAction(notificationId: number) {
             const {data} = await axios.put(`/notifications/${notificationId}/disable-action`);
-            this.notifications = data.data;
+            return data.data;
         },
     },
 });

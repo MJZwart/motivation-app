@@ -2,7 +2,6 @@ import axios from 'axios';
 import {defineStore} from 'pinia';
 import router from '../router/router';
 import {useRewardStore} from './rewardStore';
-import {useMessageStore} from './messageStore';
 import {useFriendStore} from './friendStore';
 import type {EmailSettings, PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import {changeLang} from '../services/languageService';
@@ -146,9 +145,7 @@ export const useUserStore = defineStore('user', {
         },
 
         async blockUser(userId: string | number) {
-            const {data} = await axios.put('/user/' + userId + '/block');
-            const messageStore = useMessageStore();
-            messageStore.conversations = data.data;
+            await axios.put('/user/' + userId + '/block');
         },
 
         async getBlocklist(): Promise<Blocked[]> {

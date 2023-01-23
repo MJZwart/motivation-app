@@ -134,7 +134,7 @@ const conversationToReport = ref<string | null>(null);
 const loading = ref(true);
 const showReportUserModal = ref(false);
 
-const conversations = computed(() => messageStore.conversations);
+const conversations = ref<Conversation[]>([]);
 
 const hasConversations = computed(() => !!conversations.value && !!conversations.value[0]);
 
@@ -149,7 +149,7 @@ function markAsRead(conversation: Conversation) {
 }
 
 async function load() {
-    await messageStore.getConversations();
+    conversations.value = await messageStore.getConversations();
     resetConversation();
     if (conversations.value && conversations.value[0])
         markAsRead(conversations.value[0]);
@@ -169,7 +169,7 @@ async function sendMessage() {
     message.value.conversation_id = activeConversation.value.conversation_id;
     message.value.recipient_id = activeConversation.value.recipient.id;
     await messageStore.sendMessage(message.value)
-    await messageStore.getConversations();
+    conversations.value = await messageStore.getConversations();
     message.value.message = '';
     resetConversation();
 }
@@ -192,7 +192,7 @@ function limitMessage(messageString: string) {
 async function deleteMessage(message: Message) {
     if (confirm(t('confirmation-delete-message'))) {
         await messageStore.deleteMessage(message.id);
-        await messageStore.getConversations();
+        conversations.value = await messageStore.getConversations();
     }
 }
 function addFriend(userId: string) {
@@ -202,8 +202,8 @@ function addFriend(userId: string) {
 async function blockUser(user: StrippedUser) {
     if (confirm(t('block-user-confirmation', {user: user.username}))) {
         await userStore.blockUser(user.id)
-        await messageStore.getConversations();
-        resetConversation();
+        loading.value = true;
+        load();
     }
 }
 function reportUser(conversation: Conversation) {

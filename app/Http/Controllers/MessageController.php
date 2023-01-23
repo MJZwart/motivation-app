@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\Conversation;
-use App\Models\Friend;
 use App\Http\Resources\ConversationOverviewResource;
 use App\Http\Requests\SendMessageRequest;
-use App\Models\BlockedUser;
 
 class MessageController extends Controller
 {
@@ -84,35 +82,16 @@ class MessageController extends Controller
         return ResponseWrapper::successResponse(__('messages.message.deleted'));
     }
 
-    public function blockUser(Request $request, User $blockedUser)
-    {
-        /** @var User */
-        $user = Auth::user();
-        BlockedUser::create([
-            'user_id' => $user->id,
-            'blocked_user_id' => $blockedUser->id,
-        ]);
-        $this->makeConversationInvisible($user, $blockedUser);
-        //delete friendship and inverse friendship
-        $toDelete = Friend::where('user_id', $user->id)->where('friend_id', $blockedUser->id)->first();
-        if ($toDelete) $toDelete->delete();
-        $toDelete = Friend::where('user_id', $blockedUser->id)->where('friend_id', $user->id)->first();
-        if ($toDelete) $toDelete->delete();
-
-        ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user ' . $blockedUser->username);
-        return ResponseWrapper::successResponse(__('messages.user.blocked'));
-    }
-
-    private function makeConversationInvisible($user, $blockedUser)
+    public static function makeConversationInvisible($user, $blockedUser)
     {
         $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->id)->first();
         if (!$conversation) return;
         foreach ($conversation->messages as $message) {
-            $this->makeMessageInvisibleToUser($message, $user->id);
+            MessageController::makeMessageInvisibleToUser($message, $user->id);
         }
     }
 
-    private function makeMessageInvisibleToUser($message, $userId)
+    public static function makeMessageInvisibleToUser($message, $userId)
     {
         if ($message->recipient_id == $userId) {
             $message->visible_to_recipient = false;

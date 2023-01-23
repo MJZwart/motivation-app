@@ -33,7 +33,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::post('/{user}/report', [UserController::class, 'reportUser']);
 
     //Blocklist
-    Route::put('/{blockedUser}/block', [MessageController::class, 'blockUser']);
+    Route::put('/{blockedUser}/block', [UserController::class, 'blockUser']);
     Route::get('/blocklist', [UserController::class, 'getBlocklist']);
     Route::put('/{blockedUser}/unblock', [UserController::class, 'unblockUser']);
 
