@@ -135,8 +135,17 @@ const loading = ref(true);
 const rewardToEdit = ref<Reward | null>(null);
 const showEditRewardNameModal = ref(false);
 const user = computed(() => userStore.user);
-const characters = computed(() => rewardStore.characters);
-const villages = computed(() => rewardStore.villages);
+const characters = ref<Reward[]>([]);
+const villages = ref<Reward[]>([]);
+
+async function load() {
+    mainStore.clearErrors();
+    const data = await rewardStore.fetchAllRewardInstances();
+    villages.value = data.villages;
+    characters.value = data.characters;
+    rewardSetting.value.rewards = user.value?.rewards ?? '';
+    loading.value = false;
+}
 
 const rewardTypeName = computed(() =>
     rewardSetting.value.rewards == 'VILLAGE' ? t('village-name') : t('character-name'),
@@ -210,11 +219,5 @@ async function deleteItem(instance: Reward) {
         await rewardStore.deleteInstance(instance);
         load();
     }
-}
-async function load() {
-    mainStore.clearErrors();
-    await rewardStore.fetchAllRewardInstances();
-    rewardSetting.value.rewards = user.value?.rewards ?? '';
-    loading.value = false;
 }
 </script>

@@ -8,25 +8,12 @@ export const useRewardStore = defineStore('reward', {
     state: () => {
         return {
             rewardObj: null as Reward | null,
-            villages: [] as Reward[],
-            characters: [] as Reward[],
         }
     },
     actions: {
-        async fetchAllVillages() {
-            const {data} = await axios.get('/village/all');
-            this.villages = data.data;
-        },
-
-        async fetchAllCharacters() {
-            const {data} = await axios.get('/character/all');
-            this.characters = data.data;
-        },
-
         async fetchAllRewardInstances() {
             const {data} = await axios.get('/reward/all');
-            this.characters = data.rewards.characters;
-            this.villages = data.rewards.villages;
+            return data.rewards;
         },
 
         async updateRewardObjName (rewardObj: Reward) {
