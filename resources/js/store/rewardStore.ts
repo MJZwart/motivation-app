@@ -24,7 +24,7 @@ export const useRewardStore = defineStore('reward', {
         },
 
         async fetchAllRewardInstances() {
-            const {data} = await axios.get('/rewards/all');
+            const {data} = await axios.get('/reward/all');
             this.characters = data.rewards.characters;
             this.villages = data.rewards.villages;
         },

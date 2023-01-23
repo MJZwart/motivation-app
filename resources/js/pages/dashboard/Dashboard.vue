@@ -46,8 +46,10 @@ import {useMainStore} from '/js/store/store';
 import {onBeforeMount, ref, computed} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useRewardStore} from '/js/store/rewardStore';
+import {useUserStore} from '/js/store/userStore';
 
 const mainStore = useMainStore();
+const userStore = useUserStore();
 const taskStore = useTaskStore();
 const rewardStore = useRewardStore();
 
@@ -58,7 +60,7 @@ const rewardObj = computed(() => rewardStore.rewardObj);
 
 onBeforeMount(async () => {
     //Fetches all dashboard data and stores it in the store
-    await mainStore.getDashboard();
+    await userStore.getDashboard();
     loading.value = false;
 });
 

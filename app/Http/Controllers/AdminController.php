@@ -36,6 +36,10 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    public function isAdmin()
+    {
+        //Empty function, check is already done by middleware
+    }
     /*
     * *
     * * Balancing

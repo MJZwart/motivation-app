@@ -11,6 +11,7 @@ import type {Blocked, Login, NewUser, Register, ResetPassword, User, UserStats} 
 import type {UserSearch} from 'resources/types/global';
 import type {NewReportedUser} from 'resources/types/admin';
 import {Achievement} from 'resources/types/achievement';
+import {useTaskStore} from './taskStore';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -61,6 +62,14 @@ export const useUserStore = defineStore('user', {
             changeLang(lang);
         },
 
+        async getDashboard() {
+            const {data} = await axios.get('/user/dashboard');
+            const taskStore = useTaskStore();
+            taskStore.taskLists = data.taskLists;
+            const rewardStore = useRewardStore();
+            rewardStore.rewardObj = data.rewardObj;
+        },
+
         // * New user
         async register(user: Register) {
             await axios.get('/sanctum/csrf-cookie');
@@ -86,7 +95,7 @@ export const useUserStore = defineStore('user', {
 
         // * Overview
         async getOverview() {
-            const {data} = await axios.get('/overview');
+            const {data} = await axios.get('/user/overview');
             this.userStats = data.stats;
             this.achievementsByUser = data.achievements;
             const rewardStore = useRewardStore();
