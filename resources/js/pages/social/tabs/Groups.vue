@@ -132,7 +132,9 @@ onMounted(() => {
     load();
 });
 async function load() {
-    await groupStore.fetchGroupsDashboard();
+    const data = await groupStore.fetchGroupsDashboard();
+    myGroups.value = data.my;
+    allGroups.value = data.all;
     loading.value = false;
 }
 
@@ -153,8 +155,8 @@ function filterGroups(group: Group) {
     return true;
 }
 
-const myGroups = computed(() => groupStore.myGroups);
-const allGroups = computed(() => groupStore.allGroups);
+const myGroups = ref<Group[]>([]);
+const allGroups = ref<Group[]>([]);
 const chosen = ref('MY');
 const chosenGroups = computed(() => {
     if (chosen.value == 'MY') return myGroups.value;
