@@ -15,6 +15,11 @@ use Illuminate\Http\JsonResponse;
 
 class TaskListController extends Controller
 {
+    public function getOtherTaskLists(int $taskListId) 
+    {
+        return TaskList::where('user_id', Auth::user()->id)->whereNot('id', $taskListId)->select('name', 'id')->get();
+    }
+
     /**
      * Create a new task list with the user given name
      * Returns the updated list of task lists

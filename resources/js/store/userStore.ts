@@ -6,10 +6,9 @@ import {useFriendStore} from './friendStore';
 import type {EmailSettings, PasswordSettings, ProfileSettings} from 'resources/types/settings';
 import {changeLang} from '../services/languageService';
 import type {ChangeReward} from 'resources/types/reward';
-import type {Blocked, Login, NewUser, Register, ResetPassword, User, UserStats} from 'resources/types/user';
+import type {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resources/types/user';
 import type {UserSearch} from 'resources/types/global';
 import type {NewReportedUser} from 'resources/types/admin';
-import {Achievement} from 'resources/types/achievement';
 import {useTaskStore} from './taskStore';
 
 export const useUserStore = defineStore('user', {
@@ -17,9 +16,7 @@ export const useUserStore = defineStore('user', {
         return {
             user: null as User | null,
             authenticated: false,
-            userStats: null as UserStats | null,
             isAdmin: false,
-            achievementsByUser: null as Achievement[] | null,
         };
     },
     actions: {
@@ -95,10 +92,9 @@ export const useUserStore = defineStore('user', {
         // * Overview
         async getOverview() {
             const {data} = await axios.get('/user/overview');
-            this.userStats = data.stats;
-            this.achievementsByUser = data.achievements;
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.rewardObj;
+            return data;
         },
         async getTimeline(userId: number) {
             const {data} = await axios.get(`/user/timeline/${userId}`);
