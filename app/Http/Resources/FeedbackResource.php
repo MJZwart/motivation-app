@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\StrippedUserResource;
 
 class FeedbackResource extends JsonResource
 {
