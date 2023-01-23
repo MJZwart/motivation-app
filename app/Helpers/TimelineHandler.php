@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\TimelineAction;
 use App\Models\User;
 use App\Models\Village;
+use Carbon\Carbon;
 
 class TimelineHandler
 {
@@ -22,8 +23,10 @@ class TimelineHandler
     public const CHARACTER_CREATED = 'character-created';
     public const VILLAGE_CREATED = 'village-created';
     public const JOINED_GROUP = 'joined-group';
-    
-
+    public const CREATED_GROUP = 'created-group';
+    public const LEFT_GROUP = 'left-group';
+    public const DISBANDED_GROUP = 'disbanded-group';
+    public const LEVEL_UP = 'level-up';
 
     public static function addJoinDateToTimeline(User $user) {
         TimelineHandler::addToTimeline(
@@ -33,39 +36,65 @@ class TimelineHandler
             TimelineHandler::USER_JOINED);
     }
 
-    public static function addAchievementToTimeline(Achievement $achievement) {
+    public static function addAchievementToTimeline(Achievement $achievement, int $userId) {
         TimelineHandler::addToTimeline(
-            $achievement->pivot->earned, 
-            $achievement->pivot->user_id, 
+            Carbon::now(),
+            $userId, 
             TimelineHandler::ACHIEVEMENT, 
             TimelineHandler::ACHIEVEMENT_EARNED, 
             ['name' => $achievement->name]);
     }
 
-    public static function addCharacterCreationToTimeline(Character $character) {
+    public static function addGroupJoiningToTimeline(Group $group, int $userId) {
         TimelineHandler::addToTimeline(
-            $character->created_at, 
-            $character->user_id, 
-            TimelineHandler::CHARACTER, 
-            TimelineHandler::CHARACTER_CREATED, 
-            ['name' => $character->name]);
-    }
-    public static function addVillageCreationToTimeline(Village $village) {
-        TimelineHandler::addToTimeline(
-            $village->created_at, 
-            $village->user_id, 
-            TimelineHandler::VILLAGE, 
-            TimelineHandler::VILLAGE_CREATED, 
-            ['name' => $village->name]);
-    }
-
-    public static function addGroupJoiningToTimeline(Group $group) {
-        TimelineHandler::addToTimeline(
-            $group->pivot->joined, 
-            $group->pivot->user_id, 
+            Carbon::now(), 
+            $userId, 
             TimelineHandler::GROUP, 
             TimelineHandler::JOINED_GROUP, 
             ['name' => $group->name]);
+    }
+    public static function addGroupCreationToTimeline(Group $group, int $userId) {
+        TimelineHandler::addToTimeline(
+            $group->created_at,
+            $userId,
+            TimelineHandler::GROUP,
+            TimelineHandler::CREATED_GROUP,
+            ['name' => $group->name]);
+    }
+    public static function addGroupLeavingToTimeline(Group $group, int $userId) {
+        TimelineHandler::addToTimeline(
+            Carbon::now(),
+            $userId,
+            TimelineHandler::GROUP,
+            TimelineHandler::LEFT_GROUP,
+            ['name' => $group->name]);
+    }
+    public static function addGroupDisbandingToTimeline(string $groupName, int $userId) {
+        TimelineHandler::addToTimeline(
+            Carbon::now(),
+            $userId,
+            TimelineHandler::GROUP,
+            TimelineHandler::DISBANDED_GROUP,
+            ['name' => $groupName]);
+    }
+
+    public static function addNewRewardToTimeline(string $rewardName, int $userId, string $type, string $message) {
+        TimelineHandler::addToTimeline(
+            Carbon::now(),
+            $userId,
+            $type,
+            $message,
+            ['name' => $rewardName]
+        );
+    }
+    public static function addLevelUpToTimeline(string $rewardName, int $userId, int $level, $type) {
+        TimelineHandler::addToTimeline(
+            Carbon::now(),
+            $userId,
+            $type,
+            TimelineHandler::LEVEL_UP,
+            ['level' => $level, 'name' => $rewardName]
+        );
     }
 
     public static function addToTimeline(string $timestamp, int $userId, string $type, string $action, string | array $params = null) {
@@ -73,7 +102,7 @@ class TimelineHandler
         TimelineAction::create([
             'timestamp' => $timestamp,
             'user_id' => $userId,
-            'type' => $type,
+            'type' => strtoupper($type),
             'action' => $action,
             'params' => $encodedParams,
         ]);

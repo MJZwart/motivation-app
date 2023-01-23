@@ -7,6 +7,7 @@ use App\Helpers\ActionTrackingHandler;
 use App\Helpers\GroupRoleHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
+use App\Helpers\TimelineHandler;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\GroupApplication;
@@ -41,6 +42,7 @@ class GroupUserController extends Controller
         $user = Auth::user();
         $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
 
+        TimelineHandler::addGroupJoiningToTimeline($group, $user->id);
         ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', 'Joined group ' . $group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.join_success', ['name' => $group->name]),
@@ -108,6 +110,7 @@ class GroupUserController extends Controller
             'text' => __('messages.group.application_accepted_text', ['name' => $group->name]),
         ]);
 
+        TimelineHandler::addGroupJoiningToTimeline($group, $user->id);
         ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "User accepted {$user->username}'s group application into {$group->name}.");
         return ResponseWrapper::successResponse(
             __('messages.group.accepted_application', ['username' => $user->username]),
@@ -202,9 +205,10 @@ class GroupUserController extends Controller
         /** @var User */
         $user = Auth::user();
         $group->users()->detach($user);
+        TimelineHandler::addGroupLeavingToTimeline($group, $user->id);
         ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', 'User left group ' . $group->name);
         return ResponseWrapper::successResponse(
-            __('messages.group.leave.admin', ['name' => $group->name]),
+            __('messages.group.leave.success', ['name' => $group->name]),
             ['group' => new GroupPageResource($group->fresh())]
         );
     }
@@ -221,6 +225,7 @@ class GroupUserController extends Controller
         if (!$group->hasMember($request['id']))
             return ResponseWrapper::errorResponse("This user is not a member of this group");
         $group->removeMemberFromGroup($request['id']);
+        TimelineHandler::addGroupLeavingToTimeline($group, $request['id']);
         ActionTrackingHandler::handleAction($request, 'GROUP_USER_KICKED', $group->name . ' kicked user id ' . $request['id']);
         return ResponseWrapper::successResponse(
             __('messages.group.updated'),
@@ -242,6 +247,7 @@ class GroupUserController extends Controller
         $group->users()->detach($user);
         $group->suspendedUsers()->attach($user);
         $username = User::find($user)->username;
+        TimelineHandler::addGroupLeavingToTimeline($group, $user->id);
         ActionTrackingHandler::handleAction($request, 'GROUP_USER_SUSPENDED', $group->name . ' suspended user id ' . $user);
         return ResponseWrapper::successResponse(
             __('messages.group.removed_and_suspended', ['username' => $username]),
@@ -300,6 +306,7 @@ class GroupUserController extends Controller
             return ResponseWrapper::errorResponse(__('messages.group.invite.not_yours'));
         $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
         $groupInvite->delete();
+        TimelineHandler::addGroupJoiningToTimeline($group, $user->id);
         ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.join_success', ['name' => $groupInvite->group->name]));
     }

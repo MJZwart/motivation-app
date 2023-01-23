@@ -6,6 +6,7 @@ use App\Helpers\ActionTrackingHandler;
 use App\Helpers\GroupRoleHandler;
 use App\Helpers\NotificationHandler;
 use App\Helpers\ResponseWrapper;
+use App\Helpers\TimelineHandler;
 use App\Http\Requests\GroupMessageRequest;
 use App\Models\Group;
 use App\Models\User;
@@ -59,10 +60,12 @@ class GroupController extends Controller
     {
         $validated = $request->validated();
 
+        $userId = Auth::user()->id;
         $group = Group::create($validated);
         GroupRoleHandler::createStandardGroupRoles($group->id);
         $adminRank = GroupRoleHandler::getAdminRank($group->id);
-        $group->users()->attach(Auth::user()->id, ['rank' => $adminRank->id]);
+        $group->users()->attach($userId, ['rank' => $adminRank->id]);
+        TimelineHandler::addGroupCreationToTimeline($group, $userId);
         ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
 
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]));
@@ -79,9 +82,10 @@ class GroupController extends Controller
     {
         $group->users()->detach();
         GroupApplication::where('group_id', $group->id)->delete();
+        TimelineHandler::addGroupDisbandingToTimeline($group->name, Auth::user()->id);
         $group->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
-        return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $group->name]));
+        return ResponseWrapper::successResponse(__('messages.group.deleted', ['name' => $group->name]));
     }
 
     /**

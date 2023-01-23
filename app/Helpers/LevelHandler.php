@@ -69,6 +69,8 @@ class LevelHandler
                 if ($statArr[$i] !== 'level') { //Add messages to an array to give back to the user, letting them know they levelled up.
                     array_push($messages, __('messages.reward.level.'.$type.'.statup', ['stat' => $statArr[$i], 'level' => $rewardAsArr[$statArr[$i]]]));
                 } else {
+                    if ($rewardAsArr[$statArr[$i]] % 5 == 0) 
+                        TimelineHandler::addLevelUpToTimeline($activeReward->name, $activeReward->user_id, $rewardAsArr[$statArr[$i]], $type);
                     array_push($messages, __('messages.reward.level.'.$type.'.levelup', ['level' => $rewardAsArr[$statArr[$i]]]));
                 }
             }
