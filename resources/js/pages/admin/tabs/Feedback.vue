@@ -10,9 +10,9 @@
             sort="created_at"
             :sortAsc="false"
         >
-            <template #user="row">
-                <router-link v-if="row.item.user" :to="{name: 'profile', params: {id: row.item.user.id}}">
-                    {{ row.item.user.username }}
+            <template #username="row">
+                <router-link v-if="row.item.user_id" :to="{name: 'profile', params: {id: row.item.user_id}}">
+                    {{ row.item.username }}
                 </router-link>
             </template>
             <template #created_at="row">

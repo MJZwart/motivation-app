@@ -22,7 +22,8 @@ class FeedbackResource extends JsonResource
             'type' => $this->type,
             'text' => $this->text,
             'email' => $this->email,
-            'user' => new StrippedUserResource($this->user),
+            'user_id' => $this->user->id,
+            'username' => $this->user->username,
             'archived' => !!$this->archived,
             'diagnostics' => $this->diagnostics,
         ];
