@@ -114,7 +114,7 @@ const showEditSuspensionModal = ref(false);
 const editSuspensionUser = ref<SuspendedUser | null>(null);
 const editSuspensionModalTitle = computed(() => {
     if (!editSuspensionUser.value) return;
-    return t('edit-suspension-of', {user: editSuspensionUser.value.user.username});
+    return t('edit-suspension-of', {user: editSuspensionUser.value.username});
 });
 
 function editSuspension(suspendedUser: SuspendedUser) {

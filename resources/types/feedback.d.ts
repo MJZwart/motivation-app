@@ -11,8 +11,6 @@ export type Feedback = NewFeedback & {
     id: number;
     created_at: Date;
     archived: boolean;
-    user?: {
-        id: number;
-        username: string;
-    };
+    user_id?: number;
+    username?: string;
 };

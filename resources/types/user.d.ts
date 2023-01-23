@@ -30,16 +30,12 @@ export type SuspendedUser = {
     created_at: Date;
     time_since: string;
     updated_at: Date;
-    user: {
-        username: string;
-        id: number;
-    };
+    username: string;
+    user_id: number;
     reason: string;
     days: number;
-    admin: {
-        username: string;
-        id: number;
-    };
+    admin_username: string;
+    admin_id: number;
     suspended_until: string;
     past: boolean;
     suspended_until_time: string;
