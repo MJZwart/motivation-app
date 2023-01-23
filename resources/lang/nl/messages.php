@@ -34,6 +34,8 @@ return [
     'achievement' => [
         'created' => 'Achievement toegevoegd.',
         'updated' => 'Achievement gewijzigd.',
+        'new_title' => 'Achievement verdiend!',
+        'new_notification' => 'Je hebt de achievement :name verdiend.',
     ],
 
     'exp' => [

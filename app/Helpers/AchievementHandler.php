@@ -92,8 +92,8 @@ class AchievementHandler
      */
     public static function sendAwardNotification($user, $achievement)
     {
-        $title = "New achievement!";
-        $text = "You have earned the achievement " . $achievement->name . ": " . $achievement->trigger_description;
+        $title = __('messages.achievement.new_title');
+        $text = __('messages.achievement.new_notification', ['name' => $achievement->name]);
         Notification::create(['user_id' => $user->id, 'title' => $title, 'text' => $text]);
     }
 }
