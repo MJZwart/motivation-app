@@ -34,6 +34,8 @@ return [
     'achievement' => [
         'created' => 'Achievement added.',
         'updated' => 'Achievement updated.',
+        'new_title' => 'New achievement!',
+        'new_notification' => 'You have earned the achievement :name.',
     ],
 
     'exp' => [
