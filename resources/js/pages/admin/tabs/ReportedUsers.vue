@@ -11,28 +11,28 @@
             class="striped"
             click-to-extend>
 
-            <template #username="item">
-                <h5>{{item.item.username}}</h5>
+            <template #username="row">
+                <h5>{{row.item.username}}</h5>
             </template>
-            <template #suspended_until="item">
-                {{item.item.suspended ? item.item.suspended[0].suspended_until_time : 'Never'}}
+            <template #suspended_until="row">
+                {{row.item.suspended ? row.item.suspended[0].suspended_until_time : 'Never'}}
             </template>
-            <template #actions="item">
-                <Tooltip v-if="!currentlySuspended(item.item)" :text="$t('suspend-user')">
+            <template #actions="row">
+                <Tooltip v-if="!currentlySuspended(row.item)" :text="$t('suspend-user')">
                     <Icon 
                         :icon="BAN" 
                         class="ban-icon red"
-                        @click.stop.prevent="suspendUser(item.item)" />                        
+                        @click.stop.prevent="suspendUser(row.item)" />                        
                 </Tooltip>
                 <Tooltip :text="$t('message-reported-user')">
                     <Icon 
                         :icon="MAIL"
                         class="mail-icon"
-                        @click.stop.prevent="sendMessageToReportedUser(item.item)" />
+                        @click.stop.prevent="sendMessageToReportedUser(row.item)" />
                 </Tooltip>
             </template>
-            <template #extend="item">
-                <ReportedUserDetails :user="item.item" @close-report="closeReport" />
+            <template #extend="row">
+                <ReportedUserDetails :user="row.item" @close-report="closeReport" />
             </template>
         </SortableOverviewTable>
 

@@ -8,33 +8,33 @@
             :items="bugReports"
             :fields="newBugReportFields"
         >
-            <template #title="data">
-                <h5>{{data.item.title}}</h5>
+            <template #title="row">
+                <h5>{{row.item.title}}</h5>
             </template>
             
-            <template #diagnostics="data">
-                <Diagnostics :diagnostics="data.item.diagnostics" />
+            <template #diagnostics="row">
+                <Diagnostics :diagnostics="row.item.diagnostics" />
             </template>
 
-            <template #user="data">
+            <template #user="row">
                 <b>{{ $t('reported-by') }}</b>: 
-                <router-link v-if="data.item.user" :to="{name: 'profile', params: {id: data.item.user.id}}">
-                    {{ data.item.user.username }}
+                <router-link v-if="row.item.user" :to="{name: 'profile', params: {id: row.item.user.id}}">
+                    {{ row.item.user.username }}
                 </router-link>
                 <span v-else>{{ $t('no-user') }}</span>
             </template>
 
-            <template #status="data">
-                {{ parseStatus(data.item.status) }}
+            <template #status="row">
+                {{ parseStatus(row.item.status) }}
             </template>
-            <template #actions="data">
+            <template #actions="row">
                 <div style="min-width: 49px">
-                    <Icon :icon="EDIT" class="edit-icon" @click="editBugReport(data.item)" />
+                    <Icon :icon="EDIT" class="edit-icon" @click="editBugReport(row.item)" />
                     <Icon 
-                        v-if="data.item.user" 
+                        v-if="row.item.user" 
                         :icon="MAIL" 
                         class="mail-icon" 
-                        @click="sendMessageToBugReportAuthor(data.item.user)" 
+                        @click="sendMessageToBugReportAuthor(row.item.user)" 
                     />
                 </div>
             </template>
