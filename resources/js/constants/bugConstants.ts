@@ -74,7 +74,7 @@ export const BUG_REPORT_OVERVIEW_FIELDS: OverviewFieldGroups = {
                     sortable: true,
                 },
                 {
-                    key: 'user',
+                    key: 'username',
                     label: 'user',
                     sortable: true,
                 },

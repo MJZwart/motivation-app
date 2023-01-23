@@ -1,5 +1,3 @@
-import {StrippedUser} from './user';
-
 export type NewBugReport = {
     title: string;
     page: string;
@@ -13,7 +11,8 @@ export type NewBugReport = {
 
 export type BugReport = NewBugReport & {
     id: number;
-    user: StrippedUser | null;
+    user_id: number;
+    username: string;
     status: number;
     admin_comment: string;
     sendMessageToReporter?: boolean;

@@ -16,10 +16,10 @@
                 <Diagnostics :diagnostics="row.item.diagnostics" />
             </template>
 
-            <template #user="row">
+            <template #username="row">
                 <b>{{ $t('reported-by') }}</b>: 
-                <router-link v-if="row.item.user" :to="{name: 'profile', params: {id: row.item.user.id}}">
-                    {{ row.item.user.username }}
+                <router-link v-if="row.item.user_id" :to="{name: 'profile', params: {id: row.item.user_id}}">
+                    {{ row.item.username }}
                 </router-link>
                 <span v-else>{{ $t('no-user') }}</span>
             </template>
