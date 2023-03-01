@@ -1,16 +1,19 @@
 <template>
     <div class="card-outer">
         <div class="card summary-card" :class="headerVariant">
-            <div class="card-header">
+            <div class="card-header" :class="{collapse: collapse}" @click="toggleCollapse">
                 <slot name="header">
                     <span class="d-flex">
                         {{title}}
                         <Tutorial v-if="!tutorialOff" :tutorial="title" colorVariant="white" />
+                        <Icon v-if="collapse" class="ml-auto primary-text" :icon="expanded ? ARROW_UP : ARROW_DOWN" />
                     </span>
                 </slot>
             </div>
-            <div class="card-body" :class="{foot: !footer}">
-                <slot />
+            <div class="card-body-wrapper" :class="{expanded: expanded}">
+                <div class="card-body" :class="{foot: !footer}">
+                    <slot />
+                </div>
             </div>
             <div v-if="footer" class="card-footer">
                 <slot name="footer" class="summary-card-footer" />
@@ -20,7 +23,10 @@
 </template>
 
 <script setup>
-defineProps({
+import {ref} from 'vue';
+import {ARROW_DOWN, ARROW_UP} from '/js/constants/iconConstants';
+
+const props = defineProps({
     title: {
         type: String,
         required: false,
@@ -39,7 +45,18 @@ defineProps({
         required: false,
         default: false,
     },
+    collapse: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 });
+const expanded = ref(true);
+function toggleCollapse() {
+    if (!props.collapse) return;
+    expanded.value = !expanded.value;
+
+}
 </script>
 
 <style lang="scss" scoped>
@@ -54,11 +71,24 @@ defineProps({
         background-color: var(--primary);
         font-weight: 500;
     }
+    .card-header.collapse {
+        cursor: pointer;
+    }
     .card-body {
         background-color: var(--background-2);
         color: var(--background-2-text);
         padding: 0.5rem;
         font-size: 0.9rem;
+    }
+    .card-body-wrapper {
+        padding: 0;
+        max-height: 0px;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+    }
+    .card-body-wrapper.expanded {
+        max-height: 100rem;
+        transition: max-height 0.3s ease-in-out;
     }
     .card-body.foot {
         border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
