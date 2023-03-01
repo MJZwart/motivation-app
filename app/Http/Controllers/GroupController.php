@@ -68,7 +68,7 @@ class GroupController extends Controller
         TimelineHandler::addGroupCreationToTimeline($group, $userId);
         ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
 
-        return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]));
+        return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]), ['group_id' => $group->id]);
     }
 
     /**
