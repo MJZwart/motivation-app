@@ -1,17 +1,20 @@
 <template>
     <div>
         <Loading v-if="loading" />
-        <div v-else class="w-60-flex center">
-            <RewardCard
-                v-if="rewardObj"
-                class="mb-2"
-                :reward="rewardObj"
-                :userReward="true"
-                :rewardType="rewardObj.rewardType"
-            />
-            <UserStatsVue v-if="userStats" class="mb-2" :user-stats="userStats" />
-            <Timeline v-if="userId" :user-id="userId" class="mb-2" />
-            <AchievementsCard v-if="achievements" class="mb-2" :achievements="achievements" />
+        <div v-else class="w-60-flex center overview">
+            <Timeline v-if="userId" :user-id="userId" class="full-block" />
+            <div class="half-block">
+                <RewardCard
+                    v-if="rewardObj"
+                    :reward="rewardObj"
+                    :userReward="true"
+                    :rewardType="rewardObj.rewardType"
+                />
+            </div>
+            <div class="half-block mb-2">
+                <UserStatsVue v-if="userStats" class="mb-2" :user-stats="userStats" />
+                <AchievementsCard v-if="achievements" :achievements="achievements" />
+            </div>
         </div>
     </div>
 </template>
@@ -45,3 +48,17 @@ const rewardObj = computed(() => rewardStore.rewardObj);
 const achievements = ref<Achievement[]>([]);
 const userStats = ref<UserStats | null>(null);
 </script>
+
+<style lang="scss" scoped>
+.overview {
+    display: flex;
+    flex-wrap: wrap;
+    .half-block {
+        flex-grow: 1;
+        height: 380px;
+    }
+    .full-block {
+        width: 100%;
+    }
+}
+</style>
