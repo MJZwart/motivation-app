@@ -41,12 +41,6 @@ app.use(router);
 import i18n from './i18n.js';
 app.use(i18n);
 
-//Font-awesome icons
-import {FontAwesomeIcon, FontAwesomeLayers} from '@fortawesome/vue-fontawesome';
-app.component('FaIcon', FontAwesomeIcon);
-app.component('FaIconLayers', FontAwesomeLayers);
-import './icons.js';
-
 //Global imports
 import BaseFormError from '/js/components/global/BaseFormError.vue';
 app.component('BaseFormError', BaseFormError);
