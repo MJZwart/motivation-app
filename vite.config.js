@@ -1,5 +1,3 @@
-import ViteRequireContext from '@originjs/vite-plugin-require-context';
-// @ts-ignore
 import vue from '@vitejs/plugin-vue';
 import Markdown from 'vite-plugin-md';
 
@@ -23,7 +21,6 @@ export default defineConfig(({command}) => {
             },
         },
         plugins: [
-            ViteRequireContext(),
             vue({
                 include: [/\.vue$/, /\.md$/],
             }),
