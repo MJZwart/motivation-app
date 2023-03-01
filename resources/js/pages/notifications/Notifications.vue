@@ -6,7 +6,13 @@
             <div v-if="notifications && notifications.length > 0">
                 <Pagination v-if="notifications" :items="notifications">
                     <template #items="items">
-                        <NotificationBlock v-for="(notification, index) in items" :key="index" :notification="notification" />
+                        <NotificationBlock 
+                            v-for="(notification, index) in items" 
+                            :key="index" 
+                            :notification="notification" 
+                            @delete="deleteNotification"
+                            @delete-action="deleteNotificationAction"
+                        />
                     </template>
                 </Pagination>
             </div>
@@ -18,19 +24,26 @@
 </template>
 
 
-<script setup>
+<script lang="ts" setup>
 import Pagination from '/js/components/global/Pagination.vue';
-import {ref, computed} from 'vue';
+import {ref} from 'vue';
 import NotificationBlock from './components/NotificationBlock.vue';
 import {onMounted} from 'vue';
 import {useMessageStore} from '/js/store/messageStore';
 
 const loading = ref(true);
 const messageStore = useMessageStore();
-const notifications = computed(() => messageStore.notifications);
+const notifications = ref<Notification[]>([]);
 
 onMounted(async() => {
-    await messageStore.getNotifications();
+    notifications.value = await messageStore.getNotifications();
     loading.value = false;
 });
+
+async function deleteNotification(notificationId: number) {
+    notifications.value = await messageStore.deleteNotification(notificationId);
+}
+async function deleteNotificationAction(notificationId: number) {
+    notifications.value = await messageStore.deleteNotificationAction(notificationId);
+}
 </script>

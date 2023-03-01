@@ -18,6 +18,7 @@ use App\Http\Resources\BlockedUserFromGroupResource;
 use App\Http\Resources\GroupApplicationResource;
 use App\Http\Resources\GroupPageResource;
 use App\Models\GroupInvite;
+use App\Models\GroupUser;
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -224,8 +225,9 @@ class GroupUserController extends Controller
     {
         if (!$group->hasMember($request['id']))
             return ResponseWrapper::errorResponse("This user is not a member of this group");
+        $groupUser = GroupUser::find($request['id']);
         $group->removeMemberFromGroup($request['id']);
-        TimelineHandler::addGroupLeavingToTimeline($group, $request['id']);
+        TimelineHandler::addGroupLeavingToTimeline($group, $groupUser->user_id);
         ActionTrackingHandler::handleAction($request, 'GROUP_USER_KICKED', $group->name . ' kicked user id ' . $request['id']);
         return ResponseWrapper::successResponse(
             __('messages.group.updated'),

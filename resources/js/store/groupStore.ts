@@ -5,16 +5,13 @@ import {Group, GroupPage, NewGroup, NewGroupMessage, Rank} from 'resources/types
 export const useGroupStore = defineStore('group', {
     state: () => {
         return {
-            myGroups: [] as Group[],
-            allGroups: [] as Group[],
             group: null as GroupPage | null,
         };
     },
     actions: {
         async fetchGroupsDashboard() {
             const {data} = await axios.get('groups/dashboard');
-            this.allGroups = data.groups.all;
-            this.myGroups = data.groups.my;
+            return data.groups;
         },
         async fetchGroup(groupId: number) {
             const {data} = await axios.get(`/groups/${groupId}`);
@@ -56,8 +53,7 @@ export const useGroupStore = defineStore('group', {
         },
         async updateGroup(group: Group) {
             const {data} = await axios.put(`/groups/edit/${group.id}`, group);
-            this.group = data.data.groups.current;
-            this.myGroups = data.data.groups.my;
+            this.group = data.data.group;
         },
         async removeGroupMember(userId: number, groupId: number) {
             const {data} = await axios.post(`/groups/kick/${groupId}`, {id: userId});

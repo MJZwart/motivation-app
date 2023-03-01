@@ -122,11 +122,10 @@ class GroupController extends Controller
     {
         $validated = $request->validated();
         $group->update($validated);
-        $myGroups = MyGroupResource::collection(Auth::user()->groups);
         ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP', $group->name . ' updated.');
         return ResponseWrapper::successResponse(
             __('messages.group.updated'),
-            ['groups' => ['my' => $myGroups, 'current' => new GroupPageResource($group->fresh())]]
+            ['group' => new GroupPageResource($group->fresh())]
         );
     }
 

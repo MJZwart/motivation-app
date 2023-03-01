@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
+import {computed, onActivated, ref} from 'vue';
 import {DateTime} from 'luxon';
 import Table from '/js/components/global/Table.vue';
 import EditSuspension from '../components/EditSuspension.vue';
@@ -93,7 +93,7 @@ const adminStore = useAdminStore();
 const mainStore = useMainStore();
 const {t} = useI18n();
 
-onMounted(async () => {
+onActivated(async () => {
     suspendedUsers.value = await adminStore.getSuspendedUsers();
     loading.value = false;
 });

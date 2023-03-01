@@ -58,6 +58,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
         Route::put('/tasklists/{tasklist}', [TaskListController::class, 'update']);
         Route::delete('/tasklists/{tasklist}', [TaskListController::class, 'destroy']);
     });
+    Route::get('/tasklists/other/{taskListId}', [TaskListController::class, 'getOtherTaskLists']);
 
     Route::get('/profile/{user}', [UserController::class, 'show']);
 

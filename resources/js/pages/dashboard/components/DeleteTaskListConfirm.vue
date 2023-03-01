@@ -4,14 +4,13 @@
             <p>{{ $t('are-you-sure-delete', [taskListToDelete.name]) }}</p>
             <div v-if="taskListHasTasks" class="form-group">
                 <p>
-                    <!-- TODO fix the | -->
                     {{ $t('task-list-has-tasks', [taskListTasks.length]) }}
                 </p>
 
                 <div class="form-group">
                     <select id="deleteOption" v-model="deleteOption">
                         <option value="delete" selected>{{ $t('delete') }}</option>
-                        <option v-for="option in taskLists" :key="option.id" :value="option.id">
+                        <option v-for="option in allOtherLists" :key="option.id" :value="option.id">
                             {{ $t('merge-with') }} {{ option.name }}
                         </option>
                     </select>
@@ -33,9 +32,12 @@ const taskStore = useTaskStore();
 const prop = defineProps<{taskList: TaskList}>();
 const emit = defineEmits(['close']);
 
-onMounted(() => {
+onMounted(async() => {
     taskListToDelete.value = prop.taskList;
+    allOtherLists.value = await taskStore.getOtherTaskLists(prop.taskList.id);
 });
+
+const allOtherLists = ref<{name: string, id: number}[]>([]);
 
 const taskListToDelete = ref<TaskList | null>(null);
 const deleteOption = ref<string | number>('delete');
@@ -43,8 +45,6 @@ const deleteOption = ref<string | number>('delete');
 const taskListHasTasks = computed(() => !!taskListToDelete.value && !!taskListToDelete.value.tasks[0]);
 const taskListTasks = computed<Task[]>(() => (taskListToDelete.value ? taskListToDelete.value.tasks : []));
 
-//Gets all the other existing taskLists, without the one the user is trying to delete
-const taskLists = computed(() => taskStore.taskLists.filter(item => item != taskListToDelete.value));
 /** If the user chooses to merge existing tasks into another tasklist, merge those first, then delete the list. */
 async function deleteTaskList() {
     if (!taskListToDelete.value) return;

@@ -39,14 +39,12 @@
 import Summary from '/js/components/global/Summary.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n';
-import {useMessageStore} from '/js/store/messageStore';
 import {computed, PropType} from 'vue';
 import {handleNotificationLink} from '/js/services/notificationLinkService';
 import {Notification} from 'resources/types/notification';
 import {NEW, TRASH} from '/js/constants/iconConstants';
 
 const {t} = useI18n();
-const messageStore = useMessageStore();
 
 const prop = defineProps({
     notification: {
@@ -54,6 +52,8 @@ const prop = defineProps({
         required: true,
     },
 });
+
+const emit = defineEmits(['delete', 'deleteAction']);
 
 const linkClass = computed<string>(() => 
     prop.notification.link_active ? 'notification-link active' : 'notification-link disabled');
@@ -63,7 +63,7 @@ const linkClass = computed<string>(() =>
  */
 function deleteNotification() {
     if (confirm(t('delete-notification-confirmation'))) {
-        messageStore.deleteNotification(prop.notification.id);
+        emit('delete', prop.notification.id);
     }
 }
 
@@ -74,7 +74,7 @@ function deleteNotification() {
 async function linkAction(apiType: string, linkUrl: string) {
     const actionSucceeded = await handleNotificationLink(apiType, linkUrl);
     if (actionSucceeded && prop.notification.delete_links_on_action)
-        await messageStore.deleteNotificationAction(prop.notification.id);
+        emit('deleteAction', prop.notification.id);
 }
 </script>
 

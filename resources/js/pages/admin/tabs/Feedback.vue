@@ -27,10 +27,10 @@
                 </Tooltip>
                 <Tooltip :text="$t('message-user')">
                     <Icon
-                        v-if="row.item.user"
+                        v-if="row.item.user_id"
                         :icon="MAIL"
                         class="mail-icon"
-                        @click="sendMessageToUser(row.item.user)"
+                        @click="sendMessageToUser(row.item.user_id, row.item.username)"
                     />
                 </Tooltip>
             </template>
@@ -79,8 +79,8 @@ const archived = ref(false);
  * Opens a modal to send a message to user, and sets the
  * userToMessage to feed this user into the modal component.
  */
-function sendMessageToUser(user: StrippedUser) {
-    userToMessage.value = user;
+function sendMessageToUser(user_id: number, username: string) {
+    userToMessage.value = {username: username, id: user_id};
     showSendMessageModal.value = true;
 }
 function closeSendMessageModal() {
