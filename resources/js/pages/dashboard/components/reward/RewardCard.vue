@@ -1,6 +1,6 @@
 <template>
     <div v-if="reward">
-        <Summary :title='reward.name' collapse>
+        <Summary :title='reward.name'>
             <template #header>
                 <span class="d-flex">
                     {{reward.name}}
