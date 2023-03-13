@@ -19,6 +19,4 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::post('/', [MessageController::class, 'sendMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);
     Route::delete('/{message}', [MessageController::class, 'deleteMessage'])->can('update', ['message']);
-
-    Route::get('/unread', [UserController::class, 'hasUnread']);
 });

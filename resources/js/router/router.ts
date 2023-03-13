@@ -48,10 +48,6 @@ router.beforeEach((to, from, next) => {
     breadcrumbsVisible.value = false;
     if (to.meta && to.meta.breadcrumbs)
         breadcrumbsVisible.value = true; 
-    
-    if (userStore.authenticated) {
-        messageStore.hasUnread();
-    }
     next();
 });
 
