@@ -67,7 +67,17 @@ import {useMessageStore} from '/js/store/messageStore';
 import {computed, onMounted, ref} from 'vue';
 import {MAIL, DOT, NOTIFICATION} from '../constants/iconConstants';
 
-onMounted(() => window.addEventListener('resize', handleResize));
+onMounted(() => {
+    window.addEventListener('resize', handleResize);
+    if (!user.value) return;
+    window.Echo.private(`unread.${user.value.id}`)
+        .listen('NewNotification', () => {
+            messageStore.hasNotifications = true;
+        })
+        .listen('NewMessage', () => {
+            messageStore.hasMessages = true;
+        });
+});
 
 const userStore = useUserStore();
 const messageStore = useMessageStore();
