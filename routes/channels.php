@@ -1,6 +1,10 @@
 <?php
 
+use App\Broadcasting\PublicChatChannel;
+use App\Broadcasting\UnreadChannel;
+use Illuminate\Broadcasting\Broadcasters\PusherBroadcaster;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +20,5 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('unread.{id}', UnreadChannel::class);

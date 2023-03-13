@@ -45,10 +45,16 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
         'valid-auth' => [
             'auth',
             'suspended',
         ],
+
+        'websockets' => [
+            'auth:sanctum',
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        ]
     ];
 
     /**
