@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessage;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use Illuminate\Http\Request;
@@ -38,6 +39,9 @@ class MessageController extends Controller
 
         $message = Message::create($validated);
         $message->conversation->touch();
+
+        NewMessage::broadcast($request['recipient_id']);
+
         ActionTrackingHandler::handleAction($request, 'STORE_MESSAGE', 'Sending message');
 
         return ResponseWrapper::successResponse(__('messages.message.sent'));
