@@ -83,7 +83,6 @@ function toggleCollapse() {
     .card-body-wrapper {
         padding: 0;
         max-height: 0px;
-        overflow: hidden;
         transition: max-height 0.3s ease-in-out;
     }
     .card-body-wrapper.expanded {
