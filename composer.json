@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "beyondcode/laravel-websockets": "1.13",
         "doctrine/dbal": "^3.5",
         "fakerphp/faker": "^1.9.1",
         "fruitcake/laravel-cors": "^2.0",
@@ -13,7 +14,8 @@
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.11",
         "laravel/telescope": "^4.8",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "pusher/pusher-php-server": "^5.0"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",

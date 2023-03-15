@@ -162,19 +162,6 @@ class UserController extends Controller
             ->whereNotIn('id', $exclude)->get());
     }
 
-
-
-    /**
-     * Check if the user has any unread notifications
-     * Returns boolean
-     */
-    public function hasUnread()
-    {
-        $hasMessages = Message::where('recipient_id', Auth::user()->id)->where('read', false)->where('visible_to_recipient', true)->count() > 0;
-        $hasNotifications = Notification::where('user_id', Auth::user()->id)->where('read', false)->count() > 0;
-        return new JsonResponse(['hasNotifications' => $hasNotifications, 'hasMessages' => $hasMessages]);
-    }
-
     public function reportUser(StoreReportedUserRequest $request, User $user)
     {
         $validated = $request->validated();

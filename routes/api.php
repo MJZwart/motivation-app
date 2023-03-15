@@ -5,14 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\TaskListController;
-use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExampleTaskController;
 use App\Http\Controllers\BugReportController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\OverviewController;
-use App\Http\Controllers\RewardController;
-use App\Http\Controllers\MessageController;
 use App\Http\Controllers\FeedbackController;
 
 /*
@@ -51,6 +46,8 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['middleware' => ['valid-auth']], function () {
+
+    Route::get('/auth', [AuthenticationController::class, 'getAuthKey']);
     
     Route::post('/tasklists', [TaskListController::class, 'store']);
 

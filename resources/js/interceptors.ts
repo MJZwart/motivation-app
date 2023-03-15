@@ -7,10 +7,14 @@ import {useMainStore} from './store/store';
 import {useUserStore} from './store/userStore';
 import {currentLang} from '/js/services/languageService.js';
 import {waitingOnResponse} from '/js/services/loadingService.js';
+import Echo from 'laravel-echo';
 
 declare global {
     interface Window {
         axios: AxiosStatic;
+        Echo: Echo;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Pusher: any;
     }
 }
 
