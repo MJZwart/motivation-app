@@ -61,6 +61,4 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
     Route::post('/search', [UserController::class, 'searchUser']);
     Route::post('/register/confirm', [RegisteredUserController::class, 'confirmRegister']);
-
-    // Route::post('/broadcasting/auth', [AuthenticationController::class, 'authBroadcasting']);
 });
