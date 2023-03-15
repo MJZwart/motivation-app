@@ -1,10 +1,7 @@
 <?php
 
-use App\Broadcasting\PublicChatChannel;
 use App\Broadcasting\UnreadChannel;
-use Illuminate\Broadcasting\Broadcasters\PusherBroadcaster;
 use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
