@@ -1,21 +1,18 @@
 <template>
-    <div>
-        <Loading v-if="loading" />
-        <div v-else class="w-60-flex center overview">
-            <Timeline v-if="userId" :user-id="userId" class="full-block" />
-            <div class="half-block">
-                <RewardCard
-                    v-if="rewardObj"
-                    :reward="rewardObj"
-                    :userReward="true"
-                    :rewardType="rewardObj.rewardType"
-                />
-            </div>
-            <div class="half-block mb-2">
-                <UserStatsVue v-if="userStats" class="mb-2" :user-stats="userStats" />
-                <AchievementsCard v-if="achievements" :achievements="achievements" />
-            </div>
-        </div>
+    <Loading v-if="loading" />
+    <div v-else class="w-60-flex center">
+        <HorizontalTabControls v-model="activeTab" class="mb-2" :tabs="tabs" />
+        <KeepAlive>
+            <Timeline v-if="userId && activeTab === 'timeline'" :user-id="userId" />
+        </KeepAlive>
+        <RewardCard
+            v-if="rewardObj && activeTab === rewardObj?.rewardType.toLowerCase()"
+            :reward="rewardObj"
+            :userReward="true"
+            :rewardType="rewardObj.rewardType"
+        />
+        <UserStatsVue v-if="userStats && activeTab === 'stats'" :user-stats="userStats" />
+        <AchievementsCard v-if="achievements && activeTab === 'achievements'" :achievements="achievements" />
     </div>
 </template>
 
@@ -29,16 +26,25 @@ import {useRewardStore} from '/js/store/rewardStore';
 import {Achievement} from 'resources/types/achievement';
 import type {UserStats} from 'resources/types/user';
 import UserStatsVue from './components/UserStats.vue';
+import HorizontalTabControls, {TabItem} from '/js/components/global/tabs/HorizontalTabControls.vue';
 
 const userStore = useUserStore();
 const rewardStore = useRewardStore();
 
+const tabs = ref<TabItem[]>([]);
+const activeTab = ref('');
 const loading = ref(true);
-
 onMounted(async () => {
     const data = await userStore.getOverview();
     userStats.value = data.stats;
     achievements.value = data.achievements;
+    tabs.value = [
+        {key: 'achievements'},
+        {key: 'timeline'},
+        {key: 'stats'},
+    ];
+    if (rewardObj.value) tabs.value.push({key: rewardObj.value?.rewardType.toLowerCase()});
+    activeTab.value = tabs.value[0].key;
     loading.value = false;
 });
 
