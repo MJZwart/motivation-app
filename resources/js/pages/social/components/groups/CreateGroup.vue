@@ -46,7 +46,9 @@
 import {ref} from 'vue';
 import {useGroupStore} from '/js/store/groupStore.js';
 import type {NewGroup} from 'resources/types/group';
+import {useRouter} from 'vue-router';
 const groupStore = useGroupStore();
+const router = useRouter();
 
 const emit = defineEmits(['reloadGroups', 'close']);
 
@@ -60,9 +62,10 @@ const initialData = {
 const groupToCreate = ref<NewGroup>({...initialData});
 
 async function createGroup() {
-    await groupStore.createGroup(groupToCreate.value);
+    const data = await groupStore.createGroup(groupToCreate.value);
     emit('reloadGroups');
     close();
+    router.push({path: `/group/${data.group_id}`});
 }
 function close() {
     resetForm();

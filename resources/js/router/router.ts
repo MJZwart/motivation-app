@@ -2,7 +2,6 @@
 // import Vue from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
 import {useMainStore} from '../store/store';
-import {useMessageStore} from '../store/messageStore';
 import {useUserStore} from '../store/userStore';
 // import Test from '../pages/Test.vue';
 import {routes} from './routes';
@@ -16,7 +15,6 @@ const router = createRouter({
 
 // eslint-disable-next-line complexity
 router.beforeEach((to, from, next) => {
-    const messageStore = useMessageStore();
     const mainStore = useMainStore();
     const userStore = useUserStore();
     mainStore.clearErrors();
@@ -48,10 +46,6 @@ router.beforeEach((to, from, next) => {
     breadcrumbsVisible.value = false;
     if (to.meta && to.meta.breadcrumbs)
         breadcrumbsVisible.value = true; 
-    
-    if (userStore.authenticated) {
-        messageStore.hasUnread();
-    }
     next();
 });
 

@@ -18,7 +18,8 @@ export const useGroupStore = defineStore('group', {
             this.group = data.group;
         },
         async createGroup(group: NewGroup) {
-            await axios.post('/groups', group);
+            const {data} = await axios.post('/groups', group);
+            return data.data;
         },
         async deleteGroup(groupId: number) {
             await axios.delete(`/groups/${groupId}`);

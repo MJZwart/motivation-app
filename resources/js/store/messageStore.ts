@@ -10,11 +10,6 @@ export const useMessageStore = defineStore('message', {
         }
     },
     actions: {
-        async hasUnread() {
-            const {data} = await axios.get('/message/unread');
-            this.hasNotifications = data.hasNotifications;
-            this.hasMessages = data.hasMessages;
-        },
         async getConversations() {
             const {data} = await axios.get('/message/conversations');
             return data.data;
