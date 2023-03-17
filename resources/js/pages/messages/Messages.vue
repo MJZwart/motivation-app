@@ -91,6 +91,9 @@
                     :conversation_id="conversationToReport" 
                     @close="closeReportUserModal" />
             </Modal>
+            <Modal :show="showBlockUserModal" :title="$t('confirm-block')" @close="closeBlockUserModal(false)">
+                <ConfirmBlockModal v-if="userToBlock" :user="userToBlock" @close="closeBlockUserModal($event)" />
+            </Modal>
         </div>
     </div>
 </template>
@@ -103,16 +106,15 @@ import Dropdown from '/js/components/global/Dropdown.vue';
 import Pagination from '/js/components/global/Pagination.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMessageStore} from '/js/store/messageStore';
-import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {useI18n} from 'vue-i18n';
 import type {Conversation, Message, NewMessage} from 'resources/types/message';
 import type {StrippedUser} from 'resources/types/user';
+import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
 
 const {t} = useI18n();
 
 const messageStore = useMessageStore();
-const userStore = useUserStore();
 const friendStore = useFriendStore();
 
 onMounted(() => {
@@ -200,8 +202,14 @@ function addFriend(userId: string) {
     friendStore.sendRequest(userId);
 }
 async function blockUser(user: StrippedUser) {
-    if (confirm(t('block-user-confirmation', {user: user.username}))) {
-        await userStore.blockUser(user.id)
+    userToBlock.value = user;
+    showBlockUserModal.value = true;
+}
+const userToBlock = ref<StrippedUser | null>(null);
+const showBlockUserModal = ref(false);
+function closeBlockUserModal(reload: boolean) {
+    showBlockUserModal.value = false;
+    if (reload) {
         loading.value = true;
         load();
     }

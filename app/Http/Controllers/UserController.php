@@ -19,6 +19,7 @@ use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Http\Requests\StoreReportedUserRequest;
 use App\Helpers\RewardObjectHandler;
+use App\Http\Requests\BlockUserRequest;
 use App\Http\Requests\ToggleTutorialRequest;
 use App\Http\Requests\UpdateLanguage;
 use App\Http\Resources\BlockedUserResource;
@@ -178,15 +179,19 @@ class UserController extends Controller
         return new JsonResponse(['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
     
-    public function blockUser(Request $request, User $blockedUser)
+    public function blockUser(BlockUserRequest $request, User $blockedUser)
     {
+        $validated = $request->validated();
+
         /** @var User */
         $user = Auth::user();
         BlockedUser::create([
             'user_id' => $user->id,
             'blocked_user_id' => $blockedUser->id,
         ]);
-        MessageController::makeConversationInvisible($user, $blockedUser);
+        if ($validated['hideMessages']) {
+            MessageController::makeConversationInvisible($user, $blockedUser);
+        }
         //delete friendship and inverse friendship
         $toDelete = Friend::where('user_id', $user->id)->where('friend_id', $blockedUser->id)->first();
         if ($toDelete) $toDelete->delete();

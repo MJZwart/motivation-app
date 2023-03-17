@@ -140,8 +140,8 @@ export const useUserStore = defineStore('user', {
             await axios.post('/user/' + userId + '/report', report);
         },
 
-        async blockUser(userId: string | number) {
-            await axios.put('/user/' + userId + '/block');
+        async blockUser(blockPayload: {userId: number | string, hideMessages: boolean}) {
+            await axios.put('/user/' + blockPayload.userId + '/block', blockPayload);
         },
 
         async getBlocklist(): Promise<Blocked[]> {
