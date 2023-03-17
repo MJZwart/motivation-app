@@ -3,11 +3,11 @@
         <span class="range">{{ $t('pagination-item-of', {offset: (offset + 1), range: range, max: max})}}</span>
         <div class="control-buttons">
             <button class="previous" :class="{disabled: offset < 1}" @click="previous()">
-                <Icon :icon="ARROW_LEFT" />
+                <Icon class="control-icon" :icon="ARROW_LEFT" />
                 {{$t('previous')}}
             </button>
             <button class="next" :class="{disabled: range === max}" @click="next()">
-                {{$t('next')}} <Icon :icon="ARROW_RIGHT" />
+                {{$t('next')}} <Icon class="control-icon" :icon="ARROW_RIGHT" />
             </button>
         </div>
     </div>
@@ -81,3 +81,9 @@ watch(
     },
 );
 </script>
+
+<style lang="scss" scoped>
+.control-icon {
+    margin: 0 0 -4px 0;
+}
+</style>
