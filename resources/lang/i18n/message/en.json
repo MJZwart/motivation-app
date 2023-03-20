@@ -17,5 +17,8 @@
     "no-notifications": "No notifications at this time.",
 
     "new-message": "New message",
-    "no-messages-group": "No messages at this time"
+    "no-messages-group": "No messages at this time",
+
+    "confirm-block": "Confirm block",
+    "hide-messages": "Hide this user's existing messages"
 }

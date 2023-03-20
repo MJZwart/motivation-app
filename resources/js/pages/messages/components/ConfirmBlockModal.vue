@@ -10,8 +10,10 @@
                 {{$t('hide-messages')}}
             </label>
         </div>
-        <button @click="emit('close', false)">{{ $t('cancel') }}</button>
-        <SubmitButton @click="confirmBlock" />
+        <div class="d-flex">
+            <button class="ml-auto mr-2" @click="emit('close', false)">{{ $t('cancel') }}</button>
+            <SubmitButton @click="confirmBlock" />
+        </div>
     </div>
 </template>
 
