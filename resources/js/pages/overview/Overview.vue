@@ -54,17 +54,3 @@ const rewardObj = computed(() => rewardStore.rewardObj);
 const achievements = ref<Achievement[]>([]);
 const userStats = ref<UserStats | null>(null);
 </script>
-
-<style lang="scss" scoped>
-.overview {
-    display: flex;
-    flex-wrap: wrap;
-    .half-block {
-        flex-grow: 1;
-        height: 380px;
-    }
-    .full-block {
-        width: 100%;
-    }
-}
-</style>
