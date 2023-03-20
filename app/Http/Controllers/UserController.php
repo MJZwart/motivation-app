@@ -21,6 +21,7 @@ use App\Http\Requests\StoreReportedUserRequest;
 use App\Helpers\RewardObjectHandler;
 use App\Http\Requests\BlockUserRequest;
 use App\Http\Requests\ToggleTutorialRequest;
+use App\Http\Requests\UnblockUserRequest;
 use App\Http\Requests\UpdateLanguage;
 use App\Http\Resources\BlockedUserResource;
 use App\Models\BlockedUser;
@@ -202,9 +203,16 @@ class UserController extends Controller
         return ResponseWrapper::successResponse(__('messages.user.blocked'));
     }
 
-    public function unblockUser(BlockedUser $blockedUser)
+    public function unblockUser(UnblockUserRequest $request, BlockedUser $blockedUser)
     {
+        /** @var User */
+        $user = Auth::user();
+        if ($request['restoreMessages']) {
+            MessageController::restoreHiddenConversation($user, $blockedUser);
+        }
+
         $blockedUser->delete();
+
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
         return ResponseWrapper::successResponse(__('messages.user.unblocked'), ['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }

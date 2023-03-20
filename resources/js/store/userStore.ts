@@ -149,8 +149,8 @@ export const useUserStore = defineStore('user', {
             return data.blockedUsers;
         },
 
-        async unblockUser(blocklistId: number) {
-            const {data} = await axios.put(`/user/${blocklistId}/unblock`);
+        async unblockUser(blocklistId: number, restoreMessages: {'restoreMessages': boolean}) {
+            const {data} = await axios.put(`/user/${blocklistId}/unblock`, restoreMessages);
             return data.data.blockedUsers;
         },
 

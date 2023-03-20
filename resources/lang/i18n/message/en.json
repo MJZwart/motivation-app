@@ -20,5 +20,9 @@
     "no-messages-group": "No messages at this time",
 
     "confirm-block": "Confirm block",
-    "hide-messages": "Hide this user's existing messages"
+    "hide-messages": "Hide this user's existing messages",
+
+    "confirm-unblock": "Confirm unblock",
+    "unblock-user-confirmation": "Do you wish to unblock {user}?",
+    "restore-messages": "Also restore messages sent to and from this user"
 }
