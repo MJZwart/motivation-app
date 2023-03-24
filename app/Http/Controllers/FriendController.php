@@ -52,10 +52,10 @@ class FriendController extends Controller
         if (Friend::where('user_id', $activeUser->id)->where('friend_id', $user->id)->exists()) {
             return ResponseWrapper::errorResponse(__('messages.friend.request.already_sent'));
         }
-        if ($activeUser->isBlocked($user->id)) {
+        if ($activeUser->isBlockedByUser($user->id)) {
             return ResponseWrapper::errorResponse(__('messages.friend.request.unable_to_send'));
         }
-        if ($user->isBlocked($activeUser->id)) {
+        if ($user->isBlockedByUser($activeUser->id)) {
             return ResponseWrapper::errorResponse(__('messages.friend.request.blocked'));
         }
         $friendRequest = Friend::create(['user_id' => $activeUser->id, 'friend_id' => $user->id]);

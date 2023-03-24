@@ -27,8 +27,11 @@ class MessageController extends Controller
     {
         /** @var User */
         $user = Auth::user();
-        if ($user->isBlocked($request['recipient_id'])) {
+        if ($user->isBlockedByUser($request['recipient_id'])) {
             return ResponseWrapper::errorResponse(__('messages.message.unable_to_send'));
+        }
+        if ($user->hasBlockedUser($request['recipient_id'])) {
+            return ResponseWrapper::errorResponse(__('messages.message.blocked_user'));
         }
         $validated = $request->validated();
         $validated['sender_id'] = $user->id;

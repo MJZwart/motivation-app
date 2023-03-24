@@ -38,7 +38,7 @@ class UserController extends Controller
     {
         /** @var User */
         $activeUser = Auth::user();
-        if ($activeUser->isBlocked($user->id)) {
+        if ($activeUser->isBlockedByUser($user->id)) {
             return ResponseWrapper::errorResponse(__('messages.user.profile_unavailable'));
         }
         return new UserProfileResource($user);

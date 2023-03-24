@@ -124,10 +124,14 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\User', 'blocklist', 'blocked_user_id', 'user_id')->withPivot('id');
     }
 
-    public function isBlocked($userId)
+    public function isBlockedByUser(int$userId): bool
     {
         $user = User::find($userId);
         return $user->blockedUsers->contains('id', $this->id);
+    }
+    public function hasBlockedUser(int $userId): bool
+    {
+        return $this->blockedUsers->contains('id', $userId);
     }
 
     public function getActiveRewardObjectResource()
