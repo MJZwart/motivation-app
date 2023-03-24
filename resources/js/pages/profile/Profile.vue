@@ -22,7 +22,7 @@
                         </Tooltip>
                     </span>
                     <Tooltip :text="$t('block-user')">
-                        <Icon :icon="LOCK" class="block-icon lock-icon red" @click="blockUser" />
+                        <Icon :icon="LOCK" class="block-icon lock-icon red" @click="showBlockUserModal = true" />
                     </Tooltip>
                     <Tooltip :text="$t('report-user')">
                         <Icon :icon="REPORT" class="report-icon red" @click="reportUser" />
@@ -55,6 +55,9 @@
             <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
                 <SendMessage :user="userProfile" @close="closeSendMessageModal" />
             </Modal>
+            <Modal :show="showBlockUserModal" :title="$t('confirm-block')" @close="closeBlockUserModal()">
+                <ConfirmBlockModal v-if="userProfile" :user="userProfile" @close="closeBlockUserModal($event)" />
+            </Modal>
             <Modal :show="showReportUserModal" :header="false" @close="closeReportUserModal">
                 <ReportUser :user="userProfile" @close="closeReportUserModal" />
             </Modal>
@@ -77,20 +80,19 @@ import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import ReportUser from '/js/pages/messages/components/ReportUser.vue';
 import FriendsCard from '/js/pages/dashboard/components/FriendsCard.vue';
 import SuspendUserModal from '/js/pages/admin/components/SuspendUserModal.vue';
+import ConfirmBlockModal from '/js/pages/messages/components/ConfirmBlockModal.vue';
 import axios from 'axios';
 import {useRoute} from 'vue-router';
 import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {parseDateTime} from '/js/services/dateService';
 import {breadcrumbsVisible} from '/js/services/breadcrumbService';
-import {useI18n} from 'vue-i18n';
 import type {NewSuspension, User, UserProfile} from 'resources/types/user';
 import type {FriendRequests, Friend} from 'resources/types/friend';
 import {MAIL, FRIEND, LOCK, REPORT, BAN} from '/js/constants/iconConstants';
 import {useAdminStore} from '/js/store/adminStore';
 import Timeline from '/js/pages/overview/components/Timeline.vue';
 
-const {t} = useI18n();
 const route = useRoute();
 const userStore = useUserStore();
 const friendStore = useFriendStore();
@@ -157,9 +159,13 @@ function reportUser() {
 function closeReportUserModal() {
     showReportUserModal.value = false;
 }
-function blockUser() {
-    if (confirm(t('block-user-confirmation', {user: userProfile.value?.username}))) {
-        userStore.blockUser(route.params.id as string);
+const showBlockUserModal = ref(false);
+async function closeBlockUserModal(reload = false) {
+    showBlockUserModal.value = false;
+    if (reload) {
+        loading.value = true;
+        await getUserProfile();
+        loading.value = false;
     }
 }
 function suspendUser() {
