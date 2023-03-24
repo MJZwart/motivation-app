@@ -94,6 +94,14 @@ class MessageController extends Controller
             MessageController::makeMessageInvisibleToUser($message, $user->id);
         }
     }
+    public static function restoreHiddenConversation($user, $blockedUser)
+    {
+        $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->blocked_user_id)->first();
+        if (!$conversation) return;
+        foreach ($conversation->messages as $message) {
+            MessageController::restoreMessage($message, $user->id);
+        }
+    }
 
     public static function makeMessageInvisibleToUser($message, $userId)
     {
@@ -102,6 +110,16 @@ class MessageController extends Controller
         }
         if ($message->sender_id == $userId) {
             $message->visible_to_sender = false;
+        }
+        $message->save(['touch' => false]);
+    }
+    public static function restoreMessage($message, $userId)
+    {
+        if ($message->recipient_id == $userId) {
+            $message->visible_to_recipient = true;
+        }
+        if ($message->sender_id == $userId) {
+            $message->visible_to_sender = true;
         }
         $message->save(['touch' => false]);
     }

@@ -1,30 +1,31 @@
 <template>
-    <div>
-        <Loading v-if="loading" />
-        <div v-else>
-            <Summary :title="$t('blocklist')">
-                <ul class="no-list-style">
-                    <div v-if="blocklist[0]">
-                        <li v-for="(blockedUser, index) in blocklist" :key="index" class="mb-1 ml-0 d-flex flex-wrap">
-                            <Tooltip :text="$t('unblock')">
-                                <Icon :icon="UNLOCK" class="unlock-icon green" @click="unblock(blockedUser.id)" />
-                            </Tooltip>
-                            <router-link
-                                :to="{name: 'profile', params: {id: blockedUser.blocked_user_id}}"
-                                class="flex-1"
-                            >
-                                {{ blockedUser.blocked_user }}
-                            </router-link>
-                            <span class="flex-2">
-                                {{ $t('blocked-on') }}: {{ parseDateTime(blockedUser.created_at) }}
-                            </span>
-                        </li>
-                    </div>
+    <Loading v-if="loading" />
+    <div v-else>
+        <Summary :title="$t('blocklist')">
+            <ul class="no-list-style">
+                <div v-if="blocklist[0]">
+                    <li v-for="(blockedUser, index) in blocklist" :key="index" class="mb-1 ml-0 d-flex flex-wrap">
+                        <Tooltip :text="$t('unblock')">
+                            <Icon :icon="UNLOCK" class="unlock-icon green" @click="unblock(blockedUser)" />
+                        </Tooltip>
+                        <router-link
+                            :to="{name: 'profile', params: {id: blockedUser.blocked_user_id}}"
+                            class="flex-1"
+                        >
+                            {{ blockedUser.blocked_user }}
+                        </router-link>
+                        <span class="flex-2">
+                            {{ $t('blocked-on') }}: {{ parseDateTime(blockedUser.created_at) }}
+                        </span>
+                    </li>
+                </div>
 
-                    <p v-else>{{ $t('no-blocked-users') }}</p>
-                </ul>
-            </Summary>
-        </div>
+                <p v-else>{{ $t('no-blocked-users') }}</p>
+            </ul>
+        </Summary>
+        <Modal :show="showUnblockUserModal" :title="$t('confirm-unblock')" @close="closeUnblockUserModal()">
+            <ConfirmUnblockModal v-if="userToUnblock" :blocked-user="userToUnblock" @close="closeUnblockUserModal($event)" />
+        </Modal>
     </div>
 </template>
 
@@ -35,6 +36,7 @@ import {parseDateTime} from '/js/services/dateService';
 import {useUserStore} from '/js/store/userStore';
 import type {Blocked} from 'resources/types/user';
 import {UNLOCK} from '/js/constants/iconConstants';
+import ConfirmUnblockModal from '../components/ConfirmUnblock.vue';
 
 const userStore = useUserStore();
 
@@ -51,9 +53,17 @@ async function load() {
     loading.value = false;
 }
 
-async function unblock(blocklistId: number) {
-    await userStore.unblockUser(blocklistId);
-    load();
+const userToUnblock = ref<Blocked | null>(null);
+const showUnblockUserModal = ref(false);
+
+async function unblock(blocklist: Blocked) {
+    userToUnblock.value = blocklist;
+    showUnblockUserModal.value = true;
+}
+function closeUnblockUserModal(reload = false) {
+    userToUnblock.value = null;
+    showUnblockUserModal.value = false;
+    if (reload) load();
 }
 </script>
 

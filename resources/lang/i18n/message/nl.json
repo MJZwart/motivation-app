@@ -17,5 +17,12 @@
     "no-notifications": "Geen notificaties op het moment.",
 
     "new-message": "Nieuw bericht",
-    "no-messages-group": "Geen berichten op dit moment"
+    "no-messages-group": "Geen berichten op dit moment",
+
+    "confirm-block": "Bevestig blokkeren",
+    "hide-messages": "Bestaande berichten van deze gebruiker gelijk verbergen",
+
+    "confirm-unblock": "Bevestig deblokkeren",
+    "unblock-user-confirmation": "Wil je {user} deblokkeren?",
+    "restore-messages": "Verborgen berichten van en naar deze gebruiken herstellen"
 }
