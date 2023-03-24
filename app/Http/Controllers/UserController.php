@@ -203,4 +203,11 @@ class UserController extends Controller
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
         return ResponseWrapper::successResponse(__('messages.user.unblocked'), ['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
+
+    public function hasUnread(): JsonResponse
+    {
+        $hasMessages = Message::where('recipient_id', Auth::user()->id)->where('read', false)->where('visible_to_recipient', true)->count() > 0;
+        $hasNotifications = Notification::where('user_id', Auth::user()->id)->where('read', false)->count() > 0;
+        return new JsonResponse(['hasNotifications' => $hasNotifications, 'hasMessages' => $hasMessages]);
+    }
 }

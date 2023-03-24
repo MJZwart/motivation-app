@@ -10,6 +10,7 @@ import type {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resou
 import type {UserSearch} from 'resources/types/global';
 import type {NewReportedUser} from 'resources/types/admin';
 import {useTaskStore} from './taskStore';
+import {useMessageStore} from './messageStore';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -29,6 +30,7 @@ export const useUserStore = defineStore('user', {
             await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
             this.setUser(data.user);
+            if (data.user) this.getUnread();
             const friendStore = useFriendStore();
             friendStore.friends = data.user.friends;
             // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -46,6 +48,7 @@ export const useUserStore = defineStore('user', {
         async getMe() {
             const {data} = await axios.get('/me');
             this.setUser(data.user, !!data.user);
+            if (data.user) this.getUnread();
         },
         setUser(user: User | null, auth = true) {
             this.user = user;
@@ -56,6 +59,13 @@ export const useUserStore = defineStore('user', {
         setLanguage(lang: string) {
             if (lang !== 'en' && lang !== 'nl') return;
             changeLang(lang);
+        },
+
+        async getUnread() {
+            const {data} = await axios.get('/unread');
+            const messageStore = useMessageStore();
+            messageStore.hasMessages = data.hasMessages;
+            messageStore.hasNotifications = data.hasNotifications;
         },
 
         async getDashboard() {

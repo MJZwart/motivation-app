@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {defineStore} from 'pinia';
 import {NewMessage} from 'resources/types/message';
+import {useUserStore} from './userStore';
 
 export const useMessageStore = defineStore('message', {
     state: () => {
@@ -22,6 +23,8 @@ export const useMessageStore = defineStore('message', {
         },
         markConversationRead(conversationId: number) {
             axios.put(`/message/conversation/${conversationId}/read`);
+            const userStore = useUserStore();
+            userStore.getUnread();
         },
 
         async getNotifications() {
