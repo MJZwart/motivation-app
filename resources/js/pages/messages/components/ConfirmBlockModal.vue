@@ -11,7 +11,7 @@
             </label>
         </div>
         <div class="d-flex">
-            <button class="ml-auto mr-2" @click="emit('close', false)">{{ $t('cancel') }}</button>
+            <button class="ml-auto mr-2" @click="emit('close')">{{ $t('cancel') }}</button>
             <SubmitButton @click="confirmBlock" />
         </div>
     </div>

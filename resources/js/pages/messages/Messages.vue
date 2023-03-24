@@ -91,7 +91,7 @@
                     :conversation_id="conversationToReport" 
                     @close="closeReportUserModal" />
             </Modal>
-            <Modal :show="showBlockUserModal" :title="$t('confirm-block')" @close="closeBlockUserModal(false)">
+            <Modal :show="showBlockUserModal" :title="$t('confirm-block')" @close="closeBlockUserModal()">
                 <ConfirmBlockModal v-if="userToBlock" :user="userToBlock" @close="closeBlockUserModal($event)" />
             </Modal>
         </div>
@@ -207,7 +207,7 @@ async function blockUser(user: StrippedUser) {
 }
 const userToBlock = ref<StrippedUser | null>(null);
 const showBlockUserModal = ref(false);
-function closeBlockUserModal(reload: boolean) {
+function closeBlockUserModal(reload = false) {
     showBlockUserModal.value = false;
     if (reload) {
         loading.value = true;

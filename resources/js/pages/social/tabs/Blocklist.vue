@@ -23,7 +23,7 @@
                 <p v-else>{{ $t('no-blocked-users') }}</p>
             </ul>
         </Summary>
-        <Modal :show="showUnblockUserModal" :title="$t('confirm-unblock')" @close="closeUnblockUserModal(false)">
+        <Modal :show="showUnblockUserModal" :title="$t('confirm-unblock')" @close="closeUnblockUserModal()">
             <ConfirmUnblockModal v-if="userToUnblock" :blocked-user="userToUnblock" @close="closeUnblockUserModal($event)" />
         </Modal>
     </div>
