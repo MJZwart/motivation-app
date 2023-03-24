@@ -38,7 +38,7 @@ describe('Groups', () => {
         }
         cy.get('#create-new-group').click();
         waitShort();
-        cy.get('.content-block.clickable').should('contain.text', groupName);
+        cy.get('h2').should('contain.text', groupName);
     }
 
     function openGroupPage(groupName) {
@@ -78,7 +78,9 @@ describe('Groups', () => {
 
             //Make 2 new groups to edit
             createNewGroup(groupWithApplicationName1);
+            goToGroupsPage();
             createNewGroup(groupWithApplicationName2, undefined, undefined, true);
+            goToGroupsPage();
 
             //Edit group to require application     groupWithApplicationName1
             openGroupPage(groupWithApplicationName1);
