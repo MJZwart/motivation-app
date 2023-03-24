@@ -14,7 +14,6 @@ class BlockUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'userId' => ['required', 'integer', 'exists:users,id'],
             'hideMessages' => ['required', 'boolean'],
         ];
     }

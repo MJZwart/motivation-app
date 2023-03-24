@@ -31,11 +31,7 @@ const emit = defineEmits(['close']);
 const hideMessages = ref(false);
 
 async function confirmBlock() {
-    const blockPayload = {
-        userId: props.user.id,
-        hideMessages: hideMessages.value,
-    };
-    await userStore.blockUser(blockPayload);
+    await userStore.blockUser(props.user.id, {'hideMessages': hideMessages.value});
     emit('close', true);
 }
 </script>
