@@ -46,9 +46,8 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['middleware' => ['valid-auth']], function () {
+    Route::get('/unread', [UserController::class, 'hasUnread']);
 
-    Route::get('/auth', [AuthenticationController::class, 'getAuthKey']);
-    
     Route::post('/tasklists', [TaskListController::class, 'store']);
 
     Route::group(['middleware' => ['can:update,tasklist']], function () {

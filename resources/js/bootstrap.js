@@ -29,6 +29,7 @@ window.Echo = new Echo({
     wsHost: window.location.hostname,
     wsPort: 6001,
     disableStats: true,
+    enabledTransports: ['ws', 'wss'],
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     authorizer: (channel, _options) => {
