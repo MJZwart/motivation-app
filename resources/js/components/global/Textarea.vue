@@ -3,12 +3,13 @@
         <label :for="name">{{label}}</label>
         <textarea
             :id="id" 
-            :class="{invalid: isInvalid}"
+            :class="{invalid: isInvalid, disabled: disabled}"
             :type="type" 
             :name="name" 
             :value="modelValue"
             :rows="rows"
             :placeholder="placeholder" 
+            :disabled="disabled"
             @input="updateModelValue($event)"
         />
         <div v-if="errorMsg">
@@ -52,6 +53,11 @@ const props = defineProps({
         type: Number,
         required: false,
         default: 3,
+    },
+    disabled: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
 });
 const emit = defineEmits(['update:modelValue']);

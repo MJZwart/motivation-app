@@ -21,6 +21,7 @@
 
     "confirm-block": "Bevestig blokkeren",
     "hide-messages": "Bestaande berichten van deze gebruiker gelijk verbergen",
+    "user-is-blocked": "Deze gebruiker is geblokkeerd",
 
     "confirm-unblock": "Bevestig deblokkeren",
     "unblock-user-confirmation": "Wil je {user} deblokkeren?",

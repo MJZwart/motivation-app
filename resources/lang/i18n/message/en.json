@@ -21,6 +21,7 @@
 
     "confirm-block": "Confirm block",
     "hide-messages": "Hide this user's existing messages",
+    "user-is-blocked": "This user is blocked",
 
     "confirm-unblock": "Confirm unblock",
     "unblock-user-confirmation": "Do you wish to unblock {user}?",
