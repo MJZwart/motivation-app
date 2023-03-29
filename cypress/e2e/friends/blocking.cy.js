@@ -34,7 +34,7 @@ describe('Blocking', () => {
             waitLong();
 
             cy.get(lockButton).click();
-            cy.on('window:confirm', () => true);
+            cy.get('button').contains('Submit').click();
             waitShort();
 
             cy.get('a').contains('Social').click();
@@ -63,6 +63,7 @@ describe('Blocking', () => {
             waitLong();
 
             cy.get('a').contains(user3.username).should('exist').parent().find(unlockedButton).click();
+            cy.get('button').contains('Submit').click();
             waitShort();
             cy.get('a').contains(user3.username).should('not.exist');
         });
