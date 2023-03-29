@@ -161,6 +161,7 @@ return [
 
     'message' => [
         'unable_to_send' => 'Je kunt deze gebruiker geen berichten sturen.',
+        'blocked_user' => 'Je hebt deze gebruiker geblokkeerd',
         'sent' => 'Bericht verstuurd',
         'deleted' => 'Bericht verwijderd',
     ],

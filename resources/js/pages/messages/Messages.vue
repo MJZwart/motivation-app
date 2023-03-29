@@ -15,7 +15,10 @@
                              :class="activeConversation?.id == conversation.id ? 'active': ''"
                              @click="switchActiveConversation(index)">
                             <span class="d-flex">
-                                <h6 class="mt-1 ml-2">{{conversation.recipient.username}}</h6>
+                                <h6 class="mt-1 ml-2">
+                                    {{conversation.recipient.username}}
+                                    <Icon v-if="conversation.is_blocked" :icon="LOCK" class="block-icon red" />
+                                </h6>
                                 <span v-if="hasUnreadMessages(conversation)" class="ml-auto">
                                     <strong>{{ $t('unread') }}</strong>
                                 </span>
@@ -31,6 +34,7 @@
                             <router-link :to="{ name: 'profile', params: { id: activeConversation.recipient.id}}">
                                 {{activeConversation.recipient.username}}
                             </router-link>
+                            <Icon v-if="activeConversation.is_blocked" :icon="LOCK" class="block-icon red non-clickable" />
                             <span class="ml-auto">
                                 <Dropdown color="white">
                                     <section class="option">
@@ -63,8 +67,11 @@
                                     v-model="message.message"
                                     name="message" 
                                     :rows=3
-                                    :placeholder="$t('type-your-reply')" />
-                                <SubmitButton class="block">{{ $t('send-reply') }}</SubmitButton>
+                                    :placeholder="activeConversation.is_blocked ? $t('user-is-blocked') : $t('type-your-reply')"
+                                    :disabled="activeConversation.is_blocked" />
+                                <SubmitButton class="block" :disabled="activeConversation.is_blocked">
+                                    {{ $t('send-reply') }}
+                                </SubmitButton>
                             </form>
                         </div>
                         <div class="messages">
@@ -108,6 +115,7 @@ import {parseDateTime} from '/js/services/dateService';
 import {useMessageStore} from '/js/store/messageStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {useI18n} from 'vue-i18n';
+import {LOCK} from '/js/constants/iconConstants';
 import type {Conversation, Message, NewMessage} from 'resources/types/message';
 import type {StrippedUser} from 'resources/types/user';
 import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
@@ -168,6 +176,7 @@ function switchActiveConversation(key: number) {
 }
 async function sendMessage() {
     if (activeConversation.value == null) return;
+    if (activeConversation.value.is_blocked) return;
     message.value.conversation_id = activeConversation.value.conversation_id;
     message.value.recipient_id = activeConversation.value.recipient.id;
     await messageStore.sendMessage(message.value)

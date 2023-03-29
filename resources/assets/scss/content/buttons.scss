@@ -38,6 +38,16 @@ button[type=submit] {
     background-color: var(--action-button);
     border-color: var(--action-button);
 }
+button[type=submit].disabled {
+    background-color: var(--cancel-button);
+    border-color: var(--cancel-button);
+    cursor: not-allowed;
+}
+button[type=submit].disabled:hover {
+    background-color: var(--cancel-button);
+    border-color: var(--cancel-button);
+    cursor: not-allowed;
+}
 
 button.clear {
     background-color: transparent;

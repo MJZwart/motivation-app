@@ -8,6 +8,7 @@ export type Conversation = {
     conversation_id: string;
     messages: Message[];
     last_message: Message;
+    is_blocked: boolean;
 };
 
 export type Message = {

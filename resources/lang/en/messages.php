@@ -161,6 +161,7 @@ return [
 
     'message' => [
         'unable_to_send' => 'You are unable to send messages to this user.',
+        'blocked_user' => 'You have blocked this user',
         'sent' => 'Message sent',
         'deleted' => 'Message deleted',
     ],
