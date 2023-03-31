@@ -6,12 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class MessageResource extends JsonResource
 {
-    protected $user_id;
-
-    public function setUserId($userId) {
-        $this->user_id = $userId;
-        return $this;
-    }
     /**
      * Transform the resource into an array.
      *
@@ -20,25 +14,13 @@ class MessageResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resourceData = [
+        return [
             'id' => $this->id,
             'message' => $this->message,
             'created_at' => $this->created_at,
+            'read' => $this->read,
+            'sent_by_user' => $this->user_id === $this->sender_id,
+            'sender' => new StrippedUserResource($this->sender),
         ];
-        if($this->user_id == $this->sender->id && $this->visible_to_sender) {
-            $resourceData['sent_by_user'] = true;
-            $resourceData['recipient'] = new StrippedUserResource($this->recipient);
-            $resourceData['visible'] = $this->visible_to_sender;
-        } else if($this->user_id == $this->recipient->id && $this->visible_to_recipient) {
-            $resourceData['sent_by_user'] = false;
-            $resourceData['sender'] = new StrippedUserResource($this->sender);
-            $resourceData['read'] = $this->read;
-            $resourceData['visible'] = $this->visible_to_recipient;
-        }
-        return $resourceData;
-    }
-
-    public static function collection($resource) {
-        return new MessageResourceCollection($resource);
     }
 }

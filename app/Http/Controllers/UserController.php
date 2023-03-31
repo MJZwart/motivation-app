@@ -219,7 +219,8 @@ class UserController extends Controller
 
     public function hasUnread(): JsonResponse
     {
-        $hasMessages = Message::where('recipient_id', Auth::user()->id)->where('read', false)->where('visible_to_recipient', true)->count() > 0;
+        // TODO Unread isn't working properly
+        $hasMessages = Message::where('recipient_id', Auth::user()->id)->where('read', false)->count() > 0;
         $hasNotifications = Notification::where('user_id', Auth::user()->id)->where('read', false)->count() > 0;
         return new JsonResponse(['hasNotifications' => $hasNotifications, 'hasMessages' => $hasMessages]);
     }
