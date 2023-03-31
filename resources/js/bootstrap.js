@@ -50,3 +50,9 @@ window.Echo = new Echo({
         }
     },
 });
+
+window.Echo.connector.pusher.connection.bind('state_change', function(states) {
+    if (states.current === 'disconnected' || states.current === 'failed' || states.current === 'unavailable') {
+        window.Echo.connector.pusher.connection.retryIn(1000);
+    }
+});
