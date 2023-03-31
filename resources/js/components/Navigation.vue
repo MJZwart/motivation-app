@@ -109,7 +109,7 @@ watch(
 );
 watch(
     () => user.value,
-    () => listenToUnread(),
+    () => {if (user.value) listenToUnread()},
 );
 </script>
 
