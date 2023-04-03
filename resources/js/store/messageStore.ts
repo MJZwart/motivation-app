@@ -29,6 +29,8 @@ export const useMessageStore = defineStore('message', {
 
         async getNotifications() {
             const {data} = await axios.get('/notifications');
+            const userStore = useUserStore();
+            userStore.getUnread();
             return data.data;
         },
         async deleteNotification(notificationId: number) {

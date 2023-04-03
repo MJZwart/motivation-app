@@ -39,6 +39,10 @@ class Message extends Model
         return $this->belongsTo('App\Models\Conversation', 'conversation_id', 'conversation_id');
     }
 
+    public static function hasUnread(int $userId) {
+        return Message::where('recipient_id', $userId)->where('user_id', $userId)->where('read', false)->count() > 0;
+    }
+
     public static function createNewMessage(array $messageContent) {
         $sentMessage = Message::create([
             'user_id' => $messageContent['user_id'],
