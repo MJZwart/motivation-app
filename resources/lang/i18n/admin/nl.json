@@ -19,6 +19,11 @@
     "bug-status-desc": "Bug report status",
     "reported-by": "Gerapporteerd door",
     "time": "Tijd",
+
+    "close-bug-report": "Bugmelding sluiten",
+    "confirm-close-bug-report": "Bevestig sluiting van bugmelding",
+    "close-bug-admin-comment-desc": "Leg uit waarom je deze bugmelding sluit",
+
     "link": "Link",
     "add-link": "Voeg link toe",
     "remove-link": "Verwijder link",

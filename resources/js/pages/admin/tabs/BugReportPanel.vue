@@ -36,6 +36,7 @@
                         class="mail-icon" 
                         @click="sendMessageToBugReportAuthor(row.item.user_id, row.item.username)" 
                     />
+                    <Icon :icon="TRASH" class="trash-icon red" @click="closeBugReport(row.item)" />
                 </div>
             </template>
         </SortableOverviewTable>
@@ -55,6 +56,16 @@
         <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageToBugReportAuthor">
             <SendMessage v-if="bugReportAuthor" :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor" />
         </Modal>
+        <Modal 
+            :show="showCloseBugReportModal" 
+            :footer="false" 
+            :title="$t('confirm-close-bug-report')" 
+            @close="cancelCloseBugReport">
+            <CloseBugReportModal v-if="bugReportToClose" 
+                                 :bug-report="bugReportToClose"
+                                 @close="cancelCloseBugReport" 
+                                 @submit="submitCloseBugReport" />
+        </Modal>
     </div>
 </template>
 
@@ -68,9 +79,10 @@ import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
 import {BugReport} from 'resources/types/bug';
 import {useI18n} from 'vue-i18n';
-import {EDIT, MAIL} from '/js/constants/iconConstants';
+import {EDIT, MAIL, TRASH} from '/js/constants/iconConstants';
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import {StrippedUser} from 'resources/types/user';
+import CloseBugReportModal from '../components/CloseBugReportModal.vue';
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
 const {t} = useI18n();
@@ -105,6 +117,23 @@ function closeEditBugReport() {
 }
 async function submitUpdateBugReport(updatedBugReport: BugReport) {
     bugReports.value = await adminStore.updateBugReport(updatedBugReport);
+}
+const showCloseBugReportModal = ref(false);
+const bugReportToClose = ref<BugReport | null>(null);
+function closeBugReport(bugReport: BugReport) {
+    bugReportToClose.value = bugReport;
+    showCloseBugReportModal.value = true;
+}
+function cancelCloseBugReport() {
+    showCloseBugReportModal.value = false;
+    bugReportToClose.value = null;
+}
+async function submitCloseBugReport(adminComment: string) {
+    if (!bugReportToClose.value) return;
+    bugReportToClose.value.admin_comment = adminComment;
+    const data = await adminStore.closeBugReport(bugReportToClose.value);
+    bugReports.value = data;
+    cancelCloseBugReport();
 }
 function parseStatus(status: number) {
     const statusElement = BUG_STATUS.find(element => element.value == status);

@@ -49,6 +49,7 @@ Route::group(['middleware' => ['admin']], function () {
 
     Route::get('/bugreport', [BugReportController::class, 'getBugReports']);
     Route::put('/bugreport/{bugReport}', [BugReportController::class, 'update']);
+    Route::put('/bugreport/delete/{bugReport}', [BugReportController::class, 'closeBugReport']);
 
     Route::get('/action/filters', [AdminController::class, 'getActionFilters']);
     Route::post('/action/filters', [AdminController::class, 'getActionsWithFilters']);
