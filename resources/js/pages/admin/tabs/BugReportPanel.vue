@@ -1,8 +1,12 @@
 <template>
     <div>
         <h3>{{ $t('bug-report-panel-title') }}</h3>
+        <SubmitButton class="submit-button-override" @click="toggleClosed()">
+            {{ showClosed ? 'Hide closed' : 'Show closed' }}
+        </SubmitButton>
+        <h5 v-if="showClosed">{{ $t('showing-closed-bug-reports') }}</h5>
         
-        <Loading v-if="!bugReports[0]" />
+        <Loading v-if="loading" />
         <SortableOverviewTable
             v-else
             :items="bugReports"
@@ -29,14 +33,20 @@
             </template>
             <template #actions="row">
                 <div style="min-width: 49px">
-                    <Icon :icon="EDIT" class="edit-icon" @click="editBugReport(row.item)" />
-                    <Icon 
-                        v-if="row.item.user_id" 
-                        :icon="MAIL" 
-                        class="mail-icon" 
-                        @click="sendMessageToBugReportAuthor(row.item.user_id, row.item.username)" 
-                    />
-                    <Icon :icon="TRASH" class="trash-icon red" @click="closeBugReport(row.item)" />
+                    <template v-if="row.item.deleted_at === null">
+                        <Icon :icon="EDIT" class="edit-icon" @click="editBugReport(row.item)" />
+                        <Icon 
+                            v-if="row.item.user_id" 
+                            :icon="MAIL" 
+                            class="mail-icon" 
+                            @click="sendMessageToBugReportAuthor(row.item.user_id, row.item.username)" 
+                        />
+                        <Icon :icon="TRASH" class="trash-icon red" @click="closeBugReport(row.item)" />
+                    </template>
+                    <tempalte v-else>
+                        <b>{{ $t('closed-on') }}: </b>{{ parseDateTime(row.item.deleted_at) }}
+                        <Icon :icon="RESTORE_TRASH" class="restore-trash-icon green" @click="restoreBugReport(row.item)" />
+                    </tempalte>
                 </div>
             </template>
         </SortableOverviewTable>
@@ -79,17 +89,21 @@ import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
 import {BugReport} from 'resources/types/bug';
 import {useI18n} from 'vue-i18n';
-import {EDIT, MAIL, TRASH} from '/js/constants/iconConstants';
+import {EDIT, MAIL, TRASH, RESTORE_TRASH} from '/js/constants/iconConstants';
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import {StrippedUser} from 'resources/types/user';
 import CloseBugReportModal from '../components/CloseBugReportModal.vue';
+import {parseDateTime} from '/js/services/dateService';
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
 const {t} = useI18n();
 
 onMounted(async() => {
     bugReports.value = await adminStore.getBugReports();
+    loading.value = false;
 });
+
+const loading = ref(true);
 
 const bugReports = ref<BugReport[]>([]);
 
@@ -98,6 +112,8 @@ const bugReportToEdit = ref<BugReport | null>(null);
 const bugReportAuthor = ref<StrippedUser | null>(null);
 const showEditBugReportModal = ref(false);
 const showSendMessageModal = ref(false);
+
+const showClosed = ref(false);
 
 function sendMessageToBugReportAuthor(user_id: number, username: string) {
     mainStore.clearErrors();
@@ -138,5 +154,14 @@ async function submitCloseBugReport(adminComment: string) {
 function parseStatus(status: number) {
     const statusElement = BUG_STATUS.find(element => element.value == status);
     return statusElement ? t(statusElement.text) : '';
+}
+
+async function toggleClosed() {
+    showClosed.value = !showClosed.value;
+    if (showClosed.value) bugReports.value = await adminStore.getClosedBugReports();
+    else bugReports.value = await adminStore.getBugReports();
+}
+async function restoreBugReport(bugReport: BugReport) {
+    bugReports.value = await adminStore.restoreBugReport(bugReport.id);
 }
 </script>

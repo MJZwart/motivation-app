@@ -19,6 +19,10 @@ class BugReportController extends Controller
     {
         return BugReportResource::collection(BugReport::orderByDesc('created_at')->get());
     }
+    public function getClosedBugReports()
+    {
+        return BugReportResource::collection(BugReport::onlyTrashed()->orderByDesc('created_at')->get());
+    }
 
     public function store(StoreBugReportRequest $request): JsonResponse
     {
@@ -64,5 +68,14 @@ class BugReportController extends Controller
 
         return ResponseWrapper::successResponse(__('messages.bug.deleted'), 
             ['bugReports' => BugReportResource::collection(BugReport::orderByDesc('created_at')->get())]);
+    }
+    
+    public function restoreBugReport(int $bugReport): JsonResponse
+    {
+        $closedReport = BugReport::withTrashed()->find($bugReport);
+        $closedReport->restore();
+
+        return ResponseWrapper::successResponse(__('messages.bug.restored'), 
+            ['bugReports' => BugReportResource::collection(BugReport::onlyTrashed()->orderByDesc('created_at')->get())]);
     }
 }

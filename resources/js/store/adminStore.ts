@@ -50,12 +50,20 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.get('/admin/bugreport');
             return data.data;
         },
+        async getClosedBugReports(): Promise<BugReport[]> {
+            const {data} = await axios.get('/admin/bugreport/closed');
+            return data.data;
+        },
         async updateBugReport(bugReport: BugReport): Promise<BugReport[]> {
             const {data} = await axios.put('/admin/bugreport/' + bugReport.id, bugReport);
             return data.data.bugReports;
         },
         async closeBugReport(bugReport: BugReport): Promise<BugReport[]> {
             const {data} = await axios.put(`/admin/bugreport/delete/${bugReport.id}`, bugReport);
+            return data.data.bugReports;
+        },
+        async restoreBugReport(bugReportId: string | number): Promise<BugReport[]> {
+            const {data} = await axios.put(`/admin/bugreport/restore/${bugReportId}`);
             return data.data.bugReports;
         },
 

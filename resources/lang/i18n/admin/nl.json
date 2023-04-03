@@ -23,6 +23,8 @@
     "close-bug-report": "Bugmelding sluiten",
     "confirm-close-bug-report": "Bevestig sluiting van bugmelding",
     "close-bug-admin-comment-desc": "Leg uit waarom je deze bugmelding sluit",
+    "showing-closed-bug-reports": "Gesloten bugmeldingen getoond",
+    "closed-on": "Gesloten",
 
     "link": "Link",
     "add-link": "Voeg link toe",

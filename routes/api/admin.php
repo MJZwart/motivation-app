@@ -48,8 +48,10 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/editsuspension/{suspendedUser}', [AdminController::class, 'editUserSuspension']);
 
     Route::get('/bugreport', [BugReportController::class, 'getBugReports']);
+    Route::get('/bugreport/closed', [BugReportController::class, 'getClosedBugReports']);
     Route::put('/bugreport/{bugReport}', [BugReportController::class, 'update']);
     Route::put('/bugreport/delete/{bugReport}', [BugReportController::class, 'closeBugReport']);
+    Route::put('/bugreport/restore/{bugReport}', [BugReportController::class, 'restoreBugReport']);
 
     Route::get('/action/filters', [AdminController::class, 'getActionFilters']);
     Route::post('/action/filters', [AdminController::class, 'getActionsWithFilters']);

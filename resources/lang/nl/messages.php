@@ -85,6 +85,7 @@ return [
         'created' => 'Bugmelding aangemaakt.',
         'updated' => 'Bugmelding gewijzigd.',
         'deleted' => 'Bugmelding gesloten',
+        'restored' => 'Bugmelding hersteld',
         'resolved_title' => 'Je bugmelding is opgelost.',
         'resolved_text' => 'De bug die je hebt gemeld met de title ":bug_title" is opgelost en zou gefixt moeten zijn in de volgende update. Bedankt voor je melding.',
     ],
