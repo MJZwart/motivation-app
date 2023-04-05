@@ -4,7 +4,7 @@
         "outDir": "build",
         "module": "esnext",
         "target": "esnext",
-        "types": ["vite/client", "node"],
+        "types": ["vite/client", "node", "vitest/globals"],
         "moduleResolution": "node",
         "lib": ["esnext", "dom"],
         "allowUnreachableCode": false,
@@ -30,12 +30,13 @@
             "services/*": ["./resources/js/services/*"],
             "pages/*": ["./resources/js/pages/*"],
             "types/*": ["./types/*"],
-            "/js/*": ["./resources/js/*"]
+            "/js/*": ["./resources/js/*"],
+            "tests/": ["./tests/*"]
         }
     },
     "typeAcquisition": {
         "include": ["jest"]
     },
-    "include": ["resources/js/**/*", "resources/types/**/*", "vite.config.js"],
+    "include": ["resources/js/**/*", "resources/types/**/*", "vite.config.js", "tests/vitest/**/*"],
     "exclude": ["node_modules/**/*", "build/**/*", "cypress/**/*"]
 }

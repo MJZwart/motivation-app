@@ -29,11 +29,6 @@ export default defineConfig(({command}) => {
         server: {
             port: 3000,
         },
-        resolve: {
-            alias: {
-                '@': '/js',
-            },
-        },
         define: {
             __VUE_I18N_FULL_INSTALL__: true,
             __VUE_I18N_LEGACY_API__: false,
