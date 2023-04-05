@@ -219,8 +219,9 @@ class UserController extends Controller
 
     public function hasUnread(): JsonResponse
     {
-        $hasMessages = Message::hasUnread(Auth::user()->id);
-        $hasNotifications = Notification::hasUnread(Auth::user()->id);
+        $userId = Auth::user()->id;
+        $hasMessages = Message::hasUnread($userId);
+        $hasNotifications = Notification::hasUnread($userId);
         return new JsonResponse(['hasNotifications' => $hasNotifications, 'hasMessages' => $hasMessages]);
     }
 }
