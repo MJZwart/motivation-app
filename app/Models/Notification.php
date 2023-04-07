@@ -21,4 +21,8 @@ class Notification extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+
+    public static function hasUnread(int $userId) {
+        return Notification::where('user_id', $userId)->where('read', false)->count() > 0;
+    }
 }

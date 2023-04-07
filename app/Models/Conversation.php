@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Messages;
+use App\Models\Message;
 
 class Conversation extends Model
 {
@@ -22,10 +22,8 @@ class Conversation extends Model
         return $this->hasMany('App\Models\Message', 'conversation_id', 'conversation_id');
     }
 
-    public function visibleMessages() {
-        return $this->messages->filter(function ($value, $key) {
-            return ($this->user_id == $value->sender_id && $value->visible_to_sender) || ($this->user_id == $value->recipient_id && $value->visible_to_recipient);
-        });
+    public function getMessages() {
+        return Message::where('conversation_id', $this->conversation_id)->where('user_id', $this->user_id)->get();
     }
 
     public function user() {
@@ -37,7 +35,7 @@ class Conversation extends Model
     }
 
     public function getLastMessage() {
-        return $this->visibleMessages()->sortByDesc('created_at')->first();
+        return $this->getMessages()->sortByDesc('created_at')->first();
     }
 
     public function messagesOut() {
