@@ -1,5 +1,5 @@
 <template>
-    <div v-if="message" class="break-word"
+    <div class="break-word"
          :class="{hover: hover}"
          @mouseover="hover = true"
          @mouseleave="hover = false"
