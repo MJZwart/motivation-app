@@ -91,6 +91,7 @@ class MessageSeeder extends Seeder
             'sender_id' => $sender,
             'recipient_id' => $recipient,
             'conversation_id' => $conversationId,
+            'read' => true,
         ]);
         Message::create([
             'message' => $message,

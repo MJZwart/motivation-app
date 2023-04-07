@@ -50,6 +50,7 @@ class Message extends Model
             'recipient_id' => $messageContent['recipient_id'],
             'conversation_id' => $messageContent['conversation_id'],
             'message' => $messageContent['message'],
+            'read' => true,
         ]);
         $receivedMessage = Message::create([
             'user_id' => $messageContent['recipient_id'],
