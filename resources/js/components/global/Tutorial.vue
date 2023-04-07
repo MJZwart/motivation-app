@@ -2,7 +2,7 @@
     <Icon  v-if="tutorialActive"
            :icon="QUESTION"
            class="question-icon small question"
-           :class="[colorVariant, size]"
+           :class="[size]"
            @click="openTutorial" />
     <ClearModal :show="tutorialOpen" :item="tutorialItem" class="medium-text" @close="closeTutorial" />
 </template>
@@ -34,11 +34,6 @@ const props = defineProps({
     tutorial: {
         type: String,
         required: true,
-    },
-    colorVariant: {
-        type: String,
-        required: false,
-        default: 'primary',
     },
     size: {
         type: String,

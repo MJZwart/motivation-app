@@ -15,7 +15,7 @@
                         <Tooltip :text="$t('delete-task-list')" placement="bottom">
                             <Icon :icon="TRASH" class="delete-icon small white" @click="showDeleteTaskList()" />
                         </Tooltip>
-                        <Tutorial tutorial="TaskList" colorVariant="white" />
+                        <Tutorial tutorial="TaskList" />
                     </span>
                 </span>
             </template>
