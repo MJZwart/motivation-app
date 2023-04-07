@@ -19,6 +19,13 @@
     "bug-status-desc": "Status of the bug report",
     "reported-by": "Reported by",
     "time": "Time",
+
+    "close-bug-report": "Close bug report",
+    "confirm-close-bug-report": "Confirm closing of bug report",
+    "close-bug-admin-comment-desc": "Please explain why you are closing this report",
+    "showing-closed-bug-reports": "Showing closed bug reports",
+    "closed-on": "Closed",
+
     "link": "Link",
     "add-link": "Add link",
     "remove-link": "Remove link",

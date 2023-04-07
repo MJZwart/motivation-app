@@ -83,7 +83,9 @@ return [
 
     'bug' => [
         'created' => 'Bug report successfully created.',
-        'updated' => 'Bug Report updated.',
+        'updated' => 'Bug report updated.',
+        'deleted' => 'Bug report closed',
+        'restored' => 'Bug report restored',
         'resolved_title' => 'Your bug report has been resolved.',
         'resolved_text' => 'The bug you reported with the title ":bug_title" has been resolved and should be fixed in the next update. Thank you for your report.',
     ],

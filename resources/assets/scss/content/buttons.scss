@@ -48,6 +48,14 @@ button[type=submit].disabled:hover {
     border-color: var(--cancel-button);
     cursor: not-allowed;
 }
+button[type=submit].submit-button-override {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+button[type=submit].submit-button-override:hover {
+    background-color: var(--button-hover);
+    border-color: var(--button-hover);
+}
 
 button.clear {
     background-color: transparent;
