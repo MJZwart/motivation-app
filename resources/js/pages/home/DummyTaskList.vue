@@ -18,19 +18,14 @@
                     </span>
                 </span>
             </template>
-            <!-- <slot> -->
             <template v-for="(task, index) in taskList.tasks" :key="task.id" >
                 <Task 
-                       
                     :task="task" 
                     :class="taskClass(index)" />
             </template>
-            <!-- </slot> -->
-            <!-- <template #footer>            -->
             <button class="block bottom-radius p-0 new-task" variant="outline">
                 {{$t('new-task')}}
             </button>
-            <!-- </template> -->
         </ContentBlock>
     </div>
 </template>

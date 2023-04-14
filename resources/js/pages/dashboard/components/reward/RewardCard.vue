@@ -1,10 +1,12 @@
 <template>
     <div v-if="reward">
-        <div class="content-block p-3">
-            <div class="d-flex">
-                <h3>{{ reward.name }}</h3>
-                <span class="ml-auto"><Tutorial v-if="tutorial" class="ml-auto" :tutorial="rewardType" /></span>
-            </div>
+        <ContentBlock>
+            <template #header>
+                <div class="d-flex">
+                    <h3>{{ reward.name }}</h3>
+                    <span class="ml-auto"><Tutorial v-if="tutorial" class="ml-auto" :tutorial="rewardType" /></span>
+                </div>
+            </template>
             <div class="compact">
                 <p>{{ $t('level') }}: {{reward.level}}</p>
                 <p>{{ $t('coins') }}: <Coins :coins=reward.coins /></p>
@@ -27,7 +29,7 @@
                     <ProgressBar :value="reward.e_exp" :max="reward.e_exp_needed" />
                 </p>
             </div>
-        </div>
+        </ContentBlock>
     </div>
 </template>
 
