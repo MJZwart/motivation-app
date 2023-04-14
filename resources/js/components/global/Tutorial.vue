@@ -2,7 +2,7 @@
     <Icon  v-if="tutorialActive"
            :icon="QUESTION"
            class="question-icon small question"
-           :class="[colorVariant, size]"
+           :class="[size]"
            @click="openTutorial" />
     <ClearModal :show="tutorialOpen" :item="tutorialItem" class="medium-text" @close="closeTutorial" />
 </template>
@@ -35,11 +35,6 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    colorVariant: {
-        type: String,
-        required: false,
-        default: 'primary',
-    },
     size: {
         type: String,
         required: false,
@@ -47,14 +42,14 @@ const props = defineProps({
     },
 });
 const tutorials = {
-    'TaskList': TaskListTutorial,
-    'Stats': StatsTutorial,
-    'Achievements': AchievementsTutorial,
-    'Groups': GroupsTutorial,
-    'Friends': FriendsTutorial,
-    'Incoming friend requests': IncomingFriendRequestsTutorial,
-    'Outgoing friend requests': OutgoingFriendRequestsTutorial,
-    'Blocklist': BlocklistTutorial,
+    'task-list': TaskListTutorial,
+    'stats': StatsTutorial,
+    'achievements': AchievementsTutorial,
+    'groups': GroupsTutorial,
+    'friends': FriendsTutorial,
+    'incoming-friend-requests': IncomingFriendRequestsTutorial,
+    'outgoing-friend-requests': OutgoingFriendRequestsTutorial,
+    'blocklist': BlocklistTutorial,
     'CHARACTER': CharacterTutorial,
     'VILLAGE': VillageTutorial,
     'Templates': TemplatesTutorial,

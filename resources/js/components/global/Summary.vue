@@ -5,7 +5,7 @@
                 <slot name="header">
                     <span class="d-flex">
                         {{title}}
-                        <Tutorial v-if="!tutorialOff" :tutorial="title" colorVariant="white" />
+                        <Tutorial v-if="!tutorialOff" :tutorial="title" />
                         <Icon v-if="collapse" class="ml-auto primary-text" :icon="expanded ? ARROW_UP : ARROW_DOWN" />
                     </span>
                 </slot>

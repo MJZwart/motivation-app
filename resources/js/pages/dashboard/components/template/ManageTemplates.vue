@@ -17,7 +17,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title">
                         {{ $t('manage-templates') }}
-                        <Tutorial tutorial="Templates" colorVariant="white" />
+                        <Tutorial tutorial="Templates" />
                     </h5>
                     <button class="close" @click="showManageTemplateModal = false">×</button>
                 </div>

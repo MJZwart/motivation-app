@@ -20,7 +20,7 @@
                     {{ $t('all-groups') }}
                 </button>
                 <span class="ml-auto">
-                    <Tutorial tutorial="Groups" colorVariant="primary" size="medium" />
+                    <Tutorial tutorial="groups" size="medium" />
                 </span>
             </div>
             <div class="group-filters mt-1">

@@ -2,7 +2,7 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
-            <Summary :title="$t('friends')" :tutorialOff="!manage">
+            <ContentBlock title="friends" :tutorial="manage">
                 <ul v-if="friends.length > 0" class="mb-1 no-list-style clear-a primary-text">
                     <li v-for="(friend, index) in friends" :key="index">
                         <span v-if="manage">
@@ -25,17 +25,16 @@
                     </li>
                 </ul>
                 <p v-else class="mb-1">{{ $t('no-friends') }}</p>
-            </Summary>
-            <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
-                <SendMessage v-if="friendToMessage" :user="friendToMessage" @close="closeSendMessageModal" />
-            </Modal>
+            </ContentBlock>
         </div>
+        <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
+            <SendMessage v-if="friendToMessage" :user="friendToMessage" @close="closeSendMessageModal" />
+        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
-import Summary from '/js/components/global/Summary.vue';
 import {ref, computed, onMounted, PropType} from 'vue';
 import {useFriendStore} from '/js/store/friendStore';
 import {Friend} from 'resources/types/friend';

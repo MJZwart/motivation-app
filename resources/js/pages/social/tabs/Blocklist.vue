@@ -1,7 +1,7 @@
 <template>
     <Loading v-if="loading" />
     <div v-else>
-        <Summary :title="$t('blocklist')">
+        <ContentBlock title="blocklist" tutorial>
             <ul class="no-list-style">
                 <div v-if="blocklist[0]">
                     <li v-for="(blockedUser, index) in blocklist" :key="index" class="mb-1 ml-0 d-flex flex-wrap">
@@ -22,7 +22,7 @@
 
                 <p v-else>{{ $t('no-blocked-users') }}</p>
             </ul>
-        </Summary>
+        </ContentBlock>
         <Modal :show="showUnblockUserModal" :title="$t('confirm-unblock')" @close="closeUnblockUserModal()">
             <ConfirmUnblockModal v-if="userToUnblock" :blocked-user="userToUnblock" @close="closeUnblockUserModal($event)" />
         </Modal>
@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import Summary from '/js/components/global/Summary.vue';
 import {onMounted, ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useUserStore} from '/js/store/userStore';

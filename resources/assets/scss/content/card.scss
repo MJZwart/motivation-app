@@ -6,8 +6,10 @@
     flex-flow: row wrap;
     gap: 0.5rem;
 
-    .card {
+    .content-block {
+        min-width: 300px;
         flex: 1 0 0%;
+        word-wrap: break-word;
     }
     .home-card {
         min-width: 300px;

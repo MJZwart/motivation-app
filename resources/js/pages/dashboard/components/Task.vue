@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="{'task-hover': hover}" @mouseover="hover = true" @mouseleave="hover = false">
         <div class="task-sidebar" :class="`diff-${task.difficulty}`" />
         <div class="task-content">
             <p class="task-title d-flex">
@@ -109,6 +109,8 @@ const taskToEdit = ref<Task | null>(null);
 const editSuperTask = ref<string | null>(null);
 const showEditTaskModal = ref(false);
 
+const hover = ref(false);
+
 function openNewTask(task: Task) {
     emit('newTask', task);
 }
@@ -139,10 +141,7 @@ function completeTask(task: Task) {
 </script>
 
 <style lang="scss" scoped>
-.number-icon {
-    font-family: var(--border-color);
-    margin: 1px;
-    position: relative;
-    bottom: 2px;
+.task-hover {
+    background-color: var(--background-darker);
 }
 </style>

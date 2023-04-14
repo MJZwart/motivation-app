@@ -1,35 +1,31 @@
 <template>
     <div>
-        <Summary :footer="true" class="p-0">
+        <ContentBlock customClass="p-0">
             <template #header>
-                <span class="d-flex">
-                    {{ taskList.name }}
+                <span class="d-flex pl-3 pt-3 pr-3">
+                    <h4>{{ taskList.name }}</h4>
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')" placement="bottom">
                             <Icon
                                 :icon="EDIT"
-                                class="edit-icon small white"
+                                class="edit-icon small"
                                 @click="showEditTaskList()"
                             />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')" placement="bottom">
-                            <Icon :icon="TRASH" class="delete-icon small white" @click="showDeleteTaskList()" />
+                            <Icon :icon="TRASH" class="delete-icon small" @click="showDeleteTaskList()" />
                         </Tooltip>
-                        <Tutorial tutorial="TaskList" colorVariant="white" />
+                        <Tutorial tutorial="task-list" />
                     </span>
                 </span>
             </template>
-            <slot>
-                <template v-for="(task, index) in taskList.tasks" :key="task.id">
-                    <TaskComp :task="task" :taskList="taskList" :class="taskClass(index)" v-on:newTask="openNewTask" />
-                </template>
-            </slot>
-            <template #footer>
-                <button class="block bottom-radius p-0 new-task" @click="openNewTask()">
-                    {{ $t('new-task') }}
-                </button>
+            <template v-for="(task, index) in taskList.tasks" :key="task.id">
+                <TaskComp :task="task" :taskList="taskList" :class="taskClass(index)" v-on:newTask="openNewTask" />
             </template>
-        </Summary>
+            <button class="block bottom-radius p-0 new-task" @click="openNewTask()">
+                {{ $t('new-task') }}
+            </button>
+        </ContentBlock>
 
         <Modal :show="showNewTaskModal" :title="$t('new-task')" @close="closeNewTask">
             <NewTask :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
@@ -51,7 +47,6 @@
 <script setup lang="ts">
 import TaskComp from './Task.vue';
 import NewTask from './NewTask.vue';
-import Summary from '/js/components/global/Summary.vue';
 import EditTaskList from './EditTaskList.vue';
 import DeleteTaskListConfirm from './DeleteTaskListConfirm.vue';
 import {ref} from 'vue';

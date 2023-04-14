@@ -1,44 +1,38 @@
 <template>
     <div class="dummy-tasks">
-        <Summary :footer="true" class="p-0">
+        <ContentBlock customClass="p-0">
             <template #header>
-                <span class="d-flex">
-                    {{taskList.name}}
+                <span class="d-flex pl-3 pt-3 pr-3">
+                    <h4>{{ taskList.name }}</h4>
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')">
                             <Icon 
                                 :icon="EDIT"
-                                class="edit-icon small white" />
+                                class="edit-icon small" />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')">
                             <Icon 
                                 :icon="TRASH"
-                                class="delete-icon small white" />
+                                class="delete-icon small" />
                         </Tooltip>
                     </span>
                 </span>
             </template>
-            <slot>
-                <template v-for="(task, index) in taskList.tasks" :key="task.id" >
-                    <Task 
-                       
-                        :task="task" 
-                        :class="taskClass(index)" />
-                </template>
-            </slot>
-            <template #footer>           
-                <button class="block bottom-radius p-0 new-task" variant="outline">
-                    {{$t('new-task')}}
-                </button>
+            <template v-for="(task, index) in taskList.tasks" :key="task.id" >
+                <Task 
+                    :task="task" 
+                    :class="taskClass(index)" />
             </template>
-        </Summary>
+            <button class="block bottom-radius p-0 new-task" variant="outline">
+                {{$t('new-task')}}
+            </button>
+        </ContentBlock>
     </div>
 </template>
 
 
 <script setup>
 import Task from './DummyTask.vue';
-import Summary from '/js/components/global/Summary.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 
 const props = defineProps({
@@ -64,5 +58,14 @@ function taskClass(/** @type {number} */ index) {
     svg, button {
         cursor: default;
     }
+    box-shadow: 0 0.125rem 0.5rem rgb(0 0 0 / 75%);
+    border-radius: 0.5rem;
+}
+.new-task {
+    background-color: var(--action-button);
+    height: 3rem;
+    margin-bottom: 0;
+    border: none;
+    margin-top: -2px;
 }
 </style>

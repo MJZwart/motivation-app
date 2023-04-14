@@ -1,11 +1,11 @@
 <template>
     <div v-if="reward">
-        <Summary :title='reward.name'>
+        <ContentBlock>
             <template #header>
-                <span class="d-flex">
-                    {{reward.name}}
-                    <Tutorial v-if="tutorial" :tutorial="rewardType" colorVariant="white" />
-                </span>
+                <div class="d-flex">
+                    <h3>{{ reward.name }}</h3>
+                    <span class="ml-auto"><Tutorial v-if="tutorial" class="ml-auto" :tutorial="rewardType" /></span>
+                </div>
             </template>
             <div class="compact">
                 <p>{{ $t('level') }}: {{reward.level}}</p>
@@ -29,14 +29,13 @@
                     <ProgressBar :value="reward.e_exp" :max="reward.e_exp_needed" />
                 </p>
             </div>
-        </Summary>
+        </ContentBlock>
     </div>
 </template>
 
 
 <script setup lang="ts">
 import ProgressBar from '/js/components/global/ProgressBar.vue';
-import Summary from '/js/components/global/Summary.vue';
 import Coins from './Coins.vue';
 import {PropType} from 'vue';
 import {Reward} from 'resources/types/reward';

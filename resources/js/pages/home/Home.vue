@@ -7,33 +7,18 @@
             </div>
         </div>
         <div class="card-deck text-center">
-            <div class="card home-card">
-                <div class="card-header">{{ $t('explanation-tasks-header') }}</div>
-                <div class="card-body">
-                    <TaskList :taskList="dummyList" class="task-list" />
-                    <div class="card-text">
-                        <p>{{ $t('explanation-tasks') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card home-card">
-                <div class="card-header">{{ $t('explanation-reward-header') }}</div>
-                <div class="card-body">
-                    <Character :reward="dummyCharacter" :rewardType="'CHARACTER'" :userReward="true" />
-                    <div class="card-text">
-                        <p>{{ $t('explanation-reward') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card home-card">
-                <div class="card-header">{{ $t('explanation-social-header') }}</div>
-                <div class="card-body">
-                    <p>{{ $t('explanation-social') }}</p>
-                </div>
-            </div>
+            <ContentBlock title="explanation-tasks-header">
+                <TaskList :taskList="dummyList" class="task-list" />
+                {{ $t('explanation-tasks') }}
+            </ContentBlock>
+            <ContentBlock title="explanation-reward-header">
+                <Character class="dummy-character" :reward="dummyCharacter" :rewardType="'CHARACTER'" :userReward="true" />
+                {{ $t('explanation-reward') }}
+            </ContentBlock>
+            <ContentBlock title="explanation-social-header">
+                {{ $t('explanation-social') }}
+            </ContentBlock>
         </div>
-        <!-- <div deck class="card-deck w-50 text-center center"> -->
-        <!-- </div> -->
         <div class="d-flex">
             <button class="register-button center mt-3">
                 <router-link to="/register" class="register-button-text">{{ $t('create-account-today') }}</router-link>
@@ -83,6 +68,11 @@ const appLead = computed(() => t('home-introduction'));
 }
 .w-60-flex {
     max-width: 850px;
+}
+.dummy-character {
+    
+    box-shadow: 0 0.125rem 0.5rem rgb(0 0 0 / 75%);
+    border-radius: 0.5rem;
 }
 
 @media (max-width: 400px) {
