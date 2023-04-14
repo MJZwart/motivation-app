@@ -1,5 +1,5 @@
 <template>
-    <Summary :title="$t('achievements')" :tutorial-off="!tutorial">
+    <ContentBlock title="achievements" tutorial>
         <div v-if="achievements && achievements[0]">
             <ul class="no-list-style">
                 <li v-for="(achievement, index) in achievements" :key="index">
@@ -13,12 +13,11 @@
         <div v-else>
             {{ $t('no-achievements') }}
         </div>  
-    </Summary>
+    </ContentBlock>
 </template>
 
 
 <script setup lang="ts">
-import Summary from '/js/components/global/Summary.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n';
 import {PropType} from 'vue';

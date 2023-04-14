@@ -1,7 +1,7 @@
 <template>
     <div class="m-1">
         <!-- The search bar -->
-        <form class="navbar-search mb-3 mt-2" @submit.prevent>
+        <form class="navbar-search mb-3 mt-3" @submit.prevent>
             <input 
                 id="search-by-username" 
                 v-model="data.userSearch" 

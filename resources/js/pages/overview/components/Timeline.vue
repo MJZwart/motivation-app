@@ -1,6 +1,6 @@
 <template>
     <Loading v-if="!timeline" />
-    <Summary v-else tutorial-off :title="$t('timeline')">
+    <ContentBlock>
         <div class="timeline-filter">
             {{ $t('filter-by') }}:
             <template v-for="(type, index) in timelineTypes" :key="index">
@@ -23,11 +23,10 @@
                 </li>
             </ul>
         </div>
-    </Summary>
+    </ContentBlock>
 </template>
 
 <script setup lang="ts">
-import Summary from '/js/components/global/Summary.vue';
 import {computed, onMounted, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {parseDateTime} from '/js/services/dateService';

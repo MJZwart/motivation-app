@@ -67,6 +67,8 @@ import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
 app.component('SimpleCheckbox', SimpleCheckbox);
 import SimpleFormCheckbox from '/js/components/global/small/SimpleFormCheckbox.vue';
 app.component('SimpleFormCheckbox', SimpleFormCheckbox);
+import ContentBlock from '/js/components/global/ContentBlock.vue';
+app.component('ContentBlock', ContentBlock);
 import {Icon} from '@iconify/vue';
 app.component('Icon', Icon);
 
