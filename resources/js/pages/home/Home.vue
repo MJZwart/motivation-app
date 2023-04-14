@@ -33,7 +33,6 @@ import Character from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import {DUMMY_TASK_LIST, DUMMY_CHARACTER} from '/js/constants/dummyConstants.js';
 import {computed} from 'vue';
 import {useI18n} from 'vue-i18n';
-import ContentBlock from '/js/components/global/ContentBlock.vue';
 const {t} = useI18n(); // use as global scope
 
 const dummyList = DUMMY_TASK_LIST;

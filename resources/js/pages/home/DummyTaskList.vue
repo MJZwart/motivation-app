@@ -37,7 +37,6 @@
 
 
 <script setup>
-import ContentBlock from '/js/components/global/ContentBlock.vue';
 import Task from './DummyTask.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 

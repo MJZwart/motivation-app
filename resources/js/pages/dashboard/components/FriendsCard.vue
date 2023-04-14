@@ -2,11 +2,7 @@
     <div>
         <Loading v-if="loading" />
         <div v-else>
-            <div class="content-block p-3">
-                <div class="d-flex">
-                    <h3>{{ $t('friends') }}</h3>
-                    <span class="ml-auto"><Tutorial v-if="manage" class="ml-auto" tutorial="Friends" /></span>
-                </div>
+            <ContentBlock title="friends" :tutorial="manage">
                 <ul v-if="friends.length > 0" class="mb-1 no-list-style clear-a primary-text">
                     <li v-for="(friend, index) in friends" :key="index">
                         <span v-if="manage">
@@ -29,11 +25,11 @@
                     </li>
                 </ul>
                 <p v-else class="mb-1">{{ $t('no-friends') }}</p>
-            </div>
-            <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
-                <SendMessage v-if="friendToMessage" :user="friendToMessage" @close="closeSendMessageModal" />
-            </Modal>
+            </ContentBlock>
         </div>
+        <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
+            <SendMessage v-if="friendToMessage" :user="friendToMessage" @close="closeSendMessageModal" />
+        </Modal>
     </div>
 </template>
 
