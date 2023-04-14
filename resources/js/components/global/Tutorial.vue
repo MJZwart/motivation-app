@@ -43,13 +43,13 @@ const props = defineProps({
 });
 const tutorials = {
     'TaskList': TaskListTutorial,
-    'Stats': StatsTutorial,
-    'Achievements': AchievementsTutorial,
+    'stats': StatsTutorial,
+    'achievements': AchievementsTutorial,
     'Groups': GroupsTutorial,
     'Friends': FriendsTutorial,
     'incoming-friend-requests': IncomingFriendRequestsTutorial,
     'outgoing-friend-requests': OutgoingFriendRequestsTutorial,
-    'Blocklist': BlocklistTutorial,
+    'blocklist': BlocklistTutorial,
     'CHARACTER': CharacterTutorial,
     'VILLAGE': VillageTutorial,
     'Templates': TemplatesTutorial,

@@ -1,5 +1,5 @@
 <template>
-    <ContentBlock title="achievements" tutorial>
+    <ContentBlock title="achievements" :tutorial="tutorial">
         <div v-if="achievements && achievements[0]">
             <ul class="no-list-style">
                 <li v-for="(achievement, index) in achievements" :key="index">
