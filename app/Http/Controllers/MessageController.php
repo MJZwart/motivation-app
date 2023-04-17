@@ -12,6 +12,7 @@ use App\Models\Message;
 use App\Models\Conversation;
 use App\Http\Resources\ConversationOverviewResource;
 use App\Http\Requests\SendMessageRequest;
+use App\Models\BlockedUser;
 
 class MessageController extends Controller
 {
@@ -49,7 +50,7 @@ class MessageController extends Controller
         return ResponseWrapper::successResponse(__('messages.message.sent'));
     }
 
-    private function getConversationId($user_id, $recipient_id)
+    private function getConversationId(int $user_id, int $recipient_id)
     {
         $conversation_id = null;
         $conversation = Conversation::where('user_id', $user_id)
@@ -88,7 +89,7 @@ class MessageController extends Controller
         return ResponseWrapper::successResponse(__('messages.message.deleted'));
     }
 
-    public static function makeConversationInvisible($user, $blockedUser)
+    public static function makeConversationInvisible(User $user, BlockedUser $blockedUser)
     {
         $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->id)->first();
         if (!$conversation) return;
@@ -96,7 +97,7 @@ class MessageController extends Controller
             $message->delete();
         }
     }
-    public static function restoreHiddenConversation($user, $blockedUser)
+    public static function restoreHiddenConversation(User $user, BlockedUser $blockedUser)
     {
         $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->blocked_user_id)->first();
         if (!$conversation) return;
