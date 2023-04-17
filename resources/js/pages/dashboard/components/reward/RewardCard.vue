@@ -4,7 +4,7 @@
             <template #header>
                 <div class="d-flex">
                     <h3>{{ reward.name }}</h3>
-                    <span class="ml-auto"><Tutorial v-if="tutorial" class="ml-auto" :tutorial="rewardType" /></span>
+                    <span class="ml-auto"><Tutorial v-if="tutorial" :tutorial="rewardType" /></span>
                 </div>
             </template>
             <div class="compact">

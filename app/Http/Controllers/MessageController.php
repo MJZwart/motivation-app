@@ -12,6 +12,7 @@ use App\Models\Message;
 use App\Models\Conversation;
 use App\Http\Resources\ConversationOverviewResource;
 use App\Http\Requests\SendMessageRequest;
+use App\Models\BlockedUser;
 
 class MessageController extends Controller
 {
@@ -49,7 +50,7 @@ class MessageController extends Controller
         return ResponseWrapper::successResponse(__('messages.message.sent'));
     }
 
-    private function getConversationId($user_id, $recipient_id)
+    private function getConversationId(int $user_id, int $recipient_id)
     {
         $conversation_id = null;
         $conversation = Conversation::where('user_id', $user_id)
@@ -83,46 +84,25 @@ class MessageController extends Controller
     {
         /** @var User */
         $user = Auth::user();
-        $this->makeMessageInvisibleToUser($message, $user->id);
+        $message->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_MESSAGE', 'Deleting message');
         return ResponseWrapper::successResponse(__('messages.message.deleted'));
     }
 
-    public static function makeConversationInvisible($user, $blockedUser)
+    public static function makeConversationInvisible(User $user, BlockedUser $blockedUser)
     {
         $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->id)->first();
         if (!$conversation) return;
-        foreach ($conversation->messages as $message) {
-            MessageController::makeMessageInvisibleToUser($message, $user->id);
+        foreach ($conversation->getMessages() as $message) {
+            $message->delete();
         }
     }
-    public static function restoreHiddenConversation($user, $blockedUser)
+    public static function restoreHiddenConversation(User $user, BlockedUser $blockedUser)
     {
         $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->blocked_user_id)->first();
         if (!$conversation) return;
-        foreach ($conversation->messages as $message) {
-            MessageController::restoreMessage($message, $user->id);
+        foreach ($conversation->getTrashedMessages() as $message) {
+            $message->restore(['touch' => false]);
         }
-    }
-
-    public static function makeMessageInvisibleToUser($message, $userId)
-    {
-        if ($message->recipient_id == $userId) {
-            $message->visible_to_recipient = false;
-        }
-        if ($message->sender_id == $userId) {
-            $message->visible_to_sender = false;
-        }
-        $message->save(['touch' => false]);
-    }
-    public static function restoreMessage($message, $userId)
-    {
-        if ($message->recipient_id == $userId) {
-            $message->visible_to_recipient = true;
-        }
-        if ($message->sender_id == $userId) {
-            $message->visible_to_sender = true;
-        }
-        $message->save(['touch' => false]);
     }
 }
