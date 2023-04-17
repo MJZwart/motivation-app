@@ -1,5 +1,5 @@
-import {getRandomString, waitShort} from '../../support/commands';
-import {user1, banButton, unlockedButton, tutorialButton, editButton, deleteButton} from '../../support/constants';
+import {getRandomString, waitLong, waitShort} from '../../support/commands';
+import {user1, editButton, deleteButton} from '../../support/constants';
 
 describe('Settings', () => {
     function loginUser1() {
@@ -15,8 +15,6 @@ describe('Settings', () => {
     const profileSettingsUrl = '/settings#profile-settings';
     describe('User settings', () => {
         it('User can change password and is logged out', () => {
-            //Waiting to prevent throttling issues
-            cy.wait(5000);
             const newPass = getRandomString(8);
             cy.visit(accountSettingsUrl);
             waitShort();
@@ -66,7 +64,7 @@ describe('Settings', () => {
             cy.visit('/overview');
             waitShort();
 
-            cy.get('.card-header').first().should('not.have.descendants', 'svg');
+            cy.get('.content-block').first().should('not.have.descendants', 'svg');
 
             cy.visit('/settings#account-settings');
             waitShort();
@@ -77,7 +75,7 @@ describe('Settings', () => {
             cy.visit('/overview');
             waitShort();
 
-            cy.get('.card-header').first().should('have.descendants', 'svg');
+            cy.get('.content-block').first().should('have.descendants', 'svg');
         });
         it('User can change language', () => {
             cy.visit(accountSettingsUrl);
@@ -117,7 +115,7 @@ describe('Settings', () => {
             cy.get('a').contains('Profile').click();
             waitShort();
 
-            cy.get('.card-header').should('not.exist');
+            cy.get('.content-block').should('not.exist');
 
             cy.visit(profileSettingsUrl);
             waitShort();
@@ -132,8 +130,8 @@ describe('Settings', () => {
             cy.get('a').contains('Profile').click();
             waitShort();
 
-            cy.get('.card-header').contains('Friends').should('exist');
-            cy.get('.card-header').contains('Achievements').should('exist');
+            cy.get('.content-block').contains('Friends').should('exist');
+            cy.get('.content-block').contains('Achievements').should('exist');
         });
     });
 
@@ -142,8 +140,7 @@ describe('Settings', () => {
         const villName = getRandomString();
         const newCharName = getRandomString();
         it('User can make a new character and switch to it', () => {
-            //Waiting to prevent throttling issues
-            cy.wait(5000);
+            waitLong();
             cy.visit(rewardSettingsUrl);
             waitShort();
 

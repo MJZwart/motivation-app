@@ -13,7 +13,7 @@ describe('New user', () => {
             //Home page
             cy.visit('/');
             cy.get('h1').should('contain', 'Welcome to Questifyer');
-            cy.get('.card-header').should('contain', 'Sir McTaskalot');
+            cy.get('h3').should('contain', 'Sir McTaskalot');
             cy.get('.register-button').should('exist').should('contain', 'Create an account today!');
             cy.get('#footer').should('exist');
             
@@ -83,8 +83,8 @@ describe('New user', () => {
 
             cy.get('button').contains('Submit').click();
 
-            cy.get('.card').should('contain', characterName);
-            cy.get('.card').should('contain', 'Tasks');
+            cy.get('h3').should('contain', characterName);
+            cy.get('h4').should('contain', 'Tasks');
             cy.get('.task').should('have.length', 3);
         });
         it('registers a new account and chooses a village with no tasks', () => {    
@@ -122,8 +122,8 @@ describe('New user', () => {
 
             cy.get('button').contains('Submit').click();
 
-            cy.get('.card').should('contain', villageName);
-            cy.get('.card').should('contain', 'Tasks');
+            cy.get('h3').should('contain', villageName);
+            cy.get('h4').should('contain', 'Tasks');
             cy.get('.task').should('not.exist');
         });
         it('registers a new account and chooses no rewards and no tasks', () => {    
@@ -157,8 +157,8 @@ describe('New user', () => {
 
             cy.get('button').contains('Submit').click();
 
-            cy.get('.card').should('have.length', 2);
-            cy.get('.card').should('contain', 'Tasks');
+            cy.get('.task-list').should('have.length', 1);
+            cy.get('h4').should('contain', 'Tasks');
             cy.get('.task').should('not.exist');
         });
     });
