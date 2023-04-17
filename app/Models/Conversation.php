@@ -25,6 +25,9 @@ class Conversation extends Model
     public function getMessages() {
         return Message::where('conversation_id', $this->conversation_id)->where('user_id', $this->user_id)->get();
     }
+    public function getTrashedMessages() {
+        return Message::onlyTrashed()->where('conversation_id', $this->conversation_id)->where('user_id', $this->user_id)->get();
+    }
 
     public function user() {
         return $this->belongsTo('App\Models\User');

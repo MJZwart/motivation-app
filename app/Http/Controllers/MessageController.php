@@ -83,7 +83,7 @@ class MessageController extends Controller
     {
         /** @var User */
         $user = Auth::user();
-        $this->makeMessageInvisibleToUser($message, $user->id);
+        $message->delete();
         ActionTrackingHandler::handleAction($request, 'DELETE_MESSAGE', 'Deleting message');
         return ResponseWrapper::successResponse(__('messages.message.deleted'));
     }
@@ -92,37 +92,16 @@ class MessageController extends Controller
     {
         $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->id)->first();
         if (!$conversation) return;
-        foreach ($conversation->messages as $message) {
-            MessageController::makeMessageInvisibleToUser($message, $user->id);
+        foreach ($conversation->getMessages() as $message) {
+            $message->delete();
         }
     }
     public static function restoreHiddenConversation($user, $blockedUser)
     {
         $conversation = Conversation::where('user_id', $user->id)->where('recipient_id', $blockedUser->blocked_user_id)->first();
         if (!$conversation) return;
-        foreach ($conversation->messages as $message) {
-            MessageController::restoreMessage($message, $user->id);
+        foreach ($conversation->getTrashedMessages() as $message) {
+            $message->restore(['touch' => false]);
         }
-    }
-
-    public static function makeMessageInvisibleToUser($message, $userId)
-    {
-        if ($message->recipient_id == $userId) {
-            $message->visible_to_recipient = false;
-        }
-        if ($message->sender_id == $userId) {
-            $message->visible_to_sender = false;
-        }
-        $message->save(['touch' => false]);
-    }
-    public static function restoreMessage($message, $userId)
-    {
-        if ($message->recipient_id == $userId) {
-            $message->visible_to_recipient = true;
-        }
-        if ($message->sender_id == $userId) {
-            $message->visible_to_sender = true;
-        }
-        $message->save(['touch' => false]);
     }
 }
