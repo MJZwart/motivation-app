@@ -27,7 +27,7 @@ export type UserStats = {
 
 export type SuspendedUser = {
     id: number;
-    created_at: Date;
+    created_at: string;
     time_since: string;
     updated_at: Date;
     username: string;
