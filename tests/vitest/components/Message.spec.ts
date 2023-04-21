@@ -1,9 +1,7 @@
 import {describe, it, expect, vi} from 'vitest';
 import {mount} from '@vue/test-utils';
-// import Message from '/resources/js/pages/messages/components/Message.vue';
 import MessageComp from '/js/pages/messages/components/Message.vue';
 import {Message} from 'resources/types/message';
-// '/js/pages/messages/components/Message.vue';
 
 // * Test data
 const testMessageFromUser = {

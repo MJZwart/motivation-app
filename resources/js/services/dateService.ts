@@ -4,11 +4,11 @@ import i18n from '/js/i18n';
 // eslint-disable-next-line complexity
 export function parseTimeSince(diff: Duration): string {
     const times = [];
-    if (diff.years > 1) times.push(i18n.global.t('year', diff.years));
+    if (diff.years >= 1) times.push(i18n.global.t('year', diff.years));
     if (diff.months) times.push(i18n.global.t('month', diff.months));
     if (diff.years < 1 && diff.days) times.push(i18n.global.t('day', diff.days));
     if (diff.days < 1 && diff.hours) times.push(i18n.global.t('hour', Math.round(diff.hours)));
-    if (!diff.years && !diff.months && !diff.days && !diff.hours) times.push('Just now');
+    if (!diff.years && !diff.months && !diff.days && !diff.hours) times.push(i18n.global.t('just-now'));
     return times.join(', ');
 }
 
@@ -38,7 +38,6 @@ function parseIntoDateTime(time: string | Date | null, SQLString: boolean) {
     const locale = 'system';
     if (SQLString) {
         time = DateTime.fromSQL(time.toString()).setZone('UTC', {keepLocalTime: true}).toString();
-        if (time === null) return;
     }
     return DateTime.fromISO(time.toString()).setZone(timezone).setLocale(locale);
 }
@@ -55,7 +54,7 @@ function parseIntoStringFormat(date: DateTime) {
     return date.toLocaleString(DateTime.DATETIME_MED);
 }
 
-export function getDateWithAddedDays(date: Date, daysToAdd: number, parsed = true): DateTime | string {
+export function getDateWithAddedDays(date: string, daysToAdd: number, parsed = true): DateTime | string {
     let dateTime = DateTime.fromISO(date.toString()).setZone('system').setLocale('system');
     dateTime = dateTime.plus({days: daysToAdd});
     if (!parsed) return dateTime;
