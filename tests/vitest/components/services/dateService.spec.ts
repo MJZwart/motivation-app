@@ -126,8 +126,4 @@ describe('Date service', () => {
         // Assert
         expect(shouldBeYesterday).toMatch(yesterday.toDateString());
     });
-
 });
-// Arrange
-// Act
-// Assert
