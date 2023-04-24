@@ -51,7 +51,7 @@ window.Echo = new Echo({
     },
 });
 
-window.Echo.connector.pusher.connection.bind('state_change', function(states) {
+window.Echo.connector.pusher.connection.bind('state_change', function(states: {current: string}) {
     if (states.current === 'disconnected' || states.current === 'failed' || states.current === 'unavailable') {
         window.Echo.connector.pusher.connection.retryIn(1000);
     }
