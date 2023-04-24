@@ -160,6 +160,7 @@ function markAsRead(conversation: Conversation) {
 
 async function load() {
     conversations.value = await messageStore.getConversations();
+    console.warn(conversations.value)
     resetConversation();
     if (conversations.value && conversations.value[0])
         markAsRead(conversations.value[0]);
