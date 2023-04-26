@@ -18,9 +18,16 @@ export function errorToast(message: string) {
 }
 
 /**
+ * Creates a toast with a blue line and 'Info' as title
+ */
+export function infoToast(message: string) {
+    sendToast(createToast(message));
+}
+
+/**
  * Creates the Toast object
  */
-function createToast(toastMessage: string, type: string): Toast {
+function createToast(toastMessage: string, type = 'info'): Toast {
     if (type === 'error') return {'error': toastMessage};
     if (type === 'success') return {'success': toastMessage};
     else return {'info': toastMessage};
