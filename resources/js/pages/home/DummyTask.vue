@@ -6,7 +6,8 @@
                 <Tooltip :text="$t('complete-task')">
                     <Icon 
                         :icon="CHECK_SQUARE"
-                        class="complete-icon check-square-icon green" />
+                        class="complete-icon check-square-icon green"
+                        @click="completeDummyTask()" />
                 </Tooltip>
         
                 {{task.name}}             
@@ -66,6 +67,11 @@
 <script setup lang="ts">
 import type {Task} from 'resources/types/task';
 import {ARROW_DOWN_RIGHT, CHECK_SQUARE, CREATE, EDIT, TRASH} from '/js/constants/iconConstants';
+import {completeTask} from './homepageService'
 
-defineProps<{task: Task}>();
+const props = defineProps<{task: Task}>();
+
+function completeDummyTask() {
+    completeTask(props.task.id);
+}
 </script>
