@@ -29,6 +29,7 @@ class GroupResource extends JsonResource
             'members' => $this->groupUsers->count(),
             'is_member' => !!$user,
             'rank' => $user ? new GroupRoleResource(GroupRole::find($user->rank)) : null,
+            'level' => $this->level,
         ];
     }
 }
