@@ -59,25 +59,17 @@ async function handleGroupInviteRequests(url: string): Promise<boolean> {
  * Handles all other links as direct back-end calls as per their api type.
  */
 async function handleOtherLinks(apiType: string, url: string): Promise<boolean> {
-    let success = true;
+    const success = true;
     try {
         if (apiType == 'POST')
             await axios
-                .post(url)
-                .then()
-                .catch(() => {
-                    success = false;
-                });
+                .post(url);
         else if (apiType == 'PUT')
             await axios
-                .put(url)
-                .then()
-                .catch(() => (success = false));
+                .put(url);
         else if (apiType == 'DELETE')
             await axios
-                .delete(url)
-                .then()
-                .catch(() => (success = false));
+                .delete(url);
     } catch (e) {
         return false;
     }
