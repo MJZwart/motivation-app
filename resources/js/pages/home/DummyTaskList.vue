@@ -31,18 +31,14 @@
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import Task from './DummyTask.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
+import {DummyTaskList} from './homepageService';
 
-const props = defineProps({
-    taskList: {
-        type: Object,
-        required: true,
-    },
-});
+const props = defineProps<{taskList: DummyTaskList}>();
 
-function taskClass(/** @type {number} */ index) {
+function taskClass(index: number) {
     return index == props.taskList.tasks.length -1 ? 'task task-last' : 'task';
 }
 </script>

@@ -1,15 +1,27 @@
 import {successToast} from '/js/services/toastService';
 import {ref} from 'vue';
 import {DUMMY_CHARACTER, DUMMY_TASK_LIST} from '/js/constants/dummyConstants';
+import {Task} from 'resources/types/task';
 
 export const dummyCharacterRef = ref(Object.assign({}, DUMMY_CHARACTER));
 
 export const dummyTaskListRef = ref(Object.assign({}, DUMMY_TASK_LIST));
 
-export function completeTask(taskId: number) {
-    const taskIndex = dummyTaskListRef.value.tasks.findIndex(task => task.id === taskId);
-    calculateReward(taskId);
+export function completeTask(task: Task) {
+    const taskIndex = dummyTaskListRef.value.tasks.findIndex(foundTask => foundTask.id === task.id);
+    if (taskIndex < 0) return;
+    calculateReward(dummyTaskListRef.value.tasks[taskIndex]);
     dummyTaskListRef.value.tasks.splice(taskIndex, 1);
+    successToast('That\'s how you complete tasks! Log in to manage your own tasks.');
+}
+export function completeSubTask(task: Task) {
+    const superTaskIndex = dummyTaskListRef.value.tasks.findIndex(superTask => superTask.id === task.super_task_id);
+    if (superTaskIndex < 0) return;
+    const subTaskIndex = dummyTaskListRef.value.tasks[superTaskIndex].tasks?.findIndex(subTask => subTask.id === task.id);
+    if (subTaskIndex !== undefined && subTaskIndex < 0) return;
+    calculateReward(task);
+    // @ts-ignore This is checked above
+    dummyTaskListRef.value.tasks[superTaskIndex].tasks.splice(subTaskIndex, 1);
     successToast('That\'s how you complete tasks! Log in to manage your own tasks.');
 }
 
@@ -17,8 +29,7 @@ const stats = ['a', 'b', 'c', 'd', 'e'];
 const statExp = ['a_exp', 'b_exp', 'c_exp', 'd_exp', 'e_exp'];
 const statExpNeeded = ['a_exp_needed', 'b_exp_needed', 'c_exp_needed', 'd_exp_needed', 'e_exp_needed'];
 
-function calculateReward(taskId: number) {
-    const task = dummyTaskListRef.value.tasks.find(task => task.id === taskId);
+function calculateReward(task: Task) {
     if (!task) return;
     for (let i = 0 ; i < stats.length ; i++) {
         dummyCharacterRef.value[statExp[i]] += getRandomIntBetween(25, 75) * task?.difficulty;
@@ -38,4 +49,9 @@ function calculateReward(taskId: number) {
 function getRandomIntBetween(min: number, max: number) {
     const top = max - min;
     return Math.floor(Math.random() * top) + min;
+}
+
+export type DummyTaskList = {
+    name: string;
+    tasks: Task[];
 }

@@ -7,7 +7,7 @@
                     <Icon 
                         :icon="CHECK_SQUARE"
                         class="complete-icon check-square-icon green"
-                        @click="completeDummyTask()" />
+                        @click="completeTask(task)" />
                 </Tooltip>
         
                 {{task.name}}             
@@ -40,7 +40,9 @@
                         <Tooltip :text="$t('complete-sub-task')" class="ml-1">
                             <Icon 
                                 :icon="CHECK_SQUARE"
-                                class="complete-icon check-square-icon green" />
+                                class="complete-icon check-square-icon green" 
+                                @click="completeSubTask(subTask)"
+                            />
                         </Tooltip>
                         {{subTask.name}}
                         <span class="ml-auto">
@@ -67,11 +69,7 @@
 <script setup lang="ts">
 import type {Task} from 'resources/types/task';
 import {ARROW_DOWN_RIGHT, CHECK_SQUARE, CREATE, EDIT, TRASH} from '/js/constants/iconConstants';
-import {completeTask} from './homepageService'
+import {completeTask, completeSubTask} from './homepageService'
 
-const props = defineProps<{task: Task}>();
-
-function completeDummyTask() {
-    completeTask(props.task.id);
-}
+defineProps<{task: Task}>();
 </script>
