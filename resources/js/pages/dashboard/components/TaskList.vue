@@ -53,6 +53,8 @@ import {ref} from 'vue';
 import {useMainStore} from '/js/store/store';
 import type {TaskList, Task} from 'resources/types/task';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
+import {formModal} from '/js/components/modal/modalService';
+import {useTaskStore} from '/js/store/taskStore';
 
 const props = defineProps<{taskList: TaskList}>();
 
@@ -65,6 +67,7 @@ const taskListToEdit = ref<TaskList | null>(null);
 const taskListToDelete = ref<TaskList | null>(null);
 
 const mainStore = useMainStore();
+const taskStore = useTaskStore();
 
 function openNewTask(superTaskToSet: Task | null = null) {
     mainStore.clearErrors();
@@ -80,8 +83,12 @@ function closeNewTask() {
  */
 function showEditTaskList() {
     mainStore.clearErrors();
-    taskListToEdit.value = props.taskList;
-    showEditTaskListModal.value = true;
+    formModal(props.taskList, EditTaskList, submitEditTaskList, 'Edit task list');
+    // taskListToEdit.value = props.taskList;
+    // showEditTaskListModal.value = true;
+}
+async function submitEditTaskList(editedTaskList: TaskList) {
+    await taskStore.updateTaskList(editedTaskList)
 }
 function closeEditTaskList() {
     showEditTaskListModal.value = false;

@@ -1,15 +1,15 @@
 <template>
-    <div v-if="editedTaskList">
+    <div v-if="taskList">
         <form @submit.prevent="updateTaskList">
             <SimpleInput 
                 id="name" 
-                v-model="editedTaskList.name"
+                v-model="taskList.name"
                 type="text" 
                 name="name" 
                 :label="$t('task-list-name')"
                 :placeholder="$t('name')"  />
             <SubmitButton class="block">{{ $t('update-task-list') }}</SubmitButton>
-            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="$emit('close')">{{ $t('cancel') }}</button>
             <BaseFormError name="error" /> 
         </form>
     </div>
@@ -17,22 +17,16 @@
 
 
 <script setup lang="ts">
-import type {TaskList} from 'resources/types/task';
 import {ref} from 'vue';
-import {useTaskStore} from '/js/store/taskStore';
-const taskStore = useTaskStore();
+import {deepCopy} from '/js/helpers/copy';
 
-const props = defineProps<{taskList: TaskList}>();
-const emit = defineEmits(['close']);
+const props = defineProps<{form: any}>();
+const emit = defineEmits(['close', 'submit']);
 
-
-const editedTaskList = ref<TaskList>(Object.assign({}, props.taskList));
+const taskList = ref(deepCopy(props.form));
 
 async function updateTaskList() {
-    await taskStore.updateTaskList(editedTaskList.value)
-    close();
-}
-function close() {
-    emit('close');
+    // await taskStore.updateTaskList(editedTaskList.value)
+    emit('submit', taskList.value);
 }
 </script>
