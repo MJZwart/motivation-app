@@ -62,7 +62,7 @@
                                 <Icon 
                                     :icon="EDIT"
                                     class="edit-icon"
-                                    @click="editTask(subTask, task.name)" />
+                                    @click="$emit('editTask', {task: subTask, superTaskParam: task})" />
                             </Tooltip>
                             <Tooltip :text="$t('delete-sub-task')">
                                 <Icon 
@@ -103,7 +103,7 @@ const mainStore = useMainStore();
 
 defineProps<{task: Task, taskList: TaskList}>();
 
-const emit = defineEmits(['newTask']);
+const emit = defineEmits(['newTask', 'editTask']);
 
 const taskToEdit = ref<Task | null>(null);
 const editSuperTask = ref<string | null>(null);
