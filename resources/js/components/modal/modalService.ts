@@ -10,11 +10,11 @@ export function deleteModal(index: number) {
 }
 
 // * Types of modals
-export function formModal(
-    form: unknown, 
+export function formModal<T = unknown>(
+    form: T, 
     component: Component, 
     // eslint-disable-next-line no-unused-vars
-    submitEvent: (edited: unknown) => Promise<void> | void, 
+    submitEvent: (edited: T) => Promise<void> | void, 
     title: string) {
     const modal = {
         form: form,
@@ -22,5 +22,6 @@ export function formModal(
         submitEvent: submitEvent,
         title: title,
     }
+    // @ts-ignore
     modals.value.push({component: markRaw(FormModalVue), modal: modal});
 }

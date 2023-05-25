@@ -1,14 +1,14 @@
-import {Component} from 'vue'
+import {Component, Raw} from 'vue'
 
 export type FormModal<T = unknown> = {
     title: string;
     form: T;
     // eslint-disable-next-line no-unused-vars
     submitEvent: (edited: T) => Promise<void> | void;
-    component: Component;
+    component: Raw<Component>;
 }
 
 export type Modal = {
-    component: Component;
+    component: Raw<Component>;
     modal: FormModal;
 }

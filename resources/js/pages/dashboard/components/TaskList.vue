@@ -30,9 +30,6 @@
         <Modal :show="showNewTaskModal" :title="$t('new-task')" @close="closeNewTask">
             <NewTask :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
         </Modal>
-        <Modal :show="showEditTaskListModal" :title="$t('edit-task-list')" @close="closeEditTaskList">
-            <EditTaskList v-if="taskListToEdit" :taskList="taskListToEdit" @close="closeEditTaskList" />
-        </Modal>
         <Modal
             :show="showDeleteTaskListConfirmModal"
             :footer="false"
@@ -60,10 +57,8 @@ const props = defineProps<{taskList: TaskList}>();
 
 const superTask = ref<Task | null>(null);
 const showNewTaskModal = ref(false);
-const showEditTaskListModal = ref(false);
 const showDeleteTaskListConfirmModal = ref(false);
 
-const taskListToEdit = ref<TaskList | null>(null);
 const taskListToDelete = ref<TaskList | null>(null);
 
 const mainStore = useMainStore();
@@ -84,14 +79,9 @@ function closeNewTask() {
 function showEditTaskList() {
     mainStore.clearErrors();
     formModal(props.taskList, EditTaskList, submitEditTaskList, 'Edit task list');
-    // taskListToEdit.value = props.taskList;
-    // showEditTaskListModal.value = true;
 }
 async function submitEditTaskList(editedTaskList: TaskList) {
     await taskStore.updateTaskList(editedTaskList)
-}
-function closeEditTaskList() {
-    showEditTaskListModal.value = false;
 }
 
 /**

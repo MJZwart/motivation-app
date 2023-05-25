@@ -1,8 +1,8 @@
 <template>
     <div id="app-container">
+        <ModalContainer />
         <Navigation />
         <Breadcrumbs />
-        <ModalContainer />
         <div class="content">
             <router-view />
         </div>

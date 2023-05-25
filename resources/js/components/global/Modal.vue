@@ -60,7 +60,7 @@ defineProps({
 <style lang="scss">
 
 .modal-mask {
-  position: fixed;
+  position: absolute;
   z-index: 9998;
   top: 0;
   left: 0;
@@ -68,7 +68,6 @@ defineProps({
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity 0.3s ease;
 }
 
 .modal-wrapper {
@@ -85,7 +84,6 @@ defineProps({
   background-color: var(--background-2);
   border-radius: 0.3rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
 }
 .modal-mask.s .modal-container {
     max-width: 300px;
@@ -141,29 +139,5 @@ defineProps({
     padding: 1rem;
     overflow-y: auto;
     height: 80%;
-}
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
-.modal-enter-from {
-    // transform: none;
-    opacity: 0;
-}
-
-.modal-leave-to {
-    // transition: transform 0.3s ease-out;
-    opacity: 0;
-}
-
-.modal-enter-from .modal-container,
-.modal-leave-to .modal-container {
-    transform: opacity 0.15s linear;
 }
 </style>
