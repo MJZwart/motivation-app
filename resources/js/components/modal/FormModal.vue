@@ -36,7 +36,7 @@ async function submit(editedItem: unknown) {
         await props.modal.submitEvent(editedItem);
         emit('close');
     } catch (e) {
-        //
+        // Pretending to catch it to prevent vue from throwing a massive error
     }
 }
 </script>
