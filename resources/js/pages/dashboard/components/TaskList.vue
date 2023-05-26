@@ -37,12 +37,12 @@
 <script setup lang="ts">
 import type {TaskList, Task, NewTask} from 'resources/types/task';
 import TaskComp from './Task.vue';
-import EditTaskList from './EditTaskList.vue';
 import DeleteTaskListConfirm from './DeleteTaskListConfirm.vue';
+import CreateEditTask from './CreateEditTask.vue';
+import CreateEditTaskList from './CreateEditTaskList.vue';
 import {useMainStore} from '/js/store/store';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
-import CreateEditTask from './CreateEditTask.vue';
 import {getNewTask} from '../taskService';
 import {useTaskStore} from '/js/store/taskStore';
 
@@ -88,7 +88,7 @@ async function editTask({task}: {task: Task}) {
  */
 function showEditTaskList() {
     mainStore.clearErrors();
-    formModal(props.taskList, EditTaskList, submitEditTaskList, 'edit-task-list');
+    formModal(props.taskList, CreateEditTaskList, submitEditTaskList, 'edit-task-list');
 }
 async function submitEditTaskList(editedTaskList: TaskList) {
     await taskStore.updateTaskList(editedTaskList)
