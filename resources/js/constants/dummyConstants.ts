@@ -1,4 +1,8 @@
-export const DUMMY_TASK_LIST = {
+import {TaskList} from 'resources/types/task';
+import {ref} from 'vue';
+
+export const DUMMY_TASK_LIST = <TaskList>{
+    id: 1,
     name: 'Task examples',
     tasks: [
         {
@@ -9,6 +13,7 @@ export const DUMMY_TASK_LIST = {
             difficulty: 1, 
             repeatable: 'NONE',
             type: 'GENERIC',
+            tasks: [],
         },
         {
             task_list_id: 1,
@@ -22,7 +27,7 @@ export const DUMMY_TASK_LIST = {
                     task_list_id: 1,
                     id: 2, 
                     name: 'Clean the desk', 
-                    description: '', 
+                    description: undefined, 
                     difficulty: 2, 
                     super_task_id: 1, 
                     repeatable: 'NONE',
@@ -49,6 +54,7 @@ export const DUMMY_TASK_LIST = {
             difficulty: 4, 
             repeatable: 'NONE',
             type: 'GENERIC',
+            tasks: [],
         },
         {
             task_list_id: 1,
@@ -58,9 +64,12 @@ export const DUMMY_TASK_LIST = {
             difficulty: 4, 
             repeatable: 'NONE',
             type: 'GENERIC',
+            tasks: [],
         },
     ],
 };
+
+export const taskId = ref(6);
 
 export const DUMMY_CHARACTER = {
     id: 0,

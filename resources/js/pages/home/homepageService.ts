@@ -1,7 +1,8 @@
 import {successToast} from '/js/services/toastService';
 import {ref} from 'vue';
-import {DUMMY_CHARACTER, DUMMY_TASK_LIST} from '/js/constants/dummyConstants';
-import {Task} from 'resources/types/task';
+import {DUMMY_CHARACTER, DUMMY_TASK_LIST, taskId} from '/js/constants/dummyConstants';
+import {NewTask, Task} from 'resources/types/task';
+import {waitingOnResponse} from '/js/services/loadingService';
 
 export const dummyCharacterRef = ref(Object.assign({}, DUMMY_CHARACTER));
 
@@ -23,6 +24,21 @@ export function completeSubTask(task: Task) {
     // @ts-ignore This is checked above
     dummyTaskListRef.value.tasks[superTaskIndex].tasks.splice(subTaskIndex, 1);
     successToast('That\'s how you complete tasks! Log in to manage your own tasks.');
+}
+
+export function submitTask({task}: {task: NewTask}) {
+    const taskWithId = {...task, id: taskId.value++, tasks: []};
+    dummyTaskListRef.value.tasks.push(taskWithId);
+    waitingOnResponse.value = false;
+    successToast('That\'s how you make tasks! Note that these tasks won\'t be saved. Log in to create your own lists.');
+}
+
+export function submitSubTask({task}: {task: NewTask}) {
+    const superTaskId = dummyTaskListRef.value.tasks.findIndex(superTask => superTask.id === task.super_task_id);
+    const taskWithId = {...task, id: taskId.value++};
+    dummyTaskListRef.value.tasks[superTaskId].tasks?.push(taskWithId);
+    waitingOnResponse.value = false;
+    successToast('That\'s how you make tasks! Note that these tasks won\'t be saved. Log in to create your own lists.');
 }
 
 const stats = ['a', 'b', 'c', 'd', 'e'];
@@ -52,6 +68,7 @@ function getRandomIntBetween(min: number, max: number) {
 }
 
 export type DummyTaskList = {
+    id: number;
     name: string;
     tasks: Task[];
 }

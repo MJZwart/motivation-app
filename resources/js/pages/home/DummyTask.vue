@@ -15,7 +15,8 @@
                     <Tooltip :text="$t('new-sub-task')">
                         <Icon 
                             :icon="CREATE"
-                            class="create-icon green" />
+                            class="create-icon green"
+                            @click="createTask" />
                     </Tooltip>
                     <Tooltip :text="$t('edit-task')">
                         <Icon 
@@ -58,8 +59,8 @@
                             </Tooltip>
                         </span>
                     </p>
+                    <p class="task-description">{{subTask.description}}</p>
                 </div>
-                <p class="task-description">{{subTask.description}}</p>
             </div>
         </div>
     </div>
@@ -71,5 +72,10 @@ import type {Task} from 'resources/types/task';
 import {ARROW_DOWN_RIGHT, CHECK_SQUARE, CREATE, EDIT, TRASH} from '/js/constants/iconConstants';
 import {completeTask, completeSubTask} from './homepageService'
 
-defineProps<{task: Task}>();
+const props = defineProps<{task: Task}>();
+const emit = defineEmits(['newSubTask']);
+
+function createTask() {
+    emit('newSubTask', props.task);
+}
 </script>

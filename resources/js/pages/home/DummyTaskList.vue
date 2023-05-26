@@ -19,11 +19,12 @@
                 </span>
             </template>
             <template v-for="(task, index) in taskList.tasks" :key="task.id" >
-                <Task 
+                <TaskVue 
                     :task="task" 
-                    :class="taskClass(index)" />
+                    :class="taskClass(index)"
+                    @newSubTask="newSubTask" />
             </template>
-            <button class="block bottom-radius p-0 new-task" variant="outline">
+            <button class="block bottom-radius p-0 new-task" variant="outline" @click="newTask">
                 {{$t('new-task')}}
             </button>
         </ContentBlock>
@@ -32,14 +33,37 @@
 
 
 <script setup lang="ts">
-import Task from './DummyTask.vue';
+import type {Task} from 'resources/types/task';
+import TaskVue from './DummyTask.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {DummyTaskList} from './homepageService';
+import {formModal} from '/js/components/modal/modalService';
+import {getNewTask} from '/js/pages/dashboard/taskService';
+import CreateEditTask from '/js/pages/dashboard/components/CreateEditTask.vue';
+import {submitSubTask, submitTask} from './homepageService';
 
 const props = defineProps<{taskList: DummyTaskList}>();
 
 function taskClass(index: number) {
     return index == props.taskList.tasks.length -1 ? 'task task-last' : 'task';
+}
+
+function newSubTask(task: Task) {
+    formModal({
+        task: getNewTask(props.taskList.id),
+        taskList: props.taskList,
+        superTask: task,
+    }, CreateEditTask, 
+    submitSubTask, 
+    'new-sub-task');
+}
+function newTask() {
+    formModal({
+        task: getNewTask(props.taskList.id),
+        taskList: props.taskList,
+    }, CreateEditTask,
+    submitTask,
+    'new-task');
 }
 </script>
 
