@@ -32,22 +32,6 @@
             </button>
         </ContentBlock>
 
-        <Modal :show="showNewTaskModal" :title="$t('new-task')" @close="closeNewTask">
-            <CreateEditTask 
-                :task="getNewTask(taskList.id)" 
-                :task-list="taskList" 
-                :super-task="superTask" 
-                @submit="createTask" 
-                @close="closeNewTask" />
-        </Modal>        
-        <Modal :show="showEditTaskModal" :title="$t('edit-task')" @close="closeEditTask">
-            <CreateEditTask 
-                :task="taskToEdit" 
-                :task-list="taskList" 
-                :super-task="superTask"
-                @submit="editTask" 
-                @close="closeEditTask" />
-        </Modal>
         <Modal
             :show="showDeleteTaskListConfirmModal"
             :footer="false"
@@ -80,38 +64,33 @@ const taskStore = useTaskStore();
 /** 
  * New task 
  */
-const showNewTaskModal = ref(false);
-const superTask = ref<Task | null>(null);
 function openNewTask(superTaskToSet: Task | null = null) {
     mainStore.clearErrors();
-    superTask.value = superTaskToSet;
-    showNewTaskModal.value = true;
+    formModal(
+        {task: getNewTask(props.taskList.id), taskList: props.taskList, superTask: superTaskToSet},
+        CreateEditTask,
+        createTask,
+        'new-task',
+    );
 }
-async function createTask(task: NewTask) {
+async function createTask({task}: {task:NewTask}) {
     await taskStore.storeTask(task);
-    closeNewTask();
-}
-function closeNewTask() {
-    showNewTaskModal.value = false;
 }
 
 /**
  * Edit task
  */
-const taskToEdit = ref<Task | null>(null);
-const showEditTaskModal = ref(false);
 function openEditTask({task, superTaskParam}: {task: Task, superTaskParam: Task | null}) {
     mainStore.clearErrors();
-    taskToEdit.value = task;
-    if (superTaskParam) superTask.value = superTaskParam;
-    showEditTaskModal.value = true;
+    formModal(
+        {task: task, taskList: props.taskList, superTask: superTaskParam},
+        CreateEditTask,
+        editTask,
+        'edit-task',
+    );
 }
-async function editTask(task: Task) {
+async function editTask({task}: {task: Task}) {
     await taskStore.updateTask(task);
-    closeEditTask();
-}
-function closeEditTask() {
-    showEditTaskModal.value = false;
 }
 
 /**

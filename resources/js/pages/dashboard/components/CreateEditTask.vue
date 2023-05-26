@@ -40,8 +40,8 @@
             <BaseFormError name="repeatable" />
         </div>
         <div class="form-group">
-            <p v-if="taskList">{{ $t('task-list') }}: {{ taskList.name }}</p>
-            <p v-if="superTask">{{ $t('subtask-of') }}: {{ superTask.name }}</p>
+            <p v-if="form.taskList">{{ $t('task-list') }}: {{ form.taskList.name }}</p>
+            <p v-if="form.superTask">{{ $t('subtask-of') }}: {{ form.superTask.name }}</p>
             <div v-if="templates.length">{{$t('import-from-templates')}}
                 <select id="templates" class="template-select" @change="selectTemplate($event)">
                     <option :value="null"/>
@@ -51,7 +51,7 @@
                 </select>
             </div>
         </div>
-        <SubmitButton id="create-new-task-button" class="block" @click="$emit('submit', activeTask)">
+        <SubmitButton id="create-new-task-button" class="block" @click="$emit('submit', {task: activeTask})">
             {{ $t('create-new-task') }}
         </SubmitButton>
         <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
@@ -62,22 +62,28 @@
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
 import {onMounted, ref} from 'vue';
 import {templates} from '../taskService';
-import type {NewTask, Task, TaskList} from 'resources/types/task';
+import type {NewTask, TaskList, Task} from 'resources/types/task';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
 
 const props = defineProps<{
-    task: NewTask | null,
-    taskList: TaskList; 
-    superTask?: Task | null
+    form: {
+        task: Task | NewTask, 
+        taskList: TaskList, 
+        superTask?: Task | null
+    }
 }>();
-const emit = defineEmits(['close', 'submit']);
 
-const activeTask = ref({...props.task});
+const emit = defineEmits<{
+    (event: 'close'): void,
+    (event: 'submit', {task}: {task: NewTask | Task}): void,
+}>();
+
+const activeTask = ref({...props.form.task});
 
 onMounted(async() => {
-    if (props.superTask && !activeTask.value.super_task_id) activeTask.value.super_task_id = props.superTask.id;
+    if (props.form.superTask && !activeTask.value.super_task_id) activeTask.value.super_task_id = props.form.superTask.id;
 });
 
 function selectTemplate(event: Event) {
