@@ -119,7 +119,7 @@ function closeEditTask() {
  */
 function showEditTaskList() {
     mainStore.clearErrors();
-    formModal(props.taskList, EditTaskList, submitEditTaskList, 'Edit task list');
+    formModal(props.taskList, EditTaskList, submitEditTaskList, 'edit-task-list');
 }
 async function submitEditTaskList(editedTaskList: TaskList) {
     await taskStore.updateTaskList(editedTaskList)

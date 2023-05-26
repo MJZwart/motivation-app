@@ -28,17 +28,12 @@
                     <ManageTemplates />
                 </div>
             </div>
-
-            <Modal :show="showNewTaskListModal" :title="$t('new-task-list')" @close="closeNewTaskList">
-                <NewTaskList @close="closeNewTaskList" />
-            </Modal>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import TaskList from './components/TaskList.vue';
-import NewTaskList from './components/NewTaskList.vue';
 import RewardCard from './components/reward/RewardCard.vue';
 import FriendsCard from './components/FriendsCard.vue';
 import ManageTemplates from './components/template/ManageTemplates.vue';
@@ -47,6 +42,10 @@ import {onBeforeMount, ref, computed} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useRewardStore} from '/js/store/rewardStore';
 import {useUserStore} from '/js/store/userStore';
+import {formModal} from '/js/components/modal/modalService';
+import {getNewTaskList} from './taskService';
+import CreateEditTaskList from './components/CreateEditTaskList.vue';
+import {NewTaskList} from 'resources/types/task';
 
 const mainStore = useMainStore();
 const userStore = useUserStore();
@@ -64,15 +63,18 @@ onBeforeMount(async () => {
     loading.value = false;
 });
 
-const showNewTaskListModal = ref(false);
-
 /** Shows and hides the modal to create a new task list */
 function showNewTaskList() {
     mainStore.clearErrors();
-    showNewTaskListModal.value = true;
+    formModal(
+        getNewTaskList(), 
+        CreateEditTaskList, 
+        submitNewTaskList, 
+        'new-task-list',
+    );
 }
-function closeNewTaskList() {
-    showNewTaskListModal.value = false;
+async function submitNewTaskList(newTaskList: NewTaskList) {
+    await taskStore.storeTaskList(newTaskList);
 }
 </script>
 

@@ -4,7 +4,7 @@
             <div class="modal-wrapper" @mousedown="$emit('close')">
                 <div class="modal-container" @mousedown.stop="">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{modal.title}}</h5>
+                        <h5 class="modal-title">{{$t(modal.title)}}</h5>
                         <button class="close" @click="$emit('close')">×</button>
                     </div>
 
