@@ -48,9 +48,6 @@
                 @submit="editTask" 
                 @close="closeEditTask" />
         </Modal>
-        <Modal :show="showEditTaskListModal" :title="$t('edit-task-list')" @close="closeEditTaskList">
-            <EditTaskList v-if="taskListToEdit" :taskList="taskListToEdit" @close="closeEditTaskList" />
-        </Modal>
         <Modal
             :show="showDeleteTaskListConfirmModal"
             :footer="false"
@@ -70,21 +67,15 @@ import {ref} from 'vue';
 import {useMainStore} from '/js/store/store';
 import type {TaskList, Task, NewTask} from 'resources/types/task';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
+import {formModal} from '/js/components/modal/modalService';
 import CreateEditTask from './CreateEditTask.vue';
 import {getNewTask} from '../taskService';
 import {useTaskStore} from '/js/store/taskStore';
 
 const props = defineProps<{taskList: TaskList}>();
 
-const showEditTaskListModal = ref(false);
-const showDeleteTaskListConfirmModal = ref(false);
-
-const taskListToEdit = ref<TaskList | null>(null);
-const taskListToDelete = ref<TaskList | null>(null);
-
 const mainStore = useMainStore();
 const taskStore = useTaskStore();
-
 
 /** 
  * New task 
@@ -128,16 +119,17 @@ function closeEditTask() {
  */
 function showEditTaskList() {
     mainStore.clearErrors();
-    taskListToEdit.value = props.taskList;
-    showEditTaskListModal.value = true;
+    formModal(props.taskList, EditTaskList, submitEditTaskList, 'Edit task list');
 }
-function closeEditTaskList() {
-    showEditTaskListModal.value = false;
+async function submitEditTaskList(editedTaskList: TaskList) {
+    await taskStore.updateTaskList(editedTaskList)
 }
 
 /**
  * Shows and hides the modal to confirm deleting a task list
  */
+const showDeleteTaskListConfirmModal = ref(false);
+const taskListToDelete = ref<TaskList | null>(null);
 function showDeleteTaskList() {
     mainStore.clearErrors();
     taskListToDelete.value = props.taskList;

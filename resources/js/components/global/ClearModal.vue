@@ -50,15 +50,4 @@ defineEmits(['close']);
             }
         }
 }
-
-.modal-enter {
-    opacity: 0;
-}
-.modal-leave-to {
-    opacity: 0;
-}
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity .2s linear;
-}
 </style>
