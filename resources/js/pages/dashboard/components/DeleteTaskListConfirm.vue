@@ -1,62 +1,56 @@
 <template>
-    <div v-if="taskListToDelete">
-        <form @submit.prevent="deleteTaskList">
-            <p>{{ $t('are-you-sure-delete', [taskListToDelete.name]) }}</p>
-            <div v-if="taskListHasTasks" class="form-group">
-                <p>
-                    {{ $t('task-list-has-tasks', [taskListTasks.length]) }}
-                </p>
+    <div>
+        <p>{{ $t('are-you-sure-delete', [taskList.name]) }}</p>
+        <div v-if="taskListHasTasks" class="form-group">
+            <p>
+                {{ $t('task-list-has-tasks', [taskListTasks.length]) }}
+            </p>
 
-                <div class="form-group">
-                    <select id="deleteOption" v-model="deleteOption">
-                        <option value="delete" selected>{{ $t('delete') }}</option>
-                        <option v-for="option in allOtherLists" :key="option.id" :value="option.id">
-                            {{ $t('merge-with') }} {{ option.name }}
-                        </option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <select id="deleteOption" v-model="deleteOption">
+                    <option value="delete" selected>{{ $t('delete') }}</option>
+                    <option v-for="option in allOtherLists" :key="option.id" :value="option.id">
+                        {{ $t('merge-with') }} {{ option.name }}
+                    </option>
+                </select>
             </div>
-            <SubmitButton class="block">{{ $t('delete-task-list-confirm') }}</SubmitButton>
-            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
-            <BaseFormError name="error" />
-        </form>
+        </div>
+        <SubmitButton class="block" @click="submit">{{ $t('delete-task-list-confirm') }}</SubmitButton>
+        <button type="button" class="block button-cancel" @click="$emit('close')">{{ $t('cancel') }}</button>
+        <BaseFormError name="error" />
     </div>
 </template>
 
 <script setup lang="ts">
-import {Task, TaskList} from 'resources/types/task';
+import type {Task, TaskList} from 'resources/types/task';
 import {onMounted, computed, ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
+import {deepCopy} from '/js/helpers/copy';
 const taskStore = useTaskStore();
 
-const prop = defineProps<{taskList: TaskList}>();
-const emit = defineEmits(['close']);
+const props = defineProps<{form: TaskList}>();
+const emit = defineEmits<{
+    (event: 'close'): void,
+    (event: 'submit', data: {option: string | number, tasks: Task[]}): void,
+}>();
+(['close', 'submit']);
+
+const taskList = ref<TaskList>(deepCopy(props.form));
 
 onMounted(async() => {
-    taskListToDelete.value = prop.taskList;
-    allOtherLists.value = await taskStore.getOtherTaskLists(prop.taskList.id);
+    allOtherLists.value = await taskStore.getOtherTaskLists(taskList.value.id);
 });
 
 const allOtherLists = ref<{name: string, id: number}[]>([]);
 
-const taskListToDelete = ref<TaskList | null>(null);
 const deleteOption = ref<string | number>('delete');
 
-const taskListHasTasks = computed(() => !!taskListToDelete.value && !!taskListToDelete.value.tasks[0]);
-const taskListTasks = computed<Task[]>(() => (taskListToDelete.value ? taskListToDelete.value.tasks : []));
+const taskListHasTasks = computed(() => !!taskList.value && !!taskList.value.tasks[0]);
+const taskListTasks = computed<Task[]>(() => (taskList.value ? taskList.value.tasks : []));
 
 /** If the user chooses to merge existing tasks into another tasklist, merge those first, then delete the list. */
-async function deleteTaskList() {
-    if (!taskListToDelete.value) return;
-    if (deleteOption.value != 'delete') {
-        const data = {taskListId: deleteOption.value, tasks: taskListTasks.value};
-        await taskStore.mergeTasks(data);
-    }
-    await taskStore.deleteTaskList(taskListToDelete.value.id);
-    close();
-}
-function close() {
-    taskListToDelete.value = null;
-    emit('close');
+async function submit() {
+    const data = {option: deleteOption.value, tasks: taskListTasks.value};
+    emit('submit', data);
 }
 </script>

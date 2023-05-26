@@ -1,7 +1,8 @@
 import {defineStore} from 'pinia';
 import axios from 'axios';
 import {useRewardStore} from './rewardStore';
-import {NewTask, NewTaskList, NewTemplate, Task, TaskList, Template} from 'resources/types/task';
+import type {NewTask, NewTaskList, NewTemplate, Task, TaskList, Template} from 'resources/types/task';
+import {templates} from '/js/pages/dashboard/taskService';
 
 export const useTaskStore = defineStore('task', {
     state: () => {
@@ -55,9 +56,11 @@ export const useTaskStore = defineStore('task', {
         mergeTasks(data: {taskListId: number | string, tasks: Task[]}) {
             axios.post('/tasks/merge/' + data.taskListId, data);
         },
+        // * Templates
         async getTemplates(): Promise<Template[]>
         {
             const {data} = await axios.get('/tasks/templates');
+            templates.value = data.data;
             return data.data;
         },
         async storeTemplate(newTemplate: NewTemplate) : Promise<Template[]>

@@ -43,9 +43,10 @@
         "keyword-spacing": ["warn", {"before": true, "after": true}],
         "quotes": ["warn", "single", {"avoidEscape": true}],
         "no-console": "warn",
-        "no-unused-vars": ["error", {"argsIgnorePattern": "_"}],
         "vue/multi-word-component-names": ["off"],
         "@typescript-eslint/ban-ts-comment": ["off"],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error", {"argsIgnorePattern": "_"}],
 
         /**
          * Vue specific rules
