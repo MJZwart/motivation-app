@@ -26,7 +26,7 @@
                         <Icon 
                             :icon="EDIT"
                             class="edit-icon"
-                            @click="editTask(task)" />
+                            @click="$emit('editTask', {task: task})" />
                     </Tooltip>
                     <Tooltip :text="$t('delete-task')">
                         <Icon 
@@ -75,17 +75,7 @@
                     <p class="task-description">{{subTask.description}}</p>
                 </div>
             </div>
-            
         </div>
-        
-        <Modal :show="showEditTaskModal" :title="$t('edit-task')" @close="closeEditTask">
-            <EditTask 
-                v-if="taskToEdit" 
-                :task="taskToEdit" 
-                :taskList="taskList" 
-                :superTask="editSuperTask" 
-                @close="closeEditTask" />
-        </Modal>
     </div>
 </template>
 
@@ -93,21 +83,14 @@
 <script setup lang="ts">
 import type {Task, TaskList} from 'resources/types/task';
 import {ref} from 'vue';
-import EditTask from './EditTask.vue';
 import {useTaskStore} from '/js/store/taskStore';
-import {useMainStore} from '/js/store/store';
 import {useI18n} from 'vue-i18n';
 import {CREATE, EDIT, REPEAT, TRASH, ARROW_DOWN_RIGHT, CHECK_SQUARE} from '/js/constants/iconConstants';
 const {t} = useI18n();
-const mainStore = useMainStore();
 
 defineProps<{task: Task, taskList: TaskList}>();
 
 const emit = defineEmits(['newTask', 'editTask']);
-
-const taskToEdit = ref<Task | null>(null);
-const editSuperTask = ref<string | null>(null);
-const showEditTaskModal = ref(false);
 
 const hover = ref(false);
 
@@ -115,18 +98,8 @@ function openNewTask(task: Task) {
     emit('newTask', task);
 }
 
-/** Shows and hides the modal to edit a given task */
-function editTask(task: Task, superTask: string | null = null) {
-    mainStore.clearErrors();
-    editSuperTask.value = superTask;
-    taskToEdit.value = task;
-    showEditTaskModal.value = true;
-}
-function closeEditTask() {
-    showEditTaskModal.value = false;
-}
-
 const taskStore = useTaskStore();
+
 function deleteTask(task: Task) {
     const confirmationText = t('confirmation-delete-task', [task.name]);
     if (confirm(confirmationText)) {
