@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 import axios from 'axios';
 import {useRewardStore} from './rewardStore';
-import {NewTask, NewTaskList, NewTemplate, Task, TaskList, Template} from 'resources/types/task';
+import type {NewTask, NewTaskList, NewTemplate, Task, TaskList, Template} from 'resources/types/task';
 import {templates} from '/js/pages/dashboard/taskService';
 
 export const useTaskStore = defineStore('task', {

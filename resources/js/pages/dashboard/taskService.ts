@@ -1,4 +1,4 @@
-import {NewTask, NewTaskList, Template} from 'resources/types/task';
+import type {NewTask, NewTaskList, Template} from 'resources/types/task';
 import {ref} from 'vue';
 
 export const templates = ref<Template[]>([]);
