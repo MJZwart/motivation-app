@@ -8,7 +8,13 @@ export type FormModal<T = unknown> = {
     component: Raw<Component>;
 }
 
+export type ShowModal<T = unknown> = {
+    title: string;
+    props: T;
+    component: Raw<Component>;
+}
+
 export type Modal = {
     component: Raw<Component>;
-    modal: FormModal;
+    modal: FormModal | ShowModal;
 }

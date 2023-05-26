@@ -31,41 +31,15 @@
                 {{ $t('new-task') }}
             </button>
         </ContentBlock>
-
-        <Modal :show="showNewTaskModal" :title="$t('new-task')" @close="closeNewTask">
-            <CreateEditTask 
-                :task="getNewTask(taskList.id)" 
-                :task-list="taskList" 
-                :super-task="superTask" 
-                @submit="createTask" 
-                @close="closeNewTask" />
-        </Modal>        
-        <Modal :show="showEditTaskModal" :title="$t('edit-task')" @close="closeEditTask">
-            <CreateEditTask 
-                :task="taskToEdit" 
-                :task-list="taskList" 
-                :super-task="superTask"
-                @submit="editTask" 
-                @close="closeEditTask" />
-        </Modal>
-        <Modal
-            :show="showDeleteTaskListConfirmModal"
-            :footer="false"
-            :title="$t('delete-task-list-confirm')"
-            @close="closeDeleteTaskList"
-        >
-            <DeleteTaskListConfirm v-if="taskListToDelete" :taskList="taskListToDelete" @close="closeDeleteTaskList" />
-        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
+import type {TaskList, Task, NewTask} from 'resources/types/task';
 import TaskComp from './Task.vue';
 import EditTaskList from './EditTaskList.vue';
 import DeleteTaskListConfirm from './DeleteTaskListConfirm.vue';
-import {ref} from 'vue';
 import {useMainStore} from '/js/store/store';
-import type {TaskList, Task, NewTask} from 'resources/types/task';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
 import CreateEditTask from './CreateEditTask.vue';
@@ -80,38 +54,33 @@ const taskStore = useTaskStore();
 /** 
  * New task 
  */
-const showNewTaskModal = ref(false);
-const superTask = ref<Task | null>(null);
 function openNewTask(superTaskToSet: Task | null = null) {
     mainStore.clearErrors();
-    superTask.value = superTaskToSet;
-    showNewTaskModal.value = true;
+    formModal(
+        {task: getNewTask(props.taskList.id), taskList: props.taskList, superTask: superTaskToSet},
+        CreateEditTask,
+        createTask,
+        'new-task',
+    );
 }
-async function createTask(task: NewTask) {
+async function createTask({task}: {task:NewTask}) {
     await taskStore.storeTask(task);
-    closeNewTask();
-}
-function closeNewTask() {
-    showNewTaskModal.value = false;
 }
 
 /**
  * Edit task
  */
-const taskToEdit = ref<Task | null>(null);
-const showEditTaskModal = ref(false);
 function openEditTask({task, superTaskParam}: {task: Task, superTaskParam: Task | null}) {
     mainStore.clearErrors();
-    taskToEdit.value = task;
-    if (superTaskParam) superTask.value = superTaskParam;
-    showEditTaskModal.value = true;
+    formModal(
+        {task: task, taskList: props.taskList, superTask: superTaskParam},
+        CreateEditTask,
+        editTask,
+        'edit-task',
+    );
 }
-async function editTask(task: Task) {
+async function editTask({task}: {task: Task}) {
     await taskStore.updateTask(task);
-    closeEditTask();
-}
-function closeEditTask() {
-    showEditTaskModal.value = false;
 }
 
 /**
@@ -119,7 +88,7 @@ function closeEditTask() {
  */
 function showEditTaskList() {
     mainStore.clearErrors();
-    formModal(props.taskList, EditTaskList, submitEditTaskList, 'Edit task list');
+    formModal(props.taskList, EditTaskList, submitEditTaskList, 'edit-task-list');
 }
 async function submitEditTaskList(editedTaskList: TaskList) {
     await taskStore.updateTaskList(editedTaskList)
@@ -128,15 +97,17 @@ async function submitEditTaskList(editedTaskList: TaskList) {
 /**
  * Shows and hides the modal to confirm deleting a task list
  */
-const showDeleteTaskListConfirmModal = ref(false);
-const taskListToDelete = ref<TaskList | null>(null);
 function showDeleteTaskList() {
     mainStore.clearErrors();
-    taskListToDelete.value = props.taskList;
-    showDeleteTaskListConfirmModal.value = true;
+    // @ts-ignore This is due to the setup of the form modal expecting the submitEvent's param type
+    formModal(props.taskList, DeleteTaskListConfirm, submitDeleteTaskList, 'delete-task-list-confirm');
 }
-function closeDeleteTaskList() {
-    showDeleteTaskListConfirmModal.value = false;
+async function submitDeleteTaskList(data: {option: string | number, tasks: Task[]}) {
+    if (data.option != 'delete') {
+        const mergeData = {taskListId: data.option, tasks: data.tasks};
+        await taskStore.mergeTasks(mergeData);
+    }
+    await taskStore.deleteTaskList(props.taskList.id);
 }
 
 function taskClass(index: number) {

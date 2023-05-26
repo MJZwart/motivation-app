@@ -11,8 +11,7 @@
                     <div class="modal-body">
                         <component 
                             :is="modal.component"
-                            :form="modal.form"
-                            @submit="submit"
+                            :props="modal.props"
                             @close="$emit('close')"
                         />
                     </div>
@@ -24,19 +23,9 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
-import {FormModal} from './modals';
+import {ShowModal} from './modals';
 
-const props = defineProps<{modal: FormModal}>();
-const emit = defineEmits(['close']);
+defineProps<{modal: ShowModal}>();
 
 const modalTemplate = ref<HTMLDivElement>();
-
-async function submit(editedItem: unknown) {
-    try {
-        await props.modal.submitEvent(editedItem);
-        emit('close');
-    } catch (e) {
-        // Pretending to catch it to prevent vue from throwing a massive error
-    }
-}
 </script>
