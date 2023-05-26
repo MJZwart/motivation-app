@@ -16,17 +16,19 @@
                         <Icon 
                             :icon="CREATE"
                             class="create-icon green"
-                            @click="createTask" />
+                            @click="$emit('newSubTask', task)" />
                     </Tooltip>
                     <Tooltip :text="$t('edit-task')">
                         <Icon 
                             :icon="EDIT"
-                            class="edit-icon" />
+                            class="edit-icon"
+                            @click="$emit('editTask', task)" />
                     </Tooltip>
                     <Tooltip :text="$t('delete-task')">
                         <Icon 
                             :icon="TRASH"
-                            class="delete-icon red" />
+                            class="delete-icon red"
+                            @click="$emit('deleteTask', task)" />
                     </Tooltip>
                 </span>
                 
@@ -50,12 +52,14 @@
                             <Tooltip :text="$t('edit-sub-task')">
                                 <Icon 
                                     :icon="EDIT"
-                                    class="edit-icon" />
+                                    class="edit-icon"
+                                    @click="$emit('editTask', subTask)" />
                             </Tooltip>
                             <Tooltip :text="$t('delete-sub-task')">
                                 <Icon 
                                     :icon="TRASH"
-                                    class="delete-icon red" />
+                                    class="delete-icon red"
+                                    @click="$emit('deleteTask', subTask)" />
                             </Tooltip>
                         </span>
                     </p>
@@ -72,10 +76,6 @@ import type {Task} from 'resources/types/task';
 import {ARROW_DOWN_RIGHT, CHECK_SQUARE, CREATE, EDIT, TRASH} from '/js/constants/iconConstants';
 import {completeTask, completeSubTask} from './homepageService'
 
-const props = defineProps<{task: Task}>();
-const emit = defineEmits(['newSubTask']);
-
-function createTask() {
-    emit('newSubTask', props.task);
-}
+defineProps<{task: Task}>();
+defineEmits(['newSubTask', 'editTask', 'deleteTask']);
 </script>

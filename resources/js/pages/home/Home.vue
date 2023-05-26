@@ -9,6 +9,7 @@
         <div class="card-deck text-center">
             <ContentBlock title="explanation-tasks-header">
                 <TaskList :taskList="dummyList" class="task-list" />
+                <p class="silent">{{ $t('changes-will-not-be-saved') }}</p>
                 {{ $t('explanation-tasks') }}
             </ContentBlock>
             <ContentBlock title="explanation-reward-header">

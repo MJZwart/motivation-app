@@ -1,7 +1,7 @@
 import {successToast} from '/js/services/toastService';
 import {ref} from 'vue';
 import {DUMMY_CHARACTER, DUMMY_TASK_LIST, taskId} from '/js/constants/dummyConstants';
-import {NewTask, Task} from 'resources/types/task';
+import {NewTask, Task, TaskList} from 'resources/types/task';
 import {waitingOnResponse} from '/js/services/loadingService';
 
 export const dummyCharacterRef = ref(Object.assign({}, DUMMY_CHARACTER));
@@ -34,11 +34,58 @@ export function submitTask({task}: {task: NewTask}) {
 }
 
 export function submitSubTask({task}: {task: NewTask}) {
-    const superTaskId = dummyTaskListRef.value.tasks.findIndex(superTask => superTask.id === task.super_task_id);
+    const superTaskIdx = dummyTaskListRef.value.tasks.findIndex(superTask => superTask.id === task.super_task_id);
     const taskWithId = {...task, id: taskId.value++};
-    dummyTaskListRef.value.tasks[superTaskId].tasks?.push(taskWithId);
+    dummyTaskListRef.value.tasks[superTaskIdx].tasks?.push(taskWithId);
     waitingOnResponse.value = false;
     successToast('That\'s how you make tasks! Note that these tasks won\'t be saved. Log in to create your own lists.');
+}
+
+export function submitEditTask({task}: {task: Task}) {
+    if (task.super_task_id) {
+        editSubTask(task);
+    } else {
+        const taskIndex = dummyTaskListRef.value.tasks.findIndex(foundTask => foundTask.id === task.id);
+        if (taskIndex !== undefined && taskIndex < 0) return;
+        dummyTaskListRef.value.tasks[taskIndex] = task;
+    }
+    waitingOnResponse.value = false;
+    successToast('Example task edited.');
+}
+
+export function deleteTask(task: Task) {
+    if (task.super_task_id) {
+        deleteSubTask(task);
+    } else {
+        const taskIndex = dummyTaskListRef.value.tasks.findIndex(foundTask => foundTask.id === task.id);
+        if (taskIndex !== undefined && taskIndex < 0) return;
+        dummyTaskListRef.value.tasks.splice(taskIndex, 1);
+    }
+    successToast('Task deleted');
+}
+
+export function submitEditTaskList(taskList: TaskList) {
+    dummyTaskListRef.value.name = taskList.name;
+    waitingOnResponse.value = false;
+    successToast('Task list edited');
+}
+
+function deleteSubTask(task: Task) {
+    const superTaskIndex = dummyTaskListRef.value.tasks.findIndex(superTask => superTask.id === task.super_task_id);
+    if (superTaskIndex < 0) return;
+    const taskIndex = dummyTaskListRef.value.tasks[superTaskIndex].tasks?.findIndex(subTask => subTask.id === task.id);
+    if (taskIndex !== undefined && taskIndex < 0) return;
+    // @ts-ignore This is checked above
+    dummyTaskListRef.value.tasks[superTaskIndex].tasks.splice(taskIndex, 1);
+}
+
+function editSubTask(task: Task) {
+    const superTaskIndex = dummyTaskListRef.value.tasks.findIndex(superTask => superTask.id === task.super_task_id);
+    if (superTaskIndex < 0) return;
+    const taskIndex = dummyTaskListRef.value.tasks[superTaskIndex].tasks?.findIndex(subTask => subTask.id === task.id);
+    if (taskIndex !== undefined && taskIndex < 0) return;
+    // @ts-ignore This is checked above
+    dummyTaskListRef.value.tasks[superTaskIndex].tasks[taskIndex] = task;
 }
 
 const stats = ['a', 'b', 'c', 'd', 'e'];
