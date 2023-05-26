@@ -3,39 +3,37 @@
         <form @submit.prevent="submitTask">
             <SimpleInput
                 id="name"
-                v-model="task.name"
+                v-model="activeTask.name"
                 type="text"
                 name="name"
                 :label="$t('task-name')"
-                :placeholder="$t('name')"
-            />
+                :placeholder="$t('name')" />
             <SimpleInput
                 id="description"
-                v-model="task.description"
+                v-model="activeTask.description"
                 type="text"
                 name="description"
                 :label="$t('description-optional')"
-                :placeholder="$t('description')"
-            />
+                :placeholder="$t('description')" />
             <div class="form-group">
                 <label for="type">{{ $t('type') }}</label>
-                <select id="type" v-model="task.type" name="type">
+                <select id="type" v-model="activeTask.type" name="type">
                     <option v-for="(type, index) in taskTypes" :key="index" :value="type.value">{{ $t(type.text) }}</option>
                 </select>
                 <BaseFormError name="type" />
             </div>
             <SimpleInput
                 id="difficulty"
-                v-model="task.difficulty"
+                v-model="activeTask.difficulty"
                 type="range"
                 name="difficulty"
-                :label="$t('difficulty') + ': ' + task.difficulty + '/5'"
+                :label="$t('difficulty') + ': ' + activeTask.difficulty + '/5'"
                 min="1"
                 max="5"
             />
             <div class="form-group">
                 <label for="repeatable">{{ $t('repeatable') }}</label>
-                <select id="repeatable" v-model="task.repeatable" name="repeatable">
+                <select id="repeatable" v-model="activeTask.repeatable" name="repeatable">
                     <option v-for="(option, index) in repeatables" :key="index" :value="option.value">
                         {{ $t(option.text) }}
                     </option>
@@ -63,47 +61,36 @@
 <script setup lang="ts">
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
 import {onMounted, ref} from 'vue';
-import {useTaskStore} from '/js/store/taskStore';
-import {NewTask, Task, TaskList, Template} from 'resources/types/task';
+import {templates} from '../taskService';
+import type {NewTask, Task, TaskList} from 'resources/types/task';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
 
-const props = defineProps<{taskList: TaskList; superTask?: Task | null}>();
-const emit = defineEmits(['close']);
+const props = defineProps<{
+    task: NewTask | null,
+    taskList: TaskList; 
+    superTask?: Task | null
+}>();
+const emit = defineEmits(['close', 'submit']);
 
-const task = ref<NewTask>({
-    name: '',
-    description: '',
-    difficulty: 3,
-    type: 'GENERIC',
-    repeatable: 'NONE',
-    task_list_id: props.taskList.id,
-});
-
-const templates = ref<Template[]>([]);
+const activeTask = ref({...props.task});
 
 onMounted(async() => {
-    templates.value = await taskStore.getTemplates();
+    if (props.superTask && !activeTask.value.super_task_id) activeTask.value.super_task_id = props.superTask.id;
 });
 
 function selectTemplate(event: Event) {
     if (!event || !event.target || !(event.target as HTMLSelectElement).value) return;
-    const selected = templates.value[(event.target as HTMLSelectElement).value];
-    copyTemplateIntoTask(selected);
+    const template = templates.value[(event.target as HTMLSelectElement).value];
+
+    activeTask.value.name = template.name;
+    activeTask.value.description = template.description ?? '';
+    activeTask.value.difficulty = template.difficulty;
+    activeTask.value.type = template.type;
 }
 
-function copyTemplateIntoTask(template: Template) {
-    task.value.name = template.name;
-    task.value.description = template.description ?? '';
-    task.value.difficulty = template.difficulty;
-    task.value.type = template.type;
-}
-
-const taskStore = useTaskStore();
 async function submitTask() {
-    task.value.super_task_id = props.superTask ? props.superTask.id : null;
-    await taskStore.storeTask(task.value);
-    emit('close');
+    emit('submit', activeTask.value);
 }
 </script>
