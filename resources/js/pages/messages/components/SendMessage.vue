@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h5>{{ $t('send-message-to', {user: props.props.user.username}) }}</h5>
+        <h5>{{ $t('send-message-to', {user: props.user.username}) }}</h5>
         <div class="form-group">
             <label for="message">{{ $t('message') }}</label>
             <SimpleTextarea
@@ -25,10 +25,8 @@ import {useMessageStore} from '/js/store/messageStore';
 const messageStore = useMessageStore();
 
 const props = defineProps<{
-    props: {
-        user: Friend,
-        conversation?: Conversation,
-    }
+    user: Friend,
+    conversation?: Conversation,
 }>();
 const emit = defineEmits(['close']);
 
@@ -36,9 +34,9 @@ const message = ref<NewMessage>({
     message: '',
 });
 async function sendMessage() {
-    message.value.recipient_id = props.props.user.id;
-    if (props.props.conversation) {
-        message.value.conversation_id = props.props.conversation.conversation_id;
+    message.value.recipient_id = props.user.id;
+    if (props.conversation) {
+        message.value.conversation_id = props.conversation.conversation_id;
     }
     await messageStore.sendMessage(message.value);
     emit('close');

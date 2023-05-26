@@ -11,7 +11,7 @@
                     <div class="modal-body">
                         <component 
                             :is="modal.component"
-                            :props="modal.props"
+                            v-bind="modal.props"
                             @close="$emit('close')"
                         />
                     </div>
