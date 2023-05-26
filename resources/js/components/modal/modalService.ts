@@ -1,6 +1,7 @@
 import {Component, markRaw, ref} from 'vue';
 import {Modal} from './modals';
 import FormModalVue from './FormModal.vue';
+import ShowModalVue from './ShowModal.vue';
 
 // * Managing modal state
 export const modals = ref<Modal[]>([]);
@@ -24,4 +25,16 @@ export function formModal<T = unknown>(
     }
     // @ts-ignore
     modals.value.push({component: markRaw(FormModalVue), modal: modal});
+}
+
+export function showModal<T = unknown>(
+    props: T,
+    component: Component,
+    title: string) {
+    const modal = {
+        props: props,
+        component: markRaw(component),
+        title: title,
+    }
+    modals.value.push({component: markRaw(ShowModalVue), modal: modal});
 }

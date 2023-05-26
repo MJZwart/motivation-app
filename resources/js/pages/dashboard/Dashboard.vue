@@ -25,7 +25,7 @@
 
                     <FriendsCard :message="true" />
 
-                    <ManageTemplates />
+                    <TemplatesButton />
                 </div>
             </div>
         </div>
@@ -35,8 +35,7 @@
 <script setup lang="ts">
 import TaskList from './components/TaskList.vue';
 import RewardCard from './components/reward/RewardCard.vue';
-import FriendsCard from './components/FriendsCard.vue';
-import ManageTemplates from './components/template/ManageTemplates.vue';
+import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import {useMainStore} from '/js/store/store';
 import {onBeforeMount, ref, computed} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
@@ -46,6 +45,7 @@ import {formModal} from '/js/components/modal/modalService';
 import {getNewTaskList} from './taskService';
 import CreateEditTaskList from './components/CreateEditTaskList.vue';
 import {NewTaskList} from 'resources/types/task';
+import TemplatesButton from './components/template/TemplatesButton.vue';
 
 const mainStore = useMainStore();
 const userStore = useUserStore();

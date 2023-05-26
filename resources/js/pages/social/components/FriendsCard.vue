@@ -27,9 +27,6 @@
                 <p v-else class="mb-1">{{ $t('no-friends') }}</p>
             </ContentBlock>
         </div>
-        <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
-            <SendMessage v-if="friendToMessage" :user="friendToMessage" @close="closeSendMessageModal" />
-        </Modal>
     </div>
 </template>
 
@@ -39,6 +36,7 @@ import {ref, computed, onMounted, PropType} from 'vue';
 import {useFriendStore} from '/js/store/friendStore';
 import {Friend} from 'resources/types/friend';
 import {CROSS_SQUARE, MAIL} from '/js/constants/iconConstants';
+import {showModal} from '/js/components/modal/modalService';
 
 const friendStore = useFriendStore();
 
@@ -68,15 +66,8 @@ const props = defineProps({
     },
 });
 
-const friendToMessage = ref<Friend | null>(null);
-const showSendMessageModal = ref(false);
-
 function sendMessage(friend: Friend) {
-    friendToMessage.value = friend;
-    showSendMessageModal.value = true;
-}
-function closeSendMessageModal() {
-    showSendMessageModal.value = false;
+    showModal({user: friend}, SendMessage, 'send-message');
 }
 
 function removeFriend(friend: Friend) {

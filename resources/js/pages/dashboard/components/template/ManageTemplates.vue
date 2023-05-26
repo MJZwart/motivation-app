@@ -1,66 +1,42 @@
 <template>
-    <div class="p-1">
-        <button 
-            class="block" 
-            @click="showManageTemplateModal = true">
-            {{$t('manage-templates')}}
-        </button>
-        <Modal 
-            :show="showManageTemplateModal" 
-            :title="$t('manage-templates')" 
-            :header=false
-            :footer=false  
-            class="l"
-            @close="showManageTemplateModal = false"
-        >
-            <template #header>
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        {{ $t('manage-templates') }}
-                        <Tutorial tutorial="Templates" />
-                    </h5>
-                    <button class="close" @click="showManageTemplateModal = false">×</button>
+    
+    <button v-if="!showNewTemplate" class="block" @click="showNewTemplate = true">{{$t('new-template')}}</button>
+    <CreateNewTemplate 
+        v-if="showNewTemplate" 
+        :templateToEdit="templateToEdit"
+        @close="cancelNewEditTemplate" 
+        @submit="createNewTemplate" 
+        @edit="submitEditTemplate"
+    />
+    <div v-else>
+        <h5>{{$t('templates')}}<Tutorial tutorial="Templates" /></h5>
+        <div class="templates">
+            <template v-for="(template, index) in templates" :key="index">
+                <div class="template">
+                    <div class="template-sidebar" :class="`diff-${template.difficulty}`" />
+                    <div class="template-content">
+                        <p class="d-flex">
+                            <b>{{template.name}} </b> ({{$t(template.type)}})
+                            <span class="ml-auto mr-2">
+                                <Tooltip :text="$t('edit-template')" placement="left">
+                                    <Icon 
+                                        :icon="EDIT"
+                                        class="edit-icon small"
+                                        @click="editTemplate(template)" />
+                                </Tooltip>
+                                <Tooltip :text="$t('delete-template')" placement="left">
+                                    <Icon 
+                                        :icon="TRASH"
+                                        class="delete-icon small red"
+                                        @click="deleteTemplate(template)" />
+                                </Tooltip>
+                            </span>
+                        </p>
+                        <p class="task-description">{{template.description}}</p>
+                    </div>
                 </div>
             </template>
-            <button v-if="!showNewTemplate" class="block" @click="showNewTemplate = true">{{$t('new-template')}}</button>
-            <CreateNewTemplate 
-                v-if="showNewTemplate" 
-                :templateToEdit="templateToEdit"
-                @close="cancelNewEditTemplate" 
-                @submit="createNewTemplate" 
-                @edit="submitEditTemplate"
-            />
-            <div v-else>
-                <h5>{{$t('templates')}}</h5>
-                <div class="templates">
-                    <template v-for="(template, index) in templates" :key="index">
-                        <div class="template">
-                            <div class="template-sidebar" :class="`diff-${template.difficulty}`" />
-                            <div class="template-content">
-                                <p class="d-flex">
-                                    <b>{{template.name}} </b> ({{$t(template.type)}})
-                                    <span class="ml-auto mr-2">
-                                        <Tooltip :text="$t('edit-template')" placement="left">
-                                            <Icon 
-                                                :icon="EDIT"
-                                                class="edit-icon small"
-                                                @click="editTemplate(template)" />
-                                        </Tooltip>
-                                        <Tooltip :text="$t('delete-template')" placement="left">
-                                            <Icon 
-                                                :icon="TRASH"
-                                                class="delete-icon small red"
-                                                @click="deleteTemplate(template)" />
-                                        </Tooltip>
-                                    </span>
-                                </p>
-                                <p class="task-description">{{template.description}}</p>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </Modal>
+        </div>
     </div>
 </template>
 
@@ -82,7 +58,6 @@ onMounted(async() => {
     templates.value = await taskStore.getTemplates();
 });
 
-const showManageTemplateModal = ref(false);
 const showNewTemplate = ref(false);
 const templateToEdit = ref<Template | undefined>(undefined);
 
