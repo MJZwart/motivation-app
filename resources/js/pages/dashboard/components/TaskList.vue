@@ -20,7 +20,12 @@
                 </span>
             </template>
             <template v-for="(task, index) in taskList.tasks" :key="task.id">
-                <TaskComp :task="task" :taskList="taskList" :class="taskClass(index)" v-on:newTask="openNewTask" />
+                <TaskComp 
+                    :task="task" 
+                    :taskList="taskList" 
+                    :class="taskClass(index)" 
+                    v-on:newTask="openNewTask" 
+                    @editTask="openEditTask" />
             </template>
             <button class="block bottom-radius p-0 new-task" @click="openNewTask()">
                 {{ $t('new-task') }}
@@ -28,7 +33,20 @@
         </ContentBlock>
 
         <Modal :show="showNewTaskModal" :title="$t('new-task')" @close="closeNewTask">
-            <NewTask :superTask="superTask" :taskList="taskList" @close="closeNewTask" />
+            <CreateEditTask 
+                :task="getNewTask(taskList.id)" 
+                :task-list="taskList" 
+                :super-task="superTask" 
+                @submit="createTask" 
+                @close="closeNewTask" />
+        </Modal>        
+        <Modal :show="showEditTaskModal" :title="$t('edit-task')" @close="closeEditTask">
+            <CreateEditTask 
+                :task="taskToEdit" 
+                :task-list="taskList" 
+                :super-task="superTask"
+                @submit="editTask" 
+                @close="closeEditTask" />
         </Modal>
         <Modal :show="showEditTaskListModal" :title="$t('edit-task-list')" @close="closeEditTaskList">
             <EditTaskList v-if="taskListToEdit" :taskList="taskListToEdit" @close="closeEditTaskList" />
@@ -46,18 +64,18 @@
 
 <script setup lang="ts">
 import TaskComp from './Task.vue';
-import NewTask from './NewTask.vue';
 import EditTaskList from './EditTaskList.vue';
 import DeleteTaskListConfirm from './DeleteTaskListConfirm.vue';
 import {ref} from 'vue';
 import {useMainStore} from '/js/store/store';
-import type {TaskList, Task} from 'resources/types/task';
+import type {TaskList, Task, NewTask} from 'resources/types/task';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
+import CreateEditTask from './CreateEditTask.vue';
+import {getNewTask} from '../taskService';
+import {useTaskStore} from '/js/store/taskStore';
 
 const props = defineProps<{taskList: TaskList}>();
 
-const superTask = ref<Task | null>(null);
-const showNewTaskModal = ref(false);
 const showEditTaskListModal = ref(false);
 const showDeleteTaskListConfirmModal = ref(false);
 
@@ -65,14 +83,44 @@ const taskListToEdit = ref<TaskList | null>(null);
 const taskListToDelete = ref<TaskList | null>(null);
 
 const mainStore = useMainStore();
+const taskStore = useTaskStore();
 
+
+/** 
+ * New task 
+ */
+const showNewTaskModal = ref(false);
+const superTask = ref<Task | null>(null);
 function openNewTask(superTaskToSet: Task | null = null) {
     mainStore.clearErrors();
     superTask.value = superTaskToSet;
     showNewTaskModal.value = true;
 }
+async function createTask(task: NewTask) {
+    await taskStore.storeTask(task);
+    closeNewTask();
+}
 function closeNewTask() {
     showNewTaskModal.value = false;
+}
+
+/**
+ * Edit task
+ */
+const taskToEdit = ref<Task | null>(null);
+const showEditTaskModal = ref(false);
+function openEditTask({task, superTaskParam}: {task: Task, superTaskParam: Task | null}) {
+    mainStore.clearErrors();
+    taskToEdit.value = task;
+    if (superTaskParam) superTask.value = superTaskParam;
+    showEditTaskModal.value = true;
+}
+async function editTask(task: Task) {
+    await taskStore.updateTask(task);
+    closeEditTask();
+}
+function closeEditTask() {
+    showEditTaskModal.value = false;
 }
 
 /**
