@@ -33,6 +33,7 @@
 </template>
 
 <script setup lang="ts">
+import type {NewTaskList} from 'resources/types/task';
 import TaskList from './components/TaskList.vue';
 import RewardCard from './components/reward/RewardCard.vue';
 import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
@@ -44,7 +45,6 @@ import {useUserStore} from '/js/store/userStore';
 import {formModal} from '/js/components/modal/modalService';
 import {getNewTaskList} from './taskService';
 import CreateEditTaskList from './components/CreateEditTaskList.vue';
-import {NewTaskList} from 'resources/types/task';
 import TemplatesButton from './components/template/TemplatesButton.vue';
 
 const mainStore = useMainStore();

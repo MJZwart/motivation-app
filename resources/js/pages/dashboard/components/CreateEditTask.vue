@@ -59,10 +59,10 @@
 </template>
 
 <script setup lang="ts">
+import type {NewTask, TaskList, Task} from 'resources/types/task';
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
 import {onMounted, ref} from 'vue';
 import {templates} from '../taskService';
-import type {NewTask, TaskList, Task} from 'resources/types/task';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;

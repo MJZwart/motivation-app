@@ -16,8 +16,8 @@
 
 
 <script setup lang="ts">
-import {ref} from 'vue';
 import type {NewTaskList, TaskList} from 'resources/types/task';
+import {ref} from 'vue';
 import {deepCopy} from '/js/helpers/copy';
 defineEmits(['close', 'submit']);
 

@@ -31,10 +31,10 @@
 </template>
 
 <script setup lang="ts">
+import type {Friend} from 'resources/types/friend';
 import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import {ref, computed, onMounted, PropType} from 'vue';
 import {useFriendStore} from '/js/store/friendStore';
-import {Friend} from 'resources/types/friend';
 import {CROSS_SQUARE, MAIL} from '/js/constants/iconConstants';
 import {showModal} from '/js/components/modal/modalService';
 

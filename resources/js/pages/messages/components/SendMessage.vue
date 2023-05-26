@@ -19,9 +19,9 @@
 
 <script setup lang="ts">
 import type {Conversation, NewMessage} from 'resources/types/message';
+import type {Friend} from 'resources/types/friend';
 import {ref} from 'vue';
 import {useMessageStore} from '/js/store/messageStore';
-import {Friend} from 'resources/types/friend';
 const messageStore = useMessageStore();
 
 const props = defineProps<{

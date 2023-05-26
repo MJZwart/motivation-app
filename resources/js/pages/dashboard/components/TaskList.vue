@@ -35,11 +35,11 @@
 </template>
 
 <script setup lang="ts">
+import type {TaskList, Task, NewTask} from 'resources/types/task';
 import TaskComp from './Task.vue';
 import EditTaskList from './EditTaskList.vue';
 import DeleteTaskListConfirm from './DeleteTaskListConfirm.vue';
 import {useMainStore} from '/js/store/store';
-import type {TaskList, Task, NewTask} from 'resources/types/task';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
 import CreateEditTask from './CreateEditTask.vue';

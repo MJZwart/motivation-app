@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import {Task, TaskList} from 'resources/types/task';
+import type {Task, TaskList} from 'resources/types/task';
 import {onMounted, computed, ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {deepCopy} from '/js/helpers/copy';
