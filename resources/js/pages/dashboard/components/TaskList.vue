@@ -31,15 +31,6 @@
                 {{ $t('new-task') }}
             </button>
         </ContentBlock>
-
-        <Modal
-            :show="showDeleteTaskListConfirmModal"
-            :footer="false"
-            :title="$t('delete-task-list-confirm')"
-            @close="closeDeleteTaskList"
-        >
-            <DeleteTaskListConfirm v-if="taskListToDelete" :taskList="taskListToDelete" @close="closeDeleteTaskList" />
-        </Modal>
     </div>
 </template>
 
@@ -47,7 +38,6 @@
 import TaskComp from './Task.vue';
 import EditTaskList from './EditTaskList.vue';
 import DeleteTaskListConfirm from './DeleteTaskListConfirm.vue';
-import {ref} from 'vue';
 import {useMainStore} from '/js/store/store';
 import type {TaskList, Task, NewTask} from 'resources/types/task';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
@@ -107,15 +97,17 @@ async function submitEditTaskList(editedTaskList: TaskList) {
 /**
  * Shows and hides the modal to confirm deleting a task list
  */
-const showDeleteTaskListConfirmModal = ref(false);
-const taskListToDelete = ref<TaskList | null>(null);
 function showDeleteTaskList() {
     mainStore.clearErrors();
-    taskListToDelete.value = props.taskList;
-    showDeleteTaskListConfirmModal.value = true;
+    // @ts-ignore This is due to the setup of the form modal expecting the submitEvent's param type
+    formModal(props.taskList, DeleteTaskListConfirm, submitDeleteTaskList, 'delete-task-list-confirm');
 }
-function closeDeleteTaskList() {
-    showDeleteTaskListConfirmModal.value = false;
+async function submitDeleteTaskList(data: {option: string | number, tasks: Task[]}) {
+    if (data.option != 'delete') {
+        const mergeData = {taskListId: data.option, tasks: data.tasks};
+        await taskStore.mergeTasks(mergeData);
+    }
+    await taskStore.deleteTaskList(props.taskList.id);
 }
 
 function taskClass(index: number) {
