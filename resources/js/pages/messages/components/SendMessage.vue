@@ -20,12 +20,13 @@
 <script setup lang="ts">
 import type {Conversation, NewMessage} from 'resources/types/message';
 import type {Friend} from 'resources/types/friend';
+import type {StrippedUser} from 'resources/types/user';
 import {ref} from 'vue';
 import {useMessageStore} from '/js/store/messageStore';
 const messageStore = useMessageStore();
 
 const props = defineProps<{
-    user: Friend,
+    user: Friend | StrippedUser,
     conversation?: Conversation,
 }>();
 const emit = defineEmits(['close']);
