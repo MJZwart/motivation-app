@@ -3,6 +3,7 @@ import {ref} from 'vue';
 import {DUMMY_CHARACTER, DUMMY_TASK_LIST, taskId} from '/js/constants/dummyConstants';
 import {NewTask, Task, TaskList} from 'resources/types/task';
 import {waitingOnResponse} from '/js/services/loadingService';
+import i18n from '/js/i18n';
 
 export const dummyCharacterRef = ref(Object.assign({}, DUMMY_CHARACTER));
 
@@ -13,7 +14,7 @@ export function completeTask(task: Task) {
     if (taskIndex < 0) return;
     calculateReward(dummyTaskListRef.value.tasks[taskIndex]);
     dummyTaskListRef.value.tasks.splice(taskIndex, 1);
-    successToast('That\'s how you complete tasks! Log in to manage your own tasks.');
+    successToast(i18n.global.t('example-task-completed'));
 }
 export function completeSubTask(task: Task) {
     const superTaskIndex = dummyTaskListRef.value.tasks.findIndex(superTask => superTask.id === task.super_task_id);
@@ -23,14 +24,14 @@ export function completeSubTask(task: Task) {
     calculateReward(task);
     // @ts-ignore This is checked above
     dummyTaskListRef.value.tasks[superTaskIndex].tasks.splice(subTaskIndex, 1);
-    successToast('That\'s how you complete tasks! Log in to manage your own tasks.');
+    successToast(i18n.global.t('example-task-completed'));
 }
 
 export function submitTask({task}: {task: NewTask}) {
     const taskWithId = {...task, id: taskId.value++, tasks: []};
     dummyTaskListRef.value.tasks.push(taskWithId);
     waitingOnResponse.value = false;
-    successToast('That\'s how you make tasks! Note that these tasks won\'t be saved. Log in to create your own lists.');
+    successToast(i18n.global.t('example-task-created'));
 }
 
 export function submitSubTask({task}: {task: NewTask}) {
@@ -38,7 +39,7 @@ export function submitSubTask({task}: {task: NewTask}) {
     const taskWithId = {...task, id: taskId.value++};
     dummyTaskListRef.value.tasks[superTaskIdx].tasks?.push(taskWithId);
     waitingOnResponse.value = false;
-    successToast('That\'s how you make tasks! Note that these tasks won\'t be saved. Log in to create your own lists.');
+    successToast(i18n.global.t('example-task-created'));
 }
 
 export function submitEditTask({task}: {task: Task}) {
@@ -50,7 +51,7 @@ export function submitEditTask({task}: {task: Task}) {
         dummyTaskListRef.value.tasks[taskIndex] = task;
     }
     waitingOnResponse.value = false;
-    successToast('Example task edited.');
+    successToast(i18n.global.t('example-task-edited'));
 }
 
 export function deleteTask(task: Task) {
@@ -61,13 +62,13 @@ export function deleteTask(task: Task) {
         if (taskIndex !== undefined && taskIndex < 0) return;
         dummyTaskListRef.value.tasks.splice(taskIndex, 1);
     }
-    successToast('Task deleted');
+    successToast(i18n.global.t('example-task-deleted'));
 }
 
 export function submitEditTaskList(taskList: TaskList) {
     dummyTaskListRef.value.name = taskList.name;
     waitingOnResponse.value = false;
-    successToast('Task list edited');
+    successToast(i18n.global.t('example-task-list-edited'));
 }
 
 function deleteSubTask(task: Task) {

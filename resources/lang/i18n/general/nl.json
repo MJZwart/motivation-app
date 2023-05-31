@@ -153,6 +153,7 @@
 
     "home-welcome-to": "Welkom op {0}.",
     "home-introduction": "Motiveer jezelf",
+    "changes-will-not-be-saved": "Veranderen aan deze voorbeelden worden niet opgeslagen. Maak een account aan om je eigen takenlijst te beheren.",
     "explanation-tasks": "Creër herhaalbare of eenmalige taken op je to-do lijst. Maak subtaken aan om je klus in hapklare brokken op te delen en een duidelijk overzicht te krijgen in je missie. Je kunt dit gebruiken om orde te scheppen in je dagelijkse taken, jezelf te disciplineren naar nieuwe gewoontes, of om te werken aan een groter doel." ,
     "explanation-reward": "Kies tussen het groeien van een RPG-karakter of een nederzetting en zie ze groeien met elke taak die je afvinkt. Wil je een hoger level bereiken met je karakter of met je nederzetting een nieuw niveau bereiken? Zorg dat je je taken afvinkt en kijk hoe je beloning groeit. Kun je niet kiezen tussen een karakter of een nederzetting? Je kunt op elk moment wisselen zonder je voortgang te verliezen. Uiteraard, als dit niet iets voor jou is, kun je ook deze beloning uitzetten wanneer je wil.", 
     "explanation-tasks-header": "Beheer jouw to-do lijst",
@@ -165,6 +166,12 @@
     "if-mistake-submit-report": "Als je denkt dat dit een fout van ons is, verstuur dan een",
     "home-lc": "home",
     "bug-report-lc": "bug report",
+
+    "example-task-completed": "Zo voltooi je taken! Log in om je eigen taken te beheren.",
+    "example-task-created": "Zo maak je taken! Deze taken worden niet opgeslagen, log in om je eigen taken te beheren.",
+    "example-task-edited": "Voorbeeld-taak gewijzigd.",
+    "example-task-deleted": "Voorbeeld-taak verwijderd.",
+    "example-task-list-edited": "Voorbeeld-takenlijst gewijzigd.",
 
     "language": "Taal",
     "update-language": "Verander taal",

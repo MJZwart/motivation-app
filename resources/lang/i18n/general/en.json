@@ -167,6 +167,12 @@
     "home-lc": "home",
     "bug-report-lc": "bug report",
 
+    "example-task-completed": "That's how you complete tasks! Log in to manage your own tasks.",
+    "example-task-created": "That's how you make tasks! Note that these tasks won't be saved. Log in to create your own lists.",
+    "example-task-edited": "Example task edited.",
+    "example-task-deleted": "Example task deleted",
+    "example-task-list-edited": "Example task list edited",
+
     "language": "Language",
     "update-language": "Change language",
 
