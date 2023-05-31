@@ -64,6 +64,6 @@ const achievementTriggers = ACHIEVEMENT_TRIGGERS;
 
 async function submitAchievement() {
     achievement.value.trigger_amount = Number(achievement.value.trigger_amount);
-    emit('submit', achievement);
+    emit('submit', achievement.value);
 }
 </script>

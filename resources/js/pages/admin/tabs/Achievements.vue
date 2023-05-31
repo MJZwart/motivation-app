@@ -20,34 +20,12 @@
                 <Icon :icon="EDIT" class="icon small edit-icon" @click="showEditAchievement(row.item)" />
             </template>
         </Table>
-        <!-- 
-        <Modal
-            :show="showNewAchievementModal"
-            :footer="false"
-            :title="$t('new-achievement')"
-            @close="closeNewAchievement"
-        >
-            <NewAchievement @close="closeNewAchievement" />
-        </Modal> -->
-        <Modal
-            :show="showEditAchievementModal"
-            :footer="false"
-            :title="$t('edit-achievement')"
-            @close="closeEditAchievement"
-        >
-            <EditAchievement 
-                v-if="achievementToEdit" 
-                :achievement="achievementToEdit" 
-                @close="closeEditAchievement" 
-                @submit="editAchievement" />
-        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
 import {ref, onMounted} from 'vue';
 import Table from '/js/components/global/Table.vue';
-import EditAchievement from '/js/pages/admin/components/EditAchievement.vue';
 import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '/js/constants/achievementsConstants.js';
 import {useAchievementStore} from '/js/store/achievementStore';
 import {useMainStore} from '/js/store/store';
@@ -66,11 +44,9 @@ onMounted(async() => {
 
 const achievements = ref<Achievement[]>([]);
 
-const achievementToEdit = ref<Achievement | null>(null);
 const achievementFields = ACHIEVEMENT_FIELDS;
 const currentSort = ref(ACHIEVEMENT_DEFAULTS.currentSort);
 const currentSortAsc = ref(true);
-const showEditAchievementModal = ref(false);
 
 /** Shows and hides the modal to create a new achievement */
 function showNewAchievement() {
@@ -83,14 +59,9 @@ async function submitNewAchievement(newAchievement: NewAchievement) {
 /** Shows and hides the modal to edit a given achievement */
 function showEditAchievement(achievement: Achievement) {
     mainStore.clearErrors();
-    achievementToEdit.value = achievement;
-    showEditAchievementModal.value = true;
+    formModal(achievement, CreateEditAchievement, submitEditAchievement, 'edit-achievement');
 }
-function closeEditAchievement() {
-    showEditAchievementModal.value = false;
-}
-async function editAchievement(achievement: Achievement) {
+async function submitEditAchievement(achievement: Achievement) {
     achievements.value = await achievementStore.editAchievement(achievement);
-    closeEditAchievement();
 }
 </script>
