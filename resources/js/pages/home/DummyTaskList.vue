@@ -8,7 +8,8 @@
                         <Tooltip :text="$t('edit-task-list')">
                             <Icon 
                                 :icon="EDIT"
-                                class="edit-icon small" />
+                                class="edit-icon small"
+                                @click="editTaskList" />
                         </Tooltip>
                         <Tooltip :text="$t('delete-task-list')">
                             <Icon 
@@ -19,11 +20,14 @@
                 </span>
             </template>
             <template v-for="(task, index) in taskList.tasks" :key="task.id" >
-                <Task 
+                <TaskVue 
                     :task="task" 
-                    :class="taskClass(index)" />
+                    :class="taskClass(index)"
+                    @newSubTask="newSubTask"
+                    @editTask="editTask"
+                    @deleteTask="deleteTask" />
             </template>
-            <button class="block bottom-radius p-0 new-task" variant="outline">
+            <button class="block bottom-radius p-0 new-task" variant="outline" @click="newTask">
                 {{$t('new-task')}}
             </button>
         </ContentBlock>
@@ -31,19 +35,51 @@
 </template>
 
 
-<script setup>
-import Task from './DummyTask.vue';
+<script setup lang="ts">
+import type {Task} from 'resources/types/task';
+import TaskVue from './DummyTask.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
+import {DummyTaskList, deleteTask} from './homepageService';
+import {formModal} from '/js/components/modal/modalService';
+import {getNewTask} from '/js/pages/dashboard/taskService';
+import CreateEditTask from '/js/pages/dashboard/components/CreateEditTask.vue';
+import {submitSubTask, submitTask, submitEditTask, submitEditTaskList} from './homepageService';
+import CreateEditTaskList from '/js/pages/dashboard/components/CreateEditTaskList.vue';
 
-const props = defineProps({
-    taskList: {
-        type: Object,
-        required: true,
-    },
-});
+const props = defineProps<{taskList: DummyTaskList}>();
 
-function taskClass(/** @type {number} */ index) {
+function taskClass(index: number) {
     return index == props.taskList.tasks.length -1 ? 'task task-last' : 'task';
+}
+
+function newSubTask(task: Task) {
+    formModal({
+        task: getNewTask(props.taskList.id),
+        taskList: props.taskList,
+        superTask: task,
+    }, CreateEditTask, 
+    submitSubTask, 
+    'new-sub-task');
+}
+function newTask() {
+    formModal({
+        task: getNewTask(props.taskList.id),
+        taskList: props.taskList,
+    }, CreateEditTask,
+    submitTask,
+    'new-task');
+}
+function editTask(task: Task) {
+    formModal({
+        task: task,
+        taskList: props.taskList,
+        superTask: task.super_task_id ?? undefined,
+    }, CreateEditTask,
+    submitEditTask,
+    'edit-task');
+}
+function editTaskList() {
+    formModal(props.taskList, CreateEditTaskList, submitEditTaskList, 'edit-task-list');
 }
 </script>
 
@@ -55,9 +91,6 @@ function taskClass(/** @type {number} */ index) {
     }
 }
 .dummy-tasks {
-    svg, button {
-        cursor: default;
-    }
     box-shadow: 0 0.125rem 0.5rem rgb(0 0 0 / 75%);
     border-radius: 0.5rem;
 }

@@ -9,6 +9,7 @@
         <div class="card-deck text-center">
             <ContentBlock title="explanation-tasks-header">
                 <TaskList :taskList="dummyList" class="task-list" />
+                <p class="silent">{{ $t('changes-will-not-be-saved') }}</p>
                 {{ $t('explanation-tasks') }}
             </ContentBlock>
             <ContentBlock title="explanation-reward-header">
@@ -30,13 +31,13 @@
 <script setup lang="ts">
 import TaskList from './DummyTaskList.vue';
 import Character from '/js/pages/dashboard/components/reward/RewardCard.vue';
-import {DUMMY_TASK_LIST, DUMMY_CHARACTER} from '/js/constants/dummyConstants.js';
+import {dummyCharacterRef, dummyTaskListRef} from './homepageService';
 import {computed} from 'vue';
 import {useI18n} from 'vue-i18n';
 const {t} = useI18n(); // use as global scope
 
-const dummyList = DUMMY_TASK_LIST;
-const dummyCharacter = DUMMY_CHARACTER;
+const dummyList = dummyTaskListRef;
+const dummyCharacter = dummyCharacterRef;
 
 const appTitle = computed(() => t('home-welcome-to', [t('app-name')]));
 const appLead = computed(() => t('home-introduction'));

@@ -6,7 +6,8 @@
                 <Tooltip :text="$t('complete-task')">
                     <Icon 
                         :icon="CHECK_SQUARE"
-                        class="complete-icon check-square-icon green" />
+                        class="complete-icon check-square-icon green"
+                        @click="completeTask(task)" />
                 </Tooltip>
         
                 {{task.name}}             
@@ -14,17 +15,20 @@
                     <Tooltip :text="$t('new-sub-task')">
                         <Icon 
                             :icon="CREATE"
-                            class="create-icon green" />
+                            class="create-icon green"
+                            @click="$emit('newSubTask', task)" />
                     </Tooltip>
                     <Tooltip :text="$t('edit-task')">
                         <Icon 
                             :icon="EDIT"
-                            class="edit-icon" />
+                            class="edit-icon"
+                            @click="$emit('editTask', task)" />
                     </Tooltip>
                     <Tooltip :text="$t('delete-task')">
                         <Icon 
                             :icon="TRASH"
-                            class="delete-icon red" />
+                            class="delete-icon red"
+                            @click="$emit('deleteTask', task)" />
                     </Tooltip>
                 </span>
                 
@@ -39,24 +43,28 @@
                         <Tooltip :text="$t('complete-sub-task')" class="ml-1">
                             <Icon 
                                 :icon="CHECK_SQUARE"
-                                class="complete-icon check-square-icon green" />
+                                class="complete-icon check-square-icon green" 
+                                @click="completeSubTask(subTask)"
+                            />
                         </Tooltip>
                         {{subTask.name}}
                         <span class="ml-auto">
                             <Tooltip :text="$t('edit-sub-task')">
                                 <Icon 
                                     :icon="EDIT"
-                                    class="edit-icon" />
+                                    class="edit-icon"
+                                    @click="$emit('editTask', subTask)" />
                             </Tooltip>
                             <Tooltip :text="$t('delete-sub-task')">
                                 <Icon 
                                     :icon="TRASH"
-                                    class="delete-icon red" />
+                                    class="delete-icon red"
+                                    @click="$emit('deleteTask', subTask)" />
                             </Tooltip>
                         </span>
                     </p>
+                    <p class="task-description">{{subTask.description}}</p>
                 </div>
-                <p class="task-description">{{subTask.description}}</p>
             </div>
         </div>
     </div>
@@ -66,6 +74,8 @@
 <script setup lang="ts">
 import type {Task} from 'resources/types/task';
 import {ARROW_DOWN_RIGHT, CHECK_SQUARE, CREATE, EDIT, TRASH} from '/js/constants/iconConstants';
+import {completeTask, completeSubTask} from './homepageService'
 
 defineProps<{task: Task}>();
+defineEmits(['newSubTask', 'editTask', 'deleteTask']);
 </script>
