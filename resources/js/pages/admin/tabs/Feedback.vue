@@ -48,13 +48,12 @@
 import type {Feedback} from 'resources/types/feedback';
 import {ref, onMounted, computed} from 'vue';
 import Table from '/js/components/global/Table.vue';
-import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import Diagnostics from '/js/components/global/small/Diagnostics.vue';
 import {FEEDBACK_FIELDS} from '/js/constants/feedbackConstants.js';
 import {parseDateTime} from '/js/services/dateService';
 import {useAdminStore} from '/js/store/adminStore';
 import {LOCK, MAIL, UNLOCK} from '/js/constants/iconConstants';
-import {showModal} from '/js/components/modal/modalService';
+import {sendMessageModal} from '/js/components/modal/modalService';
 const adminStore = useAdminStore();
 
 onMounted(async () => {
@@ -72,7 +71,7 @@ const archived = ref(false);
  * Opens a modal to send a message to user
  */
 function sendMessageToUser(user_id: number, username: string) {
-    showModal({user: {username: username, id: user_id}}, SendMessage, 'send-message');
+    sendMessageModal(username, user_id);
 }
 
 /**

@@ -58,7 +58,6 @@ import type {BugReport} from 'resources/types/bug';
 import {BUG_REPORT_OVERVIEW_FIELDS, BUG_STATUS} from '/js/constants/bugConstants';
 import {onMounted, ref} from 'vue';
 import EditBugReport from './../components/EditBugReport.vue';
-import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import Diagnostics from '/js/components/global/small/Diagnostics.vue';
 import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
@@ -67,7 +66,7 @@ import {EDIT, MAIL, TRASH, RESTORE_TRASH} from '/js/constants/iconConstants';
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import CloseBugReportModal from '../components/CloseBugReportModal.vue';
 import {parseDateTime} from '/js/services/dateService';
-import {formModal, showModal} from '/js/components/modal/modalService';
+import {formModal, sendMessageModal} from '/js/components/modal/modalService';
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
 const {t} = useI18n();
@@ -86,7 +85,7 @@ const showClosed = ref(false);
 // * Message bug report author
 function sendMessageToBugReportAuthor(user_id: number, username: string) {
     mainStore.clearErrors();
-    showModal({user: {id: user_id, username: username}}, SendMessage, 'send-message');
+    sendMessageModal(username, user_id);
 }
 
 // * Edit Bug Report

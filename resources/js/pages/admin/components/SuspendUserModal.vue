@@ -34,22 +34,12 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import {NewSuspension} from 'resources/types/user';
+import {deepCopy} from '/js/helpers/copy';
 
-const props = defineProps({
-    userId: {
-        type: Number,
-        required: true,
-    },
-});
+const props = defineProps<{form: NewSuspension}>();
 const emit = defineEmits(['close', 'submit']);
 
-const suspension = ref<NewSuspension>({
-    reason: '',
-    days: 0,
-    indefinite: false,
-    close_reports: true,
-    user_id: props.userId,
-});
+const suspension = ref<NewSuspension>(deepCopy(props.form));
 
 async function suspendUser() {
     if (suspension.value.indefinite) suspension.value.days = null;

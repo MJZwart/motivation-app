@@ -22,7 +22,7 @@
                     <Icon 
                         :icon="BAN" 
                         class="ban-icon red"
-                        @click.stop.prevent="suspendUser(row.item)" />                        
+                        @click.stop.prevent="suspendUser(row.item.id)" />                        
                 </Tooltip>
                 <Tooltip :text="$t('message-reported-user')">
                     <Icon 
@@ -35,33 +35,14 @@
                 <ReportedUserDetails :user="row.item" @close-report="closeReport" />
             </template>
         </SortableOverviewTable>
-
-        <Modal
-            :show="showSuspendUserModal"
-            :footer="false"
-            :title="suspendUserTitle"
-            @close="closeSuspendUserModal">
-            <SuspendUserModal 
-                v-if="suspendedUser !== null"
-                :userId="suspendedUser.id" 
-                @close="closeSuspendUserModal"
-                @submit="submitSuspendUser" />
-        </Modal>
-        <Modal 
-            :show="showSendMessageModal" 
-            
-            :header="false" 
-            @close="closeSendMessageToReportedUser">
-            <SendMessage v-if="userToMessage !== null" :user="userToMessage" @close="closeSendMessageToReportedUser"/>
-        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
-/* eslint-disable max-lines */
+import type {NewSuspension, User, UserToSuspend} from 'resources/types/user';
+import type {ReportedUser} from 'resources/types/admin';
 import {ref, computed, onMounted} from 'vue';
 import SuspendUserModal from './../components/SuspendUserModal.vue';
-import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import ReportedUserDetails from '../components/ReportedUsersDetails.vue';
 import {sortValues} from '/js/services/sortService';
@@ -69,9 +50,8 @@ import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
 import {REPORTED_USER_OVERVIEW_FIELDS} from '/js/constants/reportUserConstants';
-import type {NewSuspension, User, UserToSuspend} from 'resources/types/user';
 import {BAN, MAIL} from '/js/constants/iconConstants';
-import {ReportedUser} from 'resources/types/admin';
+import {formModal, sendMessageModal} from '/js/components/modal/modalService';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
@@ -92,36 +72,28 @@ const sortedReportedUsers = computed(() => {
 });
 
 /** Opens the modal to message a user that has been reported */
-const userToMessage = ref<User | null>(null);
-const showSendMessageModal = ref(false);
 function sendMessageToReportedUser(user: User) {
     mainStore.clearErrors();
-    userToMessage.value = user;
-    showSendMessageModal.value = true;
-}
-function closeSendMessageToReportedUser() {
-    userToMessage.value = null;
-    showSendMessageModal.value = false;
+    sendMessageModal(user.username, user.id);
 }
 
 /** Opens the modal to suspend a user account */
-const suspendedUser = ref<UserToSuspend | null>(null);
-const suspendUserTitle = computed(() => {
-    const username = suspendedUser.value ? suspendedUser.value.username: '';
-    return `Suspend user ${username}`;
-});
-const showSuspendUserModal = ref(false);
-function suspendUser(user: UserToSuspend) {
+function suspendUser(userId: number) {
     mainStore.clearErrors();
-    suspendedUser.value = user;
-    showSuspendUserModal.value = true;
+    formModal(getNewSuspension(userId), SuspendUserModal, submitSuspendUser, 'suspend-user');
+}
+function getNewSuspension(userId: number) {
+    return {
+
+        reason: '',
+        days: 0,
+        indefinite: false,
+        close_reports: true,
+        user_id: userId,
+    }
 }
 async function submitSuspendUser(userSuspension: NewSuspension) {
     reportedUsers.value = await adminStore.suspendUser(userSuspension);
-    closeSuspendUserModal();
-}
-function closeSuspendUserModal() {
-    showSuspendUserModal.value = false;
 }
 
 async function closeReport(report: ReportedUser) {
