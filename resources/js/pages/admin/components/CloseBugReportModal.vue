@@ -13,17 +13,17 @@
         :label="$t('admin-comment')"
         :placeholder="bugReport.admin_comment" />
     <small class="form-text text-muted">{{$t('close-bug-admin-comment-desc')}}</small>
-    <div class="d-flex">
-        <SubmitButton class="ml-auto mr-1" @click="$emit('submit', bugReport)">{{ $t('close-bug-report') }}</SubmitButton>
-        <button class="cancel-button">{{ $t('cancel') }}</button>
-    </div>
+    <FormControls
+        :submit-text="$t('close-bug-report')"
+        @submit="$emit('submit', bugReport)"
+        @cancel="$emit('close')" />
 </template>
 
 <script setup lang="ts">
-import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {BugReport} from 'resources/types/bug';
 import {ref} from 'vue';
 import {deepCopy} from '/js/helpers/copy';
+import FormControls from '/js/components/global/FormControls.vue';
 
 const props = defineProps<{form: BugReport}>();
 defineEmits(['close', 'submit']);

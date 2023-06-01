@@ -23,43 +23,24 @@ import {computed} from 'vue';
 import {useMainStore} from '/js/store/store';
 const mainStore = useMainStore();
 
-const props = defineProps({
-    id: {
-        type: String,
-        required: false,
+const props = withDefaults(
+    defineProps<{
+        name: string,
+        modelValue: string,
+        id?: string,
+        type?: string,
+        placeholder?: string,
+        label?: string,
+        rows?: number,
+        disabled?: boolean,
+    }>(),
+    {
+        type: 'text',
+        rows: 3,
+        disabled: false,
     },
-    type: {
-        type: String,
-        required: false,
-        default: 'text',
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    modelValue: {
-        type: String,
-        required: true,
-    },
-    placeholder: {
-        type: String,
-        required: false,
-    },
-    label: {
-        type: String,
-        required: false,
-    },
-    rows: {
-        type: Number,
-        required: false,
-        default: 3,
-    },
-    disabled: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
-});
+);
+
 const emit = defineEmits(['update:modelValue']);
 const errors = computed(() => mainStore.errors)
 

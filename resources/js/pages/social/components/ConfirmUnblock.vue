@@ -9,11 +9,11 @@
             <label for="restore_messages" class="pointer" @click="restoreMessages = !restoreMessages">
                 {{$t('restore-messages')}}
             </label>
-        </div>
-        <div class="d-flex">
-            <button class="ml-auto mr-2" @click="emit('close')">{{ $t('cancel') }}</button>
-            <SubmitButton @click="confirmUnblock" />
-        </div>
+        </div>    
+        <FormControls
+            @submit="confirmUnblock"
+            @cancel="$emit('close')"
+        />
     </div>
 </template>
 
@@ -21,8 +21,8 @@
 import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
 import {Blocked} from 'resources/types/user';
 import {ref} from 'vue';
-import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {useUserStore} from '/js/store/userStore';
+import FormControls from '/js/components/global/FormControls.vue';
 
 const userStore = useUserStore();
 

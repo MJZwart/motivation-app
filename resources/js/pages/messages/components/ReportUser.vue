@@ -1,26 +1,27 @@
 <template>
     <div>
         <h5>{{ reportTitle }}</h5>
-        <form @submit.prevent="reportUser">
-            <div class="form-group">
-                <label for="reason">{{ $t('report-reason') }}</label>
-                <select id="reason" v-model="report.reason" name="reason">
-                    <option v-for="(option, index) in reportReasons" :key="index" :value="option.value">
-                        {{ $t(option.text) }}
-                    </option>
-                </select>
-                <BaseFormError name="reason" />
-            </div>
-            <SimpleTextarea
-                id="comment"
-                v-model="report.comment"
-                name="comment"
-                :label="$t('report-comment')"
-                :placeholder="$t('comment')"
-            />
-            <SubmitButton class="block">{{ $t('report-user') }}</SubmitButton>
-            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
-        </form>
+        <div class="form-group">
+            <label for="reason">{{ $t('report-reason') }}</label>
+            <select id="reason" v-model="report.reason" name="reason">
+                <option v-for="(option, index) in reportReasons" :key="index" :value="option.value">
+                    {{ $t(option.text) }}
+                </option>
+            </select>
+            <BaseFormError name="reason" />
+        </div>
+        <SimpleTextarea
+            id="comment"
+            v-model="report.comment"
+            name="comment"
+            :label="$t('report-comment')"
+            :placeholder="$t('comment')"
+        />    
+        <FormControls
+            :submit-text="$t('report-user')"
+            @submit="reportUser"
+            @cancel="$emit('close')"
+        />
     </div>
 </template>
 
@@ -31,6 +32,7 @@ import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
 import type {StrippedUser} from 'resources/types/user';
 import type {NewReportedUser} from 'resources/types/admin';
+import FormControls from '/js/components/global/FormControls.vue';
 const {t} = useI18n();
 const userStore = useUserStore();
 

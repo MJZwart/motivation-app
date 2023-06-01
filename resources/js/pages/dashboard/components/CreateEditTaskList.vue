@@ -7,10 +7,11 @@
             name="name" 
             :label="$t('task-list-name')"
             :placeholder="$t('name')"  />
-        <SubmitButton id="create-new-task-list-button" class="block" @click="$emit('submit', taskList)">
-            {{ 'id' in form ? $t('edit-task-list') : $t('create-new-task-list') }}
-        </SubmitButton>
-        <button type="button" class="block button-cancel" @click="$emit('close');">{{ $t('cancel') }}</button>
+        <FormControls
+            :submit-text="'id' in form ? $t('edit-task-list') : $t('create-new-task-list')"
+            @submit="$emit('submit', taskList)"
+            @cancel="$emit('close')"
+        />
     </div>
 </template>
 
@@ -19,6 +20,7 @@
 import type {NewTaskList, TaskList} from 'resources/types/task';
 import {ref} from 'vue';
 import {deepCopy} from '/js/helpers/copy';
+import FormControls from '/js/components/global/FormControls.vue';
 defineEmits(['close', 'submit']);
 
 const props = defineProps<{form: TaskList | NewTaskList}>();

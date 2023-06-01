@@ -34,9 +34,11 @@
             :label="$t('comment')"
             :placeholder="$t('comment')"
         />
-
-        <SubmitButton :disabled="suspendedUntilInPast" class="block" @click="confirm">{{ $t('submit') }}</SubmitButton>
-        <button class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
+        <FormControls
+            :disabled="suspendedUntilInPast"
+            @submit="confirm"
+            @cancel="$emit('close')"
+        />
     </div>
 </template>
 
@@ -47,6 +49,7 @@ import {SuspendedUser} from 'resources/types/user.js';
 import {getDateWithAddedDays} from '/js/services/dateService';
 import {RESET} from '/js/constants/iconConstants';
 import {deepCopy} from '/js/helpers/copy';
+import FormControls from '/js/components/global/FormControls.vue';
 
 const props = defineProps<{form: SuspendedUser}>();
 const emit = defineEmits(['close', 'submit']);

@@ -25,13 +25,12 @@
         "allowSyntheticDefaultImports": true,
         "suppressImplicitAnyIndexErrors": true,
         "paths": {
-            "assets/*": ["./resources/assets/*"],
-            "components/*": ["./resources/js/components/*"],
-            "services/*": ["./resources/js/services/*"],
-            "pages/*": ["./resources/js/pages/*"],
-            "types/*": ["./types/*"],
+            // "assets/*": ["./resources/assets/*"],
+            // "services/*": ["./resources/js/services/*"],
+            // "pages/*": ["./resources/js/pages/*"],
+            // "types/*": ["./types/*"],
             "/js/*": ["./resources/js/*"],
-            "tests/": ["./tests/*"]
+            // "tests/": ["./tests/*"]
         }
     },
     "typeAcquisition": {

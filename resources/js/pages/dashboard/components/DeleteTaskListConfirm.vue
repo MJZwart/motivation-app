@@ -14,9 +14,12 @@
                     </option>
                 </select>
             </div>
-        </div>
-        <SubmitButton class="block" @click="submit">{{ $t('delete-task-list-confirm') }}</SubmitButton>
-        <button type="button" class="block button-cancel" @click="$emit('close')">{{ $t('cancel') }}</button>
+        </div>        
+        <FormControls
+            :submit-text="$t('delete-task-list-confirm')"
+            @submit="submit"
+            @cancel="$emit('close')"
+        />
         <BaseFormError name="error" />
     </div>
 </template>
@@ -26,6 +29,7 @@ import type {Task, TaskList} from 'resources/types/task';
 import {onMounted, computed, ref} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {deepCopy} from '/js/helpers/copy';
+import FormControls from '/js/components/global/FormControls.vue';
 const taskStore = useTaskStore();
 
 const props = defineProps<{form: TaskList}>();
