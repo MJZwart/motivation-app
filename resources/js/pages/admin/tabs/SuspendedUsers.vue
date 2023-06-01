@@ -10,7 +10,7 @@
             <Table
                 v-if="filteredSuspendedUsers"
                 :items="filteredSuspendedUsers"
-                :fields="suspendedUsersFields"
+                :fields="SUSPENDED_USERS_FIELDS"
                 :options="['table-striped', 'page-wide', 'body-borders', 'table-hover']"
                 sort="created_at" 
                 :sortAsc="false"
@@ -65,18 +65,13 @@
                     </div>
                 </template>
             </Table>
-            <Modal :show="showEditSuspensionModal" :title="editSuspensionModalTitle" @close="closeEditSuspensionModal">
-                <EditSuspension 
-                    v-if="editSuspensionUser" 
-                    :userSuspension="editSuspensionUser" 
-                    @close="closeEditSuspensionModal"
-                    @submit="submitEditSuspension" />
-            </Modal>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import type {SuspendedUser} from 'resources/types/user';
+import type {SuspensionLog} from 'resources/types/user';
 import {computed, onActivated, ref} from 'vue';
 import {DateTime} from 'luxon';
 import Table from '/js/components/global/Table.vue';
@@ -85,13 +80,11 @@ import {parseDateTime} from '/js/services/dateService';
 import {SUSPENDED_USERS_FIELDS} from '/js/constants/reportUserConstants';
 import {useAdminStore} from '/js/store/adminStore';
 import {useMainStore} from '/js/store/store';
-import {SuspendedUser} from 'resources/types/user';
-import {useI18n} from 'vue-i18n';
-import type {SuspensionLog} from 'resources/types/user';
 import {EDIT, UNLOCK} from '/js/constants/iconConstants';
+import {formModal} from '/js/components/modal/modalService';
+
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
-const {t} = useI18n();
 
 onActivated(async () => {
     suspendedUsers.value = await adminStore.getSuspendedUsers();
@@ -105,29 +98,16 @@ const filteredSuspendedUsers = computed(() => {
     if (!suspendedUsers.value[0]) return;
     if (showUnsuspended.value) return suspendedUsers.value;
     return suspendedUsers.value.filter(user => !user.past);
-})
-const suspendedUsersFields = SUSPENDED_USERS_FIELDS;
+});
 
 const showUnsuspended = ref(false);
 
-const showEditSuspensionModal = ref(false);
-const editSuspensionUser = ref<SuspendedUser | null>(null);
-const editSuspensionModalTitle = computed(() => {
-    if (!editSuspensionUser.value) return;
-    return t('edit-suspension-of', {user: editSuspensionUser.value.username});
-});
-
 function editSuspension(suspendedUser: SuspendedUser) {
     mainStore.clearErrors();
-    editSuspensionUser.value = suspendedUser;
-    showEditSuspensionModal.value = true;
+    formModal(suspendedUser, EditSuspension, submitEditSuspension, 'edit-suspension');
 }
 async function submitEditSuspension(suspendedUser: SuspendedUser) {
     suspendedUsers.value = await adminStore.editSuspension(suspendedUser);
-    closeEditSuspensionModal();
-}
-function closeEditSuspensionModal() {
-    showEditSuspensionModal.value = false;
 }
 
 function suspensionEnded(suspendedUser: SuspendedUser) {

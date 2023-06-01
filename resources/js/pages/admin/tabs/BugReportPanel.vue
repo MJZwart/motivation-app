@@ -10,7 +10,7 @@
         <SortableOverviewTable
             v-else
             :items="bugReports"
-            :fields="newBugReportFields"
+            :fields="BUG_REPORT_OVERVIEW_FIELDS"
         >
             <template #title="row">
                 <h5>{{row.item.title}}</h5>
@@ -43,57 +43,30 @@
                         />
                         <Icon :icon="TRASH" class="trash-icon red" @click="closeBugReport(row.item)" />
                     </template>
-                    <tempalte v-else>
+                    <template v-else>
                         <b>{{ $t('closed-on') }}: </b>{{ parseDateTime(row.item.deleted_at) }}
                         <Icon :icon="RESTORE_TRASH" class="restore-trash-icon green" @click="restoreBugReport(row.item)" />
-                    </tempalte>
+                    </template>
                 </div>
             </template>
         </SortableOverviewTable>
-
-        <Modal
-            :show="showEditBugReportModal"
-            :footer="false"
-            :title="$t('edit-bug-report')"
-            @close="closeEditBugReport"
-        >
-            <EditBugReport 
-                v-if="bugReportToEdit" 
-                :bugReport="bugReportToEdit" 
-                @close="closeEditBugReport" 
-                @submit="submitUpdateBugReport" />
-        </Modal>
-        <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageToBugReportAuthor">
-            <SendMessage v-if="bugReportAuthor" :user="bugReportAuthor" @close="closeSendMessageToBugReportAuthor" />
-        </Modal>
-        <Modal 
-            :show="showCloseBugReportModal" 
-            :footer="false" 
-            :title="$t('confirm-close-bug-report')" 
-            @close="cancelCloseBugReport">
-            <CloseBugReportModal v-if="bugReportToClose" 
-                                 :bug-report="bugReportToClose"
-                                 @close="cancelCloseBugReport" 
-                                 @submit="submitCloseBugReport" />
-        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
+import type {BugReport} from 'resources/types/bug';
 import {BUG_REPORT_OVERVIEW_FIELDS, BUG_STATUS} from '/js/constants/bugConstants';
 import {onMounted, ref} from 'vue';
 import EditBugReport from './../components/EditBugReport.vue';
-import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import Diagnostics from '/js/components/global/small/Diagnostics.vue';
 import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
-import {BugReport} from 'resources/types/bug';
 import {useI18n} from 'vue-i18n';
 import {EDIT, MAIL, TRASH, RESTORE_TRASH} from '/js/constants/iconConstants';
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
-import {StrippedUser} from 'resources/types/user';
 import CloseBugReportModal from '../components/CloseBugReportModal.vue';
 import {parseDateTime} from '/js/services/dateService';
+import {formModal, sendMessageModal} from '/js/components/modal/modalService';
 const mainStore = useMainStore();
 const adminStore = useAdminStore();
 const {t} = useI18n();
@@ -107,50 +80,32 @@ const loading = ref(true);
 
 const bugReports = ref<BugReport[]>([]);
 
-const newBugReportFields = BUG_REPORT_OVERVIEW_FIELDS;
-const bugReportToEdit = ref<BugReport | null>(null);
-const bugReportAuthor = ref<StrippedUser | null>(null);
-const showEditBugReportModal = ref(false);
-const showSendMessageModal = ref(false);
-
 const showClosed = ref(false);
 
+// * Message bug report author
 function sendMessageToBugReportAuthor(user_id: number, username: string) {
     mainStore.clearErrors();
-    bugReportAuthor.value = {username: username, id: user_id};
-    showSendMessageModal.value = true;
+    sendMessageModal(username, user_id);
 }
-function closeSendMessageToBugReportAuthor() {
-    showSendMessageModal.value = false;
-}
+
+// * Edit Bug Report
 function editBugReport(bugReport: BugReport) {
     mainStore.clearErrors();
-    bugReportToEdit.value = bugReport;
-    showEditBugReportModal.value = true;
+    formModal(bugReport, EditBugReport, submitEditBugReport, 'edit-bug-report');
 }
-function closeEditBugReport() {
-    showEditBugReportModal.value = false;
-}
-async function submitUpdateBugReport(updatedBugReport: BugReport) {
+async function submitEditBugReport(updatedBugReport: BugReport) {
     bugReports.value = await adminStore.updateBugReport(updatedBugReport);
 }
-const showCloseBugReportModal = ref(false);
-const bugReportToClose = ref<BugReport | null>(null);
+
+// * Close bug report
 function closeBugReport(bugReport: BugReport) {
-    bugReportToClose.value = bugReport;
-    showCloseBugReportModal.value = true;
+    mainStore.clearErrors();
+    formModal(bugReport, CloseBugReportModal, submitCloseBugReport, 'confirm-close-bug-report');
 }
-function cancelCloseBugReport() {
-    showCloseBugReportModal.value = false;
-    bugReportToClose.value = null;
+async function submitCloseBugReport(bugReport: BugReport) {
+    bugReports.value = await adminStore.closeBugReport(bugReport);
 }
-async function submitCloseBugReport(adminComment: string) {
-    if (!bugReportToClose.value) return;
-    bugReportToClose.value.admin_comment = adminComment;
-    const data = await adminStore.closeBugReport(bugReportToClose.value);
-    bugReports.value = data;
-    cancelCloseBugReport();
-}
+
 function parseStatus(status: number) {
     const statusElement = BUG_STATUS.find(element => element.value == status);
     return statusElement ? t(statusElement.text) : '';

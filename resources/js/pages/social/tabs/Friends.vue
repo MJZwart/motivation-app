@@ -13,7 +13,7 @@
 
 
 <script setup>
-import FriendsCard from '/js/pages/dashboard/components/FriendsCard.vue';
+import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import FriendRequests from '../components/FriendRequests.vue';
 import SearchUser from '../components/SearchUser.vue';
 import {onMounted, ref} from 'vue';

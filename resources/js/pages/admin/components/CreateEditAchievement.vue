@@ -44,39 +44,26 @@
                 <p v-if="achievement.trigger_type" id="trigger-description">{{ parseAchievementTriggerDesc(achievement) }}</p>
             </div>
             <SubmitButton class="block">{{ $t('create-new-achievement') }}</SubmitButton>
-            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
+            <button type="button" class="block button-cancel" @click="$emit('close')">{{ $t('cancel') }}</button>
         </form>
     </div>
 </template>
 
 <script setup lang="ts">
 import {ref} from 'vue';
-import {useAchievementStore} from '/js/store/achievementStore';
-import {NewAchievement} from 'resources/types/achievement.js';
+import {Achievement, NewAchievement} from 'resources/types/achievement.js';
 import {ACHIEVEMENT_TRIGGERS} from '/js/constants/achievementsConstants';
 import {parseAchievementTriggerDesc} from '/js/services/achievementService';
-const achievementStore = useAchievementStore();
+import {deepCopy} from '/js/helpers/copy';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submit']);
+const props = defineProps<{form: NewAchievement | Achievement}>();
 
-const achievement = ref<NewAchievement>(newAchievementInstance());
+const achievement = ref<NewAchievement>(deepCopy(props.form));
 const achievementTriggers = ACHIEVEMENT_TRIGGERS;
 
 async function submitAchievement() {
     achievement.value.trigger_amount = Number(achievement.value.trigger_amount);
-    await achievementStore.newAchievement(achievement.value);
-    close();
-}
-function close() {
-    (achievement.value = newAchievementInstance()), emit('close');
-}
-
-function newAchievementInstance(): NewAchievement {
-    return {
-        description: '',
-        name: '',
-        trigger_amount: 0,
-        trigger_type: '',
-    };
+    emit('submit', achievement.value);
 }
 </script>

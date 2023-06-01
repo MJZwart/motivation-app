@@ -12,3 +12,11 @@ export function parseAchievementTriggerDesc(achievement: Achievement | NewAchiev
     if (!trigger) return;
     return i18n.global.t(trigger.desc, achievement.trigger_amount);
 }
+export function newAchievementInstance(): NewAchievement {
+    return {
+        description: '',
+        name: '',
+        trigger_amount: 0,
+        trigger_type: '',
+    };
+}

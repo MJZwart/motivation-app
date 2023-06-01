@@ -2,6 +2,7 @@ import {Component, markRaw, ref} from 'vue';
 import {Modal} from './modals';
 import FormModalVue from './FormModal.vue';
 import ShowModalVue from './ShowModal.vue';
+import SendMessageVue from '/js/pages/messages/components/SendMessage.vue';
 
 // * Managing modal state
 export const modals = ref<Modal[]>([]);
@@ -37,4 +38,8 @@ export function showModal<T = unknown>(
         title: title,
     }
     modals.value.push({component: markRaw(ShowModalVue), modal: modal});
+}
+
+export function sendMessageModal(username: string, user_id: string | number) {
+    showModal({user: {user_id, username}}, SendMessageVue, 'send-message');
 }

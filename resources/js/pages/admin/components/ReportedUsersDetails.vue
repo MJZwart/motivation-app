@@ -88,27 +88,11 @@
                 </div>
             </div>
         </template>
-
-        <Modal :show="showConversationModal"
-               :title="$t('see-conversation-reporter')" 
-               @close="closeShowConversation">
-            <ShowConversationModal 
-                v-if="conversationIdToShow !== null" 
-                :conversationId="parseInt(conversationIdToShow)" 
-                @close="closeShowConversation"/>
-        </Modal>
-        <Modal :show="showGroupMessagesModal"
-               :title="$t('group-messages')"
-               @close="closeShowGroupMessages"
-               @click.stop>
-            <ShowGroupMessagesModal v-if="reportToShowId" :reported-user="user" :report-id="reportToShowId" />
-        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
 import type {UserToSuspend} from 'resources/types/user';
-import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMainStore} from '/js/store/store';
 import ShowConversationModal from './ShowConversationModal.vue';
@@ -116,10 +100,11 @@ import {useI18n} from 'vue-i18n';
 import {ReportedUser} from 'resources/types/admin';
 import ShowGroupMessagesModal from './ShowGroupMessagesModal.vue';
 import {DETAILS, TRASH} from '/js/constants/iconConstants';
+import {showModal} from '/js/components/modal/modalService';
 const {t} = useI18n();
 const mainStore = useMainStore();
 
-defineProps<{user: UserToSuspend}>();
+const props = defineProps<{user: UserToSuspend}>();
 const emit = defineEmits(['close-report']);
 
 function parseReason(reason: string) {
@@ -128,27 +113,16 @@ function parseReason(reason: string) {
 }
 
 /** Opens the modal to see a conversation between reported user and reporter */
-const conversationIdToShow = ref<string | null>(null);
-const showConversationModal = ref(false);
 function showConversation(conversationId: string) {
     mainStore.clearErrors();
-    conversationIdToShow.value = conversationId;
-    showConversationModal.value = true;
+    showModal({conversationId: parseInt(conversationId)}, ShowConversationModal, 'see-conversation-reporter');
 }
-function closeShowConversation() {
-    conversationIdToShow.value = null;
-    showConversationModal.value = false;
-}
-const reportToShowId = ref<number | null>(null);
-const showGroupMessagesModal = ref(false);
+
+/** Opens the modal to see the conversation in a group where a user was reported from */
 function showGroupMessages(reportId: number) {
-    reportToShowId.value = reportId;
-    showGroupMessagesModal.value = true;
+    showModal({reportedUser: props.user, reportId: reportId}, ShowGroupMessagesModal, 'group-messages');
 }
-function closeShowGroupMessages() {
-    reportToShowId.value = null;
-    showGroupMessagesModal.value = false;
-}
+
 function closeReport(report: ReportedUser) {
     if (confirm(t('close-report-confirmation', {report: report.id}))) {
         emit('close-report', report);
