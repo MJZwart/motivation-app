@@ -35,6 +35,7 @@
             :placeholder="$t('comment')"
         />
         <FormControls
+            :disabled="suspendedUntilInPast"
             @submit="confirm"
             @cancel="$emit('close')"
         />
