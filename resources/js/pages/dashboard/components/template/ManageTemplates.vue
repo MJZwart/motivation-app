@@ -58,6 +58,8 @@ onMounted(async() => {
     templates.value = await taskStore.getTemplates();
 });
 
+defineEmits(['close']);
+
 const showNewTemplate = ref(false);
 const templateToEdit = ref<Template | undefined>(undefined);
 

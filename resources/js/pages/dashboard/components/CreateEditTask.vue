@@ -51,10 +51,11 @@
                 </select>
             </div>
         </div>
-        <SubmitButton id="create-new-task-button" class="block" @click="$emit('submit', {task: activeTask})">
-            {{ $t('create-new-task') }}
-        </SubmitButton>
-        <button type="button" class="block button-cancel" @click="emit('close')">{{ $t('cancel') }}</button>
+        <FormControls
+            :submit-text="'id' in form.task ? $t('edit-task') : $t('create-new-task')"
+            @submit="$emit('submit', {task: activeTask})"
+            @cancel="$emit('close')"
+        />
     </div>
 </template>
 
@@ -63,6 +64,7 @@ import type {NewTask, TaskList, Task} from 'resources/types/task';
 import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
 import {onMounted, ref} from 'vue';
 import {templates} from '../taskService';
+import FormControls from '/js/components/global/FormControls.vue';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
@@ -75,7 +77,7 @@ const props = defineProps<{
     }
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
     (event: 'close'): void,
     (event: 'submit', {task}: {task: NewTask | Task}): void,
 }>();

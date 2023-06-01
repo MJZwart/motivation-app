@@ -51,8 +51,12 @@
                 :label="$t('send-message-to-reporter')" />
         </div>
 
-        <SubmitButton class="block" @click="$emit('submit', bugReport)">{{$t('update-bug-report')}}</SubmitButton>
-        <button type="button" class="block button-cancel" @click="$emit('close')">{{$t('cancel')}}</button>
+        
+        <FormControls
+            :submit-text="$t('update-bug-report')"            
+            @submit="$emit('submit', bugReport)"
+            @cancel="$emit('close')"
+        />
     </div>
 </template>
 
@@ -62,6 +66,7 @@ import type {BugReport} from 'resources/types/bug';
 import {ref} from 'vue';
 import {BUG_TYPES, BUG_SEVERITY, BUG_STATUS} from '/js/constants/bugConstants';
 import {deepCopy} from '/js/helpers/copy';
+import FormControls from '/js/components/global/FormControls.vue';
 
 const props = defineProps<{form: BugReport}>();
 defineEmits(['close', 'submit']);

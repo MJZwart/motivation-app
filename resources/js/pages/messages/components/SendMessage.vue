@@ -11,9 +11,12 @@
                 :placeholder="$t('send-message-placeholder')"
             />
             <BaseFormError name="message" />
-        </div>
-        <SubmitButton class="block" @click="sendMessage">{{ $t('send-message') }}</SubmitButton>
-        <button type="button" class="block button-cancel" @click="$emit('close')">{{ $t('cancel') }}</button>
+        </div>    
+        <FormControls
+            :submit-text="$t('send-message')"
+            @submit="sendMessage"
+            @cancel="$emit('close')"
+        />
     </div>
 </template>
 
@@ -23,6 +26,7 @@ import type {Friend} from 'resources/types/friend';
 import type {StrippedUser} from 'resources/types/user';
 import {ref} from 'vue';
 import {useMessageStore} from '/js/store/messageStore';
+import FormControls from '/js/components/global/FormControls.vue';
 const messageStore = useMessageStore();
 
 const props = defineProps<{

@@ -1,18 +1,19 @@
 <template>
     <div v-if="rewardObj">
-        <form @submit.prevent="updateRewardObj">
-            <SimpleInput
-                id="name"
-                v-model="editedRewardObj.name"
-                type="text"
-                name="name"
-                :label="parsedLabelName"
-                :placeholder="$t('name')"
-            />
-            <SubmitButton class="block">{{ $t('update-reward-name') }}</SubmitButton>
-            <button type="button" class="block button-cancel" @click="close">{{ $t('cancel') }}</button>
-            <BaseFormError name="error" />
-        </form>
+        <SimpleInput
+            id="name"
+            v-model="editedRewardObj.name"
+            type="text"
+            name="name"
+            :label="parsedLabelName"
+            :placeholder="$t('name')"
+        />    
+        <FormControls
+            :submit-text="$t('update-reward-name')"
+            @submit="updateRewardObj"
+            @cancel="$emit('close')"
+        />
+        <BaseFormError name="error" />
     </div>
 </template>
 
@@ -21,6 +22,7 @@ import type {Reward} from 'resources/types/reward';
 import {ref, computed} from 'vue';
 import {useI18n} from 'vue-i18n';
 import {useRewardStore} from '/js/store/rewardStore';
+import FormControls from '/js/components/global/FormControls.vue';
 const {t} = useI18n(); // use as global scope
 const rewardStore = useRewardStore();
 

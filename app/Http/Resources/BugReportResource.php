@@ -26,7 +26,7 @@ class BugReportResource extends JsonResource
             'username' => $this->user->username,
             'image_link' => $this->image_link,
             'comment' => $this->comment,
-            'admin_comment' => $this->admin_comment,
+            'admin_comment' => $this->admin_comment ?? '',
             'status' => $this->status,
             'diagnostics' => $this->diagnostics,
             'deleted_at' => $this->deleted_at,
