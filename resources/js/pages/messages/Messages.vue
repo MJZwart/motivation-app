@@ -199,7 +199,7 @@ function addFriend(userId: string) {
     if (userId == null) return;
     friendStore.sendRequest(userId);
 }
-async function blockUser(user: StrippedUser) {
+function blockUser(user: StrippedUser) {
     // @ts-ignore Modal shenanigans
     formModal(user, ConfirmBlockModal, submitBlockUser, 'confirm-block');
 }
