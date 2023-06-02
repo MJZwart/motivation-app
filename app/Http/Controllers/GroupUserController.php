@@ -245,12 +245,12 @@ class GroupUserController extends Controller
     public function suspendUserFromGroup(Group $group, SuspendUserFromGroupRequest $request)
     {
         $validated = $request->validated();
-        $user = $validated['id'];
-        $group->users()->detach($user);
-        $group->suspendedUsers()->attach($user);
-        $username = User::find($user)->username;
-        TimelineHandler::addGroupLeavingToTimeline($group, $user->id);
-        ActionTrackingHandler::handleAction($request, 'GROUP_USER_SUSPENDED', $group->name . ' suspended user id ' . $user);
+        $userId = $validated['id'];
+        $group->users()->detach($userId);
+        $group->suspendedUsers()->attach($userId);
+        $username = User::find($userId)->username;
+        TimelineHandler::addGroupLeavingToTimeline($group, $userId);
+        ActionTrackingHandler::handleAction($request, 'GROUP_USER_SUSPENDED', $group->name . ' suspended user id ' . $userId);
         return ResponseWrapper::successResponse(
             __('messages.group.removed_and_suspended', ['username' => $username]),
             ['group' => new GroupPageResource($group->fresh())]
