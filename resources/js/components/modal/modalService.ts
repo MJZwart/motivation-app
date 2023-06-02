@@ -41,5 +41,5 @@ export function showModal<T = unknown>(
 }
 
 export function sendMessageModal(username: string, user_id: string | number) {
-    showModal({user: {user_id, username}}, SendMessageVue, 'send-message');
+    showModal({user: {id: user_id, username}}, SendMessageVue, 'send-message');
 }
