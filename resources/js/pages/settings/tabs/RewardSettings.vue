@@ -92,15 +92,6 @@
             />
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
-
-        <Modal :show="showEditRewardNameModal" :title="$t('edit-reward-name')" @close="closeEditReward">
-            <EditRewardObjectName
-                v-if="rewardToEdit"
-                :rewardObj="rewardToEdit"
-                :type="rewardToEdit.rewardType"
-                @close="closeEditReward"
-            />
-        </Modal>
     </div>
 </template>
 
@@ -116,6 +107,7 @@ import {useI18n} from 'vue-i18n';
 import {capitalizeOnlyFirst} from '/js/services/stringService';
 import type {Reward, ChangeReward} from 'resources/types/reward';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
+import {formModal} from '/js/components/modal/modalService';
 
 const userStore = useUserStore();
 const rewardStore = useRewardStore();
@@ -132,8 +124,6 @@ const rewardSetting = ref<ChangeReward>({
 const rewardTypes = REWARD_TYPES;
 const rewardFields = REWARD_FIELDS;
 const loading = ref(true);
-const rewardToEdit = ref<Reward | null>(null);
-const showEditRewardNameModal = ref(false);
 const user = computed(() => userStore.user);
 const characters = ref<Reward[]>([]);
 const villages = ref<Reward[]>([]);
@@ -199,12 +189,15 @@ async function confirmRewardsSettings() {
 function showEditReward(instance: Reward) {
     if (instance === null) return;
     mainStore.clearErrors();
-    rewardToEdit.value = instance;
-    rewardToEdit.value.rewardType = instance.rewardType.toUpperCase();
-    showEditRewardNameModal.value = true;
+    formModal(
+        {rewardObj: instance, type: instance.rewardType.toUpperCase()},
+        EditRewardObjectName,
+        submitEditReward,
+        'edit-reward-name');
 }
-function closeEditReward() {
-    showEditRewardNameModal.value = false;
+async function submitEditReward({rewardObj, type}: {rewardObj: Reward, type: string}) {
+    rewardObj.rewardType = type;
+    await rewardStore.updateRewardObjName(rewardObj);
     load();
 }
 async function activateReward(instance: Reward) {

@@ -2,7 +2,7 @@
     <div v-if="rewardObj">
         <SimpleInput
             id="name"
-            v-model="editedRewardObj.name"
+            v-model="rewardObj.name"
             type="text"
             name="name"
             :label="parsedLabelName"
@@ -10,7 +10,7 @@
         />    
         <FormControls
             :submit-text="$t('update-reward-name')"
-            @submit="updateRewardObj"
+            @submit="$emit('submit', {rewardObj, type: form.type})"
             @cancel="$emit('close')"
         />
         <BaseFormError name="error" />
@@ -21,29 +21,19 @@
 import type {Reward} from 'resources/types/reward';
 import {ref, computed} from 'vue';
 import {useI18n} from 'vue-i18n';
-import {useRewardStore} from '/js/store/rewardStore';
 import FormControls from '/js/components/global/FormControls.vue';
+import {deepCopy} from '/js/helpers/copy';
 const {t} = useI18n(); // use as global scope
-const rewardStore = useRewardStore();
 
-const props = defineProps<{rewardObj: Reward; type: string}>();
-const emit = defineEmits(['close']);
+const props = defineProps<{form: {rewardObj: Reward; type: string}}>();
+defineEmits(['close', 'submit']);
 
-const editedRewardObj = ref<Reward>(Object.assign({}, props.rewardObj));
-
-async function updateRewardObj() {
-    editedRewardObj.value.rewardType = props.type;
-    await rewardStore.updateRewardObjName(editedRewardObj.value);
-    close();
-}
-function close() {
-    emit('close');
-}
+const rewardObj = ref(deepCopy(props.form.rewardObj));
 
 const parsedLabelName = computed(() => {
-    if (props.type == 'CHARACTER') {
+    if (props.form.type == 'CHARACTER') {
         return t('character-name');
-    } else if (props.type == 'VILLAGE') {
+    } else if (props.form.type == 'VILLAGE') {
         return t('village-name');
     } else {
         return null;
