@@ -11,7 +11,7 @@
             </label>
         </div>        
         <FormControls
-            @submit="confirmBlock"
+            @submit="$emit('submit', {user, hideMessages})"
             @cancel="$emit('close')"
         />
     </div>
@@ -21,17 +21,13 @@
 import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
 import {StrippedUser} from 'resources/types/user';
 import {ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import FormControls from '/js/components/global/FormControls.vue';
+import {deepCopy} from '/js/helpers/copy';
 
-const userStore = useUserStore();
+const props = defineProps<{form: StrippedUser}>();
+defineEmits(['close', 'submit']);
 
-const props = defineProps<{user: StrippedUser}>();
-const emit = defineEmits(['close']);
+const user = ref(deepCopy(props.form));
+
 const hideMessages = ref(false);
-
-async function confirmBlock() {
-    await userStore.blockUser(props.user.id, {'hideMessages': hideMessages.value});
-    emit('close', true);
-}
 </script>

@@ -90,17 +90,6 @@
                     </div>
                 </div>
             </div>
-            
-            <Modal :show="showReportUserModal" :header="false" @close="closeReportUserModal">
-                <ReportUser 
-                    v-if="conversationToReport && userToReport"
-                    :user="userToReport" 
-                    :conversation_id="conversationToReport" 
-                    @close="closeReportUserModal" />
-            </Modal>
-            <Modal :show="showBlockUserModal" :title="$t('confirm-block')" @close="closeBlockUserModal()">
-                <ConfirmBlockModal v-if="userToBlock" :user="userToBlock" @close="closeBlockUserModal($event)" />
-            </Modal>
         </div>
     </div>
 </template>
@@ -119,10 +108,13 @@ import {LOCK} from '/js/constants/iconConstants';
 import type {Conversation, Message, NewMessage} from 'resources/types/message';
 import type {StrippedUser} from 'resources/types/user';
 import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
+import {formModal, showModal} from '/js/components/modal/modalService';
+import {useUserStore} from '/js/store/userStore';
 
 const {t} = useI18n();
 
 const messageStore = useMessageStore();
+const userStore = useUserStore();
 const friendStore = useFriendStore();
 
 onMounted(() => {
@@ -139,10 +131,7 @@ const activeConversation = computed(() => {
 const message = ref<NewMessage>({
     message: '',
 });
-const userToReport = ref<StrippedUser | null>(null)
-const conversationToReport = ref<string | null>(null);
 const loading = ref(true);
-const showReportUserModal = ref(false);
 
 const conversations = ref<Conversation[]>([]);
 
@@ -210,28 +199,18 @@ function addFriend(userId: string) {
     if (userId == null) return;
     friendStore.sendRequest(userId);
 }
-async function blockUser(user: StrippedUser) {
-    userToBlock.value = user;
-    showBlockUserModal.value = true;
+function blockUser(user: StrippedUser) {
+    // @ts-ignore Modal shenanigans
+    formModal(user, ConfirmBlockModal, submitBlockUser, 'confirm-block');
 }
-const userToBlock = ref<StrippedUser | null>(null);
-const showBlockUserModal = ref(false);
-function closeBlockUserModal(reload = false) {
-    showBlockUserModal.value = false;
-    if (reload) {
-        loading.value = true;
-        load();
-    }
+async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMessages: boolean}) {
+    await userStore.blockUser(user.id, {'hideMessages': hideMessages});
+    load();
 }
 function reportUser(conversation: Conversation) {
-    userToReport.value = conversation.recipient;
-    conversationToReport.value = conversation.conversation_id;
-    showReportUserModal.value = true;
-}
-function closeReportUserModal() {
-    showReportUserModal.value = false;
-    userToReport.value = null;
-    conversationToReport.value = '';
+    showModal({user: conversation.recipient, conversation_id: conversation.conversation_id}, 
+        ReportUser, 
+        'report-user');
 }
 </script>
 

@@ -48,14 +48,13 @@ import {useTaskStore} from '/js/store/taskStore';
 import {useI18n} from 'vue-i18n'
 import type {NewTemplate, Template} from 'resources/types/task';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
+import {templates} from '../../taskService';
 const {t} = useI18n() // use as global scope
 
 const taskStore = useTaskStore();
 
-const templates = ref<Template[]>([]);
-
 onMounted(async() => {
-    templates.value = await taskStore.getTemplates();
+    await taskStore.getTemplates();
 });
 
 defineEmits(['close']);

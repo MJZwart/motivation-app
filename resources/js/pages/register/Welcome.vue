@@ -1,13 +1,9 @@
 <template>
-    <div>
-        <Modal :show="showFirstModal" :header="false">
-            <template #header>
-                <div class="modal-header d-block">
-                    <h5 class="modal-title">{{ $t('welcome') }}</h5>
-                    <p class="silent mb-0">{{ $t('not-yet-done') }}</p>
-                </div>
-            </template>
-            <div>
+    <div class="w-50-flex center">
+        <div v-if="showFirstModal">
+            <h3 class="modal-title">{{ $t('welcome') }}</h3>
+            <p class="silent mb-3">{{ $t('not-yet-done') }}</p>
+            <div class="">
                 <div class="form-group">
                     <label for="rewards-type">{{ $t('rewards-type') }}</label>
                     <small class="form-text text-muted mb-2">{{ $t('which-reward-type') }}</small>
@@ -47,17 +43,15 @@
                     :placeholder="parsedLabelName"
                 />
                 <small class="form-text text-muted mb-3">{{ $t('change-name-later') }}</small>
-                <button class="block" @click="nextModal()">{{ $t('next') }}</button>
-                <button class="block button-cancel" @click="logout()">{{ $t('logout') }}</button>
+                <span class="d-flex">
+                    <button class="ml-auto button-cancel mr-2" @click="logout()">{{ $t('logout') }}</button>
+                    <button type="submit" @click="nextModal()">{{ $t('next') }}</button>
+                </span>
             </div>
-        </Modal>
-        <Modal :show="showSecondModal" :header="false">
-            <template #header>
-                <div class="modal-header d-block">
-                    <h4>{{ $t('little-more') }}</h4>
-                    <p class="silent mb-0">{{ $t('pick-example-tasks') }}</p>
-                </div>
-            </template>
+        </div>
+        <div v-if="showSecondModal">
+            <h3>{{ $t('little-more') }}</h3>
+            <p class="silent mb-3">{{ $t('pick-example-tasks') }}</p>
             <div>
                 <div class="form-group">
                     <label for="example-tasks">{{ $t('example-tasks') }}</label>
@@ -80,11 +74,13 @@
                         </div>
                     </div>
                 </div>
-                <button class="block" @click="confirmSettings()">{{ $t('submit') }}</button>
-                <button class="block button-cancel" @click="startFirstModal()">{{ $t('go-back') }}</button>
-                <button class="block button-cancel" @click="logout()">{{ $t('logout') }}</button>
+                <span class="d-flex">
+                    <button class="mr-2 button-cancel" @click="startFirstModal()">{{ $t('go-back') }}</button>
+                    <button class="ml-auto mr-2 button-cancel" @click="logout()">{{ $t('logout') }}</button>
+                    <button type="submit" class="mr-2" @click="confirmSettings()">{{ $t('submit') }}</button>
+                </span>
             </div>
-        </Modal>
+        </div>
     </div>
 </template>
 

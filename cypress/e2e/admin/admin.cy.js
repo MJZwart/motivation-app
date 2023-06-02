@@ -1,5 +1,5 @@
 import {getRandomString, waitShort, waitLong} from '../../support/commands';
-import {notificationButton, admin, editButton, messageButton, banButton, user1, unlockedButton, lockButton} from '../../support/constants';
+import {admin, editButton, messageButton, banButton, user1, unlockedButton, lockButton} from '../../support/constants';
 
 describe('Admin', () => {
     beforeEach(() => {
@@ -36,8 +36,8 @@ describe('Admin', () => {
             cy.get('#send-notification-button').click();
             waitShort();
 
-            cy.get('a').find(notificationButton).click();
-            waitShort();
+            cy.visit('/notifications');
+            waitLong();
 
             cy.get('span').contains(title).should('exist');
             cy.get('p').contains(text).should('exist');
@@ -222,7 +222,7 @@ describe('Admin', () => {
             cy.get('tr').contains(user1.username).should('exist').parent().parent().find(editButton).click();
             waitShort();
 
-            cy.get('h5').should('contain.text', 'Edit suspension of');
+            cy.get('h5').should('contain.text', 'Edit suspension');
 
             cy.get('#days').type(days);
             cy.get('#comment').type(comment);
@@ -240,7 +240,7 @@ describe('Admin', () => {
             cy.get('tr').contains(user1.username).should('exist').parent().parent().find(editButton).click();
             waitShort();
 
-            cy.get('h5').should('contain.text', 'Edit suspension of');
+            cy.get('h5').should('contain.text', 'Edit suspension');
             cy.get('#end-suspension').click();
             cy.get('#comment').type(comment);
             
@@ -256,7 +256,7 @@ describe('Admin', () => {
 
             cy.get('h3').should('contain.text', 'Feedback');
 
-            cy.get('tr').contains('OTHER').parent().find(lockButton).click();
+            cy.get('td').first().find(lockButton).click();
             waitShort();
         });
         it('can toggle to see archived feedback and unarchive feedback', () => {

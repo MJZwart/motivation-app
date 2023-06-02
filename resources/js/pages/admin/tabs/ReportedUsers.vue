@@ -52,6 +52,7 @@ import {useMainStore} from '/js/store/store';
 import {REPORTED_USER_OVERVIEW_FIELDS} from '/js/constants/reportUserConstants';
 import {BAN, MAIL} from '/js/constants/iconConstants';
 import {formModal, sendMessageModal} from '/js/components/modal/modalService';
+import {getNewSuspension} from '/js/helpers/newInstance';
 const adminStore = useAdminStore();
 const mainStore = useMainStore();
 
@@ -81,16 +82,6 @@ function sendMessageToReportedUser(user: User) {
 function suspendUser(userId: number) {
     mainStore.clearErrors();
     formModal(getNewSuspension(userId), SuspendUserModal, submitSuspendUser, 'suspend-user');
-}
-function getNewSuspension(userId: number) {
-    return {
-
-        reason: '',
-        days: 0,
-        indefinite: false,
-        close_reports: true,
-        user_id: userId,
-    }
 }
 async function submitSuspendUser(userSuspension: NewSuspension) {
     reportedUsers.value = await adminStore.suspendUser(userSuspension);

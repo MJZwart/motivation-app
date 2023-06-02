@@ -16,14 +16,14 @@ export const routes = [
     {
         name: 'login',
         path: '/login',
-        component: () => import('../pages/Login.vue'),
+        component: () => import('../pages/register/Login.vue'),
         meta: {
             title: 'Login',
         },
     },
     {
         path: '/register',
-        component: () => import('../pages/Register.vue'),
+        component: () => import('../pages/register/Register.vue'),
         meta: {
             title: 'Register',
         },
@@ -71,7 +71,7 @@ export const routes = [
     },
     {
         path: '/welcome',
-        component: () => import('../pages/Welcome.vue'),
+        component: () => import('../pages/register/Welcome.vue'),
         meta: {
             requiresAuth: true,
             title: 'Welcome',
@@ -155,7 +155,7 @@ export const routes = [
     {
         name: 'ForgotPassword',
         path: '/forgot-password',
-        component: () => import('../pages/ForgotPassword.vue'),
+        component: () => import('../pages/register/ForgotPassword.vue'),
         meta: {
             title: 'Forgot password',
         },
@@ -163,7 +163,7 @@ export const routes = [
     {
         name: 'ResetPassword',
         path: '/reset-password',
-        component: () => import('../pages/ResetPassword.vue'),
+        component: () => import('../pages/register/ResetPassword.vue'),
         meta: {
             title: 'Reset password',
         },

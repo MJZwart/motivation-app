@@ -186,12 +186,12 @@ class UserController extends Controller
 
         /** @var User */
         $user = Auth::user();
-        BlockedUser::create([
+        $blocked = BlockedUser::create([
             'user_id' => $user->id,
             'blocked_user_id' => $blockedUser->id,
         ]);
         if ($validated['hideMessages']) {
-            MessageController::makeConversationInvisible($user, $blockedUser);
+            MessageController::makeConversationInvisible($user, $blocked);
         }
         //delete friendship and inverse friendship
         $toDelete = Friend::where('user_id', $user->id)->where('friend_id', $blockedUser->id)->first();

@@ -65,7 +65,7 @@ describe('Tasks', () => {
             cy.get('h5').should('have.text', 'New task list');
             
             cy.get('#name').type(testTaskList);
-            cy.get('#create-new-task-list-button').click();
+            cy.get('button').contains('Create new task list').click();
 
             waitShort();
             //Assert that it is made 
@@ -78,19 +78,19 @@ describe('Tasks', () => {
             
             //Adds on to the name and asserts that it has been edited
             cy.get('#name').type(testTaskListEdit);
-            cy.contains('Update task list').click();
+            cy.get('button').contains('Edit task list').click();
             waitLong();
             //After asserting, delete the task list
             cy.get('.task-list').last().should('contain.text', testTaskList + testTaskListEdit).find(deleteButton).click();
             cy.get('h5').should('have.text', 'Delete task list');
-            cy.get('.block').contains('Delete task list').click();
+            cy.get('button').contains('Delete task list').click();
         });
         it('can delete an task list with tasks, merging them into another', () => {
             //Create new task list with the name testTaskListWithTask
             cy.get('.new-task-list-button').click();
             cy.get('h5').should('have.text', 'New task list');
             cy.get('#name').type(testTaskListWithTask);
-            cy.get('#create-new-task-list-button').click();
+            cy.get('button').contains('Create new task list').click();
             waitShort();
 
             cy.get('.task-list').last().should('contain.text', testTaskListWithTask);
@@ -109,7 +109,7 @@ describe('Tasks', () => {
             cy.get('.task-list').contains(testTaskListWithTask).parent().find(deleteButton).click();
             cy.get('h5').should('have.text', 'Delete task list');
             cy.get('#deleteOption').select(1).should('contain.text', 'Merge with');
-            cy.get('.block').contains('Delete task list').click();
+            cy.get('button').contains('Delete task list').click();
             waitShort();
 
             //Asserting the task list has been deleted but the task remains
@@ -125,7 +125,7 @@ describe('Tasks', () => {
             cy.get('h5').should('have.text', 'New task list');
             
             cy.get('#name').type(taskListToDelete);
-            cy.get('#create-new-task-list-button').click();
+            cy.get('button').contains('Create new task list').click();
             
             waitShort();
             //Find the newly made task list and press delete
@@ -133,7 +133,7 @@ describe('Tasks', () => {
 
             cy.get('.task-list').contains(taskListToDelete).parent().find(deleteButton).click();
             cy.get('h5').should('have.text', 'Delete task list');
-            cy.get('.block').contains('Delete task list').click();
+            cy.get('button').contains('Delete task list').click();
             cy.on('window:confirm', () => true);
             waitShort();
 

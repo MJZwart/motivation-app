@@ -22,7 +22,7 @@
                         </Tooltip>
                     </span>
                     <Tooltip :text="$t('block-user')">
-                        <Icon :icon="LOCK" class="block-icon lock-icon red" @click="showBlockUserModal = true" />
+                        <Icon :icon="LOCK" class="block-icon lock-icon red" @click="blockUser" />
                     </Tooltip>
                     <Tooltip :text="$t('report-user')">
                         <Icon :icon="REPORT" class="report-icon red" @click="reportUser" />
@@ -52,22 +52,6 @@
             <div v-if="userProfile.timeline">
                 <Timeline :user-id="userProfile.id" />
             </div>
-            <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
-                <SendMessage :user="userProfile" @close="closeSendMessageModal" />
-            </Modal>
-            <Modal :show="showBlockUserModal" :title="$t('confirm-block')" @close="closeBlockUserModal()">
-                <ConfirmBlockModal v-if="userProfile" :user="userProfile" @close="closeBlockUserModal($event)" />
-            </Modal>
-            <Modal :show="showReportUserModal" :header="false" @close="closeReportUserModal">
-                <ReportUser :user="userProfile" @close="closeReportUserModal" />
-            </Modal>
-            <Modal 
-                :show="showSuspendUserModal" 
-                
-                :title="`Suspend user ${userProfile.username}`"
-                @close="closeSuspendUserModal">
-                <SuspendUserModal :userId="userProfile.id" @close="closeSuspendUserModal" @submit="submitSuspendUser" />
-            </Modal>
         </div>
     </div>
 </template>
@@ -76,9 +60,8 @@
 import {onMounted, ref, computed, watch} from 'vue';
 import AchievementsCard from '/js/pages/overview/components/AchievementsCard.vue';
 import RewardCard from '/js/pages/dashboard/components/reward/RewardCard.vue';
-import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import ReportUser from '/js/pages/messages/components/ReportUser.vue';
-import FriendsCard from '/js/pages/dashboard/components/FriendsCard.vue';
+import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import SuspendUserModal from '/js/pages/admin/components/SuspendUserModal.vue';
 import ConfirmBlockModal from '/js/pages/messages/components/ConfirmBlockModal.vue';
 import axios from 'axios';
@@ -87,11 +70,13 @@ import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {parseDateTime} from '/js/services/dateService';
 import {breadcrumbsVisible} from '/js/services/breadcrumbService';
-import type {NewSuspension, User, UserProfile} from 'resources/types/user';
+import type {NewSuspension, StrippedUser, User, UserProfile} from 'resources/types/user';
 import type {FriendRequests, Friend} from 'resources/types/friend';
 import {MAIL, FRIEND, LOCK, REPORT, BAN} from '/js/constants/iconConstants';
 import {useAdminStore} from '/js/store/adminStore';
 import Timeline from '/js/pages/overview/components/Timeline.vue';
+import {formModal, sendMessageModal, showModal} from '/js/components/modal/modalService';
+import {getNewSuspension} from '/js/helpers/newInstance';
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -120,10 +105,6 @@ async function getUserProfile() {
     loading.value = false;
 }
 
-const showSendMessageModal = ref(false);
-const showReportUserModal = ref(false);
-const showSuspendUserModal = ref(false);
-
 const user = computed<User | null>(() => userStore.user);
 const requests = computed<FriendRequests | null>(() => friendStore.requests);
 
@@ -148,36 +129,28 @@ function sendFriendRequest() {
     friendStore.sendRequest(route.params.id as string);
 }
 function sendMessage() {
-    showSendMessageModal.value = true;
-}
-function closeSendMessageModal() {
-    showSendMessageModal.value = false;
+    if (!userProfile.value) return;
+    sendMessageModal(userProfile.value?.username, userProfile.value?.id);
 }
 function reportUser() {
-    showReportUserModal.value = true;
+    if (!userProfile.value) return;
+    showModal({user: userProfile.value}, ReportUser, 'report-user');
 }
-function closeReportUserModal() {
-    showReportUserModal.value = false;
+async function blockUser() {
+    // @ts-ignore Modal shenanigans
+    formModal(userProfile.value, ConfirmBlockModal, submitBlockUser, 'confirm-block');
 }
-const showBlockUserModal = ref(false);
-async function closeBlockUserModal(reload = false) {
-    showBlockUserModal.value = false;
-    if (reload) {
-        loading.value = true;
-        await getUserProfile();
-        loading.value = false;
-    }
+async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMessages: boolean}) {
+    await userStore.blockUser(user.id, {'hideMessages': hideMessages});
+    await getUserProfile();
 }
 function suspendUser() {
-    showSuspendUserModal.value = true;
+    // @ts-ignore Modal shenanigans
+    formModal(getNewSuspension(userProfile.value?.id), SuspendUserModal, submitSuspendUser, 'suspend-user');
 }
 async function submitSuspendUser(userSuspension: NewSuspension) {
     await adminStore.suspendUser(userSuspension);
-    closeSuspendUserModal(true);
-}
-function closeSuspendUserModal(reload: boolean) {
-    showSuspendUserModal.value = false;
-    if (reload) getUserProfile();
+    await getUserProfile();
 }
 watch(
     () => route.params.id,

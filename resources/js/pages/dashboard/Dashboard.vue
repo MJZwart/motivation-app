@@ -60,6 +60,7 @@ const rewardObj = computed(() => rewardStore.rewardObj);
 onBeforeMount(async () => {
     //Fetches all dashboard data and stores it in the store
     await userStore.getDashboard();
+    taskStore.getTemplates();
     loading.value = false;
 });
 

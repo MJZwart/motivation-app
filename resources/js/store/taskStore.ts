@@ -66,16 +66,19 @@ export const useTaskStore = defineStore('task', {
         async storeTemplate(newTemplate: NewTemplate) : Promise<Template[]>
         {
             const {data} = await axios.post('/tasks/templates', newTemplate);
+            templates.value = data.data;
             return data.data;
         },
         async updateTemplate(template: Template): Promise<Template[]>
         {
             const {data} = await axios.put(`/tasks/templates/${template.id}`, template);
+            templates.value = data.data;
             return data.data;
         },
         async deleteTemplate(templateId: number): Promise<Template[]>
         {
             const {data} = await axios.delete(`/tasks/templates/${templateId}`);
+            templates.value = data.data;
             return data.data;
         },
     },
