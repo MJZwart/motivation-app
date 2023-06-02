@@ -86,20 +86,19 @@
 
 <script setup lang="ts">
 import {computed, ref, onMounted} from 'vue';
-import {useMainStore} from '/js/store/store';
 import {useTaskStore} from '/js/store/taskStore';
 import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
 import type {Task} from 'resources/types/task';
 import type {NewUser} from 'resources/types/user';
+import {clearErrors, setErrorMessages} from '/js/services/errorService';
 const {t} = useI18n();
 
-const mainStore = useMainStore();
 const taskStore = useTaskStore();
 const userStore = useUserStore();
 
 onMounted(async () => {
-    mainStore.clearErrors();
+    clearErrors();
     exampleTasks.value = await taskStore.fetchExampleTasks();
     startFirstModal();
 });
@@ -138,13 +137,13 @@ function confirmSettings() {
 }
 function checkInput() {
     if (user.value.rewardsType == 'CHARACTER' && !user.value.reward_object_name) {
-        mainStore.setErrorMessages({reward_object_name: ['No character name given.']});
+        setErrorMessages({reward_object_name: ['No character name given.']});
         return false;
     } else if (user.value.rewardsType == 'VILLAGE' && !user.value.reward_object_name) {
-        mainStore.setErrorMessages({reward_object_name: ['No village name given.']});
+        setErrorMessages({reward_object_name: ['No village name given.']});
         return false;
     }
-    mainStore.clearErrors();
+    clearErrors();
     return true;
 }
 function logout() {

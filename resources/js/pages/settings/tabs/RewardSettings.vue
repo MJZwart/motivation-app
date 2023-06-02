@@ -102,16 +102,15 @@ import EditRewardObjectName from '../components/EditRewardObjectName.vue';
 import Table from '/js/components/global/Table.vue';
 import {useUserStore} from '/js/store/userStore';
 import {useRewardStore} from '/js/store/rewardStore';
-import {useMainStore} from '/js/store/store';
 import {useI18n} from 'vue-i18n';
 import {capitalizeOnlyFirst} from '/js/services/stringService';
 import type {Reward, ChangeReward} from 'resources/types/reward';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
+import {clearErrors} from '/js/services/errorService';
 
 const userStore = useUserStore();
 const rewardStore = useRewardStore();
-const mainStore = useMainStore();
 const {t} = useI18n();
 
 onMounted(() => load());
@@ -129,7 +128,7 @@ const characters = ref<Reward[]>([]);
 const villages = ref<Reward[]>([]);
 
 async function load() {
-    mainStore.clearErrors();
+    clearErrors();
     const data = await rewardStore.fetchAllRewardInstances();
     villages.value = data.villages;
     characters.value = data.characters;
@@ -188,7 +187,6 @@ async function confirmRewardsSettings() {
 }
 function showEditReward(instance: Reward) {
     if (instance === null) return;
-    mainStore.clearErrors();
     formModal(
         {rewardObj: instance, type: instance.rewardType.toUpperCase()},
         EditRewardObjectName,

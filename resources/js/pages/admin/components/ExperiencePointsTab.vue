@@ -59,10 +59,10 @@ import GeneralFormError from '/js/components/global/GeneralFormError.vue';
 import {onMounted, ref} from 'vue';
 import {ExperiencePoint} from 'resources/types/admin';
 import {useAdminStore} from '/js/store/adminStore';
-import {useMainStore} from '/js/store/store';
 import Loading from '/js/components/global/Loading.vue';
+import {clearErrors} from '/js/services/errorService';
+
 const adminStore = useAdminStore();
-const mainStore = useMainStore();
 
 onMounted(async() => {
     experiencePoints.value = await adminStore.getExperiencePoints();
@@ -84,8 +84,5 @@ async function addNewLevel() {
     if (!newLevel.value) return;
     clearErrors();
     experiencePoints.value = await adminStore.addNewLevel(newLevel.value);
-}
-function clearErrors() {
-    mainStore.clearErrors();
 }
 </script>

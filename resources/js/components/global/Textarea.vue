@@ -20,8 +20,7 @@
 
 <script lang="ts" setup>
 import {computed} from 'vue';
-import {useMainStore} from '/js/store/store';
-const mainStore = useMainStore();
+import {errors} from '/js/services/errorService';
 
 const props = withDefaults(
     defineProps<{
@@ -42,7 +41,6 @@ const props = withDefaults(
 );
 
 const emit = defineEmits(['update:modelValue']);
-const errors = computed(() => mainStore.errors)
 
 const isInvalid = computed(() => !!errors.value && !!errors.value[props.name]);
 

@@ -36,10 +36,10 @@ import {
 } from '/js/constants/balancingConstants.js';
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
 import {useAdminStore} from '/js/store/adminStore';
-import {useMainStore} from '/js/store/store';
 import {CharExpGain} from 'resources/types/admin.js';
+import {clearErrors} from '/js/services/errorService';
+
 const adminStore = useAdminStore();
-const mainStore = useMainStore();
 
 onMounted(async() => {
     characterExpGain.value = await adminStore.getCharacterExpGain();
@@ -51,12 +51,8 @@ const loading = ref(true);
 const characterExpGain = ref<Array<CharExpGain>>([]);
 const characterExpGainFields = CHARACTER_EXP_GAIN_FIELDS;
 
-
 async function updateCharExpGain() {
     clearErrors();
     characterExpGain.value = await adminStore.updateCharExpGain(characterExpGain.value);
-}
-function clearErrors() {
-    mainStore.clearErrors();
 }
 </script>

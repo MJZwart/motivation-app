@@ -48,13 +48,12 @@ import ReportedUserDetails from '../components/ReportedUsersDetails.vue';
 import {sortValues} from '/js/services/sortService';
 import {DateTime} from 'luxon';
 import {useAdminStore} from '/js/store/adminStore';
-import {useMainStore} from '/js/store/store';
 import {REPORTED_USER_OVERVIEW_FIELDS} from '/js/constants/reportUserConstants';
 import {BAN, MAIL} from '/js/constants/iconConstants';
 import {formModal, sendMessageModal} from '/js/components/modal/modalService';
 import {getNewSuspension} from '/js/helpers/newInstance';
+
 const adminStore = useAdminStore();
-const mainStore = useMainStore();
 
 onMounted(async() => {
     reportedUsers.value = await adminStore.getReportedUsers();
@@ -74,13 +73,11 @@ const sortedReportedUsers = computed(() => {
 
 /** Opens the modal to message a user that has been reported */
 function sendMessageToReportedUser(user: User) {
-    mainStore.clearErrors();
     sendMessageModal(user.username, user.id);
 }
 
 /** Opens the modal to suspend a user account */
 function suspendUser(userId: number) {
-    mainStore.clearErrors();
     formModal(getNewSuspension(userId), SuspendUserModal, submitSuspendUser, 'suspend-user');
 }
 async function submitSuspendUser(userSuspension: NewSuspension) {

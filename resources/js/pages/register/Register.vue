@@ -50,11 +50,10 @@
 <script setup lang="ts">
 import {reactive} from 'vue';
 import {useUserStore} from '/js/store/userStore';
-import {useMainStore} from '/js/store/store';
 import {Register} from 'resources/types/user';
 import {currentLang} from '/js/services/languageService';
+import {clearErrors} from '/js/services/errorService';
 
-const mainStore = useMainStore();
 const userStore = useUserStore();
 
 const register = reactive<Register>({
@@ -66,7 +65,7 @@ const register = reactive<Register>({
     language: currentLang.value,
 });
 function submitRegister() {
-    mainStore.clearErrors();
+    clearErrors();
     userStore.register(register);
 }
 </script>

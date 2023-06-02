@@ -4,20 +4,16 @@
 
 <script setup>
 import {computed} from 'vue';
-import {useMainStore} from '/js/store/store';
-const mainStore = useMainStore();
+import {errors} from '/js/services/errorService';
 
 const props = defineProps({
     name: {type: String, required: true},
 });
-
-const responseMessage = computed(() => mainStore.errors);
         
 const errorMsg = computed(() => {
-    const errors = responseMessage.value;
-    if (!props.name || !errors) {
+    if (!props.name || !errors.value) {
         return '';
     }
-    return (errors[props.name] || [])[0] || '';
+    return (errors.value[props.name] || [])[0] || '';
 });
 </script>

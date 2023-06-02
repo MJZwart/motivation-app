@@ -9,12 +9,12 @@
             <table class="table table-sm table-striped">
                 <thead>
                     <tr>
-                        <th v-for="(field, index) in villageExpGainFields" :key="index">{{ $t(field.label) }}</th>
+                        <th v-for="(field, index) in VILLAGE_EXP_GAIN_FIELDS" :key="index">{{ $t(field.label) }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(exp, itemIndex) in villageExpGain" :key="itemIndex">
-                        <td v-for="(field, fieldIndex) in villageExpGainFields" :key="fieldIndex">
+                        <td v-for="(field, fieldIndex) in VILLAGE_EXP_GAIN_FIELDS" :key="fieldIndex">
                             <span v-if="field.editable">
                                 <input v-model="villageExpGain[itemIndex][field.key]" class="w-3" />
                             </span>
@@ -36,10 +36,10 @@ import {
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
 import {onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
-import {useMainStore} from '/js/store/store';
 import {VillageExpGain} from 'resources/types/admin.js';
+import {clearErrors} from '/js/services/errorService';
+
 const adminStore = useAdminStore();
-const mainStore = useMainStore();
 
 onMounted(async() => {
     villageExpGain.value = await adminStore.getVillageExpGain();
@@ -49,14 +49,9 @@ onMounted(async() => {
 const loading = ref(true);
 
 const villageExpGain = ref<Array<VillageExpGain>>([]);
-const villageExpGainFields = VILLAGE_EXP_GAIN_FIELDS;
-
 
 async function updateVillageExpGain() {
     clearErrors();
     villageExpGain.value = await adminStore.updateVillageExpGain(villageExpGain.value);
-}
-function clearErrors() {
-    mainStore.clearErrors();
 }
 </script>

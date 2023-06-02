@@ -109,14 +109,12 @@ import {computed, ref, onMounted} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {ALL_GROUP_FIELDS_OVERVIEW, MY_GROUP_FIELDS_OVERVIEW} from '/js/constants/groupConstants';
 import {useGroupStore} from '/js/store/groupStore';
-import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
 import GroupRankIcon from '../components/groups/page-components/GroupRankIcon.vue';
 import {DETAILS} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
 
 const groupStore = useGroupStore();
-const mainStore = useMainStore();
 
 const router = useRouter();
 
@@ -163,7 +161,6 @@ const chosenGroups = computed(() => {
 });
 
 function createGroup() {
-    mainStore.clearErrors();
     formModal({
         name: '',
         description: '',
