@@ -73,10 +73,10 @@ describe('New user', () => {
             //Choose character and enter name
             cy.get('#CHARACTER').click();
             cy.get('#reward_object_name').type(characterName);
-            cy.get('.block').contains('Next').click();
+            cy.get('button').contains('Next').click();
 
             //Pick three tasks and continue
-            cy.get('.modal-header').should('contain', 'Just a little more');
+            cy.get('h3').should('contain', 'Just a little more');
             cy.get('#1').click();
             cy.get('#2').click();
             cy.get('#3').click();
@@ -111,14 +111,14 @@ describe('New user', () => {
 
             //Choose village and enter no name
             cy.get('#VILLAGE').click();
-            cy.get('.block').contains('Next').click();
+            cy.get('button').contains('Next').click();
             cy.get('#reward_object_name').should('have.class', 'invalid');
             //Then enter a name and continue
             cy.get('#reward_object_name').type(villageName);
-            cy.get('.block').contains('Next').click();
+            cy.get('button').contains('Next').click();
 
             //Pick no tasks and continue
-            cy.get('.modal-header').should('contain', 'Just a little more');
+            cy.get('h3').should('contain', 'Just a little more');
 
             cy.get('button').contains('Submit').click();
 
@@ -150,10 +150,10 @@ describe('New user', () => {
 
             //Choose none
             cy.get('#NONE').click();
-            cy.get('.block').contains('Next').click();
+            cy.get('button').contains('Next').click();
 
             //Pick no tasks and continue
-            cy.get('.modal-header').should('contain', 'Just a little more');
+            cy.get('h3').should('contain', 'Just a little more');
 
             cy.get('button').contains('Submit').click();
 
@@ -176,7 +176,7 @@ describe('New user', () => {
             cy.get('#title').type(getRandomString());
             cy.get('#page').type(getRandomString());
             cy.get('#comment').type(getRandomString());
-            cy.get('.block').contains('Submit bug report').click();
+            cy.get('button').contains('Submit bug report').click();
             cy.wait('@storeBugReport').its('response.statusCode').should('eq', 200);
         });
     });

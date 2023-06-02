@@ -36,7 +36,7 @@ describe('Groups', () => {
             if (requiresApplication)
                 cy.get('#require-application-checkbox').click();
         }
-        cy.get('#create-new-group').click();
+        cy.get('button').contains('Create new group').click();
         waitShort();
         cy.get('h2').should('contain.text', groupName);
     }
