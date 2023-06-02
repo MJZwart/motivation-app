@@ -2,7 +2,7 @@
     <div>
         <SimpleInput
             id="name"
-            v-model="groupToCreate.name"
+            v-model="group.name"
             name="name"
             :label="$t('name')"
             :placeholder="$t('name')"
@@ -11,7 +11,7 @@
 
         <SimpleTextarea
             id="description"
-            v-model="groupToCreate.description"
+            v-model="group.description"
             name="description"
             :label="$t('group-desc')"
             :placeholder="$t('description')"
@@ -20,16 +20,16 @@
 
         <SimpleFormCheckbox 
             id="public-checkbox" 
-            v-model="groupToCreate.is_public" 
+            v-model="group.is_public" 
             name="is_public" 
             class="mb-0"
             :label="$t('group-public-checkbox')" />
         <small class="form-text text-muted mb-3">{{ $t('group-public-checkbox-desc') }}</small>
             
         <SimpleFormCheckbox 
-            v-if="groupToCreate.is_public"
+            v-if="group.is_public"
             id="require-application-checkbox" 
-            v-model="groupToCreate.require_application" 
+            v-model="group.require_application" 
             name="require_application" 
             class="mb-0"
             :label="$t('group-require-application-checkbox')" />
@@ -37,42 +37,20 @@
                 
         <FormControls
             :submit-text="$t('create-group')"
-            @submit="createGroup"
-            @cancel="close"
+            @submit="$emit('submit', group)"
+            @cancel="$emit('close')"
         />
     </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
-import {useGroupStore} from '/js/store/groupStore.js';
 import type {NewGroup} from 'resources/types/group';
-import {useRouter} from 'vue-router';
-const groupStore = useGroupStore();
-const router = useRouter();
+import {ref} from 'vue';
+import FormControls from '/js/components/global/FormControls.vue';
 
-const emit = defineEmits(['reloadGroups', 'close']);
+defineEmits(['submit', 'close']);
 
-const initialData = {
-    name: '',
-    description: '',
-    is_public: false,
-    require_application: false,
-};
+const props = defineProps<{form: NewGroup}>();
 
-const groupToCreate = ref<NewGroup>({...initialData});
-
-async function createGroup() {
-    const data = await groupStore.createGroup(groupToCreate.value);
-    emit('reloadGroups');
-    close();
-    router.push({path: `/group/${data.group_id}`});
-}
-function close() {
-    resetForm();
-    emit('close');
-}
-function resetForm() {
-    Object.assign(groupToCreate, initialData);
-}
+const group = ref<NewGroup>({...props.form});
 </script>

@@ -80,16 +80,18 @@ const searchResultsFields = SEARCH_RESULTS_FIELDS;
 
 const loading = ref(true);
 
+const props = defineProps<{group: GroupPage}>();
+
 onMounted(async () => {
     loading.value = true;
     await friendStore.getFriends();
-    if (group.value !== null) {
-        groupMemberIds.value = group.value.members.map(member => member.id);
+    if (props.group !== null) {
+        groupMemberIds.value = props.group.members.map(member => member.id);
     }
     loading.value = false;
 });
+defineEmits(['close']);
 
-const group = computed<GroupPage | null>(() => groupStore.group);
 const friends = computed<Array<Friend> | null>(() => friendStore.friends);
 const groupMemberIds = ref<Array<number> | null>(null);
 
@@ -104,21 +106,21 @@ async function searchUser() {
 }
 
 async function inviteUser(userId: number) {
-    if (group.value === null || canNotInvite(userId)) return;
+    if (props.group === null || canNotInvite(userId)) return;
     loading.value = true;
     const invite = {
         user_id: userId,
-        group_id: group.value.id,
+        group_id: props.group.id,
     };
     await groupStore.inviteUser(invite);
-    groupMemberIds.value = group.value.members.map(member => member.id);
+    groupMemberIds.value = props.group.members.map(member => member.id);
     loading.value = false;
 }
 
 /** Checks if the user has already been invited. */
 function hasInvite(userId: number) {
-    if (group.value === null || group.value.invites === null || group.value.invites.length === 0) return false;
-    return group.value.invites.includes(userId);
+    if (props.group === null || props.group.invites === null || props.group.invites.length === 0) return false;
+    return props.group.invites.includes(userId);
 }
 
 /** Checks if the user is already a member of the group */

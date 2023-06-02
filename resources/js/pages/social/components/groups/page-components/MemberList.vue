@@ -36,21 +36,9 @@
                     <Tooltip v-if="canManageMemberRank(member)" :text="$t('manage-rank')">
                         <Icon :icon="PROMOTE" class="iconify small promote-icon" @click="openPromoteModal(member)" />
                     </Tooltip>
-
                 </span>
             </span>
         </div>
-        
-        <Modal :show="showSendMessageModal" :header="false" class="m-override" @close="closeSendMessageModal">
-            <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />
-        </Modal>
-        <Modal :show="promoteModalOpen" :title="$t('manage-rank')" @close="promoteModalOpen = false">
-            <ManageGroupUserRole 
-                v-if="memberToManage" 
-                :groupUser="memberToManage" 
-                :groupRoles="allRolesAvailable"
-                @promote="promote" />
-        </Modal>
     </div>
 </template>
 
@@ -61,11 +49,11 @@ import type {GroupPage, GroupUser, Rank} from 'resources/types/group';
 import {useUserStore} from '/js/store/userStore';
 import {useGroupStore} from '/js/store/groupStore';
 import {useI18n} from 'vue-i18n';
-import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
 import ManageGroupUserRole from './ManageGroupUserRole.vue';
 import {BAN, CROSS_SQUARE, MAIL, PROMOTE} from '/js/constants/iconConstants';
+import {formModal, sendMessageModal} from '/js/components/modal/modalService';
 
 const userStore = useUserStore();
 const groupStore = useGroupStore();
@@ -85,30 +73,22 @@ onMounted(async() => {
 
 const user = computed(() => userStore.user);
 
-const showSendMessageModal = ref(false);
-const userToMessage = ref<GroupUser | null>(null);
-
 function kick(user: GroupUser) {
     if (confirm(t('confirm-kick-from-group', {user: user.username})))
         groupStore.removeGroupMember(user.id, props.group.id);
 }
 function suspend(user: GroupUser) {
     if (confirm(t('confirm-suspend-from-group', {user: user.username})))
-        groupStore.suspendGroupMember(user.id, props.group.id);
+        groupStore.suspendGroupMember(user.user_id, props.group.id);
 }
 function sendMessage(user: GroupUser) {
-    showSendMessageModal.value = true;
-    userToMessage.value = user;
-}
-function closeSendMessageModal() {
-    showSendMessageModal.value = false;
+    sendMessageModal(user.username, user.user_id);
 }
 
 const allRoles = ref<Rank[]>([]);
 const allRolesAvailable = computed(() => allRoles.value.filter(role => role.position > props.group.rank.position));
 
-const promoteModalOpen = ref(false);
-const memberToManage = ref<GroupUser | null>(null);
+const memberToManage = ref<GroupUser | null>();
 
 function canManageMemberRank(member: GroupUser) {
     if (member.rank.owner || member.rank.position < props.group.rank.position) return false;
@@ -117,12 +97,12 @@ function canManageMemberRank(member: GroupUser) {
 }
 function openPromoteModal(member: GroupUser) {
     memberToManage.value = member;
-    promoteModalOpen.value = true;
+    // @ts-ignore Due to the problems with modal this needs to be ignored.
+    formModal({groupUser: member, groupRoles: allRolesAvailable}, ManageGroupUserRole, promote, 'manage-rank');
 }
 async function promote(rankId: number) {
     if (memberToManage.value) {
         await groupStore.updateGroupUserRole(props.group.id, memberToManage.value?.id, rankId);
-        promoteModalOpen.value = false;
         memberToManage.value = null;
     }
 }

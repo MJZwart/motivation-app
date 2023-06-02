@@ -20,6 +20,7 @@ class GroupMessageResource extends JsonResource
             'message' => $this->message,
             'user' => new StrippedUserResource($this->user),
             'created_at' => $this->created_at,
+            'group_id' => $this->group_id,
         ];
     }
 }

@@ -24,9 +24,6 @@
                 </Tooltip>
             </span>
         </p>
-        <Modal :show="showReportUserModal" :header="false" @close="closeReportUserModal">
-            <ReportUser :user="message.user" :group_id="groupId" @close="closeReportUserModal" />
-        </Modal>
     </div>
 </template>
 
@@ -36,6 +33,7 @@ import type {GroupMessage} from 'resources/types/group';
 import {ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {REPORT, TRASH} from '/js/constants/iconConstants';
+import {showModal} from '/js/components/modal/modalService';
 
 const props = defineProps<{message: GroupMessage, canDelete: boolean, userId: number, groupId: number}>();
 const emit = defineEmits(['deleteMessage'])
@@ -46,12 +44,8 @@ function deleteMessage() {
     emit('deleteMessage', props.message);
 }
 
-const showReportUserModal = ref(false);
 function reportMessage() {
-    showReportUserModal.value = true;
-}
-function closeReportUserModal() {
-    showReportUserModal.value = false;
+    showModal({user: props.message.user, group_id: props.message.group_id}, ReportUser, 'report-user');
 }
 </script>
 
@@ -60,7 +54,7 @@ function closeReportUserModal() {
     background-color: var(--background-darker);
 }
 .message-icon {
-    margin-bottom: -1px;
+    margin-bottom: -7px;
 }
 .group-message {
     padding: 0.05rem 0.5rem 0.05rem 0.5rem;

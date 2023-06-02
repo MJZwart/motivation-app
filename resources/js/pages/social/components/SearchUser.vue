@@ -40,9 +40,6 @@
         <div v-else>
             <h3>{{$t('no-results')}}</h3>
         </div>
-        <Modal :show="showSendMessageModal" :header="false" @close="closeSendMessageModal">
-            <SendMessage v-if="userToMessage" :user="userToMessage" @close="closeSendMessageModal" />
-        </Modal>
     </div>
 </template>
 
@@ -50,11 +47,11 @@
 import Table from '/js/components/global/Table.vue';
 import {ref, computed} from 'vue';
 import {SEARCH_RESULTS_FIELDS} from '/js/constants/userConstants.js';
-import SendMessage from '/js/pages/messages/components/SendMessage.vue';
 import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 import type {StrippedUser} from 'resources/types/user';
 import {FRIEND, MAIL} from '/js/constants/iconConstants';
+import {sendMessageModal} from '/js/components/modal/modalService';
 const userStore = useUserStore();
 const friendStore = useFriendStore();
 
@@ -64,8 +61,6 @@ const data = ref({
     userSearch: '',
 });
 const searchResultsFields = SEARCH_RESULTS_FIELDS;
-const userToMessage = ref<StrippedUser | null>(null);
-const showSendMessageModal = ref(false);
 
 const searchResults = ref<StrippedUser[] | null>(null);
 /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
@@ -87,11 +82,7 @@ async function sendFriendRequest(id: string) {
     emit('reload');
 }
 function sendMessage(user: StrippedUser) {
-    userToMessage.value = user;
-    showSendMessageModal.value = true;
-}
-function closeSendMessageModal() {
-    showSendMessageModal.value = false;
+    sendMessageModal(user.username, user.id);
 }
 
 const friends = computed(() => friendStore.friends);
