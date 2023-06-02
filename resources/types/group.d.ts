@@ -57,4 +57,5 @@ export type GroupMessage = NewGroupMessage & {
     id: number;
     user: StrippedUser;
     created_at: Date;
+    group_id: number;
 }

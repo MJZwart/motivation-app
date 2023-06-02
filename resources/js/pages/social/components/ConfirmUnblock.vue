@@ -11,7 +11,7 @@
             </label>
         </div>    
         <FormControls
-            @submit="confirmUnblock"
+            @submit="$emit('submit', {blockedUser, restoreMessages})"
             @cancel="$emit('close')"
         />
     </div>
@@ -21,17 +21,13 @@
 import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
 import {Blocked} from 'resources/types/user';
 import {ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import FormControls from '/js/components/global/FormControls.vue';
+import {deepCopy} from '/js/helpers/copy';
 
-const userStore = useUserStore();
+const props = defineProps<{form: Blocked}>();
+defineEmits(['close', 'submit']);
 
-const props = defineProps<{blockedUser: Blocked}>();
-const emit = defineEmits(['close']);
+const blockedUser = ref(deepCopy(props.form));
+
 const restoreMessages = ref(true);
-
-async function confirmUnblock() {
-    await userStore.unblockUser(props.blockedUser.id, {'restoreMessages': restoreMessages.value});
-    emit('close', true);
-}
 </script>

@@ -23,9 +23,6 @@
                 <p v-else>{{ $t('no-blocked-users') }}</p>
             </ul>
         </ContentBlock>
-        <Modal :show="showUnblockUserModal" :title="$t('confirm-unblock')" @close="closeUnblockUserModal()">
-            <ConfirmUnblockModal v-if="userToUnblock" :blocked-user="userToUnblock" @close="closeUnblockUserModal($event)" />
-        </Modal>
     </div>
 </template>
 
@@ -35,7 +32,8 @@ import {parseDateTime} from '/js/services/dateService';
 import {useUserStore} from '/js/store/userStore';
 import type {Blocked} from 'resources/types/user';
 import {UNLOCK} from '/js/constants/iconConstants';
-import ConfirmUnblockModal from '../components/ConfirmUnblock.vue';
+import ConfirmUnblock from '../components/ConfirmUnblock.vue';
+import {formModal} from '/js/components/modal/modalService';
 
 const userStore = useUserStore();
 
@@ -52,17 +50,13 @@ async function load() {
     loading.value = false;
 }
 
-const userToUnblock = ref<Blocked | null>(null);
-const showUnblockUserModal = ref(false);
-
-async function unblock(blocklist: Blocked) {
-    userToUnblock.value = blocklist;
-    showUnblockUserModal.value = true;
+async function unblock(blockedUser: Blocked) {
+    // @ts-ignore Modal shenanigans
+    formModal(blockedUser, ConfirmUnblock, submitUnblock, 'confirm-unblock');
 }
-function closeUnblockUserModal(reload = false) {
-    userToUnblock.value = null;
-    showUnblockUserModal.value = false;
-    if (reload) load();
+async function submitUnblock({blockedUser, restoreMessages}: {blockedUser: Blocked, restoreMessages: boolean}) {
+    await userStore.unblockUser(blockedUser.id, {'restoreMessages': restoreMessages});
+    load();
 }
 </script>
 

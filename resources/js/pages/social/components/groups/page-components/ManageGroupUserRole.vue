@@ -7,7 +7,7 @@
                 </option>
             </select>
         </div>
-        <SubmitButton @click="emit('promote', rankId)">{{$t('update-role')}}</SubmitButton>
+        <SubmitButton @click="emit('submit', rankId)">{{$t('update-role')}}</SubmitButton>
     </div>
 </template>
 
@@ -15,14 +15,18 @@
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {GroupUser, Rank} from 'resources/types/group';
 import {onMounted, ref} from 'vue';
+import {deepCopy} from '/js/helpers/copy';
 
-const props = defineProps<{groupUser: GroupUser, groupRoles: Rank[]}>();
+const props = defineProps<{form: {groupUser: GroupUser, groupRoles: Rank[]}}>();
 
-const emit = defineEmits(['promote']);
+const groupUser = ref(deepCopy(props.form.groupUser));
+const groupRoles = ref(deepCopy(props.form.groupRoles));
+
+const emit = defineEmits(['submit', 'close']);
 
 const rankId = ref();
 
 onMounted(() => {
-    rankId.value = props.groupUser.rank.id;
+    rankId.value = groupUser.value.rank.id;
 })
 </script>

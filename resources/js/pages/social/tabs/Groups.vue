@@ -97,14 +97,12 @@
             <div v-else>
                 {{ $t('no-groups-found') }}
             </div>
-            <Modal :show="showCreateGroupModal" :title="$t('create-group')" @close="closeCreateGroup">
-                <CreateGroup @close="closeCreateGroup" @reloadGroups="load" />
-            </Modal>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import type {Group, NewGroup} from 'resources/types/group';
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import CreateGroup from '../components/groups/CreateGroup.vue';
 import {computed, ref, onMounted} from 'vue';
@@ -113,9 +111,9 @@ import {ALL_GROUP_FIELDS_OVERVIEW, MY_GROUP_FIELDS_OVERVIEW} from '/js/constants
 import {useGroupStore} from '/js/store/groupStore';
 import {useMainStore} from '/js/store/store';
 import {useRouter} from 'vue-router';
-import type {Group} from 'resources/types/group';
 import GroupRankIcon from '../components/groups/page-components/GroupRankIcon.vue';
 import {DETAILS} from '/js/constants/iconConstants';
+import {formModal} from '/js/components/modal/modalService';
 
 const groupStore = useGroupStore();
 const mainStore = useMainStore();
@@ -164,13 +162,22 @@ const chosenGroups = computed(() => {
     return [];
 });
 
-const showCreateGroupModal = ref(false);
 function createGroup() {
     mainStore.clearErrors();
-    showCreateGroupModal.value = true;
+    formModal({
+        name: '',
+        description: '',
+        is_public: false,
+        require_application: false},
+    CreateGroup,
+    submitGroup,
+    'create-group',
+    );
 }
-function closeCreateGroup() {
-    showCreateGroupModal.value = false;
+
+async function submitGroup(newGroup: NewGroup) {
+    const data = await groupStore.createGroup(newGroup);
+    router.push({path: `/group/${data.group_id}`});
 }
 
 function showGroupsDetails(groupId: number) {

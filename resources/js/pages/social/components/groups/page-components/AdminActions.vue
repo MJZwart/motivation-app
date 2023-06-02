@@ -95,14 +95,6 @@
                 <SubmitButton class="ml-auto" @click="transferOwnershipToUser()" />
             </span>
         </div>
-        <Modal class="xl" :show="showInviteUsersModal" :footer="false"
-               :title="$t('invite-users-to', {group: group.name})" @close="closeInviteUsersModal">
-            <InviteUsersModal :group="group" />
-        </Modal>
-        <Modal class="l" :show="showBlocklistModal" :footer="false"
-               :title="$t('blocklist')" @close="closeBlocklistModal">
-            <Blocklist :group-id="group.id" />
-        </Modal>
     </div>
 </template>
 
@@ -118,6 +110,7 @@ import Editable from '/js/components/global/Editable.vue';
 import ManageGroupRoles from './ManageGroupRoles.vue';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {waitingOnResponse} from '/js/services/loadingService';
+import {showModal} from '/js/components/modal/modalService';
 
 const groupStore = useGroupStore();
 const router = useRouter();
@@ -194,20 +187,12 @@ async function suspendApplication(applicationId: number) {
     loadApplications();
 }
 
-const showInviteUsersModal = ref(false);
 function inviteUsers() {
-    showInviteUsersModal.value = true;
-}
-function closeInviteUsersModal() {
-    showInviteUsersModal.value = false;
+    showModal({group: props.group}, InviteUsersModal, 'invite-users');
 }
 
-const showBlocklistModal = ref(false);
 function showBlocklist() {
-    showBlocklistModal.value = true;
-}
-function closeBlocklistModal() {
-    showBlocklistModal.value = false;
+    showModal({groupId: props.group.id}, Blocklist, 'blocklist');
 }
 
 /**

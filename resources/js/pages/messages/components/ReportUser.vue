@@ -52,9 +52,6 @@ async function reportUser() {
     if (props.conversation_id) report.value.conversation_id = props.conversation_id;
     if (props.group_id) report.value.group_id = props.group_id;
     await userStore.reportUser(props.user.id, report.value);
-    close();
-}
-function close() {
     emit('close');
 }
 </script>

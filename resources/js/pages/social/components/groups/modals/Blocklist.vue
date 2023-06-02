@@ -36,12 +36,9 @@ export type GroupBlockedUser = {
 const groupStore = useGroupStore();
 const loading = ref(true);
 
-const props = defineProps({
-    groupId: {
-        type: Number,
-        required: true,
-    }, 
-});
+const props = defineProps<{groupId: number}>();
+
+defineEmits(['close']);
 
 const blockedUsers = ref<GroupBlockedUser[]>([]);
 
