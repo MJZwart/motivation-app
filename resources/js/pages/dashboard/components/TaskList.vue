@@ -40,7 +40,6 @@ import TaskComp from './Task.vue';
 import DeleteTaskListConfirm from './DeleteTaskListConfirm.vue';
 import CreateEditTask from './CreateEditTask.vue';
 import CreateEditTaskList from './CreateEditTaskList.vue';
-import {useMainStore} from '/js/store/store';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
 import {getNewTask} from '../taskService';
@@ -48,14 +47,12 @@ import {useTaskStore} from '/js/store/taskStore';
 
 const props = defineProps<{taskList: TaskList}>();
 
-const mainStore = useMainStore();
 const taskStore = useTaskStore();
 
 /** 
  * New task 
  */
 function openNewTask(superTaskToSet: Task | null = null) {
-    mainStore.clearErrors();
     formModal(
         {task: getNewTask(props.taskList.id), taskList: props.taskList, superTask: superTaskToSet},
         CreateEditTask,
@@ -71,7 +68,6 @@ async function createTask({task}: {task:NewTask}) {
  * Edit task
  */
 function openEditTask({task, superTaskParam}: {task: Task, superTaskParam: Task | null}) {
-    mainStore.clearErrors();
     formModal(
         {task: task, taskList: props.taskList, superTask: superTaskParam},
         CreateEditTask,
@@ -87,7 +83,6 @@ async function editTask({task}: {task: Task}) {
  * Shows and hides the modal to edit a given task list
  */
 function showEditTaskList() {
-    mainStore.clearErrors();
     formModal(props.taskList, CreateEditTaskList, submitEditTaskList, 'edit-task-list');
 }
 async function submitEditTaskList(editedTaskList: TaskList) {
@@ -98,7 +93,6 @@ async function submitEditTaskList(editedTaskList: TaskList) {
  * Shows and hides the modal to confirm deleting a task list
  */
 function showDeleteTaskList() {
-    mainStore.clearErrors();
     // @ts-ignore This is due to the setup of the form modal expecting the submitEvent's param type
     formModal(props.taskList, DeleteTaskListConfirm, submitDeleteTaskList, 'delete-task-list-confirm');
 }

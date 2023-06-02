@@ -79,12 +79,10 @@ import EditSuspension from '../components/EditSuspension.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {SUSPENDED_USERS_FIELDS} from '/js/constants/reportUserConstants';
 import {useAdminStore} from '/js/store/adminStore';
-import {useMainStore} from '/js/store/store';
 import {EDIT, UNLOCK} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
 
 const adminStore = useAdminStore();
-const mainStore = useMainStore();
 
 onActivated(async () => {
     suspendedUsers.value = await adminStore.getSuspendedUsers();
@@ -103,7 +101,6 @@ const filteredSuspendedUsers = computed(() => {
 const showUnsuspended = ref(false);
 
 function editSuspension(suspendedUser: SuspendedUser) {
-    mainStore.clearErrors();
     formModal(suspendedUser, EditSuspension, submitEditSuspension, 'edit-suspension');
 }
 async function submitEditSuspension(suspendedUser: SuspendedUser) {

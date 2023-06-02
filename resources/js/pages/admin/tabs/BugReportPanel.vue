@@ -59,7 +59,6 @@ import {BUG_REPORT_OVERVIEW_FIELDS, BUG_STATUS} from '/js/constants/bugConstants
 import {onMounted, ref} from 'vue';
 import EditBugReport from './../components/EditBugReport.vue';
 import Diagnostics from '/js/components/global/small/Diagnostics.vue';
-import {useMainStore} from '/js/store/store';
 import {useAdminStore} from '/js/store/adminStore';
 import {useI18n} from 'vue-i18n';
 import {EDIT, MAIL, TRASH, RESTORE_TRASH} from '/js/constants/iconConstants';
@@ -67,7 +66,7 @@ import SortableOverviewTable from '/js/components/global/SortableOverviewTable.v
 import CloseBugReportModal from '../components/CloseBugReportModal.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {formModal, sendMessageModal} from '/js/components/modal/modalService';
-const mainStore = useMainStore();
+
 const adminStore = useAdminStore();
 const {t} = useI18n();
 
@@ -84,13 +83,11 @@ const showClosed = ref(false);
 
 // * Message bug report author
 function sendMessageToBugReportAuthor(user_id: number, username: string) {
-    mainStore.clearErrors();
     sendMessageModal(username, user_id);
 }
 
 // * Edit Bug Report
 function editBugReport(bugReport: BugReport) {
-    mainStore.clearErrors();
     formModal(bugReport, EditBugReport, submitEditBugReport, 'edit-bug-report');
 }
 async function submitEditBugReport(updatedBugReport: BugReport) {
@@ -99,7 +96,6 @@ async function submitEditBugReport(updatedBugReport: BugReport) {
 
 // * Close bug report
 function closeBugReport(bugReport: BugReport) {
-    mainStore.clearErrors();
     formModal(bugReport, CloseBugReportModal, submitCloseBugReport, 'confirm-close-bug-report');
 }
 async function submitCloseBugReport(bugReport: BugReport) {

@@ -75,6 +75,8 @@ import {ref} from 'vue';
 import {useMainStore} from '/js/store/store';
 import {NewBugReport} from 'resources/types/bug';
 import {getDiagnostics} from '/js/services/platformService';
+import {clearErrors} from '../services/errorService';
+
 const mainStore = useMainStore();
 const emptyBugReport = {
     title: '',
@@ -93,7 +95,7 @@ const bugSeverity = BUG_SEVERITY;
 async function submitBugReport() {
     if (bugReport.value.diagnostics_approval)
         bugReport.value.diagnostics = getDiagnostics();
-    mainStore.clearErrors();
+    clearErrors();
     await mainStore.storeBugReport(bugReport.value);
     resetForm();
 }

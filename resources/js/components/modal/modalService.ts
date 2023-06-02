@@ -3,6 +3,7 @@ import {Modal} from './modals';
 import FormModalVue from './FormModal.vue';
 import ShowModalVue from './ShowModal.vue';
 import SendMessageVue from '/js/pages/messages/components/SendMessage.vue';
+import {clearErrors} from '/js/services/errorService';
 
 // * Managing modal state
 export const modals = ref<Modal[]>([]);
@@ -24,6 +25,7 @@ export function formModal<T = unknown>(
         submitEvent: submitEvent,
         title: title,
     }
+    clearErrors();
     // @ts-ignore
     modals.value.push({component: markRaw(FormModalVue), modal: modal});
 }
@@ -37,6 +39,7 @@ export function showModal<T = unknown>(
         component: markRaw(component),
         title: title,
     }
+    clearErrors();
     modals.value.push({component: markRaw(ShowModalVue), modal: modal});
 }
 

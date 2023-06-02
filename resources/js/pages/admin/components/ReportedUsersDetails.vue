@@ -94,7 +94,6 @@
 <script setup lang="ts">
 import type {UserToSuspend} from 'resources/types/user';
 import {parseDateTime} from '/js/services/dateService';
-import {useMainStore} from '/js/store/store';
 import ShowConversationModal from './ShowConversationModal.vue';
 import {useI18n} from 'vue-i18n';
 import {ReportedUser} from 'resources/types/admin';
@@ -102,7 +101,6 @@ import ShowGroupMessagesModal from './ShowGroupMessagesModal.vue';
 import {DETAILS, TRASH} from '/js/constants/iconConstants';
 import {showModal} from '/js/components/modal/modalService';
 const {t} = useI18n();
-const mainStore = useMainStore();
 
 const props = defineProps<{user: UserToSuspend}>();
 const emit = defineEmits(['close-report']);
@@ -114,7 +112,6 @@ function parseReason(reason: string) {
 
 /** Opens the modal to see a conversation between reported user and reporter */
 function showConversation(conversationId: string) {
-    mainStore.clearErrors();
     showModal({conversationId: parseInt(conversationId)}, ShowConversationModal, 'see-conversation-reporter');
 }
 

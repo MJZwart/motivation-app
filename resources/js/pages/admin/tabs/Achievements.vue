@@ -28,7 +28,6 @@ import {ref, onMounted} from 'vue';
 import Table from '/js/components/global/Table.vue';
 import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '/js/constants/achievementsConstants.js';
 import {useAchievementStore} from '/js/store/achievementStore';
-import {useMainStore} from '/js/store/store';
 import {Achievement, NewAchievement} from 'resources/types/achievement';
 import {newAchievementInstance, parseAchievementTriggerDesc} from '/js/services/achievementService';
 import {EDIT} from '/js/constants/iconConstants';
@@ -36,7 +35,6 @@ import {formModal} from '/js/components/modal/modalService';
 import CreateEditAchievement from '../components/CreateEditAchievement.vue';
 
 const achievementStore = useAchievementStore();
-const mainStore = useMainStore();
 
 onMounted(async() => {
     achievements.value = await achievementStore.getAllAchievements();
@@ -50,7 +48,6 @@ const currentSortAsc = ref(true);
 
 /** Shows and hides the modal to create a new achievement */
 function showNewAchievement() {
-    mainStore.clearErrors();
     formModal(newAchievementInstance(), CreateEditAchievement, submitNewAchievement, 'new-achievement');
 }
 async function submitNewAchievement(newAchievement: NewAchievement) {
@@ -58,7 +55,6 @@ async function submitNewAchievement(newAchievement: NewAchievement) {
 }
 /** Shows and hides the modal to edit a given achievement */
 function showEditAchievement(achievement: Achievement) {
-    mainStore.clearErrors();
     formModal(achievement, CreateEditAchievement, submitEditAchievement, 'edit-achievement');
 }
 async function submitEditAchievement(achievement: Achievement) {

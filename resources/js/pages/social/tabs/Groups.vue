@@ -163,7 +163,6 @@ const chosenGroups = computed(() => {
 });
 
 function createGroup() {
-    mainStore.clearErrors();
     formModal({
         name: '',
         description: '',

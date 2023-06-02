@@ -1,12 +1,12 @@
 /* eslint-disable max-lines-per-function */
 // import Vue from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
-import {useMainStore} from '../store/store';
 import {useUserStore} from '../store/userStore';
 // import Test from '../pages/Test.vue';
 import {routes} from './routes';
 import {errorToast} from '/js/services/toastService';
 import {breadcrumbsVisible} from '/js/services/breadcrumbService';
+import {clearErrors} from '../services/errorService';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -15,9 +15,8 @@ const router = createRouter({
 
 // eslint-disable-next-line complexity
 router.beforeEach((to, from, next) => {
-    const mainStore = useMainStore();
     const userStore = useUserStore();
-    mainStore.clearErrors();
+    clearErrors();
 
     window.scrollTo(0,0);
     if (to.meta && to.meta.title) {

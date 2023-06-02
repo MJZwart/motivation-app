@@ -37,7 +37,6 @@ import type {NewTaskList} from 'resources/types/task';
 import TaskList from './components/TaskList.vue';
 import RewardCard from './components/reward/RewardCard.vue';
 import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
-import {useMainStore} from '/js/store/store';
 import {onBeforeMount, ref, computed} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useRewardStore} from '/js/store/rewardStore';
@@ -47,7 +46,6 @@ import {getNewTaskList} from './taskService';
 import CreateEditTaskList from './components/CreateEditTaskList.vue';
 import TemplatesButton from './components/template/TemplatesButton.vue';
 
-const mainStore = useMainStore();
 const userStore = useUserStore();
 const taskStore = useTaskStore();
 const rewardStore = useRewardStore();
@@ -66,7 +64,6 @@ onBeforeMount(async () => {
 
 /** Shows and hides the modal to create a new task list */
 function showNewTaskList() {
-    mainStore.clearErrors();
     formModal(
         getNewTaskList(), 
         CreateEditTaskList, 

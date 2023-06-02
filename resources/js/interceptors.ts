@@ -2,12 +2,11 @@
 import axios, {AxiosStatic} from 'axios';
 import {errorToast, sendToast, storeToastInLocalStorage, successToast} from '/js/services/toastService';
 import router from './router/router.js';
-
-import {useMainStore} from './store/store';
 import {useUserStore} from './store/userStore';
 import {currentLang} from '/js/services/languageService.js';
 import {waitingOnResponse} from '/js/services/loadingService.js';
 import Echo from 'laravel-echo';
+import {setErrorMessages} from './services/errorService.js';
 
 declare global {
     interface Window {
@@ -61,7 +60,6 @@ axios.interceptors.response.use(
     function (error) {
         waitingOnResponse.value = false;
         const userStore = useUserStore();
-        const mainStore = useMainStore();
         if (!error.response) {
             return Promise.reject(error);
         }
@@ -122,7 +120,7 @@ axios.interceptors.response.use(
              */
             case 422:
                 errorToast(error.response.data.message);
-                mainStore.setErrorMessages(error.response.data.errors);
+                setErrorMessages(error.response.data.errors);
                 return Promise.reject(error);
             /**
              * In case of a 419 the CSRF token has expired. Force the page to reload to

@@ -41,8 +41,7 @@
 import {Error} from 'resources/types/error';
 import {onMounted, ref} from 'vue';
 import {EDIT, CHECK_SQUARE, CROSS_SQUARE} from '/js/constants/iconConstants';
-import {useMainStore} from '/js/store/store';
-const mainStore = useMainStore();
+import {setErrorMessages} from '/js/services/errorService';
 
 const props = defineProps({
     item: {
@@ -104,7 +103,7 @@ function validate() {
 function addError(error: string) {
     const errorObject = {} as Error;
     errorObject[props.name] = [error];
-    mainStore.setErrorMessages(errorObject);
+    setErrorMessages(errorObject);
 }
 
 /**
