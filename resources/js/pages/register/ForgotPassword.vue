@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
-import {useUserStore} from '../store/userStore';
+import {useUserStore} from '/js/store/userStore';
 
 const userStore = useUserStore();
 
