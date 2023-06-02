@@ -76,6 +76,7 @@ import {MAIL, FRIEND, LOCK, REPORT, BAN} from '/js/constants/iconConstants';
 import {useAdminStore} from '/js/store/adminStore';
 import Timeline from '/js/pages/overview/components/Timeline.vue';
 import {formModal, sendMessageModal, showModal} from '/js/components/modal/modalService';
+import {getNewSuspension} from '/js/helpers/newInstance';
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -133,11 +134,11 @@ function sendMessage() {
 }
 function reportUser() {
     if (!userProfile.value) return;
-    showModal({user: userProfile}, ReportUser, 'report-user');
+    showModal({user: userProfile.value}, ReportUser, 'report-user');
 }
 async function blockUser() {
     // @ts-ignore Modal shenanigans
-    formModal(userProfile, ConfirmBlockModal, submitBlockUser, 'confirm-block');
+    formModal(userProfile.value, ConfirmBlockModal, submitBlockUser, 'confirm-block');
 }
 async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMessages: boolean}) {
     await userStore.blockUser(user.id, {'hideMessages': hideMessages});
@@ -145,7 +146,7 @@ async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMe
 }
 function suspendUser() {
     // @ts-ignore Modal shenanigans
-    formModal(userProfile, SuspendUserModal, submitSuspendUser, 'suspend-user');
+    formModal(getNewSuspension(userProfile.value?.id), SuspendUserModal, submitSuspendUser, 'suspend-user');
 }
 async function submitSuspendUser(userSuspension: NewSuspension) {
     await adminStore.suspendUser(userSuspension);

@@ -11,6 +11,7 @@ describe('Templates', () => {
     const testDescription = getRandomString();
 
     function openTemplatesModal() {
+        waitShort();
         cy.get('button').contains('Manage templates').click();
         waitShort();
     }
