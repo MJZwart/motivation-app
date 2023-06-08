@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex content-block striped">
+    <div class="d-flex content-block striped hover">
         <div class="left-side">
             <h5>{{group.name}}</h5>
             <p>{{ group.description }}</p>
@@ -67,7 +67,7 @@ function showGroupsDetails() {
 .striped.content-block:nth-of-type(2n+1) {
     background-color: var(--nth-of-type);
 }
-.content-block.clickable:hover {
+.content-block.hover:hover {
     background-color: var(--hover);
 }
 </style>
