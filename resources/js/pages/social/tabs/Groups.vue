@@ -56,45 +56,8 @@
                 <h3 v-if="chosen == 'ALL'">{{ $t('all-groups') }}</h3>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{ $t('create-group') }}</button>
             </div>
-            <SortableOverviewTable 
-                v-if="filteredAllGroups.length > 0" 
-                :items="filteredAllGroups" 
-                :fields="groupFields"
-                class="striped"
-                click-to-extend
-            >
-                <template #nameField="row">
-                    <h5>{{row.item.name}}</h5>
-                    <span v-if="row.item.is_member" class="silent">
-                        <GroupRankIcon v-if="row.item.rank" :rank="row.item.rank" />
-                        {{$t('your-group')}}
-                    </span>
-                </template>
-                <template #joined="row">
-                    <b>{{$t('member-since')}}:</b> {{ row.item.joined ? parseDateTime(row.item.joined) : '' }}
-                </template>
-                <template #details="row">
-                    <Tooltip :text="$t('view')">
-                        <Icon :icon="DETAILS" class="details-icon" @click="showGroupsDetails(row.item.id)" />
-                    </Tooltip>
-                </template>
-                <template #is_public="row">
-                    <b>{{row.item.is_public ? $t('public') : $t('private')}}</b>
-                </template>
-                <template #rank="row">
-                    <b>{{$t('rank')}}: </b>
-                    <GroupRankIcon :rank="row.item.rank" />
-                    {{row.item.rank?.name}}
-                </template>
-
-                <template #require_application="row">
-                    <b>{{row.item.require_application ? $t('requires-application') : $t('free-to-join')}}</b>
-                </template>
-                <template #members="row">
-                    <b>{{$t('members')}}:</b> {{row.item.members}}
-                </template>
-            </SortableOverviewTable>
-            <div v-else>
+            <GroupOverviewComponent v-for="(group, index) in filteredAllGroups" :key="index" :group="group" />
+            <div v-if="filteredAllGroups.length === 0" >
                 {{ $t('no-groups-found') }}
             </div>
         </div>
@@ -103,25 +66,16 @@
 
 <script setup lang="ts">
 import type {Group, NewGroup} from 'resources/types/group';
-import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import CreateGroup from '../components/groups/CreateGroup.vue';
 import {computed, ref, onMounted} from 'vue';
-import {parseDateTime} from '/js/services/dateService';
-import {ALL_GROUP_FIELDS_OVERVIEW, MY_GROUP_FIELDS_OVERVIEW} from '/js/constants/groupConstants';
 import {useGroupStore} from '/js/store/groupStore';
 import {useRouter} from 'vue-router';
-import GroupRankIcon from '../components/groups/page-components/GroupRankIcon.vue';
-import {DETAILS} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
+import GroupOverviewComponent from '../components/groups/GroupOverviewComponent.vue';
 
 const groupStore = useGroupStore();
 
 const router = useRouter();
-
-const groupFields = computed(() => {
-    if (chosen.value == 'MY') return MY_GROUP_FIELDS_OVERVIEW;
-    return ALL_GROUP_FIELDS_OVERVIEW;
-});
 
 const loading = ref(true);
 onMounted(() => {
@@ -177,9 +131,6 @@ async function submitGroup(newGroup: NewGroup) {
     router.push({path: `/group/${data.group_id}`});
 }
 
-function showGroupsDetails(groupId: number) {
-    router.push({path: `/group/${groupId}`});
-}
 </script>
 
 <style lang="scss" scoped>
