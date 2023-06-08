@@ -7,7 +7,8 @@ import type {
     Overview, ReportedUser, 
     VillageExpGain, 
     ActionFilters,
-    Actions} from 'resources/types/admin';
+    Actions,
+    GlobalSetting} from 'resources/types/admin';
 import type {BugReport} from 'resources/types/bug';
 import type {Feedback} from 'resources/types/feedback';
 import type {ReportedConversation} from 'resources/types/message';
@@ -149,6 +150,18 @@ export const useAdminStore = defineStore('admin', {
         async getActionsWithFilters(filters: ActionFilters): Promise<Actions[]>
         {
             const {data} = await axios.post('/admin/action/filters', filters);
+            return data.data;
+        },
+
+        // * Settings
+        async getGlobalSettings(): Promise<GlobalSetting[]>
+        {
+            const {data} = await axios.get('/admin/settings');
+            return data.data;
+        },
+        async saveGlobalSettings(settings: GlobalSetting[]): Promise<GlobalSetting[]>
+        {
+            const {data} = await axios.post('/admin/settings', settings);
             return data.data;
         },
     },
