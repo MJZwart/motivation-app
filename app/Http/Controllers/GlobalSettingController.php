@@ -19,7 +19,8 @@ class GlobalSettingController extends Controller
         $validated = $request->validated();
 
         foreach ($validated as $item) {
-            GlobalSetting::where('key', $item->key)->update(['value' => $item->value]);
+            GlobalSetting::where('key', $item['key'])->update(['value' => $item['value']]);
         }
+        return GlobalSettingResource::collection(GlobalSetting::all());
     }
 }

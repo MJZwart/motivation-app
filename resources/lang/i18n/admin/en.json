@@ -147,5 +147,9 @@
     "action-type": "Action type",
     "user-agent": "User agent",
     "none": "None",
-    "date-range": "Date range"
+    "date-range": "Date range",
+    
+    "setting-key-heading": "Setting key",
+    "setting-value-heading": "Value",
+    "group_max_exp_per_day": "Max group exp per day"
 }

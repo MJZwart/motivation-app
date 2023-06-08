@@ -8,7 +8,7 @@
             </thead>
             <tbody>
                 <tr v-for="(setting, index) in settings" :key="index">
-                    <td>{{ setting.key }}</td>
+                    <td>{{ $t(setting.key) }}</td>
                     <td><input v-model="setting.value" class="setting-value" /></td>
                 </tr>
             </tbody>

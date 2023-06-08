@@ -15,7 +15,7 @@ class UpdateGlobalSettingsRequest extends FormRequest
     {
         return [
             '*.key' => ['string', 'exists:global_settings,key'],
-            '*.value' => ['number'],
+            '*.value' => ['integer'],
         ];
     }
 }
