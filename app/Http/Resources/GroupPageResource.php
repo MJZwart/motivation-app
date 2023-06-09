@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ExperiencePoint;
 use App\Models\GroupRole;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,6 +36,7 @@ class GroupPageResource extends JsonResource
             'invites' => $rank && $rank->can_manage_members ? $this->invitesAsId() : null,
             'level' => $this->level,
             'experience' => $this->experience,
+            'exp_to_next_level' => ExperiencePoint::getCurrentOrMaxExp($this->level),
         ];
     }
 }

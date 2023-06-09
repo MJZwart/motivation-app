@@ -25,6 +25,7 @@ export type GroupPage = Group & {
     has_application: boolean;
     invites: number[] | null;
     experience: number;
+    exp_to_next_level: number;
 };
 
 export type GroupUser = {
