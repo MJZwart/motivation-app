@@ -3,6 +3,7 @@
         <div class="left-side">
             <h5>{{group.name}}</h5>
             <p>{{ group.description }}</p>
+            <h6 class="silent">{{ $t('level') + ': ' + group.level }}</h6>
         </div>
         <div class="right-side">
             <template v-if="group.is_member">

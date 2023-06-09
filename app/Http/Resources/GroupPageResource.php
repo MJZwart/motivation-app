@@ -33,6 +33,8 @@ class GroupPageResource extends JsonResource
             'joined' => $groupUser ? Carbon::create($groupUser->joined) : null,
             'has_application' => $this->require_application ? $this->hasUserApplied() : false,
             'invites' => $rank && $rank->can_manage_members ? $this->invitesAsId() : null,
+            'level' => $this->level,
+            'experience' => $this->experience,
         ];
     }
 }
