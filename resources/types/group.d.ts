@@ -5,6 +5,9 @@ export type Group = NewGroup & {
     time_created: Date;
     time_updated: Date;
     members: GroupUser[];
+    is_member: boolean;
+    rank: Rank | null;
+    joined?: string;
 };
 
 export type NewGroup = {
