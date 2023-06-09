@@ -3,6 +3,10 @@ import Markdown from 'vite-plugin-md';
 
 import {defineConfig} from 'vite';
 
+// Needed to allow env variables to be accessed
+import envVars from 'dotenv';
+envVars.config()
+
 // eslint-disable-next-line max-lines-per-function
 export default defineConfig(({command}) => {
     const production = command !== 'serve';

@@ -23,6 +23,7 @@ class MyGroupResource extends JsonResource
             'description' => $this->description,
             'is_public' => (boolean) $this->is_public,
             'require_application' => (boolean) $this->require_application,
+            'is_member' => true,
             'members' => $this->groupUsers->count(),
             'rank' => $this->loggedUserRank(),
             'joined' => Carbon::create($this->findLoggedGroupUser()->joined),

@@ -26,8 +26,8 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_PUSHER_APP_KEY || 'motivation',
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'mt1',
     forceTLS: false,
-    wsHost: window.location.hostname,
-    wsPort: 6001,
+    // wsHost: window.location.hostname,
+    // wsPort: 6001,
     disableStats: true,
     enabledTransports: ['ws', 'wss'],
     // @ts-ignore
