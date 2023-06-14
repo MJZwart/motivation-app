@@ -18,6 +18,7 @@ export default defineConfig({
         globals: true,
         environment: 'jsdom',
         include: ['../tests/vitest/**/*.spec.ts'],
+        setupFiles: ['../tests/vitest/services/setup.ts'],
         coverage: {
             reportsDirectory: '../tests/vitest/coverage',
             reporter: ['lcov'],
