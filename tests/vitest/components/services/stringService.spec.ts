@@ -1,8 +1,7 @@
 import {capitalizeOnlyFirst} from '/js/services/stringService';
 
-
 describe('String service', () => {
-    it('', () => {
+    it('Capitalizes the first letter and turns the rest into lowercase', () => {
         // Arrange
         const str = 'tesTstRiNg';
         // Act

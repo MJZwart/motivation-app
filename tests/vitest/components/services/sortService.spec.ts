@@ -1,7 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import {sortValues} from '/js/services/sortService';
 
-
 describe('Sort service', () => {
     it('Sorts a basic array with numbers', () => {
         // Arrange

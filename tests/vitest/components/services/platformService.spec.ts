@@ -1,10 +1,6 @@
 import {getDiagnostics, parseDiagnostics, parseUserAgent} from '/js/services/platformService';
 import platform from 'platform';
 
-// Object.defineProperty(window, 'innerHeight', {value: 350});
-// Object.defineProperty(window, 'innerWidth', {value: 500});
-// Object.defineProperty(platform, 'description', {value: 'test platform'});
-
 describe('Plaform service', () => {
     it('fetches the diagnostics', () => {
         // Arrange
