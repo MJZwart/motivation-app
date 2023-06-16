@@ -1,4 +1,4 @@
-import {parseAchievementTriggerDesc} from '/js/services/achievementService';
+import {newAchievementInstance, parseAchievementTriggerDesc} from '/js/services/achievementService';
 
 const testAchievement = {
     description: 'This is a test achievement',
@@ -37,5 +37,18 @@ describe('Achievement service', () => {
         const shouldBeUndefined = parseAchievementTriggerDesc(testAchievementWithUnknownType);
         // Assert
         expect(shouldBeUndefined).toBeUndefined();
+    });
+    it('creates an empty new achievement instance', () => {
+        // Arrange
+        const newAchievement = {
+            description: '',
+            name: '',
+            trigger_amount: 0,
+            trigger_type: '',
+        };
+        // Act
+        const createdNewAchievement = newAchievementInstance();
+        // Assert
+        expect(createdNewAchievement).toEqual(newAchievement);
     });
 });
