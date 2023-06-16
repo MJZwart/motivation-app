@@ -38,7 +38,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
         Route::put('/edit/{group}', [GroupController::class, 'update']);
         Route::get('/roles/{group}', [GroupRoleController::class, 'getRoles']);
         Route::put('/roles/{group}/update/{role}/name', [GroupRoleController::class, 'updateRoleName']);
-        Route::put('/roles/{group}/update/', [GroupRoleController::class, 'updateRoles']);
+        Route::put('/roles/{group}/update', [GroupRoleController::class, 'updateRoles']);
         Route::post('/roles/{group}', [GroupRoleController::class, 'storeRole']);
         Route::delete('/roles/{group}/delete/{role}', [GroupRoleController::class, 'destroyRole']);
         Route::put('/roles/{group}/role/{role}/up', [GroupRoleController::class, 'rankUp']);
