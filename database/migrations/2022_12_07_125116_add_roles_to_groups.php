@@ -28,19 +28,6 @@ return new class extends Migration
             
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
         });
-
-        $groups = Group::all();
-        foreach ($groups as $group) {
-            GroupRoleHandler::createStandardGroupRoles($group->id);
-            $roles = $group->roles;
-            foreach($group->groupUsers as $member) {
-                if($member->rank === 'admin')
-                    $member->rank = $roles->where('owner', true)->first()->id;
-                else
-                    $member->rank = $roles->where('member', true)->first()->id;
-                    $member->save();
-            }
-        }
     }
 
     /**
@@ -50,17 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        $groups = Group::all();
-        foreach ($groups as $group) {
-            $roles = $group->roles;
-            foreach($group->groupUsers as $member) {
-                if($member->rank === $roles->where('owner', true)->first()->id)
-                    $member->rank = 'admin';
-                else
-                    $member->rank = 'member';
-                $member->save();
-            }
-        }
         Schema::dropIfExists('group_roles');
     }
 };

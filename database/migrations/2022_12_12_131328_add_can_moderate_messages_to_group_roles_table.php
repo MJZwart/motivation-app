@@ -17,9 +17,6 @@ return new class extends Migration
         Schema::table('group_roles', function (Blueprint $table) {
             $table->boolean('can_moderate_messages')->default(false);
         });
-
-        GroupRole::where('owner', true)->update(['can_moderate_messages' => true]);
-        GroupRole::where('owner', false)->where('member', false)->update(['can_moderate_messages' => true]);
     }
 
     /**
