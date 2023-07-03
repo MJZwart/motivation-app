@@ -9,7 +9,7 @@
     },
     "type": "module",
     "scripts": {
-        "hot": "vite --host",
+        "watch": "vite --host",
         "build": "vite build",
         "dev": "npm run development",
         "prod": "npm run production",
