@@ -176,6 +176,14 @@ export const routes = [
             title: 'Changelog',
         },
     },
+    {
+        name: 'Castlequest',
+        path: '/castlequest',
+        component: () => import('../pages/castlequest/Castlequest.vue'),
+        meta: {
+            title: 'Castlequest',
+        },
+    },
     // {
     //     path: '/test',
     //     component: require('../pages/Test.vue').default,
