@@ -18,7 +18,10 @@ class AdminConversationResource extends JsonResource
     {
         return [
             'id' => $this->conversation_id,
-            'messages' => AdminMessageResource::collection(Message::where('conversation_id', $this->conversation_id)->get()),
+            'messages' => AdminMessageResource::collection(
+                Message::where('conversation_id', $this->conversation_id)
+                ->where('user_id', $this->user_id)
+                ->get()),
         ];
     }
 }
