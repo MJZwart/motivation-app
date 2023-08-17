@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\ExperiencePoint;
 use App\Models\Group;
+use App\Models\GroupExperiencePoint;
 use App\Models\User;
 
 class GroupLevelHandler
@@ -17,13 +18,12 @@ class GroupLevelHandler
     }
 
     public static function applyExperienceAndCheckLevel(Group $group, int $experience) {
-        // Check if max experience has been applied that day
+        // Check if max experience has been applied that day #751
         // if (expEarned > maxExp) {
         //      return;
         // }
         $group->experience += $experience;
-        //TODO use a different balancing sheet for groups
-        $experienceForLevel = ExperiencePoint::where('level', $group->level)->first()->experience_points;
+        $experienceForLevel = GroupExperiencePoint::where('level', $group->level)->first()->experience_points;
         while ($group->experience > $experienceForLevel) {
             $group->level++;
             $group->experience -= $experienceForLevel;
