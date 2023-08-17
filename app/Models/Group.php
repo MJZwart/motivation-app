@@ -16,6 +16,8 @@ class Group extends Model
         'description',
         'is_public',
         'require_application',
+        'experience',
+        'level',
     ];
 
     protected $with = ['users'];

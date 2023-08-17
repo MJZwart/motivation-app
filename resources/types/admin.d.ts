@@ -70,3 +70,8 @@ export type Actions = {
     user: StrippedUser,
     user_agent: string,
 }
+
+export type GlobalSetting = {
+    key: string,
+    value: string,
+}

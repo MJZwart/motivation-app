@@ -147,5 +147,9 @@
     "action-type": "Actie type",
     "user-agent": "User agent",
     "none": "Geen",
-    "date-range": "Periode"
+    "date-range": "Periode",
+    
+    "setting-key-heading": "Instelling key",
+    "setting-value-heading": "Waarde",
+    "group_max_exp_per_day": "Max groep exp per dag"
 }

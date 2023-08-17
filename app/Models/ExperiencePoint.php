@@ -16,7 +16,7 @@ class ExperiencePoint extends Model
      * level that exists in the database. If the max level is not given, get the max
      * level from the databse first.
      */
-    public static function getCurrentOrMaxExp(int $currentLevel, int $maxLevel) {
+    public static function getCurrentOrMaxExp(int $currentLevel, int | null $maxLevel = null) {
         if (!$maxLevel) $maxLevel = ExperiencePoint::max('level');
         return ExperiencePoint::where('level', $currentLevel)
                     ->orWhere('level', $maxLevel)

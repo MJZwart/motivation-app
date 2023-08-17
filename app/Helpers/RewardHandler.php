@@ -15,6 +15,8 @@ class RewardHandler
         $activeReward = $user->getActiveRewardObject();
         $rewardType = $user->rewards;
 
+        GroupLevelHandler::applyExperienceToGroups($user, $task->difficulty);
+
         $parsedReward = RewardHandler::calculateReward($task->type, $task->difficulty, $rewardType);
         if ($task->activeSubTasks() != null) {
             foreach ($task->activeSubTasks() as $subtask) {

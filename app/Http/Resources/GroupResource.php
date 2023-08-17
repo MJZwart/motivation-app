@@ -3,8 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\GroupUserResource;
-use App\Http\Resources\StrippedUserResource;
 use App\Models\GroupRole;
 
 class GroupResource extends JsonResource
@@ -29,6 +27,7 @@ class GroupResource extends JsonResource
             'members' => $this->groupUsers->count(),
             'is_member' => !!$user,
             'rank' => $user ? new GroupRoleResource(GroupRole::find($user->rank)) : null,
+            'level' => $this->level,
         ];
     }
 }

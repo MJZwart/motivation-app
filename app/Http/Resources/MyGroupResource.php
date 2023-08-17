@@ -27,6 +27,7 @@ class MyGroupResource extends JsonResource
             'members' => $this->groupUsers->count(),
             'rank' => $this->loggedUserRank(),
             'joined' => Carbon::create($this->findLoggedGroupUser()->joined),
+            'level' => $this->level,
         ];
     }
 }

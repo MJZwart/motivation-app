@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BugReportController;
+use App\Http\Controllers\GlobalSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,4 +58,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/action/filters', [AdminController::class, 'getActionsWithFilters']);
 
     Route::put('/groups/{group}/messages/daterange', [AdminController::class, 'getGroupMessagesByDateRange']);
+
+    Route::get('/settings', [GlobalSettingController::class, 'getGlobalSettings']);
+    Route::post('/settings', [GlobalSettingController::class, 'updateGlobalSettings']);
 });

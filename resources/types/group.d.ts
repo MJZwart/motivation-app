@@ -8,6 +8,7 @@ export type Group = NewGroup & {
     is_member: boolean;
     rank: Rank | null;
     joined?: string;
+    level: number;
 };
 
 export type NewGroup = {
@@ -23,6 +24,8 @@ export type GroupPage = Group & {
     joined: string;
     has_application: boolean;
     invites: number[] | null;
+    experience: number;
+    exp_to_next_level: number;
 };
 
 export type GroupUser = {

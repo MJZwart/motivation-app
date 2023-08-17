@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class Localization
 {
+
+    public $app;
+    public $request;
+    
     public function __construct(Application $app, Request $request) {
         $this->app = $app;
         $this->request = $request;

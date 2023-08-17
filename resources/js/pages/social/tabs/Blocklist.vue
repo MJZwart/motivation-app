@@ -27,10 +27,10 @@
 </template>
 
 <script setup lang="ts">
+import type {Blocked} from 'resources/types/user';
 import {onMounted, ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useUserStore} from '/js/store/userStore';
-import type {Blocked} from 'resources/types/user';
 import {UNLOCK} from '/js/constants/iconConstants';
 import ConfirmUnblock from '../components/ConfirmUnblock.vue';
 import {formModal} from '/js/components/modal/modalService';
