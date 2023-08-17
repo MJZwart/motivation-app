@@ -56,7 +56,11 @@
                 <h3 v-if="chosen == 'ALL'">{{ $t('all-groups') }}</h3>
                 <button type="button" class="m-1 ml-auto" @click="createGroup">{{ $t('create-group') }}</button>
             </div>
-            <GroupOverviewComponent v-for="(group, index) in filteredAllGroups" :key="index" :group="group" />
+            <Pagination :items="filteredAllGroups">
+                <template #items="paginatedGroups">
+                    <GroupOverviewComponent v-for="(group, index) in paginatedGroups" :key="index" :group="group" />
+                </template>
+            </Pagination>
             <div v-if="filteredAllGroups.length === 0" >
                 {{ $t('no-groups-found') }}
             </div>
@@ -72,6 +76,7 @@ import {useGroupStore} from '/js/store/groupStore';
 import {useRouter} from 'vue-router';
 import {formModal} from '/js/components/modal/modalService';
 import GroupOverviewComponent from '../components/groups/GroupOverviewComponent.vue';
+import Pagination from '/js/components/global/Pagination.vue';
 
 const groupStore = useGroupStore();
 
