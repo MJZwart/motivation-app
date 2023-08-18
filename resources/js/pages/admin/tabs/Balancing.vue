@@ -10,6 +10,9 @@
             <button :class="activeTab('VillExpGain')" class="tab-item" @click="switchTab('VillExpGain')">
                 {{ $t('vill-exp-gain') }}
             </button>
+            <button :class="activeTab('GroupExp')" class="tab-item" @click="switchTab('GroupExp')">
+                {{ $t('group-exp') }}
+            </button>
         </div>
         <keep-alive>
             <component :is="currentTabComponent" />
@@ -19,14 +22,16 @@
 
 <script setup lang="ts">
 import {ref, shallowRef} from 'vue';
-import ExperiencePoints from './../components/ExperiencePointsTab.vue';
-import CharExpGain from './../components/CharExpGainTab.vue';
-import VillExpGain from './../components/VillExpGainTab.vue';
+import ExperiencePoints from './../components/balancing/ExperiencePointsTab.vue';
+import CharExpGain from './../components/balancing/CharExpGainTab.vue';
+import VillExpGain from './../components/balancing/VillExpGainTab.vue';
+import GroupExp from '../components/balancing/GroupExp.vue';
 
 const componentNames = {
     ExperiencePoints: ExperiencePoints,
     CharExpGain: CharExpGain,
     VillExpGain: VillExpGain,
+    GroupExp:GroupExp,
 };
 const activeComponent = ref('ExperiencePoints');
 

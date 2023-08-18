@@ -138,6 +138,15 @@
     "add-level": "Add level",
     "points": "Points",
 
+    "group-exp": "Group experience",
+    "initial-points": "Initial experience points",
+    "increments": "Experience increments",
+    "increments-after": "Experience increments on second half",
+    "until-level": "until level",
+    "second-increment": "Second increment",
+    "max-level": "Max level",
+    "manage-group-exp": "Manage group experience",
+
     "filter-by": "Filter by",
     "users": "Users",
 

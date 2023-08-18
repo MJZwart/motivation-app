@@ -26,6 +26,7 @@ use App\Http\Resources\UserReportResource;
 use App\Models\ActionTracking;
 use App\Models\Feedback;
 use App\Models\Group;
+use App\Models\GroupExperiencePoint;
 use App\Models\Notification;
 use App\Models\SuspendedUser;
 use Illuminate\Http\JsonResponse;
@@ -40,6 +41,7 @@ class AdminController extends Controller
     {
         //Empty function, check is already done by middleware
     }
+    
     /*
     * *
     * * Balancing
@@ -49,6 +51,11 @@ class AdminController extends Controller
     public function getExperiencePoints(): JsonResponse
     {
         return ResponseWrapper::successResponse(null, ExperiencePoint::orderBy('level')->get());
+    }
+
+    public function getGroupExp(): JsonResponse
+    {
+        return ResponseWrapper::successResponse(null, GroupExperiencePoint::orderBy('level')->get());
     }
 
     public function getCharacterExpGain() : JsonResponse
