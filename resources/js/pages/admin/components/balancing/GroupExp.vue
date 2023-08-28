@@ -3,53 +3,54 @@
         <div class="col">
             <h5>{{$t('manage-group-exp')}}</h5>
             <form @submit.prevent="submit">
-            <SimpleInput
-                id="initialPoints"
-                v-model="groupExp.initialPoints"
-                type="number"
-                name="initialPoints"
-                :label="$t('initial-points')"
-                :placeholder="$t('initial-points')"
-            />
-            <SimpleInput
-                id="firstIncrement"
-                v-model="groupExp.firstIncrement"
-                type="number"
-                name="firstIncrement"
-                :label="$t('increments')"
-                :placeholder="$t('first-increment')"
-            />
-            <SimpleInput
-                id="firstIncrementMaxLevel"
-                v-model="groupExp.firstIncrementMaxLevel"
-                type="number"
-                name="firstIncrementMaxLevel"
-                max="500"
-                :label="$t('until-level')"
-                :placeholder="$t('first-increment-max-level')"
-            />
-            <SimpleInput
-                id="secondIncrement"
-                v-model="groupExp.secondIncrement"
-                type="number"
-                name="secondIncrement"
-                :label="$t('increments-after')"
-                :placeholder="$t('second-increment')"
-            />
-            <SimpleInput
-                id="maxLevel"
-                v-model="groupExp.maxLevel"
-                type="number"
-                name="maxLevel"
-                max="500"
-                :label="$t('max-level')"
-                :placeholder="$t('max-level')"
-            />
-            Experience cap: {{ cappedExp }}
-            <span class="silent">All subsequent levels will have this as max experience points for their level</span>
-            <button type="button" class="mr-2" @click="generateTable">Preview new experience table</button>
-            <SubmitButton />
-        </form>
+                <SimpleInput
+                    id="initialPoints"
+                    v-model="groupExp.initialPoints"
+                    type="number"
+                    name="initialPoints"
+                    :label="$t('initial-points')"
+                    :placeholder="$t('initial-points')"
+                />
+                <SimpleInput
+                    id="firstIncrement"
+                    v-model="groupExp.firstIncrement"
+                    type="number"
+                    name="firstIncrement"
+                    :label="$t('increments')"
+                    :placeholder="$t('first-increment')"
+                />
+                <SimpleInput
+                    id="firstIncrementMaxLevel"
+                    v-model="groupExp.firstIncrementMaxLevel"
+                    type="number"
+                    name="firstIncrementMaxLevel"
+                    max="500"
+                    :label="$t('until-level')"
+                    :placeholder="$t('first-increment-max-level')"
+                />
+                {{ $t('midway-point')}}: {{midwayPoint}}
+                <SimpleInput
+                    id="secondIncrement"
+                    v-model="groupExp.secondIncrement"
+                    type="number"
+                    name="secondIncrement"
+                    :label="$t('increments-after')"
+                    :placeholder="$t('second-increment')"
+                />
+                <SimpleInput
+                    id="maxLevel"
+                    v-model="groupExp.maxLevel"
+                    type="number"
+                    name="maxLevel"
+                    max="500"
+                    :label="$t('max-level')"
+                    :placeholder="$t('max-level')"
+                />
+                Experience cap: {{ cappedExp }}
+                <span class="silent">All subsequent levels will have this as max experience points for their level</span>
+                <button type="button" class="mr-2" @click="generateTable">Preview new experience table</button>
+                <SubmitButton />
+            </form>
         </div>
         <Loading v-if="loading" />
         <div v-else class="col d-flex">
@@ -96,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
+import {computed, onMounted, ref, watch, watchEffect} from 'vue';
 import Loading from '/js/components/global/Loading.vue';
 import {useAdminStore} from '/js/store/adminStore';
 import {deepCopy} from '/js/helpers/copy';
@@ -149,16 +150,21 @@ function findIncrementMaxLevel(increment: number) {
 const cappedExp = computed(() => {
     const levelsInFirstHalf = groupExp.value.firstIncrementMaxLevel - 1;
     const expInFirstHalf = levelsInFirstHalf * groupExp.value.firstIncrement;
-    const levelsInSecondHalf = groupExp.value.maxLevel - (levelsInFirstHalf + 1);
+    const levelsInSecondHalf = groupExp.value.maxLevel - (levelsInFirstHalf - 1);
     const expInSecondHalf = levelsInSecondHalf * groupExp.value.secondIncrement;
-    const initialPoints = typeof groupExp.value.initialPoints === 'string' ? parseInt(groupExp.value.initialPoints) : groupExp.value.initialPoints
-    return expInFirstHalf + expInSecondHalf + initialPoints;
+    return expInFirstHalf + expInSecondHalf + groupExp.value.initialPoints;
+});
+
+const midwayPoint = computed(() => {
+    const levelsInFirstHalf = groupExp.value.firstIncrementMaxLevel - 1;
+    const expInFirstHalf = levelsInFirstHalf * groupExp.value.firstIncrement;
+    return expInFirstHalf + groupExp.value.initialPoints;
 });
 
 function generateTable() {
     loading.value = true;
     const table = [];
-    for(let i = 0; i < groupExp.value.maxLevel ; i++) {
+    for (let i = 0; i < groupExp.value.maxLevel ; i++) {
         let exp = groupExp.value.initialPoints;
         if (i < groupExp.value.firstIncrementMaxLevel)
             exp += i * groupExp.value.firstIncrement;
@@ -175,7 +181,14 @@ function generateTable() {
 
 async function submit() {
     loading.value = true;
-    currentGroupExp.value = await adminStore.saveGroupExp(newExpTable.value);
+    generateTable();
+    newGroupExp.value = await adminStore.saveGroupExp(newExpTable.value);
     loading.value = false;
 }
+
+watchEffect(
+    () => {
+        if (typeof groupExp.value.initialPoints === 'string')
+            groupExp.value.initialPoints = parseInt(groupExp.value.initialPoints);
+    });
 </script>

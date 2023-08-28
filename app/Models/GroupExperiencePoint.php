@@ -9,6 +9,11 @@ class GroupExperiencePoint extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'level',
+        'experience_points'
+    ];
+
     public $timestamps = false;
 
     /**

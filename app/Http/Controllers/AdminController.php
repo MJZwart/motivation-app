@@ -7,6 +7,7 @@ use App\Helpers\ResponseWrapper;
 use App\Http\Requests\SuspendUserRequest;
 use App\Http\Requests\EditUserSuspensionRequest;
 use App\Http\Requests\FetchActionsWithFilters;
+use App\Http\Requests\StoreGroupExperienceRequest;
 use App\Http\Requests\UpdateExperiencePointsRequest;
 use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
@@ -56,6 +57,15 @@ class AdminController extends Controller
     public function getGroupExp(): JsonResponse
     {
         return ResponseWrapper::successResponse(null, GroupExperiencePoint::orderBy('level')->get());
+    }
+
+    public function storeGroupExp(StoreGroupExperienceRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        GroupExperiencePoint::truncate();
+        GroupExperiencePoint::insert($validated);
+        return ResponseWrapper::successResponse(__('messages.group_exp.updated'), GroupExperiencePoint::orderBy('level')->get());
     }
 
     public function getCharacterExpGain() : JsonResponse
