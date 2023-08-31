@@ -45,6 +45,10 @@ return [
         'vill_updated' => 'Village experience balancing updated',
     ],
 
+    'group_exp' => [
+        'updated' => 'Group experience points updated',
+    ],
+
     'user' => [
         'suspension' => [
             'until' => 'User suspended until :time',

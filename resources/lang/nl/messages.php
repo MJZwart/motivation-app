@@ -45,6 +45,10 @@ return [
         'vill_updated' => 'Nederzetting experience balancering gewijzigd',
     ],
 
+    'group_exp' => [
+        'updated' => 'Groep experience punten gewijzigd',
+    ],
+
     'user' => [
         'suspension' => [
             'until' => 'Gebruiker geschorst tot :time',

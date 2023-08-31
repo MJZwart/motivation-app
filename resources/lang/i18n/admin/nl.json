@@ -138,6 +138,20 @@
     "add-level": "Voeg level toe",
     "points": "Punten",
 
+    "group-exp": "Groep experience",
+    "initial-points": "Initiele experience punten",
+    "increments": "Experience verhogingen",
+    "increments-after": "Experience verhogingen op de tweede helft",
+    "until-level": "tot level",
+    "second-increment": "Tweede verhogingen",
+    "max-level": "Max level",
+    "manage-group-exp": "Beheer groep experience",
+    "experience-cap": "Experience plafond",
+    "experience-cap-info": "Alle volgende levels zullen dit als max experience punten voor hun level aanhouden",
+    "preview-new-exp-table": "Bekijk nieuwe experience tabel",
+    "current-exp-table": "Huidig experience tabel",
+    "new-exp-table": "Nieuwe experience tabel",
+
     "filter-by": "Filter op",
     "users": "Gebruikers",
 
