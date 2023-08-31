@@ -46,16 +46,17 @@
                     :label="$t('max-level')"
                     :placeholder="$t('max-level')"
                 />
+                {{ $t('experience-cap') }}: {{ cappedExp }}
                 Experience cap: {{ cappedExp }}
-                <span class="silent">All subsequent levels will have this as max experience points for their level</span>
-                <button type="button" class="mr-2" @click="generateTable">Preview new experience table</button>
+                <span class="silent">{{$t('experience-cap-info')}}</span>
+                <button type="button" class="mr-2" @click="generateTable">{{$t('preview-new-exp-table')}}</button>
                 <SubmitButton />
             </form>
         </div>
         <Loading v-if="loading" />
         <div v-else class="col d-flex">
             <div class="mr-2">
-                <h4>Current experience table</h4>
+                <h4>{{$t('current-exp-table')}}</h4>
                 <table class="table table-sm table-striped">
                     <thead>
                         <tr>
@@ -74,7 +75,7 @@
                 </table>
             </div>
             <div v-if="newExpTable.length">
-                <h4>New experience table</h4>
+                <h4>{{$t('new-exp-table')}}</h4>
                 <table class="table table-sm table-striped">
                     <thead>
                         <tr>
@@ -97,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch, watchEffect} from 'vue';
+import {computed, onMounted, ref, watchEffect} from 'vue';
 import Loading from '/js/components/global/Loading.vue';
 import {useAdminStore} from '/js/store/adminStore';
 import {deepCopy} from '/js/helpers/copy';

@@ -146,6 +146,11 @@
     "second-increment": "Second increment",
     "max-level": "Max level",
     "manage-group-exp": "Manage group experience",
+    "experience-cap": "Experience cap",
+    "experience-cap-info": "All subsequent levels will have this as max experience points for their level",
+    "preview-new-exp-table": "Preview new experience table",
+    "current-exp-table": "Current experience table",
+    "new-exp-table": "New experience table",
 
     "filter-by": "Filter by",
     "users": "Users",
