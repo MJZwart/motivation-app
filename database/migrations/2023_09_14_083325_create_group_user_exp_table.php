@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('group_user_exp', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('group_user_id')->constrained('group_user');
             $table->foreignId('group_id')->constrained();
             $table->bigInteger('total_exp')->default(0);
         });
 
         foreach(Group::all() as $group) {
-            foreach($group->users as $user) {
+            foreach($group->groupUsers as $groupUser) {
                 GroupUserExp::create([
-                    'user_id' => $user->id,
+                    'group_user_id' => $groupUser->id,
                     'group_id' => $group->id,
                 ]);
             }

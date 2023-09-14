@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class GroupUserExp extends Model
 {
+
+    public $table = 'group_user_exp';
+    public $timestamps = false;
+
     protected $fillable = [
         'user_id',
         'group_id',

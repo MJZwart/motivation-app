@@ -6,7 +6,7 @@ use App\Helpers\GroupRoleHandler;
 use Illuminate\Database\Seeder;
 use App\Models\Group;
 use App\Models\GroupApplication;
-use App\Models\GroupRole;
+use App\Models\GroupUserExp;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -23,25 +23,41 @@ class GroupSeeder extends Seeder
         Group::factory(15)->create();
         $groups = Group::get();
         $users = User::pluck('id')->toArray();
+        $this->createApplicationGroupForTesting($users);
         foreach($groups as $group) {
             GroupRoleHandler::createStandardGroupRoles($group->id);
             $amountOfUsers = rand(1, 10);
             shuffle($users);
+            $this->createGroupUsers($group, array_slice($users, 0, $amountOfUsers));
+            $this->createGroupUserExpTableRows($group);
+        }
+    }
+
+    private function createGroupUsers(Group $group, array $users) {
+        $first = true;
+        foreach($users as $user) {
             DB::table('group_user')->insert([
                 'group_id' => $group->id,
-                'user_id' => $users[0],
+                'user_id' => $user,
                 'joined' => Carbon::now()->subDays(rand(1, 365)),
-                'rank' => GroupRoleHandler::getAdminRank($group->id)->id,
+                'rank' => $first ? 
+                    GroupRoleHandler::getAdminRank($group->id)->id : 
+                    GroupRoleHandler::getMemberRank($group->id)->id,
             ]);
-            for($i = 1 ; $i < $amountOfUsers ; $i++) {
-                DB::table('group_user')->insert([
-                    'group_id' => $group->id,
-                    'user_id' => $users[$i],
-                    'joined' => Carbon::now()->subDays(rand(1, 365)),
-                    'rank' => GroupRoleHandler::getMemberRank($group->id)->id,
-                ]);
-            }
+            $first = false;
         }
+    }
+
+    private function createGroupUserExpTableRows(Group $group) {
+        foreach($group->groupUsers as $groupUser) {
+            GroupUserExp::create([
+                'group_user_id' => $groupUser->id,
+                'group_id' => $group->id,
+            ]);
+        }
+    }
+
+    private function createApplicationGroupForTesting(array $users) {
         DB::table('groups')->insert([
             'name' => 'application_test',
             'description' => 'application_test',
