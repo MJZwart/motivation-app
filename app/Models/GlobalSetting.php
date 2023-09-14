@@ -11,4 +11,7 @@ class GlobalSetting extends Model
         'key',
         'value',
     ];
+
+    // Current keys
+    public const MAX_GROUP_EXP = 'group_max_exp_per_day';
 }

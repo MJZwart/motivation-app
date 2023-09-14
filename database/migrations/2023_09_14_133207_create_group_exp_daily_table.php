@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Group;
-use App\Models\GroupUserExp;
 use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,12 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('group_user_daily_exp', function (Blueprint $table) {
+        Schema::create('group_exp_daily', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->default(Carbon::now()->toDateString());
-            $table->foreignId('user_id')->constrained();
             $table->foreignId('group_id')->constrained();
-            $table->bigInteger('daily_exp')->default(0);
+            $table->date('date')->default(Carbon::now()->toDateString());
+            $table->bigInteger('exp_gained')->default(0);
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('group_user_daily_exp');
+        Schema::dropIfExists('group_exp_daily');
     }
 };

@@ -29,7 +29,6 @@ class GroupSeeder extends Seeder
             $amountOfUsers = rand(1, 10);
             shuffle($users);
             $this->createGroupUsers($group, array_slice($users, 0, $amountOfUsers));
-            $this->createGroupUserExpTableRows($group);
         }
     }
 
@@ -45,15 +44,6 @@ class GroupSeeder extends Seeder
                     GroupRoleHandler::getMemberRank($group->id)->id,
             ]);
             $first = false;
-        }
-    }
-
-    private function createGroupUserExpTableRows(Group $group) {
-        foreach($group->groupUsers as $groupUser) {
-            GroupUserExp::create([
-                'group_user_id' => $groupUser->id,
-                'group_id' => $group->id,
-            ]);
         }
     }
 

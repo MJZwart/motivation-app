@@ -4,20 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GroupUserDailyExp extends Model
+class GroupExpDaily extends Model
 {
-    public $table = 'group_user_daily_exp';
     public $timestamps = false;
+    public $table = 'group_exp_daily';
 
     protected $fillable = [
-        'user_id',
         'group_id',
         'date',
+        'exp_gained',
     ];
-
-    public function user() {
-        return $this->belongsTo('App\Models\User');
-    }
 
     public function group() {
         return $this->belongsTo('App\Models\Group');
