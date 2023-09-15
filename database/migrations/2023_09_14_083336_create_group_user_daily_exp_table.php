@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date')->default(Carbon::now()->toDateString());
             $table->foreignId('user_id')->constrained();
             $table->foreignId('group_id')->constrained();
-            $table->bigInteger('daily_exp')->default(0);
+            $table->bigInteger('exp_gained')->default(0);
         });
     }
 

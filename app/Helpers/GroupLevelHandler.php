@@ -22,7 +22,7 @@ class GroupLevelHandler
             // Calculates experience points
             $experience = rand(50, 150) * $taskDifficulty; //TODO make this into a dynamically adjustable range
             // Adjusts experience gained if max has been reached
-            $experience = self::checkForMaxExpAppliedToday($experience, $group);
+            $experience = self::checkForMaxExpAppliedToday($experience, $group, $user);
             if ($experience === 0) return;
             // Apply experience to group and user exp tracking
             GroupLevelHandler::applyExperienceAndCheckLevel($group, $experience);
@@ -51,19 +51,19 @@ class GroupLevelHandler
     private static function registerGroupUserExpEarned(Group $group, User $user, int $experience) {
         $groupUserId = $group->users->where('id', $user->id)->first()->id;
         // Fetches today's contribution, creates it if not present, then updates
-        $dailyExpRow = GroupUserDailyExp::
-            where('date', Carbon::now()->toDateString())
-            ->where('user_id', $groupUserId)
-            ->where('group_id', $group->id)
-            ->first();
-        if ($dailyExpRow === null) {
-            $dailyExpRow = new GroupUserDailyExp([
-                'user_id' => $groupUserId,
-                'group_id' => $group->id,
-            ]);
-        }
-        $dailyExpRow->daily_exp += $experience;
-        $dailyExpRow->save();
+        // $dailyExpRow = GroupUserDailyExp::
+        //     where('date', Carbon::now()->toDateString())
+        //     ->where('user_id', $groupUserId)
+        //     ->where('group_id', $group->id)
+        //     ->first();
+        // if ($dailyExpRow === null) {
+        //     $dailyExpRow = new GroupUserDailyExp([
+        //         'user_id' => $groupUserId,
+        //         'group_id' => $group->id,
+        //     ]);
+        // }
+        // $dailyExpRow->exp_gained += $experience;
+        // $dailyExpRow->save();
         // Fetches total contribution, creates it if not present, then updates
         $totalExpRow = GroupUserExp::where('user_id', $groupUserId)->where('group_id', $group->id)->first();
         if($totalExpRow === null) {
@@ -79,11 +79,23 @@ class GroupLevelHandler
     /**
      * Check if this group has already reached max daily exp gained and adjusts experience accordingly
      */
-    private static function checkForMaxExpAppliedToday(int $experience, Group $group): int 
+    private static function checkForMaxExpAppliedToday(int $experience, Group $group, User $user): int 
     {
-        $currentDailyExp = GroupExpDaily::where('date', Carbon::now()->toDateString())->where('group_id', $group->id)->first();
+        $groupUserId = $group->users->where('id', $user->id)->first()->id;
+        $currentDailyExp = GroupUserDailyExp::where('date', Carbon::now()->toDateString())
+            ->where('group_id', $group->id)
+            ->where('user_id', $user->id)
+            ->first();
+        $currentDailyGroupExp = GroupExpDaily::where('date', Carbon::now()->toDateString())->where('group_id', $group->id)->first();
+        if ($currentDailyGroupExp === null) {
+            $currentDailyGroupExp = new GroupExpDaily([
+                'group_id' => $group->id,
+        ]);}
         if ($currentDailyExp === null) {
-            $currentDailyExp = new GroupExpDaily(['group_id' => $group->id]);
+            $currentDailyExp = new GroupUserDailyExp([
+                'group_id' => $group->id,
+                'user_id' => $groupUserId,
+        ]);
         }
         $max = GlobalSetting::where('key', GlobalSetting::MAX_GROUP_EXP)->first()->value;
         if ($currentDailyExp->exp_gained >= $max) {
@@ -92,6 +104,8 @@ class GroupLevelHandler
         if ($currentDailyExp->exp_gained + $experience >= $max) {
             $experience = $max - $currentDailyExp->exp_gained;
         }
+        $currentDailyGroupExp->exp_gained += $experience;
+        $currentDailyGroupExp->save();
         $currentDailyExp->exp_gained += $experience;
         $currentDailyExp->save();
         return $experience;
