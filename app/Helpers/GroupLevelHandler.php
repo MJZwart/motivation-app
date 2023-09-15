@@ -50,20 +50,6 @@ class GroupLevelHandler
      */
     private static function registerGroupUserExpEarned(Group $group, User $user, int $experience) {
         $groupUserId = $group->users->where('id', $user->id)->first()->id;
-        // Fetches today's contribution, creates it if not present, then updates
-        // $dailyExpRow = GroupUserDailyExp::
-        //     where('date', Carbon::now()->toDateString())
-        //     ->where('user_id', $groupUserId)
-        //     ->where('group_id', $group->id)
-        //     ->first();
-        // if ($dailyExpRow === null) {
-        //     $dailyExpRow = new GroupUserDailyExp([
-        //         'user_id' => $groupUserId,
-        //         'group_id' => $group->id,
-        //     ]);
-        // }
-        // $dailyExpRow->exp_gained += $experience;
-        // $dailyExpRow->save();
         // Fetches total contribution, creates it if not present, then updates
         $totalExpRow = GroupUserExp::where('user_id', $groupUserId)->where('group_id', $group->id)->first();
         if($totalExpRow === null) {
@@ -90,12 +76,13 @@ class GroupLevelHandler
         if ($currentDailyGroupExp === null) {
             $currentDailyGroupExp = new GroupExpDaily([
                 'group_id' => $group->id,
-        ]);}
+            ]);
+        }
         if ($currentDailyExp === null) {
             $currentDailyExp = new GroupUserDailyExp([
                 'group_id' => $group->id,
                 'user_id' => $groupUserId,
-        ]);
+            ]);
         }
         $max = GlobalSetting::where('key', GlobalSetting::MAX_GROUP_EXP)->first()->value;
         if ($currentDailyExp->exp_gained >= $max) {
