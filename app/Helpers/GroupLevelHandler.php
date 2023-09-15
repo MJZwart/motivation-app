@@ -14,29 +14,28 @@ use Carbon\Carbon;
 
 class GroupLevelHandler
 {
+    /**
+     * Applies experience to groups and tracks daily and total exp contribution
+     */
     public static function applyExperienceToGroups(User $user, int $taskDifficulty) {
         foreach($user->groups as $group) {
+            // Calculates experience points
             $experience = rand(50, 150) * $taskDifficulty; //TODO make this into a dynamically adjustable range
+            // Adjusts experience gained if max has been reached
+            $experience = self::checkForMaxExpAppliedToday($experience, $group);
+            if ($experience === 0) return;
+            // Apply experience to group and user exp tracking
             GroupLevelHandler::applyExperienceAndCheckLevel($group, $experience);
             self::registerGroupUserExpEarned($group, $user, $experience);
         }
     }
 
+    /**
+     * Applies the experience earned to a group, checks for a level up and applies this where possible
+     */
     public static function applyExperienceAndCheckLevel(Group $group, int $experience) {
-        $currentDailyExp = GroupExpDaily::where('date', Carbon::now()->toDateString())->where('group_id', $group->id)->first();
-        if ($currentDailyExp === null) {
-            $currentDailyExp = new GroupExpDaily(['group_id' => $group->id]);
-        }
-        $max = GlobalSetting::where('key', GlobalSetting::MAX_GROUP_EXP)->first()->value;
-        if ($currentDailyExp->exp_gained >= $max) {
-            return;
-        }
-        if ($currentDailyExp->exp_gained + $experience >= $max) {
-            $experience = $max - $currentDailyExp->exp_gained;
-        }
-        $currentDailyExp->exp_gained += $experience;
-        $currentDailyExp->save();
         $group->experience += $experience;
+        // Checks for level up and applies if possible
         $experienceForLevel = GroupExperiencePoint::where('level', $group->level)->first()->experience_points;
         while ($group->experience > $experienceForLevel) {
             $group->level++;
@@ -46,9 +45,12 @@ class GroupLevelHandler
         $group->save();
     }
 
+    /**
+     * Tracks the user contribution to this group, both in daily exp and total
+     */
     private static function registerGroupUserExpEarned(Group $group, User $user, int $experience) {
-        // ! STOP WHEN MAX HAS BEEN REACHED
         $groupUserId = $group->users->where('id', $user->id)->first()->id;
+        // Fetches today's contribution, creates it if not present, then updates
         $dailyExpRow = GroupUserDailyExp::
             where('date', Carbon::now()->toDateString())
             ->where('user_id', $groupUserId)
@@ -62,6 +64,7 @@ class GroupLevelHandler
         }
         $dailyExpRow->daily_exp += $experience;
         $dailyExpRow->save();
+        // Fetches total contribution, creates it if not present, then updates
         $totalExpRow = GroupUserExp::where('user_id', $groupUserId)->where('group_id', $group->id)->first();
         if($totalExpRow === null) {
             $totalExpRow = new GroupUserExp([
@@ -71,5 +74,26 @@ class GroupLevelHandler
         }
         $totalExpRow->total_exp += $experience;
         $totalExpRow->save();
+    }
+
+    /**
+     * Check if this group has already reached max daily exp gained and adjusts experience accordingly
+     */
+    private static function checkForMaxExpAppliedToday(int $experience, Group $group): int 
+    {
+        $currentDailyExp = GroupExpDaily::where('date', Carbon::now()->toDateString())->where('group_id', $group->id)->first();
+        if ($currentDailyExp === null) {
+            $currentDailyExp = new GroupExpDaily(['group_id' => $group->id]);
+        }
+        $max = GlobalSetting::where('key', GlobalSetting::MAX_GROUP_EXP)->first()->value;
+        if ($currentDailyExp->exp_gained >= $max) {
+            return 0;
+        }
+        if ($currentDailyExp->exp_gained + $experience >= $max) {
+            $experience = $max - $currentDailyExp->exp_gained;
+        }
+        $currentDailyExp->exp_gained += $experience;
+        $currentDailyExp->save();
+        return $experience;
     }
 }
