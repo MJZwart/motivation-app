@@ -10,13 +10,13 @@ class GroupUserDailyExp extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id',
+        'group_user_id',
         'group_id',
         'date',
     ];
 
-    public function user() {
-        return $this->belongsTo('App\Models\User');
+    public function groupUser() {
+        return $this->belongsTo('App\Models\GroupUser');
     }
 
     public function group() {

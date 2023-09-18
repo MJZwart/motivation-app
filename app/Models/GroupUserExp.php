@@ -10,15 +10,19 @@ class GroupUserExp extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id',
+        'group_user_id',
         'group_id',
     ];
 
-    public function user() {
-        return $this->belongsTo('App\Models\User');
+    public function groupUser() {
+        return $this->belongsTo('App\Models\GroupUser');
     }
 
     public function group() {
         return $this->belongsTo('App\Models\Group');
+    }
+
+    public function user() {
+        return $this->groupUser->user;
     }
 }

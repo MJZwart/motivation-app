@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('group_user_exp', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('group_user_id')->constrained('group_user', 'id');
             $table->foreignId('group_id')->constrained();
             $table->bigInteger('total_exp')->default(0);
         });
