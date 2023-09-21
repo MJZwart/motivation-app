@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('group_user_id')->constrained('group_user', 'id');
             $table->foreignId('group_id')->constrained();
-            $table->bigInteger('total_exp')->default(0);
+            $table->bigInteger('exp_gained')->default(0);
         });
     }
 

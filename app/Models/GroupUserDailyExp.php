@@ -13,6 +13,7 @@ class GroupUserDailyExp extends Model
         'group_user_id',
         'group_id',
         'date',
+        'exp_gained',
     ];
 
     public function groupUser() {

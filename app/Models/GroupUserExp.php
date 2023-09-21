@@ -12,6 +12,7 @@ class GroupUserExp extends Model
     protected $fillable = [
         'group_user_id',
         'group_id',
+        'exp_gained',
     ];
 
     public function groupUser() {

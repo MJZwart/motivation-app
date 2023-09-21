@@ -37,8 +37,8 @@ class GroupPageResource extends JsonResource
             'level' => $this->level,
             'experience' => $this->experience,
             'exp_to_next_level' => ExperiencePoint::getCurrentOrMaxExp($this->level),
-            'exp_today' => $groupUser ? $groupUser->expContributionToday() : null,
-            'exp_total' => $groupUser ? $groupUser->expContributionTotal() : null,
+            'your_exp_today' => $groupUser ? $groupUser->expContributionToday() : null,
+            'your_exp_total' => $groupUser ? $groupUser->expContributionTotal() : null,
         ];
     }
 }

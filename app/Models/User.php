@@ -109,7 +109,7 @@ class User extends Authenticatable
 
     public function groupMemberships() 
     {
-        return $this->belongsToMany(GroupUser::class);
+        return $this->hasMany('App\Models\GroupUser');
     }
 
     public function applications()

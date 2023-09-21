@@ -26,8 +26,8 @@ class GroupLevelHandler
             // Fetches today's contribution by this user to this group
             $userContributionToday = self::fetchGroupUserDailyContribution($groupUser);
             // Adjusts experience gained if max has been reached
-            $experience = self::checkForMaxExp($experience, $userContributionToday);
-            if ($experience === 0) return;
+            $experience = self::checkForMaxExp($experience, $userContributionToday->exp_gained);
+            if ($experience === 0) continue;
             // Apply experience to group and user exp tracking
             GroupLevelHandler::applyExperienceAndCheckLevel($group, $experience);
             self::registerGroupUserExpEarned($groupUser, $experience);
@@ -43,11 +43,11 @@ class GroupLevelHandler
             ->where('group_id', $groupUser->group_id)
             ->where('group_user_id', $groupUser->id)
             ->first();
-
         if ($userContributionToday === null) {
             $userContributionToday = new GroupUserDailyExp([
                 'group_id' => $groupUser->group_id,
                 'group_user_id' => $groupUser->id,
+                'exp_gained' => 0,
             ]);
         }
         return $userContributionToday;
@@ -93,9 +93,10 @@ class GroupLevelHandler
             $totalExpRow = new GroupUserExp([
                 'group_user_id' => $groupUser->id,
                 'group_id' => $groupUser->group_id,
+                'exp_gained' => 0,
             ]);
         }
-        $totalExpRow->total_exp += $experience;
+        $totalExpRow->exp_gained += $experience;
         $totalExpRow->save();
     }
 
@@ -110,6 +111,7 @@ class GroupLevelHandler
         if ($currentDailyGroupExp === null) {
             $currentDailyGroupExp = new GroupExpDaily([
                 'group_id' => $groupUser->group_id,
+                'exp_gained' => 0,
             ]);
         }
         // Saves changes to daily contribution
