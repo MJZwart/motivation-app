@@ -34,11 +34,6 @@ class GroupUser extends Pivot
         return $this->hasMany(GroupUserDailyExp::class, 'group_user_id', 'id');
     }
 
-    public function groupUserExp()
-    {
-        return $this->hasOne(GroupUserExp::class, 'group_user_id', 'id');
-    }
-
     public function expContributionToday() 
     {
         $recordToday = $this->groupUserDailyExp->where('date', Carbon::now()->toDateString())->first();
@@ -47,7 +42,6 @@ class GroupUser extends Pivot
 
     public function expContributionTotal()
     {
-        $record = $this->groupUserExp;
-        return $record ? $record->exp_gained : 0;
+        return $this->groupUserDailyExp->sum('exp_gained');
     }
 }

@@ -6,7 +6,6 @@ use App\Helpers\GroupRoleHandler;
 use Illuminate\Database\Seeder;
 use App\Models\Group;
 use App\Models\GroupApplication;
-use App\Models\GroupUserExp;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;

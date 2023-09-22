@@ -9,7 +9,6 @@ use App\Models\GroupExpDaily;
 use App\Models\GroupExperiencePoint;
 use App\Models\GroupUser;
 use App\Models\GroupUserDailyExp;
-use App\Models\GroupUserExp;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -30,7 +29,6 @@ class GroupLevelHandler
             if ($experience === 0) continue;
             // Apply experience to group and user exp tracking
             GroupLevelHandler::applyExperienceAndCheckLevel($group, $experience);
-            self::registerGroupUserExpEarned($groupUser, $experience);
             $userContributionToday->exp_gained += $experience;
             $userContributionToday->save();
             self::registerDailyGroupExp($groupUser, $experience);
@@ -83,23 +81,6 @@ class GroupLevelHandler
             $experienceForLevel = ExperiencePoint::where('level', $group->level)->first()->experience_points;
         }
         $group->save();
-    }
-
-    /**
-     * Tracks the user contribution to this group, both in daily exp and total
-     */
-    private static function registerGroupUserExpEarned(GroupUser $groupUser, int $experience) {
-        // Fetches total contribution, creates it if not present, then updates
-        $totalExpRow = GroupUserExp::where('group_user_id', $groupUser->id)->where('group_id', $groupUser->group_id)->first();
-        if($totalExpRow === null) {
-            $totalExpRow = new GroupUserExp([
-                'group_user_id' => $groupUser->id,
-                'group_id' => $groupUser->group_id,
-                'exp_gained' => 0,
-            ]);
-        }
-        $totalExpRow->exp_gained += $experience;
-        $totalExpRow->save();
     }
 
     /**
