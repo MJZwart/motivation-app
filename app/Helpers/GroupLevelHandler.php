@@ -38,16 +38,21 @@ class GroupLevelHandler
     }
 
     private static function fetchGroupUserDailyContribution(GroupUser $groupUser) {
+        $today = Carbon::now()->toDateString();
         // Fetches today's user contribution to this group
-        $userContributionToday = GroupUserDailyExp::where('date', Carbon::now()->toDateString())
+        $userContributionToday = GroupUserDailyExp::where('date', $today)
             ->where('group_id', $groupUser->group_id)
             ->where('group_user_id', $groupUser->id)
             ->first();
+        error_log('Searching with group id ' . $groupUser->group_id . ' and group user id ' . $groupUser->id . ' and date ' . $today);
+        // error_log($userContributionToday->exp_gained);
         if ($userContributionToday === null) {
+            error_log('Making new daily');
             $userContributionToday = new GroupUserDailyExp([
                 'group_id' => $groupUser->group_id,
                 'group_user_id' => $groupUser->id,
                 'exp_gained' => 0,
+                'date' => $today,
             ]);
         }
         return $userContributionToday;
@@ -105,13 +110,15 @@ class GroupLevelHandler
      */
     private static function registerDailyGroupExp(GroupUser $groupUser, int $experience)
     {
-        // Fetches today's group total contribution ???
-        $currentDailyGroupExp = GroupExpDaily::where('date', Carbon::now()->toDateString())->where('group_id', $groupUser->group_id)->first();
+        $today = Carbon::now()->toDateString();
+        // Fetches today's group total contribution
+        $currentDailyGroupExp = GroupExpDaily::where('date', $today)->where('group_id', $groupUser->group_id)->first();
         // If the item doesn't exist, make it
         if ($currentDailyGroupExp === null) {
             $currentDailyGroupExp = new GroupExpDaily([
                 'group_id' => $groupUser->group_id,
                 'exp_gained' => 0,
+                'date' => $today,
             ]);
         }
         // Saves changes to daily contribution

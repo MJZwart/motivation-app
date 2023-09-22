@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('group_user_daily_exp', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->default(Carbon::now()->toDateString());
+            $table->date('date')->useCurrent();
             $table->foreignId('group_user_id')->constrained('group_user', 'id');
             $table->foreignId('group_id')->constrained();
             $table->bigInteger('exp_gained')->default(0);

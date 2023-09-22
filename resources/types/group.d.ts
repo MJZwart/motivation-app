@@ -36,6 +36,7 @@ export type GroupUser = {
     username: string;
     rank: Rank;
     joined: Date;
+    exp_gained?: number | string;
 };
 
 export type Rank = {

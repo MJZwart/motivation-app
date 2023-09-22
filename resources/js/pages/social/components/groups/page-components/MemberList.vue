@@ -5,6 +5,7 @@
             <b class="col">{{ $t('username')}}</b>
             <b class="col">{{ $t('rank')}}</b>
             <b class="col">{{ $t('member-for')}}</b>
+            <b class="col">{{ $t('exp-contribution') }}</b>
             <b v-if="group.rank.can_manage_members" class="col">{{$t('actions')}}</b>
         </div>
         <div v-for="(member, index) in group.members" :key="index" class="row">
@@ -13,6 +14,7 @@
                 <GroupRankIcon :rank="member.rank" />
                 {{member.rank.name}}</span>
             <span class="col">{{daysSince(member.joined.toString())}}</span>
+            <span class="col">{{ parseBigNumbers(member.exp_gained) }}</span>
             <span v-if="group.rank.can_manage_members" class="col">
                 <span v-if="member.user_id != user?.id" class="ml-auto mr-3">
                     <Tooltip :text="$t('send-message')">
@@ -54,6 +56,7 @@ import {Icon} from '@iconify/vue';
 import ManageGroupUserRole from './ManageGroupUserRole.vue';
 import {BAN, CROSS_SQUARE, MAIL, PROMOTE} from '/js/constants/iconConstants';
 import {formModal, sendMessageModal} from '/js/components/modal/modalService';
+import {parseBigNumbers} from '/js/services/numberService';
 
 const userStore = useUserStore();
 const groupStore = useGroupStore();
