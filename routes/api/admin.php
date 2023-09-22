@@ -29,21 +29,21 @@ Route::group(['middleware' => ['admin']], function () {
 
     Route::get('/overview', [AdminController::class, 'getOverview']);  
 
-    Route::get('/reported_users', [AdminController::class, 'getReportedUsers']);
-    Route::post('/reported_users/{reportedUser}', [AdminController::class, 'closeReport']);
+    Route::get('/reported-users', [AdminController::class, 'getReportedUsers']);
+    Route::post('/reported-users/{reportedUser}', [AdminController::class, 'closeReport']);
     Route::get('/conversation/{id}', [AdminController::class, 'getConversationById']);
 
     //* Balancing 
-    Route::get('/experience_points', [AdminController::class, 'getExperiencePoints']);
-    Route::post('/experience_points', [AdminController::class, 'addNewLevel']);
-    Route::get('/group_exp', [AdminController::class, 'getGroupExp']);
-    Route::post('/group_exp', [AdminController::class, 'storeGroupExp']);
+    Route::get('/experience-points', [AdminController::class, 'getExperiencePoints']);
+    Route::post('/experience-points', [AdminController::class, 'addNewLevel']);
+    Route::get('/group-exp', [AdminController::class, 'getGroupExp']);
+    Route::post('/group-exp', [AdminController::class, 'storeGroupExp']);
 
-    Route::get('/character_exp_gain', [AdminController::class, 'getCharacterExpGain']);
-    Route::get('/village_exp_gain', [AdminController::class, 'getVillageExpGain']);
-    Route::put('/experience_points', [AdminController::class, 'updateExperiencePoints']);
-    Route::put('/character_exp_gain', [AdminController::class, 'updateCharacterExpGain']);
-    Route::put('/village_exp_gain', [AdminController::class, 'updateVillageExpGain']);
+    Route::get('/character-exp-gain', [AdminController::class, 'getCharacterExpGain']);
+    Route::get('/village-exp-gain', [AdminController::class, 'getVillageExpGain']);
+    Route::put('/experience-points', [AdminController::class, 'updateExperiencePoints']);
+    Route::put('/character-exp-gain', [AdminController::class, 'updateCharacterExpGain']);
+    Route::put('/village-exp-gain', [AdminController::class, 'updateVillageExpGain']);
 
     //* Feedback
     Route::get('/feedback', [AdminController::class, 'getFeedback']);

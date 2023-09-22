@@ -70,45 +70,45 @@ export const useAdminStore = defineStore('admin', {
 
         // * Balancing
         async getExperiencePoints(): Promise<ExperiencePoint[]> {
-            const {data} = await axios.get('/admin/experience_points');
+            const {data} = await axios.get('/admin/experience-points');
             return data.data;
         },
         async updateExpPoints(experiencePoints: ExperiencePoint[]): Promise<ExperiencePoint[]> {
-            const {data} = await axios.put('/admin/experience_points', experiencePoints);
+            const {data} = await axios.put('/admin/experience-points', experiencePoints);
             return data.data.experience_points;
         },
         async addNewLevel(newLevel: ExperiencePoint): Promise<ExperiencePoint[]> {
-            const {data} = await axios.post('/admin/experience_points', newLevel);
+            const {data} = await axios.post('/admin/experience-points', newLevel);
             return data.data.experience_points;
         },
         async getCharacterExpGain(): Promise<CharExpGain[]> {
-            const {data} = await axios.get('/admin/character_exp_gain');
+            const {data} = await axios.get('/admin/character-exp-gain');
             return data.data;
         },
         async updateCharExpGain(charExpGain: CharExpGain[]): Promise<CharExpGain[]> {
-            const {data} = await axios.put('/admin/character_exp_gain', charExpGain);
+            const {data} = await axios.put('/admin/character-exp-gain', charExpGain);
             return data.data.balancing;
         },
         async getVillageExpGain(): Promise<VillageExpGain[]> {
-            const {data} = await axios.get('/admin/village_exp_gain');
+            const {data} = await axios.get('/admin/village-exp-gain');
             return data.data;
         },
         async updateVillageExpGain(villageExpGain: VillageExpGain[]): Promise<VillageExpGain[]> {
-            const {data} = await axios.put('/admin/village_exp_gain', villageExpGain);
+            const {data} = await axios.put('/admin/village-exp-gain', villageExpGain);
             return data.data.balancing;
         },
         async getGroupExp(): Promise<ExperiencePoint[]> {
-            const {data} = await axios.get('/admin/group_exp');
+            const {data} = await axios.get('/admin/group-exp');
             return data.data;
         },
         async saveGroupExp(experiencePoints: ExperiencePoint[]): Promise<ExperiencePoint[]> {
-            const {data} = await axios.post('/admin/group_exp', experiencePoints);
+            const {data} = await axios.post('/admin/group-exp', experiencePoints);
             return data.data;
         },
 
         // * Reported / suspended users
         async getReportedUsers(): Promise<ReportedUser[]> {
-            const {data} = await axios.get('/admin/reported_users');
+            const {data} = await axios.get('/admin/reported-users');
             return data.reportedUsers;
         },
         /**
@@ -119,7 +119,7 @@ export const useAdminStore = defineStore('admin', {
             return data.data.reported_users;
         },
         async closeReport(report: ReportedUser): Promise<ReportedUser[]> {
-            const {data} = await axios.post(`/admin/reported_users/${report.id}`);
+            const {data} = await axios.post(`/admin/reported-users/${report.id}`);
             return data.reportedUsers;
         },
         async getSuspendedUsers(): Promise<SuspendedUser[]> {
