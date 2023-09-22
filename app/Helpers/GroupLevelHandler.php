@@ -3,26 +3,77 @@
 namespace App\Helpers;
 
 use App\Models\ExperiencePoint;
+use App\Models\GlobalSetting;
 use App\Models\Group;
+use App\Models\GroupExpDaily;
 use App\Models\GroupExperiencePoint;
+use App\Models\GroupUser;
+use App\Models\GroupUserDailyExp;
 use App\Models\User;
+use Carbon\Carbon;
 
 class GroupLevelHandler
 {
+    /**
+     * Applies experience to groups and tracks daily and total exp contribution
+     */
     public static function applyExperienceToGroups(User $user, int $taskDifficulty) {
-        foreach($user->groups as $group) {
+        foreach($user->groupMemberships as $groupUser) {
+            $group = $groupUser->group;
+            // Calculates experience points
             $experience = rand(50, 150) * $taskDifficulty; //TODO make this into a dynamically adjustable range
+            // Fetches today's contribution by this user to this group
+            $userContributionToday = self::fetchGroupUserDailyContribution($groupUser);
+            // Adjusts experience gained if max has been reached
+            $experience = self::checkForMaxExp($experience, $userContributionToday->exp_gained);
+            if ($experience === 0) continue;
+            // Apply experience to group and user exp tracking
             GroupLevelHandler::applyExperienceAndCheckLevel($group, $experience);
-            // Mark that this experience has been added by this user, on this day
+            $userContributionToday->exp_gained += $experience;
+            $userContributionToday->save();
+            self::registerDailyGroupExp($groupUser, $experience);
         }
     }
 
+    private static function fetchGroupUserDailyContribution(GroupUser $groupUser) {
+        $today = Carbon::now()->toDateString();
+        // Fetches today's user contribution to this group
+        $userContributionToday = GroupUserDailyExp::where('date', $today)
+            ->where('group_id', $groupUser->group_id)
+            ->where('group_user_id', $groupUser->id)
+            ->first();
+        if ($userContributionToday === null) {
+            $userContributionToday = new GroupUserDailyExp([
+                'group_id' => $groupUser->group_id,
+                'group_user_id' => $groupUser->id,
+                'exp_gained' => 0,
+                'date' => $today,
+            ]);
+        }
+        return $userContributionToday;
+    }
+
+    private static function checkForMaxExp(int $experience, int $currentDailyExp)
+    {
+        // Fetches the current max
+        $max = GlobalSetting::where('key', GlobalSetting::MAX_GROUP_EXP)->first()->value;
+        // Check if current user's contribution is already at or above max (should never be above)
+        if ($currentDailyExp >= $max) {
+            return 0;
+        }
+        // Check if user's contribution would reach max when experience is applies and lowers exp accordingly
+        if ($currentDailyExp + $experience >= $max) {
+            $experience = $max - $currentDailyExp;
+        }
+        return $experience;
+    }
+
+    /**
+     * Applies the experience earned to a group, checks for a level up and applies this where possible
+     */
     public static function applyExperienceAndCheckLevel(Group $group, int $experience) {
-        // Check if max experience has been applied that day #751
-        // if (expEarned > maxExp) {
-        //      return;
-        // }
         $group->experience += $experience;
+        // Checks for level up and applies if possible
         $experienceForLevel = GroupExperiencePoint::where('level', $group->level)->first()->experience_points;
         while ($group->experience > $experienceForLevel) {
             $group->level++;
@@ -30,5 +81,26 @@ class GroupLevelHandler
             $experienceForLevel = ExperiencePoint::where('level', $group->level)->first()->experience_points;
         }
         $group->save();
+    }
+
+    /**
+     * Check if this group has already reached max daily exp gained and adjusts experience accordingly
+     */
+    private static function registerDailyGroupExp(GroupUser $groupUser, int $experience)
+    {
+        $today = Carbon::now()->toDateString();
+        // Fetches today's group total contribution
+        $currentDailyGroupExp = GroupExpDaily::where('date', $today)->where('group_id', $groupUser->group_id)->first();
+        // If the item doesn't exist, make it
+        if ($currentDailyGroupExp === null) {
+            $currentDailyGroupExp = new GroupExpDaily([
+                'group_id' => $groupUser->group_id,
+                'exp_gained' => 0,
+                'date' => $today,
+            ]);
+        }
+        // Saves changes to daily contribution
+        $currentDailyGroupExp->exp_gained += $experience;
+        $currentDailyGroupExp->save();
     }
 }

@@ -26,6 +26,8 @@ export type GroupPage = Group & {
     invites: number[] | null;
     experience: number;
     exp_to_next_level: number;
+    your_exp_today: number | string;
+    your_exp_total: number | string;
 };
 
 export type GroupUser = {
@@ -34,6 +36,7 @@ export type GroupUser = {
     username: string;
     rank: Rank;
     joined: Date;
+    exp_gained?: number | string;
 };
 
 export type Rank = {

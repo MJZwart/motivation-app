@@ -107,6 +107,11 @@ class User extends Authenticatable
             ->withPivot(['joined']);
     }
 
+    public function groupMemberships() 
+    {
+        return $this->hasMany('App\Models\GroupUser');
+    }
+
     public function applications()
     {
         return $this->belongsToMany('App\Models\Group', 'group_applications')

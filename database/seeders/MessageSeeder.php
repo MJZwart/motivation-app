@@ -40,8 +40,7 @@ class MessageSeeder extends Seeder
                 'user_id' => $user->id,
                 'recipient_id' => $recipient,
                 'conversation_id' => $conversationId,
-            ]);
-            Conversation::create([
+            ], [
                 'user_id' => $recipient,
                 'recipient_id' => $user->id,
                 'conversation_id' => $conversationId,
@@ -60,8 +59,7 @@ class MessageSeeder extends Seeder
                 'user_id' => $user->id,
                 'recipient_id' => $recipient,
                 'conversation_id' => $conversationId,
-            ]);
-            Conversation::create([
+            ], [
                 'user_id' => $recipient,
                 'recipient_id' => $user->id,
                 'conversation_id' => $conversationId,
@@ -76,8 +74,7 @@ class MessageSeeder extends Seeder
             'user_id' => $cyptest1->id,
             'recipient_id' => $cyptest2->id,
             'conversation_id' => $conversationId,
-        ]);
-        Conversation::create([
+        ], [
             'user_id' => $cyptest2->id,
             'recipient_id' => $cyptest1->id,
             'conversation_id' => $conversationId,
@@ -92,8 +89,7 @@ class MessageSeeder extends Seeder
             'recipient_id' => $recipient,
             'conversation_id' => $conversationId,
             'read' => true,
-        ]);
-        Message::create([
+        ], [
             'message' => $message,
             'user_id' => $recipient,
             'sender_id' => $sender,
