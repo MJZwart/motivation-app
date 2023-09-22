@@ -44,10 +44,7 @@ class GroupLevelHandler
             ->where('group_id', $groupUser->group_id)
             ->where('group_user_id', $groupUser->id)
             ->first();
-        error_log('Searching with group id ' . $groupUser->group_id . ' and group user id ' . $groupUser->id . ' and date ' . $today);
-        // error_log($userContributionToday->exp_gained);
         if ($userContributionToday === null) {
-            error_log('Making new daily');
             $userContributionToday = new GroupUserDailyExp([
                 'group_id' => $groupUser->group_id,
                 'group_user_id' => $groupUser->id,
