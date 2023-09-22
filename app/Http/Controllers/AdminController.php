@@ -314,10 +314,11 @@ class AdminController extends Controller
      */
     public function getActionFilters()
     {
+        $firstAction = ActionTracking::select('created_at')->first();
         return new JsonResponse([
             'types' => ActionTracking::select('action_type')->distinct()->get(),
             'users' => User::select('id', 'username')->get(),
-            'minDate' => ActionTracking::select('created_at')->first()->created_at,
+            'minDate' => $firstAction !== null ? $firstAction->created_at : null,
         ]);
     }
 
