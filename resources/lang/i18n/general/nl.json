@@ -10,6 +10,7 @@
 
     "details" : "Details",
     "view": "Bekijk",
+    "or": "of",
 
     "received-on": "Gekregen op",
 
@@ -70,6 +71,8 @@
     "difficulty": "Moeilijkheidsgraad",
     "register": "Registreren",
     "register-new-account": "Registeer nieuw account",
+    "create-guest-account": "Maak een gast account",
+    "guest-account": "Gast account",
     "login": "Inloggen",
     "forgot-password-link": "Wachtwoord vergeten?",
     "forgot-password": "Wachtwoord vergeten",

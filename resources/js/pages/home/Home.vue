@@ -20,9 +20,13 @@
                 {{ $t('explanation-social') }}
             </ContentBlock>
         </div>
-        <div class="d-flex">
+        <div class="d-flex flex-col">
             <button class="register-button center mt-3">
                 <router-link to="/register" class="register-button-text">{{ $t('create-account-today') }}</router-link>
+            </button>
+            <h3 class="center mt-3">- {{ $t('or') }} -</h3>
+            <button class="register-button center mt-3">
+                <router-link to="/guest-account"  class="register-button-text">{{ $t('create-guest-account') }}</router-link>
             </button>
         </div>
     </div>
@@ -47,11 +51,11 @@ const appLead = computed(() => t('home-introduction'));
 .register-button {
     font-size: 2rem;
     padding: 0.8rem;
-    border: 3px solid var(--primary);
     border-radius: 0.5rem;
-    background-color: var(--background-2);
+    background-color: var(--green);
     min-width: 50%;
     transition: all 0.3s 0s ease-in-out;
+    border: none;
     .register-button-text {
         color: var(--primary)-as-text;
         text-decoration: none;
@@ -59,7 +63,7 @@ const appLead = computed(() => t('home-introduction'));
     }
 }
 .register-button:hover {
-    background-color: var(--primary);
+    background-color: var(--dark-green);
     .register-button-text {
         color: var(--primary)-text;
     }

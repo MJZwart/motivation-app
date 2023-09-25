@@ -1,5 +1,5 @@
 <template>
-    <div class="w-40-flex center">
+    <AuthBase>
         <h2>{{ $t('forgot-password') }}</h2>
         <form @submit.prevent="sendPasswordReset">
             <SimpleInput
@@ -15,12 +15,13 @@
         <div v-if="resetLinkSent" class="success-text">
             {{ $t('password-reset-link-sent') }}
         </div>
-    </div>
+    </AuthBase>
 </template>
 
 <script setup lang="ts">
 import {ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
+import AuthBase from './components/AuthBase.vue';
 
 const userStore = useUserStore();
 

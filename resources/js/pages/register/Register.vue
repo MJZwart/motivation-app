@@ -1,5 +1,5 @@
 <template>
-    <div class="w-40-flex center">
+    <AuthBase>
         <h2>{{ $t('register') }}</h2>
         <form @submit.prevent="submitRegister">
             <SimpleInput 
@@ -43,7 +43,7 @@
             </div>
             <SubmitButton block>{{ $t('register-new-account') }}</SubmitButton>
         </form> 
-    </div>
+    </AuthBase>
 </template>
 
 
@@ -53,6 +53,7 @@ import {useUserStore} from '/js/store/userStore';
 import {Register} from 'resources/types/user';
 import {currentLang} from '/js/services/languageService';
 import {clearErrors} from '/js/services/errorService';
+import AuthBase from './components/AuthBase.vue';
 
 const userStore = useUserStore();
 

@@ -6,8 +6,8 @@
     --nav-text: rgba(255, 255, 255, 0.5);
     --text-muted: #6c757d;
 
-    --warning: #D64045;
-    --red: #D64045;
+    --warning: #d64045;
+    --red: #d64045;
     --orange: rgb(201, 130, 0);
     --yellow: rgb(197, 197, 0);
     --darkred: darkred;
@@ -24,17 +24,18 @@
 
     --spacer: 1rem;
 
-    --bold-font: "Nunito-Bold";
-    --regular-font: "Nunito";
-    --light-font: "Nunito-Light";
+    --bold-font: 'Nunito-Bold';
+    --regular-font: 'Nunito';
+    --light-font: 'Nunito-Light';
     // --bold-font: "Raleway-Bold";
     // --regular-font: "Raleway";
     // --bold-font: "NunitoSans-Bold";
     // --regular-font: "NunitoSans";
-    --header-font: "NunitoSans";
+    --header-font: 'NunitoSans';
 
     --basic-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 25%);
     --basic-shadow-2: 0 0.25rem 0.5rem rgb(0 0 0 / 25%);
+    --basic-shadow-inset: inset 0 0.05rem 0.5rem rgb(0 0 0 / 25%);
 
-    --regular-font: "Nunito";
+    --regular-font: 'Nunito';
 }

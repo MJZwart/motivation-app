@@ -1,5 +1,5 @@
 <template>
-    <div class="w-40-flex center">
+    <AuthBase>
         <h2>{{ $t('login') }}</h2>
         <form @submit.prevent="submitLogin">
             <SimpleInput
@@ -24,12 +24,13 @@
         <span class="d-flex">
             <router-link class="ml-auto mt-1 clear-link" to="/forgot-password">{{ $t('forgot-password-link') }}</router-link>
         </span>
-    </div>
+    </AuthBase>
 </template>
 
 <script setup lang="ts">
 import {useUserStore} from '/js/store/userStore';
 import {ref} from 'vue';
+import AuthBase from './components/AuthBase.vue';
 
 const login = ref({
     username: '',

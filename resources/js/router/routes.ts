@@ -29,6 +29,13 @@ export const routes = [
         },
     },
     {
+        path: '/guest-account',
+        component: () => import('../pages/register/CreateGuestAccount.vue'),
+        meta: {
+            title: 'Create guest account',
+        },
+    },
+    {
         path: '/overview',
         component: () => import('../pages/overview/Overview.vue'),
         meta: {
