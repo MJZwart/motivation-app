@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('guest')->default(false);
             $table->string('login_token')->nullable();
+            $table->string('email')->nullable()->change();
+            $table->dropUnique('users_email_unique');
         });
     }
 
@@ -25,6 +27,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('guest');
             $table->dropColumn('login_token');
+            $table->string('email')->unique()->nullable(false)->change();
         });
     }
 };
