@@ -5,26 +5,28 @@
         <div class="choice mt-3 mb-3">
             <button 
                 class="large select-button" 
-                :class="{active: active === 'CHARACTER'}" 
-                @click="createGuestAccount('CHARACTER')">
+                :class="{active: chosenReward === 'CHARACTER'}" 
+                @click="selectRewardType('CHARACTER')">
                 {{$t('character')}}
             </button>
 
             <button 
                 class="large select-button" 
-                :class="{ active: active === 'VILLAGE' }" 
-                @click="createGuestAccount('VILLAGE')">
+                :class="{ active: chosenReward === 'VILLAGE' }" 
+                @click="selectRewardType('VILLAGE')">
                 {{$t('village')}}
             </button>
         
             <button 
                 class="long select-button" 
-                :class="{ active: active === 'NONE' }" 
-                @click="createGuestAccount('NONE')">
+                :class="{ active: chosenReward === 'NONE' }" 
+                @click="selectRewardType('NONE')">
                 {{ $t('no-rewards') }}
             </button>
         </div>
-        <SubmitButton class="ml-auto" />
+        <SubmitButton :disabled="chosenReward === ''" class="ml-auto" @click="createGuestAccount">
+            {{ $t('create-guest-account') }}
+        </SubmitButton>
     </AuthBase>
 </template>
 
@@ -32,10 +34,17 @@
 import {ref} from 'vue';
 import AuthBase from './components/AuthBase.vue';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
-const active = ref('');
-function createGuestAccount(rewards: string) {
-    active.value = rewards;
-    console.log(rewards);
+import {useUserStore} from '/js/store/userStore';
+
+const userStore = useUserStore();
+
+const chosenReward = ref('');
+function selectRewardType(rewards: string) {
+    chosenReward.value = rewards;
+}
+
+function createGuestAccount() {
+    userStore.createGuestAccount({'reward': chosenReward.value})
 }
 </script>
 

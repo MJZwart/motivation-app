@@ -77,6 +77,9 @@ return [
         'language_updated' => 'Your language has been changed.',
         'reward_updated' => 'Your rewards type has been changed.',
         'reported' => 'User reported',
+        'guest' => [
+            'created' => 'Guest account created',
+        ],
     ],
 
     'feedback' => [

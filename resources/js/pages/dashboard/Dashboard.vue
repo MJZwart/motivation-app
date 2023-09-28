@@ -91,7 +91,6 @@ async function submitNewTaskList(newTaskList: NewTaskList) {
 }
 .task-list-button {
     flex:49%;
-    margin: calc(0.25rem - 1px);
 }
 .new-task-list-button {
     height: 46px;

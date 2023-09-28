@@ -93,6 +93,15 @@ export const useUserStore = defineStore('user', {
             router.push('/').catch(() => {});
         },
 
+        async createGuestAccount(rewardType: { reward: string }) {
+            const {data} = await axios.post('/guest-account', rewardType);
+            localStorage.setItem('guestToken',
+                JSON.stringify({'loginToken': data.data.loginToken, 'username': data.data.user.username}));
+            this.setUser(data.data.user);
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            router.push('/dashboard').catch(() => {});
+        },
+
         // * Public user profile
         async getUserProfile(userId: number) {
             const {data} = await axios.get('/profile/' + userId);
