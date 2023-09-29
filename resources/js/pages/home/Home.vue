@@ -25,8 +25,11 @@
                 <router-link to="/register" class="register-button-text">{{ $t('create-account-today') }}</router-link>
             </button>
             <h3 class="center mt-3">- {{ $t('or') }} -</h3>
-            <button class="register-button center mt-3">
+            <button v-if="!guestAccount" class="register-button center mt-3">
                 <router-link to="/guest-account"  class="register-button-text">{{ $t('create-guest-account') }}</router-link>
+            </button>
+            <button v-else class="register-button center mt-3" @click="continueGuestAccount()">
+                {{ $t('continue-guest-account')}}
             </button>
         </div>
     </div>
@@ -36,15 +39,31 @@
 import TaskList from './DummyTaskList.vue';
 import Character from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import {dummyCharacterRef, dummyTaskListRef} from './homepageService';
-import {computed} from 'vue';
+import {computed, onMounted, ref} from 'vue';
+import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
-const {t} = useI18n(); // use as global scope
+const {t} = useI18n(); // use as global scope;
+
+const userStore = useUserStore();
 
 const dummyList = dummyTaskListRef;
 const dummyCharacter = dummyCharacterRef;
 
 const appTitle = computed(() => t('home-welcome-to', [t('app-name')]));
 const appLead = computed(() => t('home-introduction'));
+
+const guestAccount = ref(false);
+
+onMounted(() => {
+    const localToken = localStorage.getItem('guestToken');
+    guestAccount.value = !!localToken;
+});
+
+function continueGuestAccount() {
+    if (!guestAccount.value) return;
+
+    userStore.continueGuestAccount();
+}
 </script>
 
 <style lang="scss" scoped>

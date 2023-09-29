@@ -24,12 +24,28 @@
         <span class="d-flex">
             <router-link class="ml-auto mt-1 clear-link" to="/forgot-password">{{ $t('forgot-password-link') }}</router-link>
         </span>
+        
+        <hr />
+        
+        <div class="d-flex flex-col">
+            {{ $t('no-account-prompt') }}
+            <button class="block center mt-3">
+                <router-link to="/register" class="text-decoration-none">{{ $t('register') }}</router-link>
+            </button>
+            <h3 class="center mt-3">- {{ $t('or') }} -</h3>
+            <button v-if="!guestAccount" class="block center mt-3">
+                <router-link to="/guest-account"  class="text-decoration-none">{{ $t('create-guest-account') }}</router-link>
+            </button>
+            <button v-else class="block center mt-3" @click="continueGuestAccount()">
+                {{ $t('continue-guest-account') }}
+            </button>
+        </div>
     </AuthBase>
 </template>
 
 <script setup lang="ts">
 import {useUserStore} from '/js/store/userStore';
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import AuthBase from './components/AuthBase.vue';
 
 const login = ref({
@@ -41,5 +57,18 @@ const userStore = useUserStore();
 
 async function submitLogin() {
     await userStore.login(login.value);
+}
+
+const guestAccount = ref(false);
+
+onMounted(() => {
+    const localToken = localStorage.getItem('guestToken');
+    guestAccount.value = !!localToken;
+});
+
+function continueGuestAccount() {
+    if (!guestAccount.value) return;
+
+    userStore.continueGuestAccount();
 }
 </script>

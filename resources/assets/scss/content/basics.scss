@@ -17,7 +17,8 @@ option {
 .justify-content-center {
     justify-content: center;
 }
-.clear-a a {
+.text-decoration-none a,
+.text-decoration-none {
     text-decoration: none;
 }
 .primary-text a {

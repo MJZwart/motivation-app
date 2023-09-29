@@ -146,7 +146,7 @@ class RegisteredUserController extends Controller
             $user->first_login = false;
             $user->save();
             Auth::login($user);
-            $loginTokenEncoded = base64_encode("{'loginToken': '" . $request['loginToken'] . "', 'username': '" . $user->username . "'}");
+            $loginTokenEncoded = base64_encode('{"loginToken": "' . $request['loginToken'] . '", "username": "' . $user->username . '"}');
             return ResponseWrapper::successResponse(__('messages.user.guest.created'), ['user' => new UserResource($user), 'loginToken' => $loginTokenEncoded]);
         }
         return ResponseWrapper::errorResponse(__('auth.failed'));

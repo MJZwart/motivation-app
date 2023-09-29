@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/logout', [AuthenticationController::class, 'logout']);
     Route::post('/register', [RegisteredUserController::class, 'store']);
     Route::post('/guest-account', [RegisteredUserController::class, 'storeGuestAccount']);
+    Route::post('/guest-account/continue', [AuthenticationController::class, 'loginGuestAccount']);
 
     Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
     Route::post('/feedback', [FeedbackController::class, 'store']);

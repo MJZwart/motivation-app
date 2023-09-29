@@ -43,12 +43,28 @@
             </div>
             <SubmitButton block>{{ $t('register-new-account') }}</SubmitButton>
         </form> 
+
+        <hr />
+    
+        <div class="d-flex flex-col">
+            {{ $t('already-an-account-prompt') }}
+            <button class="block center mt-3">
+                <router-link to="/login" class="text-decoration-none">{{ $t('login') }}</router-link>
+            </button>
+            <h3 class="center mt-3">- {{ $t('or') }} -</h3>
+            <button v-if="!guestAccount" class="block center mt-3">
+                <router-link to="/guest-account"  class="text-decoration-none">{{ $t('create-guest-account') }}</router-link>
+            </button>
+            <button v-else class="block center mt-3" @click="continueGuestAccount()">
+                {{ $t('continue-guest-account') }}
+            </button>
+        </div>
     </AuthBase>
 </template>
 
 
 <script setup lang="ts">
-import {reactive} from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {Register} from 'resources/types/user';
 import {currentLang} from '/js/services/languageService';
@@ -68,5 +84,18 @@ const register = reactive<Register>({
 function submitRegister() {
     clearErrors();
     userStore.register(register);
+}
+
+const guestAccount = ref(false);
+
+onMounted(() => {
+    const localToken = localStorage.getItem('guestToken');
+    guestAccount.value = !!localToken;
+});
+
+function continueGuestAccount() {
+    if (!guestAccount.value) return;
+
+    userStore.continueGuestAccount();
 }
 </script>
