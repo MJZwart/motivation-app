@@ -48,13 +48,17 @@
     
         <div class="d-flex flex-col">
             {{ $t('already-an-account-prompt') }}
-            <button class="block center mt-3">
-                <router-link to="/login" class="text-decoration-none">{{ $t('login') }}</router-link>
-            </button>
+            <router-link to="/login" class="text-decoration-none">
+                <button class="block center mt-3">
+                    {{ $t('login') }}
+                </button>
+            </router-link>
             <h3 class="center mt-3">- {{ $t('or') }} -</h3>
-            <button v-if="!guestAccount" class="block center mt-3">
-                <router-link to="/guest-account"  class="text-decoration-none">{{ $t('create-guest-account') }}</router-link>
-            </button>
+            <router-link v-if="!guestAccount" to="/guest-account"  class="text-decoration-none">
+                <button class="block center mt-3">
+                    {{ $t('create-guest-account') }}
+                </button>
+            </router-link>
             <button v-else class="block center mt-3" @click="continueGuestAccount()">
                 {{ $t('continue-guest-account') }}
             </button>

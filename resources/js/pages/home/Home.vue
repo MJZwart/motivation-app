@@ -21,13 +21,17 @@
             </ContentBlock>
         </div>
         <div class="d-flex flex-col">
-            <button class="register-button center mt-3">
-                <router-link to="/register" class="register-button-text">{{ $t('create-account-today') }}</router-link>
-            </button>
+            <router-link to="/register" class="register-button center mt-3">
+                <button>
+                    {{ $t('create-account-today') }}
+                </button>
+            </router-link>
             <h3 class="center mt-3">- {{ $t('or') }} -</h3>
-            <button v-if="!guestAccount" class="register-button center mt-3">
-                <router-link to="/guest-account"  class="register-button-text">{{ $t('create-guest-account') }}</router-link>
-            </button>
+            <router-link v-if="!guestAccount" to="/guest-account" class="register-button center mt-3">
+                <button>
+                    {{ $t('create-guest-account') }}
+                </button>
+            </router-link>
             <button v-else class="register-button center mt-3" @click="continueGuestAccount()">
                 {{ $t('continue-guest-account')}}
             </button>
@@ -67,7 +71,7 @@ function continueGuestAccount() {
 </script>
 
 <style lang="scss" scoped>
-.register-button {
+.register-button button {
     font-size: 2rem;
     padding: 0.8rem;
     border-radius: 0.5rem;
@@ -75,17 +79,14 @@ function continueGuestAccount() {
     min-width: 50%;
     transition: all 0.3s 0s ease-in-out;
     border: none;
-    .register-button-text {
-        color: var(--primary)-as-text;
-        text-decoration: none;
-        font-family: var(--border-color);
-    }
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--border-color);
 }
-.register-button:hover {
+.register-button button:hover {
     background-color: var(--dark-green);
-    .register-button-text {
-        color: var(--primary)-text;
-    }
+    border-radius: 0.5rem;
+    color: var(--white);
 }
 .display-3 {
     font-size: 4rem;
