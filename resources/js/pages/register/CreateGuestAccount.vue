@@ -44,6 +44,7 @@ function selectRewardType(rewards: string) {
 }
 
 function createGuestAccount() {
+    if (!chosenReward.value) return;
     userStore.createGuestAccount({'reward': chosenReward.value})
 }
 </script>
