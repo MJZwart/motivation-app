@@ -18,6 +18,7 @@ export type User = {
     show_tutorial: boolean;
     friends: Friend[];
     language: string;
+    guest: boolean;
 };
 
 export type UserStats = {

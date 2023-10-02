@@ -32,6 +32,7 @@ export const routes = [
         path: '/guest-account',
         component: () => import('../pages/register/CreateGuestAccount.vue'),
         meta: {
+            blockedForGuest: true,
             title: 'Create guest account',
         },
     },
@@ -95,6 +96,7 @@ export const routes = [
         path: '/messages',
         component: () => import('../pages/messages/Messages.vue'),
         meta: {
+            blockedForGuest: true,
             requiresAuth: true,
             title: 'Messages',
         },
@@ -103,6 +105,7 @@ export const routes = [
         path: '/social',
         component: () => import('../pages/social/Social.vue'),
         meta: {
+            blockedForGuest: true,
             requiresAuth: true,
             title: 'Social',
         },
@@ -111,6 +114,7 @@ export const routes = [
         path: '/group/:id',
         component: () => import('../pages/social/components/groups/GroupPage.vue'),
         meta: {
+            blockedForGuest: true,
             requiresAuth: true,
             title: 'Group',
             breadcrumbs: true,

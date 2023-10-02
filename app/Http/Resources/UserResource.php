@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'show_tutorial' => !!$this->show_tutorial,
             'first' => !!$this->first_login,
             'language' => $this->language,
+            'guest' => !!$this->guest,
         ];
     }
 }

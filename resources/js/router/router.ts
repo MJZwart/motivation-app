@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 // import Vue from 'vue';
-import {createRouter, createWebHistory} from 'vue-router';
+import {NavigationGuardNext, RouteLocationNormalized, createRouter, createWebHistory} from 'vue-router';
 import {useUserStore} from '../store/userStore';
 // import Test from '../pages/Test.vue';
 import {routes} from './routes';
@@ -19,33 +19,49 @@ router.beforeEach((to, from, next) => {
     clearErrors();
 
     window.scrollTo(0,0);
-    if (to.meta && to.meta.title) {
-        document.title = 'Questifyer - ' + to.meta.title;
-    } else {
-        document.title = 'Questifyer';
-    }
-    
+
+    handleDocumentTitle(to);
+    breadcrumbsVisible.value = false;
+
+    console.log(to);
+
     if (to.path == '/' && userStore.authenticated) {
         return next({path: '/dashboard'});
     }
 
     if (to.path != '/welcome' && userStore.user && userStore.user.first) {
         return next({path: '/welcome'});
-    }
-
-
-    if (to.meta && to.meta.requiresAuth && !userStore.authenticated) {
-        return next({path: '/login'});
-    }
-
-    if (to.meta && to.meta.requiresAdmin && !userStore.isAdmin) {
-        errorToast('You are not authorized to view this page');
+    } else if (to.path === '/welcome' && userStore.user && !userStore.user.first) {
         return next({path: '/dashboard'});
     }
-    breadcrumbsVisible.value = false;
-    if (to.meta && to.meta.breadcrumbs)
-        breadcrumbsVisible.value = true; 
+
+    if (to.meta) {
+        if (to.meta.requiresAuth && !userStore.authenticated) {
+            return next({path: '/login'});
+        }
+
+        if (to.meta.requiresAdmin && !userStore.isAdmin) {
+            errorToast('You are not authorized to view this page');
+            return next({path: '/dashboard'});
+        }
+        if (to.meta.breadcrumbs)
+            breadcrumbsVisible.value = true; 
+        console.log(userStore.user);
+        if (to.meta.blockedForGuest && userStore.user && userStore.user.guest) {
+            console.log('should redirect')
+            return next({path: '/dashboard'});
+        }
+    }
+
     next();
 });
+
+function handleDocumentTitle(to: RouteLocationNormalized) {
+    if (to.meta && to.meta.title) {
+        document.title = 'Questifyer - ' + to.meta.title;
+    } else {
+        document.title = 'Questifyer';
+    }
+}
 
 export default router;
