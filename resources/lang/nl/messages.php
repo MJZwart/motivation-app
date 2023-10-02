@@ -201,5 +201,6 @@ return [
     'accept' => 'accepteer',
     'reject' => 'afwijzen',
     'deny' => 'weiger',
+    'not_for_guest' => 'Deze actie is niet beschikbaar voor gast accounts',
 
 ];

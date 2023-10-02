@@ -201,5 +201,6 @@ return [
     'accept' => 'accept',
     'reject' => 'reject',
     'deny' => 'deny',
+    'not_for_guest' => 'This action is not available for guest accounts',
 
 ];
