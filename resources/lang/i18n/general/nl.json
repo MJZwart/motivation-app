@@ -1,7 +1,7 @@
 {
     "app-name": "Questifyer",
     "faq": "F.A.Q.",
-    "footer-text": "Versie {0} - MJ Black © 2022.",
+    "footer-text": "Versie {0} - MJ Black © 2023.",
     "footer-disclaimer": "Dit is een vroege versie. Deze website is nog niet af en kan flink veranderen. Join onze discord voor updates en om ideeen voor de website te bespreken.",
     "discord-link": "https://discord.gg/r3sjMDgyA2",
     "privacy-policy": "Privacy policy",
@@ -10,6 +10,7 @@
 
     "details" : "Details",
     "view": "Bekijk",
+    "or": "of",
 
     "received-on": "Gekregen op",
 
@@ -70,6 +71,11 @@
     "difficulty": "Moeilijkheidsgraad",
     "register": "Registreren",
     "register-new-account": "Registeer nieuw account",
+    "no-account-prompt": "Nog geen account?",
+    "create-guest-account": "Maak een gast account",
+    "continue-guest-account": "Ga verder met gast account",
+    "guest-account": "Gast account",
+    "already-an-account-prompt": "Heb je al een account?",
     "login": "Inloggen",
     "forgot-password-link": "Wachtwoord vergeten?",
     "forgot-password": "Wachtwoord vergeten",

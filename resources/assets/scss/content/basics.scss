@@ -3,7 +3,13 @@ option {
 }
 
 .d-flex {
-    display:flex;
+    display: flex;
+}
+.flex-row {
+    flex-direction: row;
+}
+.flex-col {
+    flex-direction: column;
 }
 .flex-wrap {
     flex-wrap: wrap;
@@ -11,14 +17,16 @@ option {
 .justify-content-center {
     justify-content: center;
 }
-.clear-a a{
+.text-decoration-none a,
+.text-decoration-none {
     text-decoration: none;
 }
-.primary-text a{
+.primary-text a {
     color: var(--primary-as-text);
 }
 
-select, option {
+select,
+option {
     font: -moz-pull-down-menu;
 }
 
@@ -42,8 +50,19 @@ ul {
     max-width: 100%;
 }
 
-.col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, 
-.col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+.col,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
     position: relative;
     width: 100%;
     min-height: 1px;
@@ -123,7 +142,12 @@ ul {
 .display-6 {
     font-size: 2.5rem;
 }
-.display-1, .display-2, .display-3, .display-4, .display-5, .display-6  {
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.display-6 {
     font-family: var(--light-font);
     line-height: 1.2;
 }
@@ -133,10 +157,10 @@ ul {
     font-family: var(--light-font);
 }
 
-.d-block{
+.d-block {
     display: block !important;
 }
-label.option-label{
+label.option-label {
     font-weight: 400;
 }
 .text-muted {
@@ -144,7 +168,7 @@ label.option-label{
 }
 small {
     font-weight: 300;
-    font-size:medium;
+    font-size: medium;
     display: block;
 }
 h1 {
@@ -165,7 +189,12 @@ h5 {
 h6 {
     font-size: 1rem;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin-top: 0;
     margin-bottom: 0.5rem;
     line-height: 1.2;
@@ -173,7 +202,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--header-font);
     color: inherit;
 }
-
 
 .width-1 {
     width: 10%;

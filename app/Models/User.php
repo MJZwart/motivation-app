@@ -34,6 +34,9 @@ class User extends Authenticatable
         'show_friends',
         'show_timeline',
         'language',
+        'guest',
+        'login_token',
+        'first_login',
     ];
 
     /**

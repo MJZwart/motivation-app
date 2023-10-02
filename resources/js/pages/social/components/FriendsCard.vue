@@ -3,7 +3,7 @@
         <Loading v-if="loading" />
         <div v-else>
             <ContentBlock title="friends" :tutorial="manage">
-                <ul v-if="friends.length > 0" class="mb-1 no-list-style clear-a primary-text">
+                <ul v-if="friends.length > 0" class="mb-1 no-list-style text-decoration-none primary-text">
                     <li v-for="(friend, index) in friends" :key="index">
                         <span v-if="manage">
                             <Tooltip :text="$t('remove-friend')">

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-40-flex center">
+    <AuthBase>
         <h2>{{ $t('reset-password') }}</h2>
         <form @submit.prevent="sendResetPassword">
             <SimpleInput
@@ -27,13 +27,14 @@
                 :placeholder="$t('repeat-password')" />
             <SubmitButton class="block">{{ $t('reset-password') }}</SubmitButton>
         </form>
-    </div>
+    </AuthBase>
 </template>
 
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {useRoute, useRouter} from 'vue-router';
+import AuthBase from './components/AuthBase.vue';
 
 const route = useRoute();
 const userStore = useUserStore();

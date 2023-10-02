@@ -1,5 +1,5 @@
 <template>
-    <div class="w-40-flex center">
+    <AuthBase>
         <h2>{{ $t('register') }}</h2>
         <form @submit.prevent="submitRegister">
             <SimpleInput 
@@ -43,16 +43,37 @@
             </div>
             <SubmitButton block>{{ $t('register-new-account') }}</SubmitButton>
         </form> 
-    </div>
+
+        <hr />
+    
+        <div class="d-flex flex-col">
+            {{ $t('already-an-account-prompt') }}
+            <router-link to="/login" class="text-decoration-none">
+                <button class="block center mt-3">
+                    {{ $t('login') }}
+                </button>
+            </router-link>
+            <h3 class="center mt-3">- {{ $t('or') }} -</h3>
+            <router-link v-if="!guestAccount" to="/guest-account"  class="text-decoration-none">
+                <button class="block center mt-3">
+                    {{ $t('create-guest-account') }}
+                </button>
+            </router-link>
+            <button v-else class="block center mt-3" @click="continueGuestAccount()">
+                {{ $t('continue-guest-account') }}
+            </button>
+        </div>
+    </AuthBase>
 </template>
 
 
 <script setup lang="ts">
-import {reactive} from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {Register} from 'resources/types/user';
 import {currentLang} from '/js/services/languageService';
 import {clearErrors} from '/js/services/errorService';
+import AuthBase from './components/AuthBase.vue';
 
 const userStore = useUserStore();
 
@@ -67,5 +88,18 @@ const register = reactive<Register>({
 function submitRegister() {
     clearErrors();
     userStore.register(register);
+}
+
+const guestAccount = ref(false);
+
+onMounted(() => {
+    const localToken = localStorage.getItem('guestToken');
+    guestAccount.value = !!localToken;
+});
+
+function continueGuestAccount() {
+    if (!guestAccount.value) return;
+
+    userStore.continueGuestAccount();
 }
 </script>

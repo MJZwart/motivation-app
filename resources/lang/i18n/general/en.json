@@ -1,7 +1,7 @@
 {
     "app-name": "Questifyer",
     "faq": "F.A.Q.",
-    "footer-text": "Version {0} - MJ Black © 2022.",
+    "footer-text": "Version {0} - MJ Black © 2023.",
     "footer-disclaimer": "This is an alpha version. This website is unfinished and subject to major changes. Join our discord for updates and discuss your ideas for the site.",
     "discord-link": "https://discord.gg/r3sjMDgyA2",
     "privacy-policy": "Privacy policy",
@@ -10,6 +10,7 @@
 
     "details" : "Details",
     "view": "View",
+    "or": "or",
 
     "received-on": "Received on",
 
@@ -70,6 +71,11 @@
     "difficulty": "Difficulty",
     "register": "Register",
     "register-new-account": "Register new account",
+    "no-account-prompt": "No account yet?",
+    "create-guest-account": "Create a guest account",
+    "continue-guest-account": "Continue guest account",
+    "guest-account": "Guest account",
+    "already-an-account-prompt": "Already have an account?",
     "login": "Login",
     "forgot-password-link": "Forgot password?",
     "forgot-password": "Forgot password",

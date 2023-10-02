@@ -77,6 +77,9 @@ return [
         'language_updated' => 'Je taalinstellingen zijn gewijzigd.',
         'reward_updated' => 'Je beloningstype is gewijzigd.',
         'reported' => 'Gebruiker gemeld.',
+        'guest' => [
+            'created' => 'Gast account aangemaakt',
+        ],
     ],
 
     'feedback' => [

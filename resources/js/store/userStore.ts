@@ -76,6 +76,16 @@ export const useUserStore = defineStore('user', {
             rewardStore.rewardObj = data.rewardObj;
         },
 
+        async continueGuestAccount() {
+            const localToken = localStorage.getItem('guestToken');
+            if (!localToken) return;
+            const {data} = await axios.post('/guest-account/continue', {localToken});
+            if (!data.user) return;
+            this.setUser(data.user);
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            router.push('/dashboard').catch(() => {});
+        },
+
         // * New user
         async register(user: Register) {
             await axios.get('/sanctum/csrf-cookie');
@@ -91,6 +101,15 @@ export const useUserStore = defineStore('user', {
             this.setUser(data.data.user);
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             router.push('/').catch(() => {});
+        },
+
+        async createGuestAccount(rewardType: { reward: string }) {
+            const {data} = await axios.post('/guest-account', rewardType);
+            localStorage.setItem('guestToken',
+                JSON.stringify(data.data.loginToken));
+            this.setUser(data.data.user);
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            router.push('/dashboard').catch(() => {});
         },
 
         // * Public user profile

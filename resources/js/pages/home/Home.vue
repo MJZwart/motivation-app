@@ -20,9 +20,20 @@
                 {{ $t('explanation-social') }}
             </ContentBlock>
         </div>
-        <div class="d-flex">
-            <button class="register-button center mt-3">
-                <router-link to="/register" class="register-button-text">{{ $t('create-account-today') }}</router-link>
+        <div class="d-flex flex-col">
+            <router-link to="/register" class="register-button center mt-3">
+                <button>
+                    {{ $t('create-account-today') }}
+                </button>
+            </router-link>
+            <h3 class="center mt-3">- {{ $t('or') }} -</h3>
+            <router-link v-if="!guestAccount" to="/guest-account" class="register-button center mt-3">
+                <button>
+                    {{ $t('create-guest-account') }}
+                </button>
+            </router-link>
+            <button v-else class="register-button center mt-3" @click="continueGuestAccount()">
+                {{ $t('continue-guest-account')}}
             </button>
         </div>
     </div>
@@ -32,37 +43,50 @@
 import TaskList from './DummyTaskList.vue';
 import Character from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import {dummyCharacterRef, dummyTaskListRef} from './homepageService';
-import {computed} from 'vue';
+import {computed, onMounted, ref} from 'vue';
+import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
-const {t} = useI18n(); // use as global scope
+const {t} = useI18n(); // use as global scope;
+
+const userStore = useUserStore();
 
 const dummyList = dummyTaskListRef;
 const dummyCharacter = dummyCharacterRef;
 
 const appTitle = computed(() => t('home-welcome-to', [t('app-name')]));
 const appLead = computed(() => t('home-introduction'));
+
+const guestAccount = ref(false);
+
+onMounted(() => {
+    const localToken = localStorage.getItem('guestToken');
+    guestAccount.value = !!localToken;
+});
+
+function continueGuestAccount() {
+    if (!guestAccount.value) return;
+
+    userStore.continueGuestAccount();
+}
 </script>
 
 <style lang="scss" scoped>
-.register-button {
+.register-button button {
     font-size: 2rem;
     padding: 0.8rem;
-    border: 3px solid var(--primary);
     border-radius: 0.5rem;
-    background-color: var(--background-2);
+    background-color: var(--green);
     min-width: 50%;
     transition: all 0.3s 0s ease-in-out;
-    .register-button-text {
-        color: var(--primary)-as-text;
-        text-decoration: none;
-        font-family: var(--border-color);
-    }
+    border: none;
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--border-color);
 }
-.register-button:hover {
-    background-color: var(--primary);
-    .register-button-text {
-        color: var(--primary)-text;
-    }
+.register-button button:hover {
+    background-color: var(--dark-green);
+    border-radius: 0.5rem;
+    color: var(--white);
 }
 .display-3 {
     font-size: 4rem;

@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
@@ -40,6 +41,27 @@ class AuthenticationController extends Controller
             return new JsonResponse(['user' => new UserResource($user)]);
         }
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in ' . $request['username'], 'Invalid login');
+        return ResponseWrapper::errorResponse(__('auth.failed'));
+    }
+
+    /**
+     * Authenticates a guest account using their login token
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function loginGuestAccount(Request $request)
+    {
+        $guestToken = json_decode(base64_decode($request['localToken']));
+        $user = User::where('guest', true)->where('username', $guestToken->username)->first();
+        if ($user->exists() && Hash::check($guestToken->loginToken, $user->login_token)) {
+            $request->session()->regenerate();
+            ActionTrackingHandler::handleAction($request, 'LOGIN', 'Guest user logged in');
+            $user->last_login = Carbon::now();
+            $user->save();
+            Auth::login($user);
+            return new JsonResponse(['user' => new UserResource($user)]);
+        }
         return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 
@@ -89,7 +111,7 @@ class AuthenticationController extends Controller
 
         if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER)
             return ResponseWrapper::successResponse(__('messages.user.password_reset.link_sent'));
-        else if($status === Password::RESET_THROTTLED)
+        else if ($status === Password::RESET_THROTTLED)
             return ResponseWrapper::errorResponse(__('messages.user.password_reset.throttled'));
         else
             return ResponseWrapper::errorResponse(__('messages.user.password_reset.link_error'));
