@@ -111,15 +111,15 @@ class RegisteredUserController extends Controller
 
         $loginToken = Str::random(32);
         $username = $this->generateRandomUsername();
-        $password = Hash::make(Str::random(32));
 
         $guestUser = [
             ...$validated,
             'guest' => true,
             'login_token' => Hash::make($loginToken),
             'username' => $username,
-            'password' => $password,
+            'password' => Hash::make(Str::random(32)),
             'rewards' => $validated['reward'],
+            'first_login' => false,
         ];
 
         $user = User::create($guestUser);
@@ -127,7 +127,7 @@ class RegisteredUserController extends Controller
         $this->createRewardForGuest($validated['reward'], $user->id);
         $this->createStarterTasks($user->id);
 
-        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Registering guest user ' . $request['username']);
+        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Registering guest user ' . $username);
         $request['username'] = $username;
         $request['loginToken'] = $loginToken;
         return $this->loginGuestAccount($request);
@@ -143,7 +143,6 @@ class RegisteredUserController extends Controller
             $request->session()->regenerate();
             ActionTrackingHandler::handleAction($request, 'LOGIN', 'Guest user logged in');
             $user->last_login = Carbon::now();
-            $user->first_login = false;
             $user->save();
             Auth::login($user);
             $loginTokenEncoded = base64_encode('{"loginToken": "' . $request['loginToken'] . '", "username": "' . $user->username . '"}');

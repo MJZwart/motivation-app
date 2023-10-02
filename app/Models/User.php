@@ -36,6 +36,7 @@ class User extends Authenticatable
         'language',
         'guest',
         'login_token',
+        'first_login',
     ];
 
     /**
