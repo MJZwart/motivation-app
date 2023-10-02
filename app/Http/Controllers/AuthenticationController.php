@@ -60,7 +60,7 @@ class AuthenticationController extends Controller
             $user->last_login = Carbon::now();
             $user->save();
             Auth::login($user);
-            return ResponseWrapper::successResponse(null, ['user' => new UserResource($user)]);
+            return new JsonResponse(['user' => new UserResource($user)]);
         }
         return ResponseWrapper::errorResponse(__('auth.failed'));
     }

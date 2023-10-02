@@ -80,8 +80,8 @@ export const useUserStore = defineStore('user', {
             const localToken = localStorage.getItem('guestToken');
             if (!localToken) return;
             const {data} = await axios.post('/guest-account/continue', {localToken});
-            if (!data.data.user) return;
-            this.setUser(data.data.user);
+            if (!data.user) return;
+            this.setUser(data.user);
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             router.push('/dashboard').catch(() => {});
         },
