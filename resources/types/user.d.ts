@@ -88,6 +88,7 @@ export type UserProfile = {
         until: Date;
         reason: string;
     } | null;
+    guest: boolean;
 };
 
 export type Login = {

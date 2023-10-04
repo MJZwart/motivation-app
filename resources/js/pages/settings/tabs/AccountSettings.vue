@@ -1,54 +1,61 @@
 <template>
     <div v-if="loading || !user" />
     <div v-else>
-        <form @submit.prevent="submitPasswordSettings">
-            <h4>{{ $t('change-password') }}</h4>
-            <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
-            <SimpleInput
-                id="old_password"
-                v-model="passwordSettings.old_password"
-                type="password"
-                name="old_password"
-                :label="$t('old-password')"
-                :placeholder="$t('old-password')"
-            />
-            <SimpleInput
-                id="password"
-                v-model="passwordSettings.password"
-                type="password"
-                name="password"
-                :label="$t('new-password')"
-                :placeholder="$t('new-password')"
-            />
-            <SimpleInput
-                id="password_confirmation"
-                v-model="passwordSettings.password_confirmation"
-                type="password"
-                name="password_confirmation"
-                :label="$t('repeat-new-password')"
-                :placeholder="$t('repeat-password')"
-            />
-            <SubmitButton class="block">{{ $t('update-password') }}</SubmitButton>
-        </form>
+        <div v-if="!isGuest">
+            <form @submit.prevent="submitPasswordSettings">
+                <h4>{{ $t('change-password') }}</h4>
+                <p class="text-muted">{{ $t('automatically-logged-out') }}</p>
+                <SimpleInput
+                    id="old_password"
+                    v-model="passwordSettings.old_password"
+                    type="password"
+                    name="old_password"
+                    :label="$t('old-password')"
+                    :placeholder="$t('old-password')"
+                />
+                <SimpleInput
+                    id="password"
+                    v-model="passwordSettings.password"
+                    type="password"
+                    name="password"
+                    :label="$t('new-password')"
+                    :placeholder="$t('new-password')"
+                />
+                <SimpleInput
+                    id="password_confirmation"
+                    v-model="passwordSettings.password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    :label="$t('repeat-new-password')"
+                    :placeholder="$t('repeat-password')"
+                />
+                <SubmitButton class="block">{{ $t('update-password') }}</SubmitButton>
+            </form>
 
-        <hr />
+            <hr />
 
-        <form @submit.prevent="submitEmailSettings">
-            <h4>{{ $t('change-email') }}</h4>
-            <!-- Todo verify e-mail and show e-mail as verified -->
-            <SimpleInput
-                id="email"
-                v-model="emailSettings.email"
-                type="text"
-                name="email"
-                :label="$t('change-email')"
-                :placeholder="$t('email')"
-            />
-            <SubmitButton class="block">{{ $t('update-email') }}</SubmitButton>
-        </form>
-
-        <hr />
+            <form @submit.prevent="submitEmailSettings">
+                <h4>{{ $t('change-email') }}</h4>
+                <!-- Todo verify e-mail and show e-mail as verified -->
+                <SimpleInput
+                    id="email"
+                    v-model="emailSettings.email"
+                    type="text"
+                    name="email"
+                    :label="$t('change-email')"
+                    :placeholder="$t('email')"
+                />
+                <SubmitButton class="block">{{ $t('update-email') }}</SubmitButton>
+            </form>
+    
+        </div>
         
+        <div v-else>
+            Soon you can switch to a normal account here.
+        </div>
+        
+        <hr />
+
         <div>
             <h4>{{ $t('show-or-hide-tutorials') }}</h4>
             <ToggleButton 
@@ -89,11 +96,12 @@ import {currentTheme, setCurrentTheme} from '/js/services/themeService';
 const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
+const isGuest = computed(() => userStore.user ? userStore.user.guest : true);
 
 onMounted(() => setupSettings());
 
 const emailSettings = ref<EmailSettings>({
-    email: user.value ? user.value.email.slice() : '',
+    email: user.value && user.value.email ? user.value.email.slice() : '',
 });
 const passwordSettings = ref<PasswordSettings>({
     old_password: '',

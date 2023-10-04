@@ -46,7 +46,7 @@
                     :tutorial="false"
                 />
             </div>
-            <div v-if="userProfile.friends">
+            <div v-if="userProfile.friends && !isGuest">
                 <FriendsCard :message="false" :friends="userProfile.friends" />
             </div>
             <div v-if="userProfile.timeline">
@@ -86,6 +86,7 @@ const adminStore = useAdminStore();
 /** Setup the user profile on page load */
 const loading = ref(true);
 const userProfile = ref<UserProfile | null>(null);
+const isGuest = computed(() => userProfile.value ? userProfile.value.guest : true);
 
 onMounted(async () => {
     await getUserProfile();
