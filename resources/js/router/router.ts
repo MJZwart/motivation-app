@@ -1,8 +1,6 @@
 /* eslint-disable max-lines-per-function */
-// import Vue from 'vue';
-import {NavigationGuardNext, RouteLocationNormalized, createRouter, createWebHistory} from 'vue-router';
+import {RouteLocationNormalized, createRouter, createWebHistory} from 'vue-router';
 import {useUserStore} from '../store/userStore';
-// import Test from '../pages/Test.vue';
 import {routes} from './routes';
 import {errorToast} from '/js/services/toastService';
 import {breadcrumbsVisible} from '/js/services/breadcrumbService';
@@ -22,8 +20,6 @@ router.beforeEach((to, from, next) => {
 
     handleDocumentTitle(to);
     breadcrumbsVisible.value = false;
-
-    console.log(to);
 
     if (to.path == '/' && userStore.authenticated) {
         return next({path: '/dashboard'});
@@ -46,9 +42,7 @@ router.beforeEach((to, from, next) => {
         }
         if (to.meta.breadcrumbs)
             breadcrumbsVisible.value = true; 
-        console.log(userStore.user);
         if (to.meta.blockedForGuest && userStore.user && userStore.user.guest) {
-            console.log('should redirect')
             return next({path: '/dashboard'});
         }
     }
