@@ -35,9 +35,7 @@ class AuthenticationController extends Controller
                 return $this->handleSuspendedUser($user, $request);
             }
             $request->session()->regenerate();
-            ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in');
-            $user->last_login = Carbon::now();
-            $user->save();
+            $this->markUserLogin($request, $user, 'User logged in');
             return new JsonResponse(['user' => new UserResource($user)]);
         }
         ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in ' . $request['username'], 'Invalid login');
@@ -56,13 +54,23 @@ class AuthenticationController extends Controller
         $user = User::where('guest', true)->where('username', $guestToken->username)->first();
         if ($user->exists() && Hash::check($guestToken->loginToken, $user->login_token)) {
             $request->session()->regenerate();
-            ActionTrackingHandler::handleAction($request, 'LOGIN', 'Guest user logged in');
-            $user->last_login = Carbon::now();
-            $user->save();
-            Auth::login($user);
+            $this->saveGuestLogin($user, $request);
             return new JsonResponse(['user' => new UserResource($user)]);
         }
         return ResponseWrapper::errorResponse(__('auth.failed'));
+    }
+
+    public function saveGuestLogin(User $user, Request $request)
+    {
+        $this->markUserLogin($request, $user, 'Guest user logged in');
+        Auth::login($user);
+    }
+
+    private function markUserLogin(Request $request, User $user, string $trackingText)
+    {
+        ActionTrackingHandler::handleAction($request, 'LOGIN', $trackingText);
+        $user->last_login = Carbon::now();
+        $user->save();
     }
 
     /**
