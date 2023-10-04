@@ -1,6 +1,11 @@
 <template>
     <AuthBase>
         <h2>{{ $t('register') }}</h2>
+
+        <div v-if="guestAccount" class="mb-3 guest-account-warning">
+            <Icon icon="fa6-solid:circle-exclamation" class="warning-icon small" /> {{ $t('already-have-guest-account-register-warning') }}
+        </div>
+
         <form @submit.prevent="submitRegister">
             <SimpleInput 
                 id="username"  
@@ -74,6 +79,7 @@ import {Register} from 'resources/types/user';
 import {currentLang} from '/js/services/languageService';
 import {clearErrors} from '/js/services/errorService';
 import AuthBase from './components/AuthBase.vue';
+import { Icon } from '@iconify/vue';
 
 const userStore = useUserStore();
 
@@ -103,3 +109,11 @@ function continueGuestAccount() {
     userStore.continueGuestAccount();
 }
 </script>
+
+<style lang="scss" scoped>
+.guest-account-warning {
+    background-color: var(--button);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+}
+</style>

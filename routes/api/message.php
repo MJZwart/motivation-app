@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['valid-auth']], function () {
+Route::group(['middleware' => ['valid-auth', 'not-guest']], function () {
     Route::get('/conversations', [MessageController::class, 'getConversations']);
     Route::post('/', [MessageController::class, 'sendMessage']);
     Route::put('/conversation/{conversation}/read', [MessageController::class, 'markConversationAsRead']);

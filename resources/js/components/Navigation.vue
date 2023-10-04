@@ -12,14 +12,14 @@
             <nav class="navbar box-shadow">
                 <router-link to="/">{{ $t('dashboard') }}</router-link>
                 <router-link to="/overview">{{ $t('overview') }}</router-link>
-                <router-link to="/social">{{$t('social')}}</router-link>
+                <router-link v-if="!isGuest" to="/social">{{$t('social')}}</router-link>
 
                 <div v-if="admin && windowWidth > 350">
                     <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
                 </div>
 
                 <div class="ml-auto">
-                    <router-link v-if="windowWidth > 450" to="/messages">
+                    <router-link v-if="windowWidth > 450 && !isGuest" to="/messages">
                         <span class="icon-stack">
                             <Icon :icon="MAIL" class="icon-nav mail-icon"/>
                             <Icon v-if="hasMessages" :icon="DOT" class="red icon-dot" />
@@ -35,7 +35,7 @@
                         <section v-if="admin && windowWidth < 350" class="option">
                             <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
                         </section>
-                        <section v-if="windowWidth < 450" class="option">
+                        <section v-if="windowWidth < 450 && !isGuest" class="option">
                             <router-link to="/messages">{{ $t('messages') }}</router-link>
                         </section>
                         <section v-if="windowWidth < 450" class="option">
@@ -81,6 +81,8 @@ const user = computed(() => userStore.user);
 const hasNotifications = computed(() => messageStore.hasNotifications);
 const hasMessages = computed(() => messageStore.hasMessages);
 const admin = computed(() => userStore.isAdmin);
+
+const isGuest = computed(() => userStore.user ? userStore.user.guest : true);
 
 const windowWidth = ref(window.innerWidth);
 

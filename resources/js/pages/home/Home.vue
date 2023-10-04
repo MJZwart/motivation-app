@@ -32,9 +32,11 @@
                     {{ $t('create-guest-account') }}
                 </button>
             </router-link>
-            <button v-else class="register-button center mt-3" @click="continueGuestAccount()">
-                {{ $t('continue-guest-account')}}
-            </button>
+            <span v-else  class="register-button center mt-3">
+                <button @click="continueGuestAccount()">
+                    {{ $t('continue-guest-account')}}
+                </button>
+            </span>
         </div>
     </div>
 </template>

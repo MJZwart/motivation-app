@@ -26,6 +26,7 @@ class UserProfileResource extends JsonResource
             'friends' => $this->show_friends ? FriendResource::collection($this->friends) : null,
             'timeline' => !!$this->show_timeline,
             'suspended' => $this->isSuspended() ? new UserSuspensionSummaryResource($this->getLatestSuspension()) : null,
+            'guest' => !!$this->guest,
         ];
     }
 }

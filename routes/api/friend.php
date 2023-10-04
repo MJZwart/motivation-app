@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['valid-auth']], function () {
+Route::group(['middleware' => ['valid-auth', 'not-guest']], function () {
     Route::get('/', [FriendController::class, 'getFriends']);
     Route::post('/request/{user}', [FriendController::class, 'sendFriendRequest']);
     Route::get('/requests/all', [FriendController::class, 'getAllRequests']);

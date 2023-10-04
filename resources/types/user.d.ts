@@ -18,6 +18,7 @@ export type User = {
     show_tutorial: boolean;
     friends: Friend[];
     language: string;
+    guest: boolean;
 };
 
 export type UserStats = {
@@ -87,6 +88,7 @@ export type UserProfile = {
         until: Date;
         reason: string;
     } | null;
+    guest: boolean;
 };
 
 export type Login = {

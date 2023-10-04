@@ -54,7 +54,7 @@ class Kernel extends HttpKernel
         'websockets' => [
             'auth:sanctum',
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ]
+        ],
     ];
 
     /**
@@ -76,5 +76,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'suspended' => \App\Http\Middleware\UserIsNotSuspended::class,
+        'not-guest' => \App\Http\Middleware\NotGuest::class,
     ];
 }

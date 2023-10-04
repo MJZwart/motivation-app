@@ -23,7 +23,7 @@
                         :rewardType="rewardObj.rewardType"
                     />
 
-                    <FriendsCard :message="true" />
+                    <FriendsCard v-if="!isGuest" :message="true" />
 
                     <TemplatesButton />
                 </div>
@@ -49,6 +49,7 @@ import TemplatesButton from './components/template/TemplatesButton.vue';
 const userStore = useUserStore();
 const taskStore = useTaskStore();
 const rewardStore = useRewardStore();
+const isGuest = computed(() => userStore.user ? userStore.user.guest : true);
 
 const loading = ref(true);
 

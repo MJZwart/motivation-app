@@ -141,10 +141,7 @@ class RegisteredUserController extends Controller
         $user = User::where('guest', true)->where('username', $request['username'])->first();
         if ($user->exists() && Hash::check($request['loginToken'], $user->login_token)) {
             $request->session()->regenerate();
-            ActionTrackingHandler::handleAction($request, 'LOGIN', 'Guest user logged in');
-            $user->last_login = Carbon::now();
-            $user->save();
-            Auth::login($user);
+            (new AuthenticationController)->saveGuestLogin($user, $request);
             $loginTokenEncoded = base64_encode('{"loginToken": "' . $request['loginToken'] . '", "username": "' . $user->username . '"}');
             return ResponseWrapper::successResponse(__('messages.user.guest.created'), ['user' => new UserResource($user), 'loginToken' => $loginTokenEncoded]);
         }

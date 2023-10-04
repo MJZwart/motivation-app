@@ -15,7 +15,7 @@ use App\Http\Controllers\GroupRoleController;
 |
 */
 
-Route::group(['middleware' => ['valid-auth']], function () {
+Route::group(['middleware' => ['valid-auth', 'not-guest']], function () {
     Route::get('/dashboard', [GroupController::class, 'dashboard']);
 
     Route::group(['middleware' => ['can:view,group']], function () {
@@ -33,7 +33,7 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
     Route::post('/invite/{group}/accept/{invite}', [GroupUserController::class, 'acceptGroupInvite'])->can('joinPrivate', 'group');
     Route::post('/invite/{group}/reject/{invite}', [GroupUserController::class, 'rejectGroupInvite']);
-    
+
     Route::group(['middleware' => ['can:update,group']], function () {
         Route::put('/edit/{group}', [GroupController::class, 'update']);
         Route::get('/roles/{group}', [GroupRoleController::class, 'getRoles']);
@@ -59,11 +59,10 @@ Route::group(['middleware' => ['valid-auth']], function () {
 
         Route::get('/blocked/{group}', [GroupUserController::class, 'getBlockedUsers']);
         Route::post('/unblock/{group}', [GroupUserController::class, 'unblockUserFromGroup']);
-
     });
 
     Route::put('/roles/{group}/user/{groupUser}/role/{role}', [GroupRoleController::class, 'updateGroupUserRole'])->can('manageUserRoles', ['group', 'groupUser']);
-    
+
     Route::delete('/{group}', [GroupController::class, 'destroy'])->can('delete', 'group');
     Route::put('/{group}/transfer/{groupUser}', [GroupController::class, 'transferOwnership'])->can('delete', 'group');
 
