@@ -8,15 +8,31 @@ class RandomStringHelper
 {
     public static function getRandomAdjective($uppercase = false)
     {
-        $chosenWord = self::$adjectives[mt_rand(0, count(self::$adjectives))];
+        $chosenWord = self::$adjectives[mt_rand(0, count(self::$adjectives) - 1)];
         if ($uppercase) return ucfirst($chosenWord);
         return $chosenWord;
     }
     public static function getRandomAnimal($uppercase = false)
     {
-        $chosenWord = self::$animals[mt_rand(0, count(self::$animals))];
+        $chosenWord = self::$animals[mt_rand(0, count(self::$animals) - 1)];
         if ($uppercase) return $chosenWord;
         return lcfirst($chosenWord);
+    }
+
+    public static function getVillageName()
+    {
+        $chosenVillageName = '';
+        $prefix = mt_rand(0, 5) > 4 ? self::$villagePrefixes[mt_rand(0, count(self::$villagePrefixes) - 1)] : null;
+        if ($prefix) {
+            $chosenVillageName .= $prefix . ' ';
+        }
+        $chosenVillageName .= self::$villageNouns[mt_rand(0, count(self::$villageNouns) - 1)] . self::$villageSuffix[mt_rand(0, count(self::$villageSuffix) - 1)];
+        return $chosenVillageName;
+    }
+
+    public static function getCharacterName()
+    {
+        return self::getRandomAdjective(true) . ' ' . self::$characterClasses[mt_rand(0, count(self::$characterClasses) - 1)];
     }
 
     public static $adjectives = [
@@ -684,5 +700,35 @@ class RandomStringHelper
         "Woodcock",        "Woodpecker",
         "Worm",        "Wren",
         "Yak",        "Zebra"
+    ];
+
+    public static $characterClasses = [
+        "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger",
+        "Rogue", "Sorcerer", "Warlock", "Wizard", "Artificer", "Champion", "Hunter",
+        "Thief", "Assassin", "Trickster", "Mage", "Oathbreaker", "Swashbuckler", "Pyromancer",
+        "Zealot", "Cavalier", "Archer", "Scout", "Inquisitor", "Alchemist", "Knight", "Smith",
+        "Armourer", "Warrior", "Soulknife", "Wanderer", "Phantom", "Warmaster", "Outrider",
+        "Tempest", "Engineer", "Weaver", "Sniper", "Illusionist", "Mesmer", "Virtuoso",
+        "Berserker", "Bladesworn", "Skyguard", "Mirage", "Chronomancer", "Mechanist",
+        "Holosmith", "Scrapper", "Spellbreaker", "Revenant", "Renegade", "Vindicator",
+        "Herald", "Guardian", "Firebrand", "Willbender", "Dragonhunter", "Soulbeast",
+        "Deadeye", "Daredevil", "Spectre", "Elementalist", "Catalyst", "Necromancer",
+        "Reaper", "Scourge", "Harbinger",
+    ];
+
+    public static $villagePrefixes = [
+        "New", "West", "Saint", "North", "East", "South", "Fort", "Grand",
+    ];
+
+    public static $villageNouns = [
+        "Ash", "Beech", "Birch", "Pine", "Fir", "Larch", "Maple", "Oak", "Spruce", "Sycamore",
+        "Willow", "Yew", "Elm", "Cherry", "Fern", "Helmock", "Walnut", "Apple", "Orange", "Red",
+        "Wood",
+    ];
+
+    public static $villageSuffix = [
+        "town", "village", "ham", "view", "ley", "dorf", "ford", "field", "caster", "thorp",
+        "bury", "dale", "by", "hampton", "don", "ey", "fold", "gate", "moor", "more", "holm",
+        "hurst", "ing", "minster", "mere", "moss", "mouth", "pit", "ness", "ster", "ton", "plains",
     ];
 }

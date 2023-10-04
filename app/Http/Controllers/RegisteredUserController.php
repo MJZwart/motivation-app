@@ -179,13 +179,13 @@ class RegisteredUserController extends Controller
         if ($type === 'NONE') return;
         if ($type === 'CHARACTER') {
             Character::create([
-                'name' => RandomStringHelper::getRandomAdjective(true) . RandomStringHelper::getRandomAnimal(true),
+                'name' => RandomStringHelper::getCharacterName(),
                 'user_id' => $userId,
             ]);
         }
         if ($type === 'VILLAGE') {
             VILLAGE::create([
-                'name' => RandomStringHelper::getRandomAdjective(true) . RandomStringHelper::getRandomAnimal(true),
+                'name' => RandomStringHelper::getVillageName(),
                 'user_id' => $userId,
             ]);
         }
