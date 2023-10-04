@@ -24,6 +24,7 @@ use App\Http\Requests\ToggleTutorialRequest;
 use App\Http\Requests\UnblockUserRequest;
 use App\Http\Requests\UpdateLanguage;
 use App\Http\Resources\BlockedUserResource;
+use App\Http\Resources\StrippedUserWithGuestResource;
 use App\Models\BlockedUser;
 use App\Models\Friend;
 use Illuminate\Support\Facades\Auth;
@@ -113,7 +114,7 @@ class UserController extends Controller
      * Updates the user's language
      * Returns the updated user
      */
-    public function updateLanguage(UpdateLanguage $request) 
+    public function updateLanguage(UpdateLanguage $request)
     {
         $validated = $request->validated();
         /** @var User */
@@ -160,7 +161,7 @@ class UserController extends Controller
         $exclude = $exclude->map(function ($item) {
             return $item->id;
         });
-        return StrippedUserResource::collection(User::where('username', 'like', '%' . $request['userSearch'] . '%')
+        return StrippedUserWithGuestResource::collection(User::where('username', 'like', '%' . $request['userSearch'] . '%')
             ->whereNotIn('id', $exclude)->get());
     }
 
@@ -179,7 +180,7 @@ class UserController extends Controller
         $blockedUsers = BlockedUser::where('user_id', Auth::user()->id)->get();
         return new JsonResponse(['blockedUsers' => BlockedUserResource::collection($blockedUsers)]);
     }
-    
+
     public function blockUser(BlockUserRequest $request, User $blockedUser)
     {
         $validated = $request->validated();

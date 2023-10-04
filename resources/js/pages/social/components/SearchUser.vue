@@ -22,17 +22,19 @@
             >
                 <template #username="row">
                     <router-link :to="{name: 'profile', params: {id: row.item.id}}">
-                        {{ row.item.username }}
-                    </router-link>
+                        {{ row.item.username }} 
+                    </router-link> <span v-if="row.item.guest" class="silent">{{ $t('guest-account') }}</span>
                 </template>
                 <template #actions="row">
-                    <Tooltip :text="$t('send-message')">
-                        <Icon :icon="MAIL" class="mail-icon" @click="sendMessage(row.item)" />
-                    </Tooltip>
-                    <span v-if="!isConnection(row.item.id)">
-                        <Tooltip :text="$t('send-friend-request')">
-                            <Icon :icon="FRIEND" class="friend-icon" @click="sendFriendRequest(row.item.id)" />
+                    <span v-if="!row.item.guest">
+                        <Tooltip :text="$t('send-message')">
+                            <Icon :icon="MAIL" class="mail-icon" @click="sendMessage(row.item)" />
                         </Tooltip>
+                        <span v-if="!isConnection(row.item.id)">
+                            <Tooltip :text="$t('send-friend-request')">
+                                <Icon :icon="FRIEND" class="friend-icon" @click="sendFriendRequest(row.item.id)" />
+                            </Tooltip>
+                        </span>
                     </span>
                 </template>
             </Table>

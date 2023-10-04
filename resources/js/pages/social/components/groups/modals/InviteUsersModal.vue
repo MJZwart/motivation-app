@@ -33,10 +33,10 @@
                 </form>
 
                 <!-- The search results -->
-                <div v-if="searchResults && searchResults[0]" class="invite-users-search-results">
+                <div v-if="filteredSearchResults && filteredSearchResults[0]" class="invite-users-search-results">
                     <h5>{{ $t('search-results') }}:</h5>
                     <Table
-                        :items="searchResults"
+                        :items="filteredSearchResults"
                         :fields="searchResultsFields"
                         :options="['table-sm', 'table-striped', 'table-hover']"
                     >
@@ -98,6 +98,11 @@ const groupMemberIds = ref<Array<number> | null>(null);
 const searchData = ref<UserSearch>({
     userSearch: '',
 });
+
+const filteredSearchResults = computed(() => {
+    if (!searchResults.value) return null;
+    return searchResults.value.filter(user => !user.guest);
+})
 const searchResults = ref<Array<User> | null>(null);
 
 /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
