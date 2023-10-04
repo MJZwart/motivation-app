@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class NotGuest
 {
     /**
-     * Handle an incoming request.
+     * Handle an incoming request. Guests are not allowed to access parts protected by this middleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
