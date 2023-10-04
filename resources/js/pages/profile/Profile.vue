@@ -3,7 +3,9 @@
         <Loading v-if="loading || userProfile == null" />
         <div v-else class="w-50-flex center">
             <div>
-                <h2>{{ userProfile.username }}</h2>
+                <h2>{{ userProfile.username }} 
+                    <span v-if="isGuest" class="silent text-medium">{{ $t('guest-account') }}</span>
+                </h2>
                 <div v-if="userProfile.suspended">
                     {{
                         $t('suspended-until-reason', [
@@ -13,10 +15,10 @@
                     }}
                 </div>
                 <div v-if="notLoggedUser" class="d-flex profile-actions">
-                    <Tooltip :text="$t('message-user')">
+                    <Tooltip v-if="!isGuest" :text="$t('message-user')">
                         <Icon :icon="MAIL" class="mail-icon" @click="sendMessage" />
                     </Tooltip>
-                    <span v-if="!isConnection">
+                    <span v-if="!isConnection && !isGuest">
                         <Tooltip :text="$t('send-friend-request')">
                             <Icon :icon="FRIEND" class="friend-icon" @click="sendFriendRequest" />
                         </Tooltip>
@@ -179,6 +181,9 @@ watch(
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+.text-medium {
+    font-size: 1.5rem;
 }
 @media (max-width: 767px) {
     .profile-grid {
