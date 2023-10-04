@@ -54,7 +54,7 @@ class AuthenticationController extends Controller
         return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 
-    private function attemptAuth($credentials, $request)
+    public function attemptAuth($credentials, $request)
     {
         if (Auth::attempt($credentials)) {
             /** @var User */
