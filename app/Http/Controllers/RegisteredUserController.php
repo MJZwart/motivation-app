@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
-        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Registering user ' . $request['username']);
+        ActionTrackingHandler::registerAction($request, 'STORE_USER', 'Registering user ' . $request['username']);
         return $this->loginUser($request, ['username' => $request['username'], 'password' => $request['password']]);
     }
 
@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
             /** @var User */
             $user = Auth::user();
             $request->session()->regenerate();
-            ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in');
+            ActionTrackingHandler::registerAction($request, 'LOGIN', 'User logged in');
             $user->last_login = Carbon::now();
             $user->save();
             return ResponseWrapper::successResponse(__('messages.user.created'), ['user' => new UserResource($user)]);
@@ -98,7 +98,7 @@ class RegisteredUserController extends Controller
         }
         $user->first_login = false;
         $user->save();
-        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'User finishes first login');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'User finishes first login');
         return ResponseWrapper::successResponse(__('messages.user.setup'), ['user' => new UserResource(Auth::user())]);
     }
 
@@ -127,7 +127,7 @@ class RegisteredUserController extends Controller
         $this->createRewardForGuest($validated['reward'], $user->id);
         $this->createStarterTasks($user->id);
 
-        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Registering guest user ' . $username);
+        ActionTrackingHandler::registerAction($request, 'STORE_USER', 'Registering guest user ' . $username);
         $request['username'] = $username;
         $request['loginToken'] = $loginToken;
         return $this->loginGuestAccount($request);

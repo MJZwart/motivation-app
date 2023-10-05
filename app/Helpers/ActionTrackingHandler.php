@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class ActionTrackingHandler
 {
 
-    public static function handleAction(Request $request, String $type, String $action, String $error = null)
+    public static function registerAction(Request $request, String $type, String $action, String $error = null)
     {
         $user = Auth::user();
         $userId = $user ? $user->id : null;

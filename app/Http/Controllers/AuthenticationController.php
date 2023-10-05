@@ -38,7 +38,7 @@ class AuthenticationController extends Controller
             $this->markUserLogin($request, $user, 'User logged in');
             return new JsonResponse(['user' => new UserResource($user)]);
         }
-        ActionTrackingHandler::handleAction($request, 'LOGIN', 'User failed to log in ' . $request['username'], 'Invalid login');
+        ActionTrackingHandler::registerAction($request, 'LOGIN', 'User failed to log in ' . $request['username'], 'Invalid login');
         return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 
@@ -68,7 +68,7 @@ class AuthenticationController extends Controller
 
     private function markUserLogin(Request $request, User $user, string $trackingText)
     {
-        ActionTrackingHandler::handleAction($request, 'LOGIN', $trackingText);
+        ActionTrackingHandler::registerAction($request, 'LOGIN', $trackingText);
         $user->last_login = Carbon::now();
         $user->save();
     }
@@ -82,7 +82,7 @@ class AuthenticationController extends Controller
     private function handleSuspendedUser(User $user, Request $request): JsonResponse
     {
         $timeRemaining = Carbon::parse($user->suspended_until)->diffForHumans(Carbon::now(), ['syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW]);
-        ActionTrackingHandler::handleAction($request, 'LOGIN', 'Suspended user attepted logging in ' . $request['username']);
+        ActionTrackingHandler::registerAction($request, 'LOGIN', 'Suspended user attepted logging in ' . $request['username']);
         $suspendedUntilDate = $user->suspended_until;
         $reason = $user->suspendedUser->first()->reason;
         $errorMessage = __('messages.user.suspension.login_notification', [
