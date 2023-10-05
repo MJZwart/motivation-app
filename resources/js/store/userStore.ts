@@ -26,16 +26,14 @@ export const useUserStore = defineStore('user', {
          * User authentication. If user login is valid but the account is otherwise invalidated,
          * instead return info the Login screen.
          */
-        async login(user: Login): Promise<string | null> {
+        async login(user: Login) {
             await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
             this.setUser(data.user);
             if (data.user) this.getUnread();
             const friendStore = useFriendStore();
             friendStore.friends = data.user.friends;
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            router.push('/dashboard').catch(() => {});
-            return null;
+            router.push('/dashboard');
         },
 
         async logout() {
@@ -82,8 +80,7 @@ export const useUserStore = defineStore('user', {
             const {data} = await axios.post('/guest-account/continue', {localToken});
             if (!data.user) return;
             this.setUser(data.user);
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            router.push('/dashboard').catch(() => {});
+            router.push('/dashboard');
         },
 
         // * New user
@@ -93,14 +90,12 @@ export const useUserStore = defineStore('user', {
             this.setUser(data.data.user);
             const friendStore = useFriendStore();
             friendStore.friends = data.data.user.friends;
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            router.push('/dashboard').catch(() => {});
+            router.push('/dashboard')
         },
         async confirmRegister(user: NewUser) {
             const {data} = await axios.post('/register/confirm', user);
             this.setUser(data.data.user);
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            router.push('/').catch(() => {});
+            router.push('/')
         },
 
         async createGuestAccount(rewardType: { reward: string }) {
@@ -108,8 +103,7 @@ export const useUserStore = defineStore('user', {
             localStorage.setItem('guestToken',
                 JSON.stringify(data.data.loginToken));
             this.setUser(data.data.user);
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            router.push('/dashboard').catch(() => {});
+            router.push('/dashboard')
         },
 
         // * Public user profile
