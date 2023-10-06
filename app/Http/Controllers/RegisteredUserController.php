@@ -34,23 +34,16 @@ class RegisteredUserController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
         ActionTrackingHandler::registerAction($request, 'STORE_USER', 'Registering user ' . $request['username']);
-        return $this->loginUser($request, ['username' => $request['username'], 'password' => $request['password']]);
+        return $this->loginUser(['username' => $request['username'], 'password' => $request['password']], $request);
     }
 
     /**
      * Authenticates the user after registering
      */
-    private function loginUser($request, $credentials): JsonResponse
+    private function loginUser($credentials, $request): JsonResponse
     {
-        if (Auth::attempt($credentials)) {
-            /** @var User */
-            $user = Auth::user();
-            $request->session()->regenerate();
-            ActionTrackingHandler::registerAction($request, 'LOGIN', 'User logged in');
-            $user->last_login = Carbon::now();
-            $user->save();
-            return ResponseWrapper::successResponse(__('messages.user.created'), ['user' => new UserResource($user)]);
-        }
+        $user = (new AuthenticationController)->attemptAuth($credentials, $request);
+        if ($user) return ResponseWrapper::successResponse(__('messages.user.created'), ['user' => new UserResource($user)]);
         return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 

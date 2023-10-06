@@ -28,16 +28,10 @@ class AuthenticationController extends Controller
     {
         $credentials = $request->validated();
 
-        if (Auth::attempt($credentials)) {
-            /** @var User */
-            $user = Auth::user();
-            if ($user->isSuspended()) {
-                return $this->handleSuspendedUser($user, $request);
-            }
-            $request->session()->regenerate();
-            $this->markUserLogin($request, $user, 'User logged in');
-            return new JsonResponse(['user' => new UserResource($user)]);
-        }
+        $user = $this->attemptAuth($credentials, $request);
+
+        if ($user) return new JsonResponse(['user' => new UserResource($user)]);
+
         ActionTrackingHandler::registerAction($request, 'LOGIN', 'User failed to log in ' . $request['username'], 'Invalid login');
         return ResponseWrapper::errorResponse(__('auth.failed'));
     }
@@ -58,6 +52,20 @@ class AuthenticationController extends Controller
             return new JsonResponse(['user' => new UserResource($user)]);
         }
         return ResponseWrapper::errorResponse(__('auth.failed'));
+    }
+
+    public function attemptAuth($credentials, $request)
+    {
+        if (Auth::attempt($credentials)) {
+            /** @var User */
+            $user = Auth::user();
+            if ($user->isSuspended()) {
+                return $this->handleSuspendedUser($user, $request);
+            }
+            $request->session()->regenerate();
+            $this->markUserLogin($request, $user, 'User logged in');
+            return $user;
+        }
     }
 
     public function saveGuestLogin(User $user, Request $request)
