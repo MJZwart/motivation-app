@@ -20,7 +20,7 @@ class RewardController extends Controller
     public function updateRewardObj(Request $request)
     {
         RewardObjectHandler::updateActiveReward($request['rewardType'], $request['id'], $request['name']);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_INSTANCE', 'Updating ' . $request['rewardType'] . ' with new name ' . $request['name']);
+        ActionTrackingHandler::registerAction($request, 'UPDATE_INSTANCE', 'Updating ' . $request['rewardType'] . ' with new name ' . $request['name']);
         return ResponseWrapper::successResponse(__('messages.reward.name_changed'));
     }
 
@@ -57,17 +57,17 @@ class RewardController extends Controller
         /** @var User */
         $user = Auth::user();
         RewardObjectHandler::toggleActiveRewardObject($request['rewardType'], $user, $request['id']);
-        ActionTrackingHandler::handleAction($request, 'ACTIVATE_INSTANCE', 'Activating ' . $request['rewardType'] . ' ' . $request['id']);
+        ActionTrackingHandler::registerAction($request, 'ACTIVATE_INSTANCE', 'Activating ' . $request['rewardType'] . ' ' . $request['id']);
         if ($request['rewardType'] != $user->rewards)
             $user->update(['rewards' => $request['rewardType']]);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating reward type to ' . $request['rewardType']);
+        ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Updating reward type to ' . $request['rewardType']);
         return ResponseWrapper::successResponse(__('messages.reward.activated', ['name' => $request['name']]), ['user' => new UserResource(Auth::user())]);
     }
 
     public function deleteInstance(Request $request)
     {
         RewardObjectHandler::deleteRewardObject($request['rewardType'], $request['id']);
-        ActionTrackingHandler::handleAction($request, 'DELETE_INSTANCE', 'Deleting ' . $request['rewardType'] . ' ' . $request['id']);
+        ActionTrackingHandler::registerAction($request, 'DELETE_INSTANCE', 'Deleting ' . $request['rewardType'] . ' ' . $request['id']);
         return ResponseWrapper::successResponse(__('messages.reward.deleted', ['name' => $request['name']]));
     }
 }

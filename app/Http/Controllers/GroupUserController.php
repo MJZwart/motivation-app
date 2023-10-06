@@ -44,13 +44,13 @@ class GroupUserController extends Controller
         $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
 
         TimelineHandler::addGroupJoiningToTimeline($group, $user->id);
-        ActionTrackingHandler::handleAction($request, 'JOIN_GROUP', 'Joined group ' . $group->name);
+        ActionTrackingHandler::registerAction($request, 'JOIN_GROUP', 'Joined group ' . $group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.join_success', ['name' => $group->name]),
             ['group' => new GroupPageResource($group->fresh())]
         );
     }
-    
+
     /**
      * Show all active applications to a group
      *
@@ -85,7 +85,7 @@ class GroupUserController extends Controller
             'text' => __('messages.group.new_application_text', ['username' => $user->username, 'groupname' => $group->name]),
         ]);
 
-        ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "User applied to group {$group->name}");
+        ActionTrackingHandler::registerAction($request, 'GROUP_APPLICATION', "User applied to group {$group->name}");
         return ResponseWrapper::successResponse(
             __('messages.group.successful_application', ['name' => $group->name]),
             ['group' => new GroupPageResource($group->fresh())]
@@ -112,7 +112,7 @@ class GroupUserController extends Controller
         ]);
 
         TimelineHandler::addGroupJoiningToTimeline($group, $user->id);
-        ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "User accepted {$user->username}'s group application into {$group->name}.");
+        ActionTrackingHandler::registerAction($request, 'ACCEPT_GROUP_APPLICATION', "User accepted {$user->username}'s group application into {$group->name}.");
         return ResponseWrapper::successResponse(
             __('messages.group.accepted_application', ['username' => $user->username]),
             ['group' => new GroupPageResource($group->fresh())]
@@ -132,7 +132,7 @@ class GroupUserController extends Controller
         $user = User::find($application->user_id);
         $application->delete();
 
-        ActionTrackingHandler::handleAction($request, 'REJECT_GROUP_APPLICATION', "User rejected {$user->username}'s group application into {$group->name}.");
+        ActionTrackingHandler::registerAction($request, 'REJECT_GROUP_APPLICATION', "User rejected {$user->username}'s group application into {$group->name}.");
         return ResponseWrapper::successResponse(
             __('messages.group.rejected_application', ['username' => $user->username]),
             ['group' => new GroupPageResource($group->fresh())]
@@ -151,7 +151,7 @@ class GroupUserController extends Controller
         $application->delete();
         $group->suspendedUsers()->attach($user);
         $username = $user->username;
-        ActionTrackingHandler::handleAction($request, 'SUSPEND_GROUP_APPLICATION', $group->name . ' suspended user id ' . $user);
+        ActionTrackingHandler::registerAction($request, 'SUSPEND_GROUP_APPLICATION', $group->name . ' suspended user id ' . $user);
         return ResponseWrapper::successResponse(
             __('messages.group.rejected_and_suspended', ['username' => $username]),
             ['group' => new GroupPageResource($group->fresh())]
@@ -168,7 +168,8 @@ class GroupUserController extends Controller
      * @param Group $group
      * @return JsonResponse with blocked users
      */
-    public function getBlockedUsers(Group $group) {
+    public function getBlockedUsers(Group $group)
+    {
         return new JsonResponse(['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]);
     }
 
@@ -179,14 +180,15 @@ class GroupUserController extends Controller
      * @param Request $request
      * @return void
      */
-    public function unblockUserFromGroup(Group $group, Request $request) {
-        if (!$group->isAdminById(Auth::user()->id)) 
+    public function unblockUserFromGroup(Group $group, Request $request)
+    {
+        if (!$group->isAdminById(Auth::user()->id))
             return ResponseWrapper::errorResponse(__('messages.group.not_admin'));
         $user = User::find($request->userId);
-        if (!$group->suspendedUsers()->where('user_id', $request->userId)->exists()) 
+        if (!$group->suspendedUsers()->where('user_id', $request->userId)->exists())
             return ResponseWrapper::errorResponse(__('messages.group.user_not_blocked'));
         $group->suspendedUsers()->detach($user);
-        ActionTrackingHandler::handleAction($request, 'GROUP_UNBLOCK', 'User ' . $user->username .' unblocked from group ' .$group->name);
+        ActionTrackingHandler::registerAction($request, 'GROUP_UNBLOCK', 'User ' . $user->username . ' unblocked from group ' . $group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.unblocked', ['username' => $user->username]),
             ['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]
@@ -207,7 +209,7 @@ class GroupUserController extends Controller
         $user = Auth::user();
         $group->users()->detach($user);
         TimelineHandler::addGroupLeavingToTimeline($group, $user->id);
-        ActionTrackingHandler::handleAction($request, 'LEAVE_GROUP', 'User left group ' . $group->name);
+        ActionTrackingHandler::registerAction($request, 'LEAVE_GROUP', 'User left group ' . $group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.leave.success', ['name' => $group->name]),
             ['group' => new GroupPageResource($group->fresh())]
@@ -228,7 +230,7 @@ class GroupUserController extends Controller
         $groupUser = GroupUser::find($request['id']);
         $group->removeMemberFromGroup($request['id']);
         TimelineHandler::addGroupLeavingToTimeline($group, $groupUser->user_id);
-        ActionTrackingHandler::handleAction($request, 'GROUP_USER_KICKED', $group->name . ' kicked user id ' . $request['id']);
+        ActionTrackingHandler::registerAction($request, 'GROUP_USER_KICKED', $group->name . ' kicked user id ' . $request['id']);
         return ResponseWrapper::successResponse(
             __('messages.group.updated'),
             ['group' => new GroupPageResource($group->fresh())]
@@ -250,13 +252,13 @@ class GroupUserController extends Controller
         $group->suspendedUsers()->attach($userId);
         $username = User::find($userId)->username;
         TimelineHandler::addGroupLeavingToTimeline($group, $userId);
-        ActionTrackingHandler::handleAction($request, 'GROUP_USER_SUSPENDED', $group->name . ' suspended user id ' . $userId);
+        ActionTrackingHandler::registerAction($request, 'GROUP_USER_SUSPENDED', $group->name . ' suspended user id ' . $userId);
         return ResponseWrapper::successResponse(
             __('messages.group.removed_and_suspended', ['username' => $username]),
             ['group' => new GroupPageResource($group->fresh())]
         );
     }
-    
+
     /**
      * 
      * Group invites
@@ -284,7 +286,7 @@ class GroupUserController extends Controller
             __('messages.group.invite.new_text', ['name' => $group->name]),
             $groupInvite
         );
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE', 'Invited user to group '.$group->name);
+        ActionTrackingHandler::registerAction($request, 'GROUP_INVITE', 'Invited user to group ' . $group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.invite.sent'),
             ['group' => new GroupPageResource($group->fresh())]
@@ -309,7 +311,7 @@ class GroupUserController extends Controller
         $group->users()->attach($user, ['rank' => GroupRoleHandler::getMemberRank($group->id)->id]);
         $groupInvite->delete();
         TimelineHandler::addGroupJoiningToTimeline($group, $user->id);
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $group->name);
+        ActionTrackingHandler::registerAction($request, 'GROUP_INVITE_ACCEPTED', 'User accepted invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.join_success', ['name' => $groupInvite->group->name]));
     }
 
@@ -329,7 +331,7 @@ class GroupUserController extends Controller
         if ($user->id !== $groupInvite->user_id)
             return ResponseWrapper::errorResponse(__('messages.group.invite.not_yours'));
         $groupInvite->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $group->name);
+        ActionTrackingHandler::registerAction($request, 'GROUP_INVITE_REJECTED', 'User rejected invite to group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.invite.rejected'));
     }
     /**

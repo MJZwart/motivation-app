@@ -38,7 +38,7 @@ class TaskController extends Controller
         Task::create($validated);
 
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
-        ActionTrackingHandler::handleAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
+        ActionTrackingHandler::registerAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
 
@@ -57,7 +57,7 @@ class TaskController extends Controller
     {
         $validated = $request->validated();
         $task->update($validated);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_TASK', 'Updated task named: ' . $validated['name']);
+        ActionTrackingHandler::registerAction($request, 'UPDATE_TASK', 'Updated task named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
 
@@ -76,7 +76,7 @@ class TaskController extends Controller
     {
         $task->subTasks()->delete();
         $task->delete();
-        ActionTrackingHandler::handleAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name);
+        ActionTrackingHandler::registerAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         return ResponseWrapper::successResponse(__('messages.task.deleted'), ['taskLists' => $taskLists]);
@@ -129,7 +129,7 @@ class TaskController extends Controller
             $task->completed = Carbon::now();
             $task->update();
         }
-        ActionTrackingHandler::handleAction($request, 'COMPLETE_TASK', 'Completed task named: ' . $task->name);
+        ActionTrackingHandler::registerAction($request, 'COMPLETE_TASK', 'Completed task named: ' . $task->name);
     }
 
     /** A completed repeatable does not get set as completed, but rather gets its 'active' attribute
@@ -172,7 +172,8 @@ class TaskController extends Controller
      *
      * @return TemplateResourceCollection with all user templates
      */
-    public function getTemplates() {
+    public function getTemplates()
+    {
         return TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get());
     }
 
@@ -182,7 +183,7 @@ class TaskController extends Controller
      * @param Task $task
      * @return JsonResponse with success message and all user templates
      */
-    public function storeTemplate(StoreTemplateRequest $request) 
+    public function storeTemplate(StoreTemplateRequest $request)
     {
         /** @var User */
         $userId = Auth::user()->id;
@@ -192,8 +193,9 @@ class TaskController extends Controller
         Template::create($validated);
 
         return ResponseWrapper::successResponse(
-            __('messages.task.template.created'), 
-            TemplatesResource::collection(Template::where('user_id', $userId)->get()));
+            __('messages.task.template.created'),
+            TemplatesResource::collection(Template::where('user_id', $userId)->get())
+        );
     }
 
     /**
@@ -209,8 +211,9 @@ class TaskController extends Controller
         $template->update($validated);
 
         return ResponseWrapper::successResponse(
-            __('messages.task.template.updated'), 
-            TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get()));
+            __('messages.task.template.updated'),
+            TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get())
+        );
     }
 
     /**
@@ -219,12 +222,13 @@ class TaskController extends Controller
      * @param Template $template
      * @return JsonResponse with success message and all user templates
      */
-    public function deleteTemplate(Template $template) 
+    public function deleteTemplate(Template $template)
     {
         $template->delete();
 
         return ResponseWrapper::successResponse(
-            __('messages.task.template.deleted'), 
-            TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get()));
+            __('messages.task.template.deleted'),
+            TemplatesResource::collection(Template::where('user_id', Auth::user()->id)->get())
+        );
     }
 }

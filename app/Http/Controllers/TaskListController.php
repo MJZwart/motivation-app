@@ -15,7 +15,7 @@ use Illuminate\Http\JsonResponse;
 
 class TaskListController extends Controller
 {
-    public function getOtherTaskLists(int $taskListId) 
+    public function getOtherTaskLists(int $taskListId)
     {
         return TaskList::where('user_id', Auth::user()->id)->whereNot('id', $taskListId)->select('name', 'id')->get();
     }
@@ -30,7 +30,7 @@ class TaskListController extends Controller
         $validated['user_id'] = Auth::user()->id;
 
         TaskList::create($validated);
-        ActionTrackingHandler::handleAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: ' . $validated['name']);
+        ActionTrackingHandler::registerAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         return ResponseWrapper::successResponse(__('messages.tasklist.created'), $taskLists);
@@ -45,7 +45,7 @@ class TaskListController extends Controller
     {
         $validated = $request->validated();
         $tasklist->update($validated);
-        ActionTrackingHandler::handleAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: ' . $validated['name']);
+        ActionTrackingHandler::registerAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: ' . $validated['name']);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         return ResponseWrapper::successResponse(__('messages.tasklist.updated'), $taskLists);
@@ -59,7 +59,7 @@ class TaskListController extends Controller
     {
         $tasklist->tasks()->delete();
         $tasklist->delete();
-        ActionTrackingHandler::handleAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name);
+        ActionTrackingHandler::registerAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name);
 
         $taskLists = TaskListResource::collection(Auth::user()->taskLists);
         return ResponseWrapper::successResponse(__('messages.tasklist.deleted'), $taskLists);
