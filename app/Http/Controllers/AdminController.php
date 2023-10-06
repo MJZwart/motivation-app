@@ -293,17 +293,29 @@ class AdminController extends Controller
         $yesterday = Carbon::now()->subDay();
         $lastWeek = Carbon::now()->subWeek();
         $totalUsers = User::count();
+        $totalGuests = User::where('guest', true)->count();
         $activeUsers = User::where('last_login', '>', $yesterday)->count();
+        $activeGuests = User::where('last_login', '>', $yesterday)->where('guest', true)->count();
         $newUsers = User::where('created_at', '>', $lastWeek)->count();
+        $newGuests = User::where('created_at', '>', $lastWeek)->where('guest', true)->count();
         $unarchivedFeedback = Feedback::where('archived', false)->count();
         $unresolvedBugs = BugReport::where('status', '!=', 3)->count();
         $newFeedback = Feedback::where('created_at', '>', $lastWeek)->count();
         $newBugs = BugReport::where('created_at', '>', $lastWeek)->count();
         $newUserReports = ReportedUser::where('created_at', '>', $lastWeek)->count();
         $overview = [
-            'total-users' => $totalUsers,
-            'new-users' => $newUsers,
-            'active-users' => $activeUsers,
+            'total-users' => [
+                'total' => $totalUsers,
+                'guests' => $totalGuests,
+            ],
+            'new-users' => [
+                'total' => $newUsers,
+                'guests' => $newGuests
+            ],
+            'active-users' => [
+                'total' => $activeUsers,
+                'guests' => $activeGuests,
+            ],
             'unarchived-feedback' => $unarchivedFeedback,
             'unresolved-bugs' => $unresolvedBugs,
             'new-feedback' => $newFeedback,
