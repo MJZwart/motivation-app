@@ -1,24 +1,15 @@
 <template>
     <div v-if="overview" class="overview-box">
         <div v-for="(item, key, index) in overview" :key="index" class="overview content-block">
-            <!-- <OverviewBlock :item-key="key" :value="item">
-                <template #total-users="item">
-                    <span class="key">{{$t(item.total)}}</span>
-                    <span class="item">{{item}}</span>
-                    <span class="details">{{$t(`${key}-details`)}}</span>
-                </template>
-            </OverviewBlock> -->
+            <span class="key">{{$t(key)}}</span>
             <span v-if="(typeof item === 'number')">
-                <span class="key">{{$t(key)}}</span>
                 <span class="item">{{item}}</span>
-                <span class="details">{{$t(`${key}-details`)}}</span>
             </span>
             <span v-else>
-                <span class="key">{{ $t(key) }}</span>
                 <span class="item">{{ item.total }}</span>
-                <span class="details">{{ $t(`${key}-details`) }}</span>
                 <span class="details">{{ $t('guests') }}: {{ item['guests'] }} ({{ percentageOfGuests(item) }})</span>
             </span>
+            <span class="details">{{ $t(`${key}-details`) }}</span>
         </div>
     </div>
 </template>
