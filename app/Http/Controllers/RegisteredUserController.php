@@ -126,6 +126,17 @@ class RegisteredUserController extends Controller
         return $this->loginGuestAccount($request);
     }
 
+    public function upgradeGuestAccount(RegisterUserRequest $request, User $user)
+    {
+        $validated = $request->validated();
+        $validated['password'] = bcrypt($validated['password']);
+        $validated['guest'] = false;
+        $validated['login_token'] = null;
+        $user->update($validated);
+        ActionTrackingHandler::registerAction($request, 'UPGRADE_USER', 'Upgrading guest account user ' . $request['username']);
+        return ResponseWrapper::successResponse(__('messages.user.guest.upgraded'), ['user' => new UserResource($user->fresh())]);
+    }
+
     /**
      * Authenticates the guest account after having been created and returns the token to login again
      */
