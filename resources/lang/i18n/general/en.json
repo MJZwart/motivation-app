@@ -76,6 +76,8 @@
     "continue-guest-account": "Continue guest account",
     "guest-account": "Guest account",
     "guests": "Guests",
+    "upgrade-guest-account": "Upgrade guest account",
+    "upgrade-guest-account-subtext": "Upgrade your guest account to a regular account to gain access to the social aspect of the app. All progress is preserved.",
     "already-an-account-prompt": "Already have an account?",
     "already-have-guest-account-register-warning": "Note: You already have a guest account. You can turn your guest account into a regular account to gain access to the social aspect of the app, without losing progress, by going to your settings. By registering a new account here you will still be able to access to your guest account, but you will start over on your newly registered account.",
     

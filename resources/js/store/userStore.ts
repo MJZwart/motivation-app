@@ -90,7 +90,7 @@ export const useUserStore = defineStore('user', {
             this.setUser(data.data.user);
             const friendStore = useFriendStore();
             friendStore.friends = data.data.user.friends;
-            router.push('/dashboard')
+            router.push('/dashboard');
         },
         async confirmRegister(user: NewUser) {
             const {data} = await axios.post('/register/confirm', user);
@@ -104,6 +104,12 @@ export const useUserStore = defineStore('user', {
                 JSON.stringify(data.data.loginToken));
             this.setUser(data.data.user);
             router.push('/dashboard')
+        },
+
+        async upgradeGuestAccount(user: Register, userId: number) {
+            const {data} = await axios.post('/guest-account/'+userId+'/upgrade', user);
+            this.setUser(data.data.user);
+            router.push('/dashboard');
         },
 
         // * Public user profile
