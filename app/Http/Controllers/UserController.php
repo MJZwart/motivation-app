@@ -63,7 +63,7 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating email');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Updating email');
         //Invalidate old e-mail
         //Send new e-mail confirmation
         //Update new e-mail, unconfirmed
@@ -81,7 +81,7 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating password');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Updating password');
         return ResponseWrapper::successResponse(__('messages.user.password_updated'));
     }
 
@@ -92,7 +92,7 @@ class UserController extends Controller
         $user = Auth::user();
         $user->show_tutorial = $validated['show'];
         $user->save();
-        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Toggling tutorial show');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Toggling tutorial show');
         return ResponseWrapper::successResponse('Your tutorial settings have been updated', ['user' => $user]);
     }
 
@@ -106,7 +106,7 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating settings');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Updating settings');
         return ResponseWrapper::successResponse(__('messages.user.settings_updated'), ['user' => new UserResource($user->fresh())]);
     }
 
@@ -120,7 +120,7 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_LANGUAGE', 'Language changed');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_LANGUAGE', 'Language changed');
         return ResponseWrapper::successResponse(__('messages.user.language_updated'), ['user' => new UserResource($user->fresh())]);
     }
 
@@ -143,7 +143,7 @@ class UserController extends Controller
             $request['new_object_name'],
             $request['rewards']
         );
-        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'Updating rewards type');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Updating rewards type');
         return ResponseWrapper::successResponse(__('messages.user.reward_updated'), ['user' => new UserResource($user), 'activeReward' => $activeReward]);
     }
 
@@ -171,7 +171,7 @@ class UserController extends Controller
         $validated['reported_user_id'] = $user->id;
         $validated['reported_by_user_id'] = Auth::user()->id;
         ReportedUser::create($validated);
-        ActionTrackingHandler::handleAction($request, 'REPORT_USER', 'User reported: ' . $user->username);
+        ActionTrackingHandler::registerAction($request, 'REPORT_USER', 'User reported: ' . $user->username);
         return ResponseWrapper::successResponse(__('messages.user.reported'));
     }
 
@@ -200,7 +200,7 @@ class UserController extends Controller
         $toDelete = Friend::where('user_id', $blockedUser->id)->where('friend_id', $user->id)->first();
         if ($toDelete) $toDelete->delete();
 
-        ActionTrackingHandler::handleAction($request, 'BLOCK_USER', 'Blocked user ' . $blockedUser->username);
+        ActionTrackingHandler::registerAction($request, 'BLOCK_USER', 'Blocked user ' . $blockedUser->username);
         return ResponseWrapper::successResponse(__('messages.user.blocked'));
     }
 

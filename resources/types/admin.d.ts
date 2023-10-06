@@ -44,9 +44,18 @@ export type ReportedUser = NewReportedUser & {
 };
 
 export type Overview = {
-    'total-users': number;
-    'new-users': number;
-    'active-users': number;
+    'total-users': {
+        'total': number;
+        'guests': number;
+    };
+    'new-users': {
+        'total': number;
+        'guests': number;
+    }
+    'active-users': {
+        'total': number;
+        'guests': number;
+    }
     'unarchived-feedback': number;
     'unresolved-bugs': number;
     'new-feedback': number;

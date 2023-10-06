@@ -66,7 +66,7 @@ class GroupController extends Controller
         $adminRank = GroupRoleHandler::getAdminRank($group->id);
         $group->users()->attach($userId, ['rank' => $adminRank->id]);
         TimelineHandler::addGroupCreationToTimeline($group, $userId);
-        ActionTrackingHandler::handleAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
+        ActionTrackingHandler::registerAction($request, 'STORE_GROUP', 'Created group ' . $group->name);
 
         return ResponseWrapper::successResponse(__('messages.group.created', ['name' => $validated['name']]), ['group_id' => $group->id]);
     }
@@ -84,7 +84,7 @@ class GroupController extends Controller
         GroupApplication::where('group_id', $group->id)->delete();
         TimelineHandler::addGroupDisbandingToTimeline($group->name, Auth::user()->id);
         $group->delete();
-        ActionTrackingHandler::handleAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
+        ActionTrackingHandler::registerAction($request, 'DELETE_GROUP', 'Deleted group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.deleted', ['name' => $group->name]));
     }
 
@@ -107,7 +107,7 @@ class GroupController extends Controller
             __('messages.group.transfer.notification_title'),
             __('messages.group.transfer.notification_text', ['admin' => $currentAdmin->user->username, 'group' => $group->name])
         );
-        ActionTrackingHandler::handleAction($request, 'TRANSFER_GROUP', 'Transferred ownership of ' . $group->name . ' to ' .$groupUser->user->username);
+        ActionTrackingHandler::registerAction($request, 'TRANSFER_GROUP', 'Transferred ownership of ' . $group->name . ' to ' . $groupUser->user->username);
         return ResponseWrapper::successResponse(__('messages.group.transfer.success'), ['group' => new GroupPageResource($group->fresh())]);
     }
 
@@ -122,7 +122,7 @@ class GroupController extends Controller
     {
         $validated = $request->validated();
         $group->update($validated);
-        ActionTrackingHandler::handleAction($request, 'UPDATE_GROUP', $group->name . ' updated.');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_GROUP', $group->name . ' updated.');
         return ResponseWrapper::successResponse(
             __('messages.group.updated'),
             ['group' => new GroupPageResource($group->fresh())]
@@ -151,7 +151,7 @@ class GroupController extends Controller
      * @param GroupMessageRequest $request
      * @return JsonResponse with the updated group messages in a resource
      */
-    public function storeMessage(Group $group, GroupMessageRequest $request) 
+    public function storeMessage(Group $group, GroupMessageRequest $request)
     {
         $validated = $request->validated();
 
@@ -161,7 +161,7 @@ class GroupController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
-        ActionTrackingHandler::handleAction($request, 'GROUP_MESSAGE', 'Created message in group '.$group->name);
+        ActionTrackingHandler::registerAction($request, 'GROUP_MESSAGE', 'Created message in group ' . $group->name);
 
         return ResponseWrapper::successResponse(__('messages.group.message.created'), ['messages' => GroupMessageResource::collection($group->fresh()->messages->sortByDesc('created_at'))]);
     }
@@ -176,7 +176,7 @@ class GroupController extends Controller
     public function deleteMessage(Group $group, GroupMessage $groupMessage, Request $request)
     {
         $groupMessage->delete();
-        ActionTrackingHandler::handleAction($request, 'GROUP_MESSAGE', 'Deleted message in group '.$group->name);
+        ActionTrackingHandler::registerAction($request, 'GROUP_MESSAGE', 'Deleted message in group ' . $group->name);
         return ResponseWrapper::successResponse(__('messages.group.message.deleted'), ['messages' => GroupMessageResource::collection($group->fresh()->messages->sortByDesc('created_at'))]);
     }
 }
