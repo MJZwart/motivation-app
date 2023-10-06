@@ -46,7 +46,7 @@ class AuthenticationController extends Controller
     {
         $guestToken = json_decode(base64_decode($request['localToken']));
         $user = User::where('guest', true)->where('username', $guestToken->username)->first();
-        if ($user->exists() && Hash::check($guestToken->loginToken, $user->login_token)) {
+        if ($user !== null && $user->exists() && Hash::check($guestToken->loginToken, $user->login_token)) {
             $request->session()->regenerate();
             $this->saveGuestLogin($user, $request);
             return new JsonResponse(['user' => new UserResource($user)]);
