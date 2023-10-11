@@ -109,6 +109,7 @@ export const useUserStore = defineStore('user', {
         async upgradeGuestAccount(user: Register, userId: number) {
             const {data} = await axios.post('/guest-account/'+userId+'/upgrade', user);
             this.setUser(data.data.user);
+            localStorage.removeItem('guestToken');
             router.push('/dashboard');
         },
 

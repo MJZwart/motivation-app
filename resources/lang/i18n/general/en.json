@@ -8,7 +8,7 @@
     "tos": "Terms of service",
     "agree-to-tos-pre": "I understand and agree to the ",
 
-    "details" : "Details",
+    "details": "Details",
     "view": "View",
     "or": "or",
 
@@ -26,7 +26,6 @@
     "trigger-amount": "Trigger amount",
     "trigger-description": "Trigger description",
 
-    
     "save-settings": "Save settings",
     "account-settings": "Account settings",
     "settings": "Settings",
@@ -77,10 +76,10 @@
     "guest-account": "Guest account",
     "guests": "Guests",
     "upgrade-guest-account": "Upgrade guest account",
-    "upgrade-guest-account-subtext": "Upgrade your guest account to a regular account to gain access to the social aspect of the app. All progress is preserved.",
+    "upgrade-guest-account-subtext": "Upgrade your guest account to a regular account to gain access to the social aspect of the app. All progress is preserved. Make sure you remember your username and password, you will need this to log in.",
     "already-an-account-prompt": "Already have an account?",
     "already-have-guest-account-register-warning": "Note: You already have a guest account. You can turn your guest account into a regular account to gain access to the social aspect of the app, without losing progress, by going to your settings. By registering a new account here you will still be able to access to your guest account, but you will start over on your newly registered account.",
-    
+
     "login": "Login",
     "forgot-password-link": "Forgot password?",
     "forgot-password": "Forgot password",
@@ -88,7 +87,7 @@
     "reset-password": "Reset password",
     "password-reset-link-sent": "Mail sent.",
     "password-reset-failed": "Password reset failed. Either revisit the link through your e-mail or try again later.",
-    
+
     "stats": "Stats",
 
     "delete-notification-confirmation": "Are you sure you want to delete this notification?",
@@ -154,13 +153,13 @@
     "send-diagnostics-information-explanation": "Sending this information can help us fix problems which may not occur on our own machine and helps us debugging much quicker.",
     "height-width": "Height x width",
     "send-feedback": "Send feedback",
-    
+
     "suggestion": "Suggestion",
     "question": "Question",
-    "archive" : "Archive",
-    "unarchive" : "Unarchive",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
 
-    "click-to-close" : "Click anywhere to close",
+    "click-to-close": "Click anywhere to close",
 
     "home-welcome-to": "Welcome to {0}.",
     "home-introduction": "Motivate yourself",
@@ -196,6 +195,6 @@
     "light-mode": "Light mode",
 
     "pagination-item-of": "Items {offset} - {range} of {max}",
-    
+
     "changelog": "Changelog"
 }
