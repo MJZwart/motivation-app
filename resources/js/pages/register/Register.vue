@@ -18,7 +18,7 @@
                         :value="register.username"
                         :placeholder="$t('username')" 
                     />
-                    <Tooltip :text="$t('random-name')" class="dice-button">
+                    <Tooltip :text="$t('random')" class="dice-button">
                         <Icon icon="fa-solid:dice" @click="generateRandomName" />
                     </Tooltip>
                 </span>
@@ -130,8 +130,5 @@ function generateRandomName() {
     background-color: var(--button);
     padding: 0.75rem;
     border-radius: 0.5rem;
-}
-.dice-button {
-    margin: 0.4rem 0 0 0.5rem;
 }
 </style>

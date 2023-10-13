@@ -33,15 +33,23 @@
                     </div>
                     <BaseFormError name="rewards-type" />
                 </div>
-                <SimpleInput
-                    v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
-                    id="reward_object_name"
-                    v-model="user.reward_object_name"
-                    type="text"
-                    name="reward_object_name"
-                    :label="parsedLabelName"
-                    :placeholder="parsedLabelName"
-                />
+                <div v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
+                     class="form-group">
+                    <label for="username">{{ parsedLabelName }}</label>
+                    <span class="d-flex flex-row">
+                        <input
+                            id="reward_object_name" 
+                            type="text" 
+                            name="reward_object_name" 
+                            :value="user.reward_object_name"
+                            :placeholder="parsedLabelName ?? ''" 
+                        />
+                        <Tooltip :text="$t('random')" class="dice-button mr-2">
+                            <Icon icon="fa-solid:dice" @click="generateRandomName" />
+                        </Tooltip>
+                    </span>
+                    <BaseFormError name="reward_object_name" />
+                </div> 
                 <small class="form-text text-muted mb-3">{{ $t('change-name-later') }}</small>
                 <span class="d-flex">
                     <button class="ml-auto button-cancel mr-2" @click="logout()">{{ $t('logout') }}</button>
@@ -92,6 +100,7 @@ import {useI18n} from 'vue-i18n';
 import type {Task} from 'resources/types/task';
 import type {NewUser} from 'resources/types/user';
 import {clearErrors, setErrorMessages} from '/js/services/errorService';
+import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
 const {t} = useI18n();
 
 const taskStore = useTaskStore();
@@ -148,6 +157,10 @@ function checkInput() {
 }
 function logout() {
     userStore.logout();
+}
+function generateRandomName() {
+    if (user.value.rewardsType === 'CHARACTER') user.value.reward_object_name = getRandomCharacterName();
+    else if (user.value.rewardsType === 'VILLAGE') user.value.reward_object_name = getRandomVillageName();
 }
 </script>
 
