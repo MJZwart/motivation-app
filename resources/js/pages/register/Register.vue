@@ -18,7 +18,10 @@
                         :value="register.username"
                         :placeholder="$t('username')" 
                     />
-                    <Icon icon="fa-solid:dice" class="dice-button" /></span>
+                    <Tooltip :text="$t('random-name')" class="dice-button">
+                        <Icon icon="fa-solid:dice" @click="generateRandomName" />
+                    </Tooltip>
+                </span>
                 <BaseFormError name="username" />
             </div>
             <SimpleInput 
@@ -87,6 +90,7 @@ import {currentLang} from '/js/services/languageService';
 import {clearErrors} from '/js/services/errorService';
 import AuthBase from './components/AuthBase.vue';
 import {Icon} from '@iconify/vue';
+import {getRandomUsername} from '/js/helpers/randomNames';
 
 const userStore = useUserStore();
 
@@ -114,6 +118,10 @@ function continueGuestAccount() {
     if (!guestAccount.value) return;
 
     userStore.continueGuestAccount();
+}
+
+function generateRandomName() {
+    register.username = getRandomUsername();
 }
 </script>
 
