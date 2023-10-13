@@ -91,7 +91,7 @@
                         :value="rewardSetting.new_object_name"
                         :placeholder="rewardTypeName" 
                     />
-                    <Tooltip :text="$t('random')" class="dice-button mr-2">
+                    <Tooltip :text="$t('random-name')" placement="top-left" class="dice-button mr-2">
                         <Icon icon="fa-solid:dice" @click="generateRandomName" />
                     </Tooltip>
                 </span>

@@ -44,7 +44,7 @@
                             :value="user.reward_object_name"
                             :placeholder="parsedLabelName ?? ''" 
                         />
-                        <Tooltip :text="$t('random')" class="dice-button mr-2">
+                        <Tooltip :text="$t('random-name')" class="dice-button mr-2">
                             <Icon icon="fa-solid:dice" @click="generateRandomName" />
                         </Tooltip>
                     </span>
