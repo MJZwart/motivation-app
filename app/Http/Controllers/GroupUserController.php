@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewNotification;
 use App\Exceptions\GroupNotFoundException;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\GroupRoleHandler;
@@ -20,6 +21,7 @@ use App\Http\Resources\GroupPageResource;
 use App\Models\GroupInvite;
 use App\Models\GroupUser;
 use App\Models\Notification;
+use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -50,7 +52,7 @@ class GroupUserController extends Controller
             ['group' => new GroupPageResource($group->fresh())]
         );
     }
-    
+
     /**
      * Show all active applications to a group
      *
@@ -85,6 +87,12 @@ class GroupUserController extends Controller
             'text' => __('messages.group.new_application_text', ['username' => $user->username, 'groupname' => $group->name]),
         ]);
 
+        try {
+            NewNotification::broadcast($group->getAdmin()->user_id);
+        } catch (BroadcastException $e) {
+            error_log('Error broadcasting message: ' . $e->getMessage());
+        }
+
         ActionTrackingHandler::handleAction($request, 'GROUP_APPLICATION', "User applied to group {$group->name}");
         return ResponseWrapper::successResponse(
             __('messages.group.successful_application', ['name' => $group->name]),
@@ -110,6 +118,12 @@ class GroupUserController extends Controller
             'title' => __('messages.group.application_accepted_title', ['name' => $group->name]),
             'text' => __('messages.group.application_accepted_text', ['name' => $group->name]),
         ]);
+
+        try {
+            NewNotification::broadcast($user->id);
+        } catch (BroadcastException $e) {
+            error_log('Error broadcasting message: ' . $e->getMessage());
+        }
 
         TimelineHandler::addGroupJoiningToTimeline($group, $user->id);
         ActionTrackingHandler::handleAction($request, 'ACCEPT_GROUP_APPLICATION', "User accepted {$user->username}'s group application into {$group->name}.");
@@ -168,7 +182,8 @@ class GroupUserController extends Controller
      * @param Group $group
      * @return JsonResponse with blocked users
      */
-    public function getBlockedUsers(Group $group) {
+    public function getBlockedUsers(Group $group)
+    {
         return new JsonResponse(['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]);
     }
 
@@ -179,14 +194,15 @@ class GroupUserController extends Controller
      * @param Request $request
      * @return void
      */
-    public function unblockUserFromGroup(Group $group, Request $request) {
-        if (!$group->isAdminById(Auth::user()->id)) 
+    public function unblockUserFromGroup(Group $group, Request $request)
+    {
+        if (!$group->isAdminById(Auth::user()->id))
             return ResponseWrapper::errorResponse(__('messages.group.not_admin'));
         $user = User::find($request->userId);
-        if (!$group->suspendedUsers()->where('user_id', $request->userId)->exists()) 
+        if (!$group->suspendedUsers()->where('user_id', $request->userId)->exists())
             return ResponseWrapper::errorResponse(__('messages.group.user_not_blocked'));
         $group->suspendedUsers()->detach($user);
-        ActionTrackingHandler::handleAction($request, 'GROUP_UNBLOCK', 'User ' . $user->username .' unblocked from group ' .$group->name);
+        ActionTrackingHandler::handleAction($request, 'GROUP_UNBLOCK', 'User ' . $user->username . ' unblocked from group ' . $group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.unblocked', ['username' => $user->username]),
             ['blockedUsers' => BlockedUserFromGroupResource::collection($group->suspendedUsers)]
@@ -256,7 +272,7 @@ class GroupUserController extends Controller
             ['group' => new GroupPageResource($group->fresh())]
         );
     }
-    
+
     /**
      * 
      * Group invites
@@ -284,7 +300,7 @@ class GroupUserController extends Controller
             __('messages.group.invite.new_text', ['name' => $group->name]),
             $groupInvite
         );
-        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE', 'Invited user to group '.$group->name);
+        ActionTrackingHandler::handleAction($request, 'GROUP_INVITE', 'Invited user to group ' . $group->name);
         return ResponseWrapper::successResponse(
             __('messages.group.invite.sent'),
             ['group' => new GroupPageResource($group->fresh())]

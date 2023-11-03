@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewNotification;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use App\Http\Requests\SuspendUserRequest;
@@ -30,6 +31,7 @@ use App\Models\Group;
 use App\Models\GroupExperiencePoint;
 use App\Models\Notification;
 use App\Models\SuspendedUser;
+use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -42,12 +44,12 @@ class AdminController extends Controller
     {
         //Empty function, check is already done by middleware
     }
-    
+
     /*
     * *
     * * Balancing
     * *
-    */ 
+    */
 
     public function getExperiencePoints(): JsonResponse
     {
@@ -68,7 +70,7 @@ class AdminController extends Controller
         return ResponseWrapper::successResponse(__('messages.group_exp.updated'), GroupExperiencePoint::orderBy('level')->get());
     }
 
-    public function getCharacterExpGain() : JsonResponse
+    public function getCharacterExpGain(): JsonResponse
     {
         return ResponseWrapper::successResponse(null, DB::table('character_exp_gain')->get()->toArray());
     }
@@ -130,7 +132,7 @@ class AdminController extends Controller
     * *
     * * Reported users / Suspended users
     * *
-    */ 
+    */
 
     /** 
      * Gets all reported users, sorted by User (id). Each report has the user linked to the report.
@@ -235,11 +237,21 @@ class AdminController extends Controller
             Notification::create([
                 'user_id' => $user->id,
                 'title' => __('messages.user.suspension.ended_notification_title'),
-                'text' => __('messages.user.suspension.ended_notification', 
-                    ['admin' => Auth::user()->username,
-                    'comment' => $request['suspension_edit_comment'],
-                    'reason' => $suspendedUser->reason])
+                'text' => __(
+                    'messages.user.suspension.ended_notification',
+                    [
+                        'admin' => Auth::user()->username,
+                        'comment' => $request['suspension_edit_comment'],
+                        'reason' => $suspendedUser->reason
+                    ]
+                )
             ]);
+
+            try {
+                NewNotification::broadcast($user->id);
+            } catch (BroadcastException $e) {
+                error_log('Error broadcasting message: ' . $e->getMessage());
+            }
         } else {
             $newDate = $suspendedUser->created_at->addDays($validated['days']);
             $user = $suspendedUser->user;
@@ -257,7 +269,7 @@ class AdminController extends Controller
     * *
     * * Feedback
     * *
-    */ 
+    */
 
     /**
      * @return FeedbackResource with all feedback
@@ -325,15 +337,15 @@ class AdminController extends Controller
     /**
      * @return ActionTrackingResourceCollection with all actions that fit within the given filters
      */
-    public function getActionsWithFilters(FetchActionsWithFilters $request) 
+    public function getActionsWithFilters(FetchActionsWithFilters $request)
     {
         $validated = $request->validated();
 
-        $actions = ActionTracking::when(!empty($validated['users']), function ($query) use ($validated){
+        $actions = ActionTracking::when(!empty($validated['users']), function ($query) use ($validated) {
             $query->whereIn('user_id', $validated['users']);
-        })->when(!empty($validated['type']), function ($query) use ($validated){
+        })->when(!empty($validated['type']), function ($query) use ($validated) {
             $query->whereIn('action_type', $validated['type']);
-        })->when(!empty($validated['date']), function ($query) use ($validated){
+        })->when(!empty($validated['date']), function ($query) use ($validated) {
             $query->whereBetween('created_at', $validated['date']);
         })->with('user')->orderBy('created_at', 'desc')->get();
 
