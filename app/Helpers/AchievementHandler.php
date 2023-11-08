@@ -2,10 +2,12 @@
 
 namespace App\Helpers;
 
+use App\Events\NewNotification;
 use App\Models\Achievement;
 use App\Models\Notification;
 use App\Models\AchievementEarned;
 use App\Models\TimelineAction;
+use Illuminate\Broadcasting\BroadcastException;
 
 class AchievementHandler
 {
@@ -95,5 +97,11 @@ class AchievementHandler
         $title = __('messages.achievement.new_title');
         $text = __('messages.achievement.new_notification', ['name' => $achievement->name]);
         Notification::create(['user_id' => $user->id, 'title' => $title, 'text' => $text]);
+
+        try {
+            NewNotification::broadcast($user->id);
+        } catch (BroadcastException $e) {
+            error_log('Error broadcasting message: ' . $e->getMessage());
+        }
     }
 }

@@ -24,10 +24,10 @@ window.Pusher = pusher;
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY || 'motivation',
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'mt1',
-    forceTLS: false,
-    disableStats: true,
-    enabledTransports: ['ws', 'wss'],
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'eu',
+    forceTLS: true,
+    // disableStats: true,
+    // enabledTransports: ['ws', 'wss'],
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     authorizer: (channel, _options) => {

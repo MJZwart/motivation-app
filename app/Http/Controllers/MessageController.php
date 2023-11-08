@@ -13,6 +13,7 @@ use App\Models\Conversation;
 use App\Http\Resources\ConversationOverviewResource;
 use App\Http\Requests\SendMessageRequest;
 use App\Models\BlockedUser;
+use Illuminate\Broadcasting\BroadcastException;
 
 class MessageController extends Controller
 {
@@ -43,7 +44,11 @@ class MessageController extends Controller
 
         Message::createNewMessage($validated);
 
-        NewMessage::broadcast($request['recipient_id']);
+        try {
+            NewMessage::broadcast($request['recipient_id']);
+        } catch (BroadcastException $e) {
+            error_log('Error broadcasting message: ' . $e->getMessage());
+        }
 
         ActionTrackingHandler::registerAction($request, 'STORE_MESSAGE', 'Sending message');
 
