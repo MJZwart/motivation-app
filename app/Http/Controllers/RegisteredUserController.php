@@ -158,7 +158,7 @@ class RegisteredUserController extends Controller
      */
     private function generateRandomUsername(): string
     {
-        $username = RandomStringHelper::getRandomAdjective(true) . RandomStringHelper::getRandomAnimal(true);
+        $username = RandomStringHelper::getRandomAdjective() . RandomStringHelper::getRandomAnimal();
         $username .= mt_rand(1000, 9999);
         $attempt = 0;
         while (User::where('username', $username)->exists()) {
@@ -166,7 +166,7 @@ class RegisteredUserController extends Controller
             if ($attempt > 5) {
                 $username .= mt_rand(10, 99);
             } else {
-                $username = RandomStringHelper::getRandomAdjective(true) . RandomStringHelper::getRandomAnimal(true);
+                $username = RandomStringHelper::getRandomAdjective() . RandomStringHelper::getRandomAnimal();
             }
         }
         return $username;

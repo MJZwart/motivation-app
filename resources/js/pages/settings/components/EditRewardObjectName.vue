@@ -1,13 +1,21 @@
 <template>
     <div v-if="rewardObj">
-        <SimpleInput
-            id="name"
-            v-model="rewardObj.name"
-            type="text"
-            name="name"
-            :label="parsedLabelName"
-            :placeholder="$t('name')"
-        />    
+        <div class="form-group">
+            <label for="username">{{ parsedLabelName }}</label>
+            <span class="d-flex flex-row">
+                <input
+                    id="name" 
+                    type="text" 
+                    name="name" 
+                    :value="rewardObj.name"
+                    :placeholder="$t('name')" 
+                />
+                <Tooltip :text="$t('random-name')" placement="top-left" class="dice-button">
+                    <Icon icon="fa-solid:dice" @click="generateRandomName" />
+                </Tooltip>
+            </span>
+            <BaseFormError name="name" />
+        </div> 
         <FormControls
             :submit-text="$t('update-reward-name')"
             @submit="$emit('submit', {rewardObj, type: form.type})"
@@ -23,6 +31,8 @@ import {ref, computed} from 'vue';
 import {useI18n} from 'vue-i18n';
 import FormControls from '/js/components/global/FormControls.vue';
 import {deepCopy} from '/js/helpers/copy';
+import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
+import {Icon} from '@iconify/vue';
 const {t} = useI18n(); // use as global scope
 
 const props = defineProps<{form: {rewardObj: Reward; type: string}}>();
@@ -39,4 +49,9 @@ const parsedLabelName = computed(() => {
         return null;
     }
 });
+
+function generateRandomName() {
+    if (props.form.type === 'CHARACTER') rewardObj.value.name = getRandomCharacterName();
+    else if (props.form.type === 'VILLAGE') rewardObj.value.name = getRandomVillageName();
+}
 </script>

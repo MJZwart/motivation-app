@@ -100,4 +100,15 @@ const showTooltip = ref(false);
         border-color: transparent transparent #000000 transparent;
     }
 }
+.tooltip.top-left {
+    bottom: 130%;
+    left:-50%; 
+    transform: translateX(-50%);
+    .text::after {
+        top: 100%;
+        left: 80%;
+        margin-left: -5px;
+    border-color: #000000 transparent transparent transparent;
+    }
+}
 </style>

@@ -81,15 +81,22 @@
 
             <!-- If the user wants to create a new instance -->
             <p class="silent">{{ $t('change-name-later') }}</p>
-            <SimpleInput
-                v-if="isNewInstance"
-                id="new-object-name"
-                v-model="rewardSetting.new_object_name"
-                type="text"
-                name="new_object_name"
-                :label="rewardTypeName"
-                :placeholder="rewardTypeName"
-            />
+            <div v-if="isNewInstance" class="form-group">
+                <label for="username">{{ rewardTypeName }}</label>
+                <span class="d-flex flex-row">
+                    <input
+                        id="new-object-name" 
+                        type="text" 
+                        name="new_object_name" 
+                        :value="rewardSetting.new_object_name"
+                        :placeholder="rewardTypeName" 
+                    />
+                    <Tooltip :text="$t('random-name')" placement="top-left" class="dice-button mr-2">
+                        <Icon icon="fa-solid:dice" @click="generateRandomName" />
+                    </Tooltip>
+                </span>
+                <BaseFormError name="new_object_name" />
+            </div> 
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
     </div>
@@ -108,6 +115,8 @@ import type {Reward, ChangeReward} from 'resources/types/reward';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
 import {clearErrors} from '/js/services/errorService';
+import {Icon} from '@iconify/vue';
+import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
 
 const userStore = useUserStore();
 const rewardStore = useRewardStore();
@@ -210,5 +219,10 @@ async function deleteItem(instance: Reward) {
         await rewardStore.deleteInstance(instance);
         load();
     }
+}
+
+function generateRandomName() {
+    if (rewardSetting.value.rewards === 'CHARACTER') rewardSetting.value.new_object_name = getRandomCharacterName();
+    else if (rewardSetting.value.rewards === 'VILLAGE') rewardSetting.value.new_object_name = getRandomVillageName();
 }
 </script>
