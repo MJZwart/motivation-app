@@ -44,21 +44,8 @@ class Message extends Model
     }
 
     public static function createNewMessage(array $messageContent) {
-        $sentMessage = Message::create([
-            'user_id' => $messageContent['user_id'],
-            'sender_id' => $messageContent['user_id'],
-            'recipient_id' => $messageContent['recipient_id'],
-            'conversation_id' => $messageContent['conversation_id'],
-            'message' => $messageContent['message'],
-            'read' => true,
-        ]);
-        $receivedMessage = Message::create([
-            'user_id' => $messageContent['recipient_id'],
-            'sender_id' => $messageContent['user_id'],
-            'recipient_id' => $messageContent['recipient_id'],
-            'conversation_id' => $messageContent['conversation_id'],
-            'message' => $messageContent['message'],
-        ]);
+        $sentMessage = Message::create([...$messageContent, 'read' => true, 'user_id' => $messageContent['sender_id']]);
+        $receivedMessage = Message::create([...$messageContent, 'user_id' => $messageContent['recipient_id']]);
         $sentMessage->conversation->touch();
         $receivedMessage->conversation->touch();
     }
