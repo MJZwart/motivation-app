@@ -21,7 +21,7 @@ import pusher from 'pusher-js';
 
 window.Pusher = pusher;
 
-console.log(import.meta.env);
+// console.log(import.meta.env);
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
@@ -38,19 +38,19 @@ window.Echo = new Echo({
             // @ts-ignore
             authorize: (socketId, callback) => { 
                 
-                console.log('Attempting to authorize with socket id: ' + socketId);
+                // console.log('Attempting to authorize with socket id: ' + socketId);
                 axios.post('/broadcasting/auth', {
                     socket_id: socketId,
                     channel_name: channel.name,
                 })
                     .then(response => {
-                        console.log('Response okay')
-                        console.log(response);
+                        // console.log('Response okay')
+                        // console.log(response);
                         callback(false, response.data)
                     })
                     .catch(error => {
-                        console.log('Response error')
-                        console.log(error);
+                        // console.log('Response error')
+                        // console.log(error);
                         callback(true, error)
                     })
             },
