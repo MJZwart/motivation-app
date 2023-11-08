@@ -79,6 +79,7 @@ return [
         'reported' => 'Gebruiker gemeld.',
         'guest' => [
             'created' => 'Gast account aangemaakt',
+            'upgraded' => 'Gast account upgraded',
         ],
     ],
 

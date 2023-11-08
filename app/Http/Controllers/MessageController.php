@@ -35,7 +35,7 @@ class MessageController extends Controller
             return ResponseWrapper::errorResponse(__('messages.message.blocked_user'));
         }
         $validated = $request->validated();
-        $validated['user_id'] = $user->id;
+        $validated['sender_id'] = $user->id;
 
         if (!array_key_exists('conversation_id', $validated)) {
             $validated['conversation_id'] = $this->getConversationId($user->id, $validated['recipient_id']);

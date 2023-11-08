@@ -75,6 +75,8 @@
     "continue-guest-account": "Ga verder met gast account",
     "guest-account": "Gast account",
     "guests": "Gasten",
+    "upgrade-guest-account": "Upgrade gast account",
+    "upgrade-guest-account-subtext": "Upgrade je gast account naar een gewoon account om toegang te krijgen tot het sociale aspec van de app. Alle voortgang blijft hierbij behouden. Zorg dat je je gebruikersnaam en wachtwoord onthoudt, deze heb je nodig om in te loggen.",
     "already-an-account-prompt": "Heb je al een account?",
     "already-have-guest-account-register-warning": "Let op: Je hebt al een gast account. Je kunt je gast account omzetten naar een gewoon account om toegang te krijgen tot het sociale aspect van de app, zonder voortgang kwijt te raken, door naar je instellingen te gaan. Als je hier een nieuw account registreert, kun je nog steeds switchen naar je gast account, maar op je nieuw geregistreerde account begin je opnieuw.",
 

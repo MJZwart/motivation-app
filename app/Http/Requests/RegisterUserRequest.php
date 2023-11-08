@@ -15,12 +15,14 @@ class RegisterUserRequest extends FormRequest
      */
     public function rules()
     {
+        $existingUser = $this->user;
+        $userId = $existingUser ? $existingUser->id : null;
         return [
-            'username' => 'required|string|unique:users|max:255',
+            'username' => ['required', 'string', Rule::unique('users')->ignore($userId, 'id'), 'max:255'],
             'email' => 'required|string|email|unique:users|max:255',
             'password' => ['required', 'confirmed', Rules\Password::min(8), 'max:255'],
             'agree_to_tos' => 'required|boolean|accepted',
-            'language' => ['required', 'string', Rule::in(['en', 'nl'])],
+            'language' => ['sometimes', 'string', Rule::in(['en', 'nl'])],
         ];
     }
 }

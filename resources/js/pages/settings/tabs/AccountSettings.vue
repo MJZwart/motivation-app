@@ -47,11 +47,59 @@
                 />
                 <SubmitButton class="block">{{ $t('update-email') }}</SubmitButton>
             </form>
-    
         </div>
         
         <div v-else>
-            Soon you can switch to a normal account here.
+            <form @submit.prevent="submitUpgradeGuestAccount">
+                <h4>{{ $t('upgrade-guest-account') }}</h4>
+                <p class="text-muted">{{ $t('upgrade-guest-account-subtext') }}</p>
+                <SimpleInput
+                    id="username"
+                    v-model="accountCredentials.username"
+                    type="text"
+                    name="username"
+                    :label="$t('username')"
+                    :placeholder="$t('username')"
+                />
+                <SimpleInput 
+                    id="email" 
+                    v-model="accountCredentials.email"
+                    type="text" 
+                    name="email" 
+                    :label="$t('email')"
+                    :placeholder="$t('email')"  />
+                <SimpleInput
+                    id="password"
+                    v-model="accountCredentials.password"
+                    type="password"
+                    name="password"
+                    :label="$t('new-password')"
+                    :placeholder="$t('new-password')"
+                />
+                <SimpleInput
+                    id="password_confirmation"
+                    v-model="accountCredentials.password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    :label="$t('repeat-new-password')"
+                    :placeholder="$t('repeat-password')"
+                />
+                <div class="form-group">
+                    <SimpleCheckbox 
+                        id="agree_to_tos" 
+                        v-model="accountCredentials.agree_to_tos" 
+                        name="agree_to_tos" />
+                    <label 
+                        for="agree_to_tos" 
+                        class="pointer" 
+                        @click="accountCredentials.agree_to_tos = !accountCredentials.agree_to_tos">
+                        {{ $t('agree-to-tos-pre') }}
+                        <router-link to="/tos" target="_blank">{{ $t('tos') }}</router-link>
+                    </label>
+                    <BaseFormError name="agree_to_tos" />
+                </div>
+                <SubmitButton class="block">{{ $t('upgrade-guest-account') }}</SubmitButton>
+            </form>
         </div>
         
         <hr />
@@ -92,11 +140,20 @@ import ToggleButton from '/js/components/global/ToggleButton.vue';
 import type {PasswordSettings, EmailSettings} from 'resources/types/settings';
 import ChangeLanguage from '../../../components/global/ChangeLanguage.vue';
 import {currentTheme, setCurrentTheme} from '/js/services/themeService';
+import {Register} from 'resources/types/user';
 
 const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
 const isGuest = computed(() => userStore.user ? userStore.user.guest : true);
+
+const accountCredentials = ref<Register>({
+    username: user.value?.username ?? '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    agree_to_tos: false,
+});
 
 onMounted(() => setupSettings());
 
@@ -129,5 +186,10 @@ function toggleShowTutorial() {
 }
 function toggleDarkMode() {
     currentTheme.value === 'dark' ? setCurrentTheme('light', true) : setCurrentTheme('dark', true);
+}
+
+function submitUpgradeGuestAccount() {
+    if (!user.value) return;
+    userStore.upgradeGuestAccount(accountCredentials.value, user.value?.id);
 }
 </script>

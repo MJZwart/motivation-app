@@ -79,6 +79,7 @@ return [
         'reported' => 'User reported',
         'guest' => [
             'created' => 'Guest account created',
+            'upgraded' => 'Guest account upgraded',
         ],
     ],
 
