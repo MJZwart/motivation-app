@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewNotification;
 use App\Exceptions\GroupNotFoundException;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\GroupRoleHandler;
@@ -20,6 +21,7 @@ use App\Http\Resources\GroupPageResource;
 use App\Models\GroupInvite;
 use App\Models\GroupUser;
 use App\Models\Notification;
+use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -85,6 +87,12 @@ class GroupUserController extends Controller
             'text' => __('messages.group.new_application_text', ['username' => $user->username, 'groupname' => $group->name]),
         ]);
 
+        try {
+            NewNotification::broadcast($group->getAdmin()->user_id);
+        } catch (BroadcastException $e) {
+            error_log('Error broadcasting message: ' . $e->getMessage());
+        }
+
         ActionTrackingHandler::registerAction($request, 'GROUP_APPLICATION', "User applied to group {$group->name}");
         return ResponseWrapper::successResponse(
             __('messages.group.successful_application', ['name' => $group->name]),
@@ -110,6 +118,12 @@ class GroupUserController extends Controller
             'title' => __('messages.group.application_accepted_title', ['name' => $group->name]),
             'text' => __('messages.group.application_accepted_text', ['name' => $group->name]),
         ]);
+
+        try {
+            NewNotification::broadcast($user->id);
+        } catch (BroadcastException $e) {
+            error_log('Error broadcasting message: ' . $e->getMessage());
+        }
 
         TimelineHandler::addGroupJoiningToTimeline($group, $user->id);
         ActionTrackingHandler::registerAction($request, 'ACCEPT_GROUP_APPLICATION', "User accepted {$user->username}'s group application into {$group->name}.");

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewNotification;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use App\Http\Requests\SuspendUserRequest;
@@ -30,6 +31,7 @@ use App\Models\Group;
 use App\Models\GroupExperiencePoint;
 use App\Models\Notification;
 use App\Models\SuspendedUser;
+use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -244,6 +246,12 @@ class AdminController extends Controller
                     ]
                 )
             ]);
+
+            try {
+                NewNotification::broadcast($user->id);
+            } catch (BroadcastException $e) {
+                error_log('Error broadcasting message: ' . $e->getMessage());
+            }
         } else {
             $newDate = $suspendedUser->created_at->addDays($validated['days']);
             $user = $suspendedUser->user;

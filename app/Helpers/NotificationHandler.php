@@ -6,6 +6,7 @@ use App\Events\NewNotification;
 use App\Models\Friend;
 use App\Models\GroupInvite;
 use App\Models\Notification;
+use Illuminate\Broadcasting\BroadcastException;
 
 class NotificationHandler
 {
@@ -30,7 +31,12 @@ class NotificationHandler
             'link_active' => $link ? true : null,
             'delete_links_on_action' => $deleteOnAction,
         ]);
-        NewNotification::broadcast($userId);
+
+        try {
+            NewNotification::broadcast($userId);
+        } catch (BroadcastException $e) {
+            error_log('Error broadcasting message: ' . $e->getMessage());
+        }
     }
 
     /**
