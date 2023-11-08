@@ -35,7 +35,7 @@ class FriendController extends Controller
         $friend->delete();
         $inverseFriendship->delete();
 
-        ActionTrackingHandler::handleAction($request, 'DELETE_FRIEND', 'Friendship removed');
+        ActionTrackingHandler::registerAction($request, 'DELETE_FRIEND', 'Friendship removed');
         return ResponseWrapper::successResponse(
             __('messages.friend.deleted'),
             ['friends' => FriendResource::collection(Auth::user()->friends->sortBy('username'))]
@@ -66,7 +66,7 @@ class FriendController extends Controller
             $friendRequest,
             true
         );
-        ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request sent to ' . $user->username);
+        ActionTrackingHandler::registerAction($request, 'FRIEND_REQUEST', 'Friend request sent to ' . $user->username);
         return ResponseWrapper::successResponse(__('messages.friend.request.sent'));
     }
 
@@ -86,7 +86,7 @@ class FriendController extends Controller
 
         AchievementHandler::checkForAchievement('FRIENDS', Auth::user());
         AchievementHandler::checkForAchievement('FRIENDS', $friendship->friend);
-        ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request accepted');
+        ActionTrackingHandler::registerAction($request, 'FRIEND_REQUEST', 'Friend request accepted');
 
         $requests = $this->fetchRequests();
         return ResponseWrapper::successResponse(
@@ -109,7 +109,7 @@ class FriendController extends Controller
             return ResponseWrapper::errorResponse(__('messages.friend.request.already_accepted'));
         $friendship->delete();
         $requests = $this->fetchRequests();
-        ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request denied');
+        ActionTrackingHandler::registerAction($request, 'FRIEND_REQUEST', 'Friend request denied');
         return ResponseWrapper::successResponse(__('messages.friend.request.denied'), ['requests' => $requests]);
     }
 
@@ -133,7 +133,7 @@ class FriendController extends Controller
         }
         $friendship->delete();
         $requests = $this->fetchRequests();
-        ActionTrackingHandler::handleAction($request, 'FRIEND_REQUEST', 'Friend request cancelled');
+        ActionTrackingHandler::registerAction($request, 'FRIEND_REQUEST', 'Friend request cancelled');
         return ResponseWrapper::successResponse(
             __('messages.friend.request.cancelled'),
             ['requests' => $requests]

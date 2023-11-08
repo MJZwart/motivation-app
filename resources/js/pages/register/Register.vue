@@ -3,17 +3,27 @@
         <h2>{{ $t('register') }}</h2>
 
         <div v-if="guestAccount" class="mb-3 guest-account-warning">
-            <Icon icon="fa6-solid:circle-exclamation" class="warning-icon small" /> {{ $t('already-have-guest-account-register-warning') }}
+            <Icon icon="fa6-solid:circle-exclamation" class="warning-icon small" /> 
+            {{ $t('already-have-guest-account-register-warning') }}
         </div>
 
         <form @submit.prevent="submitRegister">
-            <SimpleInput 
-                id="username"  
-                v-model="register.username"
-                type="text" 
-                name="username" 
-                :label="$t('username')"
-                :placeholder="$t('username')" />
+            <div class="form-group">
+                <label for="username">{{ $t('username') }}</label>
+                <span class="d-flex flex-row">
+                    <input
+                        id="username" 
+                        type="text" 
+                        name="username" 
+                        :value="register.username"
+                        :placeholder="$t('username')" 
+                    />
+                    <Tooltip :text="$t('random-name')" class="dice-button">
+                        <Icon icon="fa-solid:dice" @click="generateRandomName" />
+                    </Tooltip>
+                </span>
+                <BaseFormError name="username" />
+            </div>
             <SimpleInput 
                 id="email" 
                 v-model="register.email"
@@ -79,7 +89,8 @@ import {Register} from 'resources/types/user';
 import {currentLang} from '/js/services/languageService';
 import {clearErrors} from '/js/services/errorService';
 import AuthBase from './components/AuthBase.vue';
-import { Icon } from '@iconify/vue';
+import {Icon} from '@iconify/vue';
+import {getRandomUsername} from '/js/helpers/randomNames';
 
 const userStore = useUserStore();
 
@@ -107,6 +118,10 @@ function continueGuestAccount() {
     if (!guestAccount.value) return;
 
     userStore.continueGuestAccount();
+}
+
+function generateRandomName() {
+    register.username = getRandomUsername();
 }
 </script>
 

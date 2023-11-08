@@ -33,24 +33,17 @@ class RegisteredUserController extends Controller
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
-        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Registering user ' . $request['username']);
-        return $this->loginUser($request, ['username' => $request['username'], 'password' => $request['password']]);
+        ActionTrackingHandler::registerAction($request, 'STORE_USER', 'Registering user ' . $request['username']);
+        return $this->loginUser(['username' => $request['username'], 'password' => $request['password']], $request);
     }
 
     /**
      * Authenticates the user after registering
      */
-    private function loginUser($request, $credentials): JsonResponse
+    private function loginUser($credentials, $request): JsonResponse
     {
-        if (Auth::attempt($credentials)) {
-            /** @var User */
-            $user = Auth::user();
-            $request->session()->regenerate();
-            ActionTrackingHandler::handleAction($request, 'LOGIN', 'User logged in');
-            $user->last_login = Carbon::now();
-            $user->save();
-            return ResponseWrapper::successResponse(__('messages.user.created'), ['user' => new UserResource($user)]);
-        }
+        $user = (new AuthenticationController)->attemptAuth($credentials, $request);
+        if ($user) return ResponseWrapper::successResponse(__('messages.user.created'), ['user' => new UserResource($user)]);
         return ResponseWrapper::errorResponse(__('auth.failed'));
     }
 
@@ -98,7 +91,7 @@ class RegisteredUserController extends Controller
         }
         $user->first_login = false;
         $user->save();
-        ActionTrackingHandler::handleAction($request, 'UPDATE_USER', 'User finishes first login');
+        ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'User finishes first login');
         return ResponseWrapper::successResponse(__('messages.user.setup'), ['user' => new UserResource(Auth::user())]);
     }
 
@@ -127,10 +120,21 @@ class RegisteredUserController extends Controller
         $this->createRewardForGuest($validated['reward'], $user->id);
         $this->createStarterTasks($user->id);
 
-        ActionTrackingHandler::handleAction($request, 'STORE_USER', 'Registering guest user ' . $username);
+        ActionTrackingHandler::registerAction($request, 'STORE_USER', 'Registering guest user ' . $username);
         $request['username'] = $username;
         $request['loginToken'] = $loginToken;
         return $this->loginGuestAccount($request);
+    }
+
+    public function upgradeGuestAccount(RegisterUserRequest $request, User $user)
+    {
+        $validated = $request->validated();
+        $validated['password'] = bcrypt($validated['password']);
+        $validated['guest'] = false;
+        $validated['login_token'] = null;
+        $user->update($validated);
+        ActionTrackingHandler::registerAction($request, 'UPGRADE_USER', 'Upgrading guest account user ' . $request['username']);
+        return ResponseWrapper::successResponse(__('messages.user.guest.upgraded'), ['user' => new UserResource($user->fresh())]);
     }
 
     /**
@@ -154,7 +158,7 @@ class RegisteredUserController extends Controller
      */
     private function generateRandomUsername(): string
     {
-        $username = RandomStringHelper::getRandomAdjective(true) . RandomStringHelper::getRandomAnimal(true);
+        $username = RandomStringHelper::getRandomAdjective() . RandomStringHelper::getRandomAnimal();
         $username .= mt_rand(1000, 9999);
         $attempt = 0;
         while (User::where('username', $username)->exists()) {
@@ -162,7 +166,7 @@ class RegisteredUserController extends Controller
             if ($attempt > 5) {
                 $username .= mt_rand(10, 99);
             } else {
-                $username = RandomStringHelper::getRandomAdjective(true) . RandomStringHelper::getRandomAnimal(true);
+                $username = RandomStringHelper::getRandomAdjective() . RandomStringHelper::getRandomAnimal();
             }
         }
         return $username;

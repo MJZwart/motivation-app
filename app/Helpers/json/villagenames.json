@@ -1,0 +1,20 @@
+{
+    "prefixes": 
+        [
+            "New", "West", "Saint", "North", "East", "South", "Fort", "Grand"
+        ],
+
+    "nouns": 
+        [
+            "Ash", "Beech", "Birch", "Pine", "Fir", "Larch", "Maple", "Oak", "Spruce", "Sycamore",
+            "Willow", "Yew", "Elm", "Cherry", "Fern", "Helmock", "Walnut", "Apple", "Orange", "Red",
+            "Wood"
+        ],
+
+    "suffixes": 
+        [
+            "town", "village", "ham", "view", "ley", "dorf", "ford", "field", "caster", "thorp",
+            "bury", "dale", "by", "hampton", "don", "ey", "fold", "gate", "moor", "more", "holm",
+            "hurst", "ing", "minster", "mere", "moss", "mouth", "pit", "ness", "ster", "ton", "plains"
+        ]
+}

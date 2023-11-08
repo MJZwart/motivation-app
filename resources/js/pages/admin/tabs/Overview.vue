@@ -2,8 +2,14 @@
     <div v-if="overview" class="overview-box">
         <div v-for="(item, key, index) in overview" :key="index" class="overview content-block">
             <span class="key">{{$t(key)}}</span>
-            <span class="item">{{item}}</span>
-            <span class="details">{{$t(`${key}-details`)}}</span>
+            <span v-if="(typeof item === 'number')">
+                <span class="item">{{item}}</span>
+            </span>
+            <span v-else>
+                <span class="item">{{ item.total }}</span>
+                <span class="details">{{ $t('guests') }}: {{ item['guests'] }} ({{ percentageOfGuests(item) }})</span>
+            </span>
+            <span class="details">{{ $t(`${key}-details`) }}</span>
         </div>
     </div>
 </template>
@@ -21,6 +27,10 @@ onMounted(async() => {
 
 const loading = ref(true);
 const overview = ref<Overview | null>(null);
+
+function percentageOfGuests(item: {total: number, guests: number}) {
+    return Math.round((item.guests / item.total) * 100) + '%';
+}
 </script>
 
 <style lang="scss" scoped>
@@ -49,6 +59,7 @@ const overview = ref<Overview | null>(null);
         .details {
             font-family: var(--light-font);
             color: var(--grey);
+            display:block;
         }
     }
 }

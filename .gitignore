@@ -16,3 +16,5 @@ yarn-error.log
 /.vs
 .env
 tools
+
+resources/node_modules

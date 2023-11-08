@@ -38,6 +38,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
     Route::post('/guest-account', [RegisteredUserController::class, 'storeGuestAccount']);
     Route::post('/guest-account/continue', [AuthenticationController::class, 'loginGuestAccount']);
+    Route::post('/guest-account/{user}/upgrade', [RegisteredUserController::class, 'upgradeGuestAccount']);
 
     Route::get('/examples/tasks', [ExampleTaskController::class, 'fetchExampleTasks']);
     Route::post('/feedback', [FeedbackController::class, 'store']);

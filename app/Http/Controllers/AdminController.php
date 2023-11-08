@@ -88,7 +88,7 @@ class AdminController extends Controller
         $validated = $request->validated();
         ExperiencePoint::upsert($validated, ['id'], ['experience_points']);
         $experiencePoints = ExperiencePoint::orderBy('level')->get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated experience points');
+        ActionTrackingHandler::registerAction($request, 'ADMIN', 'Updated experience points');
         return ResponseWrapper::successResponse(__('messages.exp.updated'), ['experience_points' => $experiencePoints]);
     }
 
@@ -100,7 +100,7 @@ class AdminController extends Controller
         $validated = $request->validated();
         ExperiencePoint::insert($validated);
         $experiencePoints = ExperiencePoint::orderBy('level')->get();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Added new level to experience points');
+        ActionTrackingHandler::registerAction($request, 'ADMIN', 'Added new level to experience points');
         return ResponseWrapper::successResponse(__('messages.exp.added'), ['experience_points' => $experiencePoints]);
     }
 
@@ -112,7 +112,7 @@ class AdminController extends Controller
         $validated = $request->validated();
         DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins']);
         $characterExpGain = DB::table('character_exp_gain')->get()->toArray();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated character experience gain');
+        ActionTrackingHandler::registerAction($request, 'ADMIN', 'Updated character experience gain');
         return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['balancing' => $characterExpGain]);
     }
 
@@ -124,7 +124,7 @@ class AdminController extends Controller
         $validated = $request->validated();
         DB::table('village_exp_gain')->upsert($validated, ['id'], ['economy', 'labour', 'craft', 'art', 'community', 'level', 'coins']);
         $villageExpGain = DB::table('village_exp_gain')->get()->toArray();
-        ActionTrackingHandler::handleAction($request, 'ADMIN', 'Updated village experience gain');
+        ActionTrackingHandler::registerAction($request, 'ADMIN', 'Updated village experience gain');
         return ResponseWrapper::successResponse(__('messages.exp.vill_updated'), ['balancing' => $villageExpGain]);
     }
 
@@ -301,17 +301,29 @@ class AdminController extends Controller
         $yesterday = Carbon::now()->subDay();
         $lastWeek = Carbon::now()->subWeek();
         $totalUsers = User::count();
+        $totalGuests = User::where('guest', true)->count();
         $activeUsers = User::where('last_login', '>', $yesterday)->count();
+        $activeGuests = User::where('last_login', '>', $yesterday)->where('guest', true)->count();
         $newUsers = User::where('created_at', '>', $lastWeek)->count();
+        $newGuests = User::where('created_at', '>', $lastWeek)->where('guest', true)->count();
         $unarchivedFeedback = Feedback::where('archived', false)->count();
         $unresolvedBugs = BugReport::where('status', '!=', 3)->count();
         $newFeedback = Feedback::where('created_at', '>', $lastWeek)->count();
         $newBugs = BugReport::where('created_at', '>', $lastWeek)->count();
         $newUserReports = ReportedUser::where('created_at', '>', $lastWeek)->count();
         $overview = [
-            'total-users' => $totalUsers,
-            'new-users' => $newUsers,
-            'active-users' => $activeUsers,
+            'total-users' => [
+                'total' => $totalUsers,
+                'guests' => $totalGuests,
+            ],
+            'new-users' => [
+                'total' => $newUsers,
+                'guests' => $newGuests
+            ],
+            'active-users' => [
+                'total' => $activeUsers,
+                'guests' => $activeGuests,
+            ],
             'unarchived-feedback' => $unarchivedFeedback,
             'unresolved-bugs' => $unresolvedBugs,
             'new-feedback' => $newFeedback,

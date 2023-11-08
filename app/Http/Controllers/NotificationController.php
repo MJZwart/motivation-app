@@ -50,11 +50,11 @@ class NotificationController extends Controller
     {
         if ($notification->user_id == Auth::user()->id) {
             $notification->delete();
-            ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
+            ActionTrackingHandler::registerAction($request, 'DELETE_NOTIFICATION', 'Deleting notification');
             $resource = $this->getSortedNotificationsResource();
             return ResponseWrapper::successResponse(__('messages.notification.deleted'), ['notifications' => $resource]);
         } else {
-            ActionTrackingHandler::handleAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
+            ActionTrackingHandler::registerAction($request, 'DELETE_NOTIFICATION', 'Deleting notification', 'Not authorized');
             return ResponseWrapper::forbiddenResponse(__('messages.not_authorized'));
         }
     }

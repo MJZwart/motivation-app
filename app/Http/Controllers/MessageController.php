@@ -50,7 +50,7 @@ class MessageController extends Controller
             error_log('Error broadcasting message: ' . $e->getMessage());
         }
 
-        ActionTrackingHandler::handleAction($request, 'STORE_MESSAGE', 'Sending message');
+        ActionTrackingHandler::registerAction($request, 'STORE_MESSAGE', 'Sending message');
 
         return ResponseWrapper::successResponse(__('messages.message.sent'));
     }
@@ -90,7 +90,7 @@ class MessageController extends Controller
         /** @var User */
         $user = Auth::user();
         $message->delete();
-        ActionTrackingHandler::handleAction($request, 'DELETE_MESSAGE', 'Deleting message');
+        ActionTrackingHandler::registerAction($request, 'DELETE_MESSAGE', 'Deleting message');
         return ResponseWrapper::successResponse(__('messages.message.deleted'));
     }
 
