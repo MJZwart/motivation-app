@@ -47,6 +47,7 @@ class MessageController extends Controller
         try {
             NewMessage::broadcast($request['recipient_id']);
         } catch (BroadcastException $e) {
+            dd($e);
             error_log('Error broadcasting message: ' . $e->getMessage());
         }
 
