@@ -44,10 +44,12 @@ window.Echo = new Echo({
                     channel_name: channel.name,
                 })
                     .then(response => {
+                        console.log('Response okay')
                         console.log(response);
                         callback(false, response.data)
                     })
                     .catch(error => {
+                        console.log('Response error')
                         console.log(error);
                         callback(true, error)
                     })
