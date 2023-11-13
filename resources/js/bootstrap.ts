@@ -23,11 +23,12 @@ window.Pusher = pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY || 'motivation',
+    key: import.meta.env.VITE_PUSHER_APP_KEY || 'key_missing',
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'eu',
-    forceTLS: true,
-    // disableStats: true,
-    // enabledTransports: ['ws', 'wss'],
+    secret: import.meta.env.VITE_PUSHER_APP_SECRET || 'secret_missing',
+    forceTLS: false,
+    disableStats: true,
+    enabledTransports: ['ws', 'wss'],
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     authorizer: (channel, _options) => {
