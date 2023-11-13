@@ -18,3 +18,4 @@ yarn-error.log
 tools
 
 resources/node_modules
+resources/node_modules/.vitest/results.json
