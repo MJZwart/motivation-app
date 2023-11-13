@@ -18,7 +18,10 @@
                     <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
                 </div>
 
-                <div class="ml-auto">
+                <div class="ml-auto nav-section">
+                    <router-link v-if="windowWidth > 500" class="name-box" :to="{ name: 'profile', params: { id: user?.id }}">
+                        {{ user?.username }}
+                    </router-link>
                     <router-link v-if="windowWidth > 450 && !isGuest" to="/messages">
                         <span class="icon-stack">
                             <Icon :icon="MAIL" class="icon-nav mail-icon"/>
@@ -32,6 +35,11 @@
                         </span>
                     </router-link>
                     <Dropdown color="white">
+                        <section v-if="windowWidth <= 500" class="option">
+                            <router-link :to="{ name: 'profile', params: { id: user?.id}}">
+                                {{ user?.username }}
+                            </router-link>
+                        </section>
                         <section v-if="admin && windowWidth < 350" class="option">
                             <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
                         </section>
@@ -40,11 +48,6 @@
                         </section>
                         <section v-if="windowWidth < 450" class="option">
                             <router-link to="/notifications">{{ $t('notifications') }}</router-link>
-                        </section>
-                        <section class="option">
-                            <router-link :to="{ name: 'profile', params: { id: user?.id}}">
-                                {{ $t('profile') }}
-                            </router-link>
                         </section>
                         <section class="option">
                             <router-link to="/settings">{{ $t('settings') }}</router-link>
@@ -123,7 +126,7 @@ watch(
     align-items: center;
     padding: 0.5rem 1rem;
     height: 50px;
-    a{
+    a, span{
         margin-right: 1rem;
         color: var(--nav-text);
         text-decoration: none;
@@ -139,7 +142,20 @@ watch(
     }
     .nav-icon-layers {
         vertical-align: 0.5rem;
+    }
+    .nav-section{
+        display: flex;
+        align-items: center;
+        a {
+            margin-right:0;
         }
+        .name-box {
+            margin-right: 1rem;
+            max-width: 13rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
 }
 .box-shadow {
     box-shadow: 0 0.25rem 0.25rem var(--box-shade), inset 0 -1px 5px var(--box-shade);

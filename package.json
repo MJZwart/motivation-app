@@ -1,7 +1,7 @@
 {
     "name": "questifyer",
     "author": "MJZwart",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "private": true,
     "engines": {
         "node": "16.14.0",
