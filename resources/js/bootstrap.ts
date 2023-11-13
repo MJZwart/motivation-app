@@ -23,9 +23,9 @@ window.Pusher = pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY || 'motivation',
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'mt1',
-    secret: import.meta.env.VITE_PUSHER_APP_SECRET || 'motiv',
+    key: import.meta.env.VITE_PUSHER_APP_KEY || 'key_missing',
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'eu',
+    secret: import.meta.env.VITE_PUSHER_APP_SECRET || 'secret_missing',
     forceTLS: false,
     disableStats: true,
     enabledTransports: ['ws', 'wss'],
