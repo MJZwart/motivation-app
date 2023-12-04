@@ -17,7 +17,6 @@ use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use App\Rules\ValidRewardType;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Helpers\RandomStringHelper;
@@ -79,16 +78,8 @@ class RegisteredUserController extends Controller
                 );
                 break;
         }
-        $taskList = TaskList::create(
-            [
-                'name' => 'Tasks',
-                'user_id' => $user->id
-            ]
-        );
-        if (!!$request['tasks']) {
-            $this->addExampleTasks($request['tasks'], $user->id, $taskList->id);
-            AchievementHandler::checkForAchievement('TASKS_MADE', $user);
-        }
+        $this->addExampleTasks($request['tasks'], $user->id);
+        AchievementHandler::checkForAchievement('TASKS_MADE', $user);
         $user->first_login = false;
         $user->save();
         ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'User finishes first login');
@@ -119,6 +110,7 @@ class RegisteredUserController extends Controller
 
         $this->createRewardForGuest($validated['reward'], $user->id);
         $this->createStarterTasks($user->id);
+        AchievementHandler::checkForAchievement('TASKS_MADE', $user);
 
         ActionTrackingHandler::registerAction($request, 'STORE_USER', 'Registering guest user ' . $username);
         $request['username'] = $username;
@@ -216,9 +208,18 @@ class RegisteredUserController extends Controller
      * @param Integer $userId
      * @param Integer $taskListId
      */
-    private function addExampleTasks($tasks, $userId, $taskListId)
+    private function addExampleTasks(array $tasks, int $userId)
     {
+        if (!$tasks || count($tasks) === 0) {
+            $this->createStarterTasks($userId);
+        }
         for ($i = 0; $i < count($tasks); $i++) {
+            $taskList = TaskList::create(
+                [
+                    'name' => 'Tasks',
+                    'user_id' => $userId
+                ]
+            );
             $task = ExampleTask::find($tasks[$i]);
             Task::create(
                 [
@@ -228,7 +229,7 @@ class RegisteredUserController extends Controller
                     'type' => $task->type,
                     'repeatable' => $task->repeatable,
                     'user_id' => $userId,
-                    'task_list_id' => $taskListId
+                    'task_list_id' => $taskList->id
                 ]
             );
         }
