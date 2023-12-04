@@ -9,6 +9,8 @@ export type NewTask = {
     difficulty: number;
     type: string;
     repeatable: string;
+    repeatable_reset_day?: number;
+    repeatable_reset_days?: number[];
     super_task_id?: number | null;
     task_list_id: number;
 };

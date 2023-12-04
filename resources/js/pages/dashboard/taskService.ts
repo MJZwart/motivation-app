@@ -11,6 +11,7 @@ export function getNewTask(taskListId: number): NewTask {
         type: 'GENERIC',
         repeatable: 'NONE',
         task_list_id: taskListId,
+        repeatable_reset_days: [],
     }
 }
 export function getNewTaskList(): NewTaskList {

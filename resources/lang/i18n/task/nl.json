@@ -19,7 +19,7 @@
     "add-new-task": "Nieuwe taak toevoegen",
     "confirmation-delete-task": "Weet je zeker dat je de taak '{0}' wil verwijderen zonder hem te voltooien? Subtaken worden automatisch verwijderd. Je krijgt hiervoor geen punten.",
     "complete-sub-task-confirmation": "Door deze taak te voltooien worden ook alle subtaken voltooid, weet je het zeker?",
-    
+
     "task-list": "Takenlijst",
     "subtask-of": "Subtaak van",
     "update-task-list": "Update takenlijst",
@@ -48,6 +48,18 @@
     "monthly": "Maandelijks",
     "infinite": "Oneindig",
     "not-repeatable": "Eenmalig",
+
+    "WEEKLY-MULTIPLE": "Meerdere keren per week",
+    "weekly-multiple": "Meerdere keren per week",
+    "select-reset-days": "Selecteer reset dagen",
+    "reset-day": "Reset dag",
+    "monday": "Maandag",
+    "tuesday": "Dinsdag",
+    "wednesday": "Woensdag",
+    "thursday": "Donderdag",
+    "friday": "Vrijdag",
+    "saturday": "Zaterdag",
+    "sunday": "Zondag",
 
     "import-from-templates": "Importeer van templates",
     "manage-templates": "Beheer templates",

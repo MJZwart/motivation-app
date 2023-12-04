@@ -19,7 +19,7 @@
     "add-new-task": "Add new task",
     "confirmation-delete-task": "Are you sure you wish to delete the task '{0}' without completing it? Any subtasks will automatically be deleted. You will not receive any rewards for it.",
     "complete-sub-task-confirmation": "Completing this task also completes all sub tasks. Are you sure?",
-    
+
     "task-list": "Task list",
     "subtask-of": "Subtask of",
     "update-task-list": "Update task list",
@@ -48,6 +48,18 @@
     "monthly": "Monthly",
     "infinite": "Infinitely",
     "not-repeatable": "Once",
+
+    "WEEKLY-MULTIPLE": "Multiple times per week",
+    "weekly-multiple": "Multiple times per week",
+    "select-reset-days": "Select reset days",
+    "reset-day": "Reset day",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
 
     "import-from-templates": "Import from templates",
     "manage-templates": "Manage templates",
