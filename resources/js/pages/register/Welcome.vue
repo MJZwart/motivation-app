@@ -39,10 +39,11 @@
                     <span class="d-flex flex-row">
                         <input
                             id="reward_object_name" 
+                            v-model="user.reward_object_name" 
                             type="text" 
-                            name="reward_object_name" 
-                            :value="user.reward_object_name"
+                            name="reward_object_name"
                             :placeholder="parsedLabelName ?? ''" 
+                            :class="{ invalid: hasError('reward_object_name') }"
                         />
                         <Tooltip :text="$t('random-name')" class="dice-button mr-2">
                             <Icon icon="fa-solid:dice" @click="generateRandomName" />
@@ -99,7 +100,7 @@ import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
 import type {Task} from 'resources/types/task';
 import type {NewUser} from 'resources/types/user';
-import {clearErrors, setErrorMessages} from '/js/services/errorService';
+import {clearErrors, hasError, setErrorMessages} from '/js/services/errorService';
 import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
 const {t} = useI18n();
 

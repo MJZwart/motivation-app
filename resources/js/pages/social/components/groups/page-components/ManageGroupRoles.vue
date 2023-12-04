@@ -75,10 +75,12 @@
         <div class="d-flex m-1">
             <div v-if="newRoleOpen" class="new-role-inline">
                 <input
-                    id="new-role-name"
+                    id="name"
                     v-model="newRole"
                     type="text"
                     :placeholder="$t('new-role')"
+                    class="w-10"
+                    :class="{ invalid: hasError('name') }"
                 />
                 <SubmitButton @click="addRole">
                     {{$t('add')}}
@@ -102,6 +104,7 @@ import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
 import {ARROW_UP, ARROW_DOWN, TRASH} from '/js/constants/iconConstants';
+import {hasError} from '/js/services/errorService';
 
 const groupStore = useGroupStore();
 const {t} = useI18n();

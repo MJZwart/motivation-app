@@ -9,7 +9,10 @@
             <tbody>
                 <tr v-for="(setting, index) in settings" :key="index">
                     <td>{{ $t(setting.key) }}</td>
-                    <td><input v-model="setting.value" class="setting-value" /></td>
+                    <td>
+                        <input v-model="setting.value" class="setting-value" :class="{invalid: hasError(`${index}.value`)}" />
+                        <BaseFormError :name="index + '.value'" />
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -22,6 +25,7 @@ import type {GlobalSetting} from 'resources/types/admin';
 import {onMounted, ref} from 'vue';
 import {useAdminStore} from '/js/store/adminStore';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
+import {hasError} from '/js/services/errorService';
 
 const adminStore = useAdminStore();
 

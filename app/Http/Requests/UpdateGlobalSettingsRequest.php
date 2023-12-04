@@ -15,7 +15,15 @@ class UpdateGlobalSettingsRequest extends FormRequest
     {
         return [
             '*.key' => ['string', 'exists:global_settings,key'],
-            '*.value' => ['integer'],
+            '*.value' => ['integer', 'required'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            '*.value.integer' => 'The value must be a number',
+            '*.value.required' => 'This field is required',
         ];
     }
 }

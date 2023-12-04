@@ -6,6 +6,7 @@
             <Icon icon="fa6-solid:circle-exclamation" class="warning-icon small" /> 
             {{ $t('already-have-guest-account-register-warning') }}
         </div>
+        {{ register }}
 
         <form @submit.prevent="submitRegister">
             <div class="form-group">
@@ -13,10 +14,11 @@
                 <span class="d-flex flex-row">
                     <input
                         id="username" 
+                        v-model="register.username" 
                         type="text" 
-                        name="username" 
-                        :value="register.username"
+                        name="username"
                         :placeholder="$t('username')" 
+                        :class="{ invalid: hasError('username') }"
                     />
                     <Tooltip :text="$t('random-name')" class="dice-button">
                         <Icon icon="fa-solid:dice" @click="generateRandomName" />
@@ -87,7 +89,7 @@ import {onMounted, reactive, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {Register} from 'resources/types/user';
 import {currentLang} from '/js/services/languageService';
-import {clearErrors} from '/js/services/errorService';
+import {clearErrors, hasError} from '/js/services/errorService';
 import AuthBase from './components/AuthBase.vue';
 import {Icon} from '@iconify/vue';
 import {getRandomUsername} from '/js/helpers/randomNames';

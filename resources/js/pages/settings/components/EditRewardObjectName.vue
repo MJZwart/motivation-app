@@ -9,6 +9,7 @@
                     name="name" 
                     :value="rewardObj.name"
                     :placeholder="$t('name')" 
+                    :class="{ invalid: hasError('name') }"
                 />
                 <Tooltip :text="$t('random-name')" placement="top-left" class="dice-button">
                     <Icon icon="fa-solid:dice" @click="generateRandomName" />
@@ -33,6 +34,7 @@ import FormControls from '/js/components/global/FormControls.vue';
 import {deepCopy} from '/js/helpers/copy';
 import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
 import {Icon} from '@iconify/vue';
+import {hasError} from '/js/services/errorService';
 const {t} = useI18n(); // use as global scope
 
 const props = defineProps<{form: {rewardObj: Reward; type: string}}>();
