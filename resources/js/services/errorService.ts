@@ -9,3 +9,8 @@ export function setErrorMessages(errorMessages: Error) {
 export function clearErrors() {
     errors.value = null;
 } 
+
+export function hasError(errorName: string) {
+    if (!errors.value) return false;
+    return !!errors.value[errorName];
+}

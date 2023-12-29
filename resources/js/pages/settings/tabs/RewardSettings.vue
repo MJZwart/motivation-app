@@ -86,10 +86,11 @@
                 <span class="d-flex flex-row">
                     <input
                         id="new-object-name" 
+                        v-model="rewardSetting.new_object_name" 
                         type="text" 
-                        name="new_object_name" 
-                        :value="rewardSetting.new_object_name"
+                        name="new_object_name"
                         :placeholder="rewardTypeName" 
+                        :class="{ invalid: hasError('new_object_name') }"
                     />
                     <Tooltip :text="$t('random-name')" placement="top-left" class="dice-button mr-2">
                         <Icon icon="fa-solid:dice" @click="generateRandomName" />
@@ -114,7 +115,7 @@ import {capitalizeOnlyFirst} from '/js/services/stringService';
 import type {Reward, ChangeReward} from 'resources/types/reward';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
-import {clearErrors} from '/js/services/errorService';
+import {clearErrors, hasError} from '/js/services/errorService';
 import {Icon} from '@iconify/vue';
 import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
 
