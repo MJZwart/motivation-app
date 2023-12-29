@@ -6,7 +6,6 @@
             <Icon icon="fa6-solid:circle-exclamation" class="warning-icon small" /> 
             {{ $t('already-have-guest-account-register-warning') }}
         </div>
-        {{ register }}
 
         <form @submit.prevent="submitRegister">
             <div class="form-group">
