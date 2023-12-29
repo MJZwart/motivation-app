@@ -37,7 +37,11 @@ export const useTaskStore = defineStore('task', {
         },
         async getTaskCompletions () {
             const {data} = await axios.get('/tasks/completions');
-            return data.data.completions;
+            return data.data;
+        },
+        async getTaskCompletionsByDateRange(dateRange: string[]) {
+            const {data} = await axios.get('/tasks/completions-by-range/' + dateRange[0] + '/' + dateRange[1]);
+            return data.data;
         },
 
         // * Task lists

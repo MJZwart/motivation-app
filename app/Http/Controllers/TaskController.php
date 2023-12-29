@@ -190,6 +190,29 @@ class TaskController extends Controller
         ]);
     }
 
+    public function getCompletionsByDateRange($startDate, $endDate)
+    {
+        //TODO actually parse this by date range
+        $userId = Auth::user()->id;
+        $completedSingleTasks = Task::where('user_id', $userId)->whereBetween('completed', [$startDate, $endDate])->get();
+        $repeatablesCompleted = RepeatableTaskCompleted::where('user_id', $userId)->whereBetween('completed', [$startDate, $endDate])->with('task')->get();
+        $repeatablesList = [];
+        foreach ($repeatablesCompleted as $repeatable) {
+            if (!array_key_exists($repeatable->task_id, $repeatablesList)) {
+                $repeatablesList[$repeatable->task_id] = [
+                    'name' => $repeatable->task->name,
+                    'difficulty' => $repeatable->task->difficulty,
+                    'completions' => [],
+                ];
+            }
+            array_push($repeatablesList[$repeatable->task_id]['completions'], $repeatable->completed);
+        }
+        return ResponseWrapper::successResponse(null, [
+            'singleTasks' => CompletedTaskResource::collection($completedSingleTasks), 
+            'repeatableTasks' => $repeatablesList
+        ]);
+    }
+
     /**
      * Fetches all templates by user
      *

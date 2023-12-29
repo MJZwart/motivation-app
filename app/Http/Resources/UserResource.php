@@ -30,6 +30,7 @@ class UserResource extends JsonResource
             'first' => !!$this->first_login,
             'language' => $this->language,
             'guest' => !!$this->guest,
+            'joined' => $this->created_at,
         ];
     }
 }

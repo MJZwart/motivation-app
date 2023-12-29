@@ -30,4 +30,5 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::post('/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
 
     Route::get('/completions', [TaskController::class, 'getCompletions']);
+    Route::get('/completions-by-range/{startDate}/{endDate}', [TaskController::class, 'getCompletions']);
 });

@@ -19,6 +19,7 @@ export type User = {
     friends: Friend[];
     language: string;
     guest: boolean;
+    joined: string;
 };
 
 export type UserStats = {
