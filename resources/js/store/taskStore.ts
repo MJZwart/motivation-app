@@ -35,6 +35,10 @@ export const useTaskStore = defineStore('task', {
             const rewardStore = useRewardStore();
             rewardStore.rewardObj = data.data.activeReward;
         },
+        async getTaskCompletions () {
+            const {data} = await axios.get('/tasks/completions');
+            return data.data.completions;
+        },
 
         // * Task lists
         async getOtherTaskLists(taskListId: number) {

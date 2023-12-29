@@ -13,6 +13,7 @@
         />
         <UserStatsVue v-if="userStats && activeTab === 'stats'" :user-stats="userStats" />
         <AchievementsCard v-if="achievements && activeTab === 'achievements'" :achievements="achievements" />
+        <TasksCompleted v-if="activeTab === 'tasks-completed'" />
     </div>
 </template>
 
@@ -27,6 +28,7 @@ import {Achievement} from 'resources/types/achievement';
 import type {UserStats} from 'resources/types/user';
 import UserStatsVue from './components/UserStats.vue';
 import HorizontalTabControls, {TabItem} from '/js/components/global/tabs/HorizontalTabControls.vue';
+import TasksCompleted from './components/TasksCompleted.vue';
 
 const userStore = useUserStore();
 const rewardStore = useRewardStore();
@@ -42,6 +44,7 @@ onMounted(async () => {
         {key: 'achievements'},
         {key: 'timeline'},
         {key: 'stats'},
+        {key: 'tasks-completed'},
     ];
     if (rewardObj.value) tabs.value.push({key: rewardObj.value?.rewardType.toLowerCase()});
     activeTab.value = tabs.value[0].key;

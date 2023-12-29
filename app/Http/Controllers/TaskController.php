@@ -12,6 +12,7 @@ use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use App\Helpers\RewardHandler;
 use App\Http\Requests\StoreTemplateRequest;
+use App\Http\Resources\CompletedTaskResource;
 use App\Http\Resources\TemplatesResource;
 use App\Models\Template;
 use App\Models\RepeatableTaskCompleted;
@@ -165,6 +166,28 @@ class TaskController extends Controller
             'task_id' => $task->id,
         ]);
         AchievementHandler::checkForAchievement('REPEATABLE_COMPLETED', Auth::user());
+    }
+    
+    public function getCompletions() 
+    {
+        $userId = Auth::user()->id;
+        $completedSingleTasks = Task::whereNotNull('completed')->where('user_id', $userId)->get();
+        $repeatablesCompleted = RepeatableTaskCompleted::where('user_id', $userId)->with('task')->get();
+        $repeatablesList = [];
+        foreach ($repeatablesCompleted as $repeatable) {
+            if (!array_key_exists($repeatable->task_id, $repeatablesList)) {
+                $repeatablesList[$repeatable->task_id] = [
+                    'name' => $repeatable->task->name,
+                    'difficulty' => $repeatable->task->difficulty,
+                    'completions' => [],
+                ];
+            }
+            array_push($repeatablesList[$repeatable->task_id]['completions'], $repeatable->completed);
+        }
+        return ResponseWrapper::successResponse(null, [
+            'singleTasks' => CompletedTaskResource::collection($completedSingleTasks), 
+            'repeatableTasks' => $repeatablesList
+        ]);
     }
 
     /**

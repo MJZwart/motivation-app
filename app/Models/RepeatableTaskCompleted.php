@@ -10,4 +10,9 @@ class RepeatableTaskCompleted extends Model
     public $timestamps = false;
 
     protected $fillable = ['user_id', 'task_id'];
+
+    public function task() 
+    {
+        return $this->belongsTo(Task::class);
+    }
 }

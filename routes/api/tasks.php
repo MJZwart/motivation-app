@@ -28,4 +28,6 @@ Route::group(['middleware' => ['valid-auth']], function () {
     Route::delete('/templates/{template}', [TaskController::class, 'deleteTemplate']);
 
     Route::post('/merge/{tasklist}', [TaskListController::class, 'mergeTasks']);
+
+    Route::get('/completions', [TaskController::class, 'getCompletions']);
 });
