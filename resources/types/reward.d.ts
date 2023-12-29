@@ -28,8 +28,7 @@ export type ChangeReward = {
     rewards: string;
     // TODO change 'rewards' to 'rewardType', it's a little ambiguous
     keepOldInstance: string | number | null;
-    // TODO And while you're at it, either pick camel case or underscore
-    new_object_name?: string | null;
+    newObjectName?: string | null;
 };
 
 export type Coins = {
