@@ -86,17 +86,17 @@
                 <span class="d-flex flex-row">
                     <input
                         id="new-object-name" 
-                        v-model="rewardSetting.new_object_name" 
+                        v-model="rewardSetting.newObjectName" 
                         type="text" 
-                        name="new_object_name"
+                        name="newObjectName"
                         :placeholder="rewardTypeName" 
-                        :class="{ invalid: hasError('new_object_name') }"
+                        :class="{ invalid: hasError('newObjectName') }"
                     />
                     <Tooltip :text="$t('random-name')" placement="top-left" class="dice-button mr-2">
                         <Icon icon="fa-solid:dice" @click="generateRandomName" />
                     </Tooltip>
                 </span>
-                <BaseFormError name="new_object_name" />
+                <BaseFormError name="newObjectName" />
             </div> 
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
@@ -128,6 +128,7 @@ onMounted(() => load());
 const rewardSetting = ref<ChangeReward>({
     rewards: 'NONE',
     keepOldInstance: null,
+    newObjectName: '',
 });
 
 const rewardTypes = REWARD_TYPES;
@@ -192,19 +193,18 @@ const rewardItems = computed(() => {
 async function confirmRewardsSettings() {
     await userStore.changeRewardType(rewardSetting.value);
     rewardSetting.value.keepOldInstance = null;
-    rewardSetting.value.new_object_name = null;
+    rewardSetting.value.newObjectName = null;
     load();
 }
 function showEditReward(instance: Reward) {
     if (instance === null) return;
     formModal(
-        {rewardObj: instance, type: instance.rewardType.toUpperCase()},
+        instance,
         EditRewardObjectName,
         submitEditReward,
         'edit-reward-name');
 }
-async function submitEditReward({rewardObj, type}: {rewardObj: Reward, type: string}) {
-    rewardObj.rewardType = type;
+async function submitEditReward(rewardObj: Reward) {
     await rewardStore.updateRewardObjName(rewardObj);
     load();
 }
@@ -223,7 +223,7 @@ async function deleteItem(instance: Reward) {
 }
 
 function generateRandomName() {
-    if (rewardSetting.value.rewards === 'CHARACTER') rewardSetting.value.new_object_name = getRandomCharacterName();
-    else if (rewardSetting.value.rewards === 'VILLAGE') rewardSetting.value.new_object_name = getRandomVillageName();
+    if (rewardSetting.value.rewards === 'CHARACTER') rewardSetting.value.newObjectName = getRandomCharacterName();
+    else if (rewardSetting.value.rewards === 'VILLAGE') rewardSetting.value.newObjectName = getRandomVillageName();
 }
 </script>
