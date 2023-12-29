@@ -128,6 +128,7 @@ onMounted(() => load());
 const rewardSetting = ref<ChangeReward>({
     rewards: 'NONE',
     keepOldInstance: null,
+    newObjectName: '',
 });
 
 const rewardTypes = REWARD_TYPES;
@@ -198,13 +199,12 @@ async function confirmRewardsSettings() {
 function showEditReward(instance: Reward) {
     if (instance === null) return;
     formModal(
-        {rewardObj: instance, type: instance.rewardType.toUpperCase()},
+        instance,
         EditRewardObjectName,
         submitEditReward,
         'edit-reward-name');
 }
-async function submitEditReward({rewardObj, type}: {rewardObj: Reward, type: string}) {
-    rewardObj.rewardType = type;
+async function submitEditReward(rewardObj: Reward) {
     await rewardStore.updateRewardObjName(rewardObj);
     load();
 }

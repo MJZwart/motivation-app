@@ -5,9 +5,9 @@
             <span class="d-flex flex-row">
                 <input
                     id="name" 
+                    v-model="rewardObj.name" 
                     type="text" 
-                    name="name" 
-                    :value="rewardObj.name"
+                    name="name"
                     :placeholder="$t('name')" 
                     :class="{ invalid: hasError('name') }"
                 />
@@ -19,7 +19,7 @@
         </div> 
         <FormControls
             :submit-text="$t('update-reward-name')"
-            @submit="$emit('submit', {rewardObj, type: form.type})"
+            @submit="$emit('submit', rewardObj)"
             @cancel="$emit('close')"
         />
         <BaseFormError name="error" />
@@ -35,17 +35,17 @@ import {deepCopy} from '/js/helpers/copy';
 import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
 import {Icon} from '@iconify/vue';
 import {hasError} from '/js/services/errorService';
-const {t} = useI18n(); // use as global scope
+const {t} = useI18n();
 
-const props = defineProps<{form: {rewardObj: Reward; type: string}}>();
+const props = defineProps<{form:  Reward}>();
 defineEmits(['close', 'submit']);
 
-const rewardObj = ref(deepCopy(props.form.rewardObj));
+const rewardObj = ref(deepCopy(props.form));
 
 const parsedLabelName = computed(() => {
-    if (props.form.type == 'CHARACTER') {
+    if (rewardObj.value.rewardType == 'CHARACTER') {
         return t('character-name');
-    } else if (props.form.type == 'VILLAGE') {
+    } else if (rewardObj.value.rewardType == 'VILLAGE') {
         return t('village-name');
     } else {
         return null;
@@ -53,7 +53,7 @@ const parsedLabelName = computed(() => {
 });
 
 function generateRandomName() {
-    if (props.form.type === 'CHARACTER') rewardObj.value.name = getRandomCharacterName();
-    else if (props.form.type === 'VILLAGE') rewardObj.value.name = getRandomVillageName();
+    if (rewardObj.value.rewardType === 'CHARACTER') rewardObj.value.name = getRandomCharacterName();
+    else if (rewardObj.value.rewardType === 'VILLAGE') rewardObj.value.name = getRandomVillageName();
 }
 </script>
