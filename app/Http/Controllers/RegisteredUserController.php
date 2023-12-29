@@ -211,7 +211,7 @@ class RegisteredUserController extends Controller
     private function addExampleTasks(array $tasks, int $userId)
     {
         if (!$tasks || count($tasks) === 0) {
-            $this->createStarterTasks($userId);
+            return $this->createStarterTasks($userId);
         }
         for ($i = 0; $i < count($tasks); $i++) {
             $taskList = TaskList::create(
