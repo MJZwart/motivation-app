@@ -39,6 +39,27 @@
             </select>
             <BaseFormError name="repeatable" />
         </div>
+        <div v-if="activeTask.repeatable === 'WEEKLY'" class="form-group">
+            <label for="repeatable_reset_day">{{ $t('reset-day') }}</label>
+            <select id="repeatable_reset_day" v-model="activeTask.repeatable_reset_day" name="repeatable_reset_day">
+                <option v-for="(option, index) in days" :key="index" :value="option.value">
+                    {{ $t(option.text) }}
+                </option>
+            </select>
+            <BaseFormError name="repeatable_reset_day" />
+        </div>
+        <div v-if="activeTask.repeatable === 'WEEKLY_MULTIPLE'" class="form-group">
+            <label for="reset_days">{{ $t('reset-days') }}</label>
+            <Multiselect
+                v-model="activeTask.repeatable_reset_days"
+                mode="tags"
+                :options="days"
+                valueProp="value"
+                label="text"
+                :placeholder="$t('select-reset-days')"
+            />
+            <BaseFormError name="repeatable_reset_days" />
+        </div>
         <div class="form-group">
             <p v-if="form.taskList">{{ $t('task-list') }}: {{ form.taskList.name }}</p>
             <p v-if="form.superTask">{{ $t('subtask-of') }}: {{ form.superTask.name }}</p>
@@ -61,13 +82,15 @@
 
 <script setup lang="ts">
 import type {NewTask, TaskList, Task} from 'resources/types/task';
-import {TASK_TYPES, REPEATABLES} from '/js/constants/taskConstants';
-import {onMounted, ref} from 'vue';
+import {TASK_TYPES, REPEATABLES, DAYS} from '/js/constants/taskConstants';
+import {onMounted, ref, watchEffect} from 'vue';
 import {templates} from '../taskService';
 import FormControls from '/js/components/global/FormControls.vue';
+import Multiselect from '@vueform/multiselect';
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
+const days = DAYS;
 
 const props = defineProps<{
     form: {
@@ -97,4 +120,10 @@ function selectTemplate(event: Event) {
     activeTask.value.difficulty = template.difficulty;
     activeTask.value.type = template.type;
 }
+
+watchEffect(() => {
+    if (activeTask.value.repeatable === 'WEEKLY' && !activeTask.value.repeatable_reset_day)
+        activeTask.value.repeatable_reset_day = days[0].value;
+});
 </script>
+<style src="@vueform/multiselect/themes/default.css"></style>

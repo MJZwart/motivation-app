@@ -25,7 +25,7 @@ class ValidRepeatable implements Rule
      */
     public function passes($attribute, $value)
     {
-        return in_array($value, ['NONE', 'DAILY', 'WEEKLY', 'MONTHLY', 'INFINITE']);
+        return in_array($value, ['NONE', 'DAILY', 'WEEKLY', 'WEEKLY_MULTIPLE', 'MONTHLY', 'INFINITE']);
     }
 
     /**

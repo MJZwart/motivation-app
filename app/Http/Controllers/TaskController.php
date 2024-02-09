@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -35,7 +36,17 @@ class TaskController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
-        Task::create($validated);
+        $task = Task::create($validated);
+        if ($task->repeatable === 'WEEKLY_MULTIPLE') {
+            $resetDays = [];
+            foreach ($validated['repeatable_reset_days'] as $resetDay) {
+                array_push($resetDays, [
+                    'task_id' => $task->id,
+                    'day' => $resetDay,
+                ]);
+            }
+            DB::table('tasks_reset_days')->insert($resetDays);
+        }
 
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
         ActionTrackingHandler::registerAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
@@ -149,13 +160,16 @@ class TaskController extends Controller
                 $date = Carbon::tomorrow();
                 break;
             case 'WEEKLY':
-                $date = new Carbon('next monday');
+                $date = $this->getNextSpecifiedDay($task->repeatable_reset_day);
                 break;
             case 'MONTHLY':
                 $date = new Carbon('first day of next month midnight');
                 break;
+            case 'WEEKLY_MULTIPLE':
+                $date = $this->getNearestResetDay($task);
+                break;
             case 'INFINITE':
-                $date = new Carbon();
+                $date = Carbon::now();
                 break;
         }
         $task->repeatable_active = $date;
@@ -165,6 +179,35 @@ class TaskController extends Controller
             'task_id' => $task->id,
         ]);
         AchievementHandler::checkForAchievement('REPEATABLE_COMPLETED', Auth::user());
+    }
+
+    private function getNearestResetDay(Task $task)
+    {
+        $resetDays = $task->resetDays();
+        $now = Carbon::today();
+        $dayToday = $now->dayOfWeekIso;
+        $sortedResetDays = $resetDays->sort();
+        $daysAfterToday = $sortedResetDays->filter(function ($value, $dayToday) {
+            $value > $dayToday;
+        });
+        if (count($daysAfterToday) === 0) {
+            $amount = 7 - ($dayToday - $sortedResetDays[0]);
+            return $now->addDays($amount);
+        } else {
+            return $now->addDays($daysAfterToday[0] - $dayToday);
+        }
+    }
+
+    private function getNextSpecifiedDay(int $dayOfTheWeek)
+    {
+        $now = Carbon::today();
+        $dayToday = $now->dayOfWeekIso;
+        if ($dayOfTheWeek > $dayToday) {
+            return $now->addDays($dayOfTheWeek - $dayToday);
+        } else {
+            $amount = 7 - ($dayToday - $dayOfTheWeek);
+            return $now->addDays($amount);
+        }
     }
 
     /**
