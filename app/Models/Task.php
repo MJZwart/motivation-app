@@ -52,6 +52,6 @@ class Task extends Model
 
     public function resetDays()
     {
-        return DB::table('tasks_reset_days')->where('task_id', $this->id)->pluck('day');
+        return DB::table('tasks_reset_days')->where('task_id', $this->id)->orderBy('day')->pluck('day');
     }
 }

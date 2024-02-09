@@ -187,7 +187,7 @@ class TaskController extends Controller
         $now = Carbon::today();
         $dayToday = $now->dayOfWeekIso;
         $sortedResetDays = $resetDays->sort();
-        $daysAfterToday = $sortedResetDays->filter(function ($value, &$dayToday) {
+        $daysAfterToday = $sortedResetDays->filter(function ($value, $dayToday) {
             $value > $dayToday;
         });
         if (count($daysAfterToday) === 0) {

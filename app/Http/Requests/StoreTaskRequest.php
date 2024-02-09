@@ -36,6 +36,7 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'repeatable_reset_days.required_if' => 'Please pick the days on which you wish to repeat this task',
+            'repeatable_reset_day.required_if' => 'Please pick the day on which you wish to repeat this task',
         ];
     }
 }
