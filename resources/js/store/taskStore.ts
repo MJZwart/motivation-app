@@ -39,10 +39,10 @@ export const useTaskStore = defineStore('task', {
             const {data} = await axios.get('/tasks/completions');
             return data.data;
         },
-        async getTaskCompletionsByDateRange(dateRange: string[]) {
-            const {data} = await axios.get('/tasks/completions-by-range/' + dateRange[0] + '/' + dateRange[1]);
-            return data.data;
-        },
+        // async getTaskCompletionsByDateRange(dateRange: string[]) {
+        //     const {data} = await axios.get('/tasks/completions-by-range/' + dateRange[0] + '/' + dateRange[1]);
+        //     return data.data;
+        // },
 
         // * Task lists
         async getOtherTaskLists(taskListId: number) {

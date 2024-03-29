@@ -23,7 +23,7 @@ const user = computed(() => userStore.user);
 const dateRange = ref([parseDateString(user.value?.joined), parseDateString(new Date())]);
 
 onMounted(async() => {
-    tasksCompleted.value = await taskStore.getTaskCompletionsByDateRange(dateRange.value);
+    tasksCompleted.value = await taskStore.getTaskCompletions();
 });
 
 watchEffect(() => {
