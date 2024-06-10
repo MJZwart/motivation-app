@@ -188,7 +188,7 @@ class TaskController extends Controller
         $dayToday = $now->dayOfWeekIso;
         $sortedResetDays = $resetDays->sort();
         $daysAfterToday = $sortedResetDays->filter(function ($value, $dayToday) {
-            $value > $dayToday;
+            return $value > $dayToday;
         });
         if (count($daysAfterToday) === 0) {
             $amount = 7 - ($dayToday - $sortedResetDays[0]);
