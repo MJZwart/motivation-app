@@ -43,10 +43,14 @@ class Message extends Model
         return Message::where('recipient_id', $userId)->where('user_id', $userId)->where('read', false)->count() > 0;
     }
 
+    /**
+     * @return Message Message that the receiver gets so it can be broadcasted.
+     */
     public static function createNewMessage(array $messageContent) {
         $sentMessage = Message::create([...$messageContent, 'read' => true, 'user_id' => $messageContent['sender_id']]);
         $receivedMessage = Message::create([...$messageContent, 'user_id' => $messageContent['recipient_id']]);
         $sentMessage->conversation->touch();
         $receivedMessage->conversation->touch();
+        return $receivedMessage;
     }
 }

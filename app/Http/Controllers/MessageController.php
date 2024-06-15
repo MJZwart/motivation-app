@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewMessage;
+use App\Events\NewMessageReceived;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use Illuminate\Http\Request;
@@ -42,10 +43,11 @@ class MessageController extends Controller
             $validated['conversation_id'] = $this->getConversationId($user->id, $validated['recipient_id']);
         }
 
-        Message::createNewMessage($validated);
+        $receivedMessage = Message::createNewMessage($validated);
 
         try {
             NewMessage::broadcast($request['recipient_id']);
+            NewMessageReceived::broadcast($request['recipient_id'], $receivedMessage);
         } catch (BroadcastException $e) {
             error_log('Error broadcasting message: ' . $e->getMessage());
         }

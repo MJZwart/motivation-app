@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, onMounted} from 'vue';
+import {computed, ref, onMounted, watch} from 'vue';
 import MessageComponent from './components/Message.vue';
 import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
@@ -110,12 +110,15 @@ import type {StrippedUser} from 'resources/types/user';
 import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
 import {formModal, showModal} from '/js/components/modal/modalService';
 import {useUserStore} from '/js/store/userStore';
+import {socketConnected} from '/js/services/websocketService';
 
 const {t} = useI18n();
 
 const messageStore = useMessageStore();
 const userStore = useUserStore();
 const friendStore = useFriendStore();
+
+const user = computed(() => userStore.user);
 
 onMounted(() => {
     load();
@@ -148,6 +151,7 @@ function markAsRead(conversation: Conversation) {
 }
 
 async function load() {
+    listenToNewMessages();
     conversations.value = await messageStore.getConversations();
     resetConversation();
     if (conversations.value && conversations.value[0])
@@ -212,6 +216,19 @@ function reportUser(conversation: Conversation) {
         ReportUser, 
         'report-user');
 }
+
+function listenToNewMessages() {
+    if (!user.value) return;
+    window.Echo.private(`messages.${user.value.id}`)
+        .listen('NewMessageReceived', async () => {
+            conversations.value = await messageStore.getConversations();
+        });
+}
+
+watch(
+    () => socketConnected.value,
+    () => listenToNewMessages(),
+);
 </script>
 
 <style lang="scss">
