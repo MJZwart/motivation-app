@@ -95,22 +95,22 @@
 </template>
 
 <script setup lang="ts">
+import type {Conversation, Message, NewMessage} from 'resources/types/message';
+import type {StrippedUser} from 'resources/types/user';
 import {computed, ref, onMounted, watchEffect} from 'vue';
-import MessageComponent from './components/Message.vue';
-import ReportUser from './components/ReportUser.vue';
-import Dropdown from '/js/components/global/Dropdown.vue';
-import Pagination from '/js/components/global/Pagination.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMessageStore} from '/js/store/messageStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {useI18n} from 'vue-i18n';
 import {LOCK} from '/js/constants/iconConstants';
-import type {Conversation, Message, NewMessage} from 'resources/types/message';
-import type {StrippedUser} from 'resources/types/user';
-import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
 import {formModal, showModal} from '/js/components/modal/modalService';
 import {useUserStore} from '/js/store/userStore';
 import {socketConnected} from '/js/services/websocketService';
+import MessageComponent from './components/Message.vue';
+import ReportUser from './components/ReportUser.vue';
+import Dropdown from '/js/components/global/Dropdown.vue';
+import Pagination from '/js/components/global/Pagination.vue';
+import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
 
 const {t} = useI18n();
 
@@ -151,7 +151,6 @@ function markAsRead(conversation: Conversation) {
 }
 
 async function load() {
-    listenToNewMessages();
     conversations.value = await messageStore.getConversations();
     resetConversation();
     if (conversations.value && conversations.value[0])
