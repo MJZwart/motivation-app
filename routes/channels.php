@@ -1,7 +1,5 @@
 <?php
 
-use App\Broadcasting\MessageChannel;
-use App\Broadcasting\NotificationChannel;
 use App\Broadcasting\UnreadChannel;
 use Illuminate\Support\Facades\Broadcast;
 
@@ -21,5 +19,3 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('unread.{id}', UnreadChannel::class);
-Broadcast::channel('messages.{id}', MessageChannel::class);
-Broadcast::channel('notification.{id}', NotificationChannel::class);

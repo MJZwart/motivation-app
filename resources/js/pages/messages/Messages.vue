@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, onMounted, watch} from 'vue';
+import {computed, ref, onMounted, watchEffect} from 'vue';
 import MessageComponent from './components/Message.vue';
 import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
@@ -217,18 +217,20 @@ function reportUser(conversation: Conversation) {
         'report-user');
 }
 
+/*
+Websockets
+*/
 function listenToNewMessages() {
     if (!user.value) return;
-    window.Echo.private(`messages.${user.value.id}`)
-        .listen('NewMessageReceived', async () => {
+    window.Echo.private(`unread.${user.value.id}`)
+        .listen('NewMessage', async () => {
             conversations.value = await messageStore.getConversations();
         });
 }
 
-watch(
-    () => socketConnected.value,
-    () => listenToNewMessages(),
-);
+watchEffect(() => {
+    if (socketConnected.value) listenToNewMessages()
+});
 </script>
 
 <style lang="scss">

@@ -21,7 +21,6 @@ class MessageResource extends JsonResource
             'read' => $this->read,
             'sent_by_user' => $this->user_id === $this->sender_id,
             'sender' => new StrippedUserResource($this->sender),
-            'conversation_id' => $this->conversation->conversation_id,
         ];
     }
 }

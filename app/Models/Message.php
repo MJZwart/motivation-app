@@ -51,6 +51,5 @@ class Message extends Model
         $receivedMessage = Message::create([...$messageContent, 'user_id' => $messageContent['recipient_id']]);
         $sentMessage->conversation->touch();
         $receivedMessage->conversation->touch();
-        return $receivedMessage;
     }
 }
