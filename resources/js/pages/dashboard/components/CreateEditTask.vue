@@ -57,6 +57,7 @@
                 valueProp="value"
                 label="text"
                 :placeholder="$t('select-reset-days')"
+                openDirection="top"
             />
             <BaseFormError name="repeatable_reset_days" />
         </div>
