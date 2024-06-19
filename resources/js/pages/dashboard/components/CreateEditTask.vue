@@ -65,7 +65,7 @@
             <p v-if="form.superTask">{{ $t('subtask-of') }}: {{ form.superTask.name }}</p>
             <div v-if="templates.length">{{$t('import-from-templates')}}
                 <select id="templates" class="template-select" @change="selectTemplate($event)">
-                    <option :value="null"/>
+                    <option :value="null" />
                     <option v-for="(template, index) in templates" :key="index" :value="index">
                         {{ `${template.name} - ${$t(template.type)} - ${$t('difficulty')}: ${template.difficulty}/5` }}
                     </option>

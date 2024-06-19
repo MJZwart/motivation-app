@@ -24,6 +24,7 @@ class TaskResource extends JsonResource
             'tasks' => TaskResource::collection($this->activeSubTasks()),
             'task_list_id' => $this->task_list_id,
             'repeatable' => $this->repeatable,
+            'repeatable_reset_days' => $this->resetDays(),
         ];
     }
 }
