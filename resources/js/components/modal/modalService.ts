@@ -2,6 +2,7 @@ import {Component, markRaw, ref} from 'vue';
 import {Modal} from './modals';
 import FormModalVue from './FormModal.vue';
 import ShowModalVue from './ShowModal.vue';
+import ConfirmModalVue from './ConfirmModal.vue';
 import SendMessageVue from '/js/pages/messages/components/SendMessage.vue';
 import {clearErrors} from '/js/services/errorService';
 
@@ -41,6 +42,19 @@ export function showModal<T = unknown>(
     }
     clearErrors();
     modals.value.push({component: markRaw(ShowModalVue), modal: modal});
+}
+
+// TODO Translate texts
+export function confirmModal(
+    text: string,
+    confirmFunction: () => void,
+    title = 'Confirm',
+    confirmText = 'Yes',
+    cancelText = 'Cancel'
+){
+    const modal = {text, confirmFunction, title, confirmText, cancelText}
+    clearErrors();
+    modals.value.push({component: markRaw(ConfirmModalVue), modal});
 }
 
 export function sendMessageModal(username: string, user_id: string | number) {
