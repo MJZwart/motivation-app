@@ -16,5 +16,9 @@ export const useAchievementStore = defineStore('achievement', {
             const {data} = await axios.put('/admin/achievements/' + achievement.id, achievement);
             return data.data.achievements;
         },
+        async deleteAchievement(achievement: Achievement) {
+            const {data} = await axios.delete('/admin/achievements/' + achievement.id);
+            return data.data.achievements;
+        },
     },
 });

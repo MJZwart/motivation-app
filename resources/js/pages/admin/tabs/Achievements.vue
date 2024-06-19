@@ -18,6 +18,7 @@
             </template>
             <template #actions="row">
                 <Icon :icon="EDIT" class="icon small edit-icon" @click="showEditAchievement(row.item)" />
+                <Icon :icon="TRASH" class="icon small delete-icon red" @click="deleteAchievement(row.item)" />
             </template>
         </Table>
     </div>
@@ -30,8 +31,8 @@ import {ACHIEVEMENT_FIELDS, ACHIEVEMENT_DEFAULTS} from '/js/constants/achievemen
 import {useAchievementStore} from '/js/store/achievementStore';
 import {Achievement, NewAchievement} from 'resources/types/achievement';
 import {newAchievementInstance, parseAchievementTriggerDesc} from '/js/services/achievementService';
-import {EDIT} from '/js/constants/iconConstants';
-import {formModal} from '/js/components/modal/modalService';
+import {EDIT, TRASH} from '/js/constants/iconConstants';
+import {formModal, confirmModal} from '/js/components/modal/modalService';
 import CreateEditAchievement from '../components/CreateEditAchievement.vue';
 
 const achievementStore = useAchievementStore();
@@ -59,5 +60,13 @@ function showEditAchievement(achievement: Achievement) {
 }
 async function submitEditAchievement(achievement: Achievement) {
     achievements.value = await achievementStore.editAchievement(achievement);
+}
+/** Shows and hides the modal to delete a given achievement */
+function deleteAchievement(achievement: Achievement) {
+    //TODO Translate
+    confirmModal(
+        'Are you sure you wish to delete this achievement? This cannot be undone.', 
+        async() => achievements.value = await achievementStore.deleteAchievement(achievement),
+        'Delete achievement?');
 }
 </script>

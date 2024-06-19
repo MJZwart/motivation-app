@@ -21,4 +21,8 @@ class Achievement extends Model
     public function users(){
         return $this->belongsToMany('App\Models\User', 'achievements_earned');
     }
+
+    public function achievementsEarned() {
+        return AchievementEarned::where('achievement_id', $this->id);
+    }
 }
