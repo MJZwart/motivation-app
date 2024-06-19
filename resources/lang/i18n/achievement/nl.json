@@ -4,6 +4,9 @@
     "ach-repeatable-completed": "Een herhaalbare taak {n} keer voltooien. | Een herhaalbare taak {n} keer voltooien.",
     "ach-friends": "{n} vriend toegevoegd. | {n} vrienden toegevoegd.",
 
+    "delete-achievement": "Achievement verwijderen",
+    "delete-achievement-confirm": "Weet je zeker dat je deze achievement wil verwijderen? Dit kan niet ongedaan gemaakt worden.",
+
     "image": "Afbeelding",
     "trigger": "Trigger"
 }

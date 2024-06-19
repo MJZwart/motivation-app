@@ -5,6 +5,9 @@ import ShowModalVue from './ShowModal.vue';
 import ConfirmModalVue from './ConfirmModal.vue';
 import SendMessageVue from '/js/pages/messages/components/SendMessage.vue';
 import {clearErrors} from '/js/services/errorService';
+import i18n from '../../i18n';
+
+const { t } = i18n.global;
 
 // * Managing modal state
 export const modals = ref<Modal[]>([]);
@@ -44,13 +47,12 @@ export function showModal<T = unknown>(
     modals.value.push({component: markRaw(ShowModalVue), modal: modal});
 }
 
-// TODO Translate texts
 export function confirmModal(
     text: string,
     confirmFunction: () => void,
-    title = 'Confirm',
-    confirmText = 'Yes',
-    cancelText = 'Cancel'
+    title = t('confirm'),
+    confirmText = t('yes'),
+    cancelText = t('cancel'),
 ){
     const modal = {text, confirmFunction, title, confirmText, cancelText}
     clearErrors();

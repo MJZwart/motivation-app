@@ -34,6 +34,9 @@ import {newAchievementInstance, parseAchievementTriggerDesc} from '/js/services/
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {formModal, confirmModal} from '/js/components/modal/modalService';
 import CreateEditAchievement from '../components/CreateEditAchievement.vue';
+import { useI18n } from 'vue-i18n';
+
+const {t} = useI18n();
 
 const achievementStore = useAchievementStore();
 
@@ -63,10 +66,9 @@ async function submitEditAchievement(achievement: Achievement) {
 }
 /** Shows and hides the modal to delete a given achievement */
 function deleteAchievement(achievement: Achievement) {
-    //TODO Translate
     confirmModal(
-        'Are you sure you wish to delete this achievement? This cannot be undone.', 
+        t('delete-achievement-confirm'),
         async() => achievements.value = await achievementStore.deleteAchievement(achievement),
-        'Delete achievement?');
+        'delete-achievement');
 }
 </script>
