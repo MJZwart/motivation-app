@@ -61,7 +61,15 @@
             <BaseFormError name="repeatable_reset_days" />
         </div>
         <div class="form-group">
-            <p v-if="form.taskList">{{ $t('task-list') }}: {{ form.taskList.name }}</p>
+            <div v-if="!form.superTask">
+                {{ $t('task-list') }}: 
+                <select id="task_list" v-model="activeTask.task_list_id" name="task_list">
+                    <option v-for="(tasklist, idx) in taskLists" :key="idx" :value="tasklist.id">
+                        {{ tasklist.name }}
+                    </option>
+                </select>
+            </div>
+            <p v-if="form.taskList && form.superTask">{{ $t('task-list') }}: {{ form.taskList.name }}</p>
             <p v-if="form.superTask">{{ $t('subtask-of') }}: {{ form.superTask.name }}</p>
             <div v-if="templates.length">{{$t('import-from-templates')}}
                 <select id="templates" class="template-select" @change="selectTemplate($event)">
@@ -83,10 +91,13 @@
 <script setup lang="ts">
 import type {NewTask, TaskList, Task} from 'resources/types/task';
 import {TASK_TYPES, REPEATABLES, DAYS} from '/js/constants/taskConstants';
-import {onMounted, ref, watchEffect} from 'vue';
+import {computed, onMounted, ref, watchEffect} from 'vue';
 import {templates} from '../taskService';
 import FormControls from '/js/components/global/FormControls.vue';
 import Multiselect from '@vueform/multiselect';
+import { useTaskStore } from '/js/store/taskStore';
+
+const taskStore = useTaskStore();
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
@@ -99,6 +110,8 @@ const props = defineProps<{
         superTask?: Task | null
     }
 }>();
+
+const taskLists = computed(() => taskStore.taskLists);
 
 defineEmits<{
     (event: 'close'): void,
