@@ -26,17 +26,25 @@
 
 <script lang="ts" setup>
 import Pagination from '/js/components/global/Pagination.vue';
-import {ref} from 'vue';
+import {computed, onBeforeUnmount, ref, watchEffect} from 'vue';
 import NotificationBlock from './components/NotificationBlock.vue';
 import {onMounted} from 'vue';
 import {useMessageStore} from '/js/store/messageStore';
+import {useUserStore} from '/js/store/userStore';
+import {socketConnected} from '/js/services/websocketService';
 
 const loading = ref(true);
 const messageStore = useMessageStore();
 const notifications = ref<Notification[]>([]);
+const userStore = useUserStore();
+
+const user = computed(() => userStore.user);
+
+const active = ref(false);
 
 onMounted(async() => {
     notifications.value = await messageStore.getNotifications();
+    active.value = true;
     loading.value = false;
 });
 
@@ -46,4 +54,23 @@ async function deleteNotification(notificationId: number) {
 async function deleteNotificationAction(notificationId: number) {
     notifications.value = await messageStore.deleteNotificationAction(notificationId);
 }
+
+/*
+Websockets
+*/
+function listenToNewNotifcations() {
+    if (!user.value) return;
+    window.Echo.private(`unread.${user.value.id}`)
+        .listen('NewNotification', async () => {
+            if (active.value) notifications.value = await messageStore.getNotifications();
+        });
+}
+
+watchEffect(() => {
+    if (socketConnected.value) listenToNewNotifcations()
+});
+
+onBeforeUnmount(() => {
+    active.value = false;
+});
 </script>

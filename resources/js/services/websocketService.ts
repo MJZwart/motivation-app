@@ -1,3 +1,3 @@
-import {ref} from 'vue';
+import {computed} from 'vue';
 
-export const socketConnected = ref(window.Echo.connector.pusher.connection.state === 'connected');
+export const socketConnected = computed(() => window.Echo.connector.pusher.connection.state === 'connected');

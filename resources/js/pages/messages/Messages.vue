@@ -95,21 +95,22 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, onMounted} from 'vue';
-import MessageComponent from './components/Message.vue';
-import ReportUser from './components/ReportUser.vue';
-import Dropdown from '/js/components/global/Dropdown.vue';
-import Pagination from '/js/components/global/Pagination.vue';
+import type {Conversation, Message, NewMessage} from 'resources/types/message';
+import type {StrippedUser} from 'resources/types/user';
+import {computed, ref, onMounted, watchEffect, onBeforeUnmount} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMessageStore} from '/js/store/messageStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {useI18n} from 'vue-i18n';
 import {LOCK} from '/js/constants/iconConstants';
-import type {Conversation, Message, NewMessage} from 'resources/types/message';
-import type {StrippedUser} from 'resources/types/user';
-import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
 import {formModal, showModal} from '/js/components/modal/modalService';
 import {useUserStore} from '/js/store/userStore';
+import {socketConnected} from '/js/services/websocketService';
+import MessageComponent from './components/Message.vue';
+import ReportUser from './components/ReportUser.vue';
+import Dropdown from '/js/components/global/Dropdown.vue';
+import Pagination from '/js/components/global/Pagination.vue';
+import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
 
 const {t} = useI18n();
 
@@ -117,8 +118,13 @@ const messageStore = useMessageStore();
 const userStore = useUserStore();
 const friendStore = useFriendStore();
 
+const user = computed(() => userStore.user);
+
+const active = ref(false);
+
 onMounted(() => {
     load();
+    active.value = true;
 });
 
 const activeConversationIndex = ref<number | null>(null);
@@ -212,6 +218,25 @@ function reportUser(conversation: Conversation) {
         ReportUser, 
         'report-user');
 }
+
+/*
+Websockets
+*/
+function listenToNewMessages() {
+    if (!user.value) return;
+    window.Echo.private(`unread.${user.value.id}`)
+        .listen('NewMessage', async () => {
+            if (active.value) conversations.value = await messageStore.getConversations();
+        });
+}
+
+watchEffect(() => {
+    if (socketConnected.value) listenToNewMessages()
+});
+
+onBeforeUnmount(() => {
+    active.value = false;
+});
 </script>
 
 <style lang="scss">
