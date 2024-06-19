@@ -97,7 +97,7 @@
 <script setup lang="ts">
 import type {Conversation, Message, NewMessage} from 'resources/types/message';
 import type {StrippedUser} from 'resources/types/user';
-import {computed, ref, onMounted, watchEffect} from 'vue';
+import {computed, ref, onMounted, watchEffect, onBeforeUnmount} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
 import {useMessageStore} from '/js/store/messageStore';
 import {useFriendStore} from '/js/store/friendStore';
@@ -120,8 +120,11 @@ const friendStore = useFriendStore();
 
 const user = computed(() => userStore.user);
 
+const active = ref(false);
+
 onMounted(() => {
     load();
+    active.value = true;
 });
 
 const activeConversationIndex = ref<number | null>(null);
@@ -223,12 +226,16 @@ function listenToNewMessages() {
     if (!user.value) return;
     window.Echo.private(`unread.${user.value.id}`)
         .listen('NewMessage', async () => {
-            conversations.value = await messageStore.getConversations();
+            if (active.value) conversations.value = await messageStore.getConversations();
         });
 }
 
 watchEffect(() => {
     if (socketConnected.value) listenToNewMessages()
+});
+
+onBeforeUnmount(() => {
+    active.value = false;
 });
 </script>
 

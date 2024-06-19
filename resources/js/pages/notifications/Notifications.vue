@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import Pagination from '/js/components/global/Pagination.vue';
-import {computed, ref, watchEffect} from 'vue';
+import {computed, onBeforeUnmount, ref, watchEffect} from 'vue';
 import NotificationBlock from './components/NotificationBlock.vue';
 import {onMounted} from 'vue';
 import {useMessageStore} from '/js/store/messageStore';
@@ -40,8 +40,11 @@ const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
 
+const active = ref(false);
+
 onMounted(async() => {
     notifications.value = await messageStore.getNotifications();
+    active.value = true;
     loading.value = false;
 });
 
@@ -59,11 +62,15 @@ function listenToNewNotifcations() {
     if (!user.value) return;
     window.Echo.private(`unread.${user.value.id}`)
         .listen('NewNotification', async () => {
-            notifications.value = await messageStore.getNotifications();
+            if (active.value) notifications.value = await messageStore.getNotifications();
         });
 }
 
 watchEffect(() => {
     if (socketConnected.value) listenToNewNotifcations()
+});
+
+onBeforeUnmount(() => {
+    active.value = false;
 });
 </script>
