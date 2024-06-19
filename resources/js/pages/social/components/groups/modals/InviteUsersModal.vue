@@ -1,60 +1,62 @@
 <template>
-    <div>
-        <Loading v-if="loading" />
-        <div v-else>
-            <div v-if="friends !== null && friends.length > 0" class="invite-friends-box">
+    <Loading v-if="loading" />
+    <div v-else>
+        <div id="invite-users-box">
+            <h4>{{ $t('search-by-username') }}</h4>
+            <!-- The search bar -->
+            <form class="flex-row mb-3" @submit.prevent>
+                <input
+                    id="search-users"
+                    v-model="searchData.userSearch"
+                    type="search"
+                    :placeholder="$t('search-user')"
+                    aria-label="Search user"
+                    class="w-80 mr-2"
+                />
+                <SubmitButton @click="searchUser" class="w-15">{{ $t('search') }}</SubmitButton>
+            </form>
+
+            <!-- The search results -->
+            <div v-if="filteredSearchResults && filteredSearchResults[0]" class="invite-users-search-results">
+                <h5>{{ $t('search-results') }}:</h5>
+                <Table
+                    :items="filteredSearchResults"
+                    :fields="searchResultsFields"
+                    :options="['table-sm', 'table-striped', 'table-hover']"
+                >
+                    <template #username="row">
+                        <router-link :to="{name: 'profile', params: {id: row.item.id}}">
+                            {{ row.item.username }}
+                        </router-link>
+                    </template>
+                    <template #actions="row">
+                        <span
+                            :class="{disabled: canNotInvite(row.item.id)}"
+                            class="clickable"
+                            @click="inviteUser(row.item.id)"
+                        >
+                            {{ $t('invite') }}
+                        </span>
+                    </template>
+                </Table>
+            </div>
+        </div>
+        <div v-if="friends !== null && friends.length > 0">
+            <hr />
+            <div class="invite-friends-box">
                 <h4 class="block">{{ $t('invite-friends') }}</h4>
                 <div class="invite-friends-content">
                     <template v-for="(friend, index) in friends" :key="index">
                         <span
-                            class="invite-friends-action clickable"
+                            class="clickable mr-3"
                             :class="{disabled: canNotInvite(friend.id)}"
                             @click="inviteUser(friend.id)"
                         >
                             {{ $t('invite') }}
                         </span>
-                        <span class="invite-friends-username">{{ friend.username }}</span>
+                        <span>{{ friend.username }}</span>
                         <br />
                     </template>
-                </div>
-            </div>
-            <div id="invite-users-box">
-                <h4>{{ $t('search-by-username') }}</h4>
-                <!-- The search bar -->
-                <form class="navbar-search mb-3" @submit.prevent>
-                    <input
-                        id="search-users"
-                        v-model="searchData.userSearch"
-                        type="search"
-                        :placeholder="$t('search-user')"
-                        aria-label="Search user"
-                    />
-                    <SubmitButton @click="searchUser">{{ $t('search') }}</SubmitButton>
-                </form>
-
-                <!-- The search results -->
-                <div v-if="filteredSearchResults && filteredSearchResults[0]" class="invite-users-search-results">
-                    <h5>{{ $t('search-results') }}:</h5>
-                    <Table
-                        :items="filteredSearchResults"
-                        :fields="searchResultsFields"
-                        :options="['table-sm', 'table-striped', 'table-hover']"
-                    >
-                        <template #username="row">
-                            <router-link :to="{name: 'profile', params: {id: row.item.id}}">
-                                {{ row.item.username }}
-                            </router-link>
-                        </template>
-                        <template #actions="row">
-                            <span
-                                :class="{disabled: canNotInvite(row.item.id)}"
-                                class="clickable"
-                                @click="inviteUser(row.item.id)"
-                            >
-                                {{ $t('invite') }}
-                            </span>
-                        </template>
-                    </Table>
                 </div>
             </div>
         </div>
@@ -148,8 +150,6 @@ function canNotInvite(userId: number) {
 .invite-friends-box {
     display: flex;
     flex-direction: column;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
     padding: 0.5rem;
     margin-bottom: 1rem;
     max-height: 200px;
@@ -162,11 +162,6 @@ function canNotInvite(userId: number) {
 .invite-users-search-results {
     max-height: 400px;
     overflow-y: auto;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-}
-.invite-friends-action {
-    margin-right: 1rem;
 }
 .invite-friends-action.disabled,
 span.disabled {

@@ -68,8 +68,8 @@ const darkStyles = [
     {key: '--border-color',         value: '#494949'},
     {key: '--link-text',            value: '#cecece'},
 
-    {key: '--nth-of-type',          value: '#3b3b3bb4'},
-    {key: '--hover',                value: '#3b3b3b81'},
+    {key: '--nth-of-type',          value: 'rgba(0, 0, 0, .04)'},
+    {key: '--hover',                value: 'rgba(0, 0, 0, .1)'},
 ];
 
 /**
