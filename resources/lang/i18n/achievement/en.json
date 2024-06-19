@@ -4,6 +4,9 @@
     "ach-repeatable-completed": "Complete a repeatable task {n} time. | Complete a repeatable task {n} times.",
     "ach-friends": "Add {n} friend. | Add {n} friends.",
 
+    "delete-achievement": "Delete achievement",
+    "delete-achievement-confirm": "Are you sure you wish to delete this achievement? This cannot be undone.",
+
     "image": "Image",
     "trigger": "Trigger"
 }

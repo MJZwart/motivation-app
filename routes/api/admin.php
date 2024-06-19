@@ -23,7 +23,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/isadmin', [AdminController::class, 'isAdmin']);
 
     Route::resource('/achievements', AchievementController::class)->only([
-        'store', 'update',
+        'store', 'update', 'destroy',
     ]);
     Route::get('/achievements', [AchievementController::class, 'getAllAchievements']);
 

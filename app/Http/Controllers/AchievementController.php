@@ -56,6 +56,7 @@ class AchievementController extends Controller
 
     public function destroy(Achievement $achievement)
     {
-        //
+        $achievement->achievementsEarned()->delete();
+        $achievement->delete();
     }
 }

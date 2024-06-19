@@ -14,7 +14,15 @@ export type ShowModal<T = unknown> = {
     component: Raw<Component>;
 }
 
+export type ConfirmModal = {
+    title: string;
+    text: string;
+    confirmText: string;
+    cancelText: string;
+    confirmFunction: () => void;
+}
+
 export type Modal = {
     component: Raw<Component>;
-    modal: FormModal | ShowModal;
+    modal: FormModal | ShowModal | ConfirmModal;
 }
