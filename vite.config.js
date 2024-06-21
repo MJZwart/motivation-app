@@ -1,5 +1,5 @@
 import vue from '@vitejs/plugin-vue';
-import Markdown from 'vite-plugin-md';
+import Markdown from 'unplugin-vue-markdown/vite';
 
 import {defineConfig} from 'vite';
 
@@ -28,7 +28,7 @@ export default defineConfig(({command}) => {
             vue({
                 include: [/\.vue$/, /\.md$/],
             }),
-            Markdown(),
+            Markdown({}),
         ],
         server: {
             port: 3000,
