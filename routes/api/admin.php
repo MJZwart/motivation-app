@@ -5,6 +5,7 @@ use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\GlobalSettingController;
+use App\Http\Controllers\MaintenanceBannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,4 +69,10 @@ Route::group(['middleware' => ['admin']], function () {
 
     Route::get('/settings', [GlobalSettingController::class, 'getGlobalSettings']);
     Route::post('/settings', [GlobalSettingController::class, 'updateGlobalSettings']);
+
+    //* Maintenance banner
+    Route::post('/maintenance-banner', [MaintenanceBannerController::class, 'store']);
+    Route::put('/maintenance-banner/{banner}', [MaintenanceBannerController::class, 'update']);
+    Route::delete('/maintenance-banner/{banner}', [MaintenanceBannerController::class, 'destroy']);
+    Route::get('/maintenance-banner/all', [MaintenanceBannerController::class, 'getAll']);
 });

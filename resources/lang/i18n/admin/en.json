@@ -165,5 +165,7 @@
     
     "setting-key-heading": "Setting key",
     "setting-value-heading": "Value",
-    "group_max_exp_per_day": "Max group exp per day"
+    "group_max_exp_per_day": "Max group exp per day",
+
+    "maintenance-banner": "Maintenance banner"
 }

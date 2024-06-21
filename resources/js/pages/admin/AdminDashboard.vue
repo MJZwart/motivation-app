@@ -14,6 +14,7 @@ import Overview from './tabs/Overview.vue';
 import Actions from './tabs/Actions.vue';
 import ResponsiveTabs from '/js/components/global/tabs/ResponsiveTabs.vue';
 import Settings from './tabs/Settings.vue';
+import MaintenanceBanner from './tabs/MaintenanceBanner.vue';
 
 const tabs = [
     {name: 'overview', component: Overview},
@@ -26,5 +27,6 @@ const tabs = [
     {name: 'feedback', component: Feedback},
     {name: 'actions', component: Actions},
     {name: 'settings', component: Settings},
+    {name: 'maintenance-banner', component: MaintenanceBanner},
 ];
 </script>
