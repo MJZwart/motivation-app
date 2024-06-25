@@ -20,9 +20,9 @@ class MaintenanceBannerController extends Controller
         return MaintenanceBannerMessage::get();
     }
 
-    public function store(StoreMaintenanceBannerMessage $message)
+    public function store(StoreMaintenanceBannerMessage $request)
     {
-        $validated = $message->validated();
+        $validated = $request->all();
 
         MaintenanceBannerMessage::create($validated);
 

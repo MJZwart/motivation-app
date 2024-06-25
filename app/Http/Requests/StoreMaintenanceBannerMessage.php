@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,5 +28,14 @@ class StoreMaintenanceBannerMessage extends FormRequest
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
         ];
+    }
+
+    public function passedValidation()
+    {
+        $validated = $this->validated();
+        $validated['starts_at'] = Carbon::parse($validated['starts_at'])->format('Y-m-d H:i:s');
+        $validated['ends_at'] = Carbon::parse($validated['ends_at'])->format('Y-m-d H:i:s');
+
+        $this->replace($validated);
     }
 }
