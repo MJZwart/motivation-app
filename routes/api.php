@@ -8,6 +8,7 @@ use App\Http\Controllers\TaskListController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExampleTaskController;
 use App\Http\Controllers\BugReportController;
+use App\Http\Controllers\CastlequestController;
 use App\Http\Controllers\FeedbackController;
 
 /*
@@ -46,6 +47,9 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::post('/send-reset-password', [AuthenticationController::class, 'getResetPasswordLink']);
     Route::post('/password/reset', [AuthenticationController::class, 'resetPassword'])->name('password.reset');
+
+    Route::get('/castlequest', [CastlequestController::class, 'registerPageVisit']);
+    Route::get('/castlequest/quest', [CastlequestController::class, 'registerNewQuest']);
 });
 
 Route::group(['middleware' => ['valid-auth']], function () {
