@@ -167,5 +167,12 @@
     "setting-value-heading": "Value",
     "group_max_exp_per_day": "Max group exp per day",
 
-    "maintenance-banner": "Maintenance banner"
+    "maintenance-banner": "Maintenance banner",
+    "maintenance-banners": "Maintenance banners",
+    "add-new-maintenance-banner": "Add new maintenance banner",
+    "start-date": "Start date",
+    "end-date": "End date",
+    "starts-at": "Starts at",
+    "ends-at": "Ends at",
+    "no-maintenance-banners": "No maintenance banners"
 }

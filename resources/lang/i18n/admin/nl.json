@@ -165,5 +165,14 @@
     
     "setting-key-heading": "Instelling key",
     "setting-value-heading": "Waarde",
-    "group_max_exp_per_day": "Max groep exp per dag"
+    "group_max_exp_per_day": "Max groep exp per dag",
+
+    "maintenance-banner": "Onderhoudsbanner",
+    "maintenance-banners": "Onderhoudsbanners",
+    "add-new-maintenance-banner": "Nieuwe onderhoudsbanner toevoegen",
+    "start-date": "Startdatum",
+    "end-date": "Einddatum",
+    "starts-at": "Start op",
+    "ends-at": "Eindigt op",
+    "no-maintenance-banners": "Geen onderhoudsbanners"
 }

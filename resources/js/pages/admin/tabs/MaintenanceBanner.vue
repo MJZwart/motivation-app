@@ -12,7 +12,7 @@
 
             <div class="form-group flex-row w-100 gap-2">
                 <div class="w-50">
-                    {{$t('starts-date')}}
+                    {{$t('start-date')}}
                     <Datepicker 
                         v-model="newMaintenanceBanner.starts_at" 
                         autoApply :locale="currentLang"
@@ -64,11 +64,11 @@ const MAINTENANCE_BANNER_FIELDS = [
         key: 'message',
     },
     {
-        label: 'starts_at',
+        label: 'starts-at',
         key: 'starts_at',
     },
     {
-        label: 'ends_at',
+        label: 'ends-at',
         key: 'ends_at',
     },
     
@@ -90,5 +90,6 @@ const newMaintenanceBanner = ref<NewMaintenanceBannerMessage>(getEmptyMaintenanc
 
 const createNewMaintenanceBanner = async () => {
     maintenanceBanners.value = await adminStore.submitNewMaintenanceBanner(newMaintenanceBanner.value);
+    newMaintenanceBanner.value = getEmptyMaintenanceBanner();
 }
 </script>
