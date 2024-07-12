@@ -186,5 +186,10 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.post('/admin/maintenance-banner', newBanner);
             return data;
         },
+        async editMaintenanceBanner(banner: MaintenanceBannerMessage)
+        {
+            const {data} = await axios.put('/admin/maintenance-banner/' + banner.id, banner);
+            return data;
+        },
     },
 });

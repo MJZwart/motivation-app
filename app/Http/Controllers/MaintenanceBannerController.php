@@ -29,6 +29,15 @@ class MaintenanceBannerController extends Controller
         return MaintenanceBannerMessage::get();
     }
 
+    public function update(StoreMaintenanceBannerMessage $request, MaintenanceBannerMessage $banner) 
+    {
+        $validated = $request->all();
+
+        $banner->update($validated);
+        
+        return MaintenanceBannerMessage::get();
+    }
+
     public function destroy(MaintenanceBannerMessage $message)
     {
         $message->delete();

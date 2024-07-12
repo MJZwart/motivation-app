@@ -2,34 +2,10 @@
     <div>
         <h3>{{ $t('maintenance-banners') }}</h3>
 
-        <div>
-            <h5>{{ $t('add-new-maintenance-banner') }}</h5>
-            
-            <div class="form-group">
-                {{$t('message')}}
-                <textarea v-model="newMaintenanceBanner.message" />
-            </div>
+        <h5>{{ $t('add-new-maintenance-banner') }}</h5>
 
-            <div class="form-group flex-row w-100 gap-2">
-                <div class="w-50">
-                    {{$t('start-date')}}
-                    <Datepicker 
-                        v-model="newMaintenanceBanner.starts_at" 
-                        autoApply :locale="currentLang"
-                    />
-                </div>
-                <div class="w-50">
-                    {{$t('end-date')}}
-                    <Datepicker 
-                        v-model="newMaintenanceBanner.ends_at" 
-                        autoApply :locale="currentLang"
-                    />
-                </div>
-            </div>
-            <SubmitButton @click="createNewMaintenanceBanner" />
-        </div>
+        <EditMaintenanceBanner :form="getEmptyMaintenanceBanner()" @submit="createNewMaintenanceBanner" />
         
-        <!-- TODO Does sort work like this? -->
         <Table 
             :items="maintenanceBanners" 
             :fields="MAINTENANCE_BANNER_FIELDS" 
@@ -38,6 +14,10 @@
             sort="created_at"
             :sortAsc="false"
         >
+            <template #actions="row">
+                <Icon :icon="EDIT" @click="editBanner(row.item)" />
+            </template>
+
             <template #empty>
                 {{ $t('no-maintenance-banners') }}
             </template>
@@ -51,8 +31,9 @@ import { useAdminStore } from '/js/store/adminStore';
 import { ref } from 'vue';
 import { MaintenanceBannerMessage, NewMaintenanceBannerMessage } from 'resources/types/admin';
 import Table from '/js/components/global/Table.vue';
-import { currentLang } from '/js/services/languageService';
-import SubmitButton from '/js/components/global/small/SubmitButton.vue';
+import { EDIT } from '/js/constants/iconConstants';
+import { formModal } from '/js/components/modal/modalService';
+import EditMaintenanceBanner from '../components/EditMaintenanceBanner.vue';
 
 const adminStore = useAdminStore();
 
@@ -71,6 +52,10 @@ const MAINTENANCE_BANNER_FIELDS = [
         label: 'ends-at',
         key: 'ends_at',
     },
+    {
+        label: '',
+        key: 'actions',
+    },
     
 ];
 
@@ -86,10 +71,15 @@ const getEmptyMaintenanceBanner = (): NewMaintenanceBannerMessage => {
     }
 }
 
-const newMaintenanceBanner = ref<NewMaintenanceBannerMessage>(getEmptyMaintenanceBanner());
+const createNewMaintenanceBanner = async (newBanner: NewMaintenanceBannerMessage) => {
+    maintenanceBanners.value = await adminStore.submitNewMaintenanceBanner(newBanner);
+}
 
-const createNewMaintenanceBanner = async () => {
-    maintenanceBanners.value = await adminStore.submitNewMaintenanceBanner(newMaintenanceBanner.value);
-    newMaintenanceBanner.value = getEmptyMaintenanceBanner();
+const editMaintenanceBannerMessage = async(banner: MaintenanceBannerMessage) => {
+    maintenanceBanners.value = await adminStore.editMaintenanceBanner(banner);
+}
+
+const editBanner = (banner: MaintenanceBannerMessage) => {
+    formModal(banner, EditMaintenanceBanner, editMaintenanceBannerMessage, 'add-new-maintenance-banner');
 }
 </script>
