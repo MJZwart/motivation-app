@@ -19,5 +19,9 @@ export const useMainStore = defineStore('main', {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('/bugreport', bugReport);
         },
+        async getCurrentMaintenanceBanners() {
+            const {data} = await axios.get('/maintenance-banner');
+            return data;
+        },
     },
 });
