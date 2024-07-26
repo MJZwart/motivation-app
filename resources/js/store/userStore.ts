@@ -11,6 +11,8 @@ import type {UserSearch} from 'resources/types/global';
 import type {NewReportedUser} from 'resources/types/admin';
 import {useTaskStore} from './taskStore';
 import {useMessageStore} from './messageStore';
+import { useMainStore } from './store';
+import { fetchBanners, fetchDismissedBanners, setUserId } from '../components/maintenance/maintenanceBannerLogic';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -29,8 +31,12 @@ export const useUserStore = defineStore('user', {
         async login(user: Login) {
             await axios.get('/sanctum/csrf-cookie');
             const {data} = await axios.post('/login', user);
+            if (!data.user) router.push('/error'); //TODO Throw error that user is not set correctly
             this.setUser(data.user);
-            if (data.user) this.getUnread();
+            this.getUnread();
+            console.log('1')
+            fetchBanners();
+            console.log('2')
             const friendStore = useFriendStore();
             friendStore.friends = data.user.friends;
             router.push('/dashboard');
@@ -49,10 +55,14 @@ export const useUserStore = defineStore('user', {
             if (data.user) this.getUnread();
         },
         setUser(user: User | null, auth = true) {
+            console.log('SetUser')
             this.user = user;
             this.authenticated = auth;
             if (auth && user) this.setLanguage(user.language);
             this.isAdmin = user?.admin ?? false;
+            setUserId(user ? user.id : null);
+            fetchDismissedBanners();
+            console.log('Fetched')
         },
         setLanguage(lang: string) {
             if (lang !== 'en' && lang !== 'nl') return;

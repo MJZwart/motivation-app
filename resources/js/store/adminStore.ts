@@ -181,14 +181,19 @@ export const useAdminStore = defineStore('admin', {
             const {data} = await axios.get('/admin/maintenance-banner/all');
             return data;
         },
-        async submitNewMaintenanceBanner(newBanner: NewMaintenanceBannerMessage)
+        async submitNewMaintenanceBanner(newBanner: NewMaintenanceBannerMessage): Promise<MaintenanceBannerMessage[]>
         {
             const {data} = await axios.post('/admin/maintenance-banner', newBanner);
             return data;
         },
-        async editMaintenanceBanner(banner: MaintenanceBannerMessage)
+        async editMaintenanceBanner(banner: MaintenanceBannerMessage): Promise<MaintenanceBannerMessage[]>
         {
             const {data} = await axios.put('/admin/maintenance-banner/' + banner.id, banner);
+            return data;
+        },
+        async deleteMaintenanceBanner(bannerId: number): Promise<MaintenanceBannerMessage[]>
+        {
+            const {data} = await axios.delete('/admin/maintenance-banner/' + bannerId);
             return data;
         },
     },

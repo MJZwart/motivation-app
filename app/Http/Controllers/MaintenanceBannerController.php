@@ -37,9 +37,9 @@ class MaintenanceBannerController extends Controller
         return MaintenanceBannerMessage::get();
     }
 
-    public function destroy(MaintenanceBannerMessage $message)
+    public function destroy(MaintenanceBannerMessage $banner)
     {
-        $message->delete();
+        $banner->delete();
 
         return MaintenanceBannerMessage::get();
     }

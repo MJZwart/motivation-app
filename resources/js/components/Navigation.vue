@@ -71,7 +71,7 @@ import {useMessageStore} from '/js/store/messageStore';
 import {computed, onMounted, ref, watch} from 'vue';
 import {MAIL, DOT, NOTIFICATION} from '../constants/iconConstants';
 import {socketConnected} from '/js/services/websocketService';
-import MaintenanceBanner from './MaintenanceBanner.vue';
+import MaintenanceBanner from './maintenance/MaintenanceBanner.vue';
 
 onMounted(() => {
     window.addEventListener('resize', handleResize);

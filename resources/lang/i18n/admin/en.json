@@ -174,5 +174,7 @@
     "end-date": "End date",
     "starts-at": "Starts at",
     "ends-at": "Ends at",
-    "no-maintenance-banners": "No maintenance banners"
+    "no-maintenance-banners": "No maintenance banners",
+    "hide-expired-banners": "Hide expired banners",
+    "confirm-delete-banner": "Are you sure you wish to delete this maintenance banner? Users will no longer see the banner upon reloading."
 }

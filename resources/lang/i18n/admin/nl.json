@@ -174,5 +174,7 @@
     "end-date": "Einddatum",
     "starts-at": "Start op",
     "ends-at": "Eindigt op",
-    "no-maintenance-banners": "Geen onderhoudsbanners"
+    "no-maintenance-banners": "Geen onderhoudsbanners",
+    "hide-expired-banners": "Verberg verlopen banners",
+    "confirm-delete-banner": "Weet je zeker dat je deze banner wil verwijderen? Gebruikers zullen de banner niet meer zien wanneer ze de pagina herladen."
 }
