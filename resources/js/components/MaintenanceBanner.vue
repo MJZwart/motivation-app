@@ -13,22 +13,27 @@ import {useMainStore} from '/js/store/store';
 import { ref } from 'vue';
 import { MaintenanceBannerMessage } from 'resources/types/admin';
 import { computed } from 'vue';
+import { useUserStore } from '../store/userStore';
 
 const mainStore = useMainStore();
+const userStore = useUserStore();
+const user = userStore.user;
 const banners = ref<MaintenanceBannerMessage[]>([]);
 
 onMounted(async() => {
+    if (!user) return;
     banners.value = await mainStore.getCurrentMaintenanceBanners();
-    const dismissedBannersJSON = localStorage.getItem('dismissedBanners');
+    const dismissedBannersJSON = localStorage.getItem('dismissedBanners' + user.id);
     if (dismissedBannersJSON) banners.value = banners.value.filter(item => !JSON.parse(dismissedBannersJSON).includes(item.id));
 });
 
 const dismissBanner = (id: number) => {
-    const dismissedBannersJSON = localStorage.getItem('dismissedBanners');
+    if (!user) return;
+    const dismissedBannersJSON = localStorage.getItem('dismissedBanners' + user.id);
     let dismissedBannersArr: number[] = [];
     if (dismissedBannersJSON) dismissedBannersArr = JSON.parse(dismissedBannersJSON);
     dismissedBannersArr.push(id);
-    localStorage.setItem('dismissedBanners', JSON.stringify(dismissedBannersArr));
+    localStorage.setItem('dismissedBanners' + user.id, JSON.stringify(dismissedBannersArr));
     banners.value = banners.value.filter(item => !dismissedBannersArr.includes(item.id));
 }
 </script>
