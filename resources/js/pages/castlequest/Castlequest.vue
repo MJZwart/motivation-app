@@ -15,7 +15,7 @@
                     <div class="active-quest" :class="{'smaller-quest': isActiveQuestTooBig}">❝ {{ activeQuest }} ❞</div>
                     <span class="quest-reward">Reward: <b>1 coin</b>.</span>
                 </div>
-                <button class="random-quest-btn btn" @click="getRandomQuest">Generate new quest</button>
+                <button class="random-quest-btn btn" @click="reloadQuest">Generate new quest</button>
             </main>
             <footer>
                 <div class="footer">
@@ -30,10 +30,23 @@
 import {ref, onMounted} from 'vue'
 import {quests} from './quests'
 import { computed } from 'vue';
+import axios from 'axios';
 
 const activeQuest = ref<string | null>(null)
 
 const isActiveQuestTooBig = computed(() => activeQuest.value && activeQuest.value?.length > 60);
+
+const registerPageVisit = () => {
+    axios.get('/castlequest');
+}
+const registerQuestReload = () => {
+    axios.get('/castlequest/quest');
+}
+
+const reloadQuest = () => {
+    registerQuestReload();
+    getRandomQuest();
+}
 
 const getRandomQuest = () => {
     const randomNumber = Math.floor(Math.random() * quests.length)
@@ -41,8 +54,9 @@ const getRandomQuest = () => {
 }
 
 onMounted(() => {
-    getRandomQuest()
-})
+    getRandomQuest();
+    registerPageVisit();
+});
 </script>
   
 <style scoped lang="scss">
