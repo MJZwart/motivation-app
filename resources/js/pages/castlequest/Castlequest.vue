@@ -10,13 +10,16 @@
                 </div>
             </header>
             <main>
-                <div class="active-quest">{{ activeQuest }}</div>
-                <button class="random-quest-btn btn" @click="getRandomQuest">Generate new quest</button>
+                <div class="active-quest-block">
+                    <span class="new-quest">New quest!</span>
+                    <div class="active-quest" :class="{'smaller-quest': isActiveQuestTooBig}">❝ {{ activeQuest }} ❞</div>
+                    <span class="quest-reward">Reward: <b>1 coin</b>.</span>
+                </div>
+                <button class="random-quest-btn btn" @click="reloadQuest">Generate new quest</button>
             </main>
             <footer>
                 <div class="footer">
-                    Took a picture of your quest? Share them with the hashtag
-                    <span class="gradient">#castlequest</span> on social media!
+                    Return to the quest giver to collect your <span class="gradient">useless loot</span>
                 </div>
             </footer>
         </div>
@@ -26,8 +29,24 @@
 <script setup lang="ts">
 import {ref, onMounted} from 'vue'
 import {quests} from './quests'
+import { computed } from 'vue';
+import axios from 'axios';
 
 const activeQuest = ref<string | null>(null)
+
+const isActiveQuestTooBig = computed(() => activeQuest.value && activeQuest.value?.length > 60);
+
+const registerPageVisit = () => {
+    axios.get('/castlequest');
+}
+const registerQuestReload = () => {
+    axios.get('/castlequest/quest');
+}
+
+const reloadQuest = () => {
+    registerQuestReload();
+    getRandomQuest();
+}
 
 const getRandomQuest = () => {
     const randomNumber = Math.floor(Math.random() * quests.length)
@@ -35,8 +54,9 @@ const getRandomQuest = () => {
 }
 
 onMounted(() => {
-    getRandomQuest()
-})
+    getRandomQuest();
+    registerPageVisit();
+});
 </script>
   
 <style scoped lang="scss">
@@ -66,7 +86,7 @@ onMounted(() => {
 }
 
 main {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -78,6 +98,7 @@ main {
 }
 
 .content {
+    background-color: #181818;
     margin: auto;
     padding: 2rem;
     font-weight: normal;
@@ -86,11 +107,32 @@ main {
     align-items: center;
 }
 
+.active-quest-block {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    background-color: var(--background-darker);
+    border-radius: 1.5rem;
+}
+
+.new-quest {
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.quest-reward {
+    font-size: 1.1rem;
+    
+}
+
 .active-quest {
     margin: 2rem 0;
     font-size: 2rem;
     max-width: 650px;
-    text-align: center;
+}
+
+.active-quest.smaller-quest {
+    font-size: 1.5rem;
 }
 
 .header h1 {
