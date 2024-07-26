@@ -8,8 +8,7 @@ use Carbon\Carbon;
 
 class MaintenanceBannerController extends Controller
 {
-    // Gets the maintenance banners that's active right now
-    public function get()
+    public function getCurrentlyActive()
     {
         $now = Carbon::now();
         return MaintenanceBannerMessage::where('starts_at', '<', $now)->where('ends_at', '>', $now)->get();

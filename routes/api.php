@@ -48,7 +48,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/send-reset-password', [AuthenticationController::class, 'getResetPasswordLink']);
     Route::post('/password/reset', [AuthenticationController::class, 'resetPassword'])->name('password.reset');
 
-    Route::get('/maintenance-banner', [MaintenanceBannerController::class, 'get']);
+    Route::get('/maintenance-banner', [MaintenanceBannerController::class, 'getCurrentlyActive']);
 });
 
 Route::group(['middleware' => ['valid-auth']], function () {
