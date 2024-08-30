@@ -97,7 +97,7 @@ main {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     padding: 1rem;
     margin-bottom: 1.25rem;
-    background-color: var(--background-darker);
+    background-color: #252525;
     border-radius: 1.5rem;
 }
 
