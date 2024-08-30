@@ -9,7 +9,7 @@ export const dismissedBanners = ref<number[]>([]);
 
 export const visibileBanners = computed(() => {
     if (!banners.value) return [];
-    return banners.value.filter(item => !dismissedBanners.value.includes(item.id));
+    return banners.value.filter((item: MaintenanceBannerMessage )=> !dismissedBanners.value.includes(item.id));
 });
 
 export const fetchBanners = async() => {
