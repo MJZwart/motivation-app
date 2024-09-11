@@ -9,6 +9,7 @@ use App\Policies\GroupPolicy;
 use App\Policies\MessagePolicy;
 use App\Policies\NotificationPolicy;
 use App\Policies\TaskPolicy;
+use App\Policies\TaskListPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
