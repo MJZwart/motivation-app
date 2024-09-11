@@ -15,7 +15,7 @@
         <base href=".">
         </script>
         @php
-        $manifest = json_decode(file_get_contents(public_path('js/manifest.json')), true);
+        $manifest = json_decode(file_get_contents(public_path('js/.vite/manifest.json')), true);
         @endphp
         @production
             @foreach($manifest['js/app.js']['css'] as $url)
