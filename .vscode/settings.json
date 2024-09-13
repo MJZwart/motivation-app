@@ -4,7 +4,7 @@
     "eslint.run": "onSave",
     "eslint.codeActionsOnSave.mode": "all",
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
 
     "better-comments.tags": [

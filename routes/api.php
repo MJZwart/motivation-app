@@ -10,6 +10,7 @@ use App\Http\Controllers\ExampleTaskController;
 use App\Http\Controllers\BugReportController;
 use App\Http\Controllers\CastlequestController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\MaintenanceBannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/send-reset-password', [AuthenticationController::class, 'getResetPasswordLink']);
     Route::post('/password/reset', [AuthenticationController::class, 'resetPassword'])->name('password.reset');
 
+    Route::get('/maintenance-banner', [MaintenanceBannerController::class, 'getCurrentlyActive']);
     Route::get('/castlequest', [CastlequestController::class, 'registerPageVisit']);
     Route::get('/castlequest/quest', [CastlequestController::class, 'registerNewQuest']);
 });

@@ -84,3 +84,15 @@ export type GlobalSetting = {
     key: string,
     value: string,
 }
+
+export type MaintenanceBannerMessage = NewMaintenanceBannerMessage & {
+    id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export type NewMaintenanceBannerMessage = {
+    message: string;
+    starts_at: string;
+    ends_at: string;
+}
