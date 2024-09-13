@@ -31,7 +31,7 @@ foreach ($routes as $route) {
     Route::prefix($route)->group(base_path('routes/api/' . $route . '.php'));
 }
 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['api']], function () {
     Route::get('/me', [AuthenticationController::class, 'me']);
 
     Route::post('/login', [AuthenticationController::class, 'authenticate']);
