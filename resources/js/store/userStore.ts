@@ -11,7 +11,6 @@ import type {UserSearch} from 'resources/types/global';
 import type {NewReportedUser} from 'resources/types/admin';
 import {useTaskStore} from './taskStore';
 import {useMessageStore} from './messageStore';
-import { useMainStore } from './store';
 import { fetchBanners, fetchDismissedBanners, setUserId } from '../components/maintenance/maintenanceBannerLogic';
 
 export const useUserStore = defineStore('user', {

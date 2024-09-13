@@ -111,6 +111,7 @@ import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
 import Pagination from '/js/components/global/Pagination.vue';
 import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
+import axios from 'axios';
 
 const {t} = useI18n();
 
@@ -210,7 +211,7 @@ function blockUser(user: StrippedUser) {
     formModal(user, ConfirmBlockModal, submitBlockUser, 'confirm-block');
 }
 async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMessages: boolean}) {
-    await userStore.blockUser(user.id, {'hideMessages': hideMessages});
+    await axios.put('/user/' + user.id + '/block', {'hideMessages': hideMessages});
     load();
 }
 function reportUser(conversation: Conversation) {

@@ -35,6 +35,7 @@ import {onMounted, ref} from 'vue';
 import {useUserStore} from '/js/store/userStore';
 import {useRoute, useRouter} from 'vue-router';
 import AuthBase from './components/AuthBase.vue';
+import axios from 'axios';
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -56,7 +57,7 @@ onMounted(() => {
 });
 
 async function sendResetPassword() {
-    await userStore.setNewPassword(resetPassword.value);
+    await axios.post('/password/reset', resetPassword.value);
     router.push('/login');
 }
 </script>

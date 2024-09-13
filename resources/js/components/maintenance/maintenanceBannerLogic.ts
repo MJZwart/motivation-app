@@ -3,6 +3,7 @@ import { MaintenanceBannerMessage } from "resources/types/admin";
 import { computed, ref } from "vue";
 
 const userId = ref<number | null>(null);
+// TODO Make this computed
 
 export const banners = ref<MaintenanceBannerMessage[]>();
 export const dismissedBanners = ref<number[]>([]);

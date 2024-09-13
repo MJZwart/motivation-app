@@ -144,7 +144,7 @@ async function blockUser() {
     formModal(userProfile.value, ConfirmBlockModal, submitBlockUser, 'confirm-block');
 }
 async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMessages: boolean}) {
-    await userStore.blockUser(user.id, {'hideMessages': hideMessages});
+    await axios.put('/user/' + user.id + '/block', {'hideMessages': hideMessages});
     await getUserProfile();
 }
 function suspendUser() {
