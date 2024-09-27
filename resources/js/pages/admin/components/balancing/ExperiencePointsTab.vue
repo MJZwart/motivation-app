@@ -58,14 +58,13 @@
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
 import {onMounted, ref} from 'vue';
 import {ExperiencePoint} from 'resources/types/admin';
-import {useAdminStore} from '/js/store/adminStore';
 import Loading from '/js/components/global/Loading.vue';
 import {clearErrors} from '/js/services/errorService';
-
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 onMounted(async() => {
-    experiencePoints.value = await adminStore.getExperiencePoints();
+    const {data} = await axios.get('/admin/experience-points');
+    experiencePoints.value = data.data;
     loading.value = false;
 });
 
@@ -77,12 +76,14 @@ const loading = ref(true);
 async function updateExpPoints() {
     if (!experiencePoints.value) return;
     clearErrors();
-    experiencePoints.value = await adminStore.updateExpPoints(experiencePoints.value);
+    const {data} = await axios.put('/admin/experience-points', experiencePoints.value);
+    experiencePoints.value = data.data.experience_points;
 }
 
 async function addNewLevel() {
     if (!newLevel.value) return;
     clearErrors();
-    experiencePoints.value = await adminStore.addNewLevel(newLevel.value);
+    const {data} = await axios.post('/admin/experience-points', newLevel.value);
+    experiencePoints.value = data.data.experience_points;
 }
 </script>

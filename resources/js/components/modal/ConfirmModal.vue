@@ -12,7 +12,7 @@
                         {{ modal.text }}
                         <div class="d-flex">
                             <button class="ml-auto mr-2 cancel-button" @click="$emit('close')">{{ modal.cancelText }}</button>
-                            <button type="submit" @click="modal.confirmFunction">{{ modal.confirmText }}</button>
+                            <button type="submit" @click="confirm">{{ modal.confirmText }}</button>
                         </div>
                     </div>
                 </div>
@@ -25,9 +25,15 @@
 import {ref} from 'vue';
 import {ConfirmModal} from './modals';
 
-defineProps<{modal: ConfirmModal}>();
+const props = defineProps<{modal: ConfirmModal}>();
 
-defineEmits(['close']);
+const emit = defineEmits(['close']);
+
+const confirm = async () => {
+    await props.modal.confirmFunction();
+
+    emit('close');
+}
 
 const modalTemplate = ref<HTMLDivElement>();
 </script>

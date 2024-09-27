@@ -35,14 +35,13 @@ import {
     CHARACTER_EXP_GAIN_FIELDS, 
 } from '/js/constants/balancingConstants.js';
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
-import {useAdminStore} from '/js/store/adminStore';
 import {CharExpGain} from 'resources/types/admin.js';
 import {clearErrors} from '/js/services/errorService';
-
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 onMounted(async() => {
-    characterExpGain.value = await adminStore.getCharacterExpGain();
+    const {data} = await axios.get('/admin/character-exp-gain');
+    characterExpGain.value = data.data;
     loading.value = false;
 }); 
 
@@ -53,6 +52,7 @@ const characterExpGainFields = CHARACTER_EXP_GAIN_FIELDS;
 
 async function updateCharExpGain() {
     clearErrors();
-    characterExpGain.value = await adminStore.updateCharExpGain(characterExpGain.value);
+    const {data} = await axios.put('/admin/character-exp-gain', characterExpGain.value);
+    characterExpGain.value = data.data.balancing;
 }
 </script>

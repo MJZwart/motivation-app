@@ -67,11 +67,11 @@
 <script setup>
 import Dropdown from '/js/components/global/Dropdown.vue';
 import {useUserStore} from '/js/store/userStore';
-import {useMessageStore} from '/js/store/messageStore';
 import {computed, onMounted, ref, watch} from 'vue';
 import {MAIL, DOT, NOTIFICATION} from '../constants/iconConstants';
 import {socketConnected} from '/js/services/websocketService';
 import MaintenanceBanner from './maintenance/MaintenanceBanner.vue';
+import { hasMessages, hasNotifications } from '../services/messageService';
 
 onMounted(() => {
     window.addEventListener('resize', handleResize);
@@ -79,12 +79,9 @@ onMounted(() => {
 });
 
 const userStore = useUserStore();
-const messageStore = useMessageStore();
 
 const authenticated = computed(() => userStore.authenticated);
 const user = computed(() => userStore.user);
-const hasNotifications = computed(() => messageStore.hasNotifications);
-const hasMessages = computed(() => messageStore.hasMessages);
 const admin = computed(() => userStore.isAdmin);
 
 const isGuest = computed(() => userStore.user ? userStore.user.guest : true);
@@ -103,10 +100,10 @@ function listenToUnread() {
     if (!user.value) return;
     window.Echo.private(`unread.${user.value.id}`)
         .listen('NewNotification', () => {
-            messageStore.hasNotifications = true;
+            hasNotifications.value = true;
         })
         .listen('NewMessage', () => {
-            messageStore.hasMessages = true;
+            hasMessages.value = true;
         });
 }
 
