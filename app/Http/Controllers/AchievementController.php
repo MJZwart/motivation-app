@@ -58,5 +58,6 @@ class AchievementController extends Controller
     {
         $achievement->achievementsEarned()->delete();
         $achievement->delete();
+        return ResponseWrapper::successResponse(__('messages.achievement.deleted'), ['achievements' => AchievementResource::collection(Achievement::get())]);
     }
 }
