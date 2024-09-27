@@ -16,12 +16,12 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
-import {useAdminStore} from '/js/store/adminStore';
 import type {Overview} from 'resources/types/admin';
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 onMounted(async() => {
-    overview.value = await adminStore.getOverview();
+    const {data} = await axios.get('/admin/overview');
+    overview.value = data.overview;
     loading.value = false;
 });
 

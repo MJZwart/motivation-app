@@ -49,16 +49,15 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import type {NewNotification} from 'resources/types/notification';
-import {useAdminStore} from '/js/store/adminStore';
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 const notification = ref<NewNotification>(newNotificationInstance());
 
 const addLink = ref(false);
 
 /** Sends notification to all members */
-function sendNotification() {
-    adminStore.sendNotification(notification.value);
+async function sendNotification() {
+    await axios.post('/notifications/all', notification.value);
 }
 
 /** Removes the entered link data and hides the field */

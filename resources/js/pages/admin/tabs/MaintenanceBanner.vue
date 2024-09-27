@@ -47,7 +47,6 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useAdminStore } from '/js/store/adminStore';
 import { ref } from 'vue';
 import { MaintenanceBannerMessage, NewMaintenanceBannerMessage } from 'resources/types/admin';
 import Table from '/js/components/global/Table.vue';
@@ -58,9 +57,8 @@ import SimpleCheckbox from '/js/components/global/small/SimpleCheckbox.vue';
 import { computed } from 'vue';
 import { parseDateTime } from '/js/services/dateService';
 import {useI18n} from 'vue-i18n';
+import axios from 'axios';
 const {t} = useI18n();
-
-const adminStore = useAdminStore();
 
 const maintenanceBanners = ref<MaintenanceBannerMessage[]>([]);
 
@@ -87,7 +85,8 @@ const MAINTENANCE_BANNER_FIELDS = [
 const hideExpiredBanners = ref(false);
 
 onMounted(async() => {
-    maintenanceBanners.value = await adminStore.getAllMaintenanceBanners();
+    const {data} = await axios.get('/admin/maintenance-banner/all');
+    maintenanceBanners.value = data;
 });
 
 const filteredMaintenanceBanners = computed(() => {
@@ -104,11 +103,13 @@ const getEmptyMaintenanceBanner = (): NewMaintenanceBannerMessage => {
 }
 
 const createNewMaintenanceBanner = async (newBanner: NewMaintenanceBannerMessage) => {
-    maintenanceBanners.value = await adminStore.submitNewMaintenanceBanner(newBanner);
+    const {data} = await axios.post('/admin/maintenance-banner', newBanner);
+    maintenanceBanners.value = data;
 }
 
 const editMaintenanceBannerMessage = async(banner: MaintenanceBannerMessage) => {
-    maintenanceBanners.value = await adminStore.editMaintenanceBanner(banner);
+    const {data} = await axios.put('/admin/maintenance-banner/' + banner.id, banner);
+    maintenanceBanners.value = data;
 }
 
 const editBanner = (banner: MaintenanceBannerMessage) => {
@@ -117,7 +118,11 @@ const editBanner = (banner: MaintenanceBannerMessage) => {
 
 const deleteBanner = (banner: MaintenanceBannerMessage) => {
     confirmModal(t('confirm-delete-banner'), 
-                 async () => maintenanceBanners.value = await adminStore.deleteMaintenanceBanner(banner.id));
+                 async () => {
+                    const {data} = await axios.delete('/admin/maintenance-banner/' + banner.id);
+                    maintenanceBanners.value = data;
+                }
+                 );
 }
 
 const isExpired = (banner: MaintenanceBannerMessage) => {

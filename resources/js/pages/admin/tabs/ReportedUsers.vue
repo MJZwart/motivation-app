@@ -22,7 +22,7 @@
                     <Icon 
                         :icon="BAN" 
                         class="ban-icon red"
-                        @click.stop.prevent="suspendUser(row.item.id)" />                        
+                        @click.stop.prevent="openSuspendUserModal(row.item.id)" />                        
                 </Tooltip>
                 <Tooltip :text="$t('message-reported-user')">
                     <Icon 
@@ -47,16 +47,16 @@ import SortableOverviewTable from '/js/components/global/SortableOverviewTable.v
 import ReportedUserDetails from '../components/ReportedUsersDetails.vue';
 import {sortValues} from '/js/services/sortService';
 import {DateTime} from 'luxon';
-import {useAdminStore} from '/js/store/adminStore';
 import {REPORTED_USER_OVERVIEW_FIELDS} from '/js/constants/reportUserConstants';
 import {BAN, MAIL} from '/js/constants/iconConstants';
 import {formModal, sendMessageModal} from '/js/components/modal/modalService';
 import {getNewSuspension} from '/js/helpers/newInstance';
-
-const adminStore = useAdminStore();
+import {suspendUser} from '/js/services/adminService';
+import axios from 'axios';
 
 onMounted(async() => {
-    reportedUsers.value = await adminStore.getReportedUsers();
+    const {data} = await axios.get('/admin/reported-users');
+    reportedUsers.value = data.reportedUsers;
     loading.value = false;
 });
 
@@ -77,15 +77,16 @@ function sendMessageToReportedUser(user: User) {
 }
 
 /** Opens the modal to suspend a user account */
-function suspendUser(userId: number) {
+function openSuspendUserModal(userId: number) {
     formModal(getNewSuspension(userId), SuspendUserModal, submitSuspendUser, 'suspend-user');
 }
 async function submitSuspendUser(userSuspension: NewSuspension) {
-    reportedUsers.value = await adminStore.suspendUser(userSuspension);
+    reportedUsers.value = await suspendUser(userSuspension);
 }
 
 async function closeReport(report: ReportedUser) {
-    reportedUsers.value = await adminStore.closeReport(report);
+    const {data} = await axios.post(`/admin/reported-users/${report.id}`);
+    reportedUsers.value = data.reportedUsers;
 }
 
 function currentlySuspended(user: UserToSuspend) {

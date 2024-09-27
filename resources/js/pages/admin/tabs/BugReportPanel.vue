@@ -59,19 +59,18 @@ import {BUG_REPORT_OVERVIEW_FIELDS, BUG_STATUS} from '/js/constants/bugConstants
 import {onMounted, ref} from 'vue';
 import EditBugReport from './../components/EditBugReport.vue';
 import Diagnostics from '/js/components/global/small/Diagnostics.vue';
-import {useAdminStore} from '/js/store/adminStore';
 import {useI18n} from 'vue-i18n';
 import {EDIT, MAIL, TRASH, RESTORE_TRASH} from '/js/constants/iconConstants';
 import SortableOverviewTable from '/js/components/global/SortableOverviewTable.vue';
 import CloseBugReportModal from '../components/CloseBugReportModal.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {formModal, sendMessageModal} from '/js/components/modal/modalService';
+import axios from 'axios';
 
-const adminStore = useAdminStore();
 const {t} = useI18n();
 
 onMounted(async() => {
-    bugReports.value = await adminStore.getBugReports();
+    bugReports.value = await fetchBugReports();
     loading.value = false;
 });
 
@@ -91,7 +90,8 @@ function editBugReport(bugReport: BugReport) {
     formModal(bugReport, EditBugReport, submitEditBugReport, 'edit-bug-report');
 }
 async function submitEditBugReport(updatedBugReport: BugReport) {
-    bugReports.value = await adminStore.updateBugReport(updatedBugReport);
+    const {data} = await axios.put('/admin/bugreport/' + updatedBugReport.id, updatedBugReport);
+    bugReports.value = data.data.bugReports;
 }
 
 // * Close bug report
@@ -99,7 +99,8 @@ function closeBugReport(bugReport: BugReport) {
     formModal(bugReport, CloseBugReportModal, submitCloseBugReport, 'confirm-close-bug-report');
 }
 async function submitCloseBugReport(bugReport: BugReport) {
-    bugReports.value = await adminStore.closeBugReport(bugReport);
+    const {data} = await axios.put(`/admin/bugreport/delete/${bugReport.id}`, bugReport);
+    bugReports.value = data.data.bugReports;
 }
 
 function parseStatus(status: number) {
@@ -109,10 +110,19 @@ function parseStatus(status: number) {
 
 async function toggleClosed() {
     showClosed.value = !showClosed.value;
-    if (showClosed.value) bugReports.value = await adminStore.getClosedBugReports();
-    else bugReports.value = await adminStore.getBugReports();
+    if (showClosed.value) {
+        const {data} = await axios.get('/admin/bugreport/closed');
+        bugReports.value = data.data;
+    }
+    else bugReports.value = await fetchBugReports();
 }
 async function restoreBugReport(bugReport: BugReport) {
-    bugReports.value = await adminStore.restoreBugReport(bugReport.id);
+    const {data} = await axios.put(`/admin/bugreport/restore/${bugReport.id}`);
+    bugReports.value = data.data.bugReports;
+}
+
+async function fetchBugReports(): Promise<BugReport[]> {
+    const {data} = await axios.get('/admin/bugreport');
+    return data.data;
 }
 </script>

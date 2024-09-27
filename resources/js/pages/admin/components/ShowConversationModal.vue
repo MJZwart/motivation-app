@@ -11,9 +11,8 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import ShowMessage from './ShowMessage.vue';
-import {useAdminStore} from '/js/store/adminStore';
 import {ReportedConversation} from 'resources/types/message';
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 const props = defineProps({
     conversationId: {
@@ -23,7 +22,8 @@ const props = defineProps({
 });
 
 onMounted(async() => {
-    conversation.value = await adminStore.fetchConversation(props.conversationId);
+    const {data} = await axios.get(`/admin/conversation/${props.conversationId}`);
+    conversation.value = data.data;
     loading.value = false;
 });
 
