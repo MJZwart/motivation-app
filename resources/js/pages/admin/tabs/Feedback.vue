@@ -51,13 +51,13 @@ import Table from '/js/components/global/Table.vue';
 import Diagnostics from '/js/components/global/small/Diagnostics.vue';
 import {FEEDBACK_FIELDS} from '/js/constants/feedbackConstants.js';
 import {parseDateTime} from '/js/services/dateService';
-import {useAdminStore} from '/js/store/adminStore';
 import {LOCK, MAIL, UNLOCK} from '/js/constants/iconConstants';
 import {sendMessageModal} from '/js/components/modal/modalService';
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 onMounted(async () => {
-    feedback.value = await adminStore.getFeedback();
+    const {data} = await axios.get('/admin/feedback');
+    feedback.value = data.feedback;
 });
 
 const feedback = ref<Feedback[] | []>([]);
@@ -78,6 +78,7 @@ function sendMessageToUser(user_id: number, username: string) {
  * Sends a request to toggle the archived status of a feedback item
  */
 async function toggleArchiveFeedback(feedbackId: number) {
-    feedback.value = await adminStore.toggleArchiveFeedback(feedbackId);
+    const {data} = await axios.post(`/admin/feedback/archive/${feedbackId}`);
+    feedback.value = data.data.feedback;
 }
 </script>

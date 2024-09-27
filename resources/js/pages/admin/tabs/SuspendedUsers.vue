@@ -78,14 +78,13 @@ import Table from '/js/components/global/Table.vue';
 import EditSuspension from '../components/EditSuspension.vue';
 import {parseDateTime} from '/js/services/dateService';
 import {SUSPENDED_USERS_FIELDS} from '/js/constants/reportUserConstants';
-import {useAdminStore} from '/js/store/adminStore';
 import {EDIT, UNLOCK} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
-
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 onActivated(async () => {
-    suspendedUsers.value = await adminStore.getSuspendedUsers();
+    const {data} = await axios.get('/admin/suspendedusers');
+    suspendedUsers.value = data.suspended_users;
     loading.value = false;
 });
 
@@ -104,7 +103,8 @@ function editSuspension(suspendedUser: SuspendedUser) {
     formModal(suspendedUser, EditSuspension, submitEditSuspension, 'edit-suspension');
 }
 async function submitEditSuspension(suspendedUser: SuspendedUser) {
-    suspendedUsers.value = await adminStore.editSuspension(suspendedUser);
+    const {data} = await axios.post(`/admin/editsuspension/${suspendedUser.id}`, suspendedUser);
+    suspendedUsers.value = data.suspended_users;
 }
 
 function suspensionEnded(suspendedUser: SuspendedUser) {

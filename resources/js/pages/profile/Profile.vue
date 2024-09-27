@@ -32,7 +32,7 @@
                     <span v-if="user && user.admin && !userProfile.suspended">
                         | {{ $t('admin-actions') }}:
                         <Tooltip :text="$t('suspend-user')">
-                            <Icon :icon="BAN" class="ban-icon red" @click="suspendUser" />
+                            <Icon :icon="BAN" class="ban-icon red" @click="openSuspendUserModal" />
                         </Tooltip>
                     </span>
                 </div>
@@ -75,15 +75,14 @@ import {breadcrumbsVisible} from '/js/services/breadcrumbService';
 import type {NewSuspension, StrippedUser, User, UserProfile} from 'resources/types/user';
 import type {FriendRequests, Friend} from 'resources/types/friend';
 import {MAIL, FRIEND, LOCK, REPORT, BAN} from '/js/constants/iconConstants';
-import {useAdminStore} from '/js/store/adminStore';
 import Timeline from '/js/pages/overview/components/Timeline.vue';
 import {formModal, sendMessageModal, showModal} from '/js/components/modal/modalService';
 import {getNewSuspension} from '/js/helpers/newInstance';
+import { suspendUser } from '/js/services/adminService';
 
 const route = useRoute();
 const userStore = useUserStore();
 const friendStore = useFriendStore();
-const adminStore = useAdminStore();
 
 /** Setup the user profile on page load */
 const loading = ref(true);
@@ -147,12 +146,12 @@ async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMe
     await userStore.blockUser(user.id, {'hideMessages': hideMessages});
     await getUserProfile();
 }
-function suspendUser() {
+function openSuspendUserModal() {
     // @ts-ignore Modal shenanigans
     formModal(getNewSuspension(userProfile.value?.id), SuspendUserModal, submitSuspendUser, 'suspend-user');
 }
 async function submitSuspendUser(userSuspension: NewSuspension) {
-    await adminStore.suspendUser(userSuspension);
+    await suspendUser(userSuspension);
     await getUserProfile();
 }
 watch(

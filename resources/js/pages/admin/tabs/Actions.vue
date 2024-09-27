@@ -58,7 +58,6 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
-import {useAdminStore} from '/js/store/adminStore';
 import type {Actions, ActionFilters} from 'resources/types/admin';
 import Multiselect from '@vueform/multiselect';
 import Table from '/js/components/global/Table.vue';
@@ -66,13 +65,12 @@ import {currentLang} from '/js/services/languageService';
 import {getYesterdayDate} from '/js/services/dateService';
 import {filteredActionsFields} from '/js/constants/adminConstants';
 import {parseUserAgent} from '/js/services/platformService';
-
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 const possibleFilters = ref<ActionFilters>({
     types: [],
     users: [],
-    minDate: null,
+    minDate: [],
 });
 const activeFilters = ref<ActionFilters>({
     types: [],
@@ -84,13 +82,18 @@ const activeFilters = ref<ActionFilters>({
 const filteredActions = ref<Actions[]>([]);
 
 onMounted(async() => {
-    const data = await adminStore.getActionFilters();
+    const {data} = await axios.get('/admin/action/filters');
     possibleFilters.value = data;
-    filteredActions.value = await adminStore.getActionsWithFilters(activeFilters.value);
+    filteredActions.value = await getActionsWithFilters(activeFilters.value);
 });
 
 async function filterActions() {
-    filteredActions.value = await adminStore.getActionsWithFilters(activeFilters.value);
+    filteredActions.value = await getActionsWithFilters(activeFilters.value);
+}
+
+async function getActionsWithFilters(filters: ActionFilters) {
+    const {data} = await axios.post('/admin/action/filters', filters);
+    return data.data;
 }
 </script>
 <style src="@vueform/multiselect/themes/default.css"></style>

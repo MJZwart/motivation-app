@@ -35,14 +35,13 @@ import {
 } from '/js/constants/balancingConstants.js';
 import GeneralFormError from '/js/components/global/GeneralFormError.vue';
 import {onMounted, ref} from 'vue';
-import {useAdminStore} from '/js/store/adminStore';
 import {VillageExpGain} from 'resources/types/admin.js';
 import {clearErrors} from '/js/services/errorService';
-
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 onMounted(async() => {
-    villageExpGain.value = await adminStore.getVillageExpGain();
+    const {data} = await axios.get('/admin/village-exp-gain');
+    villageExpGain.value = data.data;
     loading.value = false;
 });
 
@@ -52,6 +51,7 @@ const villageExpGain = ref<Array<VillageExpGain>>([]);
 
 async function updateVillageExpGain() {
     clearErrors();
-    villageExpGain.value = await adminStore.updateVillageExpGain(villageExpGain.value);
+    const {data} = await axios.put('/admin/village-exp-gain', villageExpGain.value);
+    villageExpGain.value = data.data.balancing;
 }
 </script>
