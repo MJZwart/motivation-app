@@ -79,6 +79,7 @@ import {useAdminStore} from '/js/store/adminStore';
 import Timeline from '/js/pages/overview/components/Timeline.vue';
 import {formModal, sendMessageModal, showModal} from '/js/components/modal/modalService';
 import {getNewSuspension} from '/js/helpers/newInstance';
+import { sendRequest } from '/js/services/friendService';
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -129,7 +130,7 @@ const notLoggedUser = computed(() => {
     return route.params.id != user.value.id.toString();
 });
 function sendFriendRequest() {
-    friendStore.sendRequest(route.params.id as string);
+    sendRequest(route.params.id as string);
 }
 function sendMessage() {
     if (!userProfile.value) return;

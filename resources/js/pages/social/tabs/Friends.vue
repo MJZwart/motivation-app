@@ -17,9 +17,7 @@ import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import FriendRequests from '../components/FriendRequests.vue';
 import SearchUser from '../components/SearchUser.vue';
 import {onMounted, ref} from 'vue';
-import {useFriendStore} from '/js/store/friendStore';
-
-const friendStore = useFriendStore();
+import { getRequests } from '/js/services/friendService';
 
 onMounted(() => {
     load();
@@ -29,7 +27,7 @@ const loading = ref(true);
 
 async function load() {
     loading.value = true;
-    await friendStore.getRequests();
+    await getRequests();
     loading.value = false;
 }
 </script>

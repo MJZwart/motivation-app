@@ -54,6 +54,7 @@ import {useFriendStore} from '/js/store/friendStore';
 import type {StrippedUser} from 'resources/types/user';
 import {FRIEND, MAIL} from '/js/constants/iconConstants';
 import {sendMessageModal} from '/js/components/modal/modalService';
+import { sendRequest } from '/js/services/friendService';
 const userStore = useUserStore();
 const friendStore = useFriendStore();
 
@@ -80,7 +81,7 @@ function isConnection(id: number) {
     return ids.includes(id);
 }
 async function sendFriendRequest(id: string) {
-    await friendStore.sendRequest(id);
+    await sendRequest(id);
     emit('reload');
 }
 function sendMessage(user: StrippedUser) {
