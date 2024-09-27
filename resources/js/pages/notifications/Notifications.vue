@@ -29,12 +29,12 @@ import Pagination from '/js/components/global/Pagination.vue';
 import {computed, onBeforeUnmount, ref, watchEffect} from 'vue';
 import NotificationBlock from './components/NotificationBlock.vue';
 import {onMounted} from 'vue';
-import {useMessageStore} from '/js/store/messageStore';
 import {useUserStore} from '/js/store/userStore';
 import {socketConnected} from '/js/services/websocketService';
+import { getUnread } from '/js/services/messageService';
+import axios from 'axios';
 
 const loading = ref(true);
-const messageStore = useMessageStore();
 const notifications = ref<Notification[]>([]);
 const userStore = useUserStore();
 
@@ -43,16 +43,24 @@ const user = computed(() => userStore.user);
 const active = ref(false);
 
 onMounted(async() => {
-    notifications.value = await messageStore.getNotifications();
+    notifications.value = await getNotifications();
     active.value = true;
     loading.value = false;
 });
 
 async function deleteNotification(notificationId: number) {
-    notifications.value = await messageStore.deleteNotification(notificationId);
+    const {data} = await axios.delete(`/notifications/${notificationId}`);
+    notifications.value = data.data.notifications;
 }
 async function deleteNotificationAction(notificationId: number) {
-    notifications.value = await messageStore.deleteNotificationAction(notificationId);
+    const {data} = await axios.put(`/notifications/${notificationId}/disable-action`);
+    notifications.value = data.data;
+}
+
+async function getNotifications() {
+    const {data} = await axios.get('/notifications');
+    getUnread();
+    return data.data;
 }
 
 /*
@@ -62,7 +70,7 @@ function listenToNewNotifcations() {
     if (!user.value) return;
     window.Echo.private(`unread.${user.value.id}`)
         .listen('NewNotification', async () => {
-            if (active.value) notifications.value = await messageStore.getNotifications();
+            if (active.value) notifications.value = await getNotifications();
         });
 }
 

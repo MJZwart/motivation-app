@@ -14,7 +14,7 @@
         </div>    
         <FormControls
             :submit-text="$t('send-message')"
-            @submit="sendMessage"
+            @submit="prepareAndSendMessage"
             @cancel="$emit('close')"
         />
     </div>
@@ -25,9 +25,8 @@ import type {Conversation, NewMessage} from 'resources/types/message';
 import type {Friend} from 'resources/types/friend';
 import type {StrippedUser} from 'resources/types/user';
 import {ref} from 'vue';
-import {useMessageStore} from '/js/store/messageStore';
 import FormControls from '/js/components/global/FormControls.vue';
-const messageStore = useMessageStore();
+import { sendMessage } from '/js/services/messageService';
 
 const props = defineProps<{
     user: Friend | StrippedUser,
@@ -38,12 +37,12 @@ const emit = defineEmits(['close']);
 const message = ref<NewMessage>({
     message: '',
 });
-async function sendMessage() {
+async function prepareAndSendMessage() {
     message.value.recipient_id = props.user.id;
     if (props.conversation) {
         message.value.conversation_id = props.conversation.conversation_id;
     }
-    await messageStore.sendMessage(message.value);
+    await sendMessage(message.value);
     emit('close');
 }
 </script>
