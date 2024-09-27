@@ -110,6 +110,7 @@ import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
 import Pagination from '/js/components/global/Pagination.vue';
 import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
+import { sendRequest } from '/js/services/friendService';
 import axios from 'axios';
 import { getUnread, sendMessage } from '/js/services/messageService';
 
@@ -209,7 +210,7 @@ async function deleteMessage(message: Message) {
 }
 function addFriend(userId: string) {
     if (userId == null) return;
-    friendStore.sendRequest(userId);
+    sendRequest(userId);
 }
 function blockUser(user: StrippedUser) {
     // @ts-ignore Modal shenanigans
