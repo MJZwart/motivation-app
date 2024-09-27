@@ -61,7 +61,7 @@
                             </span>
                         </h5>
                         <div class="new-message mb-3">
-                            <form @submit.prevent="sendMessage">
+                            <form @submit.prevent="prepareAndSendMessage">
                                 <SimpleTextarea 
                                     id="message" 
                                     v-model="message.message"
@@ -99,7 +99,6 @@ import type {Conversation, Message, NewMessage} from 'resources/types/message';
 import type {StrippedUser} from 'resources/types/user';
 import {computed, ref, onMounted, watchEffect, onBeforeUnmount} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
-import {useMessageStore} from '/js/store/messageStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {useI18n} from 'vue-i18n';
 import {LOCK} from '/js/constants/iconConstants';
@@ -111,11 +110,12 @@ import ReportUser from './components/ReportUser.vue';
 import Dropdown from '/js/components/global/Dropdown.vue';
 import Pagination from '/js/components/global/Pagination.vue';
 import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
+import { sendRequest } from '/js/services/friendService';
 import axios from 'axios';
+import { getUnread, sendMessage } from '/js/services/messageService';
 
 const {t} = useI18n();
 
-const messageStore = useMessageStore();
 const userStore = useUserStore();
 const friendStore = useFriendStore();
 
@@ -146,16 +146,22 @@ const hasConversations = computed(() => !!conversations.value && !!conversations
 
 function markAsRead(conversation: Conversation) {
     if (hasUnreadMessages(conversation)) {
-        messageStore.markConversationRead(conversation.id);
+        axios.put(`/message/conversation/${conversation.id}/read`);
+        getUnread();
         setTimeout(() => {
             conversation.messages.forEach(message => {
                 message.read = true;
-            })}, 3000);
+            })}, 1000);
     }
 }
 
+async function getConversations(): Promise<Conversation[]> {
+    const {data} = await axios.get('/message/conversations');
+    return data.data;
+}
+
 async function load() {
-    conversations.value = await messageStore.getConversations();
+    conversations.value = await getConversations();
     resetConversation();
     if (conversations.value && conversations.value[0])
         markAsRead(conversations.value[0]);
@@ -170,13 +176,13 @@ function switchActiveConversation(key: number) {
     activeConversationIndex.value = key;
     markAsRead(conversations.value[key]);
 }
-async function sendMessage() {
+async function prepareAndSendMessage() {
     if (activeConversation.value == null) return;
     if (activeConversation.value.is_blocked) return;
     message.value.conversation_id = activeConversation.value.conversation_id;
     message.value.recipient_id = activeConversation.value.recipient.id;
-    await messageStore.sendMessage(message.value)
-    conversations.value = await messageStore.getConversations();
+    await sendMessage(message.value)
+    conversations.value = await getConversations();
     message.value.message = '';
     resetConversation();
 }
@@ -198,13 +204,13 @@ function limitMessage(messageString: string) {
 }
 async function deleteMessage(message: Message) {
     if (confirm(t('confirmation-delete-message'))) {
-        await messageStore.deleteMessage(message.id);
-        conversations.value = await messageStore.getConversations();
+        await axios.delete(`/message/${message.id}`);
+        conversations.value = await getConversations();
     }
 }
 function addFriend(userId: string) {
     if (userId == null) return;
-    friendStore.sendRequest(userId);
+    sendRequest(userId);
 }
 function blockUser(user: StrippedUser) {
     // @ts-ignore Modal shenanigans
@@ -227,7 +233,7 @@ function listenToNewMessages() {
     if (!user.value) return;
     window.Echo.private(`unread.${user.value.id}`)
         .listen('NewMessage', async () => {
-            if (active.value) conversations.value = await messageStore.getConversations();
+            if (active.value) conversations.value = await getConversations();
         });
 }
 

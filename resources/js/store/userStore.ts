@@ -10,8 +10,8 @@ import type {Blocked, Login, NewUser, Register, ResetPassword, User} from 'resou
 import type {UserSearch} from 'resources/types/global';
 import type {NewReportedUser} from 'resources/types/admin';
 import {useTaskStore} from './taskStore';
-import {useMessageStore} from './messageStore';
 import { fetchBanners, fetchDismissedBanners, setUserId } from '../components/maintenance/maintenanceBannerLogic';
+import { getUnread } from '../services/messageService';
 
 export const useUserStore = defineStore('user', {
     state: () => {
@@ -32,7 +32,7 @@ export const useUserStore = defineStore('user', {
             const {data} = await axios.post('/login', user);
             if (!data.user) router.push('/error'); //TODO Throw error that user is not set correctly
             this.setUser(data.user);
-            this.getUnread();
+            getUnread();
             fetchBanners();
             const friendStore = useFriendStore();
             friendStore.friends = data.user.friends;
@@ -49,7 +49,7 @@ export const useUserStore = defineStore('user', {
         async getMe() {
             const {data} = await axios.get('/me');
             this.setUser(data.user, !!data.user);
-            if (data.user) this.getUnread();
+            if (data.user) getUnread();
         },
         setUser(user: User | null, auth = true) {
             this.user = user;
@@ -62,13 +62,6 @@ export const useUserStore = defineStore('user', {
         setLanguage(lang: string) {
             if (lang !== 'en' && lang !== 'nl') return;
             changeLang(lang);
-        },
-
-        async getUnread() {
-            const {data} = await axios.get('/unread');
-            const messageStore = useMessageStore();
-            messageStore.hasMessages = data.hasMessages;
-            messageStore.hasNotifications = data.hasNotifications;
         },
 
         async getDashboard() {

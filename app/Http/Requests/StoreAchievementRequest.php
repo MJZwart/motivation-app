@@ -29,7 +29,7 @@ class StoreAchievementRequest extends FormRequest
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'trigger_type' => ['required', new ExistingAchievementType()],
-            'trigger_amount' => 'required|integer',
+            'trigger_amount' => 'required|integer|max:9999999999',
         ];
     }
 }

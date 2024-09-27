@@ -14,13 +14,6 @@ export const useFriendStore = defineStore('friend', {
         };
     },
     actions: {
-        async sendRequest(friendId: string) {
-            await axios.post('/friend/request/' + friendId);
-        },
-        async getRequests() {
-            const {data} = await axios.get('/friend/requests/all');
-            this.requests = data;
-        },
         async getFriends() {
             const {data} = await axios.get('/friend');
             this.friends = data.friends;

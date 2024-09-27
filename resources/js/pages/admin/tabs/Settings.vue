@@ -23,20 +23,20 @@
 <script setup lang="ts">
 import type {GlobalSetting} from 'resources/types/admin';
 import {onMounted, ref} from 'vue';
-import {useAdminStore} from '/js/store/adminStore';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {hasError} from '/js/services/errorService';
-
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 const settings = ref<GlobalSetting[]>([]);
 
 onMounted(async() => {
-    settings.value = await adminStore.getGlobalSettings();
+    const {data} = await axios.get('/admin/settings');
+    settings.value = data.data;
 });
 
 async function saveSettings() {
-    settings.value = await adminStore.saveGlobalSettings(settings.value);
+    const {data} = await axios.post('/admin/settings', settings.value);
+    settings.value = data.data;
 }
 </script>
 

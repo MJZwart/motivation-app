@@ -100,14 +100,14 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watchEffect} from 'vue';
 import Loading from '/js/components/global/Loading.vue';
-import {useAdminStore} from '/js/store/adminStore';
 import {deepCopy} from '/js/helpers/copy';
 import {ExperiencePoint} from 'resources/types/admin';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
-const adminStore = useAdminStore();
+import axios from 'axios';
 
 onMounted(async () => {
-    currentGroupExp.value = await adminStore.getGroupExp();
+    const {data} = await axios.get('/admin/group-exp');
+    currentGroupExp.value = data.data;
     newGroupExp.value = deepCopy(currentGroupExp.value);
     getCurrentGroupExpCalculation();
     loading.value = false;
@@ -183,7 +183,8 @@ function generateTable() {
 async function submit() {
     loading.value = true;
     generateTable();
-    newGroupExp.value = await adminStore.saveGroupExp(newExpTable.value);
+    const {data} = await axios.post('/admin/group-exp', newExpTable.value);
+    newGroupExp.value = data.data;
     loading.value = false;
 }
 
