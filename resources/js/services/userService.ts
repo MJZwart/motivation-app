@@ -5,6 +5,7 @@ import { computed, ref } from 'vue';
 import router from '/js/router/router';
 import {changeLang} from '../services/languageService';
 import { getUnread } from './messageService';
+import { Friend } from 'resources/types/friend';
 
 export const user = ref<User | null>();
 export const authenticated = computed(() => user.value !== null);
@@ -30,6 +31,10 @@ export const setUser = async(userToSet: User | null) => {
     // Dynamic import to prevent circular dependencies
     const { fetchDismissedBanners } = await import('/js/components/maintenance/maintenanceBannerLogic');
     fetchDismissedBanners();
+}
+export const updateUserFriends = (friends: Friend[]) => {
+    if(!user.value) return;
+    user.value.friends = friends;
 }
 const setLanguage = (lang: string) => {
     if (lang !== 'en' && lang !== 'nl') return;

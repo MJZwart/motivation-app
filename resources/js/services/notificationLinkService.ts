@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useFriendStore} from '/js/store/friendStore';
+import { acceptRequest, denyRequest } from './friendService';
 
 /**
  * Handles all notification links. Checks what the url type is (eg 'friend')
@@ -24,7 +24,7 @@ export async function handleNotificationLink(apiType: string, url: string): Prom
 
 /**
  * Handles the friend requests. It takes the type of action (accept/deny) out of
- * the url, as well as the request ID, and uses the friendStore to handle the action.
+ * the url, as well as the request ID, and uses the friendService to handle the action.
  * This way the friends are still sent back to the store, updated.
  * @param {string} url
  * @returns {Promise<boolean>}
@@ -32,10 +32,9 @@ export async function handleNotificationLink(apiType: string, url: string): Prom
 async function handleFriendRequests(url: string): Promise<boolean> {
     const action = url.split('/')[4];
     const requestId = parseInt(url.split('/')[3]);
-    const friendStore = useFriendStore();
     let success = false;
-    if (action == 'accept') success = await friendStore.acceptRequest(requestId);
-    else if (action == 'deny') success = await friendStore.denyRequest(requestId);
+    if (action == 'accept') success = await acceptRequest(requestId);
+    else if (action == 'deny') success = await denyRequest(requestId);
     return success;
 }
 

@@ -71,12 +71,10 @@ import {SEARCH_RESULTS_FIELDS} from '/js/constants/userConstants.js';
 import {useGroupStore} from '/js/store/groupStore';
 import Table from '/js/components/global/Table.vue';
 import {UserSearch} from 'resources/types/global';
-import {useFriendStore} from '/js/store/friendStore';
-import {Friend} from 'resources/types/friend';
 import { searchUser } from '/js/services/userService';
+import { friends } from '/js/services/friendService';
 
 const groupStore = useGroupStore();
-const friendStore = useFriendStore();
 const searchResultsFields = SEARCH_RESULTS_FIELDS;
 
 const loading = ref(true);
@@ -85,7 +83,6 @@ const props = defineProps<{group: GroupPage}>();
 
 onMounted(async () => {
     loading.value = true;
-    await friendStore.getFriends();
     if (props.group !== null) {
         groupMemberIds.value = props.group.members.map(member => member.id);
     }
@@ -93,7 +90,6 @@ onMounted(async () => {
 });
 defineEmits(['close']);
 
-const friends = computed<Array<Friend> | null>(() => friendStore.friends);
 const groupMemberIds = ref<Array<number> | null>(null);
 
 const searchData = ref<UserSearch>({

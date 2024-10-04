@@ -51,20 +51,16 @@
 </template>
 
 <script setup lang="ts">
-import {computed} from 'vue';
 import {CHECK_SQUARE, CROSS_SQUARE} from '/js/constants/iconConstants';
-import {useFriendStore} from '/js/store/friendStore';
-const friendStore = useFriendStore();
-
-const requests = computed(() => friendStore.requests);
+import { acceptRequest, denyRequest, removeRequest, requests } from '/js/services/friendService';
 
 function removeFriendRequest(requestId: number) {
-    friendStore.removeRequest(requestId);
+    removeRequest(requestId);
 }
 function denyFriendRequest(requestId: number) {
-    friendStore.denyRequest(requestId);
+    denyRequest(requestId);
 }
 function acceptFriendRequest(requestId: number) {
-    friendStore.acceptRequest(requestId);
+    acceptRequest(requestId);
 }
 </script>

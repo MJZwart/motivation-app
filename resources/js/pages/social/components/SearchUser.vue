@@ -47,15 +47,13 @@
 
 <script setup lang="ts">
 import Table from '/js/components/global/Table.vue';
-import {ref, computed} from 'vue';
+import {ref} from 'vue';
 import {SEARCH_RESULTS_FIELDS} from '/js/constants/userConstants.js';
-import {useFriendStore} from '/js/store/friendStore';
 import type {StrippedUser} from 'resources/types/user';
 import {FRIEND, MAIL} from '/js/constants/iconConstants';
 import {sendMessageModal} from '/js/components/modal/modalService';
-import { sendRequest } from '/js/services/friendService';
+import { friends, requests, sendRequest } from '/js/services/friendService';
 import { searchUser } from '/js/services/userService';
-const friendStore = useFriendStore();
 
 const emit = defineEmits(['reload']);
 
@@ -86,9 +84,6 @@ async function sendFriendRequest(id: string) {
 function sendMessage(user: StrippedUser) {
     sendMessageModal(user.username, user.id);
 }
-
-const friends = computed(() => friendStore.friends);
-const requests = computed(() => friendStore.requests);
 </script>
 
 <style>
