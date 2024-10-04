@@ -57,8 +57,6 @@ export const removeFriend = async(friendId: number) => {
     }
 }
 
-
-
 /**
  * I've added this error handler with the try-catch blocks because either user can
  * make a change to the friendship. If one user deletes the friendship while the other
