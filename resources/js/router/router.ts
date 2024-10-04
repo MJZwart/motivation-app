@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
             return next({path: '/login'});
         }
 
-        if (to.meta.requiresAdmin && !isAdmin) {
+        if (to.meta.requiresAdmin && !isAdmin.value) {
             errorToast('You are not authorized to view this page');
             return next({path: '/dashboard'});
         }
