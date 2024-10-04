@@ -4,7 +4,6 @@ import axios from 'axios';
 import { computed, ref } from 'vue';
 import router from '/js/router/router';
 import {changeLang} from '../services/languageService';
-import { fetchDismissedBanners } from '/js/components/maintenance/maintenanceBannerLogic';
 import { getUnread } from './messageService';
 
 export const user = ref<User | null>();
@@ -25,10 +24,11 @@ export const getMe = async() => {
     setUser(data.user);
     if (data.user) getUnread();
 }
-export const setUser = (userToSet: User | null) => { // Probably shouldn't export this
-    console.log(userToSet);
+export const setUser = async(userToSet: User | null) => {
     user.value = userToSet;
     if (userToSet) setLanguage(userToSet.language);
+    // Dynamic import to prevent circular dependencies
+    const { fetchDismissedBanners } = await import('/js/components/maintenance/maintenanceBannerLogic');
     fetchDismissedBanners();
 }
 const setLanguage = (lang: string) => {

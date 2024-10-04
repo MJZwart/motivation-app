@@ -5,6 +5,7 @@ import '../assets/scss/app.scss';
 import {createApp} from 'vue';
 import App from './App.vue';
 import {fetchDefaultTheme} from '/js/services/themeService';
+import { getMe } from './services/userService';
 
 const app = createApp(App);
 
@@ -68,7 +69,6 @@ app.component('SimpleFormCheckbox', SimpleFormCheckbox);
 import ContentBlock from '/js/components/global/ContentBlock.vue';
 app.component('ContentBlock', ContentBlock);
 import {Icon} from '@iconify/vue';
-import { getMe } from './services/userService';
 app.component('Icon', Icon);
 
 app.mount('#app');
