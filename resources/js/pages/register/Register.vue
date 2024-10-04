@@ -84,18 +84,18 @@
 
 
 <script setup lang="ts">
-import {onMounted, reactive, ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
+import {onMounted, ref} from 'vue';
 import {Register} from 'resources/types/user';
 import {currentLang} from '/js/services/languageService';
 import {clearErrors, hasError} from '/js/services/errorService';
 import AuthBase from './components/AuthBase.vue';
 import {Icon} from '@iconify/vue';
 import {getRandomUsername} from '/js/helpers/randomNames';
+import { continueGuestAccount, setUser } from '/js/services/userService';
+import axios from 'axios';
+import router from '/js/router/router';
 
-const userStore = useUserStore();
-
-const register = reactive<Register>({
+const register = ref<Register>({
     username: '',
     email: '',
     password: '',
@@ -103,9 +103,12 @@ const register = reactive<Register>({
     agree_to_tos: false,
     language: currentLang.value,
 });
-function submitRegister() {
+async function submitRegister() {
     clearErrors();
-    userStore.register(register);
+
+    const {data} = await axios.post('/register', register.value);
+    setUser(data.data.user);
+    router.push('/dashboard');
 }
 
 const guestAccount = ref(false);
@@ -115,14 +118,8 @@ onMounted(() => {
     guestAccount.value = !!localToken;
 });
 
-function continueGuestAccount() {
-    if (!guestAccount.value) return;
-
-    userStore.continueGuestAccount();
-}
-
 function generateRandomName() {
-    register.username = getRandomUsername();
+    register.value.username = getRandomUsername();
 }
 </script>
 

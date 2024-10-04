@@ -34,18 +34,22 @@
 import {ref} from 'vue';
 import AuthBase from './components/AuthBase.vue';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
-import {useUserStore} from '/js/store/userStore';
-
-const userStore = useUserStore();
+import axios from 'axios';
+import { setUser } from '/js/services/userService';
+import router from '/js/router/router';
 
 const chosenReward = ref('');
 function selectRewardType(rewards: string) {
     chosenReward.value = rewards;
 }
 
-function createGuestAccount() {
+async function createGuestAccount() {
     if (!chosenReward.value) return;
-    userStore.createGuestAccount({'reward': chosenReward.value})
+    const {data} = await axios.post('/guest-account', {'reward': chosenReward.value});
+    localStorage.setItem('guestToken',
+        JSON.stringify(data.data.loginToken));
+    setUser(data.data.user);
+    router.push('/dashboard')
 }
 </script>
 

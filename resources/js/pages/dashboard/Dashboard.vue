@@ -5,7 +5,7 @@
             <div class="home-grid">
                 <div class="task-lists">
                     <template v-for="(list, index) in taskLists" :key="index">
-                        <TaskList :taskList="list" class="task-list" />
+                        <TaskListComp :taskList="list" class="task-list" />
                     </template>
                     <div class="task-list-button border-1">
                         <button type="button" class="block new-task-list-button" @click="showNewTaskList">
@@ -33,32 +33,34 @@
 </template>
 
 <script setup lang="ts">
-import type {NewTaskList} from 'resources/types/task';
-import TaskList from './components/TaskList.vue';
+import type {TaskList, NewTaskList} from 'resources/types/task';
+import TaskListComp from './components/TaskList.vue';
 import RewardCard from './components/reward/RewardCard.vue';
 import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import {onBeforeMount, ref, computed} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
 import {useRewardStore} from '/js/store/rewardStore';
-import {useUserStore} from '/js/store/userStore';
 import {formModal} from '/js/components/modal/modalService';
 import {getNewTaskList} from './taskService';
 import CreateEditTaskList from './components/CreateEditTaskList.vue';
 import TemplatesButton from './components/template/TemplatesButton.vue';
+import axios from 'axios';
+import { activeReward } from '/js/services/villageService';
+import { isGuest } from '/js/services/userService';
 
-const userStore = useUserStore();
 const taskStore = useTaskStore();
 const rewardStore = useRewardStore();
-const isGuest = computed(() => userStore.user ? userStore.user.guest : true);
 
 const loading = ref(true);
 
-const taskLists = computed(() => taskStore.taskLists);
+const taskLists = ref<TaskList[]>([]);
 const rewardObj = computed(() => rewardStore.rewardObj);
 
 onBeforeMount(async () => {
-    //Fetches all dashboard data and stores it in the store
-    await userStore.getDashboard();
+    const {data} = await axios.get('/user/dashboard');
+    taskLists.value = data.taskLists;
+    activeReward.value = data.rewardObj; // TODO Make sure the naming is correct
+
     taskStore.getTemplates();
     loading.value = false;
 });

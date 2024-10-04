@@ -108,7 +108,6 @@ import {onMounted, ref, computed} from 'vue';
 import {REWARD_TYPES, REWARD_FIELDS} from '/js/constants/rewardConstants';
 import EditRewardObjectName from '../components/EditRewardObjectName.vue';
 import Table from '/js/components/global/Table.vue';
-import {useUserStore} from '/js/store/userStore';
 import {useRewardStore} from '/js/store/rewardStore';
 import {useI18n} from 'vue-i18n';
 import {capitalizeOnlyFirst} from '/js/services/stringService';
@@ -118,8 +117,10 @@ import {formModal} from '/js/components/modal/modalService';
 import {clearErrors, hasError} from '/js/services/errorService';
 import {Icon} from '@iconify/vue';
 import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
+import axios from 'axios';
+import { setUser, user } from '/js/services/userService';
+import { activeReward } from '/js/services/villageService';
 
-const userStore = useUserStore();
 const rewardStore = useRewardStore();
 const {t} = useI18n();
 
@@ -134,7 +135,6 @@ const rewardSetting = ref<ChangeReward>({
 const rewardTypes = REWARD_TYPES;
 const rewardFields = REWARD_FIELDS;
 const loading = ref(true);
-const user = computed(() => userStore.user);
 const characters = ref<Reward[]>([]);
 const villages = ref<Reward[]>([]);
 
@@ -191,7 +191,9 @@ const rewardItems = computed(() => {
     return rewardItems;
 });
 async function confirmRewardsSettings() {
-    await userStore.changeRewardType(rewardSetting.value);
+    const {data} = await axios.put('/user/settings/rewards', rewardSetting.value);
+    setUser(data.data.user);
+
     rewardSetting.value.keepOldInstance = null;
     rewardSetting.value.newObjectName = null;
     load();

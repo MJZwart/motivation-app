@@ -29,9 +29,7 @@ fetchDefaultTheme();
 import {createPinia} from 'pinia';
 app.use(createPinia());
 
-import {useUserStore} from './store/userStore';
-const userStore = useUserStore();
-await userStore.getMe();
+await getMe();
 
 //Import router
 import router from './router/router';
@@ -70,6 +68,7 @@ app.component('SimpleFormCheckbox', SimpleFormCheckbox);
 import ContentBlock from '/js/components/global/ContentBlock.vue';
 app.component('ContentBlock', ContentBlock);
 import {Icon} from '@iconify/vue';
+import { getMe } from './services/userService';
 app.component('Icon', Icon);
 
 app.mount('#app');

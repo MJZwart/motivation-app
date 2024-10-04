@@ -20,11 +20,8 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import AuthBase from './components/AuthBase.vue';
 import axios from 'axios';
-
-const userStore = useUserStore();
 
 const email = ref({
     email: '',

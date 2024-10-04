@@ -32,13 +32,11 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import {useRoute, useRouter} from 'vue-router';
 import AuthBase from './components/AuthBase.vue';
 import axios from 'axios';
 
 const route = useRoute();
-const userStore = useUserStore();
 const router = useRouter();
 
 const resetPassword = ref({

@@ -135,17 +135,14 @@
 
 <script setup lang="ts">
 import {onMounted, ref, computed} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import ToggleButton from '/js/components/global/ToggleButton.vue';
 import type {PasswordSettings, EmailSettings} from 'resources/types/settings';
 import ChangeLanguage from '../../../components/global/ChangeLanguage.vue';
 import {currentTheme, setCurrentTheme} from '/js/services/themeService';
 import {Register} from 'resources/types/user';
-
-const userStore = useUserStore();
-
-const user = computed(() => userStore.user);
-const isGuest = computed(() => userStore.user ? userStore.user.guest : true);
+import axios from 'axios';
+import { logout, setUser, user, isGuest } from '/js/services/userService';
+import router from '/js/router/router';
 
 const accountCredentials = ref<Register>({
     username: user.value?.username ?? '',
@@ -173,23 +170,30 @@ function setupSettings() {
     loading.value = false;
 }
 
-function submitPasswordSettings() {
-    userStore.updatePassword(passwordSettings.value);
+async function submitPasswordSettings() {
+    await axios.put('/user/settings/password', passwordSettings.value);
+    logout();
 }
-function submitEmailSettings() {
-    userStore.updateEmail(emailSettings.value);
-    // TODO doesn't update the page
+async function submitEmailSettings() {
+    const {data} = await axios.put('/user/settings/email', emailSettings.value);
+    setUser(data.data.user);
+    accountCredentials.value.email = data.data.user.email;
 }
-function toggleShowTutorial() {
+async function toggleShowTutorial() {
     if (!user.value) return;
-    userStore.toggleTutorial({show: !user.value.show_tutorial});
+
+    const {data} = await axios.put('/user/settings/tutorial', {show: !user.value.show_tutorial});
+    setUser(data.data.user);
 }
 function toggleDarkMode() {
     currentTheme.value === 'dark' ? setCurrentTheme('light', true) : setCurrentTheme('dark', true);
 }
 
-function submitUpgradeGuestAccount() {
+async function submitUpgradeGuestAccount() {
     if (!user.value) return;
-    userStore.upgradeGuestAccount(accountCredentials.value, user.value?.id);
+    const {data} = await axios.post('/guest-account/'+user.value?.id+'/upgrade', accountCredentials.value);
+    setUser(data.data.user);
+    localStorage.removeItem('guestToken');
+    router.push('/dashboard');
 }
 </script>

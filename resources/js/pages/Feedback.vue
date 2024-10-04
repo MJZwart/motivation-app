@@ -17,7 +17,7 @@
                 <BaseFormError name="type" />
             </div>
             <SimpleTextarea id="feedback" v-model="feedback.text" :rows="4" :label="$t('feedback')" name="feedback" />
-            <SimpleInput v-if="!auth" id="email" v-model="feedback.email" name="email" :label="$t('email')" />
+            <SimpleInput v-if="!authenticated" id="email" v-model="feedback.email" name="email" :label="$t('email')" />
             <SimpleFormCheckbox 
                 id="diagnostics" 
                 v-model="feedback.diagnostics_approval" 
@@ -30,14 +30,13 @@
 
 <script setup lang="ts">
 import type {NewFeedback} from 'resources/types/feedback';
-import {ref, computed} from 'vue';
+import {ref} from 'vue';
 import {FEEDBACK_TYPES} from '/js/constants/feedbackConstants.js';
 import {useMainStore} from '/js/store/store';
-import {useUserStore} from '/js/store/userStore';
 import {getDiagnostics} from '/js/services/platformService';
+import { authenticated, user } from '../services/userService';
 
 const mainStore = useMainStore();
-const userStore = useUserStore();
 
 const emptyFeedback = {
     type: 'FEEDBACK',
@@ -48,9 +47,6 @@ const emptyFeedback = {
 
 const feedback = ref<NewFeedback>({...emptyFeedback});
 const feedbackTypes = FEEDBACK_TYPES;
-
-const user = computed(() => userStore.user);
-const auth = computed(() => userStore.authenticated);
 
 async function sendFeedback() {
     if (feedback.value.diagnostics_approval)

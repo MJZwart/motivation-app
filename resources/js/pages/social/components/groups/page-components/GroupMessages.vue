@@ -35,19 +35,16 @@
 <script setup lang="ts">
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import type {GroupMessage, GroupPage} from 'resources/types/group';
-import {computed, onMounted, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useGroupStore} from '/js/store/groupStore';
 import GroupMessageComp from './GroupMessage.vue';
-import {useUserStore} from '/js/store/userStore';
 import Pagination from '/js/components/global/Pagination.vue';
+import { user } from '/js/services/userService';
 
 const props = defineProps<{group: GroupPage}>();
 
 const groupStore = useGroupStore();
-const userStore = useUserStore();
 const loading = ref(true);
-
-const user = computed(() => userStore.user);
 
 const messages = ref<GroupMessage[]>([]);
 const newMessage = ref({

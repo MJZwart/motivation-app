@@ -13,7 +13,7 @@
                     aria-label="Search user"
                     class="w-80 mr-2"
                 />
-                <SubmitButton @click="searchUser" class="w-15">{{ $t('search') }}</SubmitButton>
+                <SubmitButton @click="startSearch" class="w-15">{{ $t('search') }}</SubmitButton>
             </form>
 
             <!-- The search results -->
@@ -69,14 +69,13 @@ import {User} from 'resources/types/user';
 import {ref, computed, onMounted} from 'vue';
 import {SEARCH_RESULTS_FIELDS} from '/js/constants/userConstants.js';
 import {useGroupStore} from '/js/store/groupStore';
-import {useUserStore} from '/js/store/userStore';
 import Table from '/js/components/global/Table.vue';
 import {UserSearch} from 'resources/types/global';
 import {useFriendStore} from '/js/store/friendStore';
 import {Friend} from 'resources/types/friend';
+import { searchUser } from '/js/services/userService';
 
 const groupStore = useGroupStore();
-const userStore = useUserStore();
 const friendStore = useFriendStore();
 const searchResultsFields = SEARCH_RESULTS_FIELDS;
 
@@ -108,8 +107,8 @@ const filteredSearchResults = computed(() => {
 const searchResults = ref<Array<User> | null>(null);
 
 /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
-async function searchUser() {
-    searchResults.value = await userStore.searchUser(searchData.value);
+async function startSearch() {
+    searchResults.value = await searchUser(searchData.value);
 }
 
 async function inviteUser(userId: number) {

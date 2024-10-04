@@ -9,7 +9,7 @@
                 type="search" 
                 :placeholder="$t('search-user')" 
                 aria-label="Search user" />
-            <SubmitButton class="mb-0" @click="searchUser">{{ $t('search') }}</SubmitButton>
+            <SubmitButton class="mb-0" @click="startSearch">{{ $t('search') }}</SubmitButton>
         </form>
 
         <!-- The search results -->
@@ -49,13 +49,12 @@
 import Table from '/js/components/global/Table.vue';
 import {ref, computed} from 'vue';
 import {SEARCH_RESULTS_FIELDS} from '/js/constants/userConstants.js';
-import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 import type {StrippedUser} from 'resources/types/user';
 import {FRIEND, MAIL} from '/js/constants/iconConstants';
 import {sendMessageModal} from '/js/components/modal/modalService';
 import { sendRequest } from '/js/services/friendService';
-const userStore = useUserStore();
+import { searchUser } from '/js/services/userService';
 const friendStore = useFriendStore();
 
 const emit = defineEmits(['reload']);
@@ -67,8 +66,8 @@ const searchResultsFields = SEARCH_RESULTS_FIELDS;
 
 const searchResults = ref<StrippedUser[] | null>(null);
 /** Searches for a user by their username, case-insensitive and includes all that contains the search params */
-async function searchUser() {
-    searchResults.value = await userStore.searchUser(data.value);
+async function startSearch() {
+    searchResults.value = await searchUser(data.value);
 }
 /** Checks if a given user (by id) is already friends with the logged in user or a request is already sent */
 function isConnection(id: number) {

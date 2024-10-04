@@ -28,14 +28,12 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue';
 import {REPORT_REASONS} from '/js/constants/reportUserConstants';
-import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
 import type {StrippedUser} from 'resources/types/user';
 import type {NewReportedUser} from 'resources/types/admin';
 import FormControls from '/js/components/global/FormControls.vue';
 import axios from 'axios';
 const {t} = useI18n();
-const userStore = useUserStore();
 
 const emit = defineEmits(['close']);
 const props = defineProps<{

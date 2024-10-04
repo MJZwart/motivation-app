@@ -14,7 +14,7 @@
                 <router-link to="/overview">{{ $t('overview') }}</router-link>
                 <router-link v-if="!isGuest" to="/social">{{$t('social')}}</router-link>
 
-                <div v-if="admin && windowWidth > 350">
+                <div v-if="isAdmin && windowWidth > 350">
                     <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
                 </div>
 
@@ -40,7 +40,7 @@
                                 {{ user?.username }}
                             </router-link>
                         </section>
-                        <section v-if="admin && windowWidth < 350" class="option">
+                        <section v-if="isAdmin && windowWidth < 350" class="option">
                             <router-link to="/admindashboard">{{ $t('admin') }}</router-link>
                         </section>
                         <section v-if="windowWidth < 450 && !isGuest" class="option">
@@ -66,34 +66,22 @@
 
 <script setup>
 import Dropdown from '/js/components/global/Dropdown.vue';
-import {useUserStore} from '/js/store/userStore';
 import {computed, onMounted, ref, watch} from 'vue';
 import {MAIL, DOT, NOTIFICATION} from '../constants/iconConstants';
 import {socketConnected} from '/js/services/websocketService';
 import MaintenanceBanner from './maintenance/MaintenanceBanner.vue';
 import { hasMessages, hasNotifications } from '../services/messageService';
+import { authenticated, isAdmin, logout, user, isGuest } from '../services/userService';
 
 onMounted(() => {
     window.addEventListener('resize', handleResize);
     listenToUnread();
 });
 
-const userStore = useUserStore();
-
-const authenticated = computed(() => userStore.authenticated);
-const user = computed(() => userStore.user);
-const admin = computed(() => userStore.isAdmin);
-
-const isGuest = computed(() => userStore.user ? userStore.user.guest : true);
-
 const windowWidth = ref(window.innerWidth);
 
 function handleResize() {
     windowWidth.value = window.innerWidth;
-}
-
-function logout() {
-    userStore.logout();
 }
 
 function listenToUnread() {
