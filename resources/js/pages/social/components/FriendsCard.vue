@@ -1,53 +1,40 @@
 <template>
     <div>
-        <Loading v-if="loading" />
-        <div v-else>
-            <ContentBlock title="friends" :tutorial="manage">
-                <ul v-if="friends.length > 0" class="mb-1 no-list-style text-decoration-none primary-text">
-                    <li v-for="(friend, index) in friends" :key="index">
-                        <span v-if="manage">
-                            <Tooltip :text="$t('remove-friend')">
-                                <Icon
-                                    :icon="CROSS_SQUARE"
-                                    class="cross-square-icon small red"
-                                    @click="removeFriend(friend)"
-                                />
-                            </Tooltip>
-                        </span>
-                        <span v-if="message">
-                            <Tooltip :text="$t('send-message')">
-                                <Icon :icon="MAIL" class="mail-icon small" @click="sendMessage(friend)" />
-                            </Tooltip>
-                        </span>
-                        <router-link :to="{name: 'profile', params: {id: friend.id}}">
-                            {{ friend.username }}
-                        </router-link>
-                    </li>
-                </ul>
-                <p v-else class="mb-1">{{ $t('no-friends') }}</p>
-            </ContentBlock>
-        </div>
+        <ContentBlock title="friends" :tutorial="manage">
+            <ul v-if="activeFriends.length > 0" class="mb-1 no-list-style text-decoration-none primary-text">
+                <li v-for="(friend, index) in activeFriends" :key="index">
+                    <span v-if="manage">
+                        <Tooltip :text="$t('remove-friend')">
+                            <Icon
+                                :icon="CROSS_SQUARE"
+                                class="cross-square-icon small red"
+                                @click="promptRemoveFriend(friend)"
+                            />
+                        </Tooltip>
+                    </span>
+                    <span v-if="message">
+                        <Tooltip :text="$t('send-message')">
+                            <Icon :icon="MAIL" class="mail-icon small" @click="sendMessage(friend)" />
+                        </Tooltip>
+                    </span>
+                    <router-link :to="{name: 'profile', params: {id: friend.id}}">
+                        {{ friend.username }}
+                    </router-link>
+                </li>
+            </ul>
+            <p v-else class="mb-1">{{ $t('no-friends') }}</p>
+        </ContentBlock>
     </div>
 </template>
 
 <script setup lang="ts">
 import type {Friend} from 'resources/types/friend';
-import {ref, computed, onMounted, PropType} from 'vue';
-import {useFriendStore} from '/js/store/friendStore';
+import {computed, PropType} from 'vue';
 import {CROSS_SQUARE, MAIL} from '/js/constants/iconConstants';
 import {sendMessageModal} from '/js/components/modal/modalService';
+import { friends, removeFriend } from '/js/services/friendService';
 
-const friendStore = useFriendStore();
-
-onMounted(async () => {
-    loading.value = true;
-    if (!props.friends) await friendStore.getFriends();
-    loading.value = false;
-});
-
-const loading = ref(true);
-
-const friends = computed(() => (props.friends ? props.friends : friendStore.friends));
+const activeFriends = computed(() => (props.friends ? props.friends : friends.value));
 
 const props = defineProps({
     manage: {
@@ -69,9 +56,9 @@ function sendMessage(friend: Friend) {
     sendMessageModal(friend.username, friend.id);
 }
 
-function removeFriend(friend: Friend) {
+function promptRemoveFriend(friend: Friend) {
     if (props.manage && confirm('Are you sure you wish to remove ' + friend.username + ' as friend?')) {
-        friendStore.removeFriend(friend.friendship_id);
+        removeFriend(friend.friendship_id);
     }
 }
 </script>
