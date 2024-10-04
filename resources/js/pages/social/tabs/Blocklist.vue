@@ -30,12 +30,10 @@
 import type {Blocked} from 'resources/types/user';
 import {onMounted, ref} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
-import {useUserStore} from '/js/store/userStore';
 import {UNLOCK} from '/js/constants/iconConstants';
 import ConfirmUnblock from '../components/ConfirmUnblock.vue';
 import {formModal} from '/js/components/modal/modalService';
-
-const userStore = useUserStore();
+import axios from 'axios';
 
 onMounted(() => {
     load();
@@ -46,7 +44,8 @@ const loading = ref(true);
 const blocklist = ref<Blocked[] | []>([]);
 async function load() {
     loading.value = true;
-    blocklist.value = await userStore.getBlocklist();
+    const {data} = await axios.get('/user/blocklist');
+    blocklist.value = data.blockedUsers;
     loading.value = false;
 }
 
@@ -55,7 +54,7 @@ async function unblock(blockedUser: Blocked) {
     formModal(blockedUser, ConfirmUnblock, submitUnblock, 'confirm-unblock');
 }
 async function submitUnblock({blockedUser, restoreMessages}: {blockedUser: Blocked, restoreMessages: boolean}) {
-    await userStore.unblockUser(blockedUser.id, {'restoreMessages': restoreMessages});
+    await axios.put(`/user/${blockedUser.id}/unblock`, {'restoreMessages': restoreMessages});
     load();
 }
 </script>

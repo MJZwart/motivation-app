@@ -28,13 +28,12 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue';
 import {REPORT_REASONS} from '/js/constants/reportUserConstants';
-import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
 import type {StrippedUser} from 'resources/types/user';
 import type {NewReportedUser} from 'resources/types/admin';
 import FormControls from '/js/components/global/FormControls.vue';
+import axios from 'axios';
 const {t} = useI18n();
-const userStore = useUserStore();
 
 const emit = defineEmits(['close']);
 const props = defineProps<{
@@ -51,7 +50,7 @@ const report = ref<NewReportedUser>({reason: '', comment: ''});
 async function reportUser() {
     if (props.conversation_id) report.value.conversation_id = props.conversation_id;
     if (props.group_id) report.value.group_id = props.group_id;
-    await userStore.reportUser(props.user.id, report.value);
+    await axios.post('/user/' + props.user.id + '/report', report.value);
     emit('close');
 }
 </script>

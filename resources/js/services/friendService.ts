@@ -1,7 +1,9 @@
+import { computed, ref } from "vue";
+import { user } from "./userService";
 import axios from "axios";
 import { Friend, FriendRequest, FriendRequests } from "resources/types/friend";
-import { ref } from "vue";
 
+export const friends = computed<Friend[]>(() => user.value?.friends ?? []);
 export const requests = ref<FriendRequests>();
 
 export const sendRequest = async(friendId: string) => {

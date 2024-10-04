@@ -20,10 +20,8 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import AuthBase from './components/AuthBase.vue';
-
-const userStore = useUserStore();
+import axios from 'axios';
 
 const email = ref({
     email: '',
@@ -31,8 +29,7 @@ const email = ref({
 const resetLinkSent = ref(false);
 
 async function sendPasswordReset() {
-    await userStore.resetPassword(email.value);
+    await axios.post('/send-reset-password', email.value);
     resetLinkSent.value = true;
-
 }
 </script>

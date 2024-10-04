@@ -21,21 +21,19 @@ import AchievementsCard from './components/AchievementsCard.vue';
 import RewardCard from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import Timeline from './components/Timeline.vue';
 import {computed, onMounted, ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
-import {useRewardStore} from '/js/store/rewardStore';
 import {Achievement} from 'resources/types/achievement';
 import type {UserStats} from 'resources/types/user';
 import UserStatsVue from './components/UserStats.vue';
 import HorizontalTabControls, {TabItem} from '/js/components/global/tabs/HorizontalTabControls.vue';
-
-const userStore = useUserStore();
-const rewardStore = useRewardStore();
+import { user } from '/js/services/userService';
+import axios from 'axios';
+import { Reward } from 'resources/types/reward';
 
 const tabs = ref<TabItem[]>([]);
 const activeTab = ref('');
 const loading = ref(true);
 onMounted(async () => {
-    const data = await userStore.getOverview();
+    const {data} = await axios.get('/user/overview');
     userStats.value = data.stats;
     achievements.value = data.achievements;
     tabs.value = [
@@ -43,14 +41,17 @@ onMounted(async () => {
         {key: 'timeline'},
         {key: 'stats'},
     ];
-    if (rewardObj.value) tabs.value.push({key: rewardObj.value?.rewardType.toLowerCase()});
+    if (data.rewardObj) {
+        rewardObj.value = data.rewardObj;
+        tabs.value.push({key: data.rewardObj?.rewardType.toLowerCase()});
+    }
     activeTab.value = tabs.value[0].key;
     loading.value = false;
 });
 
-const userId = computed(() => userStore.user?.id);
+const userId = computed(() => user.value?.id);
 
-const rewardObj = computed(() => rewardStore.rewardObj);
+const rewardObj = ref<Reward | null>(null);
 const achievements = ref<Achievement[]>([]);
 const userStats = ref<UserStats | null>(null);
 </script>

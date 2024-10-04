@@ -20,15 +20,10 @@ import BlocklistTutorial from '../tutorial/BlocklistTutorial.vue';
 import CharacterTutorial from '../tutorial/CharacterTutorial.vue';
 import VillageTutorial from '../tutorial/VillageTutorial.vue';
 import TemplatesTutorial from '../tutorial/TemplatesTutorial.vue';
-import {useUserStore} from '/js/store/userStore';
 import {QUESTION} from '/js/constants/iconConstants';
+import { user } from '/js/services/userService';
 
-const userStore = useUserStore();
-
-const tutorialActive = computed(() => {
-    if (!userStore.user) return false;
-    return userStore.user.show_tutorial;
-});
+const tutorialActive = computed(() => user.value && user.value.show_tutorial);
 
 const props = defineProps({
     tutorial: {

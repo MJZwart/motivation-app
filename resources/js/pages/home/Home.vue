@@ -46,11 +46,9 @@ import TaskList from './DummyTaskList.vue';
 import Character from '/js/pages/dashboard/components/reward/RewardCard.vue';
 import {dummyCharacterRef, dummyTaskListRef} from './homepageService';
 import {computed, onMounted, ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
+import { continueGuestAccount } from '/js/services/userService';
 const {t} = useI18n(); // use as global scope;
-
-const userStore = useUserStore();
 
 const dummyList = dummyTaskListRef;
 const dummyCharacter = dummyCharacterRef;
@@ -64,12 +62,6 @@ onMounted(() => {
     const localToken = localStorage.getItem('guestToken');
     guestAccount.value = !!localToken;
 });
-
-function continueGuestAccount() {
-    if (!guestAccount.value) return;
-
-    userStore.continueGuestAccount();
-}
 </script>
 
 <style lang="scss" scoped>

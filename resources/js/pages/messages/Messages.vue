@@ -99,11 +99,9 @@ import type {Conversation, Message, NewMessage} from 'resources/types/message';
 import type {StrippedUser} from 'resources/types/user';
 import {computed, ref, onMounted, watchEffect, onBeforeUnmount} from 'vue';
 import {parseDateTime} from '/js/services/dateService';
-import {useFriendStore} from '/js/store/friendStore';
 import {useI18n} from 'vue-i18n';
 import {LOCK} from '/js/constants/iconConstants';
 import {formModal, showModal} from '/js/components/modal/modalService';
-import {useUserStore} from '/js/store/userStore';
 import {socketConnected} from '/js/services/websocketService';
 import MessageComponent from './components/Message.vue';
 import ReportUser from './components/ReportUser.vue';
@@ -113,13 +111,9 @@ import ConfirmBlockModal from './components/ConfirmBlockModal.vue';
 import { sendRequest } from '/js/services/friendService';
 import axios from 'axios';
 import { getUnread, sendMessage } from '/js/services/messageService';
+import { user } from '/js/services/userService';
 
 const {t} = useI18n();
-
-const userStore = useUserStore();
-const friendStore = useFriendStore();
-
-const user = computed(() => userStore.user);
 
 const active = ref(false);
 
@@ -217,7 +211,7 @@ function blockUser(user: StrippedUser) {
     formModal(user, ConfirmBlockModal, submitBlockUser, 'confirm-block');
 }
 async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMessages: boolean}) {
-    await userStore.blockUser(user.id, {'hideMessages': hideMessages});
+    await axios.put('/user/' + user.id + '/block', {'hideMessages': hideMessages});
     load();
 }
 function reportUser(conversation: Conversation) {

@@ -26,19 +26,16 @@
 
 <script lang="ts" setup>
 import Pagination from '/js/components/global/Pagination.vue';
-import {computed, onBeforeUnmount, ref, watchEffect} from 'vue';
+import {onBeforeUnmount, ref, watchEffect} from 'vue';
 import NotificationBlock from './components/NotificationBlock.vue';
 import {onMounted} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import {socketConnected} from '/js/services/websocketService';
 import { getUnread } from '/js/services/messageService';
 import axios from 'axios';
+import { user } from '/js/services/userService';
 
 const loading = ref(true);
 const notifications = ref<Notification[]>([]);
-const userStore = useUserStore();
-
-const user = computed(() => userStore.user);
 
 const active = ref(false);
 

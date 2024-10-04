@@ -68,7 +68,6 @@ import SuspendUserModal from '/js/pages/admin/components/SuspendUserModal.vue';
 import ConfirmBlockModal from '/js/pages/messages/components/ConfirmBlockModal.vue';
 import axios from 'axios';
 import {useRoute} from 'vue-router';
-import {useUserStore} from '/js/store/userStore';
 import {useFriendStore} from '/js/store/friendStore';
 import {parseDateTime} from '/js/services/dateService';
 import {breadcrumbsVisible} from '/js/services/breadcrumbService';
@@ -80,9 +79,9 @@ import {formModal, sendMessageModal, showModal} from '/js/components/modal/modal
 import {getNewSuspension} from '/js/helpers/newInstance';
 import { sendRequest } from '/js/services/friendService';
 import { suspendUser } from '/js/services/adminService';
+import { user } from '/js/services/userService';
 
 const route = useRoute();
-const userStore = useUserStore();
 const friendStore = useFriendStore();
 
 /** Setup the user profile on page load */
@@ -108,7 +107,6 @@ async function getUserProfile() {
     loading.value = false;
 }
 
-const user = computed<User | null>(() => userStore.user);
 const requests = computed<FriendRequests | null>(() => friendStore.requests);
 
 // eslint-disable-next-line complexity
@@ -144,7 +142,7 @@ async function blockUser() {
     formModal(userProfile.value, ConfirmBlockModal, submitBlockUser, 'confirm-block');
 }
 async function submitBlockUser({user, hideMessages}: {user: StrippedUser, hideMessages: boolean}) {
-    await userStore.blockUser(user.id, {'hideMessages': hideMessages});
+    await axios.put('/user/' + user.id + '/block', {'hideMessages': hideMessages});
     await getUserProfile();
 }
 function openSuspendUserModal() {

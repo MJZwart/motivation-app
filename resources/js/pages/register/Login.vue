@@ -48,19 +48,26 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from '/js/store/userStore';
 import {onMounted, ref} from 'vue';
 import AuthBase from './components/AuthBase.vue';
+import router from '/js/router/router';
+import { getUnread } from '/js/services/messageService';
+import { fetchBanners } from '/js/components/maintenance/maintenanceBannerLogic';
+import {continueGuestAccount, setUser} from '/js/services/userService';
+import axios from 'axios';
 
 const login = ref({
     username: '',
     password: '',
 });
 
-const userStore = useUserStore();
-
 async function submitLogin() {
-    await userStore.login(login.value);
+    const {data} = await axios.post('/login', login.value);
+    if (!data.user) router.push('/error'); //TODO Throw error that user is not set correctly
+    setUser(data.user)
+    fetchBanners();
+    getUnread();
+    router.push('/dashboard');
 }
 
 const guestAccount = ref(false);
@@ -69,10 +76,4 @@ onMounted(() => {
     const localToken = localStorage.getItem('guestToken');
     guestAccount.value = !!localToken;
 });
-
-function continueGuestAccount() {
-    if (!guestAccount.value) return;
-
-    userStore.continueGuestAccount();
-}
 </script>

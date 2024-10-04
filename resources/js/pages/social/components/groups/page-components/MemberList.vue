@@ -48,7 +48,6 @@
 import {computed, onMounted, PropType, ref} from 'vue';
 import {daysSince} from '/js/services/dateService';
 import type {GroupPage, GroupUser, Rank} from 'resources/types/group';
-import {useUserStore} from '/js/store/userStore';
 import {useGroupStore} from '/js/store/groupStore';
 import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
@@ -57,8 +56,8 @@ import ManageGroupUserRole from './ManageGroupUserRole.vue';
 import {BAN, CROSS_SQUARE, MAIL, PROMOTE} from '/js/constants/iconConstants';
 import {formModal, sendMessageModal} from '/js/components/modal/modalService';
 import {parseBigNumbers} from '/js/services/numberService';
+import { user } from '/js/services/userService';
 
-const userStore = useUserStore();
 const groupStore = useGroupStore();
 const {t} = useI18n();
 
@@ -73,8 +72,6 @@ onMounted(async() => {
     if (props.group.rank.can_manage_members)
         allRoles.value = await groupStore.fetchRoles(props.group.id);
 });
-
-const user = computed(() => userStore.user);
 
 function kick(user: GroupUser) {
     if (confirm(t('confirm-kick-from-group', {user: user.username})))

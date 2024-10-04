@@ -5,6 +5,7 @@ import '../assets/scss/app.scss';
 import {createApp} from 'vue';
 import App from './App.vue';
 import {fetchDefaultTheme} from '/js/services/themeService';
+import { getMe } from './services/userService';
 
 const app = createApp(App);
 
@@ -29,9 +30,7 @@ fetchDefaultTheme();
 import {createPinia} from 'pinia';
 app.use(createPinia());
 
-import {useUserStore} from './store/userStore';
-const userStore = useUserStore();
-await userStore.getMe();
+await getMe();
 
 //Import router
 import router from './router/router';

@@ -206,6 +206,7 @@ class UserController extends Controller
 
     public function unblockUser(UnblockUserRequest $request, BlockedUser $blockedUser)
     {
+        // TODO Currently the return is not used anywhere
         /** @var User */
         $user = Auth::user();
         if ($request['restoreMessages']) {

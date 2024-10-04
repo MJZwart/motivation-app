@@ -2,11 +2,11 @@
 import axios, {AxiosStatic} from 'axios';
 import {errorToast, sendToast, storeToastInLocalStorage, successToast} from '/js/services/toastService';
 import router from './router/router.js';
-import {useUserStore} from './store/userStore';
 import {currentLang} from '/js/services/languageService.js';
 import {waitingOnResponse} from '/js/services/loadingService.js';
 import Echo from 'laravel-echo';
 import {setErrorMessages} from './services/errorService.js';
+import { getMe, logout } from './services/userService.js';
 
 declare global {
     interface Window {
@@ -59,7 +59,6 @@ axios.interceptors.response.use(
     // eslint-disable-next-line complexity
     function (error) {
         waitingOnResponse.value = false;
-        const userStore = useUserStore();
         if (!error.response) {
             return Promise.reject(error);
         }
@@ -88,7 +87,7 @@ axios.interceptors.response.use(
              */
             case 401:
                 if (router.currentRoute.value.name !== 'login') {
-                    userStore.logout();
+                    logout();
                 }
                 errorToast('You are not logged in');
                 return Promise.reject(error);
@@ -98,7 +97,7 @@ axios.interceptors.response.use(
              * router will already redirect them, this is backup.
              */
             case 403:
-                userStore.getMe();
+                getMe();
                 if (router.currentRoute.value.name !== 'login') {
                     router.back();
                 }

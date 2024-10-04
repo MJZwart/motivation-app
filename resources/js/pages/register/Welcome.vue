@@ -96,16 +96,17 @@
 <script setup lang="ts">
 import {computed, ref, onMounted} from 'vue';
 import {useTaskStore} from '/js/store/taskStore';
-import {useUserStore} from '/js/store/userStore';
 import {useI18n} from 'vue-i18n';
 import type {Task} from 'resources/types/task';
 import type {NewUser} from 'resources/types/user';
 import {clearErrors, hasError, setErrorMessages} from '/js/services/errorService';
 import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
+import { logout, setUser } from '/js/services/userService';
+import axios from 'axios';
+import router from '/js/router/router';
 const {t} = useI18n();
 
 const taskStore = useTaskStore();
-const userStore = useUserStore();
 
 onMounted(async () => {
     clearErrors();
@@ -142,8 +143,10 @@ function nextModal() {
         showSecondModal.value = true;
     }
 }
-function confirmSettings() {
-    userStore.confirmRegister(user.value);
+async function confirmSettings() {
+    const {data} = await axios.post('/register/confirm', user);
+    setUser(data.data.user);
+    router.push('/');
 }
 function checkInput() {
     if (user.value.rewardsType == 'CHARACTER' && !user.value.reward_object_name) {
@@ -155,9 +158,6 @@ function checkInput() {
     }
     clearErrors();
     return true;
-}
-function logout() {
-    userStore.logout();
 }
 function generateRandomName() {
     if (user.value.rewardsType === 'CHARACTER') user.value.reward_object_name = getRandomCharacterName();

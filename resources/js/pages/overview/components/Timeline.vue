@@ -28,15 +28,13 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n';
 import TimelineIcon from './TimelineIcon.vue';
+import axios from 'axios';
 const {t} = useI18n();
 
 const props = defineProps<{userId: number}>();
-
-const userStore = useUserStore();
 
 type TimelineAction = {
     timestamp: string,
@@ -53,7 +51,7 @@ const filteredTimeline = computed(() => {
 });
 
 onMounted(async() => {
-    const data = await userStore.getTimeline(props.userId);
+    const {data} = await axios.get(`/user/timeline/${props.userId}`);
     timeline.value = data.timeline;
     timelineTypes.value = data.types
 });

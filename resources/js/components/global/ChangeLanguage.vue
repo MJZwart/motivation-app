@@ -10,16 +10,16 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 import {currentLang, changeLang, langs} from '/js/services/languageService';
-import {useUserStore} from '/js/store/userStore';
+import { authenticated, setUser } from '/js/services/userService';
 
-const userStore = useUserStore();
-
-function changeLanguage(lang: 'en' | 'nl') {
-    const isAuth = userStore.authenticated;
-    changeLang(lang, isAuth);
-    if (isAuth)
-        userStore.updateLanguage({'language': lang});
+async function changeLanguage(lang: 'en' | 'nl') {
+    changeLang(lang, authenticated.value);
+    if (authenticated.value) {
+        const {data} = await axios.put('/user/settings/language', {'language': lang});
+        setUser(data.data.user);
+    }
 }
 </script>
 

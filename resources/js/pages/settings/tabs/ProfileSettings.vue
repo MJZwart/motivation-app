@@ -31,12 +31,9 @@
 
 <script setup lang="ts">
 import {ProfileSettings} from 'resources/types/settings';
-import {User} from 'resources/types/user';
-import {computed, ref} from 'vue';
-import {useUserStore} from '/js/store/userStore';
-const userStore = useUserStore();
-
-const user = computed<User | null>(() => userStore.user);
+import {ref} from 'vue';
+import axios from 'axios';
+import { setUser, user } from '/js/services/userService';
 
 const settings = ref<ProfileSettings>(getUserSettings());
 
@@ -49,7 +46,8 @@ function getUserSettings() {
     };
 }
 
-function submitSettings() {
-    userStore.updateSettings(settings.value);
+async function submitSettings() {
+    const {data} = await axios.put('/user/settings', settings.value);
+    setUser(data.data.user);
 }
 </script>
