@@ -43,13 +43,15 @@ export const updateTaskInTasks = (task: Task) => {
 
 export const removeTaskFromTasks = (task: Task) => {
     const idx = tasks.value.findIndex(existingTask => existingTask.id === task.id);
-    tasks.value = tasks.value.splice(idx, 1);
+    if (idx < 0) return;
+    tasks.value.splice(idx, 1);
 }
 
 // * API
 
 export const fetchDashboard = async() => {
     const {data} = await axios.get('/user/dashboard');
+    tasks.value = [];
     taskLists.value = data.taskLists;
     data.tasks.forEach((task: Task) => {
         addTaskToTasks(task);

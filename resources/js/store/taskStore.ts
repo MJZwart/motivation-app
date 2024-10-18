@@ -12,17 +12,6 @@ export const useTaskStore = defineStore('task', {
     },
 
     actions: {
-        async deleteTask(taskId: number) {
-            const {data} = await axios.delete('/tasks/' + taskId);
-            this.taskLists = data.data.taskLists;
-        },
-        async completeTask(taskId: number) {
-            const {data} = await axios.put('/tasks/complete/' + taskId);
-            this.taskLists = data.data.taskLists;
-            const rewardStore = useRewardStore();
-            rewardStore.rewardObj = data.data.activeReward;
-        },
-
         // * Task lists
         async getOtherTaskLists(taskListId: number) {
             const {data} = await axios.get(`/tasklists/other/${taskListId}`);

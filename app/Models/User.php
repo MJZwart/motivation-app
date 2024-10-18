@@ -141,6 +141,14 @@ class User extends Authenticatable
         return BlockedUser::where('blocked_user_id', $userId)->where('user_id', $this->id)->exists();
     }
 
+    public function getActiveTasks()
+    {
+        return $this->tasks->filter(function ($value, $key) {
+            return $value->completed == null
+                && $value->repeatable_active <= Carbon::now()
+                ;});
+    }
+
     public function getActiveRewardObjectResource()
     {
         return RewardObjectHandler::getActiveRewardObjectResourceByUser($this->rewards, $this->id);
