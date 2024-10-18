@@ -51,9 +51,7 @@ class TaskController extends Controller
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
         ActionTrackingHandler::registerAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
 
-        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
-
-        return ResponseWrapper::successResponse(__('messages.task.created'), ['taskLists' => $taskLists]);
+        return ResponseWrapper::successResponse(__('messages.task.created'), ['task' => $task->fresh()]);
     }
 
     /**
@@ -70,9 +68,7 @@ class TaskController extends Controller
         $task->update($validated);
         ActionTrackingHandler::registerAction($request, 'UPDATE_TASK', 'Updated task named: ' . $validated['name']);
 
-        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-
-        return ResponseWrapper::successResponse(__('messages.task.updated'), ['taskLists' => $taskLists]);
+        return ResponseWrapper::successResponse(__('messages.task.updated'), ['task' => $task->fresh()]);
     }
 
     /**
