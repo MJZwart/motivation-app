@@ -93,7 +93,7 @@
 import type {NewTask, TaskList, Task} from 'resources/types/task';
 import {TASK_TYPES, REPEATABLES, DAYS} from '/js/constants/taskConstants';
 import {computed, onMounted, ref, watchEffect} from 'vue';
-import {templates} from '../taskService';
+import {templates} from '/js/services/taskService';
 import FormControls from '/js/components/global/FormControls.vue';
 import Multiselect from '@vueform/multiselect';
 import { useTaskStore } from '/js/store/taskStore';

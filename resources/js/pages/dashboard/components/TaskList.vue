@@ -19,7 +19,7 @@
                     </span>
                 </span>
             </template>
-            <template v-for="(task, index) in taskList.tasks" :key="task.id">
+            <template v-for="(task, index) in tasksInList" :key="task.id">
                 <TaskComp 
                     :task="task" 
                     :taskList="taskList" 
@@ -42,12 +42,16 @@ import CreateEditTask from './CreateEditTask.vue';
 import CreateEditTaskList from './CreateEditTaskList.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
-import {getNewTask} from '../taskService';
+import {getNewTask, updateTaskInTasks, tasks, addTaskToTasks} from '/js/services/taskService';
 import {useTaskStore} from '/js/store/taskStore';
+import { computed } from 'vue';
+import axios from 'axios';
 
 const props = defineProps<{taskList: TaskList}>();
 
 const taskStore = useTaskStore();
+
+const tasksInList = computed(() => tasks.value.filter(task => task.task_list_id === props.taskList.id));
 
 /** 
  * New task 
@@ -61,7 +65,8 @@ function openNewTask(superTaskToSet: Task | null = null) {
     );
 }
 async function createTask({task}: {task:NewTask}) {
-    await taskStore.storeTask(task);
+    const {data} = await axios.post('/tasks', task);
+    addTaskToTasks(data.data.task);
 }
 
 /**
@@ -76,7 +81,8 @@ function openEditTask({task, superTaskParam}: {task: Task, superTaskParam: Task 
     );
 }
 async function editTask({task}: {task: Task}) {
-    await taskStore.updateTask(task);
+    const {data} = await axios.put('/tasks/' + task.id, task);
+    updateTaskInTasks(data.data.task);
 }
 
 /**
@@ -105,7 +111,7 @@ async function submitDeleteTaskList(data: {option: string | number, tasks: Task[
 }
 
 function taskClass(index: number) {
-    return index == props.taskList.tasks.length - 1 ? 'task task-last' : 'task';
+    return index == tasksInList.value.length - 1 ? 'task task-last' : 'task';
 }
 </script>
 

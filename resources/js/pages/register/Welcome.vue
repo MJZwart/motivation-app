@@ -110,7 +110,8 @@ const taskStore = useTaskStore();
 
 onMounted(async () => {
     clearErrors();
-    exampleTasks.value = await taskStore.fetchExampleTasks();
+    const {data} = await axios.get('/examples/tasks');
+    exampleTasks.value = data.data;
     startFirstModal();
 });
 
