@@ -42,14 +42,11 @@ import CreateEditTask from './CreateEditTask.vue';
 import CreateEditTaskList from './CreateEditTaskList.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
-import {getNewTask, updateTaskInTasks, tasks, addTaskToTasks} from '/js/services/taskService';
-import {useTaskStore} from '/js/store/taskStore';
+import {getNewTask, updateTaskInTasks, tasks, addTaskToTasks, updateTaskList, removeTaskListFromTaskLists, updateTaskListForTasks} from '/js/services/taskService';
 import { computed } from 'vue';
 import axios from 'axios';
 
 const props = defineProps<{taskList: TaskList}>();
-
-const taskStore = useTaskStore();
 
 const tasksInList = computed(() => tasks.value.filter(task => task.task_list_id === props.taskList.id));
 
@@ -92,7 +89,8 @@ function showEditTaskList() {
     formModal(props.taskList, CreateEditTaskList, submitEditTaskList, 'edit-task-list');
 }
 async function submitEditTaskList(editedTaskList: TaskList) {
-    await taskStore.updateTaskList(editedTaskList)
+    const {data} = await axios.put('/tasklists/' + editedTaskList.id, editedTaskList);
+    updateTaskList(data.data.data);
 }
 
 /**
@@ -102,12 +100,14 @@ function showDeleteTaskList() {
     // @ts-ignore This is due to the setup of the form modal expecting the submitEvent's param type
     formModal(props.taskList, DeleteTaskListConfirm, submitDeleteTaskList, 'delete-task-list-confirm');
 }
-async function submitDeleteTaskList(data: {option: string | number, tasks: Task[]}) {
-    if (data.option != 'delete') {
-        const mergeData = {taskListId: data.option, tasks: data.tasks};
-        await taskStore.mergeTasks(mergeData);
+
+async function submitDeleteTaskList(deleteOption: string | number) {
+    if (deleteOption != 'delete' && typeof deleteOption === 'number') {
+        axios.post('/tasks/merge/' + props.taskList.id + '/to/' + deleteOption);
+        updateTaskListForTasks(props.taskList.id, deleteOption);
     }
-    await taskStore.deleteTaskList(props.taskList.id);
+    await axios.delete('/tasklists/' + props.taskList.id);
+    removeTaskListFromTaskLists(props.taskList);
 }
 
 function taskClass(index: number) {

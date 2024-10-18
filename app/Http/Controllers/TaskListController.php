@@ -29,11 +29,10 @@ class TaskListController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
-        TaskList::create($validated);
+        $taskList = TaskList::create($validated);
         ActionTrackingHandler::registerAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: ' . $validated['name']);
 
-        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return ResponseWrapper::successResponse(__('messages.tasklist.created'), $taskLists);
+    return ResponseWrapper::successResponse(__('messages.tasklist.created'), ['data' => $taskList]);
     }
 
     /**
@@ -47,8 +46,7 @@ class TaskListController extends Controller
         $tasklist->update($validated);
         ActionTrackingHandler::registerAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: ' . $validated['name']);
 
-        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return ResponseWrapper::successResponse(__('messages.tasklist.updated'), $taskLists);
+        return ResponseWrapper::successResponse(__('messages.tasklist.updated'), ['data' => $tasklist->fresh()]);
     }
 
     /**
@@ -61,26 +59,15 @@ class TaskListController extends Controller
         $tasklist->delete();
         ActionTrackingHandler::registerAction($request, 'DELETE_TASK_LIST', 'Deleting tasklist named: ' . $tasklist->name);
 
-        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return ResponseWrapper::successResponse(__('messages.tasklist.deleted'), $taskLists);
+        return ResponseWrapper::successResponse(__('messages.tasklist.deleted'));
     }
 
     /**
      * Merges tasks from a deleted task list into an active task list
      * Params: Task list ID to be merged into, and tasks in the request object
      */
-    public function mergeTasks(TaskList $tasklist, Request $request)
+    public function mergeTasks(TaskList $fromTasklist, TaskList $toTasklist)
     {
-        foreach ($request->tasks as $task) {
-            $taskModel = Task::find($task['id']);
-            if (!empty($taskModel->tasks)) {
-                foreach ($task->tasks as $subTask) {
-                    $subTask->task_list_id = $tasklist->id;
-                    $subTask->update();
-                }
-            }
-            $taskModel->task_list_id = $tasklist->id;
-            $taskModel->update();
-        }
+        Task::where('task_list_id', $fromTasklist->id)->update(['task_list_id' => $toTasklist->id]);
     }
 }

@@ -95,7 +95,6 @@
 
 <script setup lang="ts">
 import {computed, ref, onMounted} from 'vue';
-import {useTaskStore} from '/js/store/taskStore';
 import {useI18n} from 'vue-i18n';
 import type {Task} from 'resources/types/task';
 import type {NewUser} from 'resources/types/user';
@@ -105,8 +104,6 @@ import { logout, setUser } from '/js/services/userService';
 import axios from 'axios';
 import router from '/js/router/router';
 const {t} = useI18n();
-
-const taskStore = useTaskStore();
 
 onMounted(async () => {
     clearErrors();
