@@ -83,9 +83,11 @@
 <script setup lang="ts">
 import type {Task, TaskList} from 'resources/types/task';
 import {ref} from 'vue';
-import {useTaskStore} from '/js/store/taskStore';
 import {useI18n} from 'vue-i18n';
 import {CREATE, EDIT, REPEAT, TRASH, ARROW_DOWN_RIGHT, CHECK_SQUARE} from '/js/constants/iconConstants';
+import axios from 'axios';
+import { removeTaskFromTasks } from '/js/services/taskService';
+import { activeReward } from '/js/services/villageService';
 const {t} = useI18n();
 
 defineProps<{task: Task, taskList: TaskList}>();
@@ -98,18 +100,21 @@ function openNewTask(task: Task) {
     emit('newTask', task);
 }
 
-const taskStore = useTaskStore();
-
-function deleteTask(task: Task) {
+async function deleteTask(task: Task) {
     const confirmationText = t('confirmation-delete-task', [task.name]);
     if (confirm(confirmationText)) {
-        taskStore.deleteTask(task.id);
+        await axios.delete('/tasks/' + task.id);
+        removeTaskFromTasks(task);
     }
 }
-function completeTask(task: Task) {
+async function completeTask(task: Task) {
     if (task.tasks && task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
         return;
-    taskStore.completeTask(task.id);
+
+    const {data} = await axios.put('/tasks/complete/' + task.id);
+    if(!data.data.keepTask) removeTaskFromTasks(task);
+    activeReward.value = data.data.activeReward;
+
 }
 </script>
 

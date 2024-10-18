@@ -33,35 +33,28 @@
 </template>
 
 <script setup lang="ts">
-import type {TaskList, NewTaskList} from 'resources/types/task';
+import type {NewTaskList} from 'resources/types/task';
 import TaskListComp from './components/TaskList.vue';
 import RewardCard from './components/reward/RewardCard.vue';
 import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import {onBeforeMount, ref, computed} from 'vue';
-import {useTaskStore} from '/js/store/taskStore';
 import {useRewardStore} from '/js/store/rewardStore';
 import {formModal} from '/js/components/modal/modalService';
-import {getNewTaskList} from './taskService';
+import {fetchDashboard, getNewTaskList, taskLists, addTaskList, getTemplates} from '/js/services/taskService';
 import CreateEditTaskList from './components/CreateEditTaskList.vue';
 import TemplatesButton from './components/template/TemplatesButton.vue';
-import axios from 'axios';
-import { activeReward } from '/js/services/villageService';
 import { isGuest } from '/js/services/userService';
+import axios from 'axios';
 
-const taskStore = useTaskStore();
 const rewardStore = useRewardStore();
 
 const loading = ref(true);
 
-const taskLists = ref<TaskList[]>([]);
 const rewardObj = computed(() => rewardStore.rewardObj);
 
 onBeforeMount(async () => {
-    const {data} = await axios.get('/user/dashboard');
-    taskLists.value = data.taskLists;
-    activeReward.value = data.rewardObj; // TODO Make sure the naming is correct
-
-    taskStore.getTemplates();
+    fetchDashboard();
+    getTemplates();
     loading.value = false;
 });
 
@@ -75,7 +68,8 @@ function showNewTaskList() {
     );
 }
 async function submitNewTaskList(newTaskList: NewTaskList) {
-    await taskStore.storeTaskList(newTaskList);
+    const {data} = await axios.post('/tasklists', newTaskList);
+    addTaskList(data.data.data);
 }
 </script>
 

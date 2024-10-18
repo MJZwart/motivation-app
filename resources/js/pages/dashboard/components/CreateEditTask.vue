@@ -92,13 +92,10 @@
 <script setup lang="ts">
 import type {NewTask, TaskList, Task} from 'resources/types/task';
 import {TASK_TYPES, REPEATABLES, DAYS} from '/js/constants/taskConstants';
-import {computed, onMounted, ref, watchEffect} from 'vue';
-import {templates} from '../taskService';
+import {onMounted, ref, watchEffect} from 'vue';
+import {taskLists, templates} from '/js/services/taskService';
 import FormControls from '/js/components/global/FormControls.vue';
 import Multiselect from '@vueform/multiselect';
-import { useTaskStore } from '/js/store/taskStore';
-
-const taskStore = useTaskStore();
 
 const taskTypes = TASK_TYPES;
 const repeatables = REPEATABLES;
@@ -111,8 +108,6 @@ const props = defineProps<{
         superTask?: Task | null
     }
 }>();
-
-const taskLists = computed(() => taskStore.taskLists);
 
 defineEmits<{
     (event: 'close'): void,

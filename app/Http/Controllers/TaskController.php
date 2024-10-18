@@ -51,9 +51,7 @@ class TaskController extends Controller
         AchievementHandler::checkForAchievement('TASKS_MADE', Auth::user());
         ActionTrackingHandler::registerAction($request, 'STORE_TASK', 'Storing task named: ' . $validated['name']);
 
-        $taskLists = TaskListResource::collection(TaskList::where('user_id', Auth::user()->id)->get());
-
-        return ResponseWrapper::successResponse(__('messages.task.created'), ['taskLists' => $taskLists]);
+        return ResponseWrapper::successResponse(__('messages.task.created'), ['task' => $task->fresh()]);
     }
 
     /**
@@ -70,9 +68,7 @@ class TaskController extends Controller
         $task->update($validated);
         ActionTrackingHandler::registerAction($request, 'UPDATE_TASK', 'Updated task named: ' . $validated['name']);
 
-        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-
-        return ResponseWrapper::successResponse(__('messages.task.updated'), ['taskLists' => $taskLists]);
+        return ResponseWrapper::successResponse(__('messages.task.updated'), ['task' => $task->fresh()]);
     }
 
     /**
@@ -81,7 +77,7 @@ class TaskController extends Controller
      *
      * @param Request $request
      * @param Task $task
-     * @return JsonResponse with message and updated TaskLists if successful.
+     * @return JsonResponse with message if successful.
      */
     public function destroy(Request $request, Task $task): JsonResponse
     {
@@ -89,8 +85,7 @@ class TaskController extends Controller
         $task->delete();
         ActionTrackingHandler::registerAction($request, 'DELETE_TASK', 'Deleting task named: ' . $task->name);
 
-        $taskLists = TaskListResource::collection(Auth::user()->taskLists);
-        return ResponseWrapper::successResponse(__('messages.task.deleted'), ['taskLists' => $taskLists]);
+        return ResponseWrapper::successResponse(__('messages.task.deleted'));
     }
 
     /**
@@ -112,13 +107,12 @@ class TaskController extends Controller
 
         AchievementHandler::checkForAchievement('TASKS_COMPLETED', $user);
 
-        $taskLists = TaskListResource::collection($user->taskLists);
         $returnValue = null;
         if ($user->rewards != 'NONE') {
             $returnValue = RewardHandler::handleTaskRewards($task, $user);
-            return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['taskLists' => $taskLists, 'activeReward' => $returnValue->activeReward]]);
+            return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['activeReward' => $returnValue->activeReward, 'keepTask' => $task->isActive()]]);
         } else {
-            return ResponseWrapper::successResponse(__('messages.task.completed'), ['taskLists' => $taskLists]);
+            return ResponseWrapper::successResponse(__('messages.task.completed'), ['keepTask' => $task->isActive()]);
         }
     }
 
