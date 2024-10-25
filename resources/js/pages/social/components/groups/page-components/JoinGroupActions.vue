@@ -20,11 +20,10 @@
 
 <script setup lang="ts">
 import {PropType} from 'vue';
-import {useGroupStore} from '/js/store/groupStore';
 import {waitingOnResponse} from '/js/services/loadingService';
 import type {GroupPage} from 'resources/types/group';
-
-const groupStore = useGroupStore();
+import axios from 'axios';
+import { groupPage } from '/js/services/groupService';
 
 const props = defineProps({
     group: {
@@ -35,12 +34,14 @@ const props = defineProps({
 
 async function joinGroup() {
     if (props.group === null) return;
-    await groupStore.joinGroup(props.group.id);
+    const {data} = await axios.post(`/groups/join/${props.group.id}`);
+    groupPage.value = data.data.group;
     waitingOnResponse.value = true;
 }
 async function applyToGroup() {
-    if (props.group === null) return;
-    await groupStore.applyToGroup(props.group.id);
+    if (props.group === null) return;    
+    const {data} = await axios.post(`/groups/apply/${props.group.id}`);
+    groupPage.value = data.data.group;
     waitingOnResponse.value = true;
 }
 </script>

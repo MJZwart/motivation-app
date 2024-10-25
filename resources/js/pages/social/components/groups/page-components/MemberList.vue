@@ -48,7 +48,6 @@
 import {computed, onMounted, PropType, ref} from 'vue';
 import {daysSince} from '/js/services/dateService';
 import type {GroupPage, GroupUser, Rank} from 'resources/types/group';
-import {useGroupStore} from '/js/store/groupStore';
 import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
@@ -57,8 +56,9 @@ import {BAN, CROSS_SQUARE, MAIL, PROMOTE} from '/js/constants/iconConstants';
 import {formModal, sendMessageModal} from '/js/components/modal/modalService';
 import {parseBigNumbers} from '/js/services/numberService';
 import { user } from '/js/services/userService';
+import axios from 'axios';
+import { fetchGroupRoles, groupPage } from '/js/services/groupService';
 
-const groupStore = useGroupStore();
 const {t} = useI18n();
 
 const props = defineProps({
@@ -70,16 +70,20 @@ const props = defineProps({
 
 onMounted(async() => {
     if (props.group.rank.can_manage_members)
-        allRoles.value = await groupStore.fetchRoles(props.group.id);
+        allRoles.value = await fetchGroupRoles(props.group.id);
 });
 
-function kick(user: GroupUser) {
-    if (confirm(t('confirm-kick-from-group', {user: user.username})))
-        groupStore.removeGroupMember(user.id, props.group.id);
+async function kick(user: GroupUser) {
+    if (confirm(t('confirm-kick-from-group', {user: user.username}))) {
+        const {data} = await axios.post(`/groups/kick/${props.group.id}`, {id: user.id});
+        groupPage.value = data.data.group;
+    }
 }
-function suspend(user: GroupUser) {
-    if (confirm(t('confirm-suspend-from-group', {user: user.username})))
-        groupStore.suspendGroupMember(user.user_id, props.group.id);
+async function suspend(user: GroupUser) {
+    if (confirm(t('confirm-suspend-from-group', {user: user.username}))) {
+        const {data} = await axios.post(`/groups/suspend/${props.group.id}`, {id: user.user_id});
+        groupPage.value = data.data.group;
+    }
 }
 function sendMessage(user: GroupUser) {
     sendMessageModal(user.username, user.user_id);
@@ -100,9 +104,10 @@ function openPromoteModal(member: GroupUser) {
     // @ts-ignore Due to the problems with modal this needs to be ignored.
     formModal({groupUser: member, groupRoles: allRolesAvailable}, ManageGroupUserRole, promote, 'manage-rank');
 }
-async function promote(rankId: number) {
+async function promote(roleId: number) {
     if (memberToManage.value) {
-        await groupStore.updateGroupUserRole(props.group.id, memberToManage.value?.id, rankId);
+        const {data} = await axios.put(`groups/roles/${props.group.id}/user/${memberToManage.value?.id}/role/${roleId}`);
+        groupPage.value = data.data.group;
         memberToManage.value = null;
     }
 }

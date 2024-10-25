@@ -1,8 +1,8 @@
 <template>
     <div>
-        <Loading v-if="loading || group == null" />
+        <Loading v-if="loading || groupPage == null" />
         <div v-else class="w-60-flex center">
-            <h2>{{group.name}}</h2>
+            <h2>{{groupPage.name}}</h2>
             <div class="group-page">
                 <div class="tabs tabs-horizontal mb-1">    
                     <template v-for="(tab, index) in tabs" :key="index">
@@ -13,13 +13,13 @@
                 </div>
                 <div class="group-page-content">
                     <div v-if="currentTab === 'public'">
-                        <PublicGroupInformation :group="group" />
-                        <JoinGroupActions v-if="!group.rank" :group="group" />
-                        <MemberGroupPageData v-if="group.rank" :group="group" />
+                        <PublicGroupInformation :group="groupPage" />
+                        <JoinGroupActions v-if="!groupPage.rank" :group="groupPage" />
+                        <MemberGroupPageData v-if="groupPage.rank" :group="groupPage" />
                     </div>
-                    <MemberList v-if="currentTab === 'members'" :group="group" />
-                    <AdminActions v-if="currentTab === 'admin'" :group="group" @reload="reload" />
-                    <GroupMessages v-if="currentTab === 'messages'" :group="group" />
+                    <MemberList v-if="currentTab === 'members'" :group="groupPage" />
+                    <AdminActions v-if="currentTab === 'admin'" :group="groupPage" @reload="reload" />
+                    <GroupMessages v-if="currentTab === 'messages'" :group="groupPage" />
                 </div>
             </div>
         </div>
@@ -28,7 +28,6 @@
 
 <script setup lang="ts">
 import {onBeforeMount, ref, computed} from 'vue';
-import {useGroupStore} from '/js/store/groupStore';
 import {useRoute} from 'vue-router';
 import {GroupPage} from 'resources/types/group';
 import JoinGroupActions from './page-components/JoinGroupActions.vue';
@@ -37,17 +36,18 @@ import PublicGroupInformation from './page-components/PublicGroupInformation.vue
 import MemberList from './page-components/MemberList.vue';
 import AdminActions from './page-components/AdminActions.vue';
 import GroupMessages from './page-components/GroupMessages.vue';
+import axios from 'axios';
+import { groupPage } from '/js/services/groupService';
 
-const groupStore = useGroupStore();
 const route = useRoute();
 
 onBeforeMount(async() => {
-    await groupStore.fetchGroup(parseInt(String(route.params.id)));
+    const {data} = await axios.get(`/groups/${parseInt(String(route.params.id))}`);
+    groupPage.value = data.group;
     loading.value = false;
 });
 
 const loading = ref(true);
-const group = computed((): GroupPage | null => groupStore.group);
 
 function reload() {
     currentTab.value = 'public';
@@ -58,7 +58,7 @@ function reload() {
  */
 const tabs = computed(() => {
     let computedTabs = ['public'];
-    if (group.value?.rank) {
+    if (groupPage.value?.rank) {
         computedTabs.push('members');
         computedTabs.push('messages');
     }
@@ -66,7 +66,7 @@ const tabs = computed(() => {
     return computedTabs;
 });
 function canSeeAdminTab() {
-    const rank = group.value?.rank;
+    const rank = groupPage.value?.rank;
     if (!rank) return;
     return rank.owner || rank.can_edit || rank.can_manage_members;
 }

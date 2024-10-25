@@ -72,13 +72,11 @@
 import type {Group, NewGroup} from 'resources/types/group';
 import CreateGroup from '../components/groups/CreateGroup.vue';
 import {computed, ref, onMounted} from 'vue';
-import {useGroupStore} from '/js/store/groupStore';
 import {useRouter} from 'vue-router';
 import {formModal} from '/js/components/modal/modalService';
 import GroupOverviewComponent from '../components/groups/GroupOverviewComponent.vue';
 import Pagination from '/js/components/global/Pagination.vue';
-
-const groupStore = useGroupStore();
+import axios from 'axios';
 
 const router = useRouter();
 
@@ -87,9 +85,9 @@ onMounted(() => {
     load();
 });
 async function load() {
-    const data = await groupStore.fetchGroupsDashboard();
-    myGroups.value = data.my;
-    allGroups.value = data.all;
+    const {data} = await axios.get('groups/dashboard');
+    myGroups.value = data.groups.my;
+    allGroups.value = data.groups.all;
     loading.value = false;
 }
 
@@ -132,8 +130,8 @@ function createGroup() {
 }
 
 async function submitGroup(newGroup: NewGroup) {
-    const data = await groupStore.createGroup(newGroup);
-    router.push({path: `/group/${data.group_id}`});
+    const {data} = await axios.post('/groups', newGroup);
+    router.push({path: `/group/${data.data.group_id}`});
 }
 
 </script>

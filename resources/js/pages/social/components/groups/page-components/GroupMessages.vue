@@ -36,14 +36,13 @@
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import type {GroupMessage, GroupPage} from 'resources/types/group';
 import {onMounted, ref} from 'vue';
-import {useGroupStore} from '/js/store/groupStore';
 import GroupMessageComp from './GroupMessage.vue';
 import Pagination from '/js/components/global/Pagination.vue';
 import { user } from '/js/services/userService';
+import axios from 'axios';
 
 const props = defineProps<{group: GroupPage}>();
 
-const groupStore = useGroupStore();
 const loading = ref(true);
 
 const messages = ref<GroupMessage[]>([]);
@@ -52,12 +51,14 @@ const newMessage = ref({
 });
 
 onMounted(async() => {
-    messages.value = await groupStore.getMessages(props.group.id);
+    const {data} = await axios.get(`/groups/${props.group.id}/messages`);
+    messages.value = data.data;
     loading.value = false;
 });
 
 async function sendMessage() {
-    messages.value = await groupStore.postMessage(props.group.id, newMessage.value);
+    const {data} = await axios.post(`/groups/${props.group.id}/messages`, newMessage.value);
+    messages.value = data.data.messages;
     newMessage.value.message = '';
 }
 
@@ -67,7 +68,8 @@ function canDelete(message: GroupMessage) {
 }
 
 async function deleteMessage(message: GroupMessage) {
-    messages.value = await groupStore.deleteMessage(props.group.id, message.id);
+    const {data} = await axios.delete(`/groups/${props.group.id}/messages/${message.id}`);
+    messages.value = data.data.messages;
 }
 </script>
 

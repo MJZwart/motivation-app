@@ -83,7 +83,7 @@
             <h4>{{ $t('transfer-ownership') }}</h4>
             <select 
                 id="group-owner-users" 
-                v-model="newOwner" 
+                v-model="newOwnerId" 
                 name="group-owner-user" 
                 :class="{invalid: noUserSelectedError, 'mb-4': !noUserSelectedError}">
                 <option v-for="groupUser in eligibleMembersForTransfer" :key="groupUser.id" :value="groupUser.id">
@@ -102,7 +102,6 @@
 import {onBeforeMount, ref, PropType, computed} from 'vue';
 import InviteUsersModal from '../modals/InviteUsersModal.vue';
 import Blocklist from '../modals/Blocklist.vue';
-import {useGroupStore} from '/js/store/groupStore';
 import {useRouter} from 'vue-router';
 import {useI18n} from 'vue-i18n';
 import {Application, Group, GroupPage} from 'resources/types/group';
@@ -111,8 +110,9 @@ import ManageGroupRoles from './ManageGroupRoles.vue';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {waitingOnResponse} from '/js/services/loadingService';
 import {showModal} from '/js/components/modal/modalService';
+import axios from 'axios';
+import { groupPage, updateGroup } from '/js/services/groupService';
 
-const groupStore = useGroupStore();
 const router = useRouter();
 const {t} = useI18n();
 
@@ -124,7 +124,8 @@ const emit = defineEmits(['reload']);
 
 async function loadApplications() {
     loading.value = true;
-    applications.value = await groupStore.fetchApplications(props.group.id);
+    const {data} = await axios.get(`/groups/applications/show/${props.group.id}`);
+    applications.value = data.applications;
     loading.value = false;
 }
 
@@ -142,7 +143,7 @@ const loading = ref(true);
 async function deleteGroup() {
     if (props.group === null) return;
     if (confirm(t('delete-group-confirm', {group: props.group.name}))) {
-        await groupStore.deleteGroup(props.group.id);
+        await axios.delete(`/groups/${props.group.id}`);
         router.push('/social#Groups');
     }
 }
@@ -152,20 +153,20 @@ async function deleteGroup() {
  */
 function save(group: Group) {
     group.id = props.group.id;
-    groupStore.updateGroup(group);
+    updateGroup(group);
 }
 function togglePublic() {
     const group = {} as Group;
     group.is_public = !props.group.is_public;
     group.id = props.group.id;
-    groupStore.updateGroup(group);
+    updateGroup(group);
 }
 
 function toggleRequireApplication() {
     const group = {} as Group;
     group.require_application = !props.group.require_application;
     group.id = props.group.id;
-    groupStore.updateGroup(group);
+    updateGroup(group);
     if (group.require_application) loadApplications();
 }
 
@@ -173,17 +174,20 @@ function toggleRequireApplication() {
  * Manage applications
  */
 async function rejectApplication(applicationId: number) {
-    await groupStore.rejectApplication(applicationId, props.group.id);
+    const {data} = await axios.post(`/groups/applications/${props.group.id}/reject/${applicationId}`);
+    groupPage.value = data.data.group;
     loadApplications();
 }
 
 async function acceptApplication(applicationId: number) {
-    await groupStore.acceptApplication(applicationId, props.group.id);
+    const {data} = await axios.post(`/groups/applications/${props.group.id}/accept/${applicationId}`);
+    groupPage.value = data.data.group;
     loadApplications();
 }
 
 async function suspendApplication(applicationId: number) {
-    await groupStore.suspendApplication(applicationId, props.group.id);
+    const {data} = await axios.post(`/groups/applications/${props.group.id}/suspend/${applicationId}`);
+    groupPage.value = data.data.group;
     loadApplications();
 }
 
@@ -199,18 +203,19 @@ function showBlocklist() {
  * Manage ownership
  */
 const transferOwnership = ref(false);
-const newOwner = ref<number | null>(null);
+const newOwnerId = ref<number | null>(null);
 const noUserSelectedError = ref(false);
 
 const eligibleMembersForTransfer = computed(() => props.group.members.filter(member => !member.rank.owner));
 
 async function transferOwnershipToUser() {
-    if (!newOwner.value) {
+    if (!newOwnerId.value) {
         noUserSelectedError.value = true;
         waitingOnResponse.value = false;
         return;
     }
-    await groupStore.transferOwnership(props.group.id, newOwner.value);
+    const {data} = await axios.put(`groups/${props.group.id}/transfer/${newOwnerId.value}`);
+    groupPage.value = data.data.group;
     emit('reload');
 }
 </script>
