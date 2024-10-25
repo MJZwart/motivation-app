@@ -18,9 +18,9 @@ class DashboardController extends Controller
     {
         /** @var User */
         $user = Auth::user();
-        $taskLists = TaskListResource::collection($user->taskLists);
-        $tasks = TaskResource::collection($user->getActiveTasks());
+        $taskListCollection = TaskListResource::collection($user->taskLists);
+        $taskCollection = TaskResource::collection($user->getActiveTasks());
         $rewardObj = RewardObjectHandler::getActiveRewardObjectResourceByUser($user->rewards, $user->id);
-        return new JsonResponse(['taskLists' => $taskLists, 'rewardObj' => $rewardObj, 'tasks' => $tasks]);
+        return new JsonResponse(['taskLists' => $taskListCollection, 'rewardObj' => $rewardObj, 'tasks' => $taskCollection]);
     }
 }

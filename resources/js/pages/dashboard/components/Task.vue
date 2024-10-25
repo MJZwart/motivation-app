@@ -110,11 +110,9 @@ async function deleteTask(task: Task) {
 async function completeTask(task: Task) {
     if (task.tasks && task.tasks.length > 0 && !confirm(t('complete-sub-task-confirmation')))
         return;
-
     const {data} = await axios.put('/tasks/complete/' + task.id);
     if(!data.data.keepTask) removeTaskFromTasks(task);
     activeReward.value = data.data.activeReward;
-
 }
 </script>
 

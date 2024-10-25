@@ -32,7 +32,7 @@ class TaskListController extends Controller
         $taskList = TaskList::create($validated);
         ActionTrackingHandler::registerAction($request, 'STORE_TASK_LIST', 'Storing tasklist named: ' . $validated['name']);
 
-    return ResponseWrapper::successResponse(__('messages.tasklist.created'), ['data' => $taskList]);
+    return ResponseWrapper::successResponse(__('messages.tasklist.created'), ['data' => new TaskListResource($taskList)]);
     }
 
     /**
@@ -46,7 +46,7 @@ class TaskListController extends Controller
         $tasklist->update($validated);
         ActionTrackingHandler::registerAction($request, 'UPDATING_TASK_LIST', 'Updating tasklist named: ' . $validated['name']);
 
-        return ResponseWrapper::successResponse(__('messages.tasklist.updated'), ['data' => $tasklist->fresh()]);
+        return ResponseWrapper::successResponse(__('messages.tasklist.updated'), ['data' => new TaskListResource($tasklist->fresh())]);
     }
 
     /**
