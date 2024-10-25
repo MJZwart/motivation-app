@@ -2,7 +2,7 @@ import axios from 'axios';
 import type {NewTask, NewTaskList, Task, Template} from 'resources/types/task';
 import type { TaskList } from "resources/types/task";
 import {ref} from 'vue';
-import { activeReward } from './villageService';
+import { activeVillage } from './villageService';
 
 export const taskLists = ref<TaskList[]>([]);
 export const tasks = ref<Task[]>([]);
@@ -80,7 +80,7 @@ export const fetchDashboard = async() => {
     data.tasks.forEach((task: Task) => {
         addTaskToTasks(task);
     });
-    activeReward.value = data.rewardObj; // TODO Make sure the naming is correct
+    activeVillage.value = data.rewardObj; // TODO Make sure the naming is correct
 }
 
 export const getTemplates = async() =>

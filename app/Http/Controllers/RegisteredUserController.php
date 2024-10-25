@@ -61,18 +61,10 @@ class RegisteredUserController extends Controller
             case 'NONE':
                 $user->show_reward = false;
                 break;
-            case 'CHARACTER':
-                Character::create(
-                    [
-                        'name' => $request['reward_object_name'],
-                        'user_id' => $user->id
-                    ]
-                );
-                break;
             case 'VILLAGE':
                 Village::create(
                     [
-                        'name' => $request['reward_object_name'],
+                        'name' => $request['village_name'],
                         'user_id' => $user->id
                     ]
                 );

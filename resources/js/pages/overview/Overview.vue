@@ -5,11 +5,9 @@
         <KeepAlive>
             <Timeline v-if="userId && activeTab === 'timeline'" :user-id="userId" />
         </KeepAlive>
-        <RewardCard
-            v-if="rewardObj && activeTab === rewardObj?.rewardType.toLowerCase()"
-            :reward="rewardObj"
-            :userReward="true"
-            :rewardType="rewardObj.rewardType"
+        <VillageCard
+            v-if="village && activeTab === 'village'"
+            :village="village"
         />
         <UserStatsVue v-if="userStats && activeTab === 'stats'" :user-stats="userStats" />
         <AchievementsCard v-if="achievements && activeTab === 'achievements'" :achievements="achievements" />
@@ -18,7 +16,7 @@
 
 <script setup lang="ts">
 import AchievementsCard from './components/AchievementsCard.vue';
-import RewardCard from '/js/pages/dashboard/components/reward/RewardCard.vue';
+import VillageCard from '/js/pages/dashboard/components/village/VillageCard.vue';
 import Timeline from './components/Timeline.vue';
 import {computed, onMounted, ref} from 'vue';
 import {Achievement} from 'resources/types/achievement';
@@ -27,7 +25,7 @@ import UserStatsVue from './components/UserStats.vue';
 import HorizontalTabControls, {TabItem} from '/js/components/global/tabs/HorizontalTabControls.vue';
 import { user } from '/js/services/userService';
 import axios from 'axios';
-import { Reward } from 'resources/types/reward';
+import { Village } from 'resources/types/village';
 
 const tabs = ref<TabItem[]>([]);
 const activeTab = ref('');
@@ -42,8 +40,8 @@ onMounted(async () => {
         {key: 'stats'},
     ];
     if (data.rewardObj) {
-        rewardObj.value = data.rewardObj;
-        tabs.value.push({key: data.rewardObj?.rewardType.toLowerCase()});
+        village.value = data.rewardObj;
+        tabs.value.push({key: 'village'});
     }
     activeTab.value = tabs.value[0].key;
     loading.value = false;
@@ -51,7 +49,7 @@ onMounted(async () => {
 
 const userId = computed(() => user.value?.id);
 
-const rewardObj = ref<Reward | null>(null);
+const village = ref<Village | null>(null);
 const achievements = ref<Achievement[]>([]);
 const userStats = ref<UserStats | null>(null);
 </script>

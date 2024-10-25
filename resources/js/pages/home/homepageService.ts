@@ -1,11 +1,11 @@
 import {successToast} from '/js/services/toastService';
 import {ref} from 'vue';
-import {DUMMY_CHARACTER, DUMMY_TASK_LIST, taskId} from '/js/constants/dummyConstants';
+import {DUMMY_VILLAGE, DUMMY_TASK_LIST, taskId} from '/js/constants/dummyConstants';
 import {NewTask, Task, TaskList} from 'resources/types/task';
 import {waitingOnResponse} from '/js/services/loadingService';
 import i18n from '/js/i18n';
 
-export const dummyCharacterRef = ref(Object.assign({}, DUMMY_CHARACTER));
+export const dummyVillageRef = ref(Object.assign({}, DUMMY_VILLAGE));
 
 export const dummyTaskListRef = ref(Object.assign({}, DUMMY_TASK_LIST));
 
@@ -96,18 +96,18 @@ const statExpNeeded = ['a_exp_needed', 'b_exp_needed', 'c_exp_needed', 'd_exp_ne
 function calculateReward(task: Task) {
     if (!task) return;
     for (let i = 0 ; i < stats.length ; i++) {
-        dummyCharacterRef.value[statExp[i]] += getRandomIntBetween(25, 75) * task?.difficulty;
-        if (dummyCharacterRef.value[statExp[i]] > dummyCharacterRef.value[statExpNeeded[i]]) {
-            dummyCharacterRef.value[stats[i]]++;
-            dummyCharacterRef.value[statExp[i]] -= dummyCharacterRef.value[statExpNeeded[i]];
+        dummyVillageRef.value[statExp[i]] += getRandomIntBetween(25, 75) * task?.difficulty;
+        if (dummyVillageRef.value[statExp[i]] > dummyVillageRef.value[statExpNeeded[i]]) {
+            dummyVillageRef.value[stats[i]]++;
+            dummyVillageRef.value[statExp[i]] -= dummyVillageRef.value[statExpNeeded[i]];
         }
     }
-    dummyCharacterRef.value.experience += getRandomIntBetween(50, 150) * task?.difficulty;
-    if (dummyCharacterRef.value.experience > dummyCharacterRef.value.level_exp_needed) {
-        dummyCharacterRef.value.level++;
-        dummyCharacterRef.value.experience -= dummyCharacterRef.value.level_exp_needed;
+    dummyVillageRef.value.experience += getRandomIntBetween(50, 150) * task?.difficulty;
+    if (dummyVillageRef.value.experience > dummyVillageRef.value.level_exp_needed) {
+        dummyVillageRef.value.level++;
+        dummyVillageRef.value.experience -= dummyVillageRef.value.level_exp_needed;
     }
-    dummyCharacterRef.value.coins += getRandomIntBetween(150, 250) * task?.difficulty;
+    dummyVillageRef.value.coins += getRandomIntBetween(150, 250) * task?.difficulty;
 }
 
 function getRandomIntBetween(min: number, max: number) {

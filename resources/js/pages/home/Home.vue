@@ -13,7 +13,7 @@
                 {{ $t('explanation-tasks') }}
             </ContentBlock>
             <ContentBlock title="explanation-reward-header">
-                <Character class="dummy-character" :reward="dummyCharacter" :rewardType="'CHARACTER'" :userReward="true" />
+                <VillageCard class="dummy-village" :village="dummyVillage" />
                 {{ $t('explanation-reward') }}
             </ContentBlock>
             <ContentBlock title="explanation-social-header">
@@ -43,15 +43,15 @@
 
 <script setup lang="ts">
 import TaskList from './DummyTaskList.vue';
-import Character from '/js/pages/dashboard/components/reward/RewardCard.vue';
-import {dummyCharacterRef, dummyTaskListRef} from './homepageService';
+import VillageCard from '/js/pages/dashboard/components/village/VillageCard.vue';
+import {dummyVillageRef, dummyTaskListRef} from './homepageService';
 import {computed, onMounted, ref} from 'vue';
 import {useI18n} from 'vue-i18n';
 import { continueGuestAccount } from '/js/services/userService';
 const {t} = useI18n(); // use as global scope;
 
 const dummyList = dummyTaskListRef;
-const dummyCharacter = dummyCharacterRef;
+const dummyVillage = dummyVillageRef;
 
 const appTitle = computed(() => t('home-welcome-to', [t('app-name')]));
 const appLead = computed(() => t('home-introduction'));
@@ -88,7 +88,7 @@ onMounted(() => {
 .w-60-flex {
     max-width: 850px;
 }
-.dummy-character {
+.dummy-village {
     
     box-shadow: 0 0.125rem 0.5rem rgb(0 0 0 / 75%);
     border-radius: 0.5rem;

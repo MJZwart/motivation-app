@@ -25,14 +25,6 @@ class RewardController extends Controller
     }
 
     /**
-     * Returns all the characters owned by the authenticated user.
-     */
-    public function fetchAllCharactersByUser()
-    {
-        $characters = Character::where('user_id', Auth::user()->id)->get();
-        return $characters ? CharacterResource::collection($characters) : null;
-    }
-    /**
      * Returns all the villages owned by the authenticated user.
      */
     public function fetchAllVillagesByUser()
@@ -44,12 +36,8 @@ class RewardController extends Controller
     public function fetchAllRewardInstancesByUser()
     {
         $user = Auth::user();
-        $characters = Character::where('user_id', $user->id)->get();
         $villages = Village::where('user_id', $user->id)->get();
-        return new JsonResponse(['rewards' => [
-            'characters' => $characters ? CharacterResource::collection($characters) : null,
-            'villages' => $villages ? VillageResource::collection($villages) : null
-        ]]);
+        return new JsonResponse(['villages' => $villages ? VillageResource::collection($villages) : null]);
     }
 
     public function activateRewardInstance(Request $request)

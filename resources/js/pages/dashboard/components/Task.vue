@@ -87,7 +87,7 @@ import {useI18n} from 'vue-i18n';
 import {CREATE, EDIT, REPEAT, TRASH, ARROW_DOWN_RIGHT, CHECK_SQUARE} from '/js/constants/iconConstants';
 import axios from 'axios';
 import { removeTaskFromTasks } from '/js/services/taskService';
-import { activeReward } from '/js/services/villageService';
+import { activeVillage } from '/js/services/villageService';
 const {t} = useI18n();
 
 defineProps<{task: Task, taskList: TaskList}>();
@@ -112,7 +112,7 @@ async function completeTask(task: Task) {
         return;
     const {data} = await axios.put('/tasks/complete/' + task.id);
     if(!data.data.keepTask) removeTaskFromTasks(task);
-    activeReward.value = data.data.activeReward;
+    activeVillage.value = data.data.activeReward;
 }
 </script>
 
