@@ -16,11 +16,11 @@
 
                 <div class="right-align">
                     <RewardCard
-                        v-if="rewardObj"
+                        v-if="activeReward"
                         class="summary-tab"
-                        :reward="rewardObj"
+                        :reward="activeReward"
                         :userReward="true"
-                        :rewardType="rewardObj.rewardType"
+                        :rewardType="activeReward.rewardType"
                     />
 
                     <FriendsCard v-if="!isGuest" :message="true" />
@@ -38,19 +38,15 @@ import TaskListComp from './components/TaskList.vue';
 import RewardCard from './components/reward/RewardCard.vue';
 import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import {onBeforeMount, ref, computed} from 'vue';
-import {useRewardStore} from '/js/store/rewardStore';
 import {formModal} from '/js/components/modal/modalService';
 import {fetchDashboard, getNewTaskList, taskLists, addTaskList, getTemplates} from '/js/services/taskService';
 import CreateEditTaskList from './components/CreateEditTaskList.vue';
 import TemplatesButton from './components/template/TemplatesButton.vue';
 import { isGuest } from '/js/services/userService';
 import axios from 'axios';
-
-const rewardStore = useRewardStore();
+import { activeReward } from '/js/services/villageService';
 
 const loading = ref(true);
-
-const rewardObj = computed(() => rewardStore.rewardObj);
 
 onBeforeMount(async () => {
     fetchDashboard();
