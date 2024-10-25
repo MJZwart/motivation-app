@@ -26,10 +26,6 @@ fetchDefaultTheme();
 //     console.log(info);
 // }
 
-//Import store
-import {createPinia} from 'pinia';
-app.use(createPinia());
-
 await getMe();
 
 //Import router
