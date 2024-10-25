@@ -24,8 +24,8 @@
 <script setup lang="ts">
 import Loading from '/js/components/global/Loading.vue';
 import {onMounted, ref} from 'vue';
-import {useGroupStore} from '/js/store/groupStore';
 import {UNLOCK} from '/js/constants/iconConstants';
+import axios from 'axios';
 
 export type GroupBlockedUser = {
     id: number;
@@ -33,7 +33,6 @@ export type GroupBlockedUser = {
     suspended: Date;
 }
 
-const groupStore = useGroupStore();
 const loading = ref(true);
 
 const props = defineProps<{groupId: number}>();
@@ -43,11 +42,13 @@ defineEmits(['close']);
 const blockedUsers = ref<GroupBlockedUser[]>([]);
 
 onMounted(async() => {
-    blockedUsers.value = await groupStore.getBlockedUsers(props.groupId);
+    const {data} = await axios.get(`/groups/blocked/${props.groupId}`);
+    blockedUsers.value = data.blockedUsers;
     loading.value = false;
 });
 
 async function unblock(userId: number) {
-    blockedUsers.value = await groupStore.unblockUser(props.groupId, userId);
+    const {data} = await axios.post(`/groups/unblock/${props.groupId}`, {userId: userId});
+    blockedUsers.value = data.data.blockedUsers;
 }
 </script>

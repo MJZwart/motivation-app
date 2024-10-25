@@ -1,5 +1,4 @@
-//Maybe this doesn't deserve its own file, but rather be called a 'parsing service' 
-//or even be included in 'language service'
+
 
 import {Achievement, NewAchievement} from 'resources/types/achievement';
 import {ACHIEVEMENT_TRIGGERS} from '/js/constants/achievementsConstants';
@@ -12,11 +11,7 @@ export function parseAchievementTriggerDesc(achievement: Achievement | NewAchiev
     if (!trigger) return;
     return i18n.global.t(trigger.desc, achievement.trigger_amount);
 }
-export function newAchievementInstance(): NewAchievement {
-    return {
-        description: '',
-        name: '',
-        trigger_amount: 0,
-        trigger_type: '',
-    };
+
+export function capitalizeOnlyFirst(text: string) {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }

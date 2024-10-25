@@ -108,9 +108,8 @@ import {onMounted, ref, computed} from 'vue';
 import {REWARD_TYPES, REWARD_FIELDS} from '/js/constants/rewardConstants';
 import EditRewardObjectName from '../components/EditRewardObjectName.vue';
 import Table from '/js/components/global/Table.vue';
-import {useRewardStore} from '/js/store/rewardStore';
 import {useI18n} from 'vue-i18n';
-import {capitalizeOnlyFirst} from '/js/services/stringService';
+import {capitalizeOnlyFirst} from '/js/helpers/stringHelper';
 import type {Reward, ChangeReward} from 'resources/types/reward';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
@@ -119,9 +118,8 @@ import {Icon} from '@iconify/vue';
 import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
 import axios from 'axios';
 import { setUser, user } from '/js/services/userService';
-import { activeReward } from '/js/services/villageService';
+import { successToast } from '/js/services/toastService';
 
-const rewardStore = useRewardStore();
 const {t} = useI18n();
 
 onMounted(() => load());
@@ -140,9 +138,9 @@ const villages = ref<Reward[]>([]);
 
 async function load() {
     clearErrors();
-    const data = await rewardStore.fetchAllRewardInstances();
-    villages.value = data.villages;
-    characters.value = data.characters;
+    const {data} = await axios.get('/reward/all');
+    villages.value = data.rewards.villages;
+    characters.value = data.rewards.characters;
     rewardSetting.value.rewards = user.value?.rewards ?? '';
     loading.value = false;
 }
@@ -207,11 +205,13 @@ function showEditReward(instance: Reward) {
         'edit-reward-name');
 }
 async function submitEditReward(rewardObj: Reward) {
-    await rewardStore.updateRewardObjName(rewardObj);
+    await axios.put('/reward/update', rewardObj);
     load();
 }
 async function activateReward(instance: Reward) {
-    await rewardStore.activateInstance(instance);
+    const {data} = await axios.put('/reward/activate', instance);
+    successToast(data.message);
+    setUser(data.data.user);
     load();
 }
 function displayActive(instance: Reward) {
@@ -219,7 +219,7 @@ function displayActive(instance: Reward) {
 }
 async function deleteItem(instance: Reward) {
     if (confirm(t('confirm-delete-instance', {name: instance.name, type: instance.rewardType.toLowerCase()}))) {
-        await rewardStore.deleteInstance(instance);
+        await axios.put('/reward/delete', instance);
         load();
     }
 }

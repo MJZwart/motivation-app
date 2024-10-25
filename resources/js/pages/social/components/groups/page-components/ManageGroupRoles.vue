@@ -98,21 +98,21 @@ import Editable from '/js/components/global/Editable.vue';
 import type {Rank} from 'resources/types/group';
 import {onMounted, ref} from 'vue';
 import {GROUP_ROLE_FIELDS} from '/js/constants/groupConstants';
-import {useGroupStore} from '/js/store/groupStore';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
 import {Icon} from '@iconify/vue';
 import {ARROW_UP, ARROW_DOWN, TRASH} from '/js/constants/iconConstants';
 import {hasError} from '/js/services/errorService';
+import { fetchGroupRoles, groupPage } from '/js/services/groupService';
+import axios from 'axios';
 
-const groupStore = useGroupStore();
 const {t} = useI18n();
 
 const loading = ref(true);
 onMounted(async() => {
     loading.value = true;
-    groupRoles.value = await groupStore.fetchRoles(props.groupId);
+    groupRoles.value = await fetchGroupRoles(props.groupId);
     loading.value = false;
 });
 
@@ -121,10 +121,15 @@ const props = defineProps<{groupId: number}>();
 const groupRoles = ref<Rank[]>([]);
 
 async function updateName(roleId: number, role: {name: string}) {
-    groupRoles.value = await groupStore.updateRoleName(props.groupId, roleId, role);
+
+    const {data} = await axios.put(`groups/roles/${props.groupId}/update/${roleId}/name`, role);
+    groupPage.value = data.data.group;
+    groupRoles.value = data.data.roles;
 }
 async function updateRoles() {
-    groupRoles.value = await groupStore.updateRoles(props.groupId, groupRoles.value);
+    const {data} = await axios.put(`groups/roles/${props.groupId}/update`, groupRoles.value);
+    groupPage.value = data.data.group;
+    groupRoles.value = data.data.roles;
 }
 
 function getRoleIcon(permission: boolean) {
@@ -135,21 +140,28 @@ const newRole = ref('');
 const newRoleOpen = ref(false);
 
 async function addRole() {
-    groupRoles.value = await groupStore.createRole(props.groupId, {name: newRole.value});
+    const {data} = await axios.post(`groups/roles/${props.groupId}`, {name: newRole.value});
+    groupPage.value = data.data.group;
+    groupRoles.value = data.data.roles;
     newRoleOpen.value = false;
 }
 
 async function deleteRole(role: Rank) {
-    if (confirm(t('delete-role-confirmation', {role: role.name}))) 
-        groupRoles.value = await groupStore.deleteRole(props.groupId, role.id);
+    if (confirm(t('delete-role-confirmation', {role: role.name}))) {
+        const {data} = await axios.delete(`groups/roles/${props.groupId}/delete/${role.id}`);
+        groupPage.value = data.data.group;
+        groupRoles.value = data.data.roles;
+    }
 }
 
 async function rankUp(role: Rank) {
-    groupRoles.value = await groupStore.rankUp(props.groupId, role.id);
+    const {data} = await axios.put(`groups/roles/${props.groupId}/role/${role.id}/up`);
+    groupRoles.value = data.data.roles;
 }
 
 async function rankDown(role: Rank) {
-    groupRoles.value = await groupStore.rankDown(props.groupId, role.id);
+    const {data} = await axios.put(`groups/roles/${props.groupId}/role/${role.id}/down`);
+    groupRoles.value = data.data.roles;
 }
 </script>
 

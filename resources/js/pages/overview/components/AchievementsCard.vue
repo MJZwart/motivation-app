@@ -21,7 +21,7 @@
 import {parseDateTime} from '/js/services/dateService';
 import {useI18n} from 'vue-i18n';
 import {PropType} from 'vue';
-import {parseAchievementTriggerDesc} from '/js/services/achievementService';
+import {parseAchievementTriggerDesc} from '/js/helpers/stringHelper';
 import type {Achievement} from 'resources/types/achievement';
 
 const {t} = useI18n();

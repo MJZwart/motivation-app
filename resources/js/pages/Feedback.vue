@@ -32,11 +32,9 @@
 import type {NewFeedback} from 'resources/types/feedback';
 import {ref} from 'vue';
 import {FEEDBACK_TYPES} from '/js/constants/feedbackConstants.js';
-import {useMainStore} from '/js/store/store';
 import {getDiagnostics} from '/js/services/platformService';
 import { authenticated, user } from '../services/userService';
-
-const mainStore = useMainStore();
+import axios from 'axios';
 
 const emptyFeedback = {
     type: 'FEEDBACK',
@@ -54,7 +52,7 @@ async function sendFeedback() {
     if (user.value) {
         feedback.value.user_id = user.value.id;
     }
-    await mainStore.sendFeedback(feedback.value);
+    await axios.post('/feedback', feedback.value);
     delete feedback.value.diagnostics;
 }
 </script>

@@ -24,13 +24,11 @@
 <script setup lang="ts">
 import {UserToSuspend} from 'resources/types/user';
 import {computed, onMounted, ref} from 'vue';
-import {useGroupStore} from '/js/store/groupStore';
 import {GroupMessage} from 'resources/types/group';
 import Loading from '/js/components/global/Loading.vue';
 import {parseDateTime} from '/js/services/dateService';
 import Pagination from '/js/components/global/Pagination.vue';
-
-const groupStore = useGroupStore();
+import axios from 'axios';
 
 const props = defineProps<{reportedUser: UserToSuspend, reportId: number}>();
 
@@ -40,7 +38,8 @@ const groupMessages = ref<GroupMessage[] | null>(null);
 
 onMounted(async() => {
     if (!report.value || !report.value.group_id) return;
-    groupMessages.value = await groupStore.fetchGroupMessagesByDateRange(report.value?.group_id, report.value.reported_date);
+    const {data} = await axios.put(`/admin/groups/${report.value?.group_id}/messages/daterange`, {date: report.value.reported_date});
+    groupMessages.value = data.data.messages;
     loading.value = false;
 });
 </script>

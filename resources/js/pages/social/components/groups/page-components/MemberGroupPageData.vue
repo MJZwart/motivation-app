@@ -20,13 +20,12 @@ import type {GroupPage} from 'resources/types/group';
 import {PropType} from 'vue';
 import {daysSince, parseDateTime} from '/js/services/dateService';
 import {parseBigNumbers} from '/js/services/numberService';
-import {useGroupStore} from '/js/store/groupStore';
 import {useI18n} from 'vue-i18n';
 import GroupRankIcon from './GroupRankIcon.vue';
+import { groupPage } from '/js/services/groupService';
+import axios from 'axios';
 
 const {t} = useI18n();
-
-const groupStore = useGroupStore();
 
 const props = defineProps({
     group: {
@@ -38,7 +37,8 @@ const props = defineProps({
 async function leaveGroup() {
     if (props.group === null) return;
     if (confirm(t('leave-group-confirm', {group: props.group.name}))) {
-        await groupStore.leaveGroup(props.group.id)
+        const {data} = await axios.post(`/groups/leave/${props.group.id}`);
+        groupPage.value = data.data.group;
     }
 }
 </script>

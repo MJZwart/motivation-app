@@ -68,13 +68,13 @@ import {GroupPage} from 'resources/types/group';
 import {User} from 'resources/types/user';
 import {ref, computed, onMounted} from 'vue';
 import {SEARCH_RESULTS_FIELDS} from '/js/constants/userConstants.js';
-import {useGroupStore} from '/js/store/groupStore';
 import Table from '/js/components/global/Table.vue';
 import {UserSearch} from 'resources/types/global';
 import { searchUser } from '/js/services/userService';
 import { friends } from '/js/services/friendService';
+import axios from 'axios';
+import { groupPage } from '/js/services/groupService';
 
-const groupStore = useGroupStore();
 const searchResultsFields = SEARCH_RESULTS_FIELDS;
 
 const loading = ref(true);
@@ -114,7 +114,8 @@ async function inviteUser(userId: number) {
         user_id: userId,
         group_id: props.group.id,
     };
-    await groupStore.inviteUser(invite);
+    const {data} = await axios.post(`/groups/invite/${props.group.id}`, invite);
+    groupPage.value = data.data.group;
     groupMemberIds.value = props.group.members.map(member => member.id);
     loading.value = false;
 }

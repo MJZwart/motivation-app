@@ -54,7 +54,7 @@
 import {ref} from 'vue';
 import {Achievement, NewAchievement} from 'resources/types/achievement.js';
 import {ACHIEVEMENT_TRIGGERS} from '/js/constants/achievementsConstants';
-import {parseAchievementTriggerDesc} from '/js/services/achievementService';
+import {parseAchievementTriggerDesc} from '/js/helpers/stringHelper';
 import {deepCopy} from '/js/helpers/copy';
 import FormControls from '/js/components/global/FormControls.vue';
 
