@@ -72,12 +72,11 @@
 <script setup lang="ts">
 import {BUG_TYPES, BUG_SEVERITY} from '/js/constants/bugConstants';
 import {ref} from 'vue';
-import {useMainStore} from '/js/store/store';
 import {NewBugReport} from 'resources/types/bug';
 import {getDiagnostics} from '/js/services/platformService';
 import {clearErrors} from '../services/errorService';
+import axios from 'axios';
 
-const mainStore = useMainStore();
 const emptyBugReport = {
     title: '',
     page: '',
@@ -96,7 +95,7 @@ async function submitBugReport() {
     if (bugReport.value.diagnostics_approval)
         bugReport.value.diagnostics = getDiagnostics();
     clearErrors();
-    await mainStore.storeBugReport(bugReport.value);
+    await axios.post('/bugreport', bugReport.value);
     resetForm();
 }
 
