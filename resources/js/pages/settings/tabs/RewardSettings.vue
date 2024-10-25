@@ -110,7 +110,7 @@ import EditRewardObjectName from '../components/EditRewardObjectName.vue';
 import Table from '/js/components/global/Table.vue';
 import {useRewardStore} from '/js/store/rewardStore';
 import {useI18n} from 'vue-i18n';
-import {capitalizeOnlyFirst} from '/js/services/stringService';
+import {capitalizeOnlyFirst} from '/js/helpers/stringHelper';
 import type {Reward, ChangeReward} from 'resources/types/reward';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
