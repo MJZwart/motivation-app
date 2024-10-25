@@ -18,7 +18,6 @@ export type NewTask = {
 export type TaskList = NewTaskList & {
     id: number;
     color?: string | null;
-    tasks: Task[];
 };
 
 export type NewTaskList = {

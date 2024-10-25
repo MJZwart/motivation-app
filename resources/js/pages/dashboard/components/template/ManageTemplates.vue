@@ -44,17 +44,15 @@
 import CreateNewTemplate from './NewTemplate.vue';
 import Tutorial from '/js/components/global/Tutorial.vue';
 import {onMounted, ref} from 'vue';
-import {useTaskStore} from '/js/store/taskStore';
 import {useI18n} from 'vue-i18n'
 import type {NewTemplate, Template} from 'resources/types/task';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
-import {templates} from '../../taskService';
+import {getTemplates, templates} from '/js/services/taskService';
+import axios from 'axios';
 const {t} = useI18n() // use as global scope
 
-const taskStore = useTaskStore();
-
 onMounted(async() => {
-    await taskStore.getTemplates();
+    await getTemplates();
 });
 
 defineEmits(['close']);
@@ -63,7 +61,8 @@ const showNewTemplate = ref(false);
 const templateToEdit = ref<Template | undefined>(undefined);
 
 async function createNewTemplate(newTemplate: NewTemplate) {
-    templates.value = await taskStore.storeTemplate(newTemplate);
+    const {data} = await axios.post('/tasks/templates', newTemplate);
+    templates.value = data.data;
     showNewTemplate.value = false;
 }
 
@@ -72,7 +71,8 @@ function editTemplate(template: Template) {
     showNewTemplate.value = true;
 }
 async function submitEditTemplate(template: Template) {
-    templates.value = await taskStore.updateTemplate(template);
+    const {data} = await axios.put(`/tasks/templates/${template.id}`, template);
+    templates.value = data.data;
     cancelNewEditTemplate();
 }
 function cancelNewEditTemplate() {
@@ -81,8 +81,10 @@ function cancelNewEditTemplate() {
     showNewTemplate.value = false;
 }
 async function deleteTemplate(template: Template) {
-    if (window.confirm(t('confirm-delete-template', template.name)))
-        templates.value = await taskStore.deleteTemplate(template.id);
+    if (window.confirm(t('confirm-delete-template', template.name))) {
+        const {data} = await axios.delete(`/tasks/templates/${template.id}`);
+        templates.value = data.data;
+    }
 }
 </script>
 

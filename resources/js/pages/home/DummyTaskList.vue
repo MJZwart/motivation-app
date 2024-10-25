@@ -41,7 +41,7 @@ import TaskVue from './DummyTask.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {DummyTaskList, deleteTask} from './homepageService';
 import {formModal} from '/js/components/modal/modalService';
-import {getNewTask} from '/js/pages/dashboard/taskService';
+import {getNewTask} from '/js/services/taskService';
 import CreateEditTask from '/js/pages/dashboard/components/CreateEditTask.vue';
 import {submitSubTask, submitTask, submitEditTask, submitEditTaskList} from './homepageService';
 import CreateEditTaskList from '/js/pages/dashboard/components/CreateEditTaskList.vue';

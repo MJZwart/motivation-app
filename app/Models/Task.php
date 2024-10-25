@@ -54,4 +54,9 @@ class Task extends Model
     {
         return DB::table('tasks_reset_days')->where('task_id', $this->id)->orderBy('day')->pluck('day');
     }
+
+    public function isActive()
+    {
+        return $this->completed == null && $this->repeatable_active <= Carbon::now();
+    }
 }

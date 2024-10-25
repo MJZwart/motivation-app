@@ -20,7 +20,6 @@ class TaskListResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'color' => $this->color,
-            'tasks' => TaskResource::collection($this->activeTasks()),
         ];
     }
 }

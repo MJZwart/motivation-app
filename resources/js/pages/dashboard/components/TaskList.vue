@@ -19,7 +19,7 @@
                     </span>
                 </span>
             </template>
-            <template v-for="(task, index) in taskList.tasks" :key="task.id">
+            <template v-for="(task, index) in tasksInList" :key="task.id">
                 <TaskComp 
                     :task="task" 
                     :taskList="taskList" 
@@ -42,12 +42,13 @@ import CreateEditTask from './CreateEditTask.vue';
 import CreateEditTaskList from './CreateEditTaskList.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
-import {getNewTask} from '../taskService';
-import {useTaskStore} from '/js/store/taskStore';
+import {getNewTask, updateTaskInTasks, tasks, addTaskToTasks, updateTaskList, removeTaskListFromTaskLists, updateTaskListForTasks} from '/js/services/taskService';
+import { computed } from 'vue';
+import axios from 'axios';
 
 const props = defineProps<{taskList: TaskList}>();
 
-const taskStore = useTaskStore();
+const tasksInList = computed(() => tasks.value.filter(task => task.task_list_id === props.taskList.id));
 
 /** 
  * New task 
@@ -61,7 +62,8 @@ function openNewTask(superTaskToSet: Task | null = null) {
     );
 }
 async function createTask({task}: {task:NewTask}) {
-    await taskStore.storeTask(task);
+    const {data} = await axios.post('/tasks', task);
+    addTaskToTasks(data.data.task);
 }
 
 /**
@@ -76,7 +78,8 @@ function openEditTask({task, superTaskParam}: {task: Task, superTaskParam: Task 
     );
 }
 async function editTask({task}: {task: Task}) {
-    await taskStore.updateTask(task);
+    const {data} = await axios.put('/tasks/' + task.id, task);
+    updateTaskInTasks(data.data.task);
 }
 
 /**
@@ -86,7 +89,8 @@ function showEditTaskList() {
     formModal(props.taskList, CreateEditTaskList, submitEditTaskList, 'edit-task-list');
 }
 async function submitEditTaskList(editedTaskList: TaskList) {
-    await taskStore.updateTaskList(editedTaskList)
+    const {data} = await axios.put('/tasklists/' + editedTaskList.id, editedTaskList);
+    updateTaskList(data.data.data);
 }
 
 /**
@@ -96,16 +100,18 @@ function showDeleteTaskList() {
     // @ts-ignore This is due to the setup of the form modal expecting the submitEvent's param type
     formModal(props.taskList, DeleteTaskListConfirm, submitDeleteTaskList, 'delete-task-list-confirm');
 }
-async function submitDeleteTaskList(data: {option: string | number, tasks: Task[]}) {
-    if (data.option != 'delete') {
-        const mergeData = {taskListId: data.option, tasks: data.tasks};
-        await taskStore.mergeTasks(mergeData);
+
+async function submitDeleteTaskList(deleteOption: string | number) {
+    if (deleteOption != 'delete' && typeof deleteOption === 'number') {
+        axios.post('/tasks/merge/' + props.taskList.id + '/to/' + deleteOption);
+        updateTaskListForTasks(props.taskList.id, deleteOption);
     }
-    await taskStore.deleteTaskList(props.taskList.id);
+    await axios.delete('/tasklists/' + props.taskList.id);
+    removeTaskListFromTaskLists(props.taskList);
 }
 
 function taskClass(index: number) {
-    return index == props.taskList.tasks.length - 1 ? 'task task-last' : 'task';
+    return index == tasksInList.value.length - 1 ? 'task task-last' : 'task';
 }
 </script>
 
