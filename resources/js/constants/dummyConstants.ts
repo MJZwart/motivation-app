@@ -1,7 +1,7 @@
-import {TaskList} from 'resources/types/task';
 import {ref} from 'vue';
+import { DummyTaskList } from '../pages/home/homepageService';
 
-export const DUMMY_TASK_LIST = <TaskList>{
+export const DUMMY_TASK_LIST = <DummyTaskList>{
     id: 1,
     name: 'Task examples',
     tasks: [
