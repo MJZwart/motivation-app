@@ -16,49 +16,6 @@ export const EXPERIENCE_POINTS_FIELDS = [
     },
 ];
 
-export const CHARACTER_EXP_GAIN_FIELDS = [
-    {
-        key: 'task_type',
-        label: 'task-type',
-        editable: false,
-    },
-    {
-        key: 'strength',
-        label: 'strength',
-        editable: true,
-    },
-    {
-        key: 'agility',
-        label: 'agility',
-        editable: true,
-    },
-    {
-        key: 'endurance',
-        label: 'endurance',
-        editable: true,
-    },
-    {
-        key: 'intelligence',
-        label: 'intelligence',
-        editable: true,
-    },
-    {
-        key: 'charisma',
-        label: 'charisma',
-        editable: true,
-    },
-    {
-        key: 'level',
-        label: 'level',
-        editable: true,
-    },
-    {
-        key: 'coins',
-        label: 'coins',
-        editable: true,
-    },
-];
-
 export const VILLAGE_EXP_GAIN_FIELDS = [
     {
         key: 'task_type',

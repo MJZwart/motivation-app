@@ -1,7 +1,7 @@
 <template>
     <div v-if="rewardObj">
         <div class="form-group">
-            <label for="username">{{ parsedLabelName }}</label>
+            <label for="username">{{ $t('village-name') }}</label>
             <span class="d-flex flex-row">
                 <input
                     id="name" 
@@ -27,33 +27,20 @@
 </template>
 
 <script setup lang="ts">
-import type {Reward} from 'resources/types/reward';
-import {ref, computed} from 'vue';
-import {useI18n} from 'vue-i18n';
+import type {Reward} from 'resources/types/village';
+import {ref} from 'vue';
 import FormControls from '/js/components/global/FormControls.vue';
 import {deepCopy} from '/js/helpers/copy';
-import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
+import {getRandomVillageName} from '/js/helpers/randomNames';
 import {Icon} from '@iconify/vue';
 import {hasError} from '/js/services/errorService';
-const {t} = useI18n();
 
 const props = defineProps<{form:  Reward}>();
 defineEmits(['close', 'submit']);
 
 const rewardObj = ref(deepCopy(props.form));
 
-const parsedLabelName = computed(() => {
-    if (rewardObj.value.rewardType == 'CHARACTER') {
-        return t('character-name');
-    } else if (rewardObj.value.rewardType == 'VILLAGE') {
-        return t('village-name');
-    } else {
-        return null;
-    }
-});
-
 function generateRandomName() {
-    if (rewardObj.value.rewardType === 'CHARACTER') rewardObj.value.name = getRandomCharacterName();
-    else if (rewardObj.value.rewardType === 'VILLAGE') rewardObj.value.name = getRandomVillageName();
+    rewardObj.value.name = getRandomVillageName();
 }
 </script>

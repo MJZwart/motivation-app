@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import {computed} from 'vue';
-import type {Coins} from 'resources/types/reward';
+import type {Coins} from 'resources/types/village';
 
 const props = defineProps<{coins: number}>();
 

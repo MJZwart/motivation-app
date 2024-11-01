@@ -17,7 +17,6 @@ const getIcon = computed(() => {
             return ARROW_UP;
         case 'GROUP':
             return GROUP;
-        case 'CHARACTER':
         case 'VILLAGE':
             return GAME;
         case 'JOIN':

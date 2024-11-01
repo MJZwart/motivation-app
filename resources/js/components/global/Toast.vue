@@ -23,7 +23,7 @@
 import {computed, onMounted} from 'vue';
 import {Toast} from 'resources/types/toast';
 import {clearToast} from '/js/services/toastService';
-import Coins from '/js/pages/dashboard/components/reward/Coins.vue';
+import Coins from '/js/pages/dashboard/components/village/Coins.vue';
 
 onMounted(() => {
     setTimeout(() => {

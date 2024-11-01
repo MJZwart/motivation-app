@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
-use App\Models\TaskList;
-use App\Http\Resources\TaskListResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\StoreTemplateRequest;
 use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use App\Helpers\RewardHandler;
-use App\Http\Requests\StoreTemplateRequest;
+use App\Http\Resources\TaskListResource;
+use App\Http\Resources\TaskResource;
 use App\Http\Resources\TemplatesResource;
+use App\Models\Task;
+use App\Models\TaskList;
 use App\Models\Template;
 use App\Models\RepeatableTaskCompleted;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {

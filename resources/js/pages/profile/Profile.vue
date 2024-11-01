@@ -40,11 +40,9 @@
                 <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" :tutorial="false" />
             </div>
             <div v-if="userProfile.rewardObj">
-                <RewardCard
+                <VillageCard
                     class="summary-tab"
-                    :reward="userProfile.rewardObj"
-                    :userReward="false"
-                    :rewardType="userProfile.rewardObj.rewardType"
+                    :village="userProfile.rewardObj"
                     :tutorial="false"
                 />
             </div>
@@ -61,7 +59,7 @@
 <script setup lang="ts">
 import {onMounted, ref, computed, watch} from 'vue';
 import AchievementsCard from '/js/pages/overview/components/AchievementsCard.vue';
-import RewardCard from '/js/pages/dashboard/components/reward/RewardCard.vue';
+import VillageCard from '/js/pages/dashboard/components/village/VillageCard.vue';
 import ReportUser from '/js/pages/messages/components/ReportUser.vue';
 import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import SuspendUserModal from '/js/pages/admin/components/SuspendUserModal.vue';

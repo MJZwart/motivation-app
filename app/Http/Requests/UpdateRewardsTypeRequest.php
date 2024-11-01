@@ -18,7 +18,7 @@ class UpdateRewardsTypeRequest extends FormRequest
         return [
             'rewards' => ['required', new ValidRewardType()], //TODO, exists:rewards_types,type - make rewards type migration table
             'keepOldInstance' => [Rule::requiredIf($this->rewards != 'NONE'), 'nullable'],
-            'newObjectName' => [Rule::requiredIf($this->keepOldInstance == 'NEW' && $this->rewards != 'NONE'), 'nullable', 'string', 'max:255'],
+            'newVillageName' => [Rule::requiredIf($this->keepOldInstance == 'NEW' && $this->rewards != 'NONE'), 'nullable', 'string', 'max:255'],
         ];
     }
 }

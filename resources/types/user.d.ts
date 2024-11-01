@@ -1,5 +1,5 @@
 import {Task} from './task';
-import {Reward} from './reward';
+import {Village} from './village';
 import {Achievement} from './achievement';
 import {Friend} from './friend';
 import {ReportedUser} from './admin';
@@ -80,7 +80,7 @@ export type UserProfile = {
     created_at: string;
     username: string;
     display_picture?: string | null;
-    rewardObj?: Reward | null;
+    rewardObj?: Village | null;
     achievements?: Achievement[];
     friends?: Friend[];
     timeline?: boolean;
@@ -108,7 +108,7 @@ export type Register = {
 export type NewUser = {
     rewardsType: string;
     tasks: Task[];
-    reward_object_name: string | null;
+    village_name: string | null;
 };
 
 export type Blocked = {

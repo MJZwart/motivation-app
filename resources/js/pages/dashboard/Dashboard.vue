@@ -15,12 +15,10 @@
                 </div>
 
                 <div class="right-align">
-                    <RewardCard
-                        v-if="activeReward"
+                    <VillageCard
+                        v-if="activeVillage"
                         class="summary-tab"
-                        :reward="activeReward"
-                        :userReward="true"
-                        :rewardType="activeReward.rewardType"
+                        :village="activeVillage"
                     />
 
                     <FriendsCard v-if="!isGuest" :message="true" />
@@ -35,7 +33,7 @@
 <script setup lang="ts">
 import type {NewTaskList} from 'resources/types/task';
 import TaskListComp from './components/TaskList.vue';
-import RewardCard from './components/reward/RewardCard.vue';
+import VillageCard from './components/village/VillageCard.vue';
 import FriendsCard from '/js/pages/social/components/FriendsCard.vue';
 import {onBeforeMount, ref, computed} from 'vue';
 import {formModal} from '/js/components/modal/modalService';
@@ -44,7 +42,7 @@ import CreateEditTaskList from './components/CreateEditTaskList.vue';
 import TemplatesButton from './components/template/TemplatesButton.vue';
 import { isGuest } from '/js/services/userService';
 import axios from 'axios';
-import { activeReward } from '/js/services/villageService';
+import { activeVillage } from '/js/services/villageService';
 
 const loading = ref(true);
 

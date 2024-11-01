@@ -129,10 +129,8 @@
 
     "balancing": "Balancing",
     "exp-points": "Experience points",
-    "char-exp-gain": "Character XP gain",
     "vill-exp-gain": "Village XP gain",
     "update-exp-points": "Update experience points table",
-    "update-char-exp-gain": "Update character experience gain",
     "update-vill-exp-gain": "Update village experience gain",
     "add-new-level": "Add a new level",
     "add-level": "Add level",

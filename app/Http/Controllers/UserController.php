@@ -140,7 +140,7 @@ class UserController extends Controller
         $activeReward = RewardObjectHandler::changeRewardSettings(
             $user,
             $request['keepOldInstance'],
-            $request['newObjectName'],
+            $request['newVillageName'],
             $request['rewards']
         );
         ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Updating rewards type');

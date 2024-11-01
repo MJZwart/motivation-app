@@ -2,24 +2,12 @@
     <div class="w-50-flex center">
         <div v-if="showFirstModal">
             <h3 class="modal-title">{{ $t('welcome') }}</h3>
-            <p class="silent mb-3">{{ $t('not-yet-done') }}</p>
             <div class="">
                 <div class="form-group">
-                    <label for="rewards-type">{{ $t('rewards-type') }}</label>
                     <small class="form-text text-muted mb-2">{{ $t('which-reward-type') }}</small>
                     <div>
                         <input id="NONE" v-model="user.rewardsType" name="rewards-type" type="radio" value="NONE" />
                         <label for="NONE" class="option-label">{{ $t('no-rewards') }}</label>
-                    </div>
-                    <div>
-                        <input
-                            id="CHARACTER"
-                            v-model="user.rewardsType"
-                            name="rewards-type"
-                            type="radio"
-                            value="CHARACTER"
-                        />
-                        <label for="CHARACTER" class="option-label">{{ $t('character-reward') }}</label>
                     </div>
                     <div>
                         <input
@@ -33,23 +21,23 @@
                     </div>
                     <BaseFormError name="rewards-type" />
                 </div>
-                <div v-if="user.rewardsType == 'CHARACTER' || user.rewardsType == 'VILLAGE'"
+                <div v-if="user.rewardsType == 'VILLAGE'"
                      class="form-group">
-                    <label for="username">{{ parsedLabelName }}</label>
+                    <label for="username">{{ $t('village-name') }}</label>
                     <span class="d-flex flex-row">
                         <input
-                            id="reward_object_name" 
-                            v-model="user.reward_object_name" 
+                            id="village_name" 
+                            v-model="user.village_name" 
                             type="text" 
-                            name="reward_object_name"
-                            :placeholder="parsedLabelName ?? ''" 
-                            :class="{ invalid: hasError('reward_object_name') }"
+                            name="village_name"
+                            :placeholder="$t('village-name') ?? ''" 
+                            :class="{ invalid: hasError('village_name') }"
                         />
                         <Tooltip :text="$t('random-name')" class="dice-button mr-2">
                             <Icon icon="fa-solid:dice" @click="generateRandomName" />
                         </Tooltip>
                     </span>
-                    <BaseFormError name="reward_object_name" />
+                    <BaseFormError name="village_name" />
                 </div> 
                 <small class="form-text text-muted mb-3">{{ $t('change-name-later') }}</small>
                 <span class="d-flex">
@@ -94,13 +82,13 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, onMounted} from 'vue';
+import {ref, onMounted} from 'vue';
 import {useI18n} from 'vue-i18n';
 import type {Task} from 'resources/types/task';
 import type {NewUser} from 'resources/types/user';
 import {clearErrors, hasError, setErrorMessages} from '/js/services/errorService';
-import {getRandomCharacterName, getRandomVillageName} from '/js/helpers/randomNames';
-import { logout, setUser } from '/js/services/userService';
+import {getRandomVillageName} from '/js/helpers/randomNames';
+import {logout, setUser } from '/js/services/userService';
 import axios from 'axios';
 import router from '/js/router/router';
 const {t} = useI18n();
@@ -115,21 +103,11 @@ onMounted(async () => {
 const user = ref<NewUser>({
     rewardsType: 'NONE',
     tasks: [],
-    reward_object_name: null,
+    village_name: null,
 });
 const showFirstModal = ref(false);
 const showSecondModal = ref(false);
 const exampleTasks = ref<Task[]>([]);
-
-const parsedLabelName = computed(() => {
-    if (user.value.rewardsType == 'CHARACTER') {
-        return t('character-name');
-    } else if (user.value.rewardsType == 'VILLAGE') {
-        return t('village-name');
-    } else {
-        return null;
-    }
-});
 
 function startFirstModal() {
     showFirstModal.value = true;
@@ -147,19 +125,15 @@ async function confirmSettings() {
     router.push('/');
 }
 function checkInput() {
-    if (user.value.rewardsType == 'CHARACTER' && !user.value.reward_object_name) {
-        setErrorMessages({reward_object_name: ['No character name given.']});
-        return false;
-    } else if (user.value.rewardsType == 'VILLAGE' && !user.value.reward_object_name) {
-        setErrorMessages({reward_object_name: ['No village name given.']});
+    if (user.value.rewardsType == 'VILLAGE' && !user.value.village_name) {
+        setErrorMessages({village_name: ['No village name given.']});
         return false;
     }
     clearErrors();
     return true;
 }
 function generateRandomName() {
-    if (user.value.rewardsType === 'CHARACTER') user.value.reward_object_name = getRandomCharacterName();
-    else if (user.value.rewardsType === 'VILLAGE') user.value.reward_object_name = getRandomVillageName();
+    user.value.village_name = getRandomVillageName();
 }
 </script>
 
