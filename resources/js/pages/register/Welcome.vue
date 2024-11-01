@@ -142,7 +142,7 @@ function nextModal() {
     }
 }
 async function confirmSettings() {
-    const {data} = await axios.post('/register/confirm', user);
+    const {data} = await axios.post('/register/confirm', user.value);
     setUser(data.data.user);
     router.push('/');
 }
