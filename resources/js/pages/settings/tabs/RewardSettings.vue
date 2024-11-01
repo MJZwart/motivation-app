@@ -90,7 +90,6 @@ import {REWARD_TYPES, REWARD_FIELDS} from '/js/constants/rewardConstants';
 import EditRewardObjectName from '../components/EditRewardObjectName.vue';
 import Table from '/js/components/global/Table.vue';
 import {useI18n} from 'vue-i18n';
-import {capitalizeOnlyFirst} from '/js/helpers/stringHelper';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
 import {formModal} from '/js/components/modal/modalService';
 import {clearErrors, hasError} from '/js/services/errorService';
@@ -175,13 +174,13 @@ function displayActive(instance: Village) {
     return instance.active ? ' (' + t('currently-active') + ')' : '';
 }
 async function deleteItem(instance: Village) {
-    if (confirm(t('confirm-delete-instance', {name: instance.name, type: 'village'}))) {
+    if (confirm(t('confirm-delete-instance', {name: instance.name}))) {
         await axios.put('/reward/delete', instance);
         load();
     }
 }
 
 function generateRandomName() {
-    if (rewardSetting.value.rewards === 'VILLAGE') rewardSetting.value.newVillageName = getRandomVillageName();
+    rewardSetting.value.newVillageName = getRandomVillageName();
 }
 </script>

@@ -1,9 +1,9 @@
 {
     "manage-task-list": "Manage your task list",
     "edit-task-tutorial":"Edit your task or task list. You can change the name of your task list or the details of your task at any time.",
-    "delete-task-tutorial": "Delete task or task list. If you have an active character or village, you will not gain any points towards their levels.",
+    "delete-task-tutorial": "Delete task or task list. If you have an active village, you will not gain any points towards their levels.",
     "new-sub-task-tutorial": "Add new sub task. Use these to divide your bigger tasks up in smaller, bite-sized chunks. You can then finish each sub task separately or finish off the entire task in one go. Note that you will gain experience for these sub tasks as well, if you haven't already marked them as completed before.",
-    "complete-task-tutorial": "Complete your task. If you have an active character or village linked, you will gain experience points towards their levels.",
+    "complete-task-tutorial": "Complete your task. If you have an active village linked, you will gain experience points towards their levels.",
 
     "stats-tutorial": "Here you find an overview of statistics related to your account, such as the amount of tasks completed, which repeatable task you've completed the most, etc.",
 
@@ -29,9 +29,7 @@
     "blocklist-unblock-tutorial": "Use this button to unblock this user.",
 
     "village": "Village",
-    "character": "Character",
     "village-tutorial": "This is where you can see the fruits of your labour. The tasks you complete will give you points towards your village, which improve your village over time. We are still working on creating a more interactive part of the site where you can do more with your village.",
-    "character-tutorial": "This is where you can see the fruits of your labour. The tasks you complete will give you points towards your character, which improve your character over time. We are still working on creating a more interactive part of the site where you can do more with your character.",
 
     "templates": "Templates",
     "templates-tutorial": "Here you can create, edit and delete templates that can make it easier to create new task. The templates you create here can be easily imported into a new task.",

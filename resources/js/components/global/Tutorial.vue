@@ -17,7 +17,6 @@ import FriendsTutorial from '../tutorial/FriendsTutorial.vue';
 import IncomingFriendRequestsTutorial from '../tutorial/IncomingFriendRequestsTutorial.vue';
 import OutgoingFriendRequestsTutorial from '../tutorial/OutgoingFriendRequestsTutorial.vue';
 import BlocklistTutorial from '../tutorial/BlocklistTutorial.vue';
-import CharacterTutorial from '../tutorial/CharacterTutorial.vue';
 import VillageTutorial from '../tutorial/VillageTutorial.vue';
 import TemplatesTutorial from '../tutorial/TemplatesTutorial.vue';
 import {QUESTION} from '/js/constants/iconConstants';
@@ -45,7 +44,6 @@ const tutorials = {
     'incoming-friend-requests': IncomingFriendRequestsTutorial,
     'outgoing-friend-requests': OutgoingFriendRequestsTutorial,
     'blocklist': BlocklistTutorial,
-    'CHARACTER': CharacterTutorial,
     'VILLAGE': VillageTutorial,
     'Templates': TemplatesTutorial,
 };
