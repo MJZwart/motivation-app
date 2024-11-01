@@ -213,13 +213,13 @@ class RegisteredUserController extends Controller
         if (!$tasks || count($tasks) === 0) {
             return $this->createStarterTasks($userId);
         }
+        $taskList = TaskList::create(
+            [
+                'name' => 'Tasks',
+                'user_id' => $userId
+            ]
+        );
         for ($i = 0; $i < count($tasks); $i++) {
-            $taskList = TaskList::create(
-                [
-                    'name' => 'Tasks',
-                    'user_id' => $userId
-                ]
-            );
             $task = ExampleTask::find($tasks[$i]);
             Task::create(
                 [
