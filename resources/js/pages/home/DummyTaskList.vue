@@ -3,7 +3,7 @@
         <ContentBlock customClass="p-0">
             <template #header>
                 <span class="d-flex pl-3 pt-3 pr-3">
-                    <h4>{{ taskList.name }}</h4>
+                    <h4>{{ dummyTaskListRef.name }}</h4>
                     <span class="ml-auto">
                         <Tooltip :text="$t('edit-task-list')">
                             <Icon 
@@ -19,7 +19,7 @@
                     </span>
                 </span>
             </template>
-            <template v-for="(task, index) in taskList.tasks" :key="task.id" >
+            <template v-for="(task, index) in dummyTaskListRef.tasks" :key="task.id" >
                 <TaskVue 
                     :task="task" 
                     :class="taskClass(index)"
@@ -39,23 +39,20 @@
 import type {Task} from 'resources/types/task';
 import TaskVue from './DummyTask.vue';
 import {EDIT, TRASH} from '/js/constants/iconConstants';
-import {DummyTaskList, deleteTask} from './homepageService';
 import {formModal} from '/js/components/modal/modalService';
 import {getNewTask} from '/js/services/taskService';
 import CreateEditTask from '/js/pages/dashboard/components/CreateEditTask.vue';
-import {submitSubTask, submitTask, submitEditTask, submitEditTaskList} from './homepageService';
+import {deleteTask, dummyTaskListRef, submitSubTask, submitTask, submitEditTask, submitEditTaskList} from './homepageService';
 import CreateEditTaskList from '/js/pages/dashboard/components/CreateEditTaskList.vue';
 
-const props = defineProps<{taskList: DummyTaskList}>();
-
 function taskClass(index: number) {
-    return index == props.taskList.tasks.length -1 ? 'task task-last' : 'task';
+    return index == dummyTaskListRef.value.tasks.length -1 ? 'task task-last' : 'task';
 }
 
 function newSubTask(task: Task) {
     formModal({
-        task: getNewTask(props.taskList.id),
-        taskList: props.taskList,
+        task: getNewTask(dummyTaskListRef.value.id),
+        taskList: dummyTaskListRef.value,
         superTask: task,
     }, CreateEditTask, 
     submitSubTask, 
@@ -63,8 +60,8 @@ function newSubTask(task: Task) {
 }
 function newTask() {
     formModal({
-        task: getNewTask(props.taskList.id),
-        taskList: props.taskList,
+        task: getNewTask(dummyTaskListRef.value.id),
+        taskList: dummyTaskListRef.value,
     }, CreateEditTask,
     submitTask,
     'new-task');
@@ -72,14 +69,14 @@ function newTask() {
 function editTask(task: Task) {
     formModal({
         task: task,
-        taskList: props.taskList,
+        taskList: dummyTaskListRef.value,
         superTask: task.super_task_id ?? undefined,
     }, CreateEditTask,
     submitEditTask,
     'edit-task');
 }
 function editTaskList() {
-    formModal(props.taskList, CreateEditTaskList, submitEditTaskList, 'edit-task-list');
+    formModal(dummyTaskListRef.value, CreateEditTaskList, submitEditTaskList, 'edit-task-list');
 }
 </script>
 
