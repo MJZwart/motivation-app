@@ -111,7 +111,7 @@ class TaskController extends Controller
         $returnValue = null;
         if ($user->rewards != 'NONE') {
             $returnValue = RewardHandler::handleTaskRewards($task, $user);
-            return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['activeReward' => $returnValue->activeReward, 'keepTask' => $task->isActive()]]);
+            return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['activeVillage' => $returnValue->activeVillage, 'keepTask' => $task->isActive()]]);
         } else {
             return ResponseWrapper::successResponse(__('messages.task.completed'), ['keepTask' => $task->isActive()]);
         }

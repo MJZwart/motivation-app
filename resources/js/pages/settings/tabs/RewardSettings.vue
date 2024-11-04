@@ -30,20 +30,20 @@
                 <label for="rewards">{{ $t('which-reward-type') }}</label>
                 <div v-for="(type, index) in rewardTypes" :key="index">
                     <input
-                        :id="type.value"
+                        :id="type.label"
                         v-model="rewardSetting.rewards"
                         name="rewards"
                         type="radio"
                         :value="type.value"
                     />
-                    <label :for="type.value">{{ $t(type.text) }}</label>
+                    <label :for="type.label">{{ $t(type.text) }}</label>
                 </div>
                 <BaseFormError name="rewards" />
                 <hr />
             </div>
 
-            <!-- Or if the user clicks 'Village' -->
-            <div v-if="rewardSetting.rewards == 'VILLAGE'" class="form-group">
+            <!-- If the user clicks 'Village' -->
+            <div v-if="rewardSetting.rewards == 1" class="form-group">
                 <label for="village-option">{{ $t('activate-or-new-village') }}</label>
                 <div v-for="(option, index) in villageOptions" :key="index">
                     <input
@@ -62,21 +62,21 @@
             <!-- If the user wants to create a new instance -->
             <p class="silent">{{ $t('change-name-later') }}</p>
             <div v-if="isNewInstance" class="form-group">
-                <label for="username">{{ rewardTypeName }}</label>
+                <label for="username">{{ t('village-name') }}</label>
                 <span class="d-flex flex-row">
                     <input
-                        id="new-object-name" 
+                        id="new-village-name" 
                         v-model="rewardSetting.newVillageName" 
                         type="text" 
-                        name="newObjectName"
-                        :placeholder="rewardTypeName" 
-                        :class="{ invalid: hasError('newObjectName') }"
+                        name="newVillageName"
+                        :placeholder="$t('village-name')" 
+                        :class="{ invalid: hasError('newVillageName') }"
                     />
                     <Tooltip :text="$t('random-name')" placement="top-left" class="dice-button mr-2">
-                        <Icon icon="fa-solid:dice" @click="generateRandomName" />
+                        <Icon icon="fa-solid:dice" @click="rewardSetting.newVillageName = getRandomVillageName()" />
                     </Tooltip>
                 </span>
-                <BaseFormError name="newObjectName" />
+                <BaseFormError name="newVillageName" />
             </div> 
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
@@ -104,7 +104,7 @@ const {t} = useI18n();
 onMounted(() => load());
 
 const rewardSetting = ref<ChangeReward>({
-    rewards: 'NONE',
+    rewards: 0,
     keepOldInstance: null,
     newVillageName: '',
 });
@@ -118,15 +118,12 @@ async function load() {
     clearErrors();
     const {data} = await axios.get('/reward/all');
     villages.value = data.villages;
-    rewardSetting.value.rewards = user.value?.rewards ?? '';
+    rewardSetting.value.rewards = user.value?.rewards ?? 0;
     loading.value = false;
 }
 
-const rewardTypeName = computed(() =>
-     t('village-name'),
-);
 const isNewInstance = computed(() => {
-    if (rewardSetting.value.rewards == 'NONE') return false;
+    if (rewardSetting.value.rewards == 0) return false;
     return rewardSetting.value.keepOldInstance == 'NEW';
 });
 
@@ -178,9 +175,5 @@ async function deleteItem(instance: Village) {
         await axios.put('/reward/delete', instance);
         load();
     }
-}
-
-function generateRandomName() {
-    rewardSetting.value.newVillageName = getRandomVillageName();
 }
 </script>

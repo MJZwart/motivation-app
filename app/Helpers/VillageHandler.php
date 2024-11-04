@@ -2,12 +2,29 @@
 
 namespace App\Helpers;
 
+use App\Http\Resources\VillageResource;
 use App\Models\Village;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class VillageHandler
 {
+    /**
+     * Handles the change in reward settings
+     */
+    public static function changeRewardSettings(User $user, string | null $keepOldInstance, string | null $villageName, int $rewardType)
+    {
+        if ($rewardType == 0) {
+            return VillageHandler::deactivateAllVillages($user);
+        } else {
+            if ($keepOldInstance == 'NEW') {
+                TimelineHandler::addNewRewardToTimeline($villageName, $user->id, TimelineHandler::VILLAGE, TimelineHandler::VILLAGE_CREATED);
+                return VillageHandler::createNewVillageAndActivate($user->id, $villageName);
+            } else if (is_numeric($keepOldInstance)) {
+                return new VillageResource(VillageHandler::toggleVillageActive($user->id, $keepOldInstance));
+            }
+        }
+    }
 
     /**
      * Sets the village given as param as active and toggles all other villages as inactive

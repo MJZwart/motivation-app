@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\RewardObjectHandler;
 use App\Http\Resources\AchievementEarnedResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -10,6 +9,8 @@ use App\Http\Resources\StatsResource;
 use App\Http\Resources\TimelineResource;
 use App\Models\TimelineAction;
 use App\Models\User;
+use App\Helpers\VillageHandler;
+use App\Http\Resources\VillageResource;
 
 class OverviewController extends Controller
 {
@@ -20,7 +21,7 @@ class OverviewController extends Controller
     public function getOverview()
     {
         $user = Auth::user();
-        $rewardObj = RewardObjectHandler::getActiveRewardObjectResourceByUser($user->rewards, $user->id);
+        $rewardObj = new VillageResource(VillageHandler::findActiveVillage($user->id));
         $achievements = AchievementEarnedResource::collection($user->achievements);
         $stats = new StatsResource($user);
         return new JsonResponse(['rewardObj' => $rewardObj, 'achievements' => $achievements, 'stats' => $stats]);

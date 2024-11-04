@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\TaskListResource;
 use App\Http\Resources\TaskResource;
-use App\Helpers\RewardObjectHandler;
+use App\Http\Resources\VillageResource;
+use App\Helpers\VillageHandler;
 
 class DashboardController extends Controller
 {
@@ -20,7 +21,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         $taskListCollection = TaskListResource::collection($user->taskLists);
         $taskCollection = TaskResource::collection($user->getActiveTasks());
-        $rewardObj = RewardObjectHandler::getActiveRewardObjectResourceByUser($user->rewards, $user->id);
-        return new JsonResponse(['taskLists' => $taskListCollection, 'rewardObj' => $rewardObj, 'tasks' => $taskCollection]);
+        $village = new VillageResource(VillageHandler::findActiveVillage($user->id)); // Test this, may fail when creating resource on null
+        return new JsonResponse(['taskLists' => $taskListCollection, 'village' => $village, 'tasks' => $taskCollection]);
     }
 }

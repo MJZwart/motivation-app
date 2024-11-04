@@ -12,13 +12,11 @@ class TimelineHandler
 {
     public const JOIN = 'JOIN';
     public const ACHIEVEMENT = 'ACHIEVEMENT';
-    public const CHARACTER = 'CHARACTER';
     public const VILLAGE = 'VILLAGE';
     public const GROUP = 'GROUP';
 
     public const USER_JOINED = 'user-joined';
     public const ACHIEVEMENT_EARNED = 'achievement-earned';
-    public const CHARACTER_CREATED = 'character-created';
     public const VILLAGE_CREATED = 'village-created';
     public const JOINED_GROUP = 'joined-group';
     public const CREATED_GROUP = 'created-group';

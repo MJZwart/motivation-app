@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Task;
-use App\Helpers\RewardObjectHandler;
 use App\Http\Resources\SuspendedUserResource;
 use Illuminate\Support\Facades\DB;
 use App\Models\RepeatableTaskCompleted;
 use App\Models\ReportedUser;
 use Carbon\Carbon;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use App\Helpers\VillageHandler;
+use App\Http\Resources\VillageResource;
 
 class User extends Authenticatable
 {
@@ -57,11 +58,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function characters()
-    {
-        return $this->hasMany('App\Models\Character');
-    }
 
     public function villages()
     {
@@ -147,13 +143,13 @@ class User extends Authenticatable
             return $value->isActive();});
     }
 
-    public function getActiveRewardObjectResource()
+    public function getActiveVillageResource()
     {
-        return RewardObjectHandler::getActiveRewardObjectResourceByUser($this->rewards, $this->id);
+        return new VillageResource(VillageHandler::findActiveVillage($this->id));
     }
-    public function getActiveRewardObject()
+    public function getActiveVillageObject()
     {
-        return RewardObjectHandler::getActiveRewardObjectByUser($this->rewards, $this->id);
+        return VillageHandler::findActiveVillage($this->id);
     }
 
     public function getReports()

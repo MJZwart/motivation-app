@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
+use App\Helpers\VillageHandler;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\StrippedUserResource;
@@ -18,7 +19,6 @@ use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Http\Requests\StoreReportedUserRequest;
-use App\Helpers\RewardObjectHandler;
 use App\Http\Requests\BlockUserRequest;
 use App\Http\Requests\ToggleTutorialRequest;
 use App\Http\Requests\UnblockUserRequest;
@@ -136,15 +136,15 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
-        $activeReward = null;
-        $activeReward = RewardObjectHandler::changeRewardSettings(
+        $activeVillage = null;
+        $activeVillage = VillageHandler::changeRewardSettings(
             $user,
             $request['keepOldInstance'],
             $request['newVillageName'],
             $request['rewards']
         );
         ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Updating rewards type');
-        return ResponseWrapper::successResponse(__('messages.user.reward_updated'), ['user' => new UserResource($user), 'activeReward' => $activeReward]);
+        return ResponseWrapper::successResponse(__('messages.user.reward_updated'), ['user' => new UserResource($user), 'activeVillage' => $activeVillage]);
     }
 
     /**

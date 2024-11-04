@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['valid-auth']], function () {
-    Route::get('/all', [RewardController::class, 'fetchAllRewardInstancesByUser']);
-    Route::put('/activate', [RewardController::class, 'activateRewardInstance']);
-    Route::put('/delete', [RewardController::class, 'deleteInstance']);
+    Route::get('/all', [RewardController::class, 'fetchAllVillagesByUser']);
+    Route::put('/activate', [RewardController::class, 'activateVillage']);
+    Route::put('/delete', [RewardController::class, 'deleteVillage']);
 
-    Route::put('/update', [RewardController::class, 'updateRewardObj']);
+    Route::put('/update', [RewardController::class, 'updateVillage']);
 });

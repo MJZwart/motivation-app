@@ -112,7 +112,7 @@ async function completeTask(task: Task) {
         return;
     const {data} = await axios.put('/tasks/complete/' + task.id);
     if(!data.data.keepTask) removeTaskFromTasks(task);
-    activeVillage.value = data.data.activeReward;
+    activeVillage.value = data.data.activeVillage;
 }
 </script>
 

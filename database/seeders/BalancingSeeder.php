@@ -14,47 +14,6 @@ class BalancingSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('character_exp_gain')->insert([
-            'task_type' => 'GENERIC',
-            'strength' => 3,
-            'agility' => 3,
-            'endurance' => 3,
-            'intelligence' => 3,
-            'charisma' => 3,
-            'level' => 10,
-            'coins' => 7,
-        ]);
-        DB::table('character_exp_gain')->insert([
-            'task_type' => 'PHYSICAL',
-            'strength' => 6,
-            'agility' => 6,
-            'endurance' => 4,
-            'intelligence' => 1,
-            'charisma' => 1,
-            'level' => 10,
-            'coins' => 7,
-        ]);
-        DB::table('character_exp_gain')->insert([
-            'task_type' => 'MENTAL',
-            'strength' => 2,
-            'agility' => 1,
-            'endurance' => 3,
-            'intelligence' => 7,
-            'charisma' => 5,
-            'level' => 10,
-            'coins' => 7,
-        ]);
-        DB::table('character_exp_gain')->insert([
-            'task_type' => 'SOCIAL',
-            'strength' => 2,
-            'agility' => 3,
-            'endurance' => 2,
-            'intelligence' => 3,
-            'charisma' => 8,
-            'level' => 10,
-            'coins' => 7,
-        ]);
-
         DB::table('village_exp_gain')->insert([
             'task_type' => 'GENERIC',
             'economy' => 3,
