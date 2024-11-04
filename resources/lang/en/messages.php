@@ -41,7 +41,6 @@ return [
     'exp' => [
         'updated' => 'Experience points updated',
         'added' => 'Level added',
-        'char_updated' => 'Character experience balancing updated',
         'vill_updated' => 'Village experience balancing updated',
     ],
 
@@ -188,10 +187,6 @@ return [
         'level' => [
             'village' => [
                 'levelup' => 'Your village is now level :level',
-                'statup' => 'Your :stat is now level :level',
-            ],
-            'character' => [
-                'levelup' => 'Your character is now level :level',
                 'statup' => 'Your :stat is now level :level',
             ],
         ],

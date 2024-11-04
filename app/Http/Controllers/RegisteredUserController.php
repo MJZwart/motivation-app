@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\ConfirmRegisterRequest;
 use App\Models\User;
-use App\Models\Character;
 use App\Models\Village;
 use App\Models\Task;
 use App\Models\TaskList;
@@ -157,17 +156,11 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Creates a character or village if chosen with a random name (adjective + animal)
+     * Creates a village if chosen with a random name
      */
     private function createRewardForGuest(string $type, int $userId): void
     {
         if ($type === 'NONE') return;
-        if ($type === 'CHARACTER') {
-            Character::create([
-                'name' => RandomStringHelper::getCharacterName(),
-                'user_id' => $userId,
-            ]);
-        }
         if ($type === 'VILLAGE') {
             VILLAGE::create([
                 'name' => RandomStringHelper::getVillageName(),

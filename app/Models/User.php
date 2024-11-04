@@ -223,11 +223,6 @@ class User extends Authenticatable
         return $completedTasks + $activeTasks;
     }
 
-    public function getActiveCharacter()
-    {
-        return Character::where('user_id', $this->id)->where('active', true)->first();
-    }
-
     public function getVisibleConversations()
     {
         $allConversations = Conversation::with(['messages', 'messages.sender', 'messages.recipient'])

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | All API calls that have the valid-auth middleware. Only logged in users can
-| reach these api calls. These calls are all about rewards (characters/villages).
+| reach these api calls. These calls are all about villages.
 |
 */
 

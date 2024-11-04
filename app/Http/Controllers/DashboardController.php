@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     /**
      * Fetches the authenticated user's active task list and reward option
-     * Returns the task lists and character in an object
+     * Returns the task lists and village in an object
      */
     public function getDashboard()
     {
@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         $taskListCollection = TaskListResource::collection($user->taskLists);
         $taskCollection = TaskResource::collection($user->getActiveTasks());
-        $village = new VillageResource(VillageHandler::findActiveVillage($user->id)); // Test this, may fail when creating resource on null
-        return new JsonResponse(['taskLists' => $taskListCollection, 'village' => $village, 'tasks' => $taskCollection]);
+        $village = VillageHandler::findActiveVillage($user->id);
+        return new JsonResponse(['taskLists' => $taskListCollection, 'village' => $village ? new VillageResource($village) : null, 'tasks' => $taskCollection]);
     }
 }

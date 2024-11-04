@@ -40,10 +40,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/group-exp', [AdminController::class, 'getGroupExp']);
     Route::post('/group-exp', [AdminController::class, 'storeGroupExp']);
 
-    Route::get('/character-exp-gain', [AdminController::class, 'getCharacterExpGain']);
     Route::get('/village-exp-gain', [AdminController::class, 'getVillageExpGain']);
     Route::put('/experience-points', [AdminController::class, 'updateExperiencePoints']);
-    Route::put('/character-exp-gain', [AdminController::class, 'updateCharacterExpGain']);
     Route::put('/village-exp-gain', [AdminController::class, 'updateVillageExpGain']);
 
     //* Feedback
