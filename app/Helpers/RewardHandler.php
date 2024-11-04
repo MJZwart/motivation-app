@@ -11,7 +11,7 @@ class RewardHandler
 {
     public static function handleTaskRewards(Task $task, User $user): object
     {
-        $activeReward = $user->getActiveVillageObject();
+        $activeVillage = $user->getActiveVillageObject();
 
         GroupLevelHandler::applyExperienceToGroups($user, $task->difficulty);
 
@@ -24,8 +24,8 @@ class RewardHandler
             }
         }
 
-        $rewardAndMessages = LevelHandler::handleExperienceGained($activeReward, $parsedReward);
-        $rewardAndMessages->activeReward = new VillageResource($rewardAndMessages->activeReward);
+        $rewardAndMessages = LevelHandler::handleExperienceGained($activeVillage, $parsedReward);
+        $rewardAndMessages->activeVillage = new VillageResource($rewardAndMessages->activeVillage);
         return $rewardAndMessages;
     }
 

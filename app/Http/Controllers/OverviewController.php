@@ -21,10 +21,10 @@ class OverviewController extends Controller
     public function getOverview()
     {
         $user = Auth::user();
-        $rewardObj = new VillageResource(VillageHandler::findActiveVillage($user->id));
+        $village = VillageHandler::findActiveVillage($user->id);
         $achievements = AchievementEarnedResource::collection($user->achievements);
         $stats = new StatsResource($user);
-        return new JsonResponse(['rewardObj' => $rewardObj, 'achievements' => $achievements, 'stats' => $stats]);
+        return new JsonResponse(['village' => $village ? new VillageResource($village) : null, 'achievements' => $achievements, 'stats' => $stats]);
     }
 
     public function getTimelineFromUser(User $user) {
