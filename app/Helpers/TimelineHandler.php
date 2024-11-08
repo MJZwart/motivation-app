@@ -24,76 +24,91 @@ class TimelineHandler
     public const DISBANDED_GROUP = 'disbanded-group';
     public const LEVEL_UP = 'level-up';
 
-    public static function addJoinDateToTimeline(User $user) {
+    public static function addJoinDateToTimeline(User $user)
+    {
         TimelineHandler::addToTimeline(
-            $user->created_at, 
-            $user->id, 
-            TimelineHandler::JOIN, 
-            TimelineHandler::USER_JOINED);
+            $user->created_at,
+            $user->id,
+            TimelineHandler::JOIN,
+            TimelineHandler::USER_JOINED
+        );
     }
 
-    public static function addAchievementToTimeline(Achievement $achievement, int $userId) {
+    public static function addAchievementToTimeline(Achievement $achievement, int $userId)
+    {
         TimelineHandler::addToTimeline(
             Carbon::now(),
-            $userId, 
-            TimelineHandler::ACHIEVEMENT, 
-            TimelineHandler::ACHIEVEMENT_EARNED, 
-            ['name' => $achievement->name]);
+            $userId,
+            TimelineHandler::ACHIEVEMENT,
+            TimelineHandler::ACHIEVEMENT_EARNED,
+            ['name' => $achievement->name]
+        );
     }
 
-    public static function addGroupJoiningToTimeline(Group $group, int $userId) {
+    public static function addGroupJoiningToTimeline(Group $group, int $userId)
+    {
         TimelineHandler::addToTimeline(
-            Carbon::now(), 
-            $userId, 
-            TimelineHandler::GROUP, 
-            TimelineHandler::JOINED_GROUP, 
-            ['name' => $group->name]);
+            Carbon::now(),
+            $userId,
+            TimelineHandler::GROUP,
+            TimelineHandler::JOINED_GROUP,
+            ['name' => $group->name]
+        );
     }
-    public static function addGroupCreationToTimeline(Group $group, int $userId) {
+    public static function addGroupCreationToTimeline(Group $group, int $userId)
+    {
         TimelineHandler::addToTimeline(
             $group->created_at,
             $userId,
             TimelineHandler::GROUP,
             TimelineHandler::CREATED_GROUP,
-            ['name' => $group->name]);
+            ['name' => $group->name]
+        );
     }
-    public static function addGroupLeavingToTimeline(Group $group, int $userId) {
+    public static function addGroupLeavingToTimeline(Group $group, int $userId)
+    {
         TimelineHandler::addToTimeline(
             Carbon::now(),
             $userId,
             TimelineHandler::GROUP,
             TimelineHandler::LEFT_GROUP,
-            ['name' => $group->name]);
+            ['name' => $group->name]
+        );
     }
-    public static function addGroupDisbandingToTimeline(string $groupName, int $userId) {
+    public static function addGroupDisbandingToTimeline(string $groupName, int $userId)
+    {
         TimelineHandler::addToTimeline(
             Carbon::now(),
             $userId,
             TimelineHandler::GROUP,
             TimelineHandler::DISBANDED_GROUP,
-            ['name' => $groupName]);
+            ['name' => $groupName]
+        );
     }
 
-    public static function addNewRewardToTimeline(string $rewardName, int $userId, string $type, string $message) {
+    public static function addNewVillageToTimeline(string $villageName, int $userId, string $type, string $message)
+    {
         TimelineHandler::addToTimeline(
             Carbon::now(),
             $userId,
             $type,
             $message,
-            ['name' => $rewardName]
+            ['name' => $villageName]
         );
     }
-    public static function addLevelUpToTimeline(string $rewardName, int $userId, int $level, $type) {
+    public static function addLevelUpToTimeline(string $villageName, int $userId, int $level, $type)
+    {
         TimelineHandler::addToTimeline(
             Carbon::now(),
             $userId,
             $type,
             TimelineHandler::LEVEL_UP,
-            ['level' => $level, 'name' => $rewardName]
+            ['level' => $level, 'name' => $villageName]
         );
     }
 
-    public static function addToTimeline(string $timestamp, int $userId, string $type, string $action, string | array $params = null) {
+    public static function addToTimeline(string $timestamp, int $userId, string $type, string $action, string | array $params = null)
+    {
         $encodedParams = $params ? json_encode($params) : null;
         TimelineAction::create([
             'timestamp' => $timestamp,

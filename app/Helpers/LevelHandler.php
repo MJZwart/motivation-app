@@ -8,24 +8,19 @@ use App\Models\Village;
 class LevelHandler
 {
     /**
-     * Handles the experience gained by adding the points to the active reward, calculating and applying level ups
+     * Handles the experience gained by adding the points to the active village, calculating and applying level ups
      * and creating the messages the user will see upon completion.
-     *
-     * @param string $type
-     * @param Village $activeReward
-     * @param array $parsedRewards
-     * @return object
      */
     public static function handleExperienceGained(Village $activeVillage, array $parsedRewards): object
     {
         $villageAsArray = $activeVillage->toArray();
 
         $coinsEarned = 0;
-        foreach (RewardEnums::VILL_STAT_EXP_ARRAY as $value) {
+        foreach (RewardEnums::STAT_EXP_ARRAY as $value) {
             if ($value === 'coins') $coinsEarned = $parsedRewards[$value];
             $villageAsArray[$value] += $parsedRewards[$value];
         }
-        $levelupMessages = LevelHandler::checkAndApplyLevelUp(RewardEnums::VILL_STAT_EXP_ARRAY, RewardEnums::VILL_STAT_ARRAY, $activeVillage, $villageAsArray);
+        $levelupMessages = LevelHandler::checkAndApplyLevelUp(RewardEnums::STAT_EXP_ARRAY, RewardEnums::STAT_ARRAY, $activeVillage, $villageAsArray);
 
         $returnMessages = new \stdClass();
         if (!empty($levelupMessages)) {
@@ -43,15 +38,8 @@ class LevelHandler
 
 
     /**
-     * Checks if the given active reward has earned enough experience to level up for each stat type and applies this level up if so.
+     * Checks if the given active village has earned enough experience to level up for each stat type and applies this level up if so.
      * For each level gained, create a level up message to return to the user
-     * 
-     * @param string $type
-     * @param array $statExpArr
-     * @param array $statArr
-     * @param Village $activeVillage
-     * @param array $villageAsArray
-     * @return array
      */
     public static function checkAndApplyLevelUp(array $statExpArr, array $statArr, Village $activeVillage, array $villageAsArray)
     {
@@ -66,7 +54,7 @@ class LevelHandler
                 if ($statArr[$i] !== 'level') { //Add messages to an array to give back to the user, letting them know they levelled up.
                     array_push($messages, __('messages.reward.level.village.statup', ['stat' => $statArr[$i], 'level' => $villageAsArray[$statArr[$i]]]));
                 } else {
-                    if ($villageAsArray[$statArr[$i]] % 5 == 0) 
+                    if ($villageAsArray[$statArr[$i]] % 5 == 0)
                         TimelineHandler::addLevelUpToTimeline($activeVillage->name, $activeVillage->user_id, $villageAsArray[$statArr[$i]], 'village');
                     array_push($messages, __('messages.reward.level.village.levelup', ['level' => $villageAsArray[$statArr[$i]]]));
                 }

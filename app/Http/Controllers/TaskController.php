@@ -9,11 +9,9 @@ use App\Helpers\AchievementHandler;
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
 use App\Helpers\RewardHandler;
-use App\Http\Resources\TaskListResource;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TemplatesResource;
 use App\Models\Task;
-use App\Models\TaskList;
 use App\Models\Template;
 use App\Models\RepeatableTaskCompleted;
 use App\Models\User;
@@ -28,9 +26,6 @@ class TaskController extends Controller
     /**
      * Creates a new task in the user's given task list. Checks for achievement related to making tasks.
      * Tracks action.
-     *
-     * @param StoreTaskRequest $request
-     * @return JsonResponse with message and updated task lists
      */
     public function store(StoreTaskRequest $request): JsonResponse
     {
@@ -58,12 +53,8 @@ class TaskController extends Controller
     /**
      * Edits the given task.
      * Tracks action.
-     *
-     * @param Task $task
-     * @param UpdateTaskRequest $request
-     * @return JsonResponse with message and updated task lists.
      */
-    public function update(Task $task, UpdateTaskRequest $request)
+    public function update(Task $task, UpdateTaskRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $task->update($validated);
@@ -75,10 +66,6 @@ class TaskController extends Controller
     /**
      * Deletes the task entirely without giving any rewards. Subtasks are also deleted.
      * Tracks action.
-     *
-     * @param Request $request
-     * @param Task $task
-     * @return JsonResponse with message if successful.
      */
     public function destroy(Request $request, Task $task): JsonResponse
     {
@@ -90,12 +77,8 @@ class TaskController extends Controller
     }
 
     /**
-     * Completes a task. It checks for an achievement, then returns the updated taskLists and reward if applicable.
+     * Completes a task. It checks for an achievement, then returns whether to keep the task (in case of repeatable).
      * Tracks action.
-     *
-     * @param Request $request
-     * @param Task $task
-     * @return JsonResponse with message, taskLists and activeReward if applicable
      */
     public function complete(Request $request, Task $task)
     {

@@ -7,7 +7,6 @@ use App\Helpers\ResponseWrapper;
 use App\Helpers\VillageHandler;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserProfileResource;
-use App\Http\Resources\StrippedUserResource;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -127,8 +126,8 @@ class UserController extends Controller
     /**
      * Updates an authenticated user's reward type as given in the request
      * When turning on a reward type, the request also holds any additional information needed
-     * Such as activating an old reward type or creating a new one, with name 
-     * Returns the user and the active reward
+     * Such as activating an old village or creating a new one, with name 
+     * Returns the user and the active village
      */
     public function updateRewardsType(UpdateRewardsTypeRequest $request)
     {

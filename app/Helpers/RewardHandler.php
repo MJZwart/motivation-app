@@ -19,8 +19,9 @@ class RewardHandler
         if ($task->activeSubTasks() != null) {
             foreach ($task->activeSubTasks() as $subtask) {
                 $parsedReward = RewardHandler::addParsedReward(
-                    $parsedReward, 
-                    RewardHandler::calculateReward($subtask->type, $subtask->difficulty));
+                    $parsedReward,
+                    RewardHandler::calculateReward($subtask->type, $subtask->difficulty)
+                );
             }
         }
 
@@ -34,8 +35,8 @@ class RewardHandler
      */
     public static function addParsedReward(array $parsedReward, array $rewardsToBeAdded): array
     {
-        $statExpArray = RewardEnums::VILL_STAT_EXP_ARRAY;
-        for ($i=0; $i < count($statExpArray); $i++) { 
+        $statExpArray = RewardEnums::STAT_EXP_ARRAY;
+        for ($i = 0; $i < count($statExpArray); $i++) {
             $parsedReward[$statExpArray[$i]] += $rewardsToBeAdded[$statExpArray[$i]];
         }
         return $parsedReward;

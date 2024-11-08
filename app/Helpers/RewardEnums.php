@@ -8,18 +8,6 @@ class RewardEnums
     public const EXPERIENCE = "experience";
     public const LEVEL = "level";
 
-    public const STRENGTH_EXP = "strength_exp";
-    public const AGILITY_EXP = "agility_exp";
-    public const ENDURANCE_EXP = "endurance_exp";
-    public const INTELLIGENCE_EXP = "intelligence_exp";
-    public const CHARISMA_EXP = "charisma_exp";
-
-    public const STRENGTH = "strength";
-    public const AGILITY = "agility";
-    public const ENDURANCE = "endurance";
-    public const INTELLIGENCE = "intelligence";
-    public const CHARISMA = "charisma";
-
     public const ECONOMY = "economy";
     public const LABOUR = "labour";
     public const CRAFT = "craft";
@@ -34,25 +22,7 @@ class RewardEnums
 
     public const COINS = "coins";
 
-    public const CHAR_STAT_EXP_ARRAY = [
-        RewardEnums::STRENGTH_EXP,
-        RewardEnums::AGILITY_EXP,
-        RewardEnums::ENDURANCE_EXP,
-        RewardEnums::INTELLIGENCE_EXP,
-        RewardEnums::CHARISMA_EXP,
-        RewardEnums::EXPERIENCE,
-        RewardEnums::COINS
-    ];
-    public const CHAR_STAT_ARRAY = [
-        RewardEnums::STRENGTH,
-        RewardEnums::AGILITY,
-        RewardEnums::ENDURANCE,
-        RewardEnums::INTELLIGENCE,
-        RewardEnums::CHARISMA,
-        RewardEnums::LEVEL
-    ];
-
-    public const VILL_STAT_EXP_ARRAY = [
+    public const STAT_EXP_ARRAY = [
         RewardEnums::ECONOMY_EXP,
         RewardEnums::LABOUR_EXP,
         RewardEnums::CRAFT_EXP,
@@ -61,7 +31,7 @@ class RewardEnums
         RewardEnums::EXPERIENCE,
         RewardEnums::COINS
     ];
-    public const VILL_STAT_ARRAY = [
+    public const STAT_ARRAY = [
         RewardEnums::ECONOMY,
         RewardEnums::LABOUR,
         RewardEnums::CRAFT,

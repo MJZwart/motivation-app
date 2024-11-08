@@ -18,7 +18,7 @@ class VillageHandler
             return VillageHandler::deactivateAllVillages($user);
         } else {
             if ($keepOldInstance == 'NEW') {
-                TimelineHandler::addNewRewardToTimeline($villageName, $user->id, TimelineHandler::VILLAGE, TimelineHandler::VILLAGE_CREATED);
+                TimelineHandler::addNewVillageToTimeline($villageName, $user->id, TimelineHandler::VILLAGE, TimelineHandler::VILLAGE_CREATED);
                 return VillageHandler::createNewVillageAndActivate($user->id, $villageName);
             } else if (is_numeric($keepOldInstance)) {
                 return new VillageResource(VillageHandler::toggleVillageActive($user->id, $keepOldInstance));

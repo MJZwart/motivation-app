@@ -15,7 +15,7 @@ use App\Http\Resources\VillageResource;
 class OverviewController extends Controller
 {
     /**
-     * Collects the information needed for the Overview page: A reward if active, achievements and stats
+     * Collects the information needed for the Overview page: A village if active, achievements and stats
      * Returns and parses this into a Json response
      */
     public function getOverview()
@@ -27,7 +27,8 @@ class OverviewController extends Controller
         return new JsonResponse(['village' => $village ? new VillageResource($village) : null, 'achievements' => $achievements, 'stats' => $stats]);
     }
 
-    public function getTimelineFromUser(User $user) {
+    public function getTimelineFromUser(User $user)
+    {
         $timeline = $user->timeline->sortByDesc('timestamp');
         $types = TimelineAction::where('user_id', $user->id)->select('type')->distinct()->get();
         return new JsonResponse(['timeline' => TimelineResource::collection($timeline), 'types' => $types]);

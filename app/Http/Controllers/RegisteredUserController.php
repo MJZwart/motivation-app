@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
 
     /**
      * Sets additional new-user settings:
-     * - The reward type, with a new instance of this reward if applicable
+     * - The reward type, with a new village if chosen
      * - Optionally chosen example tasks
      */
     public function confirmRegister(ConfirmRegisterRequest $request): JsonResponse
@@ -78,10 +78,11 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Creates a guest account with one default task + list and chosen reward with random name
+     * Creates a guest account with one default task + list and - if chosen - a village with random name
      */
     public function storeGuestAccount(Request $request): JsonResponse
     {
+        //TODO Should be called 'rewardType'
         $validated = $request->validate(['reward' => [new ValidRewardType(), 'required']]);
 
         $loginToken = Str::random(32);
@@ -99,7 +100,7 @@ class RegisteredUserController extends Controller
 
         $user = User::create($guestUser);
 
-        $this->createRewardForGuest($validated['reward'], $user->id);
+        $this->createVillageForGuest($validated['reward'], $user->id);
         $this->createStarterTasks($user->id);
         AchievementHandler::checkForAchievement('TASKS_MADE', $user);
 
@@ -158,7 +159,7 @@ class RegisteredUserController extends Controller
     /**
      * Creates a village if chosen with a random name
      */
-    private function createRewardForGuest(string $type, int $userId): void
+    private function createVillageForGuest(string $type, int $userId): void
     {
         if ($type === 'NONE') return;
         if ($type === 'VILLAGE') {
