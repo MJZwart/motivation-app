@@ -25,7 +25,7 @@ class ValidRewardType implements Rule
      */
     public function passes($attribute, $value)
     {
-        return in_array($value, ['NONE', 'VILLAGE']);
+        return in_array($value, [0, 1]);
     }
 
     /**

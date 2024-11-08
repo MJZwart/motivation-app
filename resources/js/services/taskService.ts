@@ -80,7 +80,7 @@ export const fetchDashboard = async() => {
     data.tasks.forEach((task: Task) => {
         addTaskToTasks(task);
     });
-    activeVillage.value = data.rewardObj; // TODO Make sure the naming is correct
+    activeVillage.value = data.village;
 }
 
 export const getTemplates = async() =>

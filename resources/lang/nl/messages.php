@@ -190,10 +190,6 @@ return [
                 'levelup' => 'Je nederzetting is nu level :level',
                 'statup' => 'Je :stat is nu level :level',
             ],
-            'character' => [
-                'levelup' => 'Je karakter is nu level :level',
-                'statup' => 'Je :stat is nu level :level',
-            ],
         ],
         'coinsEarned' => 'Je hebt :coins verdiend',
     ],

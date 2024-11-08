@@ -30,20 +30,20 @@
                 <label for="rewards">{{ $t('which-reward-type') }}</label>
                 <div v-for="(type, index) in rewardTypes" :key="index">
                     <input
-                        :id="type.value"
+                        :id="type.label"
                         v-model="rewardSetting.rewards"
                         name="rewards"
                         type="radio"
                         :value="type.value"
                     />
-                    <label :for="type.value">{{ $t(type.text) }}</label>
+                    <label :for="type.label">{{ $t(type.text) }}</label>
                 </div>
                 <BaseFormError name="rewards" />
                 <hr />
             </div>
 
-            <!-- Or if the user clicks 'Village' -->
-            <div v-if="rewardSetting.rewards == 'VILLAGE'" class="form-group">
+            <!-- If the user clicks 'Village' -->
+            <div v-if="rewardSetting.rewards == 1" class="form-group">
                 <label for="village-option">{{ $t('activate-or-new-village') }}</label>
                 <div v-for="(option, index) in villageOptions" :key="index">
                     <input
@@ -62,21 +62,21 @@
             <!-- If the user wants to create a new instance -->
             <p class="silent">{{ $t('change-name-later') }}</p>
             <div v-if="isNewInstance" class="form-group">
-                <label for="username">{{ rewardTypeName }}</label>
+                <label for="username">{{ t('village-name') }}</label>
                 <span class="d-flex flex-row">
                     <input
-                        id="new-object-name" 
+                        id="new-village-name" 
                         v-model="rewardSetting.newVillageName" 
                         type="text" 
-                        name="newObjectName"
-                        :placeholder="rewardTypeName" 
-                        :class="{ invalid: hasError('newObjectName') }"
+                        name="newVillageName"
+                        :placeholder="$t('village-name')" 
+                        :class="{ invalid: hasError('newVillageName') }"
                     />
                     <Tooltip :text="$t('random-name')" placement="top-left" class="dice-button mr-2">
-                        <Icon icon="fa-solid:dice" @click="generateRandomName" />
+                        <Icon icon="fa-solid:dice" @click="rewardSetting.newVillageName = getRandomVillageName()" />
                     </Tooltip>
                 </span>
-                <BaseFormError name="newObjectName" />
+                <BaseFormError name="newVillageName" />
             </div> 
             <button class="block" @click="confirmRewardsSettings()">{{ $t('save-settings') }}</button>
         </div>
@@ -87,7 +87,7 @@
 import type {Village, ChangeReward} from 'resources/types/village';
 import {onMounted, ref, computed} from 'vue';
 import {REWARD_TYPES, REWARD_FIELDS} from '/js/constants/rewardConstants';
-import EditRewardObjectName from '../components/EditRewardObjectName.vue';
+import EditVillageName from '../components/EditVillageName.vue';
 import Table from '/js/components/global/Table.vue';
 import {useI18n} from 'vue-i18n';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
@@ -96,15 +96,15 @@ import {clearErrors, hasError} from '/js/services/errorService';
 import {Icon} from '@iconify/vue';
 import {getRandomVillageName} from '/js/helpers/randomNames';
 import axios from 'axios';
-import { setUser, user } from '/js/services/userService';
-import { successToast } from '/js/services/toastService';
+import {setUser, user} from '/js/services/userService';
+import {successToast} from '/js/services/toastService';
 
 const {t} = useI18n();
 
 onMounted(() => load());
 
 const rewardSetting = ref<ChangeReward>({
-    rewards: 'NONE',
+    rewards: 0,
     keepOldInstance: null,
     newVillageName: '',
 });
@@ -118,15 +118,12 @@ async function load() {
     clearErrors();
     const {data} = await axios.get('/reward/all');
     villages.value = data.villages;
-    rewardSetting.value.rewards = user.value?.rewards ?? '';
+    rewardSetting.value.rewards = user.value?.rewards ?? 0;
     loading.value = false;
 }
 
-const rewardTypeName = computed(() =>
-     t('village-name'),
-);
 const isNewInstance = computed(() => {
-    if (rewardSetting.value.rewards == 'NONE') return false;
+    if (rewardSetting.value.rewards == 0) return false;
     return rewardSetting.value.keepOldInstance == 'NEW';
 });
 
@@ -152,35 +149,31 @@ async function confirmRewardsSettings() {
     rewardSetting.value.newVillageName = null;
     load();
 }
-function showEditVillage(instance: Village) {
-    if (instance === null) return;
+function showEditVillage(village: Village) {
+    if (village === null) return;
     formModal(
-        instance,
-        EditRewardObjectName,
-        submitEditReward,
-        'edit-reward-name');
+        village,
+        EditVillageName,
+        submitEditVillage,
+        'edit-village-name');
 }
-async function submitEditReward(rewardObj: Village) {
-    await axios.put('/reward/update', rewardObj);
+async function submitEditVillage(village: Village) {
+    await axios.put('/reward/update', village);
     load();
 }
-async function activateVillage(instance: Village) {
-    const {data} = await axios.put('/reward/activate', instance);
+async function activateVillage(village: Village) {
+    const {data} = await axios.put('/reward/activate', village);
     successToast(data.message);
     setUser(data.data.user);
     load();
 }
-function displayActive(instance: Village) {
-    return instance.active ? ' (' + t('currently-active') + ')' : '';
+function displayActive(village: Village) {
+    return village.active ? ' (' + t('currently-active') + ')' : '';
 }
-async function deleteItem(instance: Village) {
-    if (confirm(t('confirm-delete-instance', {name: instance.name}))) {
-        await axios.put('/reward/delete', instance);
+async function deleteItem(village: Village) {
+    if (confirm(t('confirm-delete-village', {name: village.name}))) {
+        await axios.put('/reward/delete', village);
         load();
     }
-}
-
-function generateRandomName() {
-    rewardSetting.value.newVillageName = getRandomVillageName();
 }
 </script>

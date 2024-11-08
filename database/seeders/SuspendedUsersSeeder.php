@@ -19,13 +19,13 @@ class SuspendedUsersSeeder extends Seeder
         $nextYear = Carbon::now()->addYear();
         $nextWeek = Carbon::now()->addWeek();
         User::factory(1)
-            ->hasCharacters(1)
+            ->hasVillages(1)
             ->hasTaskLists(3)
             ->create([
                 'username' => 'suspendedYear',
                 'suspended_until' => $nextYear]);
         User::factory(1)
-            ->hasCharacters(1)
+            ->hasVillages(1)
             ->hasTaskLists(3)
             ->create([
                 'username' => 'suspendedWeek',

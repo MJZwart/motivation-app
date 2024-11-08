@@ -89,9 +89,10 @@ function editSubTask(task: Task) {
     dummyTaskListRef.value.tasks[superTaskIndex].tasks[taskIndex] = task;
 }
 
-const stats = ['a', 'b', 'c', 'd', 'e'];
-const statExp = ['a_exp', 'b_exp', 'c_exp', 'd_exp', 'e_exp'];
-const statExpNeeded = ['a_exp_needed', 'b_exp_needed', 'c_exp_needed', 'd_exp_needed', 'e_exp_needed'];
+const stats: DummyVillageKeys[] = ['economy', 'labour', 'craft', 'art', 'community'];
+const statExp: DummyVillageKeys[] = ['economy_exp', 'labour_exp', 'craft_exp', 'art_exp', 'community_exp'];
+const statExpNeeded: DummyVillageKeys[] =
+    ['economy_exp_needed', 'labour_exp_needed', 'craft_exp_needed', 'art_exp_needed', 'community_exp_needed'];
 
 function calculateReward(task: Task) {
     if (!task) return;
@@ -120,3 +121,23 @@ export type DummyTaskList = {
     name: string;
     tasks: Task[];
 }
+
+export type DummyVillageStats = {
+    economy: number;
+    economy_exp: number;
+    economy_exp_needed: number;
+    labour: number;
+    labour_exp: number;
+    labour_exp_needed: number;
+    craft: number;
+    craft_exp: number;
+    craft_exp_needed: number;
+    art: number;
+    art_exp: number;
+    art_exp_needed: number;
+    community: number;
+    community_exp: number;
+    community_exp_needed: number;
+}
+
+type DummyVillageKeys = keyof DummyVillageStats;

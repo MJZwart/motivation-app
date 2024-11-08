@@ -1,5 +1,5 @@
 import {ref} from 'vue';
-import { DummyTaskList } from '../pages/home/homepageService';
+import {DummyTaskList} from '../pages/home/homepageService';
 
 export const DUMMY_TASK_LIST = <DummyTaskList>{
     id: 1,

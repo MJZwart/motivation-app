@@ -28,7 +28,7 @@ import {ref} from 'vue';
 import AuthBase from './components/AuthBase.vue';
 import SubmitButton from '/js/components/global/small/SubmitButton.vue';
 import axios from 'axios';
-import { setUser } from '/js/services/userService';
+import {setUser} from '/js/services/userService';
 import router from '/js/router/router';
 
 const chosenReward = ref('');

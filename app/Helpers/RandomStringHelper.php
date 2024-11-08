@@ -29,10 +29,4 @@ class RandomStringHelper
         $chosenVillageName .= $villageList->nouns[mt_rand(0, count($villageList->nouns) - 1)] . $villageList->suffixes[mt_rand(0, count($villageList->suffixes) - 1)];
         return $chosenVillageName;
     }
-
-    public static function getCharacterName()
-    {
-        $characterList = json_decode(file_get_contents(__DIR__ . "/json/characterclasses.json"));
-        return self::getRandomAdjective() . ' ' . $characterList[mt_rand(0, count($characterList) - 1)];
-    }
 }

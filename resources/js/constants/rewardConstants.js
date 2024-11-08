@@ -1,6 +1,6 @@
 export const REWARD_TYPES = [
-    {text: 'turn-off-rewards', value: 'NONE'},
-    {text: 'switch-village-or-new', value: 'VILLAGE'},
+    {text: 'turn-off-rewards', value: 0, label: 'NONE'},
+    {text: 'switch-village-or-new', value: 1, label: 'VILLAGE'},
 ];
 
 export const REWARD_FIELDS = [

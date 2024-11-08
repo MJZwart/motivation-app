@@ -44,13 +44,12 @@
 <script setup lang="ts">
 import TaskList from './DummyTaskList.vue';
 import VillageCard from '/js/pages/dashboard/components/village/VillageCard.vue';
-import {dummyVillageRef, dummyTaskListRef} from './homepageService';
+import {dummyVillageRef} from './homepageService';
 import {computed, onMounted, ref} from 'vue';
 import {useI18n} from 'vue-i18n';
-import { continueGuestAccount } from '/js/services/userService';
+import {continueGuestAccount} from '/js/services/userService';
 const {t} = useI18n(); // use as global scope;
 
-const dummyList = dummyTaskListRef;
 const dummyVillage = dummyVillageRef;
 
 const appTitle = computed(() => t('home-welcome-to', [t('app-name')]));

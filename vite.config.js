@@ -51,7 +51,6 @@ export default defineConfig(({command}) => {
                 'axios',
                 'vue-i18n',
                 'vue-router',
-                'pinia',
                 'luxon',
                 '@vueform/multiselect',
                 'platform',

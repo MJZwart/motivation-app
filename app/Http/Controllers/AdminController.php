@@ -10,7 +10,6 @@ use App\Http\Requests\EditUserSuspensionRequest;
 use App\Http\Requests\FetchActionsWithFilters;
 use App\Http\Requests\StoreGroupExperienceRequest;
 use App\Http\Requests\UpdateExperiencePointsRequest;
-use App\Http\Requests\UpdateCharacterExpGainRequest;
 use App\Http\Requests\UpdateVillageExpGainRequest;
 use App\Http\Requests\StoreNewLevelRequest;
 use App\Http\Resources\ActionTrackingResource;
@@ -70,11 +69,6 @@ class AdminController extends Controller
         return ResponseWrapper::successResponse(__('messages.group_exp.updated'), GroupExperiencePoint::orderBy('level')->get());
     }
 
-    public function getCharacterExpGain(): JsonResponse
-    {
-        return ResponseWrapper::successResponse(null, DB::table('character_exp_gain')->get()->toArray());
-    }
-
     public function getVillageExpGain(): JsonResponse
     {
         return ResponseWrapper::successResponse(null, DB::table('village_exp_gain')->get()->toArray());
@@ -102,18 +96,6 @@ class AdminController extends Controller
         $experiencePoints = ExperiencePoint::orderBy('level')->get();
         ActionTrackingHandler::registerAction($request, 'ADMIN', 'Added new level to experience points');
         return ResponseWrapper::successResponse(__('messages.exp.added'), ['experience_points' => $experiencePoints]);
-    }
-
-    /**
-     * Updates the balancing in character exp gain and returns the character exp gain table
-     */
-    public function updateCharacterExpGain(UpdateCharacterExpGainRequest $request): JsonResponse
-    {
-        $validated = $request->validated();
-        DB::table('character_exp_gain')->upsert($validated, ['id'], ['strength', 'agility', 'endurance', 'intelligence', 'charisma', 'level', 'coins']);
-        $characterExpGain = DB::table('character_exp_gain')->get()->toArray();
-        ActionTrackingHandler::registerAction($request, 'ADMIN', 'Updated character experience gain');
-        return ResponseWrapper::successResponse(__('messages.exp.char_updated'), ['balancing' => $characterExpGain]);
     }
 
     /**

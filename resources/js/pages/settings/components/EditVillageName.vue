@@ -1,11 +1,11 @@
 <template>
-    <div v-if="rewardObj">
+    <div v-if="village">
         <div class="form-group">
             <label for="username">{{ $t('village-name') }}</label>
             <span class="d-flex flex-row">
                 <input
                     id="name" 
-                    v-model="rewardObj.name" 
+                    v-model="village.name" 
                     type="text" 
                     name="name"
                     :placeholder="$t('name')" 
@@ -19,7 +19,7 @@
         </div> 
         <FormControls
             :submit-text="$t('update-reward-name')"
-            @submit="$emit('submit', rewardObj)"
+            @submit="$emit('submit', village)"
             @cancel="$emit('close')"
         />
         <BaseFormError name="error" />
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import type {Reward} from 'resources/types/village';
+import type {Village} from 'resources/types/village';
 import {ref} from 'vue';
 import FormControls from '/js/components/global/FormControls.vue';
 import {deepCopy} from '/js/helpers/copy';
@@ -35,12 +35,12 @@ import {getRandomVillageName} from '/js/helpers/randomNames';
 import {Icon} from '@iconify/vue';
 import {hasError} from '/js/services/errorService';
 
-const props = defineProps<{form:  Reward}>();
+const props = defineProps<{form:  Village}>();
 defineEmits(['close', 'submit']);
 
-const rewardObj = ref(deepCopy(props.form));
+const village = ref(deepCopy(props.form));
 
 function generateRandomName() {
-    rewardObj.value.name = getRandomVillageName();
+    village.value.name = getRandomVillageName();
 }
 </script>

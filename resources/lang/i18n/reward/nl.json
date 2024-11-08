@@ -18,7 +18,6 @@
     "which-reward-type": "Hoe wil je beloond worden voor het voltooien van je taken?",
     "no-rewards": "Niets, laat me gewoon taken voltooien.",
     "village-reward": "Nederzetting (Groei je nederzetting via je taken)",
-    "activate-or-new": "Activeer een oud karakter of maak een nieuwe",
     "village-options": "Nederzetting opties",
     "activate-or-new-village": "Activeer een oude nederzetting of maak een nieuwe",
     "make-new-village": "Start een nieuwe nederzetting",
@@ -30,8 +29,8 @@
     "example-tasks": "Voorbeeldtaken",
     "pick-example-tasks": "Om je te helpen beginnen kun je een paar voorbeeldtaken kiezen om gelijk in je takenlijst te stoppen.",
     "update-reward-name": "Update naam",
-    "edit-reward-name": "Verander naam",
-    "confirm-delete-instance": "Weet je zeker dat je je {type} {name} wil verwijderen?",
+    "edit-village-name": "Verander naam",
+    "confirm-delete-village": "Weet je zeker dat je je {name} wil verwijderen?",
 
     "turn-off-rewards": "Beloningen uitzetten.",
     "switch-village-or-new": "Wissel naar een andere nederzetting en/of maak een nieuwe."

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ActionTrackingHandler;
 use App\Helpers\ResponseWrapper;
+use App\Helpers\VillageHandler;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserProfileResource;
-use App\Http\Resources\StrippedUserResource;
 use App\Http\Resources\StatsResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -18,7 +18,6 @@ use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserSettingsRequest;
 use App\Http\Requests\UpdateRewardsTypeRequest;
 use App\Http\Requests\StoreReportedUserRequest;
-use App\Helpers\RewardObjectHandler;
 use App\Http\Requests\BlockUserRequest;
 use App\Http\Requests\ToggleTutorialRequest;
 use App\Http\Requests\UnblockUserRequest;
@@ -127,8 +126,8 @@ class UserController extends Controller
     /**
      * Updates an authenticated user's reward type as given in the request
      * When turning on a reward type, the request also holds any additional information needed
-     * Such as activating an old reward type or creating a new one, with name 
-     * Returns the user and the active reward
+     * Such as activating an old village or creating a new one, with name 
+     * Returns the user and the active village
      */
     public function updateRewardsType(UpdateRewardsTypeRequest $request)
     {
@@ -136,15 +135,15 @@ class UserController extends Controller
         /** @var User */
         $user = Auth::user();
         $user->update($validated);
-        $activeReward = null;
-        $activeReward = RewardObjectHandler::changeRewardSettings(
+        $activeVillage = null;
+        $activeVillage = VillageHandler::changeRewardSettings(
             $user,
             $request['keepOldInstance'],
             $request['newVillageName'],
             $request['rewards']
         );
         ActionTrackingHandler::registerAction($request, 'UPDATE_USER', 'Updating rewards type');
-        return ResponseWrapper::successResponse(__('messages.user.reward_updated'), ['user' => new UserResource($user), 'activeReward' => $activeReward]);
+        return ResponseWrapper::successResponse(__('messages.user.reward_updated'), ['user' => new UserResource($user), 'activeVillage' => $activeVillage]);
     }
 
     /**

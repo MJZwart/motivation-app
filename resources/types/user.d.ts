@@ -10,7 +10,7 @@ export type User = {
     admin?: boolean;
     email: string;
     first: boolean;
-    rewards: string;
+    rewards: 1 | 2;
     show_achievements: boolean;
     show_reward: boolean;
     show_friends: boolean;
@@ -80,7 +80,7 @@ export type UserProfile = {
     created_at: string;
     username: string;
     display_picture?: string | null;
-    rewardObj?: Village | null;
+    village?: Village | null;
     achievements?: Achievement[];
     friends?: Friend[];
     timeline?: boolean;
