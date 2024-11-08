@@ -23,9 +23,9 @@ import {Achievement} from 'resources/types/achievement';
 import type {UserStats} from 'resources/types/user';
 import UserStatsVue from './components/UserStats.vue';
 import HorizontalTabControls, {TabItem} from '/js/components/global/tabs/HorizontalTabControls.vue';
-import { user } from '/js/services/userService';
+import {user} from '/js/services/userService';
 import axios from 'axios';
-import { Village } from 'resources/types/village';
+import {Village} from 'resources/types/village';
 
 const tabs = ref<TabItem[]>([]);
 const activeTab = ref('');
@@ -39,8 +39,8 @@ onMounted(async () => {
         {key: 'timeline'},
         {key: 'stats'},
     ];
-    if (data.rewardObj) {
-        village.value = data.rewardObj;
+    if (data.village) {
+        village.value = data.village;
         tabs.value.push({key: 'village'});
     }
     activeTab.value = tabs.value[0].key;

@@ -80,7 +80,7 @@ export type UserProfile = {
     created_at: string;
     username: string;
     display_picture?: string | null;
-    rewardObj?: Village | null;
+    village?: Village | null;
     achievements?: Achievement[];
     friends?: Friend[];
     timeline?: boolean;

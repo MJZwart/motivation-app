@@ -33,7 +33,7 @@
 import {ProfileSettings} from 'resources/types/settings';
 import {ref} from 'vue';
 import axios from 'axios';
-import { setUser, user } from '/js/services/userService';
+import {setUser, user} from '/js/services/userService';
 
 const settings = ref<ProfileSettings>(getUserSettings());
 

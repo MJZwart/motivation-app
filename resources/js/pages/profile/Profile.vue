@@ -39,10 +39,10 @@
                 <p class="silent">{{ $t('member-since') }}: {{ parseDateTime(userProfile.created_at) }}</p>
                 <AchievementsCard v-if="userProfile.achievements" :achievements="userProfile.achievements" :tutorial="false" />
             </div>
-            <div v-if="userProfile.rewardObj">
+            <div v-if="userProfile.village">
                 <VillageCard
                     class="summary-tab"
-                    :village="userProfile.rewardObj"
+                    :village="userProfile.village"
                     :tutorial="false"
                 />
             </div>
@@ -68,15 +68,15 @@ import axios from 'axios';
 import {useRoute} from 'vue-router';
 import {parseDateTime} from '/js/services/dateService';
 import {breadcrumbsVisible} from '/js/services/breadcrumbService';
-import type {NewSuspension, StrippedUser, User, UserProfile} from 'resources/types/user';
+import type {NewSuspension, StrippedUser, UserProfile} from 'resources/types/user';
 import type {Friend} from 'resources/types/friend';
 import {MAIL, FRIEND, LOCK, REPORT, BAN} from '/js/constants/iconConstants';
 import Timeline from '/js/pages/overview/components/Timeline.vue';
 import {formModal, sendMessageModal, showModal} from '/js/components/modal/modalService';
 import {getNewSuspension} from '/js/helpers/newInstance';
-import { requests, sendRequest } from '/js/services/friendService';
-import { suspendUser } from '/js/services/adminService';
-import { user } from '/js/services/userService';
+import {requests, sendRequest} from '/js/services/friendService';
+import {suspendUser} from '/js/services/adminService';
+import {user} from '/js/services/userService';
 
 const route = useRoute();
 

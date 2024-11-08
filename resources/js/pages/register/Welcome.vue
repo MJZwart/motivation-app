@@ -83,15 +83,13 @@
 
 <script setup lang="ts">
 import {ref, onMounted} from 'vue';
-import {useI18n} from 'vue-i18n';
 import type {Task} from 'resources/types/task';
 import type {NewUser} from 'resources/types/user';
 import {clearErrors, hasError, setErrorMessages} from '/js/services/errorService';
 import {getRandomVillageName} from '/js/helpers/randomNames';
-import {logout, setUser } from '/js/services/userService';
+import {logout, setUser} from '/js/services/userService';
 import axios from 'axios';
 import router from '/js/router/router';
-const {t} = useI18n();
 
 onMounted(async () => {
     clearErrors();

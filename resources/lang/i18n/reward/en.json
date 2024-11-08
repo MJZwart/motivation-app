@@ -29,8 +29,8 @@
     "example-tasks": "Example tasks",
     "pick-example-tasks": "To get you started, you can pick a few of these example tasks to directly put into your task lists.",
     "update-reward-name": "Update name",
-    "edit-reward-name": "Edit name",
-    "confirm-delete-instance": "Are you sure you wish to delete {name}?",
+    "edit-village-name": "Edit name",
+    "confirm-delete-village": "Are you sure you wish to delete {name}?",
 
     "turn-off-rewards": "Turn off rewards.",
     "switch-village-or-new": "Switch to a different Village and/or make a new one."

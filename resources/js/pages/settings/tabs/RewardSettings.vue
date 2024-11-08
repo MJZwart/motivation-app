@@ -87,7 +87,7 @@
 import type {Village, ChangeReward} from 'resources/types/village';
 import {onMounted, ref, computed} from 'vue';
 import {REWARD_TYPES, REWARD_FIELDS} from '/js/constants/rewardConstants';
-import EditRewardObjectName from '../components/EditRewardObjectName.vue';
+import EditVillageName from '../components/EditVillageName.vue';
 import Table from '/js/components/global/Table.vue';
 import {useI18n} from 'vue-i18n';
 import {EDIT, ACTIVATE, TRASH} from '/js/constants/iconConstants';
@@ -96,8 +96,8 @@ import {clearErrors, hasError} from '/js/services/errorService';
 import {Icon} from '@iconify/vue';
 import {getRandomVillageName} from '/js/helpers/randomNames';
 import axios from 'axios';
-import { setUser, user } from '/js/services/userService';
-import { successToast } from '/js/services/toastService';
+import {setUser, user} from '/js/services/userService';
+import {successToast} from '/js/services/toastService';
 
 const {t} = useI18n();
 
@@ -149,30 +149,30 @@ async function confirmRewardsSettings() {
     rewardSetting.value.newVillageName = null;
     load();
 }
-function showEditVillage(instance: Village) {
-    if (instance === null) return;
+function showEditVillage(village: Village) {
+    if (village === null) return;
     formModal(
-        instance,
-        EditRewardObjectName,
-        submitEditReward,
-        'edit-reward-name');
+        village,
+        EditVillageName,
+        submitEditVillage,
+        'edit-village-name');
 }
-async function submitEditReward(rewardObj: Village) {
-    await axios.put('/reward/update', rewardObj);
+async function submitEditVillage(village: Village) {
+    await axios.put('/reward/update', village);
     load();
 }
-async function activateVillage(instance: Village) {
-    const {data} = await axios.put('/reward/activate', instance);
+async function activateVillage(village: Village) {
+    const {data} = await axios.put('/reward/activate', village);
     successToast(data.message);
     setUser(data.data.user);
     load();
 }
-function displayActive(instance: Village) {
-    return instance.active ? ' (' + t('currently-active') + ')' : '';
+function displayActive(village: Village) {
+    return village.active ? ' (' + t('currently-active') + ')' : '';
 }
-async function deleteItem(instance: Village) {
-    if (confirm(t('confirm-delete-instance', {name: instance.name}))) {
-        await axios.put('/reward/delete', instance);
+async function deleteItem(village: Village) {
+    if (confirm(t('confirm-delete-village', {name: village.name}))) {
+        await axios.put('/reward/delete', village);
         load();
     }
 }
