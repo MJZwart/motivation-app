@@ -4,9 +4,6 @@
             <button :class="activeTab('ExperiencePoints')" class="tab-item" @click="switchTab('ExperiencePoints')">
                 {{ $t('exp-points') }}
             </button>
-            <button :class="activeTab('CharExpGain')" class="tab-item" @click="switchTab('CharExpGain')">
-                {{ $t('char-exp-gain') }}
-            </button>
             <button :class="activeTab('VillExpGain')" class="tab-item" @click="switchTab('VillExpGain')">
                 {{ $t('vill-exp-gain') }}
             </button>
@@ -21,19 +18,21 @@
 </template>
 
 <script setup lang="ts">
-import {ref, shallowRef} from 'vue';
+import {Component, ref, shallowRef} from 'vue';
 import ExperiencePoints from './../components/balancing/ExperiencePointsTab.vue';
-import CharExpGain from './../components/balancing/CharExpGainTab.vue';
 import VillExpGain from './../components/balancing/VillExpGainTab.vue';
 import GroupExp from '../components/balancing/GroupExp.vue';
 
-const componentNames = {
-    ExperiencePoints: ExperiencePoints,
-    CharExpGain: CharExpGain,
-    VillExpGain: VillExpGain,
-    GroupExp:GroupExp,
+interface BalancingComponents {
+    [key: string]: Component;
+}
+
+const componentNames: BalancingComponents = {
+    'ExperiencePoints': ExperiencePoints,
+    'VillExpGain': VillExpGain,
+    'GroupExp': GroupExp,
 };
-const activeComponent = ref('ExperiencePoints');
+const activeComponent = ref<keyof BalancingComponents>('ExperiencePoints');
 
 const currentTabComponent = shallowRef(componentNames[activeComponent.value]);
 function activeTab(key: string) {
