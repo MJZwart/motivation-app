@@ -195,6 +195,14 @@ export const routes = [
             title: 'Castlequest',
         },
     },
+    {
+        path: '/notes',
+        component: () => import('../pages/notes/Notes.vue'),
+        meta: {
+            requiresAuth: true,
+            title: 'Notes',
+        },
+    },
     // {
     //     path: '/test',
     //     component: require('../pages/Test.vue').default,
