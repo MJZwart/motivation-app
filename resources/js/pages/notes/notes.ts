@@ -11,6 +11,18 @@ export const fetchNotes = async() => {
     noteLists.value = data.noteLists;
 }
 
-export const getNotesForList = (noteList: NoteList): Note[] => {
-    return notes.value.filter(note => note.notesListId === noteList.id);
+export const getNotesForList = (noteListId: number): Note[] => {
+    return notes.value.filter(note => note.noteListId === noteListId);
+}
+
+export const createNoteList = async(noteListTitle: string) => {
+    const {data} = await axios.post('/notes/note-list', {title: noteListTitle});
+    console.log(data)
+    noteLists.value.push(data);
+}
+
+export const createNote = async(noteTitle: string, noteListId: number) => {
+    const {data} = await axios.post('/notes/', {note: noteTitle, note_list_id: noteListId});
+    console.log(data)
+    return data;
 }

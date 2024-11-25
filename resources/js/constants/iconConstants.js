@@ -9,11 +9,14 @@ export const NOTIFICATION = 'mdi:bell';
 export const DOT = 'carbon:dot-mark';
 
 export const EDIT = 'fa6-regular:pen-to-square';
+export const CHECK_SQUARE_BLANK = 'material-symbols:check-box-outline-blank';
 export const CHECK_SQUARE = 'material-symbols:check-box-outline';
 export const CROSS_SQUARE = 'charm:square-cross';
 export const TRASH = 'mingcute:delete-2-fill';
 export const RESTORE_TRASH = 'ic:baseline-restore-from-trash';
 export const CREATE = 'mdi:plus-box';
+
+export const ADD = 'ic:round-add-circle';
 
 export const SORT = 'tabler:arrows-sort';
 

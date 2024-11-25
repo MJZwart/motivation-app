@@ -15,7 +15,7 @@ class StoreNoteRequest extends FormRequest
     {
         return [
             'note' => ['required', 'string'],
-            'description' => ['string'],
+            'description' => ['string', 'sometimes'],
             'note_list_id' => ['required', 'integer', 'exists:note_lists,id'],
         ];
     }

@@ -1,9 +1,10 @@
 export interface Note {
     id: number;
-    notesListId: number;
+    noteListId: number;
     note: string;
     description: string;
     completed: boolean;
+    expanded: boolean;
 }
 export interface NoteList {
     id: number;

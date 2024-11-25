@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNoteListRequest;
 use App\Http\Requests\StoreNoteRequest;
+use App\Http\Resources\NoteResource;
 use App\Models\Note;
 use App\Models\NoteList;
 use Illuminate\Http\Request;
@@ -15,12 +16,13 @@ class NotesController extends Controller
     {
         $user = Auth::user();
 
-        return ['notes' => $user->notes, 'noteLists' => $user->noteLists];
+        return ['notes' => NoteResource::collection($user->notes), 'noteLists' => $user->noteLists];
     }
 
     public function storeNote(StoreNoteRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = Auth::user()->id;
 
         Note::create($validated);
     }
@@ -40,8 +42,9 @@ class NotesController extends Controller
     public function storeNoteList(StoreNoteListRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = Auth::user()->id;
 
-        NoteList::create($validated);
+        return NoteList::create($validated);
     }
 
     public function updateNoteList(StoreNoteListRequest $request, NoteList $noteList)
