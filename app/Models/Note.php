@@ -14,6 +14,7 @@ class Note extends Model
         'user_id',
         'note',
         'description',
+        'completed',
     ];
 
     public function noteList()

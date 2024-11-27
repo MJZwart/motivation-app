@@ -21,4 +21,5 @@ Route::group(['middleware' => ['valid-auth', 'not-guest']], function () {
 
     Route::post('/note-list', [NotesController::class, 'storeNoteList']);
     Route::put('/note-list/{noteList}', [NotesController::class, 'updateNoteList']);
+    Route::put('/complete-list/{noteList}', [NotesController::class, 'toggleListComplete']);
 });

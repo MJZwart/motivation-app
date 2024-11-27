@@ -24,7 +24,7 @@ class NotesController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
 
-        Note::create($validated);
+        return new NoteResource(Note::create($validated));
     }
 
     public function updateNote(StoreNoteRequest $request, Note $note)
@@ -32,11 +32,15 @@ class NotesController extends Controller
         $validated = $request->validated();
 
         $note->update($validated);
+
+        return new NoteResource($note->fresh());
     }
 
     public function toggleComplete(Note $note)
     {
-        $note->update(['complete' => !$note->complete]);
+        $note->update(['completed' => !$note->completed]);
+
+        return new NoteResource($note->fresh());
     }
 
     public function storeNoteList(StoreNoteListRequest $request)
@@ -52,5 +56,16 @@ class NotesController extends Controller
         $validated = $request->validated();
 
         $noteList->update($validated);
+    }
+
+    public function toggleListComplete(NoteList $noteList)
+    {
+        $allCompleted = $noteList->notes()->where('completed', false)->doesntExist();
+
+        $noteList->notes()->update(['completed' => !$allCompleted]);
+
+        $user = Auth::user();
+
+        return NoteResource::collection($user->notes);
     }
 }

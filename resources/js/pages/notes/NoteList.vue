@@ -1,12 +1,14 @@
 <template>
     <span class="flex flex-row">
-        <Icon class="mt-2" :icon="allItemsCompleted ? CHECK_SQUARE : CHECK_SQUARE_BLANK" />
-        <h3>{{ list.title }}</h3>
+        <Icon class="mt-2" :icon="allItemsCompleted ? CHECK_SQUARE : CHECK_SQUARE_BLANK" @click="toggleNoteListCompleted" />
+        <h3 :class="allItemsCompleted ? 'completed' : ''" class="pointer" @click="listExpanded = !listExpanded">
+            {{ list.title }} ({{amountCompleted}}/{{notes.length}})
+        </h3>
     </span>
-    <div class="ml-3">
+    <div v-if="listExpanded" class="ml-3">
         <div v-for="(item, idxy) in notes" :key="idxy" class="flex flex-row">
-            <Icon :icon="item.completed ? CHECK_SQUARE : CHECK_SQUARE_BLANK" @click="completeTask(item)" />
-            <div class="flex-col">
+            <Icon :icon="item.completed ? CHECK_SQUARE : CHECK_SQUARE_BLANK" class="complete-note" @click="completeTask(item)" />
+            <div class="flex-col" :class="item.completed ? 'completed' : ''">
                 <span class="pointer" @click="item.expanded = !item.expanded">{{ item.note }}</span>
                 <span v-if="item.expanded" class="silent">{{ item.description }}</span>
             </div>
@@ -20,28 +22,30 @@
 
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
-import {createNote, getNotesForList} from './notes';
+import {createNote, getNotesForList, toggleListCompleted, toggleNoteCompleted} from './notes';
 import {ADD, CHECK_SQUARE, CHECK_SQUARE_BLANK} from '/js/constants/iconConstants';
 import {Note, NoteList} from './types';
 
 const props = defineProps<{list: NoteList}>();
 
-const notes = ref(getNotesForList(props.list.id));
+const notes = computed(() => getNotesForList(props.list.id));
 const newNote = ref('');
+const listExpanded = ref(true);
 
 const allItemsCompleted = computed(() => notes.value.every(item => item.completed));
+const amountCompleted = computed(() => notes.value.filter(item => item.completed).length);
 
 const completeTask = (item: Note) => {
-    console.log('In progress, completing note', item);
+    toggleNoteCompleted(item.id);
 }
 
-const saveNote = () => {
-    console.log('In progress, saving new note');
-    createNote(newNote.value, props.list.id);
-    // Save note in back-end
-    // Add note to local
-    // notes.value.push({})
+const saveNote = async () => {
+    await createNote(newNote.value, props.list.id);
     newNote.value = '';
+}
+
+const toggleNoteListCompleted = () => {
+    toggleListCompleted(props.list.id);
 }
 </script>
 
@@ -49,6 +53,9 @@ const saveNote = () => {
 .completed {
     text-decoration-line: line-through;
     opacity: 0.7;
+}
+.complete-note {
+    min-width: 1.6rem;
 }
 .note-input {
     background-color: transparent;
