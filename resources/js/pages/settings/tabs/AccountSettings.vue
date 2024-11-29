@@ -134,14 +134,14 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, computed} from 'vue';
+import {onMounted, ref} from 'vue';
 import ToggleButton from '/js/components/global/ToggleButton.vue';
 import type {PasswordSettings, EmailSettings} from 'resources/types/settings';
 import ChangeLanguage from '../../../components/global/ChangeLanguage.vue';
 import {currentTheme, setCurrentTheme} from '/js/services/themeService';
 import {Register} from 'resources/types/user';
 import axios from 'axios';
-import { logout, setUser, user, isGuest } from '/js/services/userService';
+import {logout, setUser, user, isGuest} from '/js/services/userService';
 import router from '/js/router/router';
 
 const accountCredentials = ref<Register>({

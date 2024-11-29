@@ -5,19 +5,19 @@
         <div class="choice mt-3 mb-3">
             <button 
                 class="long select-button" 
-                :class="{ active: chosenReward === 'VILLAGE' }" 
-                @click="selectRewardType('VILLAGE')">
+                :class="{ active: chosenReward === 1 }" 
+                @click="selectRewardType(1)">
                 {{$t('village')}}
             </button>
         
             <button 
                 class="long select-button" 
-                :class="{ active: chosenReward === 'NONE' }" 
-                @click="selectRewardType('NONE')">
+                :class="{ active: chosenReward === 0 }" 
+                @click="selectRewardType(0)">
                 {{ $t('no-rewards') }}
             </button>
         </div>
-        <SubmitButton :disabled="chosenReward === ''" class="ml-auto" @click="createGuestAccount">
+        <SubmitButton :disabled="chosenReward === null" class="ml-auto" @click="createGuestAccount">
             {{ $t('create-guest-account') }}
         </SubmitButton>
     </AuthBase>
@@ -31,8 +31,8 @@ import axios from 'axios';
 import {setUser} from '/js/services/userService';
 import router from '/js/router/router';
 
-const chosenReward = ref('');
-function selectRewardType(rewards: string) {
+const chosenReward = ref<0 | 1 | null>();
+function selectRewardType(rewards: 0 | 1) {
     chosenReward.value = rewards;
 }
 
