@@ -32,14 +32,14 @@
         </div>
         <span class="ml-auto" :style="{'min-width': '4rem'}">
             <Icon :icon="EDIT_PENCIL" @click="isEditingNote = true" />
-            <Icon :icon="TRASH" class="red" @click="deleteNote" />
+            <Icon :icon="TRASH" class="red" @click="deleteNote(note.id)" />
         </span>
     </div>
 </template>
 
 <script lang="ts" setup>
 import {ref} from 'vue';
-import {toggleNoteCompleted, updateNote} from './notes';
+import {toggleNoteCompleted, updateNote, deleteNote} from './notes';
 import {Note} from './types';
 import {ADD, CHECK_SQUARE, CHECK_SQUARE_BLANK, EDIT_PENCIL, TRASH} from '/js/constants/iconConstants';
 import { watchEffect } from 'vue';
@@ -57,14 +57,10 @@ const completeTask = () => {
 const addDescription = async () => {
     await updateNote(note.value);
     isEditingDescription.value = false;
-}
-
-const deleteNote = async() => {
-
+    note.value.expanded = true;
 }
 
 const editNoteDescription = () => {
-    // noteDescription.value = note.value.description;
     isEditingDescription.value = true;
 }
 
@@ -74,7 +70,6 @@ const updateNoteTitle = async() => {
 }
 
 watchEffect(() => {
-    console.log('Watch triggered')
     note.value = props.note
     });
 </script>

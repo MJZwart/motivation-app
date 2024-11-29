@@ -17,6 +17,7 @@ export const getNotesForList = (noteListId: number): Note[] => {
     return notes.value.filter(note => note.noteListId === noteListId);
 }
 
+// Creating and updating note lists
 export const createNoteList = async(noteListTitle: string): Promise<void> => {
     const {data} = await axios.post(NOTES_API + '/note-list', {title: noteListTitle});
     noteLists.value.push(data);
@@ -27,6 +28,7 @@ export const updateNoteList = async(noteList: NoteList) => {
     noteLists.value[idx] = data;
 }
 
+// Creating and updating notes
 export const createNote = async(noteTitle: string, noteListId: number): Promise<void> => {
     const {data} = await axios.post(NOTES_API + '/', {note: noteTitle, noteListId: noteListId});
     notes.value.push(data.data);
@@ -36,13 +38,28 @@ export const updateNote = async(note: Note) => {
     const idx = notes.value.findIndex(item => item.id === data.data.id);
     notes.value[idx] = data.data;
 }
+export const deleteNote = async(noteId: number) => {
+    const confirm = window.confirm('Are you sure you wish to delete this note?');
+    if (!confirm) return;
+    await axios.delete(NOTES_API + '/' + noteId);
+    const idx = notes.value.findIndex(item => item.id === noteId);
+    notes.value.splice(idx, 1);
+}
 
+// Toggling notes as completed
 export const toggleNoteCompleted = async(noteId: number) => {
     const {data} = await axios.put(NOTES_API + '/complete/' + noteId);
     const idx = notes.value.findIndex(item => item.id === data.data.id);
     notes.value[idx] = data.data;
 }
 export const toggleListCompleted = async(noteListId: number) => {
-    const {data} = await axios.put(NOTES_API + '/complete-list/' + noteListId);
+    const {data} = await axios.put(NOTES_API + '/note-list/complete/' + noteListId);
     notes.value = data.data;
+}
+export const deleteNoteList = async(noteListId: number) => {
+    const confirm = window.confirm('Are you sure you wish to delete this list?');
+    if (!confirm) return;
+    await axios.delete(NOTES_API + '/note-list/' + noteListId);
+    const idx = noteLists.value.findIndex(item => item.id === noteListId);
+    noteLists.value.splice(idx, 1);
 }

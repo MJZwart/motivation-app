@@ -1,11 +1,14 @@
 <template>
     <span class="flex-row">
         <Icon class="mt-2" :icon="allItemsCompleted ? CHECK_SQUARE : CHECK_SQUARE_BLANK" @click="toggleNoteListCompleted" />
-        <span v-if="!isEditing" class="flex-row">
+        <span v-if="!isEditing" class="flex-row w-100">
             <h3 :class="allItemsCompleted ? 'completed' : ''" class="pointer" @click="listExpanded = !listExpanded">
                 {{ list.title }} ({{amountCompleted}}/{{notes.length}})
             </h3>
-            <Icon :icon=EDIT_PENCIL @click="isEditing = true" />
+            <span class="ml-auto">
+                <Icon :icon="EDIT_PENCIL" @click="isEditing = true" />
+                <Icon :icon="TRASH" class="red" @click="deleteNoteList(list.id)" />
+            </span>
         </span>
         <span v-else class="flex-row">
             <input 
@@ -30,8 +33,8 @@
 
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
-import {createNote, getNotesForList, toggleListCompleted, updateNoteList} from './notes';
-import {ADD, CHECK_SQUARE, CHECK_SQUARE_BLANK, EDIT_PENCIL} from '/js/constants/iconConstants';
+import {createNote, deleteNoteList, getNotesForList, toggleListCompleted, updateNoteList} from './notes';
+import {ADD, CHECK_SQUARE, CHECK_SQUARE_BLANK, EDIT_PENCIL, TRASH} from '/js/constants/iconConstants';
 import {NoteList} from './types';
 import Note from './Note.vue';
 

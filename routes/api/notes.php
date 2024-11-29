@@ -18,8 +18,10 @@ Route::group(['middleware' => ['valid-auth', 'not-guest']], function () {
     Route::post('/', [NotesController::class, 'storeNote']);
     Route::put('/complete/{note}', [NotesController::class, 'toggleComplete']);
     Route::put('/{note}', [NotesController::class, 'updateNote']);
+    Route::delete('/{note}', [NotesController::class, 'deleteNote']);
 
     Route::post('/note-list', [NotesController::class, 'storeNoteList']);
+    Route::put('/note-list/complete/{noteList}', [NotesController::class, 'toggleListComplete']);
     Route::put('/note-list/{noteList}', [NotesController::class, 'updateNoteList']);
-    Route::put('/complete-list/{noteList}', [NotesController::class, 'toggleListComplete']);
+    Route::delete('/note-list/{noteList}', [NotesController::class, 'deleteNoteList']);
 });

@@ -7,7 +7,6 @@ use App\Http\Requests\StoreNoteRequest;
 use App\Http\Resources\NoteResource;
 use App\Models\Note;
 use App\Models\NoteList;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NotesController extends Controller
@@ -70,5 +69,17 @@ class NotesController extends Controller
         $user = Auth::user();
 
         return NoteResource::collection($user->notes);
+    }
+
+    public function deleteNote(Note $note)
+    {
+        $note->delete();
+    }
+
+    public function deleteNoteList(NoteList $noteList)
+    {
+        $noteList->notes()->delete();
+
+        $noteList->delete();
     }
 }
