@@ -5,7 +5,7 @@ import '../assets/scss/app.scss';
 import {createApp} from 'vue';
 import App from './App.vue';
 import {fetchDefaultTheme} from '/js/services/themeService';
-import { getMe } from './services/userService';
+import {getMe} from './services/userService';
 
 const app = createApp(App);
 

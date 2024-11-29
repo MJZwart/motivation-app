@@ -99,6 +99,15 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\TimelineAction', 'user_id');
     }
 
+    public function notes()
+    {
+        return $this->hasMany('App\Models\Note');
+    }
+    public function noteLists()
+    {
+        return $this->hasMany('App\Models\NoteList');
+    }
+
     public function groups()
     {
         return $this->belongsToMany('App\Models\Group')
@@ -106,7 +115,7 @@ class User extends Authenticatable
             ->withPivot(['joined']);
     }
 
-    public function groupMemberships() 
+    public function groupMemberships()
     {
         return $this->hasMany('App\Models\GroupUser');
     }
@@ -140,7 +149,8 @@ class User extends Authenticatable
     public function getActiveTasks()
     {
         return $this->tasks->filter(function ($value, $key) {
-            return $value->isActive();});
+            return $value->isActive();
+        });
     }
 
     public function getActiveVillageResource()
