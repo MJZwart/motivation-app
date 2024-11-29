@@ -8,7 +8,7 @@ export const notes = ref<Note[]>([]);
 export const noteLists = ref<NoteList[]>([]);
 
 export const fetchNotes = async() => {
-    const {data} = await axios.get(NOTES_API);
+    const {data} = await axios.get(NOTES_API + '/get-notes');
     notes.value = data.notes;
     noteLists.value = data.noteLists;
 }
@@ -30,7 +30,7 @@ export const updateNoteList = async(noteList: NoteList) => {
 
 // Creating and updating notes
 export const createNote = async(noteTitle: string, noteListId: number): Promise<void> => {
-    const {data} = await axios.post(NOTES_API + '/', {note: noteTitle, noteListId: noteListId});
+    const {data} = await axios.post(NOTES_API, {note: noteTitle, noteListId: noteListId});
     notes.value.push(data.data);
 }
 export const updateNote = async(note: Note) => {
