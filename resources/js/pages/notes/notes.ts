@@ -8,7 +8,7 @@ export const notes = ref<Note[]>([]);
 export const noteLists = ref<NoteList[]>([]);
 
 export const fetchNotes = async() => {
-    const {data} = await axios.get(NOTES_API + '/get-notes');
+    const {data} = await axios.get(NOTES_API);
     notes.value = data.notes;
     noteLists.value = data.noteLists;
 }
