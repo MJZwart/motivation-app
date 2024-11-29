@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('note');
             $table->text('description')->nullable();
             $table->boolean('completed')->default(false);
+            $table->softDeletes();
         });
     }
 
