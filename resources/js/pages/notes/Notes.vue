@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="(list, idx) in noteLists" :key="idx" class="mb-2">
+        <div v-for="(list, idx) in noteLists" :key="idx" class="mb-2 note-list">
             <NoteList :list="list" />
         </div>
         <div>
@@ -11,7 +11,7 @@
                     type="text" 
                     placeholder="New list"
                     @keyup.enter="saveNoteList" />
-                <Icon :icon="ADD" :style="{fontSize: '36px'}" @click="saveNoteList" />
+                <Icon v-if="newNoteList !== ''" :icon="ADD" :style="{fontSize: '36px'}" @click="saveNoteList" />
             </span>
         </div>
     </div>
@@ -40,12 +40,14 @@ const saveNoteList = async() => {
     text-decoration-line: line-through;
     opacity: 0.7;
 }
-.note-card {
-    border-radius:0.25rem;
-    // padding: 1rem;
-    // background-color: var(--background-2);
-}
 .note-list-input {
     max-width: 26rem;
+    min-height: 2.5rem;
+}
+.note-list {
+    border-radius: 1rem;
+    box-shadow: 0 0.15rem 0.15rem rgb(0 0 0 / 15%);
+    background-color: rgba(255, 255, 255, 0.02);
+    padding: 0.4rem;
 }
 </style>

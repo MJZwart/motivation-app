@@ -21,10 +21,20 @@ export const createNoteList = async(noteListTitle: string): Promise<void> => {
     const {data} = await axios.post(NOTES_API + '/note-list', {title: noteListTitle});
     noteLists.value.push(data);
 }
+export const updateNoteList = async(noteList: NoteList) => {
+    const {data} = await axios.put(NOTES_API + '/note-list/' + noteList.id, noteList);
+    const idx = noteLists.value.findIndex(item => item.id === data.data.id);
+    noteLists.value[idx] = data.data;
+}
 
 export const createNote = async(noteTitle: string, noteListId: number): Promise<void> => {
-    const {data} = await axios.post(NOTES_API + '/', {note: noteTitle, note_list_id: noteListId});
+    const {data} = await axios.post(NOTES_API + '/', {note: noteTitle, noteListId: noteListId});
     notes.value.push(data.data);
+}
+export const updateNote = async(note: Note) => {
+    const {data} = await axios.put(NOTES_API + '/' + note.id, note);
+    const idx = notes.value.findIndex(item => item.id === data.data.id);
+    notes.value[idx] = data.data;
 }
 
 export const toggleNoteCompleted = async(noteId: number) => {
@@ -32,9 +42,7 @@ export const toggleNoteCompleted = async(noteId: number) => {
     const idx = notes.value.findIndex(item => item.id === data.data.id);
     notes.value[idx] = data.data;
 }
-
 export const toggleListCompleted = async(noteListId: number) => {
     const {data} = await axios.put(NOTES_API + '/complete-list/' + noteListId);
-    console.log(data);
     notes.value = data.data;
 }

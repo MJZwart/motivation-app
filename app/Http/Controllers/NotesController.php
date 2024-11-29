@@ -22,6 +22,7 @@ class NotesController extends Controller
     public function storeNote(StoreNoteRequest $request)
     {
         $validated = $request->validated();
+        $validated['note_list_id'] = $validated['noteListId'];
         $validated['user_id'] = Auth::user()->id;
 
         return new NoteResource(Note::create($validated));
@@ -56,6 +57,8 @@ class NotesController extends Controller
         $validated = $request->validated();
 
         $noteList->update($validated);
+
+        return $noteList->fresh();
     }
 
     public function toggleListComplete(NoteList $noteList)

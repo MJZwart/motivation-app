@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['valid-auth', 'not-guest']], function () {
     Route::get('/', [NotesController::class, 'index']);
     Route::post('/', [NotesController::class, 'storeNote']);
-    Route::put('/note/{note}', [NotesController::class, 'updateNote']);
     Route::put('/complete/{note}', [NotesController::class, 'toggleComplete']);
+    Route::put('/{note}', [NotesController::class, 'updateNote']);
 
     Route::post('/note-list', [NotesController::class, 'storeNoteList']);
     Route::put('/note-list/{noteList}', [NotesController::class, 'updateNoteList']);

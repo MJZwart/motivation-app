@@ -1,43 +1,51 @@
 <template>
-    <span class="flex flex-row">
+    <span class="flex-row">
         <Icon class="mt-2" :icon="allItemsCompleted ? CHECK_SQUARE : CHECK_SQUARE_BLANK" @click="toggleNoteListCompleted" />
-        <h3 :class="allItemsCompleted ? 'completed' : ''" class="pointer" @click="listExpanded = !listExpanded">
-            {{ list.title }} ({{amountCompleted}}/{{notes.length}})
-        </h3>
+        <span v-if="!isEditing" class="flex-row">
+            <h3 :class="allItemsCompleted ? 'completed' : ''" class="pointer" @click="listExpanded = !listExpanded">
+                {{ list.title }} ({{amountCompleted}}/{{notes.length}})
+            </h3>
+            <Icon :icon=EDIT_PENCIL @click="isEditing = true" />
+        </span>
+        <span v-else class="flex-row">
+            <input 
+                v-model="editableList.title" 
+                class="note-list-input" 
+                type="text" 
+                placeholder="New list"
+                @keyup.enter="updateNoteListTitle" />
+            <Icon v-if="editableList.title !== ''" :icon="ADD" :style="{fontSize: '36px'}" @click="updateNoteListTitle" />
+        </span>
     </span>
     <div v-if="listExpanded" class="ml-3">
-        <div v-for="(item, idxy) in notes" :key="idxy" class="flex flex-row">
-            <Icon :icon="item.completed ? CHECK_SQUARE : CHECK_SQUARE_BLANK" class="complete-note" @click="completeTask(item)" />
-            <div class="flex-col" :class="item.completed ? 'completed' : ''">
-                <span class="pointer" @click="item.expanded = !item.expanded">{{ item.note }}</span>
-                <span v-if="item.expanded" class="silent">{{ item.description }}</span>
-            </div>
+        <div v-for="(item, idxy) in notes" :key="idxy">
+            <Note :note="item"/>
         </div>
-        <span class="flex flex-row">
+        <span class="flex-row">
             <input v-model="newNote" class="note-input" type="text" placeholder="New note" @keyup.enter="saveNote" />
-            <Icon :icon="ADD" :style="{fontSize: '36px'}" @click="saveNote" />
+            <Icon v-if="newNote !== ''" :icon="ADD" :style="{fontSize: '36px'}" @click="saveNote" />
         </span>
     </div>
 </template>
 
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
-import {createNote, getNotesForList, toggleListCompleted, toggleNoteCompleted} from './notes';
-import {ADD, CHECK_SQUARE, CHECK_SQUARE_BLANK} from '/js/constants/iconConstants';
-import {Note, NoteList} from './types';
+import {createNote, getNotesForList, toggleListCompleted, updateNoteList} from './notes';
+import {ADD, CHECK_SQUARE, CHECK_SQUARE_BLANK, EDIT_PENCIL} from '/js/constants/iconConstants';
+import {NoteList} from './types';
+import Note from './Note.vue';
 
 const props = defineProps<{list: NoteList}>();
 
 const notes = computed(() => getNotesForList(props.list.id));
 const newNote = ref('');
 const listExpanded = ref(true);
+const editableList = ref({...props.list});
+const isEditing = ref(false);
 
-const allItemsCompleted = computed(() => notes.value.every(item => item.completed));
+const allItemsCompleted = computed(() => notes.value.length > 0 && notes.value.every(item => item.completed));
 const amountCompleted = computed(() => notes.value.filter(item => item.completed).length);
 
-const completeTask = (item: Note) => {
-    toggleNoteCompleted(item.id);
-}
 
 const saveNote = async () => {
     await createNote(newNote.value, props.list.id);
@@ -46,6 +54,10 @@ const saveNote = async () => {
 
 const toggleNoteListCompleted = () => {
     toggleListCompleted(props.list.id);
+}
+
+const updateNoteListTitle = () => {
+    updateNoteList(editableList.value);
 }
 </script>
 
@@ -65,6 +77,7 @@ const toggleNoteListCompleted = () => {
     border-radius: 0;
     border-bottom: 2px solid var(--background-2-text);
     max-width: 24rem;
+    min-height: 2.5rem;
 }
 .note-input:focus {
     color: var(--background-2-text);
