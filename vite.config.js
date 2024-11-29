@@ -1,5 +1,6 @@
 import vue from '@vitejs/plugin-vue';
 import Markdown from 'unplugin-vue-markdown/vite';
+import laravel from 'laravel-vite-plugin';
 
 import {defineConfig} from 'vite';
 
@@ -17,7 +18,7 @@ export default defineConfig(({command}) => {
         build: {
             target: 'es2022',
             assetsInclude: [],
-            manifest: true,
+            manifest: 'manifest.json',
             outDir: '../public/js',
             emptyOutDir: true,
             rollupOptions: {
@@ -25,8 +26,20 @@ export default defineConfig(({command}) => {
             },
         },
         plugins: [
+            laravel({
+                input: [
+                    'resources/js/app.js',
+                ],
+                refresh: true,
+            }),
             vue({
                 include: [/\.vue$/, /\.md$/],
+                template: {
+                    transformAssetUrls: {
+                        base: null,
+                        includeAbsolute: false,
+                    },
+                },
             }),
             Markdown({}),
         ],
