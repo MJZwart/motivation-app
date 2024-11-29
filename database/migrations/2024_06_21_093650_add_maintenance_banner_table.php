@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->text('message');
-            $table->timestamp('starts_at');
-            $table->timestamp('ends_at');
+            $table->timestamp('starts_at')->useCurrent();
+            $table->timestamp('ends_at')->nullable();
         });
     }
 
