@@ -23,8 +23,8 @@ export const createNoteList = async(noteListTitle: string): Promise<void> => {
 }
 export const updateNoteList = async(noteList: NoteList) => {
     const {data} = await axios.put(NOTES_API + '/note-list/' + noteList.id, noteList);
-    const idx = noteLists.value.findIndex(item => item.id === data.data.id);
-    noteLists.value[idx] = data.data;
+    const idx = noteLists.value.findIndex(item => item.id === data.id);
+    noteLists.value[idx] = data;
 }
 
 export const createNote = async(noteTitle: string, noteListId: number): Promise<void> => {

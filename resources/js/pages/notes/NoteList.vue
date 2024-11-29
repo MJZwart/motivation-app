@@ -58,6 +58,7 @@ const toggleNoteListCompleted = () => {
 
 const updateNoteListTitle = () => {
     updateNoteList(editableList.value);
+    isEditing.value = false;
 }
 </script>
 

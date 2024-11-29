@@ -6,8 +6,8 @@
                 {{ note.note }}
             </span>
             <span v-else class="flex-row">
-                <input v-model="noteTitle" class="note-input" type="text" placeholder="New note" @keyup.enter="updateNoteTitle" />
-                <Icon v-if="noteTitle !== ''" :icon="ADD" :style="{fontSize: '36px'}" @click="updateNoteTitle" />
+                <input v-model="note.note" class="note-input" type="text" placeholder="New note" @keyup.enter="updateNoteTitle" />
+                <Icon v-if="note.note !== ''" :icon="ADD" :style="{fontSize: '36px'}" @click="updateNoteTitle" />
             </span>
 
             <span v-if="note.expanded" class="silent">
@@ -18,19 +18,20 @@
                 <span v-else>
                     <span class="flex-row">
                         <textarea 
-                            v-model="noteDescription" 
+                            v-model="note.description" 
                             class="note-input" 
                             type="text" 
                             placeholder="Add description" 
                             rows="1"
+                            @keydown="isEditingDescription = true"
                             @keyup.enter="addDescription" />
-                        <Icon v-if="noteDescription !== ''" :icon="ADD" :style="{fontSize: '36px'}" @click="addDescription" />
+                        <Icon v-if="note.description !== ''" :icon="ADD" :style="{fontSize: '36px'}" @click="addDescription" />
                     </span>
                 </span>
             </span>
         </div>
         <span class="ml-auto" :style="{'min-width': '4rem'}">
-            <Icon :icon="EDIT_PENCIL" @click="editNote" />
+            <Icon :icon="EDIT_PENCIL" @click="isEditingNote = true" />
             <Icon :icon="TRASH" class="red" @click="deleteNote" />
         </span>
     </div>
@@ -41,13 +42,11 @@ import {ref} from 'vue';
 import {toggleNoteCompleted, updateNote} from './notes';
 import {Note} from './types';
 import {ADD, CHECK_SQUARE, CHECK_SQUARE_BLANK, EDIT_PENCIL, TRASH} from '/js/constants/iconConstants';
-import {deepCopy} from '/js/helpers/copy';
+import { watchEffect } from 'vue';
 
 const props = defineProps<{note: Note}>();
 
-const note = ref(deepCopy(props.note));
-const noteDescription = ref('');
-const noteTitle = ref('');
+const note = ref({...props.note});
 const isEditingDescription = ref(false);
 const isEditingNote = ref(false);
 
@@ -56,10 +55,7 @@ const completeTask = () => {
 }
 
 const addDescription = async () => {
-    isEditingDescription.value = true;
-    note.value.description = noteDescription.value;
     await updateNote(note.value);
-    noteDescription.value = '';
     isEditingDescription.value = false;
 }
 
@@ -68,22 +64,19 @@ const deleteNote = async() => {
 }
 
 const editNoteDescription = () => {
-    noteDescription.value = note.value.description;
+    // noteDescription.value = note.value.description;
     isEditingDescription.value = true;
 }
 
-const editNote = () => {
-    isEditingNote.value = true;
-    noteTitle.value = props.note.note;
-}
-
 const updateNoteTitle = async() => {
-    note.value.note = noteTitle.value;
     await updateNote(note.value);
-    noteTitle.value = '';
     isEditingNote.value = false;
 }
 
+watchEffect(() => {
+    console.log('Watch triggered')
+    note.value = props.note
+    });
 </script>
 
 <style lang="scss" scoped>

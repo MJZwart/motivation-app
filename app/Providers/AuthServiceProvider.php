@@ -5,10 +5,13 @@ namespace App\Providers;
 use App\Models\Group;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\Task;
+use App\Models\TaskList;
 use App\Policies\GroupPolicy;
 use App\Policies\MessagePolicy;
 use App\Policies\NotificationPolicy;
 use App\Policies\TaskPolicy;
+use App\Policies\TaskListPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
