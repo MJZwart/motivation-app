@@ -10,7 +10,7 @@ export type User = {
     admin?: boolean;
     email: string;
     first: boolean;
-    rewards: 1 | 2;
+    rewards: 0 | 1;
     show_achievements: boolean;
     show_reward: boolean;
     show_friends: boolean;
@@ -106,7 +106,7 @@ export type Register = {
 };
 
 export type NewUser = {
-    rewardsType: string;
+    rewardsType: 0 | 1;
     tasks: Task[];
     village_name: string | null;
 };
