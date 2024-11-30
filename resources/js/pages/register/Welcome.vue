@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <small class="form-text text-muted mb-2">{{ $t('which-reward-type') }}</small>
                     <div>
-                        <input id="NONE" v-model="user.rewardsType" name="rewards-type" type="radio" value="NONE" />
+                        <input id="NONE" v-model="user.rewardsType" name="rewards-type" type="radio" value=0 />
                         <label for="NONE" class="option-label">{{ $t('no-rewards') }}</label>
                     </div>
                     <div>
@@ -15,13 +15,13 @@
                             v-model="user.rewardsType"
                             name="rewards-type"
                             type="radio"
-                            value="VILLAGE"
+                            value=1
                         />
                         <label for="VILLAGE" class="option-label">{{ $t('village-reward') }}</label>
                     </div>
                     <BaseFormError name="rewards-type" />
                 </div>
-                <div v-if="user.rewardsType == 'VILLAGE'"
+                <div v-if="user.rewardsType == 1"
                      class="form-group">
                     <label for="username">{{ $t('village-name') }}</label>
                     <span class="d-flex flex-row">
@@ -99,7 +99,7 @@ onMounted(async () => {
 });
 
 const user = ref<NewUser>({
-    rewardsType: 'NONE',
+    rewardsType: 0,
     tasks: [],
     village_name: null,
 });
@@ -123,7 +123,7 @@ async function confirmSettings() {
     router.push('/');
 }
 function checkInput() {
-    if (user.value.rewardsType == 'VILLAGE' && !user.value.village_name) {
+    if (user.value.rewardsType == 1 && !user.value.village_name) {
         setErrorMessages({village_name: ['No village name given.']});
         return false;
     }
