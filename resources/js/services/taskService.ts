@@ -43,9 +43,17 @@ export const updateTaskInTasks = (task: Task) => {
 }
 
 export const removeTaskFromTasks = (task: Task) => {
+    if (task.super_task_id) return removeSubTask(task.id, task.super_task_id);
     const idx = tasks.value.findIndex(existingTask => existingTask.id === task.id);
     if (idx < 0) return;
     tasks.value.splice(idx, 1);
+}
+
+export const removeSubTask = (subTaskId: number, superTaskId: number) => {
+    const superTaskIdx = tasks.value.findIndex(task => task.id === superTaskId);
+    const subTaskIdx = tasks.value[superTaskIdx].tasks?.findIndex(subTask => subTask.id === subTaskId);
+    if(subTaskIdx === undefined) return;
+    tasks.value[superTaskIdx].tasks?.splice(subTaskIdx, 1);
 }
 
 export const updateTaskListForTasks = (fromTaskListId: number, toTaskListId: number) => {
