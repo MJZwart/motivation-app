@@ -19,6 +19,7 @@ use App\Rules\ValidRewardType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Helpers\RandomStringHelper;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class RegisteredUserController extends Controller
@@ -215,7 +216,8 @@ class RegisteredUserController extends Controller
                     'type' => $task->type,
                     'repeatable' => $task->repeatable,
                     'user_id' => $userId,
-                    'task_list_id' => $taskList->id
+                    'task_list_id' => $taskList->id,
+                    'repeatable_reset_day' => $task->repeatable === 'WEEKLY' ? Carbon::MONDAY : null,
                 ]
             );
         }

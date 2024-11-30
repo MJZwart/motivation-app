@@ -176,8 +176,9 @@ class TaskController extends Controller
         }
     }
 
-    private function getNextSpecifiedDay(int $dayOfTheWeek)
+    private function getNextSpecifiedDay(int | null $dayOfTheWeek)
     {
+        if ($dayOfTheWeek === null) $dayOfTheWeek = Carbon::MONDAY;
         $now = Carbon::today();
         $dayToday = $now->dayOfWeekIso;
         if ($dayOfTheWeek > $dayToday) {
