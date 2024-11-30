@@ -19,6 +19,7 @@ use App\Rules\ValidRewardType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Helpers\RandomStringHelper;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class RegisteredUserController extends Controller
@@ -57,10 +58,10 @@ class RegisteredUserController extends Controller
         $user = Auth::user();
         $user->rewards = $request['rewardsType'];
         switch ($request['rewardsType']) {
-            case 'NONE':
+            case 0:
                 $user->show_reward = false;
                 break;
-            case 'VILLAGE':
+            case 1:
                 Village::create(
                     [
                         'name' => $request['village_name'],
@@ -159,10 +160,10 @@ class RegisteredUserController extends Controller
     /**
      * Creates a village if chosen with a random name
      */
-    private function createVillageForGuest(string $type, int $userId): void
+    private function createVillageForGuest(int $type, int $userId): void
     {
-        if ($type === 'NONE') return;
-        if ($type === 'VILLAGE') {
+        if ($type === 0) return;
+        if ($type === 1) {
             VILLAGE::create([
                 'name' => RandomStringHelper::getVillageName(),
                 'user_id' => $userId,
@@ -215,7 +216,8 @@ class RegisteredUserController extends Controller
                     'type' => $task->type,
                     'repeatable' => $task->repeatable,
                     'user_id' => $userId,
-                    'task_list_id' => $taskList->id
+                    'task_list_id' => $taskList->id,
+                    'repeatable_reset_day' => $task->repeatable === 'WEEKLY' ? Carbon::MONDAY : null,
                 ]
             );
         }
