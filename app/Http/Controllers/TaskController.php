@@ -92,7 +92,7 @@ class TaskController extends Controller
         AchievementHandler::checkForAchievement('TASKS_COMPLETED', $user);
 
         $returnValue = null;
-        if ($user->rewards != 'NONE') {
+        if ($user->rewards === 1) {
             $returnValue = RewardHandler::handleTaskRewards($task, $user);
             return new JsonResponse(['messageObject' => $returnValue->message, 'data' => ['activeVillage' => $returnValue->activeVillage, 'keepTask' => $task->isActive()]]);
         } else {
