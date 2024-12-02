@@ -5,7 +5,7 @@
             <h3 :class="allItemsCompleted ? 'completed' : ''" class="pointer" @click="listExpanded = !listExpanded">
                 {{ list.title }} ({{amountCompleted}}/{{notes.length}})
             </h3>
-            <span class="ml-auto">
+            <span class="ml-auto flex-shrink-0">
                 <Icon :icon="EDIT_PENCIL" @click="isEditing = true" />
                 <Icon :icon="TRASH" class="red" @click="deleteNoteList(list.id)" />
             </span>

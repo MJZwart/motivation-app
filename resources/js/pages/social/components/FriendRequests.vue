@@ -1,6 +1,6 @@
 <template>
     <div class="flex-container">
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 flex-shrink-0">
             <ContentBlock id="incoming-friend-requests" title="incoming-friend-requests" tutorial>
                 <ul class="no-list-style">
                     <div v-if="requests.incoming[0]">
@@ -27,7 +27,7 @@
                 </ul>
             </ContentBlock>
         </div>
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 flex-shrink-0">
             <ContentBlock id="outgoing-friend-requests" title="outgoing-friend-requests" tutorial>
                 <ul class="no-list-style">
                     <div v-if="requests.outgoing[0]">
@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import {CHECK_SQUARE, CROSS_SQUARE} from '/js/constants/iconConstants';
-import { acceptRequest, denyRequest, removeRequest, requests } from '/js/services/friendService';
+import {acceptRequest, denyRequest, removeRequest, requests} from '/js/services/friendService';
 
 function removeFriendRequest(requestId: number) {
     removeRequest(requestId);
