@@ -9,8 +9,8 @@
                         class="complete-icon check-square-icon green"
                         @click="completeTask(task)" />
                 </Tooltip>
-                {{task.name}}
-                <span class="ml-auto">
+                <span :style="{'flex-grow': 1}">{{task.name}}</span>
+                <span class="ml-auto flex-shrink-0">
                     <Tooltip v-if="task.repeatable != 'NONE'" :text="$t(task.repeatable)">
                         <Icon 
                             :icon="REPEAT"
@@ -44,15 +44,15 @@
                 <div class="subtask-sidebar task-sidebar" :class="`diff-${subTask.difficulty}`" />
                 <div class="subtask-content">
                     <p class="task-title d-flex">
-                        <Icon :icon="ARROW_DOWN_RIGHT" rotation="90" />
+                        <Icon :icon="ARROW_DOWN_RIGHT" rotation="90" class="flex-shrink-0" />
                         <Tooltip :text="$t('complete-sub-task')" class="ml-1">
                             <Icon 
                                 :icon="CHECK_SQUARE"
                                 class="complete-icon check-square-icon green"
                                 @click="completeTask(subTask)" />
                         </Tooltip>
-                        {{subTask.name}}
-                        <span class="ml-auto">
+                        <span :style="{'flex-grow': 1}">{{subTask.name}}</span>
+                        <span class="ml-auto flex-shrink-0">
                             <Tooltip v-if="subTask.repeatable != 'NONE'" :text="$t(subTask.repeatable)">
                                 <Icon 
                                     :icon="REPEAT"
@@ -119,5 +119,11 @@ async function completeTask(task: Task) {
 <style lang="scss" scoped>
 .task-hover {
     background-color: var(--background-darker);
+}
+.flex-shrink-0 {
+    flex-shrink: 0;
+}
+.flex-grow-1 {
+    flex-grow: 1;
 }
 </style>
