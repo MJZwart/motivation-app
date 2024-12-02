@@ -11,6 +11,7 @@
         <div v-if="authenticated">
             <nav class="navbar box-shadow">
                 <router-link to="/">{{ $t('dashboard') }}</router-link>
+                <router-link to="/notes">{{ $t('notes') }}</router-link>
                 <router-link to="/overview">{{ $t('overview') }}</router-link>
                 <router-link v-if="!isGuest" to="/social">{{$t('social')}}</router-link>
 
@@ -66,12 +67,12 @@
 
 <script setup>
 import Dropdown from '/js/components/global/Dropdown.vue';
-import {computed, onMounted, ref, watch} from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import {MAIL, DOT, NOTIFICATION} from '../constants/iconConstants';
 import {socketConnected} from '/js/services/websocketService';
 import MaintenanceBanner from './maintenance/MaintenanceBanner.vue';
-import { hasMessages, hasNotifications } from '../services/messageService';
-import { authenticated, isAdmin, logout, user, isGuest } from '../services/userService';
+import {hasMessages, hasNotifications} from '../services/messageService';
+import {authenticated, isAdmin, logout, user, isGuest} from '../services/userService';
 
 onMounted(() => {
     window.addEventListener('resize', handleResize);
